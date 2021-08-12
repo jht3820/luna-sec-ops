@@ -7,16 +7,15 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/jht3820/luna-agile?include_prereleases)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jht3820/luna-agile/CI)  
 
-  
 <br>
 <br>
 <br>
-  
 
 ![opensoftlab_logo](https://user-images.githubusercontent.com/22164616/99226155-a06b7100-282c-11eb-9649-5bcdc839a1d6.jpg)  
 <br/>
 <br/>
 <br/>
+
 
 # 1. LUNA™ SEC OSP Introduction
 
@@ -42,6 +41,7 @@ Compatible with various open sources.
      - Google Chrome latest version
      - IE 11  or later
    ```
+
  - DB installation and property setting are required for LUNA™ SEC OPS installation and execution.
  
  - After installing the DB, you need to set the environment file.
@@ -61,6 +61,7 @@ After purchasing Keen Theme, set the script and css files to the following path.
 * scripr: /luna-sec-ops/src/main/webapp/js
 * css: /luna-sec-ops/src/main/webapp/css
  
+
 
 
 # 3. LUNA™ SEC OSP installation
@@ -120,3 +121,4 @@ Join the project, ask questions about the project, discuss the  [Google Group](h
 # 6. License Information
 
 - LUNA™ SEC OPS uses the GPL3.0 license. ([GPL3.0 License Information](https://www.olis.or.kr/license/Detailselect.do?lId=1072))
+
