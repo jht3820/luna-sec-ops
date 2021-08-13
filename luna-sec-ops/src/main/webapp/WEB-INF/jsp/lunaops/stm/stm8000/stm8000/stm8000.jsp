@@ -287,12 +287,28 @@
   	 	//AJAX 전송
    		ajaxObj.send();
 	};
-	 
-	 return {
-		 init: function(){
-			 documentSetting();
-		 }
-	 };
+	
+	/**
+	* function 명 	: checkAuthRevision
+	* function 설명	: 리비전 확인 권한 체크
+	*/
+	var checkAuthRevision = function(){
+		
+	};
+	
+	/**
+	* function 명 	: checkAuthFileDiff
+	* function 설명	: 파일 diff 권한 체크
+	*/
+	var checkAuthFileDiff = function(){
+		
+	};
+	
+	return {
+		init: function(){
+			documentSetting();
+		}
+	};
  }();
  
  $.osl.ready(function(){

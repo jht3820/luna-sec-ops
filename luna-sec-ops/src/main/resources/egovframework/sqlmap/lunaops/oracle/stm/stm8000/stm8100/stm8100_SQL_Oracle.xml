@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="stm8100DAO">
+	<typeAlias alias="egovMap"	 	type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	
+	
+	<sql id="selectStm8100AssList">
+		SELECT
+			ROWNUM RN
+			, T1.*
+		FROM(
+			SELECT
+				A.LIC_GRP_ID AS LIC_GRP_ID
+				, A.STRG_REP_ID AS STRG_REP_ID
+				, B.STRG_TYPE_CD AS STRG_TYPE_CD
+				, SF_STM4001_COM_CD_INFO( #licGrpId#, 'STM00004', B.STRG_TYPE_CD, '1') AS STRG_TYPE_NM
+				, B.STRG_REP_TITLE AS STRG_REP_TITLE
+				, B.STRG_REP_URL AS STRG_REP_URL
+				, B.STRG_TXT AS STRG_TXT
+			FROM STM8100 A LEFT JOIN STM8000 B
+			ON ( A.LIC_GRP_ID = B.LIC_GRP_ID AND A.STRG_REP_ID = B.STRG_REP_ID)
+			WHERE 1 = 1
+			AND A.LIC_GRP_ID = #licGrpId#
+			AND A.PRJ_ID = #prjId#
+			AND B.USE_CD = '01'
+			<isNotEmpty property="searchTargetData">
+				<isNotEmpty property="searchTargetId">
+					<isEqual property="searchTargetId" compareValue="strgTypeCd">
+						AND B.STRG_TYPE_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="strgRepTitle">
+						AND B.STRG_REP_TITLE LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="strgTxt">
+						AND B.STRG_TXT LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isNotEmpty property="paramSortFieldId">
+				<isNotEmpty property="sortDirection">
+					ORDER BY $paramSortFieldId$
+					<isEqual property="sortDirection" compareValue="desc">
+						DESC
+					</isEqual>
+					<isEqual property="sortDirection" compareValue="asc">
+						ASC
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty property="paramSortFieldId">
+				ORDER BY STRG_REP_ID DESC
+			</isEmpty>
+		) T1
+	</sql>
+	
+	
+	<sql id="selectStm8100NonAssList">
+		SELECT
+			ROWNUM RN
+			, T1.*
+		FROM(
+			SELECT
+				A.LIC_GRP_ID AS LIC_GRP_ID
+				, A.STRG_REP_ID AS STRG_REP_ID
+				, A.STRG_TYPE_CD AS STRG_TYPE_CD
+				, SF_STM4001_COM_CD_INFO( #licGrpId#, 'STM00004', A.STRG_TYPE_CD, '1') AS STRG_TYPE_NM
+				, A.STRG_REP_TITLE AS STRG_REP_TITLE
+				, A.STRG_REP_URL AS STRG_REP_URL
+				, A.STRG_TXT AS STRG_TXT
+			FROM STM8000 A 
+			WHERE 1 = 1
+			AND A.LIC_GRP_ID = #licGrpId#
+			AND A.USE_CD = '01'
+			AND NOT EXISTS (
+				SELECT
+					B.STRG_REP_ID AS STRG_REP_ID
+				FROM STM8100 B
+				WHERE 1 = 1
+				AND B.LIC_GRP_ID = A.LIC_GRP_ID
+				AND B.PRJ_ID = #prjId#
+				AND B.STRG_REP_ID = A.STRG_REP_ID
+			)
+			<isNotEmpty property="searchTargetData">
+				<isNotEmpty property="searchTargetId">
+					<isEqual property="searchTargetId" compareValue="strgTypeCd">
+						AND A.STRG_TYPE_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="strgRepTitle">
+						AND A.STRG_REP_TITLE LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="strgTxt">
+						AND A.STRG_TXT LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isNotEmpty property="paramSortFieldId">
+				<isNotEmpty property="sortDirection">
+					ORDER BY $paramSortFieldId$
+					<isEqual property="sortDirection" compareValue="desc">
+						DESC
+					</isEqual>
+					<isEqual property="sortDirection" compareValue="asc">
+						ASC
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty property="paramSortFieldId">
+				ORDER BY STRG_REP_ID DESC
+			</isEmpty>
+		) T1
+	</sql>
+	
+	
+	<select id="stm8100DAO.selectStm8100ServerListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
+	    
+		SELECT
+			COUNT(*) AS CNT
+		FROM ( 
+			<isNotEmpty property="type">
+				<isEqual	property="type" compareValue="ass">
+					<include refid="selectStm8100AssList"/>
+				</isEqual>
+				<isEqual	property="type" compareValue="non">
+					<include refid="selectStm8100NonAssList"/>
+				</isEqual>
+			</isNotEmpty>
+		) Z
+    </select>
+    
+    
+    <select id="stm8100DAO.selectStm8100ServerList" parameterClass="java.util.Map"  resultClass="egovMap">
+     
+		SELECT 
+			Z.*
+		FROM ( 
+			<isNotEmpty property="type">
+				<isEqual	property="type" compareValue="ass">
+					<include refid="selectStm8100AssList"/>
+				</isEqual>
+				<isEqual	property="type" compareValue="non">
+					<include refid="selectStm8100NonAssList"/>
+				</isEqual>
+			</isNotEmpty>
+		) Z
+		WHERE 1 = 1
+		AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+	</select>
+
+	
+	<insert id="stm8100DAO.insertStm8100ServerInfo" parameterClass="java.util.Map">
+		 
+		INSERT INTO STM8100
+		(
+		        LIC_GRP_ID,			PRJ_ID,					STRG_REP_ID
+		        ,REG_DTM,				REG_USR_ID,			REG_USR_IP
+		        ,MODIFY_DTM,			MODIFY_USR_ID,		MODIFY_USR_IP
+		)                    
+		VALUES
+		(
+				#licGrpId#,			#prjId#,					#strgRepId#
+				,SYSDATE,			#regUsrId#,				#regUsrIp#
+				,SYSDATE,			#modifyUsrId#,		#modifyUsrIp#
+		)
+	</insert>
+	
+	
+	<delete id="stm8100DAO.deleteStm8100ServerInfo" parameterClass="java.util.Map">
+		
+		DELETE	
+		FROM	STM8100 A
+		WHERE	1=1
+		AND A.LIC_GRP_ID 		= #licGrpId#
+		<isNotEmpty property="prjId">
+			AND A.PRJ_ID				= #prjId#
+		</isNotEmpty>
+		<isNotEmpty property="strgRepId">
+			AND A.STRG_REP_ID 	= #strgRepId# 	
+		</isNotEmpty>
+	</delete>
+</sqlMap>
