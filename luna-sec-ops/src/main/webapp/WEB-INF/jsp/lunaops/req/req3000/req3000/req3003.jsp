@@ -5,9 +5,9 @@
 <div class="kt-portlet kt-portlet--mobile">
 	<div class="kt-portlet__body">
 		<div class="col-lg-8 col-md-8 col-sm-12 m-auto kt-margin-t-15">
-			<div class="osl-datatable-search" data-datatable-id="req4103ReqTable"></div>
+			<div class="osl-datatable-search" data-datatable-id="req3003ReqTable"></div>
 		</div>
-		<div class="kt-datatable" id="req4103ReqTable"></div>
+		<div class="kt-datatable" id="req3003ReqTable"></div>
 		<button type="button" class="btn btn-sm kt-margin-0 kt-padding-0 osl-width-0 invisible" id="selectUsr"/>
 	</div>
 </div>
@@ -16,10 +16,10 @@
 </div>
 <script>
 "use strict";
-var OSLReq4103Popup = function () {
+var OSLReq3003Popup = function () {
 	var temp;
     var documentSetting = function () {
-		var datatableId = "req4103ReqTable";
+		var datatableId = "req3003ReqTable";
     	var name = $.osl.escapeHtml($("#paramUsrNm").val());
     	
     	//데이터 테이블 셋팅
@@ -27,7 +27,7 @@ var OSLReq4103Popup = function () {
     		data : {
     			source:{
     				read:{
-    					url:"/req/req4000/req4100/selectReq4103UsrListAjax.do",
+    					url:"/req/req3000/req3000/selectReq3003UsrListAjax.do",
     					params:{
     						searchDataTxt : name
     					}
@@ -57,14 +57,14 @@ var OSLReq4103Popup = function () {
     			{field:'deptName', title:'소속', textAlign:'left', width: 240, autoHide:false, search:true}
     		],
     		actionBtn:{
-    			title : $.osl.lang("req4103.actionBtn.title"),
+    			title : $.osl.lang("req3000.actionBtn.title"),
     			width : 80,
     			"update" : false,
     			"delete" : false,
     			"click": true,
     		},
     		actionTooltip:{
-    			"click": $.osl.lang("req4103.actionBtn.clickBtn"),
+    			"click": $.osl.lang("req3000.actionBtn.clickBtn"),
     		},
     		actionFn:{
     			"click":function(rowData){
@@ -125,7 +125,7 @@ var OSLReq4103Popup = function () {
 
 // Initialization
 $.osl.ready(function(){
-	OSLReq4103Popup.init();
+	OSLReq3003Popup.init();
 });
 
 	
