@@ -1,543 +1,234 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/lunaops/top/header.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
+<jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
+<!-- begin page DOM -->
+<div class="kt-portlet kt-portlet--mobile ">
+	<div class="kt-portlet__head kt-portlet__head--lg">
+		<div class="kt-portlet__head-label">
+			<h4 class="kt-font-boldest kt-font-brand">
+				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
+			</h4>
+		</div>
+		<div class="kt-portlet__head-toolbar">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="select" title="그룹 요구사항 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.select" data-placement="bottom" data-auth-button="select" tabindex="5">
+				<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="insert" title="그룹 요구사항 목록 추가" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.insert" data-placement="bottom" data-auth-button="insert" tabindex="6">
+				<i class="fa fa-plus"></i><span data-lang-cd="datatable.button.insert">추가</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="update" title="그룹 요구사항 목록 수정" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.update" data-placement="bottom" data-auth-button="update" tabindex="7">
+				<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="delete" title="그룹 요구사항 목록 삭제" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.delete" data-placement="bottom" data-auth-button="delete" tabindex="8">
+				<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
+			</button>
+			<!-- 미구현기능 -->
+			<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="assign" title="그룹 요구사항 목록 엑셀" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.excel" data-placement="bottom" data-auth-button="excel" tabindex="">
+				<i class="fas fa-file-excel"></i><span data-lang-cd="datatable.button.excel">엑셀</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="assign" title="그룹 요구사항 목록 프린트" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.print" data-placement="bottom" data-auth-button="print" tabindex="">
+				<i class="fas fa-print"></i><span data-lang-cd="datatable.button.print">프린트</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="assign" title="그룹 요구사항 목록 양식 다운로드" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.download" data-placement="bottom" data-auth-button="form-download" tabindex="">
+				<i class="fas fa-file-download"></i><span data-lang-cd="datatable.button.download">양식 다운로드</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="assign" title="그룹 요구사항 목록 업로드" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.upload" data-placement="bottom" data-auth-button="upload" tabindex="">
+				<i class="fas fa-file-upload"></i><span data-lang-cd="datatable.button.upload">업로드</span>
+			</button> -->
+		</div>
+	</div>
+	<div class="kt-portlet__body">
+		<div class="row">
+			<div class="col-lg-3 col-md-6 col-sm-12">
+				<div class="osl-datatable-search" data-datatable-id="req3000Table"></div>
+			</div>
+		</div>
+		<div class="kt_datatable" id="req3000Table"></div>
+	</div>
+</div>
 
-<link rel='stylesheet' href='<c:url value='/css/oslops/req.css'/>' type='text/css'>
-
-<style>
-	.req_right_contents{padding:19px;}
-	input[type=text].search_txt { float: left; width: calc(100% - 436px); height: 28px; margin-right: 5px; font-size: 0.7em; border: 1px solid #ccc; }
-	.search_select {    width: 124px;    height: 28px;    margin: 0 5px 5px 0;}
-	.search_box_wrap {    width: calc(100% - 404px);} /* width:calc(100% - (.search_select너비 * 갯수 + 32px))  */
-	/* 모바일 @media 제거 */
-	/*
-	@media screen and (max-width:1100px){
-		input[type=text].search_txt {	width: calc(100% - px);	}
-	}
-	*/
-</style>
+<!-- end DOM -->
+<!-- begin page script -->
 <script>
-	$(document).ready(function(){
-
-				
-		$('.m_req_list').click(function(){
-			$('.main_mobile .req_right_table_wrap').fadeIn();
-			backKeyEvent();
-		});
-		$('.search_btn').click(function(){
-			$('.search_popup').fadeToggle();
-		});
-		
-		$('.x_btn').click(function(){
-			$('.layer_popup').fadeOut();
-		});
-		function backKeyEvent(){
-			if (window.history && window.history.pushState) {
-				window.history.pushState('forward', null, location.pathname);
-				$(window).on('popstate', function() {
-					if($('.layer_popup').is(":Visible")){
-						$('.layer_popup').fadeOut();
-						$("html, body").css("overflow-y", "auto");
+"use strict";
+var OSLReq3000Popup = function () {
+	
+	var documentSetting = function(){
+		var config = {
+				data:{
+					source:{
+						read:{
+							url:"/req/req3000/req3000/selectReq3000ListAjaxView.do"
+						}
 					}
+				},
+		columns : [
+			{field: 'checkbox', title:'#', textAlign:'center', width:20, selector: {class: 'kt-checkbox--solid'}, sortable:false, autoHide:false},
+			{field: 'rn', title:"No.", textAlign: 'center', width: 25, autoHide: false, sortable: false},
+			{field: 'reqGrpNm', title: '그룹 요구사항 명', textAlign: 'left', width: 150, search: true, sortable: false,searchOrd: 1},
+			{field: 'reqGrpLinkCnt', title: '연결 요구사항 수', textAlign: 'center', width: 150, search: false,
+				template: function (row) {
+					var reqGrpLinkCnt = row.reqGrpLinkCnt;
+					if(reqGrpLinkCnt == 0){
+						reqGrpLinkCnt = "0";
+					}
+					return reqGrpLinkCnt;
+				},
+			},
+			{field: 'reqGrpUsrNm', title: '요청자 명', textAlign: 'left', width: 150, search: true, sortable:false,searchOrd: 2,
+				template: function (row) {
+					return $.osl.user.usrImgSet(row.reqUsrImgId, row.reqGrpUsrNm);
+				},
+				onclick: function(rowData){
+					$.osl.user.usrInfoPopup(rowData.reqGrpUsrId);
+				}
+			},
+			{field: 'reqGrpUsrEmail', title: '요청자 e-mail', textAlign: 'left', width: 150, search: true, sortable: true,searchOrd: 3},
+			{field: 'reqGrpUsrDeptNm', title: '요청자 조직', textAlign: 'left', width: 300, sortable: false, search: false},
+			{field: 'reqGrpUsrNum', title: '요청자 연락처', textAlign: 'left', width: 100, search: true, sortable: false, search: true,searchOrd: 4},
+			{field: 'regGrpChargerNm', title: '담당자 명', textAlign: 'left', width: 150, search: true,sortable: false,searchOrd: 5,
+				template: function (row) {
+					return $.osl.user.usrImgSet(row.reqGrpChargerImgId, row.reqGrpChargerNm);
+				},
+				onclick: function(rowData){
+					$.osl.user.usrInfoPopup(rowData.reqGrpChargerId);
+				}
+			},
+			{field: 'regDtmDay', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"daterange",searchOrd:10}
+		],
+		searchColumns:[
+			{field: 'reqGrpChargerEmail', title: '담당자 EMAIL', searchType:"text",searchOrd: 6},
+			{field: 'reqGrpChargerNum', title: '담당자 연락처', searchType:"text",searchOrd: 7},
+			{field: 'reqGrpKey', title: '그룹 요구사항 Key', searchType:"text",searchOrd: 8},
+			{field: 'useCD', title: '사용유무', searchType:"select", searchCd:"CMM00001",searchOrd: 9},
+		],
+		rows:{
+			clickCheckbox:true
+		},
+		actionBtn:{
+			"dblClick":true,
+			/* "excel":true,
+			"print":true, */
+			"insert":false,
+			"update":true,
+			"title": $.osl.lang("datatable.action.functionNm")
+		},
+		actionTooltip:{
+			"insert":$.osl.lang("req3000.datatable.action.insert"),
+			"update":$.osl.lang("req3000.datatable.action.update"),
+			"dblClick": $.osl.lang("req3000.datatable.action.dblClick"),
+			"delete": $.osl.lang("req3000.datatable.action.delete"),
+			/* "excel": $.osl.lang("req3000.datatable.action.excel"),
+			"print": $.osl.lang("req3000.datatable.action.print"), */
+		},
+		// 테마
+		theme:{
+			actionBtnIcon:{
+				"dblClick":"fa fa-list-alt",
+				/* "excel":"fa fa-file-excel",
+				"print":"fa fa-print" */
+			}
+		},
+		actionFn:{
+			"insert":function(datatableId, type, rowNum){
+				var data = {type:"insert"};
+				var options = {
+						idKey: datatableId,
+						modalSize: "xl",
+						modalTitle: $.osl.lang("req3001.title"),
+						closeConfirm: false,
+						modalTitle:$.osl.lang("req3000.title.insert"),
+					};
+				
+				$.osl.layerPopupOpen('/req/req3000/req3000/selectReq3001View.do',data,options);
+			},"update":function(rowData, datatableId, type, rowNum, elem){
+				//데이터 전송
+				var data = {
+						type:"update",
+						paramPrjGrpId : rowData.prjGrpId,
+						paramPrjId : rowData.prjId,
+						paramReqGrpId : rowData.reqGrpId,
+						paramReqGrpUsrId : rowData.reqGrpUsrId,
+						paramReqGrpChargerId :rowData.reqGrpChargerId
+					};
+				//옵션
+				var options = {
+						idKey: datatableId,
+						modalTitle: $.osl.lang("req3001.title"),
+						closeConfirm: false,
+						modalSize: "xl",
+						modalTitle:$.osl.lang("req3000.title.update"),
+					};
+				
+				$.osl.layerPopupOpen('/req/req3000/req3000/selectReq3001View.do',data,options);
+				
+			},"delete":function(rowDatas, datatableId, type, rowNum, elem){
+				
+				var data = {
+						type:"delete",
+						paramRowData:JSON.stringify(rowDatas),
+						datatableId:datatableId
+				};
+				//AJAX 설정
+				var ajaxObj = new $.osl.ajaxRequestAction(
+						{"url":"<c:url value='/req/req3000/req3000/deleteReq3000ReqListAjax.do'/>"}
+						,{deleteDataList: JSON.stringify(rowDatas)});
+				//AJAX 전송 성공 함수
+				ajaxObj.setFnSuccess(function(data){
+					if(data.errorYn == "Y"){
+		   				$.osl.alert(data.message,{type: 'error'});
+		   			}else{
+		   				//삭제 성공
+		   				$.osl.toastr(data.message);
+		   				
+		   				//datatable 조회
+		   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+		   			}
 				});
+				
+				//AJAX 전송
+				ajaxObj.send();
+				
+			},"dblClick":function(rowData, datatableId, type, rowNum){
+				var data = {
+						
+						paramPrjGrpId : rowData.prjGrpId,
+						paramPrjId : rowData.prjId,
+						paramReqGrpId : rowData.reqGrpId,
+						paramReqGrpUsrId : rowData.reqGrpUsrId,
+						paramReqGrpChargerId :rowData.reqGrpChargerId
+					};
+				var options = {
+						idKey: rowData.reqId,
+						modalTitle: "그룹 요구사항 상세정보",
+						closeConfirm: false,
+						modalSize: "xl",
+						modalTitle:$.osl.lang("req3000.title.detail"),
+					};
+				
+				$.osl.layerPopupOpen('/req/req3000/req3000/selectReq3002View.do',data,options);	
+				}
 			}
 		}
+		// begin:: 그룹 요구사항 관리 데이터테이블
+		$.osl.datatable.setting("req3000Table", config);
+		// end:: 그룹 요구사항 관리 데이터테이블
 		
-		/* 버튼 선택 */
-		$("#btn_all_ck").click(function() {
-			if ($(this).is(':checked')) {
-				$("input[name=btn_ck]").prop("checked", true);
-			} else {
-				$("input[name=btn_ck]").prop("checked", false);
-			}
-		});
-	});
-</script>
+	}
+	return {
+        // public functions
+        init: function() {
+        	documentSetting();
+        }
+        
+    };
+}();
 
-<div class="main_contents">
-	<div class="main_pc"> <!-- pc, 테블릿 화면 -->
-		<div class="req_title">${sessionScope.selMenuNm }</div>	
-		<form id="searchFrm" name="searchFrm" method="post">
-			<div class="search_box">
-				<span class="search_select">
-					<label for="search_select"></label>
-					<select id="search_select1">
-						<option selected>대프로젝트</option>
-						<option>단위프로젝트</option>
-					</select>
-				</span>
-				<span class="search_select">
-					<label for="search_select"></label>
-					<select id="search_select2">
-						<option selected>대프로젝트</option>
-						<option>단위프로젝트</option>
-					</select>
-				</span>
-				<span class="search_select">
-					<label for="search_select"></label>
-					<select id="search_select3">
-						<option selected>대프로젝트</option>
-						<option>단위프로젝트</option>
-					</select>
-				</span>
-				<span class="search_box_wrap">
-					<input type="search" class="search_txt" title="검색창"/>
-					<label></label>
-					<span class="button_normal2">검색</span>
-				</span>
-			</div>
-		</form>
-		
-		<div class="req_table_wrap">
-			<div class="req_left_table_wrap">		
-				<div class="btn_box">
-					<span class="button_normal2">프린트</span>
-					<span class="button_normal2">엑셀 저장</span>
-				</div>
-				<div class="req_table">
-					<table style="width:100%;" class="select_table">
-						<colgroup>
-							<col style="width: 5%;">
-							<col style="width: 10%;">
-							<col style="width: 12.5%;">
-							<col style="width: 12.5%;">
-							<col style="width: 10%;">
-							<col style="width: 10%;">
-							<col style="width: 10%;">
-							<col style="width: 10%;">
-							<col style="width: 10%;">
-							<col style="width: 10%;">
-						</colgroup>
-						<thead style="text-align:center;">
-							<tr>
-								<td class="req_thead" colspan="9">대프로젝트</td>
-							</tr>
-							<tr>
-								<td class="req_thead ">
-									<div class="req_chk">
-										<input type="checkbox" title="체크박스" id="btn_all_ck" /><label for="btn_all_ck"></label>
-									</div>
-								</td>
-								<td class="req_thead">개발주기</td>
-								<td class="req_thead">분류</td>
-								<td class="req_thead">요구사항</td>
-								<td class="req_thead">기능</td>
-								<td class="req_thead">담당자</td>
-								<td class="req_thead">개발공수</td>
-								<td class="req_thead">소요시간</td>
-								<td class="req_thead">작업흐름</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-							
-							<tr>
-								<td class="search_td txt_of req_chk"><input type="checkbox" title="선택" name="btn_ck"><label></label></td>
-								<td class="req_td"><span class="blue">Sprint1</span></td>
-								<td class="req_td">로그인 및 화면</td>
-								<td class="req_td">로그인 화면</td>
-								<td class="req_td">로그인 기능</td>
-								<td class="req_td">사용자1</td>
-								<td class="req_td">4</td>
-								<td class="req_td">1</td>
-								<td class="req_td">진행 중</td>
-							</tr>
-						</tbody>
-					</table>
-					<div class="paginate paginate_font1">
-						<a class="pre">&#60;&#60;</a>
-						<a class="pre">&#60;</a>
-						<strong><span>1</span></strong>
-						<a><span>2</span></a>
-						<a><span>3</span></a>
-						<a><span>4</span></a>
-						<a><span>5</span></a>
-						<a><span>6</span></a>
-						<a><span>7</span></a>
-						<a><span>8</span></a>
-						<a><span>9</span></a>
-						<a><span>10</span></a>
-						<a class="next">&#62;</a>
-						<a class="next">&#62;&#62;</a>
-					</div>
-				</div>			
-			</div>
-			<form method="post" action="">	
-				<div class="req_right_table_wrap">	
-					<div class="req_right_box">
-						<div class="req_right_topheader">
-							<div class="req_right_header_title">(1depth)로그인 및 회원가입</div>
-							<div class="req_right_header_title bold">&gt;(2depth)로그인 화면</div>
-						</div>	
-						<div class="req_right_contents">
-							<div class="bold">상세정보</div>
-						</div>
-						<div class="req_right_contents">
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">기능 :</span>
-								<span class="r_r_c_right">로그인 기능</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">개발주기 :</span>
-								<span class="r_r_c_right">로그인 기능</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">작업흐름 :</span>
-								<span class="r_r_c_right">개발완료</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">중요도 :</span>
-								<span class="r_r_c_right">보통</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">만든 날짜 :</span>
-								<span class="r_r_c_right">2015.09.11 13:00</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">최종 수정 :</span>
-								<span class="r_r_c_right">2015.09.11 13:00</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">링크 : </span>
-								<span class="r_r_c_right"><a href="http://www.opensoftlab.kr">www.opensoftlab.kr</a></span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">담당자 :</span>
-								<span class="r_r_c_right">이름</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">개발공수 :</span>
-								<span class="r_r_c_right">0</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">소요시간 :</span>
-								<span class="r_r_c_right">0(0.7 = 42분)</span>
-							</div>
-						</div>
-						<div class="req_right_contents" style="border-bottom:none;">
-							<div class="bold mb10">요구사항 설명</div>
-							<textarea class="req_contents_box readonly" title="요구사항 설명" readonly="readonly"></textarea>
-							<div class="bold mb10">첨부파일 목록</div>
-							<textarea class="req_contents_box readonly" title="첨부파일 목록" readonly="readonly"></textarea>
-							<div class="bold mb10">Comment</div>
-								<div class="comment_wrap">
-									<div class="comment_list">
-										<span class="comment_user">사용자1</span>
-										<span class="comment_date">16.01.11</span>
-										<pre class="comment_contents">코멘트 내용이 들어갑니다.</pre>
-									</div>
-									<div class="comment_list">
-										<span class="comment_user">사용자1</span>
-										<span class="comment_date">16.01.11</span>
-										<pre class="comment_contents">코멘트 내용이 들어갑니다.</pre>
-									</div>
-									<div class="comment_list">
-										<span class="comment_user">사용자1</span>
-										<span class="comment_date">16.01.11</span>
-										<pre class="comment_contents">코멘트 내용이 들어갑니다.</pre>
-									</div>
-								</div>
-							<div class="save_wrap"><input type="submit" class="button_normal2" value="저장" /></div>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>		
-	</div> <!-- pc, 테블릿 화면 -->
-	<div class="main_mobile"> <!-- 모바일 화면 -->
-		<span class="search_btn"><img src="<c:url value='/images/mobile/m_search_btn.png'/>" width=17 alt="검색버튼"/></span>
-		<div class="search_wrap"><select><option selected>진행 중</option><option>개발 완료</option></select><span class="button_normal2">조회</span></div>
-		<div class="m_req_table">
-			<div class="m_req_list">
-				<span class="m_req_left">
-					<div class="grouping">로그인 화면</div>
-					<div><span>개발주기&nbsp;:&nbsp;</span><span>Sprint1</span><span class="table_between">|</span><span>개발주기&nbsp;:&nbsp;</span><span>로그인 및 화면</span></div>
-					<div><span>기능&nbsp;:&nbsp;</span><span>로그인 기능</span><span class="table_between">|</span><span>담당자&nbsp;:&nbsp;</span><span>사용자1</span></div>
-					<div><span>개발공수&nbsp;:&nbsp;</span><span>4</span><span class="table_between">|</span><span>소요시간&nbsp;:&nbsp;</span><span>1</span></div>
-				</span>
-				<span class="m_req_right" data="1">진행 중</span>
-			</div>
-		</div>
-		<div class="m_req_table">
-			<div class="m_req_list">
-				<span class="m_req_left">
-					<div class="grouping">로그인 화면</div>
-					<div><span>개발주기&nbsp;:&nbsp;</span><span>Sprint1</span><span class="table_between">|</span><span>개발주기&nbsp;:&nbsp;</span><span>로그인 및 화면</span></div>
-					<div><span>기능&nbsp;:&nbsp;</span><span>로그인 기능</span><span class="table_between">|</span><span>담당자&nbsp;:&nbsp;</span><span>사용자1</span></div>
-					<div><span>개발공수&nbsp;:&nbsp;</span><span>4</span><span class="table_between">|</span><span>소요시간&nbsp;:&nbsp;</span><span>1</span></div>
-				</span>
-				<span class="m_req_right" data="2">개발 완료</span>
-			</div>
-		</div>
-		<div class="req_right_table_wrap"><!-- 모바일 레이어팝업 -->	
-				<div class="req_right_box">
-					<form>
-						<div class="req_right_topheader">
-							<!-- <span class="x_btn"><img src="<c:url value='/images/mobile/m_x_btn.png'/>" width=17 alt="닫기버튼"/></span> -->
-							<div class="req_right_header_title">(1depth)로그인 및 회원가입</div>
-							<div class="req_right_header_title bold">&gt;(2depth)로그인 화면</div>
-						</div>	
-						<div class="req_right_contents">
-							<div class="bold">상세정보</div>
-						</div>
-						<div class="req_right_contents">
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">기능&nbsp;:&nbsp;</span>
-								<span class="r_r_c_right">로그인 기능</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">개발주기&nbsp;:&nbsp;</span>
-								<span class="r_r_c_right">로그인 기능</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">작업흐름&nbsp;:&nbsp;</span>
-								<span class="r_r_c_right">개발완료</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">중요도 :</span>
-								<span class="r_r_c_right">보통</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">만든 날짜&nbsp;:&nbsp;</span>
-								<span class="r_r_c_right">2015.09.11 13:00</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">최종 수정&nbsp;:&nbsp;</span>
-								<span class="r_r_c_right">2015.09.11 13:00</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">링크&nbsp;:&nbsp;</span>
-								<span class="r_r_c_right"><a href="http://www.opensoftlab.kr">www.opensoftlab.kr</a></span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">담당자&nbsp;:&nbsp;</span>
-								<span class="r_r_c_right">이름</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">개발공수&nbsp;:&nbsp;</span>
-								<span class="r_r_c_right">0</span>
-							</div>
-							<div class="r_r_c_line">
-								<span class="r_r_c_left">소요시간&nbsp;:&nbsp;</span>
-								<span class="r_r_c_right">0(0.7 = 42분)</span>
-							</div>
-						</div>
-						<div class="req_right_contents" style="border-bottom:none;">
-							<div class="bold mb10">요구사항 설명</div>
-							<textarea class="req_contents_box readonly" title="요구사항 설명" readonly="readonly"></textarea>
-							<div class="bold mb10">첨부파일 목록</div>
-							<textarea class="req_contents_box readonly" title="첨부파일 목록" readonly="readonly"></textarea>
-							<div class="bold mb10">Comment</div>
-							<textarea class="req_contents_box readonly" title="코멘트 내용" readonly="readonly"></textarea>
-							<div class="save_wrap"><input type="submit" class="button_normal2" value="저장" /></div>
-						</div>
-					</form>
-				</div>
-			</div><!-- 레이어팝업 -->
-			<div class="search_popup layer_popup"><!-- 검색 레이어팝업 -->
-				<form method="post" action="">
-					<div class="search_popup_title">검색<span class="x_btn"><img src="<c:url value='/images/mobile/m_x_btn.png'/>" width=17 alt="닫기버튼"/></span></div>
-					<div class="search_require">
-						<select class="require_list">
-							<option selected>사용자 1</option>
-							<option>사용자 2</option>
-						</select>
-						<label></label>
-						<select class="require_list">
-							<option selected>할 일</option>
-							<option>할 일</option>
-						</select>
-						<label></label>
-						<select class="require_list">
-							<option selected>전체</option>
-							<option>진행 중</option>
-						</select>
-						<label></label>
-						<input class="require_input" /><label></label><input type="submit" class="button_normal2" value="검색"/>
-					</div>
-				</form>
-			</div>
-	</div>
-	
-</div>
-	
+$.osl.ready(function(){
+	OSLReq3000Popup.init();
+});
+</script>
+<!-- end script -->
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />
