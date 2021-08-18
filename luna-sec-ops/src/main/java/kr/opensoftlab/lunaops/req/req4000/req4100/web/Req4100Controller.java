@@ -866,9 +866,6 @@ public class Req4100Controller {
     		paramMap.put("usrId", loginVO.getUsrId());
     		
 			
-			
-			
-			
 			String _pageNo_str = paramMap.get("pagination[page]");
 			String _pageSize_str = paramMap.get("pagination[perpage]");
 			

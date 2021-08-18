@@ -1,1 +1,0 @@
-@echo "Not supported in WINDOWS"
