@@ -344,6 +344,9 @@ input:-webkit-autofill,
 	left: 0;
 	padding: 0.5rem;
 }
+.osl-bg-eee{
+	background-color: #eee !important;
+}
 /* code 영역 배경색 */
 .osl-code-bg{
 	background-color: #23241f;
@@ -1140,6 +1143,12 @@ label.required:after {
 	border: 1px solid #1cac81 !important;
 	box-sizing: border-box;
 }
+.selected{
+	border: 2px solid #1cac81 !important;
+	box-sizing: border-box;
+	background-color:#f7f7f7;
+	color: #1cac81;
+}
 /*사용자 정보 - 모달 폰트 색상*/
 .osl-user-info__modal{
 	color: #333;
@@ -1426,6 +1435,17 @@ label.required:after {
 }
 .osl-content-group{
 	width: 85%;
+}
+.osl-left-arrow,.osl-right-arrow{
+	font-weight: 900;
+}
+.osl-left-arrow:before{
+	font-family: "Font Awesome 5 Free";
+	content: "\f053";
+}
+.osl-right-arrow:before{
+	font-family: "Font Awesome 5 Free";
+	content: "\f054";
 }
 .osl-right-arrow-group, .osl-left-arrow-group>.btn.dropdown-toggle{
 	text-align: center;
@@ -2379,6 +2399,14 @@ label.required:after {
 	.osl-mobile-padding-lr-10{
 		padding-left:10px !important;
 		padding-right:10px !important;
+	}
+	.osl-left-arrow:before{
+		font-family: "Font Awesome 5 Free";
+		content: "\f077";
+	}
+	.osl-right-arrow:before{
+		font-family: "Font Awesome 5 Free";
+		content: "\f078";
 	}
 }
 @media (max-width:1023px){
