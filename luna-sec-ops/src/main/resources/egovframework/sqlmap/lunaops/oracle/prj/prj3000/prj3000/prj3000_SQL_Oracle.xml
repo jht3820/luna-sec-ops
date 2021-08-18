@@ -639,6 +639,74 @@
 	
 	
 	
+	<select id="prj3000DAO.selectPrj3003SignInfoList" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT 	A.PRJ_ID
+			,	A.DOC_ID
+			,	A.ORD
+			,	A.SIGN_USR_ID
+			,	A.REG_DTM
+			,	A.REG_USR_ID
+			,	A.REG_USR_IP
+			,	A.MODIFY_DTM
+			,	A.MODIFY_USR_ID
+			,	A.MODIFY_USR_IP
+			,	B.USR_ID
+			,   B.USR_IMG_ID
+			,	B.USR_NM
+			,	B.EMAIL
+			,   NVL(SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00008', B.USR_DUTY_CD, '1'), '-') AS USR_DUTY_NM
+			,	NVL(SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00007', B.USR_POSITION_CD, '1'), '-') AS USR_POSITION_NM
+		FROM	PRJ3003 A
+		JOIN	STM3000 B
+		ON		A.SIGN_USR_ID = B.USR_ID
+		WHERE	1 = 1
+		AND		A.PRJ_ID = #prjId#
+		AND		A.DOC_ID = #docId#
+		ORDER BY ORD ASC
+	</select>
+	
+	
+	<insert id="prj3000DAO.insertPrj3003SingInfo" parameterClass="java.util.Map">
+		
+		INSERT INTO PRJ3003
+		(
+				PRJ_ID			,	DOC_ID		,	ORD			,	SIGN_USR_ID
+			,	REG_DTM			,	REG_USR_ID	,	REG_USR_IP	,	MODIFY_DTM			
+			,	MODIFY_USR_ID	,	MODIFY_USR_IP		
+		)
+		VALUES
+		(
+				#prjId#			,	#docId#		,	#ord#		,	#signUsrId#
+			,	SYSDATE			,	#regUsrId#	,	#regUsrIp#	,	SYSDATE
+			,	#modifyUsrId#	,	#modifyUsrIp#
+		)
+	
+	</insert>
+	
+	
+	<delete id="prj3000DAO.deletePrj3003SignInfo" parameterClass="java.util.Map">
+		
+		DELETE 	FROM PRJ3003
+		WHERE  	1 = 1
+		AND		PRJ_ID = #prjId#
+		AND		DOC_ID = #docId#
+	</delete>
+	
+	
+	<select id="prj3000DAO.seletePrj3001WaitSignCnt" parameterClass="java.util.Map" resultClass="int">
+		
+		SELECT	COUNT(*) AS COUNT
+		FROM	PRJ3001
+		WHERE	1 = 1
+		AND		PRJ_ID = #prjId#
+		AND		DOC_ID = #docId#
+		AND		INF_TYPE = '02'
+	</select>
+	
+	
+	
+	
 	
 		
 	<delete id="prj3000DAO.deletePrj3000DocList" parameterClass="java.util.Map">

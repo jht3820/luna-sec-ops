@@ -38,4 +38,20 @@ public class Prj3100DAO extends ComOslitsAbstractDAO {
 		return (Map)select("prj3100DAO.selectPrj3001CngInf", paramMap);
 	}
 
+	
+	public List<Map> selectPrj3001CngInfList(Map<String, String> paramMap) throws Exception{
+		return (List) list("prj3100DAO.selectPrj3001CngList", paramMap);
+	}
+
+	
+	public int selectPrj3001MaxOrd(Map<String, String> paramMap) throws Exception{
+		return (Integer) select("prj3100DAO.selectPrj3003MaxOrd",paramMap);
+	}
+
+	
+	public void updatePrj3001SignInf(Map<String, String> paramMap) throws Exception{
+		update("prj3100DAO.updatePrj3001SignInf",paramMap);
+		
+	}
+
 }
