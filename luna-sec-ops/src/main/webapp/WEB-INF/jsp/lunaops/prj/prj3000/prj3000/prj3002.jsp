@@ -18,13 +18,13 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
-									<label><i class="fa fa-align-left kt-margin-r-5"></i><span data-lang-cd="prj3001.label.upperDocId">상위 산출물 ID</span></label>
+									<label><i class="fa fa-align-left kt-margin-r-5"></i><span data-lang-cd="prj3002.label.upperDocId">상위 산출물 ID</span></label>
 									<input type="text" class="form-control" placeholder="상위 산출물 ID" name="upperDocId" id="upperDocId" readonly="readonly">
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
-									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj3001.label.upperDocNm">상위 산출물 명</span></label>
+									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj3002.label.upperDocNm">상위 산출물 명</span></label>
 									<input type="text" class="form-control" placeholder="상위 산출물 명" name="upperDocNm" id="upperDocNm" readonly="readonly">
 								</div>
 							</div>
@@ -32,13 +32,13 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
-									<label><i class="fa fa-align-left kt-margin-r-5"></i><span data-lang-cd="prj3001.label.docId">산출물 ID</span></label>
+									<label><i class="fa fa-align-left kt-margin-r-5"></i><span data-lang-cd="prj3002.label.docId">산출물 ID</span></label>
 									<input type="text" class="form-control" placeholder="산출물 ID" name="docId" id="docId" value="${param.docId }"  readonly="readonly">
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
-									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj3001.label.docNm">산출물 명</span></label>
+									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj3002.label.docNm">산출물 명</span></label>
 									<input type="text" class="form-control" placeholder="산출물 명" name="docNm" id="docNm" minlength="2" maxlength="100"  readonly="readonly">
 								</div>
 							</div>
@@ -46,13 +46,13 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
-									<label><i class="fas fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="prj3001.label.docEdDtm">산출물 마감일</span></label>
+									<label><i class="fas fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="prj3002.label.docEdDtm">산출물 마감일</span></label>
 									<input type="text" class="form-control" placeholder="산출물 마감일" name="docEdDtm" id="docEdDtm" readonly="readonly">
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
-									<label><i class="fa fa-list-ol kt-margin-r-5"></i><span data-lang-cd="prj3001.label.docOrd">순번</span></label>
+									<label><i class="fa fa-list-ol kt-margin-r-5"></i><span data-lang-cd="prj3002.label.docOrd">순번</span></label>
 									<input type="number" class="form-control" placeholder="순번" name="ord" id="ord"  readonly="readonly">
 								</div>
 							</div>
@@ -62,13 +62,13 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
-									<label><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj3001.label.signUseCd">결재 사용유무</span></label>
+									<label><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj3002.label.signUseCd">결재 사용유무</span></label>
 									<input class="form-control" placeholder="결재 사용 유무" id="signUseNm" name="signUseNm"  readonly="readonly">
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
-									<label><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj3001.label.docUseCd">사용유무</span></label>
+									<label><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj3002.label.docUseCd">사용유무</span></label>
 									<input class="form-control" placeholder="사용 유무" id="useNm" name="useNm"  readonly="readonly">
 								</div>
 							</div>
@@ -76,7 +76,7 @@
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12">
 								<div class="form-group">
-									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj3001.label.docDesc">비고</span></label>
+									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj3002.label.docDesc">비고</span></label>
 									<div class="form-control h-100 osl-min-height--12rem" id="docDesc"></div>
 								</div>
 							</div>

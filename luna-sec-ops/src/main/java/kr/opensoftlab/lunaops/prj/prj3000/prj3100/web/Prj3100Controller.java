@@ -20,7 +20,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.annotation.Resource;
-import javax.enterprise.inject.spi.Bean;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -91,6 +90,12 @@ public class Prj3100Controller {
 	public String selectPrj3101View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 			return "/prj/prj3000/prj3100/prj3101";
 	}
+	
+	@RequestMapping(value = "/prj/prj3000/prj3100/selectPrj3102View.do")
+	public String selectPrj3102View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+			return "/prj/prj3000/prj3100/prj3102";
+	}
+	
 	
    	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/prj/prj3000/prj3100/insertPrj3100FormFileUploadAjax.do")
@@ -168,6 +173,64 @@ public class Prj3100Controller {
    	}
    	
 	
+   	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value ="/prj/prj3000/prj3100/selectPrj3100FileListAjax.do")
+   	public ModelAndView selectPrj3100FileListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+   		try {
+			
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			
+			
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			String licGrpId = ((LoginVO) ss.getAttribute("loginVO")).getLicGrpId();
+			
+			paramMap.put("prjId", paramPrjId);
+			
+			List<Map> atchFileList = null;
+			List<FileVO> waitFileList = null;
+			
+			
+        	FileVO fileVO = new FileVO();
+        	fileVO.setAtchFileId((String)paramMap.get("docAtchFileId"));
+        	
+        	atchFileList = prj3100Service.selectPrj3001CngInfList(paramMap);
+        	
+        	
+        	fileVO.setAtchFileId((String)paramMap.get("docWaitFileId"));
+        	waitFileList = fileMngService.fileDownList(fileVO);
+        	
+        	
+        	
+        	model.addAttribute("atchFileList", atchFileList);
+        	model.addAttribute("waitFileList", waitFileList);
+        	
+			
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			return new ModelAndView("jsonView");
+				
+           	
+		} catch (Exception ex) {
+			Log.error("selectPrj3100FormFileListAjax()", ex);
+
+       		
+       		model.addAttribute("errorYn", "Y");
+       		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+       		return new ModelAndView("jsonView");
+		}
+   	}
+   	
+   	
+   	
    	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value ="/prj/prj3000/prj3100/selectPrj3100FormFileListAjax.do")
    	public ModelAndView selectPrj3100FormFileListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
@@ -247,6 +310,8 @@ public class Prj3100Controller {
        		return new ModelAndView("jsonView");
 		}
    	}
+   	
+   	
    	
 	
    	@RequestMapping(value = "/prj/prj3000/prj3100/deletePrj3100FileAjax.do")
@@ -606,9 +671,6 @@ public class Prj3100Controller {
            	String docId = paramMap.get("docId");
            	
            	
-           	String docNm = paramMap.get("docNm");
-           	
-           	
            	String fileType = paramMap.get("fileType");
            	
            	
@@ -653,10 +715,10 @@ public class Prj3100Controller {
     			
     			List<FileVO> fileList = fileMngService.selectFileInfs(fileVO);
 
-    			String stepNm = "["+docId+"]_"+docNm;
-    			
     			
             	Map<String, String> docInfoMap = (Map) prj3000Service.selectPrj3000MenuInfo(paramMap);
+    			
+    			String stepNm = "["+docId+"]_"+docInfoMap.get("docNm");
     			
     			
                	for(FileVO fvo : fileList) {
@@ -828,8 +890,8 @@ public class Prj3100Controller {
         	
         	
         	model.addAttribute("fileCnt", formConfFileList.size());
+        	model.addAttribute("atchFileId", formConfFileList.get(0).getAtchFileId());
         	if(formConfFileList.size() == 1) {
-        		model.addAttribute("atchFileId", formConfFileList.get(0).getAtchFileId());
         		model.addAttribute("fileSn", formConfFileList.get(0).getFileSn());
         	}
         	
@@ -1056,6 +1118,89 @@ public class Prj3100Controller {
 		return "/err/file";
 	}
 	
+	
+	@RequestMapping(value = "/prj/prj3000/prj3000/updatePrj3001SignAprAjax.do")
+	public ModelAndView updatePrj3001SignAprAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+   		try {
+			
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			
+			
+			String paramPrjId = (String) paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			
+			String usrId = ((LoginVO) ss.getAttribute("loginVO")).getUsrId();
+			
+			paramMap.put("prjId", paramPrjId);
+			paramMap.put("signUsrId", usrId);
+			
+        	prj3100Service.updatePrj3001SignApr(paramMap);
+			
+			
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			return new ModelAndView("jsonView");
+				
+           	
+		} catch (Exception ex) {
+			Log.error("selectPrj3100FormFileListAjax()", ex);
+
+       		
+       		model.addAttribute("errorYn", "Y");
+       		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+       		return new ModelAndView("jsonView");
+		}
+   	}
+	
+	
+	@RequestMapping(value ="/prj/prj3000/prj3100/updatePrj3001SignRjtAjax.do")
+	public ModelAndView updatePrj3001SignRjtAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+   		try {
+			
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			
+			
+			String paramPrjId = (String) paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			
+			String usrId = ((LoginVO) ss.getAttribute("loginVO")).getUsrId();
+			
+			paramMap.put("prjId", paramPrjId);
+			paramMap.put("signUsrId", usrId);
+			
+        	prj3100Service.updatePrj3001SignRjt(paramMap);
+			
+			
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			return new ModelAndView("jsonView");
+				
+           	
+		} catch (Exception ex) {
+			Log.error("selectPrj3100FormFileListAjax()", ex);
+
+       		
+       		model.addAttribute("errorYn", "Y");
+       		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+       		return new ModelAndView("jsonView");
+		}
+   	}
 	
 	
 	private String getBrowser(HttpServletRequest request) {

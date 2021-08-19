@@ -235,102 +235,72 @@ var OSLPrj1102Popup = function () {
 			if(top < 0){
 				top = 0;
 			}
-			
-						
-			fd.append("flowLeft",left);
-			fd.append("flowTop",top);
 		}
    		
-    	//AJAX 설정
-   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/prj/prj1000/prj1100/savePrj1100FlowInfoAjax.do'/>", "async": true,"contentType":false,"processData":false ,"cache":false},fd);
-    	
-   		//AJAX 전송 성공 함수
-   		ajaxObj.setFnSuccess(function(data){
-   			if(data.errorYn == "Y"){
-   				$.osl.alert(data.message,{type: 'error'});
-   			}else{
-   				//등록 성공
-   				$.osl.toastr(data.message);
-   				
-   				//prj1100 flowChart있는지 체크
-   				if($("#flowChartDiv").length > 0){
-   					if(type == "insert"){
-		   				//작업흐름 데이터
-		   				var operatorData = {
-							top: (parseInt(top)+20),
-							left: (parseInt(left)+20),
-							properties: {
-								id: data.newFlowId,
-								title: $("#flowNm").val(),
-								editable: true,
-								inputs: {input_1: {label: '이전'}},
-								outputs: {output_1: {label: '다음'}},
-								flowTitleBgColor: $("#flowTitleBgColor").val(),
-								flowTitleColor: $("#flowTitleColor").val(),
-								flowEssentialCd: $("#flowEssentialCd").is(":checked")? "01": "02",
-								flowSignCd: $("#flowSignCd").is(":checked")? "01": "02",
-								flowSignStopCd: $("#flowSignStopCd").is(":checked")? "01": "02",
-								flowEndCd: $("#flowEndCd").is(":checked")? "01": "02",
-								flowWorkCd: $("#flowWorkCd").is(":checked")? "01": "02",
-								flowRevisionCd: $("#flowRevisionCd").is(":checked")? "01": "02",
-								flowDplCd: $("#flowDplCd").is(":checked")? "01": "02",
-								flowAuthCd: $("#flowAuthCd").is(":checked")? "01": "02"
-							}
-						};
-		   				
-		   				$("#flowChartDiv").flowchart('createOperator', data.newFlowId, operatorData);
-   					}
-   					else if(type == "update"){
-   						var flowInfo = $("#flowChartDiv").flowchart("getOperatorData",paramFlowId);
-   						flowInfo.properties.title = $("#flowNm").val();
-   						flowInfo.properties.flowTitleBgColor = $("#flowTitleBgColor").val();
-   						flowInfo.properties.flowTitleColor = $("#flowTitleColor").val();
-   						flowInfo.properties.flowEssentialCd = $("#flowEssentialCd").is(":checked")? "01": "02";
-   						flowInfo.properties.flowSignCd = $("#flowSignCd").is(":checked")? "01": "02";
-   						flowInfo.properties.flowSignStopCd = $("#flowSignStopCd").is(":checked")? "01": "02";
-   						flowInfo.properties.flowEndCd = $("#flowEndCd").is(":checked")? "01": "02";
-   						flowInfo.properties.flowWorkCd = $("#flowWorkCd").is(":checked")? "01": "02";
-						flowInfo.properties.flowRevisionCd = $("#flowRevisionCd").is(":checked")? "01": "02";
-						flowInfo.properties.flowDplCd = $("#flowDplCd").is(":checked")? "01": "02";
-						flowInfo.properties.flowAuthCd = $("#flowAuthCd").is(":checked")? "01": "02";
-						
-						$("#flowChartDiv").flowchart("setOperatorData",paramFlowId, flowInfo);
-   					}
-   				}
-   				
-   				//모달 창 닫기
-   				$.osl.layerPopupClose();
-   			}
-   		});
-   		
-   		//AJAX 전송
-   		ajaxObj.send();
+		//prj1100 flowChart있는지 체크
+		if($("#flowChartDiv").length > 0){
+			//임시 작업흐름 ID
+			var newflowId = 'F'+new Date().format('yyMMddHHmmssms');
+			
+			if(type == "insert"){
+	  			//작업흐름 데이터
+	  			var operatorData = {
+					top: (parseInt(top)+20),
+					left: (parseInt(left)+20),
+					properties: {
+						id: newflowId,
+						title: $("#flowNm").val(),
+						editable: true,
+						inputs: {input_1: {label: '이전'}},
+						outputs: {output_1: {label: '다음'}},
+						flowTitleBgColor: $("#flowTitleBgColor").val(),
+						flowTitleColor: $("#flowTitleColor").val(),
+						flowEssentialCd: $("#flowEssentialCd").is(":checked")? "01": "02",
+						flowSignCd: $("#flowSignCd").is(":checked")? "01": "02",
+						flowSignStopCd: $("#flowSignStopCd").is(":checked")? "01": "02",
+						flowEndCd: $("#flowEndCd").is(":checked")? "01": "02",
+						flowWorkCd: $("#flowWorkCd").is(":checked")? "01": "02",
+						flowRevisionCd: $("#flowRevisionCd").is(":checked")? "01": "02",
+						flowDplCd: $("#flowDplCd").is(":checked")? "01": "02",
+						flowAuthCd: $("#flowAuthCd").is(":checked")? "01": "02"
+					}
+				};
+	  			
+	  			OSLPrj1100Popup.setFlowAddList(newflowId);
+	  			$("#flowChartDiv").flowchart('createOperator', newflowId, operatorData);
+			}
+			else if(type == "update"){
+				var flowInfo = $("#flowChartDiv").flowchart("getOperatorData",paramFlowId);
+				flowInfo.properties.title = $("#flowNm").val();
+				flowInfo.properties.flowTitleBgColor = $("#flowTitleBgColor").val();
+				flowInfo.properties.flowTitleColor = $("#flowTitleColor").val();
+				flowInfo.properties.flowEssentialCd = $("#flowEssentialCd").is(":checked")? "01": "02";
+				flowInfo.properties.flowSignCd = $("#flowSignCd").is(":checked")? "01": "02";
+				flowInfo.properties.flowSignStopCd = $("#flowSignStopCd").is(":checked")? "01": "02";
+				flowInfo.properties.flowEndCd = $("#flowEndCd").is(":checked")? "01": "02";
+				flowInfo.properties.flowWorkCd = $("#flowWorkCd").is(":checked")? "01": "02";
+				flowInfo.properties.flowRevisionCd = $("#flowRevisionCd").is(":checked")? "01": "02";
+				flowInfo.properties.flowDplCd = $("#flowDplCd").is(":checked")? "01": "02";
+				flowInfo.properties.flowAuthCd = $("#flowAuthCd").is(":checked")? "01": "02";
+				
+				$("#flowChartDiv").flowchart("setOperatorData",paramFlowId, flowInfo);
+			}
+		}
+		
+		//모달 창 닫기
+		$.osl.layerPopupClose();
     };
 	
 	//작업흐름 정보 조회
 	var fnFlowInfoSelect = function(){
-		//프로세스 정보 조회
-		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowInfoAjax.do'/>"}
-				,{paramPrjGrpId: paramPrjGrpId, paramPrjId: paramPrjId, paramProcessId: paramProcessId, paramFlowId: paramFlowId});
-		//AJAX 전송 성공 함수
-		ajaxObj.setFnSuccess(function(data){
-			if(data.errorYn == "Y"){
-   				$.osl.alert(data.message,{type: 'error'});
-   			}else{
-   				var flowInfo = data.flowInfo;
-   				
-   				//form에 데이터 대입
-   				$.osl.setDataFormElem(flowInfo, formId);
-   				
-   				//작업흐름 미리보기 title 수정
-   				previewFlowChart.flowchart('setOperatorTitle', "previewOperator", flowInfo.flowNm);
-   				
-   			}
-		});
+		var flowData = $("#flowChartDiv").flowchart("getOperatorData",paramFlowId);
 		
-		//AJAX 전송
-		ajaxObj.send();
+		//form에 데이터 대입
+		$.osl.setDataFormElem(flowData.properties, formId);
+		
+		//작업흐름 미리보기 title 수정
+		$("#flowNm").val(flowData.properties.title);
+		previewFlowChart.flowchart('setOperatorTitle', "previewOperator", flowData.properties.title);
 	};
 	return {
         // public functions

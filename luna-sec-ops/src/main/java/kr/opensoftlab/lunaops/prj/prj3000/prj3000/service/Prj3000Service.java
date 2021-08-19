@@ -73,6 +73,17 @@ public interface Prj3000Service {
 	void deletePrj3002DocConInfo(Map<String, String> paramMap) throws Exception;
 	
 	
+	void savePrj3003SignInfo(Map<String, String> paramMap) throws Exception;
+
+	
+	List<Map> selectPrj3003SignUsrList(Map<String, String> paramMap) throws Exception;
+	
+	
+	int selectPrj3001WaitSignCnt(Map<String, String> paramMap) throws Exception;
+
+	
+	
+	
 	
 	
 	
@@ -82,4 +93,9 @@ public interface Prj3000Service {
 	
 	@SuppressWarnings("rawtypes")
 	List selectPrj3000RootMenuList(Map paramMap) throws Exception;
+
+	
+	
+
+	
 }

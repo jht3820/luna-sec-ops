@@ -440,6 +440,9 @@
 			<isNotEmpty property="processOrd">
 				, A.PROCESS_ORD = #processOrd#
 			</isNotEmpty>
+			<isNotEmpty property="useCd">
+				, A.USE_CD = #useCd#
+			</isNotEmpty>
 			<isNotEmpty property="processTransferCd">
 				, A.PROCESS_TRANSFER_CD = #processTransferCd#	
 			</isNotEmpty>
@@ -452,7 +455,22 @@
 			AND A.PROCESS_ID = #processId#
 		]]>
 	</update>
+		
 	
+	<update id="prj1100DAO.deletePrj1100ProcessInfo" parameterClass="java.util.Map">
+		
+		<![CDATA[
+			UPDATE PRJ1100 A
+			SET
+				DEL_CD = '01'
+				,A.MODIFY_DTM = SYSDATE
+				,A.MODIFY_USR_ID = #modifyUsrId#
+				,A.MODIFY_USR_IP = #modifyUsrIp#
+			WHERE 1=1
+			AND A.PRJ_ID = #prjId#
+			AND A.PROCESS_ID = #processId#
+		]]>
+	</update>
 	
 	
 	<select id="prj1100DAO.selectPrj1100ProcessAuthUsrList" parameterClass="java.util.Map" resultClass="egovMap">
@@ -601,7 +619,7 @@
 				,#flowNm#,				NVL(#flowLeft#,20),			NVL(#flowTop#,20)
 				,'02',					#flowEssentialCd#,			#flowSignCd#
 				,#flowSignStopCd#,		#flowEndCd#,				#flowWorkCd#
-				,#flowRevisionCd#,		#flowDplCd#,				#FlowAuthCd#
+				,#flowRevisionCd#,		#flowDplCd#,				#flowAuthCd#
 				,#flowTitleBgColor#,	#flowTitleColor#,			'01'
 				,SYSDATE,				#regUsrId#,					#regUsrIp#
 			)		
@@ -755,22 +773,7 @@
 			ORDER BY B.SVN_REP_ID, A.REVISION_NUM DESC
 		]]>
 	</sql>
-	
-	
-	<update id="prj1100DAO.deletePrj1100ProcessInfo" parameterClass="java.util.Map">
-		
-		<![CDATA[
-			UPDATE PRJ1100 A
-			SET
-				DEL_CD = '01'
-				,A.MODIFY_DTM = SYSDATE
-				,A.MODIFY_USR_ID = #modifyUsrId#
-				,A.MODIFY_USR_IP = #modifyUsrIp#
-			WHERE 1=1
-			AND A.PRJ_ID = #prjId#
-			AND A.PROCESS_ID = #processId#
-		]]>
-	</update>
+
 	
 	
 	<select id="prj1100DAO.selectPrj1100ProcessReqCnt" parameterClass="java.util.Map" resultClass="java.lang.Integer">
