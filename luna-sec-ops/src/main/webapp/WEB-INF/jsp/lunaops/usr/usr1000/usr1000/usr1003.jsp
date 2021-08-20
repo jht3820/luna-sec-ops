@@ -2,33 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row">
-	<div class="kt-portlet" data-aside-menu="usrShortCut" id="usr1100ShortcutInfo">
+	<div class="kt-portlet col-xl-12" id="menuNAuthShortCut">
 		<form class="kt-form kt-form--label-right" id="frUsr1000UserShortCut">
-			<div class="kt-portlet__body">
-				<div class="kt-section kt-section--first">
-					<div class="kt-section__body">
-						<div class="kt-portlet" id="menuNAuthShortCut">
-							<div class="kt-portlet__head">
-								<div class="kt-portlet__head-label">
-									<i class="fa flaticon-layer kt-margin-r-5"></i><span data-lang-cd="usr1100.title.shortcut">메뉴 및 권한 관리 단축키</span>
-								</div>
-								<div class="kt-portlet__head-toolbar">
-									<div class="kt-portlet__head-group">
-										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-up"></i></a>
-									</div>
-								</div>
-							</div>
-							<div class="kt-portlet__body">
-								<div class="row">
-										<div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><h5 class="kt-font-boldest text-primary"><span data-lang-cd="usr1100.title.shortcutName">단축키 명</span></h5></div>
-										<div class="col-xl-3 col-lg-2 col-md-12 col-sm-12"><h5 class="kt-font-boldest text-primary"><span data-lang-cd="usr1100.title.popupActionCd">팝업시 동작여부</span></h5></div>
-										<div class="col-xl-5 col-lg-7 col-md-12 col-sm-12"><h5 class="kt-font-boldest text-primary text-center"><span data-lang-cd="usr1100.title.shorcutKey">단축키</span></h5></div>
-								</div>
-								<div id="shortcutDiv"></div>
-							</div>
-						</div>
-					</div>
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label">
+					<i class="fa flaticon-layer kt-margin-r-5"></i><span data-lang-cd="usr1100.title.shortcut">메뉴 및 권한 관리 단축키</span>
 				</div>
+			</div>
+			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><h6 class="kt-font-boldest text-primary"><span data-lang-cd="usr1100.label.shortcutNm">단축키 명</span></h5></div>
+					<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><h6 class="kt-font-boldest text-primary"><span data-lang-cd="usr1100.label.popupActionCd">팝업시 동작여부</span></h5></div>
+					<div class="col-xl-6 col-lg-7 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><h6 class="kt-font-boldest text-primary text-center"><span data-lang-cd="usr1100.label.shortcut">단축키</span></h5></div>
+				</div>
+				<div id="shortcutDiv"></div>
 			</div>
 		</form>
 	</div>

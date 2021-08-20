@@ -40,7 +40,7 @@
 							</a>
 						</li>
 					</c:if>
-					<li class="kt-nav__item" data-aside-menu="usrShortCut">
+					<li class="kt-nav__item" data-aside-menu="usrShortCut" id="shortcutAside">
 						<a class="kt-nav__link active" href="#" role="tab">
 							<span class="kt-nav__link-icon"><i class="flaticon-cogwheel-1"></i></span>
 							<span class="kt-nav__link-text">단축키 설정</span>
@@ -251,9 +251,9 @@
 								</div>
 								<div class="kt-portlet__body" >
 									<div class="row">
-										<div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><h5 class="kt-font-boldest text-primary">단축키 명</h5></div>
-										<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12"><h5 class="kt-font-boldest text-primary">팝업시 동작여부</h5></div>
-										<div class="col-xl-6 col-lg-7 col-md-12 col-sm-12"><h5 class="kt-font-boldest text-primary text-center">단축키</h5></div>
+										<div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><h6 class="kt-font-boldest text-primary"><span data-lang-cd="usr1100.label.shortcutNm">단축키 명</span></h5></div>
+										<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><h6 class="kt-font-boldest text-primary"><span data-lang-cd="usr1100.label.popupActionCd">팝업시 동작여부</span></h5></div>
+										<div class="col-xl-6 col-lg-7 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><h6 class="kt-font-boldest text-primary text-center"><span data-lang-cd="usr1100.label.shortcut">단축키</span></h5></div>
 									</div>
 									<div id="shortcutDiv"></div>
 								</div>
