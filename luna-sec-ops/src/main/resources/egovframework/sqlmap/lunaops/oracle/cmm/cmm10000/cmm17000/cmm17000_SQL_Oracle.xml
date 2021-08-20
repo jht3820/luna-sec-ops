@@ -6,6 +6,7 @@
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
 	<resultMap id="resultMapSelectCmm17000" class="egovMap">
+		<result property="rn"					column="RN"/>
 		<result property="upPrjNm"				column="UP_PRJ_NM"/>
 		<result property="prjId"				column="PRJ_ID"/>
 		<result property="licGrpId"				column="LIC_GRP_ID"/>
