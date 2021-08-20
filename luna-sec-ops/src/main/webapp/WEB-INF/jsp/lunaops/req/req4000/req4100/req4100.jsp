@@ -104,7 +104,8 @@ var OSLReq4100Popup = function () {
 				
 			],
 			searchColumns:[
-				{field: 'prjGrpNm', title: $.osl.lang("req4100.field.prjGrpNm"), searchOrd: 0}
+				{field: 'prjGrpNm', title: $.osl.lang("req4100.field.prjGrpNm"), searchOrd: 0},
+				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2}
 			],
 			rows:{
 				clickCheckbox: true
@@ -142,6 +143,7 @@ var OSLReq4100Popup = function () {
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId,
 							paramReqUsrId: rowData.reqUsrId,
+							paramReqGrpId: rowData.reqGrpId,
 							datatableId: datatableId,
 						};
 					var options = {
