@@ -1064,6 +1064,8 @@ var OSLPrj1100Popup = function () {
 		
 		//검색 내용
 		var searchText = $("#flowNmSearchInput").val().replace(/(\s*)/g, "");
+		searchText = searchText.toUpperCase();
+		var searchFlag = false;
 		
 		//검색 내용 없는 경우 동작 안함
 		if($.osl.isNull(searchText)){
@@ -1075,6 +1077,8 @@ var OSLPrj1100Popup = function () {
 		var flowList = flowChart.flowchart("getData").operators;
 		$.each(flowList, function(flowId, map){
 			var flowNm = map.properties.title.replace(/(\s*)/g, "");
+			flowNm = flowNm.toUpperCase();
+			
 			var elem = $(".osl-flowchart__operator[data-operator-id="+flowId+"]");
 			
 			//검색 결과 있는 경우
@@ -1082,6 +1086,7 @@ var OSLPrj1100Popup = function () {
 				if(left == 0 && top == 0){
 					left = map.left;
 					top = map.top;
+					searchFlag = true;
 				}
 				elem.addClass("error");
 			}
@@ -1091,10 +1096,19 @@ var OSLPrj1100Popup = function () {
 		var widthDefault = $(".osl-process__flow-container").width()/2;
 		var heightDefault = $(".osl-process__flow-container").height()/2;
 		
+		if(searchFlag){
+			left = (widthDefault - left);
+			top = (heightDefault - top);
+		}
+		//줌 일시정지
+		zoomObj.pause();
 		
-		left = (widthDefault - left);
-		top = (heightDefault - top);
+		//위치, 배율 조정
 		zoomObj.moveTo(left,top);
+		zoomObj.zoomAbs(left,top,1);
+		
+		//줌 재개
+		zoomObj.resume();
 	};
 	
 	return {
