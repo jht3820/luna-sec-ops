@@ -486,47 +486,43 @@ var OSLPrj1001Popup = function () {
 							chart: {
 								toolbar:{show:false},
 								height: 195,
-								events: {
-									click: function(event, chartContext, config) {
-										if(config.seriesIndex!=-1){
-											console.log(event);
-											var series = config.config.series;
-											console.log(series[config.seriesIndex]["data"][config.dataPointIndex]);
-											//요구사항 상세정보
+								title:{
+									text: "처리유형별 요구사항",
+									align: "center",
+								},
+								tooltip: {
+									custom: function(data) {
+										var series = data.series;
+										var seriesIndex = data.seriesIndex;
+										var dataPointIndex = data.dataPointIndex;
+										
+										var selData = data.w.config.series[seriesIndex].data[dataPointIndex];
+										var reqOrd = selData.reqOrd;
+										var reqNm = selData.reqNm
+										
+										return '<div class="osl-chart--project__tooltip">['+reqOrd+'] '+reqNm+'</div>';
+									}
+								},
+								option:{
+									heatmap:{
+							            colorScale:{
+											ranges:[
+												{from: 1,to: 1,color: "#9fd1f2", name:"접수 요청"},
+												{from: 2,to: 2,color: "#5867dd", name:"진행 중"},
+												{from: 3,to: 3,color: "#FFB200", name:"접수 반려"},
+												{from: 4,to: 6,color: "#fd397a", name:"완료"},
+											]
 										}
 									}
 								},
 							},
-							title:{
-								text: "처리유형별 요구사항",
-								align: "center",
-							},
-							plotOptions:{
-								heatmap:{
-						            colorScale:{
-										ranges:[
-											{from: 1,to: 1,color: "#9fd1f2", name:"접수 요청"},
-											{from: 2,to: 2,color: "#5867dd", name:"진행 중"},
-											{from: 3,to: 3,color: "#FFB200", name:"접수 반려"},
-											{from: 4,to: 6,color: "#fd397a", name:"완료"},
-										]
-									}
+							actionFn:{
+								"click": function(event, chartContext, config) {
+									console.log(event);
+									console.log(chartContext);
+									console.log(config);
 								}
-							},
-							tooltip: {
-								custom: function(data) {
-									var series = data.series;
-									var seriesIndex = data.seriesIndex;
-									var dataPointIndex = data.dataPointIndex;
-									
-									var selData = data.w.config.series[seriesIndex].data[dataPointIndex];
-									var reqOrd = selData.reqOrd;
-									var reqNm = selData.reqNm
-									
-									return '<div class="osl-chart--project__tooltip">['+reqOrd+'] '+reqNm+'</div>';
-									//return series[seriesIndex][dataPointIndex];
-								}
-							},
+							}
 						});
 					});
 				}

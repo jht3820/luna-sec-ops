@@ -14,6 +14,9 @@
 		</div>
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-wrapper">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-chart-id="drawChart0" data-chart-action="select" title="test" data-title-lang-cd="stm2100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회testspan>
+				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm2100StmTable" data-datatable-action="select" title="게시판 조회" data-title-lang-cd="stm2100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 				</button>
@@ -632,7 +635,10 @@
 						 chartType:"area",
 					 }
 				},
-				colors: ["#586272", "#1cac81"],
+				chart:{
+					//라인 색상
+					colors: ["#586272", "#1cac81"],
+				},
 				callback:{
 					//차트가 작성 후 실행
 					initComplete: function(chartContext, config){
