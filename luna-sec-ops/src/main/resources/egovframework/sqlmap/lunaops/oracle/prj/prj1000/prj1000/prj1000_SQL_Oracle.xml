@@ -20,6 +20,7 @@
 		        ,	SUBT1.PRJ_DESC
 		        ,	SUBT1.USE_CD
 		        ,	SUBT1.DEL_CD
+		        ,	SUBT1.PRJ_REQUEST_ACCEPT_CD
 		        ,	SUBT1.PRJ_TYPE_CD
 		        ,	SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'PRJ00013', SUBT1.PRJ_TYPE_CD, '1') AS PRJ_TYPE_NM
 		        ,	SUBT1.PRJ_DEV_TYPE_CD
@@ -50,6 +51,7 @@
 					,	A.PRJ_DESC
 					,	A.USE_CD
 					,	A.DEL_CD
+					,	A.PRJ_REQUEST_ACCEPT_CD
 					,	A.PRJ_TYPE_CD
 					,	A.PRJ_DEV_TYPE_CD
 					,	A.PRJ_ACRM
@@ -156,6 +158,7 @@
 	        ,	SUBT1.PRJ_DESC
 	        ,	SUBT1.USE_CD
 	        ,	SUBT1.DEL_CD
+	        ,	SUBT1.PRJ_REQUEST_ACCEPT_CD
 	        ,	SUBT1.PRJ_TYPE_CD
 	        ,	SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'PRJ00013', SUBT1.PRJ_TYPE_CD, '1') AS PRJ_TYPE_NM
 	        ,	SUBT1.PRJ_DEV_TYPE_CD
@@ -181,6 +184,7 @@
 				,	A.PRJ_DESC
 				,	A.USE_CD
 				,	A.DEL_CD
+				,	A.PRJ_REQUEST_ACCEPT_CD
 				,	A.PRJ_TYPE_CD
 				,	A.PRJ_DEV_TYPE_CD
 				,	A.PRJ_ACRM
@@ -234,6 +238,7 @@
 		        ,	SUBT1.PRJ_DESC
 		        ,	SUBT1.USE_CD
 		        ,	SUBT1.DEL_CD
+		        ,	SUBT1.PRJ_REQUEST_ACCEPT_CD
 		        ,	SUBT1.PRJ_TYPE_CD
 		        ,	SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'PRJ00013', SUBT1.PRJ_TYPE_CD, '1') AS PRJ_TYPE_NM
 		        ,	SUBT1.PRJ_DEV_TYPE_CD
@@ -268,6 +273,7 @@
 					,	A.PRJ_DESC
 					,	A.USE_CD
 					,	A.DEL_CD
+					,	A.PRJ_REQUEST_ACCEPT_CD
 					,	A.PRJ_TYPE_CD
 					,	A.PRJ_DEV_TYPE_CD
 					,	A.PRJ_ACRM
@@ -810,13 +816,13 @@
 			INSERT INTO PRJ1000
 			(
                 PRJ_ID			,	PRJ_GRP_ID		,	LIC_GRP_ID		,	PRJ_NM			,	START_DT		,	END_DT
-            ,	ORD				,	PRJ_DESC		,	USE_CD			,	DEL_CD
+            ,	ORD				,	PRJ_DESC		,	USE_CD			,	DEL_CD			,	PRJ_REQUEST_ACCEPT_CD
             ,	PRJ_TYPE_CD		,	PRJ_DEV_TYPE_CD ,	PRJ_ACRM		,	PRJ_GRP_CD		,	PRJ_BG_COLOR	,	PRJ_COLOR
             ,	REG_DTM			,	REG_USR_ID  	,	REG_USR_IP
             ,	MODIFY_DTM		,	MODIFY_USR_ID	,	MODIFY_USR_IP
         )VALUES(
                 #newPrjId#		,	#prjGrpId#		,	#licGrpId#		,	#prjNm#    		,	REPLACE(#startDt#, '-', '')		,	REPLACE(#endDt#, '-', '')
-            ,	#ord#			,	#prjDesc#		,	#useCd#			,	'02'
+            ,	#ord#			,	#prjDesc#		,	#useCd#			,	'02'			,	#prjRequestAcceptCd#	
             ,	#prjTypeCd# 	,	#prjDevTypeCd#	,	#prjAcrm#		,	#prjGrpCd#		,	#prjBgColor#	,	#prjColor#
             ,	SYSDATE			,	#regUsrId#		,	#regUsrIp#
             ,	SYSDATE			,	#regUsrId#		,	#regUsrIp#
@@ -837,6 +843,7 @@
             ,	PRJ_DESC		= #prjDesc#
             ,	USE_CD			= #useCd#
             ,	PRJ_ACRM		= #prjAcrm#
+            ,	PRJ_REQUEST_ACCEPT_CD		= #prjRequestAcceptCd#
      ]]>
      		<isNotEmpty property="prjTypeCd">
 				,	PRJ_TYPE_CD		= #prjTypeCd#     			
@@ -898,6 +905,8 @@
 					        ,	A.ORD
 					        ,	A.PRJ_DESC
 					        ,	A.USE_CD
+					        ,	A.DEL_CD
+					        ,	A.PRJ_REQUEST_ACCEPT_CD
 					        ,	A.PRJ_TYPE
 					        ,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'PRJ00013', A.PRJ_TYPE, '1') AS PRJ_TYPE_NM
 					        ,	A.PRJ_ACRM
