@@ -615,62 +615,35 @@
 		 * function 설명 : 차트 그리기위한 한달 데이터 조회
 		 */
 		 var drawChart = function(index, menuId){
-			 var data = {
-					 menuId : menuId,
-			 }
-			//ajax 설정
-	    	var ajaxObj = new $.osl.ajaxRequestAction(
-	    			{"url":"<c:url value='/stm/stm2000/stm2100/selectStm2102BadSummeryChartInfoAjax.do'/>"}
-					, data);
-			//ajax 전송 성공 함수
-	    	ajaxObj.setFnSuccess(function(data){
-	    		if(data.errorYn == "Y"){
-					$.osl.alert(data.message,{type: 'error'});
-					//모달 창 닫기
-					$.osl.layerPopupClose();
-				}else{
-					
-					var chart = $.osl.chart.setting("area","drawChart"+index,{
-						data:{
-							url: "<c:url value='/stm/stm2000/stm2100/selectStm2102BadSummeryChartInfoAjax.do'/>",
-							param:{
-								 menuId : menuId,
-								 key: {
-									 key1: "totalNewCnt",
-									 key2: "delCnt",
-								 },
-								 xKey:"chartDate",
-							 }
-						},
-						chart:{
-							events:{
-								//차트가 작성 후 실행
-								mounted: function(chartContext, config) {
-									$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
-									$(".apexcharts-reset-icon").addClass("kt-margin-0");
-									$(".apexcharts-toolbar").addClass("kt-margin-10");
-									$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
-									$(".apexcharts-toolbar").removeAttr("style[padding]");
-								}
-							}
-						},
-						colors: ["#586272", "#1cac81"],
-						series: [
-							{
-								name: $.osl.lang("stm2100.chart.deletePost")
-							},
-							{
-								name: $.osl.lang("stm2100.chart.newPost")
-							},
-						]
-					});
-					
-					
+			 var chart = $.osl.chart.setting("apex","drawChart"+index,{
+				data:{
+					url: "<c:url value='/stm/stm2000/stm2100/selectStm2102BadSummeryChartInfoAjax.do'/>",
+					param:{
+						 menuId : menuId,
+						 key: {
+							 key1: "totalNewCnt",
+							 key2: "delCnt",
+						 },
+						 keyNm:{
+							 keyNm1: $.osl.lang("stm2100.chart.deletePost"),
+							 keyNm2: $.osl.lang("stm2100.chart.newPost"),
+						 },
+						 xKey:"chartDate",
+						 chartType:"area",
+					 }
+				},
+				colors: ["#586272", "#1cac81"],
+				callback:{
+					//차트가 작성 후 실행
+					initComplete: function(chartContext, config){
+						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
+						$(".apexcharts-reset-icon").addClass("kt-margin-0");
+						$(".apexcharts-toolbar").addClass("kt-margin-10");
+						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
+						$(".apexcharts-toolbar").removeAttr("style[padding]");
+					}
 				}
 			});
-			
-	    	//AJAX 전송
-			ajaxObj.send();
 		 }
 		 
 		 /*

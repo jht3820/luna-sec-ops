@@ -107,75 +107,6 @@ var OSLPrj1001Popup = function () {
 	
 	//01 - 카드형, 02 - 그리드
 	var currentViewType = "01";
-	//차트 기본 옵션
-	var chartDefaultOption = {
-			series: [],
-			chart: {
-				toolbar:{show:false},
-				width: '100%',
-				height: 195,
-				type: 'heatmap',
-				offsetX: -5,
-				events: {
-					click: function(event, chartContext, config) {
-						console.log(event);
-						var series = config.config.series;
-						console.log(series[config.seriesIndex]["data"][config.dataPointIndex]);
-						//요구사항 상세정보
-					}
-				},
-			},
-			title:{
-				text: "처리유형별 요구사항",
-				align: "center",
-			},
-			dataLabels: {enabled: false},
-			xaxis:{labels:{show:false}, axisBorder:{show:false}, axisTicks:{show:false}, crosshairs:{show:false}, tooltip: {enabled: false}},
-			yaxis:{labels:{show:false}, axisBorder:{show:false}, axisTicks:{show:false}, crosshairs:{show:false}, tooltip: {enabled: false}},
-			legend:{
-				position: 'bottom',
-				horizontalAlign: 'right',
-			},
-			grid: {
-			    show: false,
-			    padding: {
-			    	top: 0,
-			    	bottom: 0,
-					left: 0,
-					right: 0
-			    }
-			  },
-			plotOptions:{
-				heatmap:{
-		            radius: 0,
-		            reverseNegativeShade: false,
-		            enableShades: false,
-		            useFillColorAsStroke: false,
-		            colorScale:{
-						ranges:[
-							{from: 1,to: 1,color: "#9fd1f2", name:"접수 요청"},
-							{from: 2,to: 2,color: "#5867dd", name:"진행 중"},
-							{from: 3,to: 3,color: "#FFB200", name:"접수 반려"},
-							{from: 4,to: 6,color: "#fd397a", name:"완료"},
-						]
-					}
-				}
-			},
-			tooltip: {
-				custom: function(data) {
-					var series = data.series;
-					var seriesIndex = data.seriesIndex;
-					var dataPointIndex = data.dataPointIndex;
-					
-					var selData = data.w.config.series[seriesIndex].data[dataPointIndex];
-					var reqOrd = selData.reqOrd;
-					var reqNm = selData.reqNm
-					
-					return '<div class="osl-chart--project__tooltip">['+reqOrd+'] '+reqNm+'</div>';
-					//return series[seriesIndex][dataPointIndex];
-				}
-			},
-		};
 	
 	var documentSetting = function(){
 		var config = {
@@ -522,9 +453,9 @@ var OSLPrj1001Popup = function () {
 											+'</div>'
 										+'</div>'
 									+'</div>'
-										/* +'<div class="kt-portlet__foot kt-portlet__foot--sm osl-padding-none">'
-											+'<div class="osl-chart--project" id="chart_'+map.prjId+'">등록된 요구사항이 없습니다.</div>'
-										+'</div>' */
+										+'<div class="kt-portlet__foot kt-portlet__foot--sm osl-padding-none">'
+											+'<div class="osl-chart--project" id="chart_'+map.prjId+'"></div>'
+										+'</div>'
 								+'</div>'
 							+'</div>';
 							rowCnt++;
@@ -538,63 +469,65 @@ var OSLPrj1001Popup = function () {
 					$("#prj1001CardTable").html(prjGrpStr);
 					//프로젝트 요구사항 차트 데이터 세팅
 					$.each(Object.keys(chartDataMap), function(idx, loopPrjId){
-						//요구사항 목록
-						var selPrjReqList = chartDataMap[loopPrjId];
-						
-						//x:y = 2:1
-						var dataSize = (selPrjReqList.length/2);
-						if(dataSize < 0){
-							dataSize = 1;
-						}
-						var yCnt = Math.round(Math.sqrt(dataSize));
-						var xCnt = Math.round(yCnt*2);
-						var yCursor = 0;
-						var xCursor = 0;
-						
-						var series = [];
-						var seriesX = [];
-						//처리유형별 data
-						var reqProTypeList = {};
-						
-						//cursor
-						var cursor = 0;
-						
-						//요구사항 loop
-						$.each(selPrjReqList, function(reqIdx, reqInfo){
-							//x축 데이터
-							seriesX.push({
-								x: (xCursor).toString(),
-								y: parseInt(reqInfo.reqProType),
-								reqProTypeNm: reqInfo.reqProTypeNm,
-								reqId: reqInfo.reqId,
-								reqNm: reqInfo.reqNm,
-								reqOrd: reqInfo.reqOrd
-							});
-							xCursor++;
-							
-							
-							//x축이 가득 차는경우 초기화
-							if(xCursor >= xCnt || reqIdx == (selPrjReqList.length-1)){
-								xCursor = 0;
-								series.push({
-									name: yCursor,
-									data: seriesX
-								});
-								yCursor++;
-								seriesX = [];
-							}
+						var chart = $.osl.chart.setting("apex","chart_"+loopPrjId, {
+							data:{
+								param:{
+									dataArr: chartDataMap[loopPrjId],
+									yKey: "reqProType",
+									key:{
+										key1:"reqProTypeNm",
+										key2:"reqId",
+										key3:"reqNm",
+										key4:"reqOrd",
+									},
+									chartType:"heatmap"
+								}
+							},
+							chart: {
+								toolbar:{show:false},
+								height: 195,
+								events: {
+									click: function(event, chartContext, config) {
+										if(config.seriesIndex!=-1){
+											console.log(event);
+											var series = config.config.series;
+											console.log(series[config.seriesIndex]["data"][config.dataPointIndex]);
+											//요구사항 상세정보
+										}
+									}
+								},
+							},
+							title:{
+								text: "처리유형별 요구사항",
+								align: "center",
+							},
+							plotOptions:{
+								heatmap:{
+						            colorScale:{
+										ranges:[
+											{from: 1,to: 1,color: "#9fd1f2", name:"접수 요청"},
+											{from: 2,to: 2,color: "#5867dd", name:"진행 중"},
+											{from: 3,to: 3,color: "#FFB200", name:"접수 반려"},
+											{from: 4,to: 6,color: "#fd397a", name:"완료"},
+										]
+									}
+								}
+							},
+							tooltip: {
+								custom: function(data) {
+									var series = data.series;
+									var seriesIndex = data.seriesIndex;
+									var dataPointIndex = data.dataPointIndex;
+									
+									var selData = data.w.config.series[seriesIndex].data[dataPointIndex];
+									var reqOrd = selData.reqOrd;
+									var reqNm = selData.reqNm
+									
+									return '<div class="osl-chart--project__tooltip">['+reqOrd+'] '+reqNm+'</div>';
+									//return series[seriesIndex][dataPointIndex];
+								}
+							},
 						});
-						
-						//차트 옵션
-						var chartOption = $.extend(true, {}, chartDefaultOption);
-						chartOption.series = series;
-						
-						var targetElem = document.querySelector("#chart_"+loopPrjId);
-						if(!$.osl.isNull(targetElem) && targetElem){
-							targetElem.innerText = "";
-							var chart = new ApexCharts(document.querySelector("#chart_"+loopPrjId), chartOption);
-							chart.render();
-						}
 					});
 				}
 			}
