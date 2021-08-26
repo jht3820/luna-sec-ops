@@ -48,7 +48,7 @@
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="form-group">
 								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req3000.label.reqGrpNm">그룹 요구사항 명</span></label>
-								<input type="text" class="form-control" id="reqGrpNm" name="reqGrpNm" required="required">
+								<input type="text" class="form-control" id="reqGrpNm" name="reqGrpNm" required="required" placeholder="연결된 그룹요구사항이 없습니다.">
 							</div>
 						</div>
 					</div>

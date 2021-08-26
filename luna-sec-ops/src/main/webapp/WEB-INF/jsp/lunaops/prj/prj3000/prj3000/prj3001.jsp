@@ -111,7 +111,6 @@ var OSLPrj3001Popup = function () {
     		
     		//공통코드 채우기
     		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
-    		
     	}
     	
     	
@@ -131,7 +130,6 @@ var OSLPrj3001Popup = function () {
     			submitUpdateAction();
     		}
     	});
-    	
     	
     	//datepicker 세팅
     	$.osl.date.datepicker($("#docEdDtm"), {});

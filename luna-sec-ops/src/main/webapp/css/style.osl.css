@@ -344,7 +344,13 @@ input:-webkit-autofill,
 	left: 0;
 	padding: 0.5rem;
 }
+.osl-bg-eee{
+	background-color: #eee !important;
+}
 /* code 영역 배경색 */
+.form-control[readonly] {
+    background-color: #f7f8fa;
+}
 .osl-code-bg{
 	background-color: #23241f;
 }
@@ -1140,6 +1146,12 @@ label.required:after {
 	border: 1px solid #1cac81 !important;
 	box-sizing: border-box;
 }
+.selected{
+	border: 2px solid #1cac81 !important;
+	box-sizing: border-box;
+	background-color:#f7f7f7;
+	color: #1cac81;
+}
 /*사용자 정보 - 모달 폰트 색상*/
 .osl-user-info__modal{
 	color: #333;
@@ -1426,6 +1438,17 @@ label.required:after {
 }
 .osl-content-group{
 	width: 85%;
+}
+.osl-left-arrow,.osl-right-arrow{
+	font-weight: 900;
+}
+.osl-left-arrow:before{
+	font-family: "Font Awesome 5 Free";
+	content: "\f053";
+}
+.osl-right-arrow:before{
+	font-family: "Font Awesome 5 Free";
+	content: "\f054";
 }
 .osl-right-arrow-group, .osl-left-arrow-group>.btn.dropdown-toggle{
 	text-align: center;
@@ -1732,7 +1755,18 @@ label.required:after {
     0% { border: 1px solid transparent; }
     100% { border: solid 1px #fd397a; }
 }
-
+.kt-inbox .kt-inbox__toolbar .kt-inbox__search .input-group .input-group-text:hover > i {
+    cursor: pointer;
+    color: #1cac81;
+}
+.kt-inbox .kt-inbox__aside .kt-inbox__nav .kt-nav .kt-nav__item .kt-nav__link{
+	flex-wrap: wrap;
+}
+.osl-process__dtm {
+    flex-basis: 100%;
+    color: #a1a7c4;
+    text-align: right;
+}
 /*******************begin :: wizard*******************/
 /*내용 영역 포함 전체 wizard*/
 .osl-wizard {
@@ -2379,6 +2413,14 @@ label.required:after {
 	.osl-mobile-padding-lr-10{
 		padding-left:10px !important;
 		padding-right:10px !important;
+	}
+	.osl-left-arrow:before{
+		font-family: "Font Awesome 5 Free";
+		content: "\f077";
+	}
+	.osl-right-arrow:before{
+		font-family: "Font Awesome 5 Free";
+		content: "\f078";
 	}
 }
 @media (max-width:1023px){
