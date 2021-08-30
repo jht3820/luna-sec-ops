@@ -1,323 +1,376 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel='stylesheet' href='<c:url value='/css/common/fileUpload.css'/>' type='text/css'>
-
-<html lang="ko">
-<title>OpenSoftLab</title>
-
-<style>
-.button_normal { width: 39px; height: 22px; line-height: 22px; text-align: center; font-weight: bold; font-size: 1em; border-radius: 5px; box-shadow: 1px 1px 1px #ccd4eb; margin: 0 auto; border: 1px solid #b8b8b8; cursor: pointer; }
-
-.layer_popup_box .pop_list .span_margin { margin-right: 9px; }
-</style>
-
-<script>
-	/*
-	business function
-	
-	*/
-
-	/**
-	 * 	요구사항 하나 선택했을때 요구사항 디테일 정보 조회
-	 */
-	function fnSelectReq4102Info(selReqId){
-		//AJAX 설정
-		var ajaxObj = new gfnAjaxRequestAction(
-				{"url":"<c:url value='/req/req4000/req4100/selectReq4102ReqInfoAjax.do'/>"}
-				,{ "reqId" : selReqId });
-		//AJAX 전송 성공 함수
-		ajaxObj.setFnSuccess(function(data){
-			data = JSON.parse(data);
-        	
-        	//디테일폼 세팅
-        	gfnSetData2ParentObj(data.reqInfoMap, "reqDetailForm");
-        	
-        	if(!gfnIsNull(data.fileList)){
-	        	$.each(data.fileList, function(idx, fileVo){
-	        		gfnFileListDiv(fileVo,'#fileListDiv');
-	        	});
-	        	if(data.fileListCnt >= 0){
-	        		$('#atchFileId').val(data.fileList[0].atchFileId);
-	        		$('#fileCnt').val(data.fileListCnt);
-	        	}
-        	}
-        	
-        	//개발주기가 존재하는 경우 개발주기 수정 불가능
-/*         	if(!gfnIsNull(data.reqInfoMap.sprintId)){        		
-        		$('select[name=sprintId]').parent().append(
-        				'<input type="hidden" name="sprintId" id="sprintId" value="'+data.reqInfoMap.sprintId+'"/>'
-        				+'<span class="w200" style="height: 28px;float: left;line-height: 28px;">'+data.reqInfoMap.sprintNm+'</span>');
-        		$('select[name=sprintId]').remove();
-        	} */
-		});
-		
-		//AJAX 전송 오류 함수
-		ajaxObj.setFnError(function(xhr, status, err){
-			data = JSON.parse(data);
-			jAlert(data.message, "알림창");
-		});
-		
-		//AJAX 전송
-		ajaxObj.send();
-	}
-
-
-
-	/*
-		Initialize
-	
-	*/
-	
-	$(document).ready(function() {
-		//유효성 체크
-		var arrChkObj = {"reqNm":{"type":"length","max":500}					
-						,"reqDesc":{"type":"length","max":4000}};
-		gfnInputValChk(arrChkObj);
-		
-		/* 	
-		*	공통코드 가져올때 한번 트랜잭션으로 여러 코드 가져와서 셀렉트박스에 세팅하는 함수(사용 권장)
-		* 	1. 공통 대분류 코드를 순서대로 배열 담기(문자열)
-		*	2. 사용구분 저장(Y: 사용중인 코드만, N: 비사용중인 코드만, 그 외: 전체)
-		*	3. 공통코드 적용할 select 객체 직접 배열로 저장
-		* 	4. 공통코드 가져와 적용할 콤보타입 객체 배열 ( S:선택, A:전체(코드값 A 세팅한 조회조건용), N:전체, E:공백추가, 그 외:없음 )
-		*	5. 동기 비동기모드 선택 (true:비동기 통신, false:동기 통신)
-		*	마스터 코드 = REQ00001:요구사항 타입, REQ00002:중요도 
-		*/
-		var mstCdStrArr = "REQ00001|REQ00002";
-		var strUseYn = 'Y';
-		var arrObj = [$("#reqTypeCd"), $("#reqImprtCd")];
-		var arrComboType = ["S", "S"];
-		gfnGetMultiCommonCodeDataForm(mstCdStrArr, strUseYn, arrObj, arrComboType , false);
-		
-		/*    
-		 *	공통으로 콤보박스용 사용자 목록을 가져올때 사용하는 함수
-		 *	현재 선택한 프로젝트에 권한롤에 배정되어 있는 사용자 정보만 가지고 온다. 
-		 *  1. 사용구분(01: 사용중인 코드만, 02: 비사용중인 코드만, A: 전체)
-		 *  2. 사용자 목록 적용할 select 객체 직접 배열로 저장
-		 *  3. 사용자 목록 가져와 적용할 콤보타입 객체 배열 ( S:선택, A:전체(코드값 A 세팅한 조회조건용), N:전체, E:공백추가, 그 외:없음 )
-		 *	4. 동기 비동기모드 선택 (true:비동기 통신, false:동기 통신)
-		 */
-		var strUseCd = '01';
-		var arrObj = [$("#reqChargerId")];
-		var arrComboType = [ "S"];
-		gfnGetUsrDataForm(strUseCd, arrObj, arrComboType , true);
-		
-		/*    
-		 *	공통으로 콤보박스용 개발주기 목록을 가져올때 사용하는 함수
-		 *	현재 선택한 프로젝트에 권한롤에 배정되어 있는 사용자 정보만 가지고 온다.
-		 *	1. 개발주기상태(01: 대기, 02: 시작, 03: 종료, A: 전체)
-		 *	2. 사용구분(01: 사용중인 코드만, 02: 비사용중인 코드만, A: 전체)
-		 *  3. 사용자 목록 적용할 select 객체 직접 배열로 저장
-		 *  4. 사용자 목록 가져와 적용할 콤보타입 객체 배열 ( S:선택, A:전체(코드값 A 세팅한 조회조건용), N:전체, E:공백추가, 그 외:없음 )
-		 *  5. 동기 비동기모드 선택 (true:비동기 통신, false:동기 통신)
-		 */
-/* 		var statusCd = '01';
-		var useCd = '01';
-		var arrObj = [$("#sprintId")];
-		var arrComboType = ["S"];
-		gfnGetSprDataForm(statusCd, useCd, arrObj, arrComboType, true);		
-		 */
-		var reqId = '${param.reqId}';
-		
-		fnSelectReq4102Info(reqId);
-		
-		var fd = new FormData();
-		
-		
-		/* 수정 */
-		$('#btn_update_reqDetail').click(function() {
-			/* 필수입력값 체크 공통 호출 */
-			var strFormId = "reqDetailForm";
-			var strCheckObjArr = ["reqNm", "reqTypeCd", "reqImprtCd"];
-			var sCheckObjNmArr = ["요구사항명", "요구사항타입", "중요도"];
-			if(gfnRequireCheck(strFormId, strCheckObjArr, sCheckObjNmArr)){
-				return;	
-			}
-			
-			
-			//선택 파일, 추가 리스트 가져오기
-			var inFileList = $("input[name=uploadFileList]");
-			
-			//기본 1개 input, 1개이상 파일 추가된 경우 2부터 카운트
-			if(inFileList.length > 1){
-				//추가된 파일 루프 돌려서, formData에 값 넣기
-				for(var i=1;i<inFileList.length;i++){
-					if(inFileList[i].files[0] != null){
-						fd.append('file', inFileList[i].files[0]);
-					}
-				}
-			}
-			
-			//FormData에 input값 넣기
-			gfnFormDataAutoValue('reqDetailForm',fd);
-			
-			if(gfnIsNumeric("reqDevWkTm")){
-				updateFileToServer();
-			}
-			//fnUpdateReqInfo();
-		});
-		function updateFileToServer()
-		{
-			//AJAX 설정
-			var ajaxObj = new gfnAjaxRequestAction(
-					{"url":"<c:url value='/req/req4000/req4100/updateReq4100ReqInfoAjax.do'/>"
-						,"contentType":false
-						,"processData":false
-						,"cache":false}
-					,fd);
-			//AJAX 전송 성공 함수
-			ajaxObj.setFnSuccess(function(data){
-				data = JSON.parse(data);
-	        	//코멘트 등록 실패의 경우 리턴
-	        	if(data.saveYN == 'N'){
-	        		toast.push(data.message);
-	        		return;
-	        	}
-				jAlert(data.message, '알림창', function( result ) {
-					if( result ){
-						//그리드 새로고침
-			        	myGrid.reloadList();
-			        	gfnLayerPopupClose();
-					}
-				});
-
-			});
-			
-			//AJAX 전송 오류 함수
-			ajaxObj.setFnError(function(xhr, status, err){
-				toast.push("ERROR STATUS("+data.status+")<br>"+data.statusText);
-			});
-			//AJAX 전송
-			ajaxObj.send();
-		}
-		/* 취소 */
-		$('#btn_cancle_reqDetail').click(function() {
-			gfnLayerPopupClose();
-		});	
-	});
-</script>
-
-<div class="popup">
-	<form id="reqDetailForm" enctype="multipart/form-data">
-	<input type="hidden" id="reqId" name="reqId" >
-	<input type="hidden" id="sprintId" name="sprintId">
-	<div class="pop_title">요구사항 상세 수정</div>
-	<div class="pop_sub">	
-		<div class="pop_left">요구사항 번호</div>
-		<div class="pop_right">
-			<input type="text" id="reqNo" name="reqNo" title="기능" class="input_txt" maxlength="250" readonly="readonly"/>
+<jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
+<jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
+<jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
+<div class="kt-portlet kt-portlet--mobile">
+	<div class="kt-portlet__head kt-portlet__head--lg">
+		<div class="kt-portlet__head-label">
+			<h4 class="kt-font-boldest kt-font-brand">
+				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
+			</h4>
 		</div>
-		
-		<div class="pop_left">요구기능</div>
-		<div class="pop_right">
-			<input type="text" id="reqNm" name="reqNm" title="기능" class="input_txt" maxlength="250" />
-		</div>
-		
-		<div class="pop_left">타입</div>
-		<div class="pop_right">
-			<span class="pop_select_box">
-				<select class="w200" id="reqTypeCd" name="reqTypeCd" >
-				</select>
-			</span>
-		</div>
-		
-<!-- 		<div class="pop_left">개발주기</div>
-		<div class="pop_right">
-			<span class="pop_select_box">
-				<select class="w200" id="sprintId" name="sprintId">
-				</select>
-			</span>
-		</div>
-		 -->
-		<div class="pop_left">중요도</div>
-		<div class="pop_right">
-			<span class="pop_select_box">
-				<select class="w200" id="reqImprtCd" name="reqImprtCd">
-				</select>
-			</span>
-		</div>
-		
-		<div class="pop_left">담당자</div>
-		<div class="pop_right">
-			<span class="pop_select_box">
-				<select class="w200" id="reqChargerId" name="reqChargerId">
-				</select>
-			</span>
-		</div>
-		
-		<div class="pop_left">링크</div>
-		<div class="pop_right">
-			<input type="text" id="reqLink" name="reqLink" title="링크" class="input_txt" maxlength="500" />
-		</div>
-		
-		<div class="pop_left bottom_line">개발공수</div>
-		<div class="pop_right bottom_line">
-			<input type="number"  min="0" id="reqDevWkTm" name="reqDevWkTm" title="개발공수" class="input_num" />
-			<span>숫자입력</span>
-		</div>
-		
-		<div class="pop_note">
-			<div class="note_title">요구사항 설명</div>
-			<textarea class="input_note" id="reqDesc" id="reqDesc" title="요구사항 설명" maxlength="2000" ></textarea>
-		</div>
-		
-		<div class="pop_note">
-			<div class="note_title">첨부파일 목록</div>
-			<div id="fileListDiv" class="uploadOverFlow">
+		<div class="kt-portlet__head-toolbar">
+			<div class="kt-portlet__head-wrapper">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="select" title="요구사항 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="insert" title="요구사항 추가" data-title-lang-cd="req4100.actionBtn.insertTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
+					<i class="fa fa-plus"></i><span data-lang-cd="datatable.button.insert">추가</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="update" title="요구사항 수정" data-title-lang-cd="req4100.actionBtn.updateTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
+					<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="copy" title="요구사항 복사" data-title-lang-cd="req4100.actionBtn.copyTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="copy" tabindex="4">
+					<i class="fa flaticon2-copy"></i><span data-lang-cd="req4100.button.copyBtn">복사</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="delete" title="요구사항 삭제" data-title-lang-cd="req4100.actionBtn.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5">
+					<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
+				</button>
 			</div>
-		</div>
-		<input type="hidden" id="atchFileId" name="atchFileId"/>
-		<input type="hidden" id="fileCnt" name="fileCnt"/>
-		<input type="hidden" id="insertFileCnt" name="insertFileCnt"/>
-		<div class="selectFileDiv">
-			<div class="note_title" style="float:left;width:100px;">파일 첨부 (Select)</div>
-			<div class="up_box">
-				<span class="button_normal2 del_btn" onclick="document.getElementById('egovFileUpload').click();" id="btn_insert_fileSelect">
-					<input type="file" style="display: none" id="egovFileUpload" name="uploadFileList" />파일선택
-				</span>
-			</div>
-		</div>
-		<div id="egovFileStatus" class="uploadOverFlow"></div>
-		
-<!-- 		<div class="pop_list">
-			<div class="list_line">
-				<span class="span_margin"><img src="../../../../images/contents/sample.png" title="사용자 이미지" class="img_span">사용자</span>
-				<span class="span_margin">Test_1 수정</span>
-				<span class="span_margin">중요도 낮음에서 높음으로 변경</span>
-				<span class="span_margin">2015.09.11</span>
-				<span class="span_margin">13:40</span>
-			</div>
-			<div class="list_line">
-				<span class="span_margin"><img src="../../../../images/contents/sample.png" title="사용자 이미지" class="img_span">사용자</span>
-				<span class="span_margin">Test_1 수정</span>
-				<span class="span_margin">중요도 낮음에서 높음으로 변경</span>
-				<span class="span_margin">2015.09.11</span>
-				<span class="span_margin">13:40</span>
-			</div>
-			<div class="list_line">
-				<span class="span_margin"><img src="../../../../images/contents/sample.png" title="사용자 이미지" class="img_span">사용자</span>
-				<span class="span_margin">Test_1 수정</span>
-				<span class="span_margin">중요도 낮음에서 높음으로 변경</span>
-				<span class="span_margin">2015.09.11</span>
-				<span class="span_margin">13:40</span>
-			</div>
-		</div> -->
-		
-		<div class="btn_div">
-			<div class="button_normal save_btn" id="btn_update_reqDetail" >수정</div>
-			<div class="button_normal exit_btn" id="btn_cancle_reqDetail">취소</div>
 		</div>
 	</div>
-	</form>
+	<div class="kt-portlet__body">
+		<div class="row">
+			<div class="col-lg-3 col-md-6 col-sm-12">
+				<div class="osl-datatable-search" data-datatable-id="req4100ReqTable"></div>
+			</div>
+		</div>
+		<div class="kt_datatable osl-datatable-footer__divide" id="req4100ReqTable"></div>
+	</div>
 </div>
-	<script type="text/javascript">
-		//첨부파일 업로드 설정 (Select)
-	   var maxFileNum = 30;
-	   if(maxFileNum==null || maxFileNum==""){
-	     maxFileNum = 3;
-	    }     
-	   var multi_selector = new MultiSelector( document.getElementById( 'egovFileStatus' ), maxFileNum );
-	   multi_selector.addElement( document.getElementById( 'egovFileUpload' ) );	
-	</script>
-</html>
+<!-- begin page script -->
+<script>
+"use strict";
+var OSLReq4100Popup = function () {
+	//비밀 요구사항인 경우 접근 권한 확인하기 위한 변수
+	var reqAuth = false;
+	var datatableId = "req4100ReqTable";
+	var documentSetting = function(){
+		$.osl.datatable.setting(datatableId,{
+			data: {
+				source: {
+					read: {
+						url: "/req/req4000/req4100/selectReq4100ReqListAjax.do"
+					}
+				},
+			},
+			columns: [
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
+				{field: 'prjNm', title: '프로젝트명', textAlign: 'left', width: 150, search: true},
+				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
+				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
+				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 380, search: true, autoHide: false,
+					template: function(row){
+						var resultStr = $.osl.escapeHtml(row.reqNm);
+						//비밀번호가 있는 경우
+						if(row.reqPw == "Y"){
+							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
+						}
+						return resultStr;
+					}
+				},
+				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
+				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"date",
+					template: function (row) {
+						var paramDatetime = new Date(row.regDtm);
+		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
+		                return agoTimeStr.agoString;
+					}
+				},
+				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 120, search: true,
+					template: function (row) {
+						if($.osl.isNull(row.reqUsrNm)){
+							row.reqUsrNm = "";
+						}
+						var usrData = {
+							html: row.reqUsrNm,
+							imgSize: "sm",
+							class:{
+								cardBtn: "osl-width__fit-content"
+							}
+						};
+						return $.osl.user.usrImgSet(row.reqUsrImgId, usrData);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.reqUsrId);
+					}
+				},
+				{field: 'reqUsrEmail', title:'요청자e-mail', textAlign: 'left', width: 180, search: true},
+				{field: 'reqUsrDeptNm', title:'요청자 조직', textAlign: 'center', width: 300, sortable: false},
+				{field: 'reqUsrNum', title: '요청자 연락처', textAlign: 'center', width: 100, search: true},
+				{field: 'reqKey', title: '요구사항 key', textAlign: 'center', width: 300, sortable: false, search: true}
+				
+			],
+			searchColumns:[
+				{field: 'prjGrpNm', title: $.osl.lang("req4100.field.prjGrpNm"), searchOrd: 0},
+				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2}
+			],
+			rows:{
+				clickCheckbox: true
+			},
+			actionBtn:{
+				"title" : $.osl.lang("req4100.actionBtn.title"),
+				"dblClick": true,
+				"copy" : true,
+			},
+			actionTooltip:{
+				"update": $.osl.lang("req4100.actionBtn.updateBtn"),
+				"delete": $.osl.lang("req4100.actionBtn.deleteBtn"),
+				"dblClick" : $.osl.lang("req4100.actionBtn.detailBtn"),
+				"copy" : $.osl.lang("req4100.actionBtn.copyBtn"),
+			},
+			actionFn:{
+				"insert":function(datatableId, type, rowNum){
+					var data = {type:"insert"};
+					var options = {
+							idKey: datatableId,
+							modalTitle: $.osl.lang("req4100.title.insertTitle"),
+							closeConfirm: false,
+							autoHeight:false,
+						};
+					
+					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
+				},
+				"update":function(rowData){
+					if(rowData.reqProType != "01"){
+						$.osl.alert($.osl.lang("req4100.alert.updateMsg"), {"type":"warning"});
+						return false;
+					}
+					var data = {
+							type:"update",
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId,
+							paramReqUsrId: rowData.reqUsrId,
+							paramReqGrpId: rowData.reqGrpId,
+							datatableId: datatableId,
+						};
+					var options = {
+							idKey: datatableId,
+							modalTitle: $.osl.lang("req4100.title.updateTitle"),
+							closeConfirm: false,
+							autoHeight:false,
+						};
+					var pwOptions = {
+							idKey: "req4100pw_"+datatableId,
+							modalTitle: $.osl.lang("req4100.title.passowrdCheckTitle"),
+							closeConfirm: false,
+							autoHeight:false,
+							modalSize: "sm",
+						};
+					
+					if(rowData.reqPw == "Y"){
+						//비밀번호가 걸린 경우 권한 체크
+						checkAuth($.osl.user.userInfo.usrId , rowData.reqId);
+						if(reqAuth){
+							//권한이 있을 경우
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
+						}else{
+							//권한이 없을 경우 비밀번호 입력 화면
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,pwOptions);
+						}
+					}else{
+						//비밀번호가 없는 요구사항인 경우
+						$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
+					}
+				},
+				"delete":function(rowDatas, datatableId, type){
+					reqAuth = false;
+					var pwCount = 0;
+					var data = {
+							type:"delete",
+							paramRowData : JSON.stringify(rowDatas),
+							datatableId: datatableId,
+						};
+					var pwOptions = {
+							idKey: "req4100pw_"+datatableId,
+							modalTitle: $.osl.lang("req4100.title.passowrdCheckTitle"),
+							closeConfirm: false,
+							autoHeight:false,
+							modalSize: "sm",
+						};
+					
+					//잠금된 요구사항 갯수 확인
+					$.each(rowDatas, function(idx, value){
+						if(value.reqPw == "Y"){
+							reqAuth = true;
+							pwCount++;
+						}
+					});
+
+					//선택된 rowDatas 갯수
+					var rowCnt = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords().length;
+					
+					//비밀번호가 걸린 항목을 삭제시
+					if(reqAuth){
+						//단건 삭제일 때
+						if(rowCnt == 1 || type=="info"){
+							//비밀번호 확인 후 삭제
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,pwOptions);
+						}else if(rowCnt >1){
+							//다중 삭제일 때
+							//비밀번호가 걸린 항목이 단건인 경우
+							if(pwCount == 1){
+								//비밀번호 확인 후 삭제
+								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,pwOptions);
+							}else{
+								//비밀번호가 걸린 항목이 여러건인 경우
+								$.osl.alert($.osl.lang("req4100.alert.multiPwMsg", pwCnt));
+								return false;
+							}
+						}
+					}else{
+						//AJAX 설정
+						var ajaxObj = new $.osl.ajaxRequestAction(
+								{"url":"<c:url value='/req/req4000/req4100/deleteReq4100ReqListAjax.do'/>"}
+								,{deleteDataList: JSON.stringify(rowDatas)});
+						//AJAX 전송 성공 함수
+						ajaxObj.setFnSuccess(function(data){
+							if(data.errorYn == "Y"){
+				   				$.osl.alert(data.message,{type: 'error'});
+				   			}else{
+				   				//삭제 성공
+				   				$.osl.toastr(data.message);
+				   				
+				   				//datatable 조회
+				   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+				   			}
+						});
+						
+						//AJAX 전송
+						ajaxObj.send();
+					}
+				},
+				"dblClick":function(rowData, datatableId, type, rowNum){
+					var data = {
+							//type:"update",
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId,
+							paramReqUsrId: rowData.reqUsrId
+						};
+					var options = {
+							idKey: rowData.reqId,
+							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							closeConfirm: false
+						};
+					
+					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+				},
+				"copy" : function(rowDatas, datatableId, type, rowNum){
+					var data;
+					console.log(rowDatas);
+					if(type == "list"){
+						//선택 항목이 리스트인 경우
+						if(rowNum == 0){
+							$.osl.alert($.osl.lang("req4100.alert.selectData"));
+						}else if(rowNum == 1){
+							//비밀번호가 걸린 글인지 확인 - 비밀번호가 걸린 글은 복사 안됨
+							if(rowDatas[0].reqPw == "Y"){
+								$.osl.alert($.osl.lang("req4100.alert.LockData"));
+							}else{
+								//단건 복사인 경우
+								data ={
+									type:"copy",
+									//rowDatas : JSON.stringify(rowDatas),
+									paramPrjId: rowDatas[0].prjId,
+									paramReqId: rowDatas[0].reqId,
+									paramReqUsrId: rowDatas[0].reqUsrId,
+									changePrj : "Y"
+								};
+								var options = {
+										idKey: rowDatas[0].reqId,
+										modalTitle: $.osl.lang("req4100.title.detailTitle"),
+										closeConfirm: false
+									};
+								
+								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
+							}
+						}else{
+							//다중 복사인 경우
+							$.osl.alert($.osl.lang("req4100.alert.selectCopyData", rowNum));
+						}
+					}else{
+						//선택 항목이 row 단건인 경우
+						//비밀번호가 걸린 글인지 확인 - 비밀번호가 걸린 글은 복사 안됨
+						if(rowDatas.reqPw == "Y"){
+							$.osl.alert($.osl.lang("req4100.alert.LockData"));
+						}else{
+							data ={
+								type:"copy",
+								rowDatas : "["+JSON.stringify(rowDatas)+"]",
+								paramPrjId: rowDatas.prjId,
+								paramReqId: rowDatas.reqId,
+								paramReqUsrId: rowDatas.reqUsrId,
+								changePrj : "Y"
+							};
+							var options = {
+									idKey: rowDatas.reqId,
+									modalTitle: $.osl.lang("req4100.title.detailTitle"),
+									closeConfirm: false
+								};
+							
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
+						}
+					}
+				}
+			},
+			theme:{
+				actionBtn:{
+					"copy" : ""
+				},
+				actionBtnIcon:{
+					"copy" : "fa flaticon2-copy",
+				}
+			}
+		});
+	};
+	
+	/**
+	 * 비밀글인 경우 접근 권한있는지 확인
+	 * param : usrId : 권한 체크하려는 회원 id
+	 * param : reqId : 권한 체크하려는 요구사항 id
+	 */
+	var checkAuth = function(usrId, reqId){
+		var data = {
+				usrId : usrId,
+				reqId : reqId
+		};
+		//ajax 설정
+		var ajaxObj = new $.osl.ajaxRequestAction(
+    			{"url":"<c:url value='/req/req4000/req4100/selectReq4100UserCheckAjax.do'/>", "async": true}
+				, data);
+		//ajax 전송 성공 함수
+    	ajaxObj.setFnSuccess(function(data){
+    		if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+				//모달 창 닫기
+				$.osl.layerPopupClose();
+			}else{
+				var result = data.reqAuth;
+				if(result == "Y"){
+					reqAuth = true;
+				}else{
+					reqAuth = false;
+				}
+			}
+    	});
+		//ajax 전송
+    	ajaxObj.send();
+	};
+	
+	return {
+        // public functions
+        init: function() {
+        	documentSetting();
+        }
+        
+    };
+}();
+
+$.osl.ready(function(){
+	OSLReq4100Popup.init();
+});
+</script>
+<!-- end script -->
+<jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />
