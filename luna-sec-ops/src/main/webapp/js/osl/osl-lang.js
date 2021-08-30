@@ -363,6 +363,18 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "선택",
 			},
 		},
+		cmm25000:{
+			message : {
+				confirm : {
+					saveString : "결재선 정보를 저장 하시겠습니까?"
+				}
+			}
+		},
+		cmm25100:{
+			infomation : {
+				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
+			}
+		},
 		prj1000:{
 			startDate: "시작일",
 			endDate: "종료일",
@@ -558,7 +570,9 @@ var OSLCoreLangSetting = function () {
 				title : {
 					insertDoc : "신규 산출물 양식 등록",
 					updateDoc : "산출물 양식 수정",
-					insertDocCon : "산출물 연결"
+					insertDocCon : "산출물 연결",
+					saveSignLine : "결재선 지정",
+					selectSignLine : "결재선 조회"
 				}
 			},
 			contextmenu : {
@@ -591,46 +605,6 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
-		prj3100 : {
-			label : {
-				docId : "산출물 ID",
-				docNm : "산출물 명",
-				docUseCd : "사용 유무",
-				docOrd : "순번",
-				docEdDtm : "만료일자",
-				signUseCd : "결재 사용 유무",
-				docDesc : "비고"
-			},
-			message : {
-				alert : {
-					treeSelect : "왼쪽 트리에서 산출물을 선택해주세요.",
-					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
-					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
-					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다."
-				},
-				confirm:{
-					deleteFormFile:"산출물 양식 파일을 삭제 하시겠습니까?"
-				} 
-			},
-			modal : {
-				title : {
-					insertDocCon : "산출물 연결"
-				}
-			},
-			contextmenu : {
-				formFileDownload : "양식 다운로드",
-				atchFileDownload : "확정 산출물 다운로드",
-				waitFileDownload : "확정 대기 산출물 다운로드"
-			}
-		},
-		prj3101 : {
-			message : {
-				alert : {
-					notCheckedFile : "선택된 파일이 없습니다.",
-					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다."
-				}
-			}
-		},
 		prj3002 : {
 			label : {
 				upperDocId : "상위 산출물 ID",
@@ -652,6 +626,65 @@ var OSLCoreLangSetting = function () {
 			},
 			allDocConInsert : "${1}건의 산출물 정보를 연결하시겠습니까?",
 			allDocConDelete : "${1}건의 산출물 정보를 연결 해제하시겠습니까?"
+		},
+		prj3100 : {
+			label : {
+				docId : "산출물 ID",
+				docNm : "산출물 명",
+				docUseCd : "사용 유무",
+				docOrd : "순번",
+				docEdDtm : "만료일자",
+				signUseCd : "결재 사용 유무",
+				docDesc : "비고"
+			},
+			message : {
+				alert : {
+					treeSelect : "왼쪽 트리에서 산출물을 선택해주세요.",
+					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
+					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
+					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다.",
+					notCheckedFile : "선택된 파일이 없습니다."
+				},
+				confirm:{
+					deleteFormFile:"산출물 양식 파일을 삭제 하시겠습니까?",
+					signAtchFile : "선택된 파일들을 결재 하시겠습니까?"
+				} 
+			},
+			modal : {
+				title : {
+					insertDocCon : "산출물 연결",
+					signRjtRes : "결재 반려"
+				}
+			},
+			contextmenu : {
+				formFileDownload : "양식 다운로드",
+				atchFileDownload : "확정 산출물 다운로드",
+				waitFileDownload : "확정 대기 산출물 다운로드"
+			},
+			toastr : {
+				success : "${1} 건의 결재가 성공했습니다."
+			}
+		},
+		prj3101 : {
+			message : {
+				alert : {
+					notCheckedFile : "선택된 파일이 없습니다.",
+					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다."
+				}
+			}
+		},
+		prj3102 : {
+			label : {
+				rjtRes : "반려 사유"
+			},
+			button : {
+				save : "작성 완료"
+			},
+			message : {
+				confirm : {
+					save : "${1} 건의 파일들을 결재 반려 하시겠습니까?"
+				}
+			}
 		},
 		prj5000:{
 			button:{
@@ -2446,6 +2479,18 @@ var OSLCoreLangSetting = function () {
 				search:"Search"
 			},
 		},
+		cmm25000:{
+			message : {
+				confirm : {
+					saveString : "Do you want to save the approval line information?"
+				}
+			}
+		},
+		cmm25100:{
+			infomation : {
+				cannotUpdate : "If there is a file waiting for approval, the approval line cannot be modified."
+			}
+		},
 		dpl1100:{
 			title : {
 				deploy : "Deploy List",
@@ -2574,7 +2619,9 @@ var OSLCoreLangSetting = function () {
 				title : {
 					insertDoc : "Register New Document Form",
 					updateDoc : "Modifying Document Form",
-					insertDocCon : "Document Linkage"
+					insertDocCon : "Document Linkage",
+					saveSignLine : "Designation of approval line",
+					selectSignLine : "Select approval line"
 				}
 			},
 			contextmenu : {
@@ -2607,46 +2654,6 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
-		prj3100 : {
-			label : {
-				docId : "Document ID",
-				docNm : "Document Name",
-				docUseCd : "Document Use",
-				docOrd : "Document Order",
-				docEdDtm : "Document End Date",
-				signUseCd : "Sign Use",
-				docDesc : "Document description"
-			},
-			message : {
-				alert : {
-					treeSelect : "Select a document in the tree on the left.",
-					fileExtChk : "Files with an extension of [ ${1} ] cannot be attached.",
-					notHaveConfFile : "Registered file does not exist.",
-					lackDownloadInfo : "Insufficient information for download."
-				},
-				confirm:{
-					deleteFormFile:"Would you like to delete file?"
-				} 
-			},
-			modal : {
-				title : {
-					insertDocCon : "Document Linkage"
-				}
-			},
-			contextmenu : {
-				formFileDownload : "Download Form Files",
-				atchFileDownload : "Download confirmed Files",
-				waitFileDownload : "Download wait Files"
-			}
-		},
-		prj3101 : {
-			message : {
-				alert : {
-					notCheckedFile : "No file selected.",
-					lackDownloadInfo : "Insufficient information for download."
-				}
-			}
-		},
 		prj3002 : {
 			label : {
 				upperDocId : "Upper Document ID",
@@ -2668,6 +2675,65 @@ var OSLCoreLangSetting = function () {
 			},
 			allDocConInsert : "Are you sure you want to connect ${1} document data?",
 			allDocConDelete : "Are you sure you want to disconnect ${1} document data?"
+		},
+		prj3100 : {
+			label : {
+				docId : "Document ID",
+				docNm : "Document Name",
+				docUseCd : "Document Use",
+				docOrd : "Document Order",
+				docEdDtm : "Document End Date",
+				signUseCd : "Sign Use",
+				docDesc : "Document description"
+			},
+			message : {
+				alert : {
+					treeSelect : "Select a document in the tree on the left.",
+					fileExtChk : "Files with an extension of [ ${1} ] cannot be attached.",
+					notHaveConfFile : "Registered file does not exist.",
+					lackDownloadInfo : "Insufficient information for download.",
+					notCheckedFile : "No file selected."
+				},
+				confirm:{
+					deleteFormFile:"Would you like to delete file?",
+					signAtchFile : "Would you like to approve the selected files?"
+				} 
+			},
+			modal : {
+				title : {
+					insertDocCon : "Document Linkage",
+					signRjtRes : "return of approval"
+				}
+			},
+			contextmenu : {
+				formFileDownload : "Download Form Files",
+				atchFileDownload : "Download confirmed Files",
+				waitFileDownload : "Download wait Files"
+			},
+			toastr : {
+				success : "success approval [${1} files]"
+			}
+		},
+		prj3101 : {
+			message : {
+				alert : {
+					notCheckedFile : "No file selected.",
+					lackDownloadInfo : "Insufficient information for download."
+				}
+			}
+		},
+		prj3102 : {
+			label : {
+				rjtRes : "Reason for rejection"
+			},
+			button : {
+				save : "save"
+			},
+			message : {
+				confirm : {
+					save : "Do you want to save the approval line information?"
+				}
+			}
 		},
 		prj5000:{
 			button:{

@@ -89,7 +89,7 @@ var OSLCmm25000Popup = function () {
 	    $('#cmm25000SelDoc').click(function(){
 	    	
 	    	
-    		$.osl.confirm($.osl.lang("prj3002.insert.saveString"),null,function(result) {
+    		$.osl.confirm($.osl.lang("cmm25000.message.confirm.saveString"),null,function(result) {
     	        if (result.value) {
     	        	//연결정보 저장
     	        	saveFormAction();
@@ -106,6 +106,13 @@ var OSLCmm25000Popup = function () {
 	    	
 	    	var selSignUsrInfs = $('.osl-sign-card');
 	    	
+	    	//본인 정보 저장
+	    	var myInf = {};
+	    	myInf.usrId = $.osl.user.userInfo.usrId;
+	    	myInf.ord = 0;
+	    	signUsrInfs.push(myInf);
+	    	
+	    	//선택된 유저 저장
 	    	$.each(selSignUsrInfs,function(idx, map){
 	    		
 	    		var signUsrInf = {};
@@ -113,7 +120,6 @@ var OSLCmm25000Popup = function () {
 	    		signUsrInf.ord = $(this).find(".dplStartOrdCell").attr("ord");
 	    		signUsrInfs.push(signUsrInf);
 	    	})
-	    	
 	    	
 	    	//AJAX 설정
     		var ajaxObj = new $.osl.ajaxRequestAction(
@@ -127,6 +133,10 @@ var OSLCmm25000Popup = function () {
     			}else{
     				//저장 성공
     				$.osl.toastr(data.message);
+    				
+    				//모달 창 닫기
+    				$.osl.layerPopupClose();
+    				
     			}
     		});
     		
@@ -286,6 +296,7 @@ var OSLCmm25000Popup = function () {
 		    				if(datatable.dataSet[idx].usrId==targetId){
 		    					//selectUsrArray배열에서 해당 id 제거
 								selectUsrArray.splice(selectUsrArray.indexOf(targetId), 1);
+								ord --;
 							}
 		    			}
 					});						
@@ -297,12 +308,6 @@ var OSLCmm25000Popup = function () {
 					//툴팁 제거
 					$("div.tooltip.show").remove();
 	
-					//카드 number 재정렬
-					var $chgObj = $('.dplStartOrdCell');	
-					for(var i=0; i<$chgObj.length; i++){
-						$chgObj[i].setAttribute("ord",i+1);
-						$chgObj[i].innerText=i+1;
-					}
 					
 					//최종 결재자 번호 수정
 					updateLastUsrCard();
@@ -346,9 +351,15 @@ var OSLCmm25000Popup = function () {
 				
 				//가져온 정보로 유저카드 만들기
 				$.each(data.signUsrInfList,function(idx,map){
-											
-					userSetting(map);
 					
+					//이미 추가된 사용자 목록 추가
+					if(selectUsrArray.indexOf(map.usrId) != -1){
+						return true;
+					}
+					
+		    		//사용자 카드 생성			
+					userSetting(map);
+			    		
 				});
 				
 				//가져온 데이터 있으면 업데이트 아니면 인서트
