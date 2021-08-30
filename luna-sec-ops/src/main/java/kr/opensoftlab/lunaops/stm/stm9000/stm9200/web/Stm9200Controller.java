@@ -313,7 +313,10 @@ public class Stm9200Controller {
 			String _pageSize_str = paramMap.get("pagination[perpage]");
 			
 			
-			String paramPrjId = (String) paramMap.get("dtParamPrjId");
+			String paramPrjId = (String) paramMap.get("prjId");
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) paramMap.get("dtParamPrjId");
+			}
 			
 			
 			if(paramPrjId == null || "".equals(paramPrjId)) {
@@ -333,21 +336,8 @@ public class Stm9200Controller {
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
 			
-			
-			int totCnt = stm9200Service.selectStm9200PrjAssignDplAuthListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			List<Map> stm9200AssignDplAuthList = stm9200Service.selectStm9200PrjAssignDplAuthList(paramMap);
-			
-			
+			/
+			/
 			
 			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -385,7 +375,10 @@ public class Stm9200Controller {
 			String _pageSize_str = paramMap.get("pagination[perpage]");
 			
 			
-			String paramPrjId = (String) paramMap.get("dtParamPrjId");
+			String paramPrjId = (String) paramMap.get("prjId");
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) paramMap.get("dtParamPrjId");
+			}
 			
 			
 			if(paramPrjId == null || "".equals(paramPrjId)) {
@@ -405,21 +398,8 @@ public class Stm9200Controller {
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
 			
-			
-			int totCnt = stm9200Service.selectStm9200PrjNotAssignDplAuthListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			List<Map> stm9200NotAssignDplAuthList = stm9200Service.selectStm9200PrjNotAssignDplAuthList(paramMap);
-			
-			
+			/
+			/
 			
 			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			

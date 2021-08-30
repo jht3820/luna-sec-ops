@@ -413,8 +413,9 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 				
 				List<Map> reqGrpLinkList = req3000DAO.selectReq3001ReqGrpLinkReqList(convertParamMap);
 				for(Integer i = 1; i <= reqGrpLinkList.size(); i++) {
-					convertParamMap.put("reqOrd", i.toString());
-					req3000DAO.updateReq3001ReqOrd(convertParamMap);
+					Map requirement = reqGrpLinkList.get(i-1);
+					requirement.put("reqOrd", i.toString());
+					req3000DAO.updateReq3001ReqOrd(requirement);
 				}
 				
 				
@@ -512,6 +513,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void deleteReq4100ReqList(Map<String, String> paramMap)  throws Exception{
+		
 		String deleteDataList = paramMap.get("deleteDataList");
 		
 		
@@ -545,9 +547,10 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			
 			List<Map> reqGrpLinkList = req3000DAO.selectReq3001ReqGrpLinkReqList(infoMap);
-			for(Integer index = 1; index <= reqGrpLinkList.size(); i++) {
-				infoMap.put("reqOrd", index.toString());
-				req3000DAO.updateReq3001ReqOrd(infoMap);
+			for(Integer index = 1; index <= reqGrpLinkList.size(); index++) {
+				Map requirement = reqGrpLinkList.get(index-1);
+				requirement.put("reqOrd", index.toString());
+				req3000DAO.updateReq3001ReqOrd(requirement);
 			}
 			
 			

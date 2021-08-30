@@ -66,7 +66,6 @@
 		) T1
 	</sql>
 	
-	
 	<select id="stm8000DAO.selectStm8000ServerListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
 	    
 		SELECT
@@ -179,5 +178,4 @@
 		AND A.LIC_GRP_ID 		= #licGrpId#
 		AND A.STRG_REP_ID 	= #strgRepId# 	
 	</delete>
-	
 </sqlMap>

@@ -62,6 +62,15 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-12 col-sm-12">
+								<div class="form-group">
+									<label for="prjRequestAcceptCd"><i class="fa fa-check-square kt-margin-r-5"></i>접수기능 사용 유무</label>
+									<select class="form-control kt-select2" id="prjRequestAcceptCd" name="prjRequestAcceptCd" readonly="readonly" opttype="-1">
+									</select>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="col-lg-6 col-md-12 col-sm-12">
 						<div class="row">
@@ -214,6 +223,7 @@ var OSLPrj1004Popup = function () {
     	// 팝업 공통코드 select 세팅
 		var commonCodeArr = [
 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"}, // 사용유무
+			{mstCd: "CMM00001", useYn: "Y",targetObj: "#prjRequestAcceptCd", comboType:"OS"}, // 접수기능 사용유무
 			{mstCd: "PRJ00013", useYn: "Y",targetObj: "#prjTypeCd", comboType:"OS"}, // 프로젝트 유형
 			{mstCd: "PRJ00014", useYn: "Y",targetObj: "#prjDevTypeCd", comboType:"OS"} // 개발 방법론
 		];
@@ -647,6 +657,7 @@ var OSLPrj1004Popup = function () {
    				$.osl.setDataFormElem(prjInfo, formId, ["prjNm","useCd","ord","prjDesc","startDt","endDt", "prjAcrm", "prjBgColor", "prjColor"]);
    				$("#prjTypeCd").val(prjInfo.prjTypeCd).trigger('change.select2');
    				$("#prjDevTypeCd").val(prjInfo.prjDevTypeCd).trigger('change.select2');
+   				$("#prjRequestAcceptCd").val(prjInfo.prjRequestAcceptCd).trigger('change.select2');
    				
    				//프로젝트 유형이 "운영"인경우 개발방법론 숨기기
    				if(prjInfo.prjTypeCd == "02"){
