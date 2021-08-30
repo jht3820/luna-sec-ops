@@ -345,7 +345,7 @@ var OSLPrj1100Popup = function () {
 					
 					$.osl.confirm(confirmMsg,{html: true},function(result) {
 		    	        if (result.value) {
-		    	        	fnProcessDataSave(rtnValue.endFlowId);
+		    	        	fnProcessDataSave(rtnValue.startFlowId, rtnValue.endFlowId);
 		    	        }
 		    		});	
 				}
@@ -612,7 +612,7 @@ var OSLPrj1100Popup = function () {
 							
 							$.osl.confirm(confirmMsg,{html: true},function(result) {
 				    	        if (result.value) {
-				    	        	fnProcessDataSave(rtnValue.endFlowId);
+				    	        	fnProcessDataSave(rtnValue.startFlowId, rtnValue.endFlowId);
 				    	        }
 				    		});
 						}
@@ -819,6 +819,11 @@ var OSLPrj1100Popup = function () {
 			$.osl.alert(errorAlert.join("</br>")+$.osl.lang("prj1100.alert.flowLinkCheck") ,{type: "error"});
 			return false;
 		}else{
+			//해당 작업흐름에 flowStartCd 대입
+			var startOperator = flowChart.flowchart("getOperatorData", flowKeys[0]);
+			startOperator.properties.flowStartCd = "01";
+			flowChart.flowchart("setOperatorData",flowKeys[0],startOperator);
+			
 			//해당 작업흐름에 flowDoneCd 대입
 			var doneOperator = flowChart.flowchart("getOperatorData", doneFlowIds[0]);
 			doneOperator.properties.flowDoneCd = "01";
@@ -917,6 +922,7 @@ var OSLPrj1100Popup = function () {
    								flowEssentialCd: map.flowEssentialCd,
    								flowSignCd: map.flowSignCd,
    								flowSignStopCd: map.flowSignStopCd,
+   								flowStartCd: map.flowStartCd,
    								flowEndCd: map.flowEndCd,
    								flowWorkCd: map.flowWorkCd,
    								flowRevisionCd: map.flowRevisionCd,
@@ -958,7 +964,7 @@ var OSLPrj1100Popup = function () {
 	}
 	
 	//프로세스 데이터 저장
-	var fnProcessDataSave = function(endFlowId){
+	var fnProcessDataSave = function(startFlowId, endFlowId){
 		//프로세스 정보 조회
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj1000/prj1100/savePrj1100ProcessDataInfo.do'/>"}
@@ -968,6 +974,7 @@ var OSLPrj1100Popup = function () {
 					, processData: JSON.stringify(flowChart.flowchart("getData").operators)
 					, addData: JSON.stringify(flowAddList)
 					, removeData: JSON.stringify(flowRemoveList)
+					, startFlowId: startFlowId
 					, endFlowId: endFlowId
 				});
 		//AJAX 전송 성공 함수
