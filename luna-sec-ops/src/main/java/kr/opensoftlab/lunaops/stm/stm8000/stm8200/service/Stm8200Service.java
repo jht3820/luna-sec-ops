@@ -10,6 +10,10 @@ public interface Stm8200Service {
 	
 	@SuppressWarnings( "rawtypes" )
 	public List<Map> selectStm8200RevisionAuthList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings( "rawtypes" )
+	public List<Map> selectStm8200PrjAllAuthAndUserList(Map paramMap) throws Exception;
 
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
