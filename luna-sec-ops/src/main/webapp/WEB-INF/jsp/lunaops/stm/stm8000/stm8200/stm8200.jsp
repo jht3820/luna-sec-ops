@@ -52,6 +52,8 @@
 								<div class="dropdown-menu">
 									<a class="selectSearchItem dropdown-item active" href="javascript:void(0);" data-field-id="-1" data-opt-type="all"><span data-lang-cd="">전체</span></a>
 									<a class="selectSearchItem dropdown-item" href="javascript:void(0);" data-field-id="searchAuthGrpNm" data-opt-type="select"><span data-lang-cd="">권한그룹 명</span></a>
+									<a class="selectSearchItem dropdown-item" href="javascript:void(0);" data-field-id="searchUsrId" data-opt-type="text"><span data-lang-cd="">사용자 ID</span></a>
+									<a class="selectSearchItem dropdown-item" href="javascript:void(0);" data-field-id="searchUsrNm" data-opt-type="text"><span data-lang-cd="">사용자 명</span></a>
 								</div>
 							</div>
 							<select class="kt-select2 form-control kt-hide" id="searchSelect" name="searchSelect" aria-hidden="true">
@@ -73,7 +75,7 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="stm8200SaveSubmit"><i class="fa fa-check-square"></i><span data-lang-cd="stm8000.complete">완료</span></button>
+	<button type="button" class="btn btn-brand" id="stm8200SaveSubmit"><i class="fa fa-check-square"></i><span data-lang-cd="">저장</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
 </div>
 <!-- begin page script -->
@@ -85,12 +87,17 @@ var OSLStm8200 = function () {
 	var formValidate = $.osl.validate(formId);
 	
 	//문구 세팅 
-	$("#stm8200SaveSubmit > span").text($.osl.lang("stm8000.complete"));
+	$("#stm8200SaveSubmit > span").text($.osl.lang("stm8200.complete"));
 	$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
 	
 	//리비전, 소스열람 범위 목록 되돌리기를 위한 변수 선언
 	var oriRevision;
 	var oriFileCode;
+	
+	//비교를 위한 변수 선언
+	var resultRevision=[];
+	var resultFileCode=[];
+	var resultAllList=[];
 	
 	//선택한 프로젝트 그룹, 프로젝트, 소스 저장소 id
 	var selPrjGrpId = $("#prjGrpId").val();
@@ -105,13 +112,21 @@ var OSLStm8200 = function () {
 		selectAssRevisionAuth();
 		//소스 열람 권한 배정 목록 가져오기
 		selectAssFileCodeAuth();
-		//권한 목록 데이터 세팅
-		settingAuthList(oriRevision, oriFileCode);
+		//권한 목록 가져오기
+		settingAuthList();
+		//리스트 그린 후 click function 적용
+		drawAfterFtSetting();
+		// 위치에 맞는 버튼만 보이게 하기
+		showHideBtn("strgRevisionAuth", "right", 'left');
+		showHideBtn("strgFileCodeAuth", "right", 'left');
+		showHideBtn("strgNonAssList", "left", 'right');
 		
 		//kt-select2 설정
 		$('#searchSelect').select2({
 			ftScrollUse: false,
 		});
+		
+
 		//초기 검색 select 안보이게
 		$("#searchSelect~span").addClass("osl-datatable-search--hide");
 		
@@ -126,6 +141,73 @@ var OSLStm8200 = function () {
 			$.each($("#strgNonAssList").children(), function(idx, value){
 				$(this).removeClass("kt-hide");
 			});
+			
+			//검색 선택에 따른 select, input 설정 + 스크롤 위치넣기
+			if($(this).data("opt-type")=="all"){
+				//kt-hide 처리하기 - select
+				$("#searchSelect").addClass("kt-hide");
+				$("#searchSelect~span").addClass("osl-datatable-search--hide");
+				//kt-hide 지우기 - input
+				$("#subSearchData").removeClass("kt-hide");
+				
+				$("#subSearchData").val("");
+				$("#subSearchData").attr("disabled", true);
+				
+				$("#searchBtn").click();
+			 }else if($(this).data("opt-type")=="select"){
+				//kt-hide 지우기 - select
+				$("#searchSelect").removeClass("kt-hide");
+				$("#searchSelect~span").removeClass("osl-datatable-search--hide");
+				//kt-hide 처리하기 - input
+				$("#subSearchData").addClass("kt-hide");
+				
+				$("#subSearchData").val("");
+				$("#subSearchData").attr("disabled", true);
+				
+				$("#searchBtn").click();
+			 }else{
+				//kt-hide 처리하기 - select
+				$("#searchSelect").addClass("kt-hide");
+				$("#searchSelect~span").addClass("osl-datatable-search--hide");
+				//kt-hide 지우기 - input
+				$("#subSearchData").removeClass("kt-hide");
+				
+				$("#subSearchData").val("");
+				$("#subSearchData").attr("disabled", false);
+				
+				$.each($("#strgNonAssList").children(), function(idx, value){
+					//사용자 id, 명 검색은 keypress 이벤트가 적용되므로
+					//해당 input으로 변경되었을 당시에 권한그룹 감추기
+					//권한그룹 목록은 숨기기
+					if($(this).data("authTypeCd")=='01'){
+						$(this).addClass("kt-hide");
+					}else{ //사용자 목록은 보이기
+						$(this).removeClass("kt-hide");
+					}
+				});
+			 }
+		});
+		
+		// 권한그룹 선택될 때 이벤트 발생
+		$("#searchSelect").change(function(){
+			if("all" == $("#searchSelect").val()){
+				$.each($("#strgNonAssList").children(), function(idx, value){
+					$(this).removeClass("kt-hide");
+				});
+			}else{
+				$.each($("#strgNonAssList").children(), function(idx, value){
+					if($("#searchSelect").val() != $(this).data("optIndex")){
+						$(this).addClass("kt-hide")
+					}else{
+						$(this).removeClass("kt-hide");
+					}
+				});
+			}
+		});
+		
+		// 검색어가 입력될 때 이벤트 발생
+		$("#subSearchData").on("propertychange paste input", function(){
+			$("#searchBtn").click();
 		});
 		
 		//엔터키 막기 - 안막으면 강제종료
@@ -137,6 +219,7 @@ var OSLStm8200 = function () {
 			}
 		});
 		
+		//검색 버튼 클릭 시
 		$("#searchBtn").click(function(){
 			var space = $(".selectSearchItem.dropdown-item.active").data("fieldId");
 			if(space == "-1"){
@@ -144,23 +227,49 @@ var OSLStm8200 = function () {
 				$.each($("#strgNonAssList").children(), function(idx, value){
 					$(this).removeClass("kt-hide");
 				});
-			}else{
+			}else if(space == "searchAuthGrpNm"){
 				//이전에 목록 hide한것이 있다면 모두 제거
 				$.each($("#strgNonAssList").children(), function(idx, value){
-					$(this).removeClass("kt-hide");
-					if($("#searchSelect").val() != "all"){
-						//검색한 조건에 맞지 않는 목록은 숨기기
-						if($("#searchSelect").val() != value.getAttribute("opt-index")){
-							$(this).addClass("kt-hide")
-						}else{
-							$(this).removeClass("kt-hide");
+					//권한 그룹 목록 나타내기
+					if($(this).data("authTypeCd")=='01'){
+						$(this).removeClass("kt-hide");
+						if($("#searchSelect").val() != "all"){
+							//검색한 조건에 맞지 않는 목록은 숨기기
+							if($("#searchSelect").val() != value.data("optIndex")){
+								$(this).addClass("kt-hide")
+							}else{
+								$(this).removeClass("kt-hide");
+							}
 						}
+					}else{
+						//사용자 목록은 감추기
+						$(this).addClass("kt-hide");
+					}
+				});
+			}else if(space === "searchUsrId"){ //text-사용자 id
+				//검색어
+				var txt = $("#subSearchData").val();
+				$.each($("#strgNonAssList").children(), function(idx, value){
+					if($(this).data("authTypeCd")=="02" && $(this).data("authTargetId").indexOf(txt) > -1){
+						$(this).removeClass("kt-hide");
+					}else{
+						$(this).addClass("kt-hide");
+					}
+				});
+			}else{ //text - 사용자명
+				//검색어
+				var txt = $("#subSearchData").val();
+				$.each($("#strgNonAssList").children(), function(idx, value){
+					if($(this).data("authTypeCd")=="02" &&  $(this).data("authTargetNm").indexOf(txt) > -1){
+						$(this).removeClass("kt-hide");
+					}else{
+						$(this).addClass("kt-hide");
 					}
 				});
 			}
 		});
 		
-		/*리비전 drag&drop sortable*/
+		//리비전 배정 목록
 		new Sortable($('#strgRevisionAuth')[0], {
 			group: {
 				//그룹 이름
@@ -173,8 +282,6 @@ var OSLStm8200 = function () {
 	        chosenClass: "chosen",
 	        //이동될 div(나갈)
  	        onMove:function(evt,originalEvent){
- 				evt.related.setAttribute("data-revision-pass", "N");
- 				
  				var UserAgent = navigator.userAgent;
 				//모바일 일때 이동 중지
  				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
@@ -186,36 +293,21 @@ var OSLStm8200 = function () {
  	      	//해당 div로 이동될 대상의 동작(들어온)
  			onAdd:function(evt){
  				var moveDiv = $(evt.item);
-				$(moveDiv).children('.osl-right-arrow-group').removeClass('osl-arrow-group--hide');
-				$(moveDiv).children('.osl-left-arrow-group').addClass('osl-arrow-group--hide');
-				//들어온 아이템이 이미 리비전에 배정되어 있던 경우
-				if(evt.item.getAttribute("data-revision-pass")=="Y"){
-					//복사 중지
-					evt.item.remove();
-				}else{
-					//복사
-					//리비전 배정
-					evt.item.setAttribute("data-revision-pass", "Y");
-					evt.clone.setAttribute("data-revision-pass", "Y");
-					//원본 아이템의 정보 확인
-					if(evt.clone.getAttribute("data-revision-pass")=="Y" && evt.clone.getAttribute("data-file-code-pass")=="Y"){
-						evt.clone.remove();
-						var _authGrpId = evt.item.getAttribute("data-auth-grp-id");
-						
-						//소스 배정에 있는 동일 객체 정보 변경
-						var otherItems = $("#strgFileCodeAuth").children();
-						$.each(otherItems, function(idx, value){
-							if(value.getAttribute("data-auth-grp-id")==_authGrpId){
-								value.setAttribute("data-revision-pass", "Y");
-								value.setAttribute("data-file-code-pass", "Y");
-							}
-						});
-					}
-				}//else end
+ 				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
+ 				var result = checkMove(moveDiv, resultRevision);
+ 				if(result == 1){
+ 					//이미 있는 경우 복사 중지
+ 					evt.item.remove();
+ 				} 
+ 				// 위치에 맞는 버튼만 보이게 하기
+ 				showHideBtn("strgRevisionAuth", "right", 'left');
+ 				
+ 				//미배정 목록에서 모두 배정된 경우 안보이게 처리
+ 				var oriCard = $(evt.clone);
+ 				checkDoubleMove(oriCard);
  			} 
 	    });
-		
-		/*소스 drag&drop sortable*/
+		//소스 배정 목록
 		new Sortable($('#strgFileCodeAuth')[0], {
 			group: {
 				//그룹 이름
@@ -228,8 +320,6 @@ var OSLStm8200 = function () {
 	        chosenClass: "chosen",
 	        //이동될 div(나갈)
  	        onMove:function(evt,originalEvent){
- 				evt.related.setAttribute("data-file-code-pass", "N");
- 				
  				var UserAgent = navigator.userAgent;
 				//모바일 일때 이동 중지
  				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
@@ -241,45 +331,29 @@ var OSLStm8200 = function () {
  	      	//해당 div로 이동될 대상의 동작(들어온)
  			onAdd:function(evt){
  				var moveDiv = $(evt.item);
-				$(moveDiv).children('.osl-right-arrow-group').removeClass('osl-arrow-group--hide');
-				$(moveDiv).children('.osl-left-arrow-group').addClass('osl-arrow-group--hide');
-				//들어온 아이템이 이미 소스 열람에 배정되어 있던 경우
-				if(evt.item.getAttribute("data-file-code-pass")=="Y"){
-					//복사 중지
-					evt.item.remove();
-				}else{
-					//복사
-					//소스 배정
-					evt.item.setAttribute("data-file-code-pass", "Y");
-					evt.clone.setAttribute("data-file-code-pass", "Y");
-					//원본 아이템의 정보 확인
-					if(evt.clone.getAttribute("data-revision-pass")=="Y" && evt.clone.getAttribute("data-file-code-pass")=="Y"){
-						var _authGrpId = evt.item.getAttribute("data-auth-grp-id");
-						console.log(evt.clone);
-						evt.clone.remove();
-						
-						//리비전 배정에 있는 동일 객체 정보 변경
-						var otherItems = $("#strgRevisionAuth").children();
-						$.each(otherItems, function(idx, value){
-							if(value.getAttribute("data-auth-grp-id")==_authGrpId){
-								value.setAttribute("data-revision-pass", "Y");
-								value.setAttribute("data-file-code-pass", "Y");
-							}
-						});
-					}
-				}//else end
+ 				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
+ 				var result = checkMove(moveDiv, resultFileCode);
+ 				if(result == 1){
+ 					//이미 있는 경우 복사 중지
+ 					evt.item.remove();
+ 				}
+ 				// 위치에 맞는 버튼만 보이게 하기
+ 				showHideBtn("strgFileCodeAuth", "right", 'left');
+ 				
+ 				//미배정 목록에서 모두 배정된 경우 안보이게 처리
+ 				var oriCard = $(evt.clone);
+ 				checkDoubleMove(oriCard);
  			} 
 	    });
-		
-		/*미배정 drag&drop sortable*/
+		//미배정 목록
 		new Sortable($('#strgNonAssList')[0], {
-	        group: {
+			group: {
 				//그룹 이름
-	        	name: 'strgNonAssList',
-	            //이동시 복사의 형태
-	            pull: 'clone',
+				name: 'strgNonAssList',
 	            //들어 올 수 있는  group의 name
-	            put:['strgRevisionAuth','strgFileCodeAuth']
+	            put:['strgRevisionAuth', 'strgFileCodeAuth'],
+	       		//이동시 복사의 형태
+	            pull: 'clone',
 	        },
 	        animation: 100,
 	        //선택된 대상 active css효과
@@ -287,528 +361,103 @@ var OSLStm8200 = function () {
 	        //이동될 div(나갈)
  	        onMove:function(evt,originalEvent){
  				var UserAgent = navigator.userAgent;
- 				//모바일 일때 이동 중지
+				//모바일 일때 이동 중지
  				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
  					return false;
-				}else{
-					return true;
-				}
+ 				}else{
+  					return true;
+ 				}
  			},
  	      	//해당 div로 이동될 대상의 동작(들어온)
  			onAdd:function(evt){
  				var moveDiv = $(evt.item);
-				$(moveDiv).children('.osl-right-arrow-group').addClass('osl-arrow-group--hide');
-				$(moveDiv).children('.osl-left-arrow-group').removeClass('osl-arrow-group--hide');
-				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
-				
-				//어디서 들어왔는지 확인
-				//다른 확정 리스트에서 정보 수정
-				if($(evt.from).attr("id")=="strgRevisionAuth"){
-					//리비전 목록에서 들어온 경우
-					//소스 리스트에 남아있는 동일 객체 정보 수정
-					evt.item.setAttribute("data-revision-pass", "N");
-					$.each($("#strgFileCodeAuth").children(), function(index, items){
-						if(items.getAttribute("data-auth-grp-id")==_authGrpId){
-							items.setAttribute("data-revision-pass", "N");
-						}
-					});
-				}else{
-					//소스 리스트에서 들어온 경우
-					evt.item.setAttribute("data-file-code-pass", "N");
-					//리비전 리스트에 남아있는 동일 객체 정보 수정
-					$.each($("#strgRevisionAuth").children(), function(index, items){
-						if(items.getAttribute("data-auth-grp-id")==_authGrpId){
-							items.setAttribute("data-file-code-pass", "N");
-						}
-					});
-				}
-				
-				//미배정 목록에 동일 객체가 있는지 확인
-				var _authGrpId = evt.item.getAttribute("data-auth-grp-id");
-				
-				var otherItems = $("#strgNonAssList").children();
-				var resultCnt = 0;
-				$.each(otherItems, function(idx, value){
-					//기존에 객체 있는지 확인
-					if(value.getAttribute("data-auth-grp-id")==_authGrpId){
-						//sortable은 기존 데이터 안보이기만 할 뿐 가지고 있는듯
-						//없다가 처음 생길 땐 이미 존재하는 것으로 표현됨
-						//따라서 returnCnt가 2 이상일 땐 그리지 않음
-						resultCnt ++;
-						if(resultCnt>1){
-							//있으면 복사안함
-							evt.item.remove();
-						}
-					}
-				});
- 			}
+ 				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
+ 				//기존 resultArray에서 해당 항목 제거
+ 				if($(evt.from).attr("id") == "strgRevisionAuth"){
+ 	 	        	checkMove(moveDiv, resultRevision, true);
+ 				}else{
+ 					checkMove(moveDiv, resultFileCode, true);
+ 				}
+ 				//중복 여부만 체크하여
+ 				checkDoubleMove(moveDiv);
+ 				// 위치에 맞는 버튼만 보이게 하기
+ 				showHideBtn("strgNonAssList", "left", 'right');
+ 				//미배정 목록은 전부 가지고 있으므로
+ 				//복사 중지
+				moveDiv.remove();
+ 				//미배정 목록 중복 확인
+ 				checkDoubleMove(moveDiv, true);
+ 			} 
 	    });
-		//드래그 앤 드롭 끝
 		
 		//리비전 목록과 동일하게
 		$("#equalBtn").click(function(){
+			$("#strgFileCodeAuth").empty();
  			// 리비전 목록 가져오기
  			var keepList = addJsonList("strgRevisionAuth",true);
- 			$("#strgRevisionAuth").empty();
-			$("#strgFileCodeAuth").empty();
-			setListBtn(keepList, keepList);
+ 			resultFileCode = resultRevision;
+			drawAuthList(keepList, "strgFileCodeAuth");
+			
+			var oriCard = $("#strgNonAssList").children();
+			//리비전, 소스코드 권한으로 모두 배정되었으므로 동일 항목은 감추기
+			$.each(oriCard, function(idx, value){
+				checkDoubleMove($(value));
+			});
+			
+			//소스 열람영역 - left버튼 감추기
+			showHideBtn("strgFileCodeAuth", "right", 'left');
+			//미배정 열람영역 - right버튼 감추기
+			showHideBtn("strgNonAssList", "left", 'right');
 		});
 
 		//리비전_초기화 버튼 클릭 시
 		$("#reset_revision").click(function(){
-			//현재 소스 범위 목록 리스트
-			var keepList = addJsonList("strgFileCodeAuth",false);
 			$("#strgRevisionAuth").empty();
-			$("#strgFileCodeAuth").empty();
-			setGrpAndUsrList(oriRevision, keepList);
+			drawAuthList(oriRevision, "strgRevisionAuth");
+			resultRevision = [];
+			$.each(oriRevision, function(idx, value){
+				resultRevision.push(value.authTargetId);
+			});
+			
+			var oriCard = $("#strgNonAssList").children();
+			//리비전, 소스코드 권한으로 모두 배정되었는지 체크
+			$.each(oriCard, function(idx, value){
+				checkDoubleMove($(value));
+			});
+			
+			//리비전 열람영역 - left버튼 감추기
+			showHideBtn("strgRevisionAuth", "right", 'left');
+			//미배정 열람영역 - right버튼 감추기
+			showHideBtn("strgNonAssList", "left", 'right');
 		});
 		
 		//소스_초기화 버튼 클릭 시
 		$("#reset_file").click(function(){
-			//현재 리비전 범위 목록 리스트
-			var keepList = addJsonList("strgRevisionAuth",true);
-			$("#strgRevisionAuth").empty();
 			$("#strgFileCodeAuth").empty();
-			setGrpAndUsrList(keepList, oriFileCode);
+			drawAuthList(oriFileCode, "strgFileCodeAuth");
+			resultFileCode = [];
+			$.each(oriFileCode, function(idx, value){
+				resultFileCode.push(value.authTargetId);
+			});
+			
+			var oriCard = $("#strgNonAssList").children();
+			//리비전, 소스코드 권한으로 모두 배정되었는지 체크
+			$.each(oriCard, function(idx, value){
+				checkDoubleMove($(value));
+			});
+			
+			//소스 열람영역 - left버튼 감추기
+			showHideBtn("strgFileCodeAuth", "right", 'left');
+			//미배정 열람영역 - right버튼 감추기
+			showHideBtn("strgNonAssList", "left", 'right');
+		});
+		
+		// 완료 버튼 클릭 될 때 이벤트 발생 
+		$("#stm8200SaveSubmit").click(function(){
+			submitAuth();
 		});
 	};
-	
-	/**
-	 * function 명 	: settingAuthList
-	 * function 설명	: 배정/미배정된 권한 그룹 목록 호출
-	 * param : revisionData 리비전 열람 권한 그룹 데이터
-	 * param : fileCodeData 소스 열람 권한 그룹 데이터
-	 */
-	var settingAuthList = function(revisionData, fileCodeData){
-		
-		//세팅할 데이터 정리하기
-		var allList = [];
-		
-		// 해당 프로젝트의 권한 목록 전체 가져오기
-		// 검색할 메뉴 id
-    	var data = {
-				prjGrpId : selPrjGrpId,
-				prjId : selPrjId,
-		};
-		
-		//AJAX 설정
-  		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/prj/prj2000/prj2000/selectPrj2000PrjAuthGrpList.do'/>", "async": false}
-				, data);
-		
-  		//AJAX 전송 성공 함수
-		ajaxObj.setFnSuccess(function(data){
-			if(data.errorYn == "Y"){
-				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
-				$.osl.layerPopupClose();
-			}else{
-				var authGrpList = data.prjAuthGrpList;
-				
-				//상단의 select 박스 option 넣기
-				$("#searchSelect").html("");
-				//select에 목록 추가
-				var innerHtml = "<option value='all'>전체</option>";
-				$("#searchSelect").append(innerHtml);
-				$.each(authGrpList, function(idx, val){
-					//select에 목록 추가
-					var innerHtml = "<option value='"+idx+"' data-prj-id='"+val.prjId+"' data-auth-grp-id='"+val.authGrpId+"'>"+$.osl.escapeHtml(val.authGrpNm)+")</option>";
-					$("#searchSelect").append(innerHtml);
-				});
-  		
-				//리비전 권한, 소스 열람 권한 일치 여부에 따라
-				//일치 여부 값 부여
-				$.each(authGrpList, function(index, value){
-					var revisionPass = false;
-					var fileCodePass = false;
-					
-					//리비전 열람 권한 목록에 있는지 확인
-					$.each(revisionData, function(idx, items){
-						if(!$.osl.isNull(value.authGrpId)){
-							if(value.authGrpId==items.authGrpId){
-								revisionPass = true;
-							}
-						}
-					});
-					//소스 열람 권한 목록에 있는지 확인
-					$.each(fileCodeData, function(idx, items){
-						if(!$.osl.isNull(value.authGrpId)){
-							if(value.authGrpId==items.authGrpId){
-								fileCodePass = true;
-							}
-						}
-					});
-					
-					var pushData = {};
-					pushData.authGrpId = value.authGrpId;
-					pushData.authGrpNm = $.osl.escapeHtml(value.authGrpNm);
-					
-					//리비전 권한이 있으면
-					if(revisionPass){
-						pushData.revisionPass = 'Y';
-					}else{
-						//없으면
-						pushData.revisionPass = 'N';
-					}
-					//소스 열람 권한이 있으면
-					if(fileCodePass){
-						pushData.fileCodePass = 'Y';
-					}else{
-						//없으면
-						pushData.fileCodePass = 'N';
-					}
-					
-					allList.push(pushData);
-				});
-				
-				//목록에 세팅하기 - draw
-				drawAuthList(allList, "strgRevisionAuth", "strgFileCodeAuth", "strgNonAssList");
 
-			}
-		});
-		//ajax 전송
-    	ajaxObj.send();
-	};
-
-	/**
-	* function 명 	: addJsonList
-	* function 설명	: 선택한 권한 배정 리스트를 전달한다.
-	* param : elemId 가져올 리스트 div id(#제외)
-	*/
-    var addJsonList = function(elemId){
-		var targetId = '#' + elemId;
-		var dataList = [];
-
-		var divList = $(targetId).children();
-		
-		$.each(divList, function(index, value){
-			var dataOne = {};
-			 
-			dataOne.authGrpId = value.getAttribute("data-auth-grp-id");
-			 
-			dataList.push(dataOne);
-		});
-		
-		return dataList;
-    };
-	
-	/**
-	 * function 명 	: drawAuthList
-	 * function 설명	: 배정/미배정된 권한 그룹 목록 표출
-     * function param : 출력 데이터 정보, 그릴 element Id(#제외), 담당자/글작성범위 목록에 그릴 것인지 확인(true, false)
-     * function 설명 : 지정 element에 데이터 목록 div 출력
-	 */
-	var drawAuthList = function(setData, revisionElemId, fileCodeElemId, nonAssListElemId){
-		//초기화
-		$("#"+revisionElemId).empty();
-		$("#"+fileCodeElemId).empty();
-		$("#"+nonAssListElemId).empty();
-
-		var listHtml_left = ""; //왼쪽 아이콘 보이도록
- 		var listHtml_right = ""; //오른쪽 아이콘 보이도록
- 		var listHtml_com = ""; //공통
- 		var listHtml = ""; //최종
-		 
-		$.each(setData, function(index, value){
-			//전체 틀 시작
- 			//왼쪽 아이콘 보이기, 오른쪽 아이콘 보이기
- 			listHtml_left = "<div class='card kt-margin-b-10 flex-flow--row flex-flow--row--reverse' opt-index='"+index+"' data-auth-grp-id='"+value.authGrpId+"' data-auth-grp-nm='"+value.authGrpNm+"' data-revision-pass='"+value.revisionPass+"' data-file-code-pass='"+value.fileCodePass+"'>"
- 								+"<div class='dropdown osl-left-arrow-group'>";
-			listHtml_right =  "<div class='card kt-margin-b-10 flex-flow--row flex-flow--row--reverse' opt-index='"+index+"' data-auth-grp-id='"+value.authGrpId+"' data-auth-grp-nm='"+value.authGrpNm+"' data-revision-pass='"+value.revisionPass+"' data-file-code-pass='"+value.fileCodePass+"'>"
-								+"<div class='dropdown osl-left-arrow-group osl-arrow-group--hide'>";
-
-			//공통
-			listHtml_com = "<div class='btn dropdown-toggle' id='dropdownMenuButton"+index+"' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>"
-								+"</div>"		
-								+"<div class='dropdown-menu osl-dropdown-menu--position' aria-labelledby='dropdownMenuButton"+index+"'>"
-									+"<a class='dropdown-item stmRevisionListMoveBtn'>"+"리비전 열람"+"</a>"
-									+"<a class='dropdown-item stmFileCodeListMoveBtn'>"+"소스 열람"+"</a>"
-								+"</div>"
-							+"</div>"
-							// 컨텐츠 전체영역 시작
-							+"<div class='osl-content-group'>"
-								//타이틀 시작			
-								+"<div class='card-title left-user-group kt-margin-b-0'>";
-			//리비전 열람 권한, 소스 열람 권한 범위에 모두 들어간 항목인 경우
-			if(value.revisionPass=="Y" && value.fileCodePass=="Y"){
-				//배정 목록에만 작성
-				listHtml = listHtml_right + listHtml_com;
-				
-				//리비전 리스트 그리기
-				listHtml += "<span class='groupuser-icon'>"
- 									+"<i class='fas fa-user-tag'></i>"
- 								+"</span>"
- 								+$.osl.escapeHtml(value.authGrpNm)
- 								+"<span class='badge badge-success osl-margin-left--auto'>"+"권한그룹"+"</span>"
- 							+"</div>"
- 							//타이틀 종료							
- 							//내용 시작
- 							+"<div class='osl-card__prjnm'>"
- 								+$.osl.escapeHtml(selPrjNm);
- 							+"</div>"
- 							//내용 종료
-						// 컨텐츠 전체영역 종료
-						+ "</div>"
-						//우측 이동 버튼 시작, 종료
-						+"<div class='osl-right-arrow-group'></div>"
-					+"</div>";
-					//전체 틀 종료
-					
-				$("#"+revisionElemId).append(listHtml);
- 				$("#"+fileCodeElemId).append(listHtml);
-			}else{
-				//한군데만 들어가거나 안들어간 항목인 경우
-				//미배정 항목에 출력
-				
-				//리비전 열람 권한 배정된 항목인 경우(소스 열람 권한 미배정)
-				//리비전 열람 배정 리스트 그리기
-				if(value.revisionPass=="Y" && value.fileCodePass=="N"){
-					listHtml = listHtml_right + listHtml_com;
-					listHtml += "<span class='groupuser-icon'>"
-									+"<i class='fas fa-user-tag'></i>"
-								+"</span>"
-								+$.osl.escapeHtml(value.authGrpNm)
-								+"<span class='badge badge-success osl-margin-left--auto'>"+"권한그룹"+"</span>"
-							+"</div>"
-							//타이틀 종료							
-							//내용 시작
-							+"<div class='osl-card__prjnm'>"
-								+$.osl.escapeHtml(selPrjNm)
-							+"</div>"
-							//내용 종료
-						// 컨텐츠 전체영역 종료
-						+ "</div>"
-					//우측 이동 버튼 시작, 종료
-					+ "<div class='osl-right-arrow-group'></div>"
-				+"</div>";
-				//전체 틀 종료
- 	 				$("#"+revisionElemId).append(listHtml);
-				}else if(value.revisionPass=="N" && value.fileCodePass=="Y"){
-					listHtml = listHtml_right + listHtml_com;
-					listHtml += "<span class='groupuser-icon'>"
-									+"<i class='fas fa-user-tag'></i>"
-								+"</span>"
-								+$.osl.escapeHtml(value.authGrpNm)
-								+"<span class='badge badge-success osl-margin-left--auto'>"+"권한그룹"+"</span>"
-							+"</div>"
-							//타이틀 종료							
-							//내용 시작
-							+"<div class='osl-card__prjnm'>"
-								+$.osl.escapeHtml(selPrjNm)
-							+"</div>"
-							//내용 종료
-						// 컨텐츠 전체영역 종료
-						+ "</div>"
-					//우측 이동 버튼 시작, 종료
-					+ "<div class='osl-right-arrow-group'></div>"
-				+"</div>";
-				//전체 틀 종료	
- 	 				$("#"+fileCodeElemId).append(listHtml);
-				}else{
-					listHtml = listHtml_left + listHtml_com;
-					listHtml += "<span class='groupuser-icon'>"
-									+"<i class='fas fa-user-tag'></i>"
-								+"</span>"
-								+$.osl.escapeHtml(value.authGrpNm)
-								+"<span class='badge badge-success osl-margin-left--auto'>"+"권한그룹"+"</span>"
-							+"</div>"
-							//타이틀 종료							
-							//내용 시작
-							+"<div class='osl-card__prjnm'>"
-								+$.osl.escapeHtml(selPrjNm)
-							+"</div>"
-							//내용 종료
-						// 컨텐츠 전체영역 종료
-						+ "</div>"
-					//아무데도 안들어간 권한그룹 리스트
-					//우측 이동 버튼 시작, 종료
-					+ "<div class='osl-right-arrow-group osl-arrow-group--hide'></div>"
-				+"</div>";
-				//전체 틀 종료
-					$("#"+nonAssListElemId).append(listHtml);
-				}
-			}
-		});
- 		
- 		//function 적용
- 		//배정 목록에서 제거할 때
- 		$('.osl-right-arrow-group').click(function(){
-			//이동할 객체
-			var moveCard =  $(this).parent();
-			//객체가 있던 곳
-			var formId = moveCard.parent().attr("id");
-			
-			//옮길 권한 그룹id
-			var _authGrpId = moveCard[0].getAttribute("data-auth-grp-id");
-			
-			//리비전 권한 배정 목록에 있던 경우
-			if(formId==revisionElemId){
-				//속성 변경
-				moveCard[0].setAttribute("data-revision-pass", "N");
-				//소스 권한 배정 목록에도 있으면 같이 정보 변경
-				if(moveCard[0].getAttribute("data-file-code-pass")=="Y"){
-					//동일 객체 정보 변경
-					var otherItems = $("#"+fileCodeElemId).children();
-					$.each(otherItems, function(idx, value){
-						if(value.getAttribute("data-auth-grp-id")==_authGrpId){
-							value.setAttribute("data-revision-pass", "N");
-						}
-					});
-				}
-			}else{
-				//소스 열람 권한 배정 목록에 있던 경우
-				//속성 변경
-				moveCard[0].setAttribute("data-file-code-pass", "N");
-				//리비전 권한 배정 목록에도 있으면 같이 정보 변경
-				if(moveCard[0].getAttribute("data-revision-pass")=="Y"){
-					//동일 객체 정보 변경
-					var otherItems = $("#"+revisionElemId).children();
-					$.each(otherItems, function(idx, value){
-						if(value.getAttribute("data-auth-grp-id")==_authGrpId){
-							value.setAttribute("data-file-code-pass", "N");
-						}
-					});
-				}
-			}//else end
-			
-			//미배정 목록에 있는지 확인
-			var otherItems = $("#"+nonAssListElemId).children();
-			var result = true;
-			$.each(otherItems, function(idx, value){
-				if(value.getAttribute("data-auth-grp-id")==_authGrpId){
-					//미배정 목록에 같은 객체 있는 경우
-					//리비전 정보만 변경
-					if(formId==revisionElemId){
-						value.setAttribute("data-revision-pass", "N");
-					}else{
-						//소스 열람 범위 정보만 변경
-						value.setAttribute("data-file-code-pass", "N");
-					}
-					//미배정 목록에 있으면 복사 안함
-					result = false;
-				}
-			});
-			//미배정 목록에 있으면 복사 안함, 미배정 목록에 없을 때만 복사
-			if(result){
-				//미배정 목록에 없을 경우
-				//객체이동
-				$("#"+nonAssListElemId).prepend(moveCard);
-				//아이콘 오른방향 감추기, 왼방향 나타내기
-				$(this).addClass('osl-arrow-group--hide');
-				$(this).siblings('.osl-left-arrow-group').removeClass('osl-arrow-group--hide');
-				//피카추
-				$(".osl-left-arrow-group").click(function(){
-					console.log("vlzk");
-				});
-			}else{
-				//미배정 목록에 있으면
-				//해당 객체만 삭제
-				$(this).parent().remove();
-			}
-			
- 		}); //배정 목록에서 제거할 때 끝
- 		
- 		//미배정 목록에서 제거할 때 - 리비전 목록으로 전달할 경우
- 		$('.stmRevisionListMoveBtn').click(function(){
- 			//드롭다운 버튼 감추기
-			$(this).parent().removeClass("show");
-			//원 객체
-			var oriCard = $(this).parent().parent().parent();
-			//이동할 객체
-			var moveCard = oriCard.clone(true);
-			//속성 변경
-			moveCard[0].setAttribute("data-revision-pass", "Y");
-			oriCard[0].setAttribute("data-revision-pass", "Y");
-			
-			//이미 리비전 권한 배정되어 있는지 확인
-			var toList = $("#"+revisionElemId).children();
-			var toListResult = true;
-			$.each(toList, function(idx, value){
-				if(value.getAttribute("data-auth-grp-id")==moveCard[0].getAttribute("data-auth-grp-id") ){
-					toListResult = false;							
-				}
-			});
-			
-			//리비전에 미배정되어있을 때만 실행
-			if(toListResult){
-				//객체 복사
-				$("#"+revisionElemId).prepend(moveCard);
-				//아이콘 오른방향 나타내기, 왼방향 감추기
-				moveCard.children('.osl-right-arrow-group').removeClass('osl-arrow-group--hide');
-				moveCard.children(".osl-left-arrow-group").addClass('osl-arrow-group--hide');
-				
-				//원본 아이템의 정보 확인
-				//모두 배정되었을 때
-				if(oriCard[0].getAttribute("data-revision-pass")=="Y" &&  oriCard[0].getAttribute("data-file-code-pass")=="Y"){
-					var _authGrpId = moveCard[0].getAttribute("data-auth-grp-id");
-					
-					//소스 열람 배정 동일 객체 정보 변경
-					var otherItems = $("#"+fileCodeElemId).children();
-					$.each(otherItems, function(idx, value){
-						if(value.getAttribute("data-auth-grp-id")==_authGrpId){
-							value.setAttribute("data-revision-pass", "Y");
-							value.setAttribute("data-file-code-pass", "Y");
-						}
-					});
-					
-					//미배정에 있던 객체 제거
-					oriCard.remove();
-				}
-			}
- 		});
- 		//미배정 목록에서 제거 - 리비전 목록으로 전달할 경우 끝
-
- 		//미배정 목록에서 제거 - 소스 열람 목록으로 전달할 경우
- 		$('.stmFileCodeListMoveBtn').click(function(){
- 			//드롭다운 버튼 감추기
-			$(this).parent().removeClass("show");
-			//원 객체
-			var oriCard = $(this).parent().parent().parent();
-			//이동할 객체
-			var moveCard = oriCard.clone(true);
-			//속성 변경
-			moveCard[0].setAttribute("data-file-code-pass", "Y");
-			oriCard[0].setAttribute("data-file-code-pass", "Y");
-			
-			//이미 소스 열람 권한 배정되어 있는지 확인
-			var toList = $("#"+fileCodeElemId).children();
-			var toListResult = true;
-			$.each(toList, function(idx, value){
-				if(value.getAttribute("data-auth-grp-id")==moveCard[0].getAttribute("data-auth-grp-id") ){
-					toListResult = false;							
-				}
-			});
-			
-			//소스 열람에 미배정되어있을 때만 실행
-			if(toListResult){
-				//객체 복사
-				$("#"+fileCodeElemId).prepend(moveCard);
-				//아이콘 오른방향 나타내기, 왼방향 감추기
-				moveCard.children('.osl-right-arrow-group').removeClass('osl-arrow-group--hide');
-				moveCard.children(".osl-left-arrow-group").addClass('osl-arrow-group--hide');
-				
-				//원본 아이템의 정보 확인
-				//모두 배정되었을 때
-				if(oriCard[0].getAttribute("data-revision-pass")=="Y" &&  oriCard[0].getAttribute("data-file-code-pass")=="Y"){
-					var _authGrpId = moveCard[0].getAttribute("data-auth-grp-id");
-					
-					//리비전 열람 배정 동일 객체 정보 변경
-					var otherItems = $("#"+revisionElemId).children();
-					$.each(otherItems, function(idx, value){
-						if(value.getAttribute("data-auth-grp-id")==_authGrpId){
-							value.setAttribute("data-revision-pass", "Y");
-							value.setAttribute("data-file-code-pass", "Y");
-						}
-					});
-					
-					//미배정에 있던 객체 제거
-					oriCard.remove();
-				}
-			}
- 		});
- 		//미배정 목록에서 제거 - 소스 열람 목록으로 전달할 경우 끝
-	};//drawAuthList 끝
-	
 	/**
 	 * function 명 	: selectAssRevisionAuth
 	 * function 설명	: 해당 프로젝트, 소스저장소에 리비전 열람 권한 배정된 권한 그룹 목록 표출
@@ -832,45 +481,22 @@ var OSLStm8200 = function () {
 				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
-				var info = data.stm8200AssList;
+				var stm8200AssList = data.stm8200AssList;
 				//ori 정보 가지고 있기
-				oriRevision = info;
+				oriRevision = stm8200AssList;
+				
+				//resultRevision에 저장
+				$.each(stm8200AssList, function(idx, value){
+					resultRevision.push(value.authTargetId);
+				});
+				
+				//목록에 세팅하기 - draw
+				drawAuthList(stm8200AssList, "strgRevisionAuth");
 			}
     	});
 		//ajax 전송
     	ajaxObj.send();
 	};
-	
-	/**
-	 * function 명 	: nonAssRevisionAuth
-	 * function 설명	: 해당 프로젝트, 소스저장소에 리비전 열람 권한 미배정된 권한 그룹 목록 표출
-	 */
-	var nonAssRevisionAuth = function(){
-		 var data = {
-					prjGrpId : selPrjGrpId,
-					prjId : selPrjId,
-					strgRepId : selStrgRepId
-			};
-
-		//ajax 설정
-		var ajaxObj = new $.osl.ajaxRequestAction(
-    			{"url":"<c:url value='/stm/stm8000/stm8200/selectStm8200NonAssStrgListAjax.do'/>", "async": false}
-				, data);
-		//ajax 전송 성공 함수
-    	ajaxObj.setFnSuccess(function(data){
-    		if(data.errorYn == "Y"){
-				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
-				$.osl.layerPopupClose();
-			}else{
-				var list = data.stm8200NonAssList;
-				strgNonAssRevision = list;
-			}
-    	});
-		//ajax 전송
-    	ajaxObj.send();
-	};
-
 	
 	/**
 	 * function 명 	: selectAssFileCodeAuth
@@ -894,9 +520,15 @@ var OSLStm8200 = function () {
 				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
-				var info = data.stm8300AssList;
+				var stm8300AssList = data.stm8300AssList;
 				//ori 정보 가지고 있기
-				oriFileCode = info;
+				oriFileCode = stm8300AssList;
+				//resultFileCode에 저장
+  				$.each(stm8300AssList, function(idx, value){
+  					resultFileCode.push(value.authTargetId);
+				});
+				//목록에 세팅하기 - draw
+				drawAuthList(stm8300AssList, "strgFileCodeAuth");
 			}
     	});
 		//ajax 전송
@@ -904,35 +536,422 @@ var OSLStm8200 = function () {
 	};
 	
 	/**
-	 * function 명 	: nonAssFileCodeAuth
-	 * function 설명	: 해당 프로젝트, 소스저장소에 소스 열람 권한 미배정된 권한 그룹 목록 표출
+	 * function 명 	: settingAuthList
+	 * function 설명	: 배정/미배정된 권한 그룹 목록 호출
+	 * param : revisionData 리비전 열람 권한 그룹 데이터
+	 * param : fileCodeData 소스 열람 권한 그룹 데이터
 	 */
-	var nonAssFileCodeAuth = function(){
-		 var data = {
-					prjGrpId : selPrjGrpId,
-					prjId : selPrjId,
-					strgRepId : selStrgRepId
-			};
-
-		//ajax 설정
-		var ajaxObj = new $.osl.ajaxRequestAction(
-    			{"url":"<c:url value='/stm/stm8000/stm8300/selectStm8300NonAssStrgListAjax.do'/>", "async": false}
+	var settingAuthList = function(){
+		
+		//세팅할 데이터 정리하기
+		var allList = [];
+		
+		// 해당 프로젝트의 권한 목록 전체 가져오기
+		// 검색할 메뉴 id
+    	var data = {
+				prjGrpId : selPrjGrpId,
+				prjId : selPrjId,
+		};
+		
+		//AJAX 설정
+  		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/stm/stm8000/stm8200/selectStm8200PrjAllAuthAndUserList.do'/>", "async": false}
 				, data);
-		//ajax 전송 성공 함수
-    	ajaxObj.setFnSuccess(function(data){
-    		if(data.errorYn == "Y"){
+		
+  		//AJAX 전송 성공 함수
+		ajaxObj.setFnSuccess(function(data){
+			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
-				var list = data.stm8300NonAssList;
-				strgNonAssFileCode = list;
+				var stm8200AllList = data.stm8200AllList;
+				
+				//상단의 select 박스 option 넣기
+				$("#searchSelect").html("");
+				//select에 목록 추가
+				var innerHtml = "<option value='all'>전체</option>";
+				$("#searchSelect").append(innerHtml);
+				$.each(stm8200AllList, function(idx, val){
+					//select에 목록 추가
+					var innerHtml = "<option value='"+idx+"' data-auth-target-id='"+val.authTargetId+"'>"+$.osl.escapeHtml(val.authTargetNm)+"</option>";
+					$("#searchSelect").append(innerHtml);
+					
+					//resultAllList에 저장
+					resultAllList.push(val.authTargetId);
+				});
+  		
+				//목록에 세팅하기 - draw
+				drawAuthList(stm8200AllList, "strgNonAssList");
+				
+				//그린 후 더블 체크
+				var oriCard = $("#strgNonAssList").children();
+				$.each(oriCard, function(idx, value){
+					checkDoubleMove($(value));
+				});
 			}
-    	});
+		});
 		//ajax 전송
     	ajaxObj.send();
 	};
+
+	/**
+	* function 명 	: addJsonList
+	* function 설명	: 선택한 권한 배정 리스트를 전달한다.
+	* param : elemId 가져올 리스트 div id(#제외)
+	*/
+    var addJsonList = function(elemId){
+		var targetId = '#' + elemId;
+		var dataList = [];
+
+		var divList = $(targetId).children();
+		
+		$.each(divList, function(index, value){
+			var dataOne = {};
+			 
+			dataOne.prjGrpId = selPrjGrpId;
+			dataOne.prjId = selPrjId;
+			dataOne.prjNm = selPrjNm;
+			dataOne.strgRepId = selStrgRepId;
+			dataOne.authTargetId = $(value).data("authTargetId");
+			dataOne.authTypeCd = $(value).data("authTypeCd");
+			dataOne.authTargetNm = $(value).data("authTargetNm");
+			dataOne.authTargetImgId = $(value).data("authTargetImgId");
+			dataOne.authTargetEmail = $(value).data("authTargetEmail");
+			dataOne.authTargetDeptId = $(value).data("authTargetDeptId");
+			dataOne.authTargetDeptNm = $(value).data("authTargetDeptNm");
+			
+			dataList.push(dataOne);
+		});
+		
+		return dataList;
+    };
 	
+	/**
+	 * function 명 	: drawAuthList
+	 * function 설명	: 배정/미배정된 권한 그룹 목록 표출
+     * function param : 출력 데이터 정보, 그릴 element Id(#제외)
+     * function 설명 : 지정 element에 데이터 목록 div 출력
+	 */
+	var drawAuthList = function(setData, elemId){
+		//초기화
+		$("#"+elemId).empty();
+
+ 		var listHtml = "";
+		 
+		$.each(setData, function(index, value){
+			//전체 틀 시작
+ 			listHtml = "<div class='card kt-margin-b-10 flex-flow--row flex-flow--row--reverse' data-opt-index='"+index+"'"
+ 							+"data-prj-id='"+value.prjId+"' data-auth-type-cd='"+value.authTypeCd+"' data-auth-target-id='"+value.authTargetId+"'"
+ 							+"data-auth-target-nm='"+value.authTargetNm+"' data-auth-target-id='"+value.authTargetId+"'"
+ 							+"data-auth-target-img-id='"+value.authTargetImgId+"' data-target-email='"+value.authTargetEmail+"'"
+ 							+"data-auth-target-dept-id='"+value.targetDeptId+"' data-auth-target-dept-nm='"+value.authTargetDeptNm+"'>"
+							+"<div class='dropdown osl-left-arrow-group'>"
+								+"<div class='btn dropdown-toggle' id='dropdownMenuButton"+index+"' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>"
+							+"</div>"		
+							+"<div class='dropdown-menu osl-dropdown-menu--position' aria-labelledby='dropdownMenuButton"+index+"'>"
+								+"<a class='dropdown-item stmRevisionListMoveBtn'>"+"리비전 열람"+"</a>"
+								+"<a class='dropdown-item stmFileCodeListMoveBtn'>"+"소스 열람"+"</a>"
+							+"</div>"
+						+"</div>"
+						// 컨텐츠 전체영역 시작
+						+"<div class='osl-content-group'>"
+							//타이틀 시작			
+							+"<div class='card-title left-user-group kt-margin-b-0'>";
+						
+	 			//권한그룹인 경우
+				if(value.authTypeCd=='01'){
+					//리비전 리스트 그리기
+					listHtml += "<span class='groupuser-icon'>"
+										+"<i class='fas fa-user-tag'></i>"
+									+"</span>"
+									+$.osl.escapeHtml(value.authTargetNm)
+									+"<span class='badge badge-success osl-margin-left--auto'>"+"권한그룹"+"</span>"
+								+"</div>" //타이틀 종료		
+								//내용 시작
+								+"<div class='osl-card__prjnm'>"
+									+$.osl.escapeHtml(selPrjNm)
+								+"</div>"//내용 종료
+						+ "</div>"// 컨텐츠 전체영역 종료
+						//우측 이동 버튼 시작, 종료
+						+"<div class='osl-right-arrow-group'></div>"
+					+"</div>"; //전체 틀 종료
+				}else{ //사용자인 경우
+					var paramData = {
+						html: "<span class='osl-user-card-flex'><span>"+value.authTargetNm +"</span><span>("+value.authTargetId+")</span></span>",
+	    				imgSize: "sm",
+						class:{
+							cardBtn: "osl-bad__fit-content",
+						}
+					};
+			//리비전 리스트 그리기
+			listHtml += "<span class='' data-openid='"+value.authTargetId+">"
+								+ $.osl.user.usrImgSet(value.authTargetImgId, paramData )
+							+"</span>"
+							+"<span class='badge badge-success osl-margin-left--auto'>"+"권한그룹"+"</span>"
+						+"</div>"; //타이틀 종료	
+												
+						//내용 시작 (소속)
+ 					if($.osl.isNull(value.deptNm)){
+ 						listHtml += "<div class=''>-</div>";
+ 					}else{
+ 						listHtml += "<div class='osl-card__prjnm'>"
+ 										+$.osl.escapeHtml(value.authTargetDeptNm)
+ 									+"</div>";
+ 					}
+ 					//소속 종료
+			listHtml +="</div>"	// 컨텐츠 전체영역 종료
+					//우측 이동 버튼 시작, 종료
+					+"<div class='osl-right-arrow-group'></div>"
+				+"</div>"; //전체 틀 종료
+			}
+			$("#"+elemId).append(listHtml);
+		});
+	};//drawAuthList 끝
+	
+	/**
+	* function 명 	: drawAfterFtSetting
+	* function 설명	: 드로잉 후 function 적용
+	*/
+	var drawAfterFtSetting = function(){
+ 		//배정 목록에서 제거할 때
+ 		$('.osl-right-arrow-group').click(function(){
+			//이동할 객체
+			var moveCard =  $(this).parents('.card');
+			
+			//객체가 있던 곳
+			var formId = moveCard.parent().attr("id");
+			
+			//옮길 권한 그룹id
+			var _authTargetId = moveCard.data("authTargetId");
+			var idx;
+
+			//리비전 권한 배정 목록에 있던 경우
+			//배열에서 해당 제거
+			if(formId=="strgRevisionAuth"){
+				checkMove(moveCard, resultRevision, true);
+			}else{
+				//소스 열람 권한 배정 목록에 있던 경우
+				//배열에서 해당 제거
+				checkMove(moveCard ,resultFileCode, true);
+			}//else end
+			
+			//미배정 목록 중복 확인
+			checkDoubleMove(moveCard, true);
+			/* 
+			//미배정 목록에 있는 객체 보이기
+			var otherItems = $("#strgNonAssList").children();
+			$.each(otherItems, function(idx, value){
+				if($(value).data("authTargetId")==_authTargetId){
+					$(value).removeClass("kt-hide");
+				}
+			});
+			 */
+			//미배정 영역 - right 버튼 감추기
+			showHideBtn("strgNonAssList", 'left', "right");
+			
+			//해당 객체만 삭제
+			moveCard.remove();
+ 		}); //배정 목록에서 제거할 때 끝
+ 		
+ 		//미배정 목록에서 제거할 때 - 리비전 목록으로 전달할 경우
+ 		$('.stmRevisionListMoveBtn').click(function(){
+ 			//드롭다운 버튼 감추기
+			$(this).parent().removeClass("show");
+			//원 객체
+			var oriCard = $(this).parents(".card");
+			//이동할 객체
+			var moveCard = oriCard.clone(true);
+			var result = checkMove(moveCard, resultRevision);
+			
+			if(result == 0){
+				//존재안하면 복사하기
+				$("#strgRevisionAuth").prepend(moveCard);
+			}
+
+			//리비전, 소스코드 권한으로 모두 배정되었는지 체크
+			checkDoubleMove(oriCard);
+			//리비전 열람영역 - left버튼 감추기
+			showHideBtn("strgRevisionAuth", "right", 'left');
+ 		});
+
+ 		//미배정 목록에서 제거 - 소스 열람 목록으로 전달할 경우
+ 		$('.stmFileCodeListMoveBtn').click(function(){
+ 			//드롭다운 버튼 감추기
+			$(this).parent().removeClass("show");
+			//원 객체
+			var oriCard = $(this).parents(".card");
+			//이동할 객체
+			var moveCard = oriCard.clone(true);
+			
+			var result = checkMove(moveCard, resultFileCode);
+			if(result == 0){
+				//존재안하면 복사하기
+				$("#strgFileCodeAuth").prepend(moveCard);
+			}
+
+			//리비전, 소스코드 권한으로 모두 배정되었는지 체크
+			checkDoubleMove(oriCard);
+			//소스 열람영역 - left버튼 감추기
+			showHideBtn("strgFileCodeAuth", "right", 'left');
+ 		});
+	}
+	
+	/**
+	* function 명 	: showHideBtn
+	* function 설명	: 위치에 따른 배정/제외 버튼 show/hide
+	* param : elemId 지정 elemId
+	* param : showing 어느 버튼 보이게 할지
+	* param : hiding 어느 버튼 숨기게 할지
+	*/
+	var showHideBtn = function(elemId, showing, hiding){
+		var list = $("#"+elemId).children();
+		$.each(list, function(idx, value){
+			$(value).find(".osl-"+showing+"-arrow-group").removeClass("kt-hide");
+			$(value).find(".osl-"+hiding+"-arrow-group").addClass("kt-hide");
+		});
+	};
+	
+	/**
+	* function 명 	: checkDoubleMove
+	* function 설명	: 리비전, 소스코드 권한으로 모두 배정되었는지 체크 or 미배정 목록 중복 검사
+	* param : oriCard 검사하려는 elem
+	* param : nonListCheck 미배정 목록 중복 검사할 경우(true)
+	*/
+	var checkDoubleMove = function(oriCard, nonListCheck){
+		var _authTargetId = oriCard.data("authTargetId");
+		if(nonListCheck){
+			//미배정 목록으로 들어오는 경우
+			var otherItems = $("#strgNonAssList").children();
+			$.each(otherItems, function(idx, value){
+				if($(value).data("authTargetId")==_authTargetId){
+					$(value).removeClass("kt-hide");
+				}
+			});
+		}else{
+			//미배정에서 나가는 경우
+			var revisionIdx = resultRevision.indexOf(_authTargetId);
+			var fileCodeIdx = resultFileCode.indexOf(_authTargetId);
+			
+			//둘다 존재하는지 체크
+			if(revisionIdx>=0 && fileCodeIdx >=0){
+				oriCard.addClass("kt-hide");
+			}else{
+				oriCard.removeClass("kt-hide");
+			}
+		}
+	};
+	
+	/**
+	* function 명 	: checkMove
+	* function 설명	: 이미 배정되었는지 체크
+	* param : oriCard 검사하려는 elem
+	* param : arrayList 검사하려는 목록
+	* param : delCheck 제거 여부(값 없을 경우 default 복사)
+	* return : 배정여부(1, 0)
+	*/
+	var checkMove = function(oriCard, arrayList, delCheck){
+		var _authTargetId = oriCard.data("authTargetId");
+		var arrayListIdx = arrayList.indexOf(_authTargetId);
+		
+		if(delCheck){
+			if(arrayListIdx>=0){
+				//arrayList에서 제거
+				arrayList.splice(arrayListIdx, 1);
+			}
+		}else{
+			//존재하는지 체크
+			if(arrayListIdx>=0){
+				return 1;
+			}else{
+				//존재안하면 복사하기
+				arrayList.push(_authTargetId);
+				return 0;
+			}
+		}
+	};
+	
+	 /**
+	* function 명 	: submitAuth
+	* function 설명	: 권한 설정
+	*/
+	var submitAuth = function(){
+		submitRevisionAuth();
+		submitFileCodeAuth();
+		
+		//모달 창 닫기
+		$.osl.layerPopupClose();
+	};
+	 /**
+	* function 명 	: submitRevisionAuth
+	* function 설명	: 리비전 권한 설정
+	*/
+	var submitRevisionAuth = function(){
+		//넘길 데이터 정리
+		//리비전 열람 권한 목록
+		var revisionList = JSON.stringify(addJsonList("strgRevisionAuth"));
+		
+		if(!$.osl.isNull(revisionList) && revisionList != "[]"){
+			var data = {
+					revisionList : revisionList,
+					prjId : selPrjId,
+					strgRepId : selStrgRepId,
+			};
+
+			var ajaxObj = new $.osl.ajaxRequestAction(
+					{"url":"<c:url value='/stm/stm8000/stm8200/insertStm8200RevisionAuthListAjax.do'/>", "async": false}
+					, data);
+			
+	  		//AJAX 전송 성공 함수
+			ajaxObj.setFnSuccess(function(data){
+				if(data.errorYn == "Y"){
+					$.osl.alert(data.message,{type: 'error'});
+					//모달 창 닫기
+					$.osl.layerPopupClose();
+				}else{
+					$.osl.toastr(data.message,{type: 'success'});
+				}
+			});
+			//AJAX 전송
+			ajaxObj.send();
+		}
+	};
+	 /**
+	* function 명 	: submitFileCodeAuth
+	* function 설명	: 소스 열람 권한 설정
+	*/
+	var submitFileCodeAuth = function(){
+		//넘길 데이터 정리
+		//소스 열람 권한 목록
+		var fileCodeList = JSON.stringify(addJsonList("strgFileCodeAuth"));
+		
+		if(!$.osl.isNull(fileCodeList) && fileCodeList != "[]"){
+			var data = {
+					fileCodeList : fileCodeList,
+					prjId : selPrjId,
+					strgRepId : selStrgRepId,
+			};
+			var ajaxObj = new $.osl.ajaxRequestAction(
+					{"url":"<c:url value='/stm/stm8000/stm8300/insertStm8300FileCodeAuthListAjax.do'/>", "async": false}
+					, data);
+			
+	  		//AJAX 전송 성공 함수
+			ajaxObj.setFnSuccess(function(data){
+				if(data.errorYn == "Y"){
+					$.osl.alert(data.message,{type: 'error'});
+					//모달 창 닫기
+					$.osl.layerPopupClose();
+				}else{
+					$.osl.toastr(data.message,{type: 'success'});
+				}
+			});
+			
+			//AJAX 전송
+			ajaxObj.send();
+		}
+	
+	};
+
 	return {
         // public functions
         init: function() {

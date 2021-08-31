@@ -34,25 +34,22 @@ public class Stm8300ServiceImpl extends EgovAbstractServiceImpl implements Stm83
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void insertStm8300FileCodeAuthList(Map paramMap) throws Exception {
 		
-		String prjGrpId = (String)paramMap.get("prjGrpId");
-		String prjpId = (String)paramMap.get("prjpId");
-		String strgRepId = (String)paramMap.get("strgRepId");
+		
+		stm8300DAO.deleteStm8300FileCodeAuthInfo(paramMap);
 		
 		
-    	JSONArray selStrAuthList = new JSONArray(paramMap.get("selStrAuthList").toString());
+    	JSONArray fileCodeList = new JSONArray(paramMap.get("fileCodeList").toString());
     	
     	
-    	for(int i=0; i < selStrAuthList.length(); i++){
+    	for(int i=0; i < fileCodeList.length(); i++){
     		
-    		JSONObject jsonObj = selStrAuthList.getJSONObject(i);
+    		JSONObject jsonObj = fileCodeList.getJSONObject(i);
     		
     		
     		HashMap<String, Object> addStrgRepAuthInfoMap = new ObjectMapper().readValue(jsonObj.toString(), HashMap.class) ;
 			
     		
-    		addStrgRepAuthInfoMap.put("prjGrpId", prjGrpId);
-    		addStrgRepAuthInfoMap.put("prjpId", prjpId);
-    		addStrgRepAuthInfoMap.put("strgRepId", strgRepId);
+    		addStrgRepAuthInfoMap.put("licGrpId", paramMap.get("licGrpId"));
     		addStrgRepAuthInfoMap.put("regUsrId", paramMap.get("regUsrId"));
     		addStrgRepAuthInfoMap.put("regUsrIp", paramMap.get("regUsrIp"));
     		addStrgRepAuthInfoMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
@@ -67,27 +64,17 @@ public class Stm8300ServiceImpl extends EgovAbstractServiceImpl implements Stm83
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void deleteStm8300FileCodeAuthList(Map paramMap) throws Exception {
 		
-		String prjGrpId = (String)paramMap.get("prjGrpId");
-		String prjpId = (String)paramMap.get("prjpId");
-		String strgRepId = (String)paramMap.get("strgRepId");
 		
-		
-    	JSONArray selStrAuthList = new JSONArray(paramMap.get("selStrAuthList").toString());
+    	JSONArray fileCodeList = new JSONArray(paramMap.get("fileCodeList").toString());
     	
     	
-    	for(int i=0; i < selStrAuthList.length(); i++){
+    	for(int i=0; i < fileCodeList.length(); i++){
     		
-    		JSONObject jsonObj = selStrAuthList.getJSONObject(i);
+    		JSONObject jsonObj = fileCodeList.getJSONObject(i);
     		
     		
     		HashMap<String, Object> addStrgRepAuthInfoMap = new ObjectMapper().readValue(jsonObj.toString(), HashMap.class) ;
-			
-    		
-    		addStrgRepAuthInfoMap.put("prjGrpId", prjGrpId);
-    		addStrgRepAuthInfoMap.put("prjpId", prjpId);
-    		addStrgRepAuthInfoMap.put("strgRepId", strgRepId);
-    		addStrgRepAuthInfoMap.put("strgRepId", String.valueOf(jsonObj.get("strgRepId")));
-    		
+    		addStrgRepAuthInfoMap.put("licGrpId", paramMap.get("licGrpId"));
     		
 			stm8300DAO.deleteStm8300FileCodeAuthInfo(addStrgRepAuthInfoMap);
     	}
