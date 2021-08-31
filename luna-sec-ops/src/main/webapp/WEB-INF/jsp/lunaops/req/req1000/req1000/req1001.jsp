@@ -32,7 +32,7 @@
 				</div>
 				<div class="col-xl-5">
 					<div class="form-group">
-						<label class="required"><i class="flaticon2-envelope kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.email">요청자 e-mail</span></label>
+						<label class="required"><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.email">요청자 e-mail</span></label>
 						<input type="email" class="form-control" placeholder="요청자 이메일" name="reqUsrEmail" id="email" readonly="readonly" required>
 					</div>
 				</div>
@@ -40,14 +40,14 @@
 			<div class="row">
 				<div class="col-xl-7">
 					<div class="form-group">
-						<label><i class="flaticon2-avatar kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.deptNm">요청자 소속</span></label>
+						<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.deptNm">요청자 소속</span></label>
 						<input type="text" class="form-control" name="reqUsrDeptNm" id="deptName" readonly="readonly">
 						<input type="hidden" name="reqUsrDeptId" id="deptId">
 					</div>
 				</div>
 				<div class="col-xl-5">
 					<div class="form-group">
-						<label class="required"><i class="flaticon2-phone kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.telNo">요청자 연락처</span></label>
+						<label class="required"><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.telNo">요청자 연락처</span></label>
 						<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="telno" readonly="readonly" required>
 					</div>
 				</div>
