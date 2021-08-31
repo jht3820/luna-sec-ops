@@ -53,6 +53,9 @@
 	      					)
 			<isNotEmpty property="searchTargetData">
 				<isNotEmpty property="searchTargetId">
+					<isEqual property="searchTargetId" compareValue="upPrjNm" prepend="AND">
+						 	B.PRJ_GRP_NM LIKE '%'||#searchTargetData#||'%'
+					</isEqual>
 					<isEqual property="searchTargetId" compareValue="prjNm" prepend="AND">
 						 	B.PRJ_NM LIKE '%'||#searchTargetData#||'%'
 					</isEqual>

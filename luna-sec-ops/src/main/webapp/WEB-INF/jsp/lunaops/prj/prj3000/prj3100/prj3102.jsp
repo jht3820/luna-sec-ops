@@ -78,7 +78,7 @@ var OSLPrj3102Popup = function () {
 			return;
 		}
 		
-		$.osl.confirm($.osl.lang("prj3001.message.confirm.save"),null,function(result) {
+		$.osl.confirm($.osl.lang("prj3102.message.confirm.save"),null,function(result) {
 	        if (result.value) {
 	        	
 	        	var formData = form.serializeArray();

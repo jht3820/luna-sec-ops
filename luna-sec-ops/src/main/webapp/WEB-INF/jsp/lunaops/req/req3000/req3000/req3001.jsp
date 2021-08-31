@@ -113,11 +113,11 @@
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3001UnconnectReqTable" data-datatable-action="select" title="미연결 요구사항 조회" data-title-lang-cd="datatable.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="req3000.button.select">조회</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3001UnconnectReqTable" data-datatable-action="insert" title="미연결 요구사항 연결" data-title-lang-cd="datatable.button.title.insert" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="3">
-							<i class="fa fa-plus"></i><span data-lang-cd="req3000.button.insert">추가</span>
-						</button>
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3001UnconnectReqTable" data-datatable-action="connect" title="미연결 요구사항 연결" data-title-lang-cd="req3000.datatable.button.title.connect" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="connect" tabindex="2">
 							<i class="fas fa-link"></i><span data-lang-cd="req3000.button.connect">연결</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3001UnconnectReqTable" data-datatable-action="insert" title="미연결 요구사항 연결" data-title-lang-cd="datatable.button.title.insert" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="3">
+							<i class="fa fa-plus"></i><span data-lang-cd="req3000.button.insert">추가</span>
 						</button>
 					</div>
 				</div>
@@ -127,7 +127,7 @@
 							<div class="osl-datatable-search" data-datatable-id="req3001UnconnectReqTable"></div>
 						</div>
 					</div>
-					<div class="kt_datatable" id="req3001UnconnectReqTable"></div>
+					<div class="kt_datatable" id="req3001UnconnectReqTable"></div>	
 				</div>
 			</div>
 		</div>

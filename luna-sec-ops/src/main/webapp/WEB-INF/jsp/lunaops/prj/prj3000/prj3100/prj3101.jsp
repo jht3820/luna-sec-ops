@@ -152,7 +152,6 @@ var OSLPrj3101Popup = function () {
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 			}else{
-				console.log(data)
 				//가져온 데이터로 그림그리기
 				drawList(data);
 			}
