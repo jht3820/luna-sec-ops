@@ -254,8 +254,9 @@ var OSLStm8200 = function () {
 					evt.clone.setAttribute("data-file-code-pass", "Y");
 					//원본 아이템의 정보 확인
 					if(evt.clone.getAttribute("data-revision-pass")=="Y" && evt.clone.getAttribute("data-file-code-pass")=="Y"){
-						evt.clone.remove();
 						var _authGrpId = evt.item.getAttribute("data-auth-grp-id");
+						console.log(evt.clone);
+						evt.clone.remove();
 						
 						//리비전 배정에 있는 동일 객체 정보 변경
 						var otherItems = $("#strgRevisionAuth").children();
@@ -299,58 +300,47 @@ var OSLStm8200 = function () {
 				$(moveDiv).children('.osl-right-arrow-group').addClass('osl-arrow-group--hide');
 				$(moveDiv).children('.osl-left-arrow-group').removeClass('osl-arrow-group--hide');
 				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
-				//동일 객체가 있는지 확인
+				
+				//어디서 들어왔는지 확인
+				//다른 확정 리스트에서 정보 수정
+				if($(evt.from).attr("id")=="strgRevisionAuth"){
+					//리비전 목록에서 들어온 경우
+					//소스 리스트에 남아있는 동일 객체 정보 수정
+					evt.item.setAttribute("data-revision-pass", "N");
+					$.each($("#strgFileCodeAuth").children(), function(index, items){
+						if(items.getAttribute("data-auth-grp-id")==_authGrpId){
+							items.setAttribute("data-revision-pass", "N");
+						}
+					});
+				}else{
+					//소스 리스트에서 들어온 경우
+					evt.item.setAttribute("data-file-code-pass", "N");
+					//리비전 리스트에 남아있는 동일 객체 정보 수정
+					$.each($("#strgRevisionAuth").children(), function(index, items){
+						if(items.getAttribute("data-auth-grp-id")==_authGrpId){
+							items.setAttribute("data-file-code-pass", "N");
+						}
+					});
+				}
+				
+				//미배정 목록에 동일 객체가 있는지 확인
 				var _authGrpId = evt.item.getAttribute("data-auth-grp-id");
-				var result = false;
 				
 				var otherItems = $("#strgNonAssList").children();
+				var resultCnt = 0;
 				$.each(otherItems, function(idx, value){
 					//기존에 객체 있는지 확인
 					if(value.getAttribute("data-auth-grp-id")==_authGrpId){
-						console.log("value : ", value.getAttribute("data-auth-grp-id"));
-						console.log("_authGrpId : ", _authGrpId);
-						result = true;
-						
-						//있으면 복사안함, 기존 객체 정보 수정
-						evt.item.remove();
-						//어디서 들어왔는지 확인
-						if($(evt.from).attr("id")=="strgRevisionAuth"){
-							//리비전 목록에서 들어온 경우
-							value.setAttribute("data-revision-pass", "N");
-						}else{
-							//소스 목록에서 들어온 경우
-							value.setAttribute("data-file-code-pass", "N");
+						//sortable은 기존 데이터 안보이기만 할 뿐 가지고 있는듯
+						//없다가 처음 생길 땐 이미 존재하는 것으로 표현됨
+						//따라서 returnCnt가 2 이상일 땐 그리지 않음
+						resultCnt ++;
+						if(resultCnt>1){
+							//있으면 복사안함
+							evt.item.remove();
 						}
 					}
 				});
-				
-				if(result){
-					console.log("있음");
-				}else{
-					console.log("없음");
-					//없다가 들어온 객체
-					//어디서 들어왔는지 확인
-					//다른 확정 리스트에서 정보 수정
-					if($(evt.from).attr("id")=="strgRevisionAuth"){
-						//리비전 목록에서 들어온 경우
-						//소스 리스트에 남아있는 동일 객체 정보 수정
-						evt.item.setAttribute("data-revision-pass", "N");
-						$.each($("#strgFileCodeAuth").children(), function(index, items){
-							if(items.getAttribute("data-auth-grp-id")==_authGrpId){
-								items.setAttribute("data-revision-pass", "N");
-							}
-						});
-					}else{
-						//소스 리스트에서 들어온 경우
-						evt.item.setAttribute("data-file-code-pass", "N");
-						//리비전 리스트에 남아있는 동일 객체 정보 수정
-						$.each($("#strgRevisionAuth").children(), function(index, items){
-							if(items.getAttribute("data-auth-grp-id")==_authGrpId){
-								items.setAttribute("data-file-code-pass", "N");
-							}
-						});
-					}
-				}//else end
  			}
 	    });
 		//드래그 앤 드롭 끝
