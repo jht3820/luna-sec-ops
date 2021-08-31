@@ -559,7 +559,8 @@ var OSLCoreLangSetting = function () {
 					notUsedDoc : "미사용 산출물에는 하위 산출물을 추가할 수 없습니다.",
 					notRootDelete : "최상위 산출물(ROOT)은 삭제할 수 없습니다.",
 					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
-					notHaveConfFile : "등록된 파일이 존재하지 않습니다."
+					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
+					notSignUseCd : "결재를 사용하지 않는 산출물 입니다."
 				},
 				confirm:{
 					deleteDoc:"산출물 정보 삭제 시 선택한 산출물 정보 및 하위 산출물 정보가 모두 삭제됩니다. 선택한 산출물 정보를 삭제 하시겠습니까?",
@@ -682,7 +683,7 @@ var OSLCoreLangSetting = function () {
 			},
 			message : {
 				confirm : {
-					save : "${1} 건의 파일들을 결재 반려 하시겠습니까?"
+					save : "선택 파일들을 결재 반려 하시겠습니까?"
 				}
 			}
 		},
@@ -851,9 +852,9 @@ var OSLCoreLangSetting = function () {
 			alert:{
 				updateMsg : "접수 요청중인 요구사항만 수정 가능합니다.",
 				multiPwMsg : "패스워드 확인이 필요한 요구사항이 ${1}건 있습니다.<br/> 잠금된 요구사항을 제외 후 삭제 또는 잠금 요구사항은 단건 삭제하세요.",
-				selectData : "데이터를 선택하세요",
+				selectData : "요구사항을 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
-				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다.",
+				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
 			}
 		},
 		req4101:{
@@ -2608,7 +2609,8 @@ var OSLCoreLangSetting = function () {
 					notUsedDoc : "Sub-documents cannot be added to unused documents.",
 					notRootDelete : "The top-level document(ROOT) cannot be deleted.",
 					fileExtChk : "Files with an extension of [ ${1} ] cannot be attached.",
-					notHaveConfFile : "Registered file does not exist."
+					notHaveConfFile : "Registered file does not exist.",
+					notSignUseCd : "결재를 사용하지 않는 산출물 입니다."
 				},
 				confirm:{
 					deleteDoc:"When deleting a document, the selected document and all sub-documents are deleted. Do you want to delete the selected document?",

@@ -603,6 +603,11 @@ var OSLPrj3000Popup = function () {
 					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
 					var nodeData = selectNode.original;
 					
+					if(nodeData.signUseCd == '02'){
+						$.osl.alert($.osl.lang("prj3000.message.alert."));
+						return false;
+					}
+					
 					var modalData = {
 							prjId :  nodeData.prjId,
 							docId :  nodeData.docId
@@ -615,7 +620,6 @@ var OSLPrj3000Popup = function () {
 					
 					//AJAX 전송 성공 함수
 					ajaxObj.setFnSuccess(function(data){
-						console.log(data)
 						if(data.errorYn == "Y"){
 							$.osl.alert(data.message,{type: 'error'});
 							
