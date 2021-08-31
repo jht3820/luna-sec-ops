@@ -147,7 +147,7 @@
 							<input type="text" class="form-control" disabled="disabled" name="subSearchData" id="subSearchData">
 							<div class="input-group-prepend">
 								<button class="btn btn-brand" type="button" name="searchBtn" id="searchBtn">
-									<span class=""><span data-lang-cd="stm2101.button.search">검색</span></span>
+									<span data-lang-cd="stm2101.button.search">검색</span>
 								</button>
 							</div>
 						</div>

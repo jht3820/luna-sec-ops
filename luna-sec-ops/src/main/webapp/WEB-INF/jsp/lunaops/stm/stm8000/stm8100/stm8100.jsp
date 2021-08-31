@@ -12,14 +12,6 @@
 		</div>
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-wrapper">
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" title="리비전 확인 권한 설정" data-title-lang-cd="" data-datatable-id="stm8100LicPrjTree" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="authRevision" tabindex="1">
-						<i class="fa fa-chevron-circle-right"></i><span data-lang-cd="">리비전 확인 권한 설정</span>
-					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" title="소스 확인 권한 설정" data-title-lang-cd="" data-datatable-id="stm8100LicPrjTree" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="authCode" tabindex="2">
-						<i class="fa fa-chevron-circle-right"></i><span data-lang-cd="">소스 확인 권한 설정</span>
-					</button>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -84,6 +76,11 @@
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100AssignStrgTable" data-datatable-action="removeStrg" title="소스 저장소 배정 제외" data-title-lang-cd="stm8100.toolTip.removeStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="removeStrg" tabindex="2">
 							<i class="fa fa-arrow-alt-circle-down"></i><span data-lang-cd="stm8100.common.notAssign">제외</span>
 						</button>
+						<div class="btn-group" role="group">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100AssignStrgTable" data-datatable-action="authSetting" title="권한 설정" data-title-lang-cd="" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="authSetting" tabindex="3">
+							<i class="fas fa-users-cog"></i><span data-lang-cd="">권한 설정</span>
+						</button>
+					</div>
 					</div>
 				</div>
 			</div>
@@ -136,6 +133,8 @@ var OSLStm8100 = function () {
 	
 	//현재 선택 프로젝트 Id
 	var selPrjId;
+	//현재 선택 프로젝트 이름
+	var selPrjNm;
 	// 현재 선택 프로젝트의 그룹 Id
 	var selPrjGrpId;
 	
@@ -181,6 +180,7 @@ var OSLStm8100 = function () {
 					
 					// 선택한 노드에서 프로젝트 그룹 ID, 프로젝트 Id를 가져온다.
 					selPrjId = selNode.original.prjId;
+					selPrjNm = selNode.original.prjNm;
 					selPrjGrpId = selNode.original.prjGrpId;
 					
 					// 배정 데이터 테이블
@@ -242,8 +242,7 @@ var OSLStm8100 = function () {
 				"title" : "제외",
 				"dblClick": true,
 				"removeStrg" : true,
-				"authRevision" : true,
-				"authCode" : true,
+				"authSetting" : true,
 				"delete":false,
 				"update":false,
 				"lastPush": false
@@ -251,8 +250,7 @@ var OSLStm8100 = function () {
 			actionTooltip:{
 				"dblClick" : "제외",
 				"removeStrg" : "제외",
-				"authRevision" : "리비전 확인 권한 설정",
-				"authCode" : "소스 확인 권한 설정",
+				"authSetting" : "리비전 확인 권한 설정",
 			},
 			actionFn:{
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
@@ -263,18 +261,42 @@ var OSLStm8100 = function () {
 					assList = rowData;
 					deleteRepo(selPrjId, JSON.stringify(assList));
 				},
-				"authRevision": function(rowData, datatableId, type, rowNum, elem){
-					//리비전 권한 배정 팝업 호출
-				},
-				"authCode": function(rowData, datatableId, type, rowNum, elem){
-					//소스 열람 권한 배정 팝업 호출
+				"authSetting": function(rowData, datatableId, type, rowNum, elem){
+					
+					var strgRepData;
+					if(type=="list"){
+						if(rowNum == 0){
+							$.osl.alert("리비전 열람, 소스 열람 권한 설정을 위한 소스 저장소를 하나 선택하세요.");
+							return false;
+						}else if(rowNum ==1){
+							strgRepData = rowData[0];
+						}else{
+							$.osl.alert("단건만 선택하세요");
+							return false;
+						}
+					}else{
+						strgRepData = rowData;
+					}
+					//권한 배정 팝업 호출
+					var data = {
+							prjGrpId : selPrjGrpId,
+							prjId : selPrjId,
+							prjNm : selPrjNm,
+							strgRepId : strgRepData.strgRepId
+					};
+					var options = {
+							idKey: datatableId,
+							modalTitle: $.osl.escapeHtml(selPrjNm) + $.osl.escapeHtml(rowData.strgRepTitle) +" 권한팝업",
+							closeConfirm: false,
+							autoHeight:false,
+						};
+					$.osl.layerPopupOpen('/stm/stm8000/stm8200/selectStm8200View.do',data,options);
 				},
 			},
 			theme:{
 				actionBtn:{
 					"removeStrg" : " kt-hide",
-					"authRevision" :  " kt-hide",
-					"authCode" :  " kt-hide",
+					"authSetting" :  " kt-hide",
 				},
 				actionBtnIcon:{
 					"dblClick" : "fa fa-arrow-alt-circle-down",
