@@ -116,12 +116,14 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Map selectPrj3001CngInf(Map<String, String> paramMap) throws Exception {
 		return prj3100DAO.selectPrj3001CngInf(paramMap);
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void insertPrj3100FileUpload(Map<String, String> paramMap, List<FileVO> _result) throws Exception {
 		
@@ -154,6 +156,7 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Map> selectPrj3001CngInfList(Map<String, String> paramMap) throws Exception {
 		return prj3100DAO.selectPrj3001CngInfList(paramMap);

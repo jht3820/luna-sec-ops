@@ -430,8 +430,6 @@ var OSLPrj3000Popup = function () {
 						$.osl.alert($.osl.lang("prj3100.message.alert.treeSelect"));
 						return false;
 					}
-					
-
 
 					var docId = $('#docId').val();
 					
@@ -444,7 +442,6 @@ var OSLPrj3000Popup = function () {
 					
 					//AJAX 전송 성공 함수
 					ajaxObj.setFnSuccess(function(data){
-						console.log(data)
 						if(data.errorYn == "Y"){
 							$.osl.alert(data.message,{type: 'error'});
 							
@@ -458,14 +455,14 @@ var OSLPrj3000Popup = function () {
 							//1개라면 1개만 다운로드
 							}else if(data.fileCnt == 1){
 								//파일 다운
-								$.osl.file.fileDownload(data.atchFileId, data.fileSn);
+								$.osl.file.fileDownload(atchFileId, data.fileSn);
 								
 							//여러개라면 팝업창 오픈
 							}else{
 								
 								var data = {
 										docId : docId,
-										atchFileId : data.atchFileId,
+										atchFileId : atchFileId,
 										docNm : $('#docNm').val()
 								};
 								var options = {
@@ -598,7 +595,7 @@ var OSLPrj3000Popup = function () {
 							
 							//AJAX 설정
 							var ajaxObj = new $.osl.ajaxRequestAction(
-									{"url":"<c:url value='/prj/prj3000/prj3000/updatePrj3001SignAprAjax.do'/>"}
+									{"url":"<c:url value='/prj/prj3000/prj3100/updatePrj3001SignAprAjax.do'/>"}
 									,{deleteDataList: JSON.stringify(checkedFileSn), docId:nodeData.docId, prjId:nodeData.prjId, ord:ord});
 							//AJAX 전송 성공 함수
 							ajaxObj.setFnSuccess(function(data){
@@ -947,7 +944,6 @@ var OSLPrj3000Popup = function () {
 					$.osl.layerPopupOpen('/prj/prj3000/prj3000/selectPrj3002View.do',data,options);
 				},
 				"delete":function(rowDatas, datatableId, type, rowNum, elem){
-					console.log(rowDatas);
 					return;
 					//AJAX 설정
 					var ajaxObj = new $.osl.ajaxRequestAction(
@@ -1199,14 +1195,17 @@ var OSLPrj3000Popup = function () {
 			var imgExt = ['jpg','jpeg','png','gif'];
 			
 			//파일 종류에 따라 이미지 다르게 설정
+			//pdf 파일일 경우
 			if(fileData.fileExtsn == 'pdf'){
 				iconPath =	'<path d="M9.766 8.295c-.691-1.843-.539-3.401.747-3.726 1.643-.414 2.505.938 2.39 3.299-.039.79-.194 1.662-.537 3.148.324.49.66.967 1.055 1.51.17.231.382.488.629.757 1.866-.128 3.653.114 4.918.655 1.487.635 2.192 1.685 1.614 2.84-.566 1.133-1.839 1.084-3.416.249-1.141-.604-2.457-1.634-3.51-2.707a13.467 13.467 0 0 0-2.238.426c-1.392 4.051-4.534 6.453-5.707 4.572-.986-1.58 1.38-4.206 4.914-5.375.097-.322.185-.656.264-1.001.08-.353.306-1.31.407-1.737-.678-1.059-1.2-2.031-1.53-2.91zm2.098 4.87c-.033.144-.068.287-.104.427l.033-.01-.012.038a14.065 14.065 0 0 1 1.02-.197l-.032-.033.052-.004a7.902 7.902 0 0 1-.208-.271c-.197-.27-.38-.526-.555-.775l-.006.028-.002-.003c-.076.323-.148.632-.186.8zm5.77 2.978c1.143.605 1.832.632 2.054.187.26-.519-.087-1.034-1.113-1.473-.911-.39-2.175-.608-3.55-.608.845.766 1.787 1.459 2.609 1.894zM6.559 18.789c.14.223.693.16 1.425-.413.827-.648 1.61-1.747 2.208-3.206-2.563 1.064-4.102 2.867-3.633 3.62zm5.345-10.97c.088-1.793-.351-2.48-1.146-2.28-.473.119-.564 1.05-.056 2.405.213.566.52 1.188.908 1.859.18-.858.268-1.453.294-1.984z"></path>';
 				iconClass = 'osl-uppy-pdf-bg';
 				iconColor = '#E2514A';
+			//압축 파일일 경우
 			}else if(fileData.fileExtsn == 'zip'){
 				iconPath = '<path d="M10.45 2.05h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V2.55a.5.5 0 0 1 .5-.5zm2.05 1.024h1.05a.5.5 0 0 1 .5.5V3.6a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5v-.001zM10.45 0h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 3.074h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 1.024h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm-2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-1.656 3.074l-.82 5.946c.52.302 1.174.458 1.976.458.803 0 1.455-.156 1.975-.458l-.82-5.946h-2.311zm0-1.025h2.312c.512 0 .946.378 1.015.885l.82 5.946c.056.412-.142.817-.501 1.026-.686.398-1.515.597-2.49.597-.974 0-1.804-.199-2.49-.597a1.025 1.025 0 0 1-.5-1.026l.819-5.946c.07-.507.503-.885 1.015-.885zm.545 6.6a.5.5 0 0 1-.397-.561l.143-.999a.5.5 0 0 1 .495-.429h.74a.5.5 0 0 1 .495.43l.143.998a.5.5 0 0 1-.397.561c-.404.08-.819.08-1.222 0z"></path>';
 				iconClass = 'osl-uppy-archive-bg';
 				iconColor = '#00C469';
+			//그 외의 경우
 			}else{
 				iconPath = '<path d="M5.5 22a.5.5 0 0 1-.5-.5v-18a.5.5 0 0 1 .5-.5h10.719a.5.5 0 0 1 .367.16l3.281 3.556a.5.5 0 0 1 .133.339V21.5a.5.5 0 0 1-.5.5h-14zm.5-1h13V7.25L16 4H6v17z"></path><path d="M15 4v3a1 1 0 0 0 1 1h3V7h-3V4h-1z"></path>';
 				iconClass = 'osl-uppy-file-bg';
@@ -1215,8 +1214,8 @@ var OSLPrj3000Popup = function () {
 			
 			var fileDivbefore = 	'';
 			
-			//결재 상태가 결재 대기 일 때
-			if(fileData.usrId == $.osl.user.userInfo.usrId){
+			//결재 상태가 결재 대기 이고 결재 순번이 본인일 때
+			if(fileData.usrId == $.osl.user.userInfo.usrId && fileData.infType == '02'){
 				fileDivbefore += 	'<div class="osl-uppy-file osl-uppy-file--fullsize" >'
 									+	'<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__right-btn osl-uppy__right kt-margin-r-10"></div>'
 									+	'<div class="kt-padding-t-15 kt-padding-b-15 float-left">'
@@ -1225,7 +1224,7 @@ var OSLPrj3000Popup = function () {
 										+	'</label>'
 									+	'</div>';
 			}
-			//결재 대기 아닐 때
+			// 아닐 때
 			else{
 				fileDivbefore += 	'<div class="osl-uppy-file osl-uppy-file--fullsize">'
 									+	'<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__right-btn osl-uppy__right kt-margin-r-10"></div>'
@@ -1260,7 +1259,9 @@ var OSLPrj3000Popup = function () {
 										+		'<i class="fas fa-arrow-circle-down"></i>'
 										+	'</div>'
 			}
+			
 			var fileDivAfter = 			'';
+			
 			//결재 상태가 확정일 때
 			if(fileData.infType == '01'){
 				fileDivAfter = 			'</div>'
@@ -1296,7 +1297,6 @@ var OSLPrj3000Popup = function () {
 		
 		//확정 대기 산출물 양식 리스트 돌기
 		$.each(waitFileList, function(idx, fileData){
-			console.log(fileData)
 			var fileVolume =$.osl.byteCalc(fileData.fileMg);
 			var iconPath = '';
 			var iconTitle = '';
@@ -1393,8 +1393,6 @@ var OSLPrj3000Popup = function () {
 				
 				atchFileId = $('#docWaitFileId').val();
 			}
-			
-			console.log(atchFileId, fileSn)
 			
 			//파일 다운
 			$.osl.file.fileDownload(atchFileId,fileSn);
@@ -1562,7 +1560,7 @@ var OSLPrj3000Popup = function () {
 			atchFileId = $('#docFormConfFileId').val();				
 		}
 		var docNm = $('#docNm').val();
-		console.log(docNm)
+		
 		if(!$.osl.isNull(docId) && !$.osl.isNull(atchFileId) && !$.osl.isNull(docNm)){
 			var url = '/prj/prj3000/prj3100/selectPrj3100ZipDownload.do?atchFileId='+atchFileId+'&docId='+docId+'&fileType='+fileType;
 			var fileLink = document.createElement("a");

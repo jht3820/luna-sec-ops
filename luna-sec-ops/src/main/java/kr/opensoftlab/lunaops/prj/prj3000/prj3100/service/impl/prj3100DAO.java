@@ -39,6 +39,7 @@ public class Prj3100DAO extends ComOslitsAbstractDAO {
 	}
 
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Map> selectPrj3001CngInfList(Map<String, String> paramMap) throws Exception{
 		return (List) list("prj3100DAO.selectPrj3001CngList", paramMap);
 	}
