@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.Prj1100Service;
 
@@ -110,8 +111,13 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void savePrj1100ProcessDataInfo(Map paramMap) throws Exception{
+		
 		String processData = (String) paramMap.get("processData");
+		String addData = (String) paramMap.get("addData");
 		String removeData = (String) paramMap.get("removeData");
+		
+		
+		Map newFlowIdList = new HashMap<>();
 		
 		String prjId = (String) paramMap.get("prjId");
 		String processId = (String) paramMap.get("processId");
@@ -121,15 +127,47 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		
 		
 		JSONObject jsonObj = new JSONObject(processData);
+		JSONArray addDataObj = new JSONArray(addData);
 		JSONArray removeDataObj = new JSONArray(removeData);
 		
 		
 		prj1100DAO.deletePrj1100FlowNextIdList(paramMap);
 		
 		
+		if(addDataObj != null && addDataObj.length() > 0) {
+			for(int i=0;i<addDataObj.length();i++) {
+				String key = addDataObj.getString(i);
+				
+				JSONObject newFlowData = jsonObj.getJSONObject(key);
+				JSONObject newFlowProp = newFlowData.getJSONObject("properties");
+				
+				String beforeFlowId = newFlowProp.getString("id");
+				
+				
+				Map newMap = new Gson().fromJson(newFlowProp.toString(), HashMap.class);
+				newMap.put("prjId", prjId);
+				newMap.put("processId", processId);
+				newMap.put("flowLeft", newFlowData.get("left"));
+				newMap.put("flowTop", newFlowData.get("top"));
+				newMap.put("flowNm", newFlowProp.get("title"));
+				newMap.put("regUsrId", paramMap.get("regUsrId"));
+				newMap.put("regUsrIp", paramMap.get("regUsrIp"));
+				newMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
+				newMap.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
+				
+				String newFlowId = prj1100DAO.insertPrj1101FlowInfo(newMap);
+				
+				
+				newFlowIdList.put(beforeFlowId, newFlowId);
+			}
+		}
+		
+		
 		Iterator<String> keys = jsonObj.keys();
 		while(keys.hasNext()) {
 		    String key = keys.next();
+		    String beforeKey = key;
+		    
 		    paramMap.put("flowId", key);
 		    
 		    
@@ -150,11 +188,21 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    JSONArray flowNextIdList = null;
 		    
 		    
+		    if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(key)) {
+		    	paramMap.put("flowId", newFlowIdList.get(key));
+		    }
+		    
+		    
 		    if(properties.has("flowNextId")) {
 		    	flowNextIdList = properties.getJSONArray("flowNextId");
 		    	if(flowNextIdList.length() > 0) {
 		    		for(int i=0;i<flowNextIdList.length();i++) {
 		    			String flowNextId = flowNextIdList.getString(i);
+		    			
+		    			
+		    			if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(flowNextId)) {
+		    				flowNextId = (String) newFlowIdList.get(flowNextId);
+		    			}
 		    			paramMap.put("flowNextId", flowNextId);
 		    		
 		    			
@@ -163,6 +211,10 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    	}
 		    }
 		    
+		    
+		    if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(key)) {
+		    	continue;
+		    }
 		    
 		    Map flowMapData = new Gson().fromJson(properties.toString(), HashMap.class);
 		    flowMapData.put("prjId", prjId);
@@ -190,7 +242,6 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    
 			prj1100DAO.deletePrj1101FlowInfo(newMap);
 		}
-		
 	}
 	
 	

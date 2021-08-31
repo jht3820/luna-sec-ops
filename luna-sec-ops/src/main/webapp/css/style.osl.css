@@ -348,6 +348,9 @@ input:-webkit-autofill,
 	background-color: #eee !important;
 }
 /* code 영역 배경색 */
+.form-control[readonly] {
+    background-color: #f7f8fa;
+}
 .osl-code-bg{
 	background-color: #23241f;
 }
@@ -1752,7 +1755,18 @@ label.required:after {
     0% { border: 1px solid transparent; }
     100% { border: solid 1px #fd397a; }
 }
-
+.kt-inbox .kt-inbox__toolbar .kt-inbox__search .input-group .input-group-text:hover > i {
+    cursor: pointer;
+    color: #1cac81;
+}
+.kt-inbox .kt-inbox__aside .kt-inbox__nav .kt-nav .kt-nav__item .kt-nav__link{
+	flex-wrap: wrap;
+}
+.osl-process__dtm {
+    flex-basis: 100%;
+    color: #a1a7c4;
+    text-align: right;
+}
 /*******************begin :: wizard*******************/
 /*내용 영역 포함 전체 wizard*/
 .osl-wizard {
