@@ -338,100 +338,15 @@ public class Req4100Controller {
 	}
 	
 	
-	@RequestMapping(value="/req/req4000/req4100/selectReq4103View.do")
-	public String selectReq4103View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-			return "/req/req4000/req4100/req4103";
+	@RequestMapping(value="/req/req4000/req4100/selectReq4104View.do")
+	public String selectReq4104View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/req/req4000/req4100/req4104";
 	}
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value="/req/req4000/req4100/selectReq4103UsrListAjax.do")
-	public ModelAndView selectReq4103UsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		try {
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-			HttpSession ss = request.getSession();
-			
-			String paramPrjGrpId = (String) paramMap.get("prjGrpId");
-			
-			
-			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
-				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
-			}
-			
-			
-			String paramPrjId = (String) paramMap.get("prjId");
-			
-			
-			if(paramPrjId == null || "".equals(paramPrjId)) {
-				paramPrjId = (String) ss.getAttribute("selPrjId");
-			}
-			
-			paramMap.put("prjGrpId", paramPrjGrpId);
-			paramMap.put("prjId", paramPrjId);
-			
-			
-			String sortFieldId = (String) paramMap.get("sortFieldId");
-			sortFieldId = OslStringUtil.replaceRegex(sortFieldId,"[^A-Za-z0-9+]*");
-			String sortDirection = (String) paramMap.get("sortDirection");
-			String paramSortFieldId = OslStringUtil.convertUnderScope(sortFieldId);
-			paramMap.put("paramSortFieldId", paramSortFieldId);
-			
-			
-			
-			String _pageNo_str = paramMap.get("pagination[page]");
-			String _pageSize_str = paramMap.get("pagination[perpage]");
-			
-			
-			int totCnt = stm3000Service.selectStm3000UsrListCnt(paramMap);
-			
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-			
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-			
-			
-			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
-			
-			
-			List<Map> req4103UsrList = stm3000Service.selectStm3000UsrList(paramMap);
-			
-			
-			metaMap.put("sort", sortDirection);
-			metaMap.put("field", sortFieldId);
-			
-			
-			model.addAttribute("data", req4103UsrList);
-			model.addAttribute("meta", metaMap);
-			
-			
-			model.addAttribute("errorYn", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-			
-			return new ModelAndView("jsonView");
-		} catch (Exception ex) {
-			Log.error("selectReq4103UsrListAjax()", ex);
-			
-			
-			model.addAttribute("errorYn", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	@RequestMapping(value="/req/req4000/req4100/selectReq4105View.do")
-	public String selectReq4105View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		return "/req/req4000/req4100/req4105";
-	}
-	
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value="/req/req4000/req4100/selectReq4105ReqGrpListAjax.do")
-	public ModelAndView selectReq4105UsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+	@RequestMapping(value="/req/req4000/req4100/selectReq4104ReqGrpListAjax.do")
+	public ModelAndView selectReq4104UsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try {
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
@@ -483,14 +398,14 @@ public class Req4100Controller {
 			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
 			
-			List<Map> req4105ReqGrpList = req3000Service.selectReq3000ReqGrpList(paramMap);
+			List<Map> req4104ReqGrpList = req3000Service.selectReq3000ReqGrpList(paramMap);
 			
 			
 			metaMap.put("sort", sortDirection);
 			metaMap.put("field", sortFieldId);
 			
 			
-			model.addAttribute("data", req4105ReqGrpList);
+			model.addAttribute("data", req4104ReqGrpList);
 			model.addAttribute("meta", metaMap);
 			
 			
@@ -747,9 +662,9 @@ public class Req4100Controller {
     }
 	
 	
-	@RequestMapping(value="/req/req4000/req4100/selectReq4104View.do")
-	public String selectReq4104View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		return "/req/req4000/req4100/req4104";
+	@RequestMapping(value="/req/req4000/req4100/selectReq4103View.do")
+	public String selectReq4103View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/req/req4000/req4100/req4103";
 	}
 	
 	
@@ -865,6 +780,9 @@ public class Req4100Controller {
     		LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
     		paramMap.put("usrId", loginVO.getUsrId());
     		
+			
+			
+			
 			
 			String _pageNo_str = paramMap.get("pagination[page]");
 			String _pageSize_str = paramMap.get("pagination[perpage]");
