@@ -14,6 +14,12 @@
 		</div>
 		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 			<div class="kt-portlet__head">
+				<!-- 리비전 검색 -->
+				<div class="kt-portlet__head-label">
+					<div class="osl-datatable-search kt-margin-b-0" data-datatable-id="stm8002RepTable"></div>
+				</div>
+			</div>
+			<div class="kt-portlet__head">
 				<div class="kt-portlet__head-label kt-portlet__head--lg">
 					<h6 class="kt-font-boldest kt-font-brand kt-margin-r-20">
 						리비전 번호
@@ -29,18 +35,12 @@
 				</div>
 			</div>
 			<div class="kt-portlet__body kt-padding-15 osl-min-h-px--580">
-				<!-- 리비전 검색 -->
-				<div class="row kt-margin-b-10">
-					<div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12">
-						<div class="osl-datatable-search" data-datatable-id="stm8002RepTable"></div>
-					</div>
-				</div>
 				<!-- 리비전 목록 -->
 				<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="stm8002RepTable"></div>
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-7 col-md-12 col-sm-12 col-12">
+	<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-margin-t-20-tablet">
 		<div class="kt-portlet kt-margin-b-10">
 			<div class="kt-portlet__head">
 				<div class="kt-portlet__head-label">
