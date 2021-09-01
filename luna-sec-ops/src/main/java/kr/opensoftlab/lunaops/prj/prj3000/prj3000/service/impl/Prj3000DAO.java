@@ -56,6 +56,7 @@ public class Prj3000DAO extends ComOslitsAbstractDAO {
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	public void deletePrj3000DocInfo(Map infoMap) throws Exception{
 		delete("prj3000DAO.deletePrj3000DocInfo", infoMap);
 	}
@@ -108,9 +109,24 @@ public class Prj3000DAO extends ComOslitsAbstractDAO {
 	}
 	
 	
+	public void insertPrj3003SignInfo(Map<String, String> paramMap) throws Exception{
+		insert("prj3000DAO.insertPrj3003SingInfo",paramMap);
+	}
 	
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectPrj3003SingUsrList(Map<String, String> paramMap) throws Exception{
+		return (List) list("prj3000DAO.selectPrj3003SignInfoList",paramMap);
+	}
+	
+	
+	
+	
+	
+	public void deletePrj3003SignInfo(Map<String, String> paramMap) throws Exception{
+		delete("prj3000DAO.deletePrj3003SignInfo",paramMap);
+	}
 	
 	
 	
@@ -130,4 +146,15 @@ public class Prj3000DAO extends ComOslitsAbstractDAO {
 	public String insertPrj3000ParamMenuInfo(Map paramMap) throws Exception{
 		return (String) insert("prj3000DAO.insertPrj3000ParamMenuInfo", paramMap);
 	}
+
+	
+	public int selectPrj3001WaitSignCnt(Map<String, String> paramMap)throws Exception {
+		return (Integer) select("prj3000DAO.seletePrj3001WaitSignCnt", paramMap);
+	}
+
+	
+
+	
+
+	
 }

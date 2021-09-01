@@ -1,8 +1,11 @@
-
+/**
+ 	* function 명 	: OSLCoreLangSetting
+	* function 설명	: core에서 사용되는 언어 데이터를 세팅한다.
+	*/
 var OSLCoreLangSetting = function () {
-	
+	//언어 세팅 데이터
 	var lang = {};
-	
+	//한국어
 	lang["ko"] = {
 		fromValidate:{
 			messages: {
@@ -182,7 +185,7 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  
+		            doy : 4  // The week that contains Jan 4th is the first week of the year.
 		        }
 		    },
 		    agoTime:{
@@ -220,7 +223,7 @@ var OSLCoreLangSetting = function () {
 					saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)",
 					allUsrInsert:"${1}건의 사용자를 배정하시겠습니까?",
 					allUsrInDelete:"${1}건의 사용자를 배정 제외하시겠습니까?"
-				}
+				},
 			},
 			error:{
 				sessionInvalid:"세션이 만료되어 로그인 페이지로 이동합니다.",
@@ -249,7 +252,7 @@ var OSLCoreLangSetting = function () {
 				closeAlert: "팝업 창을 닫으시겠습니까?"
 			}
 		},
-		
+		/* 페이지 언어 */
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -269,7 +272,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "답장",
 				checkBtn : "읽음",
 			},
-			
+			/*검색 바 메뉴 추가한 경우 */
 			field: {
 				sendUsrId : "보낸 사람 ID",
 				sendUsrEmail : "보낸 사람 e-mail",
@@ -346,14 +349,31 @@ var OSLCoreLangSetting = function () {
 				},
 			}
 		},cmm17000:{
+			title:{
+				mainPrjSetting:"메인프로젝트 설정",
+				searchPrj:"프로젝트 검색",
+			},
 			field: {
-				
+				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
 				prjNm : "프로젝트 명",
+				
 			},
 			actionBtn : {
 				title : "선택",
 				clickBtn : "선택",
 			},
+		},
+		cmm25000:{
+			message : {
+				confirm : {
+					saveString : "결재선 정보를 저장 하시겠습니까?"
+				}
+			}
+		},
+		cmm25100:{
+			infomation : {
+				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
+			}
 		},
 		prj1000:{
 			startDate: "시작일",
@@ -472,7 +492,10 @@ var OSLCoreLangSetting = function () {
 				manyEndFlow: "${1}개의 종료 단계가 발견되었습니다.",
 				flowLinkCheck: "</br>단계 연결 데이터를 확인하세요.",
 				deleteFlow: "${1} 단계를 삭제하시겠습니까?</br>업무 처리에 문제가 발생 할 수 있습니다.",
-				deleteReqCheck: "${1}건의 진행중인 요구사항이 있습니다.</br>요구사항의 단계 진행을 완료해야 삭제가 가능합니다."
+				deleteReqCheck: "${1}건의 진행중인 요구사항이 있습니다.</br>요구사항의 단계 진행을 완료해야 삭제가 가능합니다.",
+				searchEmpty: "검색하려는 단계명을 입력하세요.",
+				processUseCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
+				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다."
 			}
 		},
 		prj1101:{
@@ -536,7 +559,8 @@ var OSLCoreLangSetting = function () {
 					notUsedDoc : "미사용 산출물에는 하위 산출물을 추가할 수 없습니다.",
 					notRootDelete : "최상위 산출물(ROOT)은 삭제할 수 없습니다.",
 					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
-					notHaveConfFile : "등록된 파일이 존재하지 않습니다."
+					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
+					notSignUseCd : "결재를 사용하지 않는 산출물 입니다."
 				},
 				confirm:{
 					deleteDoc:"산출물 정보 삭제 시 선택한 산출물 정보 및 하위 산출물 정보가 모두 삭제됩니다. 선택한 산출물 정보를 삭제 하시겠습니까?",
@@ -547,7 +571,9 @@ var OSLCoreLangSetting = function () {
 				title : {
 					insertDoc : "신규 산출물 양식 등록",
 					updateDoc : "산출물 양식 수정",
-					insertDocCon : "산출물 연결"
+					insertDocCon : "산출물 연결",
+					saveSignLine : "결재선 지정",
+					selectSignLine : "결재선 조회"
 				}
 			},
 			contextmenu : {
@@ -580,46 +606,6 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
-		prj3100 : {
-			label : {
-				docId : "산출물 ID",
-				docNm : "산출물 명",
-				docUseCd : "사용 유무",
-				docOrd : "순번",
-				docEdDtm : "만료일자",
-				signUseCd : "결재 사용 유무",
-				docDesc : "비고"
-			},
-			message : {
-				alert : {
-					treeSelect : "왼쪽 트리에서 산출물을 선택해주세요.",
-					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
-					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
-					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다."
-				},
-				confirm:{
-					deleteFormFile:"산출물 양식 파일을 삭제 하시겠습니까?"
-				} 
-			},
-			modal : {
-				title : {
-					insertDocCon : "산출물 연결"
-				}
-			},
-			contextmenu : {
-				formFileDownload : "양식 다운로드",
-				atchFileDownload : "확정 산출물 다운로드",
-				waitFileDownload : "확정 대기 산출물 다운로드"
-			}
-		},
-		prj3101 : {
-			message : {
-				alert : {
-					notCheckedFile : "선택된 파일이 없습니다.",
-					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다."
-				}
-			}
-		},
 		prj3002 : {
 			label : {
 				upperDocId : "상위 산출물 ID",
@@ -641,6 +627,65 @@ var OSLCoreLangSetting = function () {
 			},
 			allDocConInsert : "${1}건의 산출물 정보를 연결하시겠습니까?",
 			allDocConDelete : "${1}건의 산출물 정보를 연결 해제하시겠습니까?"
+		},
+		prj3100 : {
+			label : {
+				docId : "산출물 ID",
+				docNm : "산출물 명",
+				docUseCd : "사용 유무",
+				docOrd : "순번",
+				docEdDtm : "만료일자",
+				signUseCd : "결재 사용 유무",
+				docDesc : "비고"
+			},
+			message : {
+				alert : {
+					treeSelect : "왼쪽 트리에서 산출물을 선택해주세요.",
+					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
+					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
+					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다.",
+					notCheckedFile : "선택된 파일이 없습니다."
+				},
+				confirm:{
+					deleteFormFile:"산출물 양식 파일을 삭제 하시겠습니까?",
+					signAtchFile : "선택된 파일들을 결재 하시겠습니까?"
+				} 
+			},
+			modal : {
+				title : {
+					insertDocCon : "산출물 연결",
+					signRjtRes : "결재 반려"
+				}
+			},
+			contextmenu : {
+				formFileDownload : "양식 다운로드",
+				atchFileDownload : "확정 산출물 다운로드",
+				waitFileDownload : "확정 대기 산출물 다운로드"
+			},
+			toastr : {
+				success : "${1} 건의 결재가 성공했습니다."
+			}
+		},
+		prj3101 : {
+			message : {
+				alert : {
+					notCheckedFile : "선택된 파일이 없습니다.",
+					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다."
+				}
+			}
+		},
+		prj3102 : {
+			label : {
+				rjtRes : "반려 사유"
+			},
+			button : {
+				save : "작성 완료"
+			},
+			message : {
+				confirm : {
+					save : "선택 파일들을 결재 반려 하시겠습니까?"
+				}
+			}
 		},
 		prj5000:{
 			button:{
@@ -777,11 +822,13 @@ var OSLCoreLangSetting = function () {
 		},
 		req4100:{
 			button:{
-				copyBtn : "복사"
+				copyBtn : "복사",
+				requestAccept: "접수"
 			},
 			field:{
-				
+				/*외부 주입 search bar 인 경우 사용*/
 				prjGrpNm: "프로젝트 그룹명",
+				reqGrpNm: "그룹 요구사항 명",
 			},
 			actionBtn:{
 				title : "수정 / 삭제 / 상세 / 복사",
@@ -794,7 +841,8 @@ var OSLCoreLangSetting = function () {
 				updateTooltip : "요구사항 수정",
 				deleteTooltip : "요구사항 삭제",
 				detailTooltip : "요구사항 상세",
-				copyTooltip : "요구사항 복사"
+				copyTooltip : "요구사항 복사",
+				requestAcceptToolip: "요구사항 접수",
 			},
 			title:{
 				insertTitle : "신규 요구사항 등록",
@@ -804,9 +852,9 @@ var OSLCoreLangSetting = function () {
 			alert:{
 				updateMsg : "접수 요청중인 요구사항만 수정 가능합니다.",
 				multiPwMsg : "패스워드 확인이 필요한 요구사항이 ${1}건 있습니다.<br/> 잠금된 요구사항을 제외 후 삭제 또는 잠금 요구사항은 단건 삭제하세요.",
-				selectData : "데이터를 선택하세요",
+				selectData : "요구사항을 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
-				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다.",
+				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
 			}
 		},
 		req4101:{
@@ -887,7 +935,7 @@ var OSLCoreLangSetting = function () {
 		},
 		req4103:{
 			field: {
-				
+				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
 				usrNm : "사용자명",
 			},
 			actionBtn : {
@@ -1110,7 +1158,7 @@ var OSLCoreLangSetting = function () {
 			notAuthority : {
 					basic : "해당 게시판에 대한 권한이 없습니다.",
 			},
-			
+			/*카드형 그리기로 인해 선언, 데이터 테이블 필드명과 동일하게 지정*/
 			field:{
 				stmTypeNm: "유형",
 				stmNm: "게시판명",
@@ -1734,9 +1782,9 @@ var OSLCoreLangSetting = function () {
 				noticeBadge: "공지",
 			},
 			field:{
-				
+				/*태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기*/
 				tagNm:"태그",
-				
+				/*외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정*/
 				badContent: "내용",
 				badNtcCheck : "공지유무",
 				delCd:"삭제유무",
@@ -1877,7 +1925,7 @@ var OSLCoreLangSetting = function () {
 		}
 	};
 	
-	
+	//영어
 	lang["en"] = {
 		fromValidate:{
 			messages: {
@@ -1989,7 +2037,7 @@ var OSLCoreLangSetting = function () {
 				placeholder: "After entering, please press enter key",
 				allTitle: "All"
 			},
-			
+			/* 추가된 datatable별로 언어 지정 */
 			arm1000CmmTable:{
 				sendUsrNm : "From User Name",
 				armTitle : "Title",
@@ -2291,7 +2339,7 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  
+		            doy : 4  // The week that contains Jan 4th is the first week of the year.
 		        }
 		    },
 		    agoTime:{
@@ -2346,7 +2394,7 @@ var OSLCoreLangSetting = function () {
 				cancel: "Cancel"
 			}
 		},
-		
+		/* 페이지 언어 */
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -2366,7 +2414,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "Reply",
 				checkBtn : "Read Check"
 			},
-			
+			/*검색 바 메뉴 추가한 경우 */
 			field: {
 				sendUsrId : "From User Id",
 				sendUsrEmail : "From User E-mail",
@@ -2420,6 +2468,7 @@ var OSLCoreLangSetting = function () {
 		cmm17000:{
 			title:{
 				mainPrjSetting:"Main Project Setting",
+				searchPrj:"Project Search",
 			},
 			field:{
 				prjNm:"Project Name",
@@ -2430,6 +2479,18 @@ var OSLCoreLangSetting = function () {
 			button:{
 				search:"Search"
 			},
+		},
+		cmm25000:{
+			message : {
+				confirm : {
+					saveString : "Do you want to save the approval line information?"
+				}
+			}
+		},
+		cmm25100:{
+			infomation : {
+				cannotUpdate : "If there is a file waiting for approval, the approval line cannot be modified."
+			}
 		},
 		dpl1100:{
 			title : {
@@ -2548,7 +2609,8 @@ var OSLCoreLangSetting = function () {
 					notUsedDoc : "Sub-documents cannot be added to unused documents.",
 					notRootDelete : "The top-level document(ROOT) cannot be deleted.",
 					fileExtChk : "Files with an extension of [ ${1} ] cannot be attached.",
-					notHaveConfFile : "Registered file does not exist."
+					notHaveConfFile : "Registered file does not exist.",
+					notSignUseCd : "결재를 사용하지 않는 산출물 입니다."
 				},
 				confirm:{
 					deleteDoc:"When deleting a document, the selected document and all sub-documents are deleted. Do you want to delete the selected document?",
@@ -2559,7 +2621,9 @@ var OSLCoreLangSetting = function () {
 				title : {
 					insertDoc : "Register New Document Form",
 					updateDoc : "Modifying Document Form",
-					insertDocCon : "Document Linkage"
+					insertDocCon : "Document Linkage",
+					saveSignLine : "Designation of approval line",
+					selectSignLine : "Select approval line"
 				}
 			},
 			contextmenu : {
@@ -2592,46 +2656,6 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
-		prj3100 : {
-			label : {
-				docId : "Document ID",
-				docNm : "Document Name",
-				docUseCd : "Document Use",
-				docOrd : "Document Order",
-				docEdDtm : "Document End Date",
-				signUseCd : "Sign Use",
-				docDesc : "Document description"
-			},
-			message : {
-				alert : {
-					treeSelect : "Select a document in the tree on the left.",
-					fileExtChk : "Files with an extension of [ ${1} ] cannot be attached.",
-					notHaveConfFile : "Registered file does not exist.",
-					lackDownloadInfo : "Insufficient information for download."
-				},
-				confirm:{
-					deleteFormFile:"Would you like to delete file?"
-				} 
-			},
-			modal : {
-				title : {
-					insertDocCon : "Document Linkage"
-				}
-			},
-			contextmenu : {
-				formFileDownload : "Download Form Files",
-				atchFileDownload : "Download confirmed Files",
-				waitFileDownload : "Download wait Files"
-			}
-		},
-		prj3101 : {
-			message : {
-				alert : {
-					notCheckedFile : "No file selected.",
-					lackDownloadInfo : "Insufficient information for download."
-				}
-			}
-		},
 		prj3002 : {
 			label : {
 				upperDocId : "Upper Document ID",
@@ -2653,6 +2677,65 @@ var OSLCoreLangSetting = function () {
 			},
 			allDocConInsert : "Are you sure you want to connect ${1} document data?",
 			allDocConDelete : "Are you sure you want to disconnect ${1} document data?"
+		},
+		prj3100 : {
+			label : {
+				docId : "Document ID",
+				docNm : "Document Name",
+				docUseCd : "Document Use",
+				docOrd : "Document Order",
+				docEdDtm : "Document End Date",
+				signUseCd : "Sign Use",
+				docDesc : "Document description"
+			},
+			message : {
+				alert : {
+					treeSelect : "Select a document in the tree on the left.",
+					fileExtChk : "Files with an extension of [ ${1} ] cannot be attached.",
+					notHaveConfFile : "Registered file does not exist.",
+					lackDownloadInfo : "Insufficient information for download.",
+					notCheckedFile : "No file selected."
+				},
+				confirm:{
+					deleteFormFile:"Would you like to delete file?",
+					signAtchFile : "Would you like to approve the selected files?"
+				} 
+			},
+			modal : {
+				title : {
+					insertDocCon : "Document Linkage",
+					signRjtRes : "return of approval"
+				}
+			},
+			contextmenu : {
+				formFileDownload : "Download Form Files",
+				atchFileDownload : "Download confirmed Files",
+				waitFileDownload : "Download wait Files"
+			},
+			toastr : {
+				success : "success approval [${1} files]"
+			}
+		},
+		prj3101 : {
+			message : {
+				alert : {
+					notCheckedFile : "No file selected.",
+					lackDownloadInfo : "Insufficient information for download."
+				}
+			}
+		},
+		prj3102 : {
+			label : {
+				rjtRes : "Reason for rejection"
+			},
+			button : {
+				save : "save"
+			},
+			message : {
+				confirm : {
+					save : "Do you want to save the approval line information?"
+				}
+			}
 		},
 		prj5000:{
 			button:{
@@ -2700,16 +2783,18 @@ var OSLCoreLangSetting = function () {
 		},usr1100:{
 			title:{
 				shortcut:"Menu and rights management shortcut",
-				shortcut01:"Project and Authority group select",
-				shortcut02:"Popup align Center",
-				shortcut03:"Add tool bar",
-				shortcut04:"Search",
-				shortcut05:"Mypage",
-				shortcut06:"Message",
-				shortcut07:"Alarm",
-				shortcut08:"Personal Setting",
-				shortcut09:"Charged requirements",
-				shortcut10:"Logout",
+				shortcut01:"Shortcut View",
+				shortcut02:"Project and Authority group select",
+				shortcut03:"Popup align Center",
+				shortcut04:"Add tool bar",
+				shortcut05: "Refresh",
+				shortcut06:"Search",
+				shortcut07:"Mypage",
+				shortcut08:"Message",
+				shortcut09:"Alarm",
+				shortcut10:"Personal Setting",
+				shortcut11:"Charged requirements",
+				shortcut12:"Logout",
 				shortcutName:"ShortcutName",
 				popupActionCd:"Action when pop-up",
 				shortcutKey:"Shortcut",
@@ -2717,7 +2802,12 @@ var OSLCoreLangSetting = function () {
 			btn:{
 				update:"update",
 				dontuse:"Dont use",
-			}
+			},
+			label:{
+				shortcutNm:"Shortcut Name",
+				popupActionCd :"Shortcut Action when popup exist",
+				shortcut:"Shortcut",
+			},
 		},
 		req1001:{
 			title:"Request new requirements",
@@ -2770,11 +2860,11 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "Select",
 			},
 			button:{
-				select:" ",
-				delete:" ",
-				insert:" ",
-				connect:" ",
-				reset:" ",
+				select:"Select",
+				delete:"Delete",
+				insert:"Insert",
+				connect:"Connect",
+				reset:"Reset",
 				done:"Done",
 				deleteResetBtn:"Delete reset",
 			},
@@ -2831,8 +2921,9 @@ var OSLCoreLangSetting = function () {
 				copyBtn : "Copy"
 			},
 			field:{
-				
+				/*외부 주입 search bar에서 사용*/
 				prjGrpNm: "Project Group Name",
+				reqGrpNm: "Requirement Group Name",
 			},
 			actionBtn:{
 				title : "Udp / Del / Det / Cop",
@@ -2938,7 +3029,7 @@ var OSLCoreLangSetting = function () {
 		},
 		req4103:{
 			field: {
-				
+				/*외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기*/
 				usrNm : "User Name",
 			},
 			actionBtn : {
@@ -3508,9 +3599,9 @@ var OSLCoreLangSetting = function () {
 				deleteBadge: "Delete",
 				noticeBadge: "Notice",
 			},
-			field:{ 
+			field:{ /*태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기*/
 				tagNm:"Tag",
-				
+				/*외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정*/
 				badContent: "Content",
 				badNtcCheck : "Notice",
 				delCd:"Delete",
@@ -3651,12 +3742,12 @@ var OSLCoreLangSetting = function () {
 		}
 	};
     return {
-        
+        // public functions
         init: function() {
-        	
+        	//언어팩 목록
     		var langList = ["ko","en"];
     		
-    		
+    		//언어 데이터
     		var langData = {};
     		
     		$.each(langList, function(idx, map){
@@ -3665,7 +3756,7 @@ var OSLCoreLangSetting = function () {
     		
     		$.osl.langData = langData;
     		
-    		
+    		//datepicker 언어 처리
     		$.osl.date.init();
         }
     };

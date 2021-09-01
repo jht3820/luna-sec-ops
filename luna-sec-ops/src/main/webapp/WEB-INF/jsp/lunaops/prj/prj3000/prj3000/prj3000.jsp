@@ -117,6 +117,9 @@
 										data-original-title="산출물 양식 정보 삭제">
 										<i class="fa fa-trash-alt"></i><span>삭제</span>
 									</button>
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj3000DocTree" data-tree-action="signLine" title="결재선 지정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="signLine" tabindex="5" data-original-title="결재선 지정">
+										<i class="fa fa-plus"></i><span>결재선 지정</span>
+									</button>
 								</div>
 							</div>
 							<!-- end:: 산출물 양식 정보 button -->
@@ -576,8 +579,6 @@ var OSLPrj3000Popup = function () {
 				//선택 산출물 양식 파일 리스트 조회
 				"selectFiles" : function(obj){
 					
-					
-					
 					//선택한 트리 노드 없으면 튕기기
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
@@ -587,11 +588,78 @@ var OSLPrj3000Popup = function () {
 					
 					//그림 다시그리기
 					selectFormFileList();
+				},
+				//결재선 지정
+				"signLine" : function(obj){
+					
+					//선택한 트리 노드 없으면 튕기기
+					var selectNodeIds = treeObj.jstree("get_selected");
+					if($.osl.isNull(selectNodeIds)){
+						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
+						return false;
+					}
+					
+					// 선택노드
+					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
+					var nodeData = selectNode.original;
+					
+					if(nodeData.signUseCd == '02'){
+						$.osl.alert($.osl.lang("prj3000.message.alert."));
+						return false;
+					}
+					
+					var modalData = {
+							prjId :  nodeData.prjId,
+							docId :  nodeData.docId
+					};
+					
+					
+					var ajaxObj = new $.osl.ajaxRequestAction(
+							{"url":"<c:url value='/prj/prj3000/prj3100/selectPrj3001WaitSignCntAjax.do'/>", "async": false}
+							,{"docId": nodeData.docId, "prjId":nodeData.prjId });
+					
+					//AJAX 전송 성공 함수
+					ajaxObj.setFnSuccess(function(data){
+						if(data.errorYn == "Y"){
+							$.osl.alert(data.message,{type: 'error'});
+							
+						}else{
+							
+							// 결재 대기 중인 파일 없다면 결재선 지정 팝업 오픈
+							if(data.waitSignCnt == 0){
+								var options = {
+										modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
+										autoHeight: false,
+										modalSize: "xl"
+								};
+								
+								$.osl.layerPopupOpen('/cmm/cmm20000/cmm25000/selectCmm25000View.do',modalData,options);
+								
+							// 결재 대기 중인 파일 있다면 결재선 조회 팝업 오픈
+							}else{
+								
+								var options = {
+										modalTitle: $.osl.lang("prj3000.modal.title.selectSignLine"),  
+										autoHeight: false,
+										modalSize: "md"
+								};
+								
+								$.osl.layerPopupOpen('/cmm/cmm20000/cmm25100/selectCmm25100View.do',modalData,options);
+							}
+						}
+					});
+					
+					//AJAX 전송
+					ajaxObj.send();
+					
+					
+					
 				}
 			}
 		});
 		
-		
+
+    	
 		/**************************************/
 		/* 트리 메뉴 및 관련 메서드 종료                                      */
 		/**************************************/
@@ -1174,7 +1242,7 @@ var OSLPrj3000Popup = function () {
 		
 		//확정 산출물 파일 리스트 돌기
 		$.each(atchFileList, function(idx, fileData){
-			var fileVolume =Math.round($.osl.escapeHtml(fileData.fileMg) / 1024) + ' KB';
+			var fileVolume = $.osl.byteCalc(fileData.fileMg)
 			var iconPath = '';
 			var iconClass = '';
 			var iconColor = '';
@@ -1244,7 +1312,7 @@ var OSLPrj3000Popup = function () {
 		
 		//확정 대기 산출물 양식 리스트 돌기
 		$.each(waitFileList, function(idx, fileData){
-			var fileVolume =Math.round($.osl.escapeHtml(fileData.fileMg) / 1024) + ' KB';
+			var fileVolume =$.osl.byteCalc(fileData.fileMg)
 			var iconPath = '';
 			var iconTitle = '';
 			var iconClass = '';

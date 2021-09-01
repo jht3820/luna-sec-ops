@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.EgovMessageSource;
@@ -36,7 +38,10 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 		fileVo.setAtchFileId(paramMap.get("atchFileId"));
 		fileVo.setFileSn(paramMap.get("fileSn"));
 		fileVo = fileMngDAO.selectFileInf(fileVo);
-
+		
+		
+		prj3100DAO.deletePrj3001CngInf(paramMap);
+		
 		
 		fileMngDAO.deleteFileInf(fileVo);
 
@@ -111,12 +116,14 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Map selectPrj3001CngInf(Map<String, String> paramMap) throws Exception {
 		return prj3100DAO.selectPrj3001CngInf(paramMap);
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void insertPrj3100FileUpload(Map<String, String> paramMap, List<FileVO> _result) throws Exception {
 		
@@ -128,18 +135,99 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 			
 			FileVO fileVO = new FileVO();
 			fileVO.setAtchFileId(paramMap.get("atchFileId"));
-			fileVO.setFileSn(paramMap.get("fileSn"));
+			
+			for(FileVO fvo : _result) {
+					
+				fileVO.setFileSn(fvo.getFileSn());
+				
+				
+				fileVO = fileMngDAO.selectFileInf(fileVO);
+				
+				
+				Map<String, String> fileMap = BeanUtils.describe(fileVO);
+				
+				paramMap.putAll(fileMap);
+				paramMap.put("fileSize", fileVO.getFileMg());
+				
+				
+				prj3100DAO.insertPrj3001CngInf(paramMap);
+			}
+		}
+	}
+
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List<Map> selectPrj3001CngInfList(Map<String, String> paramMap) throws Exception {
+		return prj3100DAO.selectPrj3001CngInfList(paramMap);
+	}
+
+	
+	@Override
+	public void updatePrj3001SignApr(Map<String, String> paramMap) throws Exception {
+		String checkedFileSn = (String) paramMap.get("deleteDataList");
+		
+		int maxOrd = prj3100DAO.selectPrj3001MaxOrd(paramMap);
+		int ord = Integer.parseInt(paramMap.get("ord"));
+		
+		
+		if(maxOrd == ord) {
+			
+			paramMap.put("ord", "-1");
+			paramMap.put("infType", "03");
+		}
+		else {
+			
+			paramMap.put("ord", String.valueOf(ord + 1));
+			paramMap.put("infType", "02");
+		}
+		
+		if(checkedFileSn != null && !"[]".equals(checkedFileSn)) {
+			
+			JSONArray jsonArray = new JSONArray(checkedFileSn);
 			
 			
-			fileVO = fileMngDAO.selectFileInf(fileVO);
+			for(int i=0;i<jsonArray.length();i++) {
+				JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+				
+				paramMap.put("fileSn", jsonObj.getString("fileSn"));
+				
+				
+				prj3100DAO.updatePrj3001SignInf(paramMap);
+				
+				
+				if(maxOrd == ord) {
+					
+					paramMap.put("ord", "-1");
+					paramMap.put("infType", "01");
+					
+					
+					prj3100DAO.updatePrj3001SignInf(paramMap);
+				}
+			}
+		}
+	}
+
+	
+	@Override
+	public void updatePrj3001SignRjt(Map<String, String> paramMap) throws Exception {
+
+		
+		paramMap.put("ord", "-1");
+		paramMap.put("infType", "04");
+		
+		String checkedFileSn = (String) paramMap.get("checkedFiles");
+
+		String[] checkFileArr = checkedFileSn.split(",");
+		
+		if(checkFileArr != null) {
 			
-			
-			Map<String, String> fileMap = BeanUtils.describe(fileVO);
-			
-			paramMap.putAll(fileMap);
-			
-			
-			prj3100DAO.insertPrj3001CngInf(paramMap);
+			for(String fileSn : checkFileArr) {
+				paramMap.put("fileSn", fileSn);
+				
+				
+				prj3100DAO.updatePrj3001SignInf(paramMap);
+			}
 		}
 	}
 }

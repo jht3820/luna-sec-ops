@@ -12,6 +12,9 @@
 		</div>
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-wrapper">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air kt-hide" data-datatable-id="req4100ReqTable" data-datatable-action="requestAccept" title="요구사항 접수" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="5">
+					<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAccept">접수</span>
+				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="select" title="요구사항 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 				</button>
@@ -46,7 +49,16 @@ var OSLReq4100Popup = function () {
 	//비밀 요구사항인 경우 접근 권한 확인하기 위한 변수
 	var reqAuth = false;
 	var datatableId = "req4100ReqTable";
+	var prjRequestAcceptCd = "02";
 	var documentSetting = function(){
+		//현재 프로젝트가 접수 기능 사용인지 체크
+		var prjRequestAcceptCd = $.osl.prjGrpAuthList[$.osl.selPrjGrpId].prjList[$.osl.selPrjId].prjRequestAcceptCd;
+		
+		//접수 기능 사용인경우 접수 버튼 show
+		if(prjRequestAcceptCd == "01"){
+			$("button[data-datatable-id=req4100ReqTable][data-datatable-action=requestAccept]").removeClass("kt-hide");
+		}
+		
 		$.osl.datatable.setting(datatableId,{
 			data: {
 				source: {
@@ -58,10 +70,10 @@ var OSLReq4100Popup = function () {
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
-				{field: 'prjNm', title: '프로젝트명', textAlign: 'left', width: 150, search: true},
+				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, autoHide: false, search: true},
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
-				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 380, search: true, autoHide: false,
+				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
 					template: function(row){
 						var resultStr = $.osl.escapeHtml(row.reqNm);
 						//비밀번호가 있는 경우
@@ -97,6 +109,24 @@ var OSLReq4100Popup = function () {
 						$.osl.user.usrInfoPopup(rowData.reqUsrId);
 					}
 				},
+				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
+					template: function (row) {
+						if($.osl.isNull(row.reqChargerNm)){
+							row.reqChargerNm = "";
+						}
+						var usrData = {
+							html: row.reqChargerNm,
+							imgSize: "sm",
+							class:{
+								cardBtn: "osl-width__fit-content"
+							}
+						};
+						return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.reqChargerId);
+					}
+				},
 				{field: 'reqUsrEmail', title:'요청자e-mail', textAlign: 'left', width: 180, search: true},
 				{field: 'reqUsrDeptNm', title:'요청자 조직', textAlign: 'center', width: 300, sortable: false},
 				{field: 'reqUsrNum', title: '요청자 연락처', textAlign: 'center', width: 100, search: true},
@@ -104,7 +134,8 @@ var OSLReq4100Popup = function () {
 				
 			],
 			searchColumns:[
-				{field: 'prjGrpNm', title: $.osl.lang("req4100.field.prjGrpNm"), searchOrd: 0}
+				{field: 'prjGrpNm', title: $.osl.lang("req4100.field.prjGrpNm"), searchOrd: 0},
+				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2}
 			],
 			rows:{
 				clickCheckbox: true
@@ -142,6 +173,7 @@ var OSLReq4100Popup = function () {
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId,
 							paramReqUsrId: rowData.reqUsrId,
+							paramReqGrpId: rowData.reqGrpId,
 							datatableId: datatableId,
 						};
 					var options = {
@@ -257,7 +289,6 @@ var OSLReq4100Popup = function () {
 				},
 				"copy" : function(rowDatas, datatableId, type, rowNum){
 					var data;
-					console.log(rowDatas);
 					if(type == "list"){
 						//선택 항목이 리스트인 경우
 						if(rowNum == 0){
@@ -310,6 +341,33 @@ var OSLReq4100Popup = function () {
 							
 							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
 						}
+					}
+				},
+				requestAccept: function(rowDatas, datatableId, type, rowNum){
+					if(rowDatas == 0){
+						$.osl.alert($.osl.lang("req4100.alert.selectData"));
+						return false;
+					}else{
+						
+						//각 요구사항 Id,프로젝트 ID값 구하기
+						var selReqInfoList = [];
+						
+						$.each(rowDatas, function(idx, map){
+							selReqInfoList.push({prjId: map.prjId, reqId: map.reqId});
+						});
+						
+						var data = {
+								paramSelReqInfoList: JSON.stringify(selReqInfoList)
+						};
+						var options = {
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							modalTitle: $.osl.lang("prj1102.update.title"),
+							closeConfirm: false,
+						};
+						
+						$.osl.layerPopupOpen('/cmm/cmm6000/cmm6000/selectCmm6000View.do',data,options);
 					}
 				}
 			},

@@ -1,20 +1,7 @@
 package kr.opensoftlab.lunaops.prj.prj3000.prj3000.web;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,24 +12,18 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.EgovWebUtil;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.EgovFileMngUtil;
-import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.FileVO;
-import egovframework.com.cmm.util.EgovBasicLogger;
-import egovframework.com.cmm.util.EgovResourceCloseHelper;
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.lunaops.prj.prj3000.prj3000.service.Prj3000Service;
@@ -522,7 +503,7 @@ public class Prj3000Controller {
            	
            	
         	
-			int fileSn = fileMngService.getFileSN(fileVO) + 1;
+			int fileSn = fileMngService.getFileSN(fileVO);
            	
 			paramMap.put("afterFileSn", String.valueOf(fileSn));
 			
@@ -639,10 +620,8 @@ public class Prj3000Controller {
     		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
     		
     		String docId = paramMap.get("docId");
-    		System.out.println(docId);
     		model.addAttribute("docId", docId);
     		
-			
 			return "/prj/prj3000/prj3000/prj3002";
         	
     	}
@@ -768,14 +747,14 @@ public class Prj3000Controller {
     		Log.error("insertPrj3002DocConInfo()", ex);
     		
     		
-    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.save"));
     		return new ModelAndView("jsonView");
     	}
     }
     
     
     @RequestMapping(value = "/prj/prj3000/prj3000/deletePrj3002DocConInfoAjax.do")
-    public ModelAndView deletePrj3002DocConInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception{
+    public ModelAndView deletePrj3002DocConInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception{
     	
     	try{
     		
@@ -793,63 +772,101 @@ public class Prj3000Controller {
     		Log.error("deletePrj3002DocConInfoAjax()", ex);
     		
     		
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.delete"));
+    		return new ModelAndView("jsonView");
+    	}
+    }
+   	
+    
+    
+    @RequestMapping(value = "/prj/prj3000/prj3000/savePrj3003SignInfoAjax.do")
+    public ModelAndView savePrj3003SignInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception{
+    	
+    	try{
+    		
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			prj3000Service.savePrj3003SignInfo(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+			return new ModelAndView("jsonView");
+    	}
+    	catch(Exception ex){
+    		Log.error("deletePrj3002DocConInfoAjax()", ex);
+    		
+    		
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
+    		return new ModelAndView("jsonView");
+    	}
+    }
+    
+    
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/prj/prj3000/prj3000/selectPrj3003SignUsrListAjax.do")
+    public ModelAndView selectPrj3003SignUsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception{
+    	
+    	try{
+    		
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			List<Map> signUsrInfList = prj3000Service.selectPrj3003SignUsrList(paramMap);
+			
+			model.addAttribute("signUsrInfList", signUsrInfList);
+			
+			
+			model.addAttribute("errorYn", "N");
+			return new ModelAndView("jsonView");
+    	}
+    	catch(Exception ex){
+    		Log.error("deletePrj3002DocConInfoAjax()", ex);
+    		
+    		
+    		model.addAttribute("errorYn", "Y");
     		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
     		return new ModelAndView("jsonView");
     	}
     }
    	
-   	
-	
-	private String getBrowser(HttpServletRequest request) {
-		String header = request.getHeader("User-Agent");
-		if (header.indexOf("MSIE") > -1) {
-			return "MSIE";
-		} else if (header.indexOf("Trident") > -1) { 
-			return "Trident";
-		} else if (header.indexOf("Chrome") > -1) {
-			return "Chrome";
-		} else if (header.indexOf("Opera") > -1) {
-			return "Opera";
-		}
-		return "Firefox";
-	}
-
-	
-	
-	private void setDisposition(String filename, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String browser = getBrowser(request);
-
-		String dispositionPrefix = "attachment; filename=";
-		String encodedFilename = null;
-
-		if (browser.equals("MSIE")) {
-			encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
-		} else if (browser.equals("Trident")) { 
-			encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
-		} else if (browser.equals("Firefox")) {
-			encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
-		} else if (browser.equals("Opera")) {
-			encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
-		} else if (browser.equals("Chrome")) {
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < filename.length(); i++) {
-				char c = filename.charAt(i);
-				if (c > '~') {
-					sb.append(URLEncoder.encode("" + c, "UTF-8"));
-				} else {
-					sb.append(c);
-				}
-			}
-			encodedFilename = sb.toString();
-		} else {
-			throw new IOException("Not supported browser");
-		}
-
-		response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
-
-		if ("Opera".equals(browser)) {
-			response.setContentType("application/octet-stream;charset=UTF-8");
-		}
-	}
+    
+    
+    @RequestMapping(value = "/prj/prj3000/prj3100/selectPrj3001WaitSignCntAjax.do")
+    public ModelAndView selectPrj3001WaitSignCntAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception{
+    	
+    	try{
+    		
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			HttpSession ss = request.getSession();
+			
+			
+    		String paramPrjId = (String) paramMap.get("paramPrjId");
+    		
+    		
+    		if(paramPrjId == null || "".equals(paramPrjId)) {
+    			paramPrjId = (String) ss.getAttribute("selPrjId");
+    		}
+    		paramMap.put("prjId", paramPrjId);
+			
+			
+			int waitSignCnt = prj3000Service.selectPrj3001WaitSignCnt(paramMap);
+			
+			model.addAttribute("waitSignCnt", waitSignCnt);
+			
+			
+			model.addAttribute("errorYn", "N");
+			return new ModelAndView("jsonView");
+    	}
+    	catch(Exception ex){
+    		Log.error("selectPrj3001WaitSignCntAjax()", ex);
+    		
+    		
+    		model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		return new ModelAndView("jsonView");
+    	}
+    }
 	
 }

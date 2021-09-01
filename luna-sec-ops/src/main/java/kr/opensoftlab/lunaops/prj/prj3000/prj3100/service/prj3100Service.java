@@ -26,4 +26,14 @@ public interface Prj3100Service {
 	
 	void insertPrj3100FileUpload(Map<String, String> paramMap, List<FileVO> _result)throws Exception;
 
+	
+	@SuppressWarnings("rawtypes")
+	List<Map> selectPrj3001CngInfList(Map<String, String> paramMap) throws Exception;
+
+	
+	void updatePrj3001SignApr(Map<String, String> paramMap) throws Exception;
+
+	
+	void updatePrj3001SignRjt(Map<String, String> paramMap) throws Exception;
+
 }
