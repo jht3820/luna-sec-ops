@@ -31,6 +31,7 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 	@Resource(name = "prj3100DAO")
 	private Prj3100DAO prj3100DAO;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void deletePrj3100File(Map<String, String> paramMap) throws Exception {
 
@@ -38,6 +39,17 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 		fileVo.setAtchFileId(paramMap.get("atchFileId"));
 		fileVo.setFileSn(paramMap.get("fileSn"));
 		fileVo = fileMngDAO.selectFileInf(fileVo);
+		
+		
+		Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
+		
+		
+		fileMap.put("ord", "-1");
+		fileMap.put("infType", "05");
+		fileMap.put("signUseCd", paramMap.get("signUseCd"));
+		
+		
+		prj3100DAO.insertPrj3001CngInf(fileMap);
 		
 		
 		prj3100DAO.deletePrj3001CngInf(paramMap);
@@ -48,26 +60,34 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 		
 		String fileDeletePath = fileVo.getFileStreCours() + fileVo.getStreFileNm();
 		EgovFileMngUtil.deleteFile(fileDeletePath);
-
+		
+		
+		
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void updatePrj3100FileType(Map<String, String> paramMap) throws Exception {
 		
 		String updateType = paramMap.get("updateType");
+		String signUseCd = paramMap.get("signUseCd");
 		
 		
 		if("atchFile".equals(updateType)) {
 			
+			Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
 			
-			prj3100DAO.deletePrj3001CngInf(paramMap);
 			
+			fileMap.put("ord", "-1");
+			fileMap.put("infType", "05");
+			fileMap.put("signUseCd", signUseCd);
+			
+			prj3100DAO.insertPrj3001CngInf(fileMap);
 		}
 		
 		
 		prj3100DAO.updatePrj3100FileType(paramMap);
-		
 		
 		
 		if("waitFile".equals(updateType)) {
@@ -88,19 +108,29 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 			paramMap.put("fileSize", fileVO.getFileMg());
 			
 			String infType = "";
-			String signUseCd = paramMap.get("signUseCd");
 			
 			
 			if("01".equals(signUseCd)) {
 				
 				infType = "02";
+				paramMap.put("infType", infType);
+
+				
+				paramMap.put("ord", "0");
+				prj3100DAO.insertPrj3001CngInf(paramMap);
+				
+				
+				paramMap.put("ord", "1");
+				
 			
 			}else if("02".equals(signUseCd)) {
 				
 				infType = "01";
+				
+				paramMap.put("infType", infType);
+				
 			}
 			
-			paramMap.put("infType", infType);
 			
 			
 			prj3100DAO.insertPrj3001CngInf(paramMap);
@@ -149,6 +179,33 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 				paramMap.putAll(fileMap);
 				paramMap.put("fileSize", fileVO.getFileMg());
 				
+				String infType = "";
+				String signUseCd = paramMap.get("signUseCd");
+				
+				
+				if("01".equals(signUseCd)) {
+					
+					infType = "02";
+
+					paramMap.put("infType", infType);
+					
+					
+					paramMap.put("ord", "0");
+					prj3100DAO.insertPrj3001CngInf(paramMap);
+					
+					
+					paramMap.put("ord", "1");
+				
+				}else if("02".equals(signUseCd)) {
+					
+					infType = "01";
+					
+					paramMap.put("infType", infType);
+					
+					
+				}
+				
+				
 				
 				prj3100DAO.insertPrj3001CngInf(paramMap);
 			}
@@ -163,6 +220,7 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void updatePrj3001SignApr(Map<String, String> paramMap) throws Exception {
 		String checkedFileSn = (String) paramMap.get("deleteDataList");
@@ -171,16 +229,6 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 		int ord = Integer.parseInt(paramMap.get("ord"));
 		
 		
-		if(maxOrd == ord) {
-			
-			paramMap.put("ord", "-1");
-			paramMap.put("infType", "03");
-		}
-		else {
-			
-			paramMap.put("ord", String.valueOf(ord + 1));
-			paramMap.put("infType", "02");
-		}
 		
 		if(checkedFileSn != null && !"[]".equals(checkedFileSn)) {
 			
@@ -193,7 +241,22 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 				paramMap.put("fileSn", jsonObj.getString("fileSn"));
 				
 				
-				prj3100DAO.updatePrj3001SignInf(paramMap);
+				Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
+				
+				
+				if(maxOrd == ord) {
+					
+					fileMap.put("ord", "-1");
+					fileMap.put("infType", "03");
+				}
+				else {
+					
+					fileMap.put("ord", String.valueOf(ord + 1));
+					fileMap.put("infType", "02");
+				}
+				
+				
+				prj3100DAO.insertPrj3001CngInf(fileMap);
 				
 				
 				if(maxOrd == ord) {
@@ -202,19 +265,18 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 					paramMap.put("infType", "01");
 					
 					
-					prj3100DAO.updatePrj3001SignInf(paramMap);
+					prj3100DAO.insertPrj3001CngInf(fileMap);
 				}
 			}
 		}
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void updatePrj3001SignRjt(Map<String, String> paramMap) throws Exception {
 
 		
-		paramMap.put("ord", "-1");
-		paramMap.put("infType", "04");
 		
 		String checkedFileSn = (String) paramMap.get("checkedFiles");
 
@@ -226,7 +288,14 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 				paramMap.put("fileSn", fileSn);
 				
 				
-				prj3100DAO.updatePrj3001SignInf(paramMap);
+				Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
+				
+				
+				fileMap.put("ord", "-1");
+				fileMap.put("infType", "04");
+				
+				
+				prj3100DAO.insertPrj3001CngInf(fileMap);
 			}
 		}
 	}
