@@ -320,6 +320,19 @@ public class Prj3100Controller {
            	Map<String, String> paramMap = RequestConvertor.requestParamToMap(request, true);
    			
            	
+         	HttpSession ss = request.getSession();
+           	
+           	
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("prjId", paramPrjId);
+           	
+           	
         	prj3100Service.deletePrj3100File(paramMap);
         	
         	
