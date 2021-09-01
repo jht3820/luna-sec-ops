@@ -1036,7 +1036,6 @@
 								+"<div class='dropdown osl-left-arrow-group osl-arrow-group--hide'>";
 			//공통	
 			listHtml_com = "<div class='btn dropdown-toggle' id='dropdownMenuButton"+num+"' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>"
- 									
  								+"</div>"		
  								+"<div class='dropdown-menu osl-dropdown-menu--position' aria-labelledby='dropdownMenuButton"+num+"'>"
  									+"<a class='dropdown-item stmAdmListMovebtn'>"+$.osl.lang("stm2101.label.admin")+"</a>"

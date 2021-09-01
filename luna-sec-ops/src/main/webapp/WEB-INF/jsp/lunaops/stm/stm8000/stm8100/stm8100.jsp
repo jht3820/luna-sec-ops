@@ -449,6 +449,11 @@ var OSLStm8100 = function () {
         // public functions
         init: function() {
         	documentSetting();
+        },
+        reload:function(){
+			//datatable 조회
+			$("button[data-datatable-id="+strgAssDatatableId+"][data-datatable-action=select]").click();
+			$("button[data-datatable-id="+strgNonAssDatatableId+"][data-datatable-action=select]").click();
         }
     };
 }();

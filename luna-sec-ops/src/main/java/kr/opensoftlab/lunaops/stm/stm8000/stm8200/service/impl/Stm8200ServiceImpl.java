@@ -15,46 +15,76 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.opensoftlab.lunaops.stm.stm8000.stm8200.service.Stm8200Service;
 
-/**
- * @Class Name : Stm8200ServiceImpl.java
- * @Description : Stm8200ServiceImpl Business Implement class
- * @Modification Information
- *
- * @author 안지혜
- * @since 2020.10.31
- * @version 1.0
- * @see
- * 
- * 		Copyright (C) All right reserved.
- */
+
 
 @Service("stm8200Service")
 public class Stm8200ServiceImpl extends EgovAbstractServiceImpl implements Stm8200Service {
 
-	/* Stm8200DAO */
+	
 	@Resource(name = "stm8200DAO")
 	private Stm8200DAO stm8200DAO;
 
-	/**
-	 * Stm8200 소스저장소 전체 배정 현황 목록 총 개수
-	 * @param paramMap 목록조회 정보
-	 * @return int
-	 * @exception Exception
-	 */
+	
 	@SuppressWarnings( "rawtypes" )
-	public int selectStm8200AssRepAllListCnt(Map paramMap) throws Exception{
-		return stm8200DAO.selectStm8200AssRepAllListCnt(paramMap);
+	public List<Map> selectStm8200RevisionAuthList(Map paramMap) throws Exception {
+		return  stm8200DAO.selectStm8200RevisionAuthList(paramMap);
 	}
 	
-	/**
-	 * Stm8200 소스저장소 전체 배정 현황 목록
-	 * @param paramMap 목록조회 정보
-	 * @return list 
-	 * @exception Exception
-	 */
-	@SuppressWarnings( "rawtypes" )
-	public List<Map> selectStm8200AssRepAllList(Map paramMap) throws Exception{
-		return stm8200DAO.selectStm8200AssRepAllList(paramMap);
-	}
 	
+	@SuppressWarnings( "rawtypes" )
+	public List<Map> selectStm8200PrjAllAuthAndUserList(Map paramMap) throws Exception {
+		return  stm8200DAO.selectStm8200PrjAllAuthAndUserList(paramMap);
+	}
+
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void insertStm8200RevisionAuthList(Map paramMap) throws Exception {
+		
+		
+		stm8200DAO.deleteStm8200RevisionAuthInfo(paramMap);
+		
+		
+    	JSONArray revisionList = new JSONArray(paramMap.get("revisionList").toString());
+    	
+    	
+    	for(int i=0; i < revisionList.length(); i++){
+    		
+    		JSONObject jsonObj = revisionList.getJSONObject(i);
+    		
+    		
+    		HashMap<String, Object> addStrgRepAuthInfoMap = new ObjectMapper().readValue(jsonObj.toString(), HashMap.class) ;
+			
+    		
+    		addStrgRepAuthInfoMap.put("licGrpId", paramMap.get("licGrpId"));
+    		addStrgRepAuthInfoMap.put("regUsrId", paramMap.get("regUsrId"));
+    		addStrgRepAuthInfoMap.put("regUsrIp", paramMap.get("regUsrIp"));
+    		addStrgRepAuthInfoMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
+    		addStrgRepAuthInfoMap.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
+    		
+    		
+			stm8200DAO.insertStm8200RevisionAuthInfo(addStrgRepAuthInfoMap);
+    	}
+	}
+
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void deleteStm8200RevisionAuthList(Map paramMap) throws Exception {
+		
+		
+    	JSONArray revisionList = new JSONArray(paramMap.get("revisionList").toString());
+    	
+    	
+    	for(int i=0; i < revisionList.length(); i++){
+    		
+    		JSONObject jsonObj = revisionList.getJSONObject(i);
+    		
+    		
+    		HashMap<String, Object> addStrgRepAuthInfoMap = new ObjectMapper().readValue(jsonObj.toString(), HashMap.class) ;
+			
+    		addStrgRepAuthInfoMap.put("licGrpId", paramMap.get("licGrpId"));
+    		
+    		
+			stm8200DAO.deleteStm8200RevisionAuthInfo(addStrgRepAuthInfoMap);
+    	}
+	}
 }
