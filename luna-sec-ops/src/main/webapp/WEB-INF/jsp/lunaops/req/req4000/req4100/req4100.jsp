@@ -198,7 +198,7 @@ var OSLReq4100Popup = function () {
 							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
 						}else{
 							//권한이 없을 경우 비밀번호 입력 화면
-							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,pwOptions);
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
 						}
 					}else{
 						//비밀번호가 없는 요구사항인 경우
@@ -237,13 +237,13 @@ var OSLReq4100Popup = function () {
 						//단건 삭제일 때
 						if(rowCnt == 1 || type=="info"){
 							//비밀번호 확인 후 삭제
-							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,pwOptions);
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
 						}else if(rowCnt >1){
 							//다중 삭제일 때
 							//비밀번호가 걸린 항목이 단건인 경우
 							if(pwCount == 1){
 								//비밀번호 확인 후 삭제
-								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,pwOptions);
+								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
 							}else{
 								//비밀번호가 걸린 항목이 여러건인 경우
 								$.osl.alert($.osl.lang("req4100.alert.multiPwMsg", pwCnt));
