@@ -2135,12 +2135,6 @@ label.required:after {
 		display: flex;
 	}
 }
-@media (max-width: 1024px) and (min-width: 701px){
-	/*portlet 아이콘 변경과 반응형 오차범위 버튼 레이아웃 어긋남으로 인한 버튼 여백 재정의*/
-	.osl-portlet__head-btn--padding-tablet{
-		padding: 0.65rem 5px;
-	}
-}
 @media (min-width: 1025px) {
 	/* 로고 배경 색상 제거 */
 	.kt-header__brand {
@@ -2442,6 +2436,9 @@ label.required:after {
 	}
 	.osl-flex-flow--column-tablet{
 		flex-flow: column;
+	}
+	.osl-float-left-tablet{
+		float: left;
 	}
 }
 @media (max-width:1023px){
