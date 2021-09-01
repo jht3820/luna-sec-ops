@@ -34,7 +34,7 @@
 					</button>
 				</div>
 			</div>
-			<div class="kt-portlet__body kt-padding-15 osl-min-h-px--580">
+			<div class="kt-portlet__body kt-padding-15 osl-min-h-px--520">
 				<!-- 리비전 목록 -->
 				<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="stm8002RepTable"></div>
 			</div>
