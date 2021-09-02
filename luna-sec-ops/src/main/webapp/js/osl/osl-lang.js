@@ -333,6 +333,9 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "선택",
 			},
 		},
+		cmm16000:{
+			title: "요구사항 선택"
+		},
 		dpl1100:{
 			title : {
 				deploy : "배포계획 목록",

@@ -272,9 +272,19 @@
 		    LEFT JOIN REQ3000 C
 				ON (B.PRJ_GRP_ID = C.PRJ_GRP_ID AND B.REQ_GRP_ID = C.REQ_GRP_ID AND C.USE_CD = '01')
 		    WHERE 1=1
-				AND A.PRJ_ID = #prjId#
 			<isNotEmpty property="atchFileIdNotNull">
 				AND A.ATCH_FILE_ID IS NOT NULL
+			</isNotEmpty>
+			<isEmpty property="selReqInfoList">
+				AND A.PRJ_ID = #prjId#
+			</isEmpty>
+			<isNotEmpty property="selReqInfoList">
+				<iterate property="selReqInfoList" prepend="AND" open="(" close=")" conjunction=" OR ">
+					(A.PRJ_ID = #selReqInfoList[].prjId# AND A.REQ_ID = #selReqInfoList[].reqId#)
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty property="paramReqProType">
+				AND A.REQ_PRO_TYPE = #paramReqProType#
 			</isNotEmpty>
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">
