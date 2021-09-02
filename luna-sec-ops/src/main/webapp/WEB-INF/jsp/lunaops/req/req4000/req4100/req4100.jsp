@@ -343,7 +343,7 @@ var OSLReq4100Popup = function () {
 						}
 					}
 				},
-				requestAccept: function(rowDatas, datatableId, type, rowNum){
+				"requestAccept": function(rowDatas, datatableId, type, rowNum){
 					if(rowDatas == 0){
 						$.osl.alert($.osl.lang("req4100.alert.selectData"));
 						return false;
@@ -352,8 +352,17 @@ var OSLReq4100Popup = function () {
 						//각 요구사항 Id,프로젝트 ID값 구하기
 						var selReqInfoList = [];
 						
+						//선택 요구사항 중 처리유형이 "접수대기"가 아닌 요구사항 수
+						var reqProChkCnt = 0;
+						
 						$.each(rowDatas, function(idx, map){
-							selReqInfoList.push({prjId: map.prjId, reqId: map.reqId});
+							//접수유형이 "접수대기"가 아닌 경우 제외
+							if(map.reqProType == "01"){
+								selReqInfoList.push({prjId: map.prjId, reqId: map.reqId});
+							}else{
+								reqProChkCnt++;
+								return true;
+							}
 						});
 						
 						var data = {
@@ -368,6 +377,11 @@ var OSLReq4100Popup = function () {
 						};
 						
 						$.osl.layerPopupOpen('/cmm/cmm6000/cmm6000/selectCmm6000View.do',data,options);
+						
+						if(reqProChkCnt > 0){
+							$.osl.alert(reqProChkCnt+"건의 접수대기가 아닌 요구사항을 제외했습니다.");
+						}
+						
 					}
 				}
 			},

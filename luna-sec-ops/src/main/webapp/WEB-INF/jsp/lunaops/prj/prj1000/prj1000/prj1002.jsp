@@ -584,7 +584,7 @@ var OSLPrj1002Popup = function () {
 					//데이터 추가
 					datatable.insertData();
 					//데이터테이블 재 조회
-					//datatable.reload();
+					datatable.reload();
 					$.osl.datatable.list["prj1002PrjAuthNoneUsrTable"].targetDt.reload();
    				}
    			}
