@@ -375,12 +375,13 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
     		req4100DAO.updateReq4101ReqKey(newReqMap);
 
     		
-    		if(convertParamMap.get("reqGrpId") != null || !"".equals(convertParamMap.get("reqGrpId"))) {
+    		if(!"".equals(convertParamMap.get("reqGrpId"))) {
     			
     			Integer reqLinkOrd = req3000DAO.selectReq3001ReqOrd(convertParamMap) + 1;
     			convertParamMap.put("reqLinkOrd", reqLinkOrd.toString());
     			req3000DAO.insertReq3001ReqGrpLinkReqInfo(convertParamMap);
     		}
+    		
     		
     		String reqPw = (String) convertParamMap.get("reqPw");
     		if(reqPw != null && !reqPw.isEmpty()) {

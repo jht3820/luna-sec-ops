@@ -12,6 +12,9 @@
 		</div>
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-wrapper">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air kt-hide" data-datatable-id="req4100ReqTable" data-datatable-action="requestAccept" title="요구사항 접수" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="5">
+					<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAccept">접수</span>
+				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="select" title="요구사항 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 				</button>
@@ -26,9 +29,6 @@
 				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="delete" title="요구사항 삭제" data-title-lang-cd="req4100.actionBtn.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5">
 					<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
-				</button>
-				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air kt-hide" data-datatable-id="req4100ReqTable" data-datatable-action="requestAccept" title="요구사항 접수" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5">
-					<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAccept">접수</span>
 				</button>
 			</div>
 		</div>
@@ -70,9 +70,10 @@ var OSLReq4100Popup = function () {
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
+				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, autoHide: false, search: true},
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
-				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 380, search: true, autoHide: false,
+				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
 					template: function(row){
 						var resultStr = $.osl.escapeHtml(row.reqNm);
 						//비밀번호가 있는 경우
@@ -197,7 +198,7 @@ var OSLReq4100Popup = function () {
 							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
 						}else{
 							//권한이 없을 경우 비밀번호 입력 화면
-							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,pwOptions);
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
 						}
 					}else{
 						//비밀번호가 없는 요구사항인 경우
@@ -236,13 +237,13 @@ var OSLReq4100Popup = function () {
 						//단건 삭제일 때
 						if(rowCnt == 1 || type=="info"){
 							//비밀번호 확인 후 삭제
-							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,pwOptions);
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
 						}else if(rowCnt >1){
 							//다중 삭제일 때
 							//비밀번호가 걸린 항목이 단건인 경우
 							if(pwCount == 1){
 								//비밀번호 확인 후 삭제
-								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,pwOptions);
+								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
 							}else{
 								//비밀번호가 걸린 항목이 여러건인 경우
 								$.osl.alert($.osl.lang("req4100.alert.multiPwMsg", pwCnt));
@@ -288,7 +289,6 @@ var OSLReq4100Popup = function () {
 				},
 				"copy" : function(rowDatas, datatableId, type, rowNum){
 					var data;
-					console.log(rowDatas);
 					if(type == "list"){
 						//선택 항목이 리스트인 경우
 						if(rowNum == 0){
@@ -341,6 +341,33 @@ var OSLReq4100Popup = function () {
 							
 							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
 						}
+					}
+				},
+				requestAccept: function(rowDatas, datatableId, type, rowNum){
+					if(rowDatas == 0){
+						$.osl.alert($.osl.lang("req4100.alert.selectData"));
+						return false;
+					}else{
+						
+						//각 요구사항 Id,프로젝트 ID값 구하기
+						var selReqInfoList = [];
+						
+						$.each(rowDatas, function(idx, map){
+							selReqInfoList.push({prjId: map.prjId, reqId: map.reqId});
+						});
+						
+						var data = {
+								paramSelReqInfoList: JSON.stringify(selReqInfoList)
+						};
+						var options = {
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							modalTitle: $.osl.lang("prj1102.update.title"),
+							closeConfirm: false,
+						};
+						
+						$.osl.layerPopupOpen('/cmm/cmm6000/cmm6000/selectCmm6000View.do',data,options);
 					}
 				}
 			},

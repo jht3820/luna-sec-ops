@@ -323,6 +323,16 @@ var OSLCoreLangSetting = function () {
 			},
 			title :"메시지 답장"
 		},
+		cmm15000:{
+			field: {
+				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
+				usrNm : "사용자명",
+			},
+			actionBtn : {
+				title : "선택",
+				clickBtn : "선택",
+			},
+		},
 		dpl1100:{
 			title : {
 				deploy : "배포계획 목록",
@@ -362,6 +372,18 @@ var OSLCoreLangSetting = function () {
 				title : "선택",
 				clickBtn : "선택",
 			},
+		},
+		cmm25000:{
+			message : {
+				confirm : {
+					saveString : "결재선 정보를 저장 하시겠습니까?"
+				}
+			}
+		},
+		cmm25100:{
+			infomation : {
+				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
+			}
 		},
 		prj1000:{
 			startDate: "시작일",
@@ -547,7 +569,8 @@ var OSLCoreLangSetting = function () {
 					notUsedDoc : "미사용 산출물에는 하위 산출물을 추가할 수 없습니다.",
 					notRootDelete : "최상위 산출물(ROOT)은 삭제할 수 없습니다.",
 					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
-					notHaveConfFile : "등록된 파일이 존재하지 않습니다."
+					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
+					notSignUseCd : "결재를 사용하지 않는 산출물 입니다."
 				},
 				confirm:{
 					deleteDoc:"산출물 정보 삭제 시 선택한 산출물 정보 및 하위 산출물 정보가 모두 삭제됩니다. 선택한 산출물 정보를 삭제 하시겠습니까?",
@@ -558,7 +581,9 @@ var OSLCoreLangSetting = function () {
 				title : {
 					insertDoc : "신규 산출물 양식 등록",
 					updateDoc : "산출물 양식 수정",
-					insertDocCon : "산출물 연결"
+					insertDocCon : "산출물 연결",
+					saveSignLine : "결재선 지정",
+					selectSignLine : "결재선 조회"
 				}
 			},
 			contextmenu : {
@@ -591,46 +616,6 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
-		prj3100 : {
-			label : {
-				docId : "산출물 ID",
-				docNm : "산출물 명",
-				docUseCd : "사용 유무",
-				docOrd : "순번",
-				docEdDtm : "만료일자",
-				signUseCd : "결재 사용 유무",
-				docDesc : "비고"
-			},
-			message : {
-				alert : {
-					treeSelect : "왼쪽 트리에서 산출물을 선택해주세요.",
-					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
-					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
-					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다."
-				},
-				confirm:{
-					deleteFormFile:"산출물 양식 파일을 삭제 하시겠습니까?"
-				} 
-			},
-			modal : {
-				title : {
-					insertDocCon : "산출물 연결"
-				}
-			},
-			contextmenu : {
-				formFileDownload : "양식 다운로드",
-				atchFileDownload : "확정 산출물 다운로드",
-				waitFileDownload : "확정 대기 산출물 다운로드"
-			}
-		},
-		prj3101 : {
-			message : {
-				alert : {
-					notCheckedFile : "선택된 파일이 없습니다.",
-					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다."
-				}
-			}
-		},
 		prj3002 : {
 			label : {
 				upperDocId : "상위 산출물 ID",
@@ -652,6 +637,65 @@ var OSLCoreLangSetting = function () {
 			},
 			allDocConInsert : "${1}건의 산출물 정보를 연결하시겠습니까?",
 			allDocConDelete : "${1}건의 산출물 정보를 연결 해제하시겠습니까?"
+		},
+		prj3100 : {
+			label : {
+				docId : "산출물 ID",
+				docNm : "산출물 명",
+				docUseCd : "사용 유무",
+				docOrd : "순번",
+				docEdDtm : "만료일자",
+				signUseCd : "결재 사용 유무",
+				docDesc : "비고"
+			},
+			message : {
+				alert : {
+					treeSelect : "왼쪽 트리에서 산출물을 선택해주세요.",
+					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
+					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
+					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다.",
+					notCheckedFile : "선택된 파일이 없습니다."
+				},
+				confirm:{
+					deleteFormFile:"산출물 양식 파일을 삭제 하시겠습니까?",
+					signAtchFile : "선택된 파일들을 결재 하시겠습니까?"
+				} 
+			},
+			modal : {
+				title : {
+					insertDocCon : "산출물 연결",
+					signRjtRes : "결재 반려"
+				}
+			},
+			contextmenu : {
+				formFileDownload : "양식 다운로드",
+				atchFileDownload : "확정 산출물 다운로드",
+				waitFileDownload : "확정 대기 산출물 다운로드"
+			},
+			toastr : {
+				success : "${1} 건의 결재가 성공했습니다."
+			}
+		},
+		prj3101 : {
+			message : {
+				alert : {
+					notCheckedFile : "선택된 파일이 없습니다.",
+					lackDownloadInfo : "다운로드에 필요한 정보가 부족합니다."
+				}
+			}
+		},
+		prj3102 : {
+			label : {
+				rjtRes : "반려 사유"
+			},
+			button : {
+				save : "작성 완료"
+			},
+			message : {
+				confirm : {
+					save : "선택 파일들을 결재 반려 하시겠습니까?"
+				}
+			}
 		},
 		prj5000:{
 			button:{
@@ -818,9 +862,9 @@ var OSLCoreLangSetting = function () {
 			alert:{
 				updateMsg : "접수 요청중인 요구사항만 수정 가능합니다.",
 				multiPwMsg : "패스워드 확인이 필요한 요구사항이 ${1}건 있습니다.<br/> 잠금된 요구사항을 제외 후 삭제 또는 잠금 요구사항은 단건 삭제하세요.",
-				selectData : "데이터를 선택하세요",
+				selectData : "요구사항을 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
-				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다.",
+				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
 			}
 		},
 		req4101:{
@@ -900,22 +944,13 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		req4103:{
-			field: {
-				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
-				usrNm : "사용자명",
-			},
-			actionBtn : {
-				title : "선택",
-				clickBtn : "선택",
-			},
-		},
-		req4104:{
+			passwordMiss : "비밀번호가 틀렸습니다.<br/> 다시 입력하세요.",
 			text: "잠긴 요구사항입니다.<br/> 비밀번호를 입력하세요.",
 			button:{
 				submit : "확인",
 			}
 		},
-		req4105:{
+		req4104:{
 			field:{
 				reqGrpNm:"그룹 요구사항 명",
 			},
@@ -2026,6 +2061,13 @@ var OSLCoreLangSetting = function () {
 				content:"Comment",
 				writeDate : "Date"
 			},
+			cmm15000Table:{
+				usrNm : "User Name",
+				usrId : "Id",
+				email : "E-mail",
+				tel : "Contact",
+				deptName: "Department",
+			},
 			cmm17000PrjTable:{
 				upPrjNm:"Project Group Name",
 				prjId:"Project ID",
@@ -2106,13 +2148,6 @@ var OSLCoreLangSetting = function () {
 				prjNm : "Project Name",
 				reqNm : "Title",
 				reqDtm : "Request Date"
-			},
-			req4103ReqTable:{
-				usrNm : "User Name",
-				usrId : "Id",
-				email : "E-mail",
-				tel : "Contact",
-				deptName: "Department",
 			},
 			prj1000PrjTable:{
 				prjNm: "Project Group Name",
@@ -2446,6 +2481,28 @@ var OSLCoreLangSetting = function () {
 				search:"Search"
 			},
 		},
+		cmm15000:{
+			field: {
+				/*외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기*/
+				usrNm : "User Name",
+			},
+			actionBtn : {
+				title : "Select",
+				clickBtn : "Select",
+			},
+		},
+		cmm25000:{
+			message : {
+				confirm : {
+					saveString : "Do you want to save the approval line information?"
+				}
+			}
+		},
+		cmm25100:{
+			infomation : {
+				cannotUpdate : "If there is a file waiting for approval, the approval line cannot be modified."
+			}
+		},
 		dpl1100:{
 			title : {
 				deploy : "Deploy List",
@@ -2563,7 +2620,8 @@ var OSLCoreLangSetting = function () {
 					notUsedDoc : "Sub-documents cannot be added to unused documents.",
 					notRootDelete : "The top-level document(ROOT) cannot be deleted.",
 					fileExtChk : "Files with an extension of [ ${1} ] cannot be attached.",
-					notHaveConfFile : "Registered file does not exist."
+					notHaveConfFile : "Registered file does not exist.",
+					notSignUseCd : "결재를 사용하지 않는 산출물 입니다."
 				},
 				confirm:{
 					deleteDoc:"When deleting a document, the selected document and all sub-documents are deleted. Do you want to delete the selected document?",
@@ -2574,7 +2632,9 @@ var OSLCoreLangSetting = function () {
 				title : {
 					insertDoc : "Register New Document Form",
 					updateDoc : "Modifying Document Form",
-					insertDocCon : "Document Linkage"
+					insertDocCon : "Document Linkage",
+					saveSignLine : "Designation of approval line",
+					selectSignLine : "Select approval line"
 				}
 			},
 			contextmenu : {
@@ -2607,46 +2667,6 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
-		prj3100 : {
-			label : {
-				docId : "Document ID",
-				docNm : "Document Name",
-				docUseCd : "Document Use",
-				docOrd : "Document Order",
-				docEdDtm : "Document End Date",
-				signUseCd : "Sign Use",
-				docDesc : "Document description"
-			},
-			message : {
-				alert : {
-					treeSelect : "Select a document in the tree on the left.",
-					fileExtChk : "Files with an extension of [ ${1} ] cannot be attached.",
-					notHaveConfFile : "Registered file does not exist.",
-					lackDownloadInfo : "Insufficient information for download."
-				},
-				confirm:{
-					deleteFormFile:"Would you like to delete file?"
-				} 
-			},
-			modal : {
-				title : {
-					insertDocCon : "Document Linkage"
-				}
-			},
-			contextmenu : {
-				formFileDownload : "Download Form Files",
-				atchFileDownload : "Download confirmed Files",
-				waitFileDownload : "Download wait Files"
-			}
-		},
-		prj3101 : {
-			message : {
-				alert : {
-					notCheckedFile : "No file selected.",
-					lackDownloadInfo : "Insufficient information for download."
-				}
-			}
-		},
 		prj3002 : {
 			label : {
 				upperDocId : "Upper Document ID",
@@ -2668,6 +2688,65 @@ var OSLCoreLangSetting = function () {
 			},
 			allDocConInsert : "Are you sure you want to connect ${1} document data?",
 			allDocConDelete : "Are you sure you want to disconnect ${1} document data?"
+		},
+		prj3100 : {
+			label : {
+				docId : "Document ID",
+				docNm : "Document Name",
+				docUseCd : "Document Use",
+				docOrd : "Document Order",
+				docEdDtm : "Document End Date",
+				signUseCd : "Sign Use",
+				docDesc : "Document description"
+			},
+			message : {
+				alert : {
+					treeSelect : "Select a document in the tree on the left.",
+					fileExtChk : "Files with an extension of [ ${1} ] cannot be attached.",
+					notHaveConfFile : "Registered file does not exist.",
+					lackDownloadInfo : "Insufficient information for download.",
+					notCheckedFile : "No file selected."
+				},
+				confirm:{
+					deleteFormFile:"Would you like to delete file?",
+					signAtchFile : "Would you like to approve the selected files?"
+				} 
+			},
+			modal : {
+				title : {
+					insertDocCon : "Document Linkage",
+					signRjtRes : "return of approval"
+				}
+			},
+			contextmenu : {
+				formFileDownload : "Download Form Files",
+				atchFileDownload : "Download confirmed Files",
+				waitFileDownload : "Download wait Files"
+			},
+			toastr : {
+				success : "success approval [${1} files]"
+			}
+		},
+		prj3101 : {
+			message : {
+				alert : {
+					notCheckedFile : "No file selected.",
+					lackDownloadInfo : "Insufficient information for download."
+				}
+			}
+		},
+		prj3102 : {
+			label : {
+				rjtRes : "Reason for rejection"
+			},
+			button : {
+				save : "save"
+			},
+			message : {
+				confirm : {
+					save : "Do you want to save the approval line information?"
+				}
+			}
 		},
 		prj5000:{
 			button:{
@@ -2960,25 +3039,16 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		req4103:{
-			field: {
-				/*외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기*/
-				usrNm : "User Name",
-			},
-			actionBtn : {
-				title : "Select",
-				clickBtn : "Select",
-			},
-		},
-		req4105:{
-			field:{
-				reqGrpNm:"Group requirements Name",
-			},
-		},
-		req4104:{
+			passwordMiss : "It doesn’t match the password for this post.<br/> Please try again.",
 			text: "This is secret request.<br/> You must entered password.",
 			button:{
 				submit : "Submit",
 			}
+		},
+		req4104:{
+			field:{
+				reqGrpNm:"Group requirements Name",
+			},
 		},
 		spr1100:{
 			title : {

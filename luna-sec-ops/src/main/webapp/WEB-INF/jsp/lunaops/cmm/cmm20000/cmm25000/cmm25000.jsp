@@ -89,7 +89,7 @@ var OSLCmm25000Popup = function () {
 	    $('#cmm25000SelDoc').click(function(){
 	    	
 	    	
-    		$.osl.confirm($.osl.lang("prj3002.insert.saveString"),null,function(result) {
+    		$.osl.confirm($.osl.lang("cmm25000.message.confirm.saveString"),null,function(result) {
     	        if (result.value) {
     	        	//연결정보 저장
     	        	saveFormAction();
@@ -106,6 +106,14 @@ var OSLCmm25000Popup = function () {
 	    	
 	    	var selSignUsrInfs = $('.osl-sign-card');
 	    	
+	    	if(selSignUsrInfs.length == 0){
+	    		//lang
+	    		$.osl.alert("등록된 결재자가 없습니다.");
+	    		return false;
+	    		
+	    	}
+	    	
+	    	//선택된 유저 저장
 	    	$.each(selSignUsrInfs,function(idx, map){
 	    		
 	    		var signUsrInf = {};
@@ -113,7 +121,6 @@ var OSLCmm25000Popup = function () {
 	    		signUsrInf.ord = $(this).find(".dplStartOrdCell").attr("ord");
 	    		signUsrInfs.push(signUsrInf);
 	    	})
-	    	
 	    	
 	    	//AJAX 설정
     		var ajaxObj = new $.osl.ajaxRequestAction(
@@ -127,6 +134,10 @@ var OSLCmm25000Popup = function () {
     			}else{
     				//저장 성공
     				$.osl.toastr(data.message);
+    				
+    				//모달 창 닫기
+    				$.osl.layerPopupClose();
+    				
     			}
     		});
     		
@@ -142,39 +153,6 @@ var OSLCmm25000Popup = function () {
 	           height: 525
 	       });
 	   	
-	   	//사용자 본인 카드 생성
-	   	var MyInfo = $.osl.user.userInfo;
-		var MyusrStr = 
-				'<div class="kt-widget osl-bg-eee kt-margin-r-10 kt-margin-b-10 kt-widget--general-2 rounded" data-usr-id="'+MyInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(MyInfo.usrNm)+'">'
-					+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
-						+'<div class="kt-margin-r-20 font-weight-bolder">No.0</div>'
-						+'<div class="kt-widget__label kt-margin-r-10 osl-user__active--block">'
-							+'<i class="fa fa-arrow-alt-circle-left"></i>'
-						+'</div>'
-						+'<div class="kt-media kt-media--circle kt-media--md">'
-							+'<img src="'+$.osl.user.usrImgUrlVal(MyInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
-						+'</div>'
-						+'<div class="kt-widget__wrapper">'
-							+'<div class="kt-widget__label">'
-								+'<div class="kt-widget__title">'
-									+$.osl.escapeHtml(MyInfo.usrNm)
-									+'<small>'+$.osl.escapeHtml(MyInfo.email)+'</small>'
-								+'</div>'
-								
-								+'<span class="kt-widget__desc">'
-									+'<span>'+$.osl.escapeHtml(MyInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(MyInfo.usrPositionNm)+'</span>'
-								+'</span>'
-							+'</div>'
-						+'</div>'
-					+'</div>'
-				+'</div>';
-		//사용자 본인 추가
-		$("#signCardTable").parent().prepend(MyusrStr);
-		selectUsrArray.push(MyInfo.usrId);
-		
-		
-		
-		
 	   	//사용자 목록 데이터 테이블 세팅
 	   	$.osl.datatable.setting("stm3000UsrTable",{
 			data: {
@@ -286,6 +264,7 @@ var OSLCmm25000Popup = function () {
 		    				if(datatable.dataSet[idx].usrId==targetId){
 		    					//selectUsrArray배열에서 해당 id 제거
 								selectUsrArray.splice(selectUsrArray.indexOf(targetId), 1);
+								ord --;
 							}
 		    			}
 					});						
@@ -297,12 +276,6 @@ var OSLCmm25000Popup = function () {
 					//툴팁 제거
 					$("div.tooltip.show").remove();
 	
-					//카드 number 재정렬
-					var $chgObj = $('.dplStartOrdCell');	
-					for(var i=0; i<$chgObj.length; i++){
-						$chgObj[i].setAttribute("ord",i+1);
-						$chgObj[i].innerText=i+1;
-					}
 					
 					//최종 결재자 번호 수정
 					updateLastUsrCard();
@@ -346,9 +319,15 @@ var OSLCmm25000Popup = function () {
 				
 				//가져온 정보로 유저카드 만들기
 				$.each(data.signUsrInfList,function(idx,map){
-											
-					userSetting(map);
 					
+					//이미 추가된 사용자 목록 추가
+					if(selectUsrArray.indexOf(map.usrId) != -1){
+						return true;
+					}
+					
+		    		//사용자 카드 생성			
+					userSetting(map);
+			    		
 				});
 				
 				//가져온 데이터 있으면 업데이트 아니면 인서트

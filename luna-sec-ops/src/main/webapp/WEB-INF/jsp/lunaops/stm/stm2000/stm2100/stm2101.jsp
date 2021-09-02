@@ -147,7 +147,7 @@
 							<input type="text" class="form-control" disabled="disabled" name="subSearchData" id="subSearchData">
 							<div class="input-group-prepend">
 								<button class="btn btn-brand" type="button" name="searchBtn" id="searchBtn">
-									<span class=""><span data-lang-cd="stm2101.button.search">검색</span></span>
+									<span data-lang-cd="stm2101.button.search">검색</span>
 								</button>
 							</div>
 						</div>
@@ -533,6 +533,31 @@
 				$(moveDiv).children('.osl-right-arrow-group').addClass('osl-arrow-group--hide');
 				$(moveDiv).children('.osl-left-arrow-group').removeClass('osl-arrow-group--hide');
 				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
+				
+				//어디서 들어왔는지 확인
+				//다른 확정 리스트에서 정보 수정
+				if($(evt.from).attr("id")=="stmAdmList"){
+					//담당자 목록에서 들어온 경우
+					//글작성 범위 리스트에 남아있는 동일 객체 정보 수정
+					evt.item.setAttribute("codeadmin", "N");
+					$.each($("#stmWtList").children(), function(index, items){
+						if(items.getAttribute("codenum")==codeNum && items.getAttribute("codeid")==codeId
+								&& items.getAttribute("codeprjgrpid")==codePrjGrpId && items.getAttribute("codeprjid")==codePrjId){
+							items.setAttribute("codeadmin", "N");
+						}
+					});
+				}else{
+					evt.item.setAttribute("codewriter", "N");
+					//stmWtList 글작성 범위에서 들어온 경우
+					//담당자 리스트에 남아있는 동일 객체 정보 수정
+					$.each($("#stmAdmList").children(), function(index, items){
+						if(items.getAttribute("codenum")==codeNum && items.getAttribute("codeid")==codeId
+								&& items.getAttribute("codeprjgrpid")==codePrjGrpId && items.getAttribute("codeprjid")==codePrjId){
+							items.setAttribute("codewriter", "N");
+						}
+					});
+				}
+				
 				//동일 객체가 있는지 확인
 				var codeNum = evt.item.getAttribute("codenum");
 				var codeId = evt.item.getAttribute("codeid");
@@ -540,46 +565,20 @@
 				var codePrjId = evt.item.getAttribute("codeprjid");
 				
 				var otherItems = $("#stmGroupUsrList").children();
+				var resultCnt = 0;
 				$.each(otherItems, function(idx, value){
 					//기존에 객체 있는지 확인
 					if(value.getAttribute("codenum")==codeNum && value.getAttribute("codeid")==codeId
 							&& value.getAttribute("codeprjgrpid")==codePrjGrpId && value.getAttribute("codeprjid")==codePrjId){
-						//있으면 복사안함, 기존 객체 정보 수정
-						evt.item.remove();
-						//어디서 들어왔는지 확인
-						if($(evt.from).attr("id")=="stmAdmList"){
-							//담당자 목록에서 들어온 경우
-							value.setAttribute("codeadmin", "N");
-						}else{
-							value.setAttribute("codewriter", "N");
-							//stmWtList 글작성 범위에서 들어온 경우
+						//sortable은 기존 데이터 안보이기만 할 뿐 가지고 있는듯
+						//없다가 처음 생길 땐 이미 존재하는 것으로 표현됨
+						//따라서 returnCnt가 2 이상일 땐 그리지 않음
+						resultCnt ++;
+						if(resultCnt>1){
+							//있으면 복사안함
+							evt.item.remove();
 						}
-					}else{
-						//없다가 들어온 객체
-						//어디서 들어왔는지 확인
-						//다른 확정 리스트에서 정보 수정
-						if($(evt.from).attr("id")=="stmAdmList"){
-							//담당자 목록에서 들어온 경우
-							//글작성 범위 리스트에 남아있는 동일 객체 정보 수정
-							evt.item.setAttribute("codeadmin", "N");
-							$.each($("#stmWtList").children(), function(index, items){
-								if(items.getAttribute("codenum")==codeNum && items.getAttribute("codeid")==codeId
-										&& items.getAttribute("codeprjgrpid")==codePrjGrpId && items.getAttribute("codeprjid")==codePrjId){
-									items.setAttribute("codeadmin", "N");
-								}
-							});
-						}else{
-							evt.item.setAttribute("codewriter", "N");
-							//stmWtList 글작성 범위에서 들어온 경우
-							//담당자 리스트에 남아있는 동일 객체 정보 수정
-							$.each($("#stmAdmList").children(), function(index, items){
-								if(items.getAttribute("codenum")==codeNum && items.getAttribute("codeid")==codeId
-										&& items.getAttribute("codeprjgrpid")==codePrjGrpId && items.getAttribute("codeprjid")==codePrjId){
-									items.setAttribute("codewriter", "N");
-								}
-							});
-						}
-					}//else end
+					}
 				});
  			} 
 	    });
@@ -1037,7 +1036,6 @@
 								+"<div class='dropdown osl-left-arrow-group osl-arrow-group--hide'>";
 			//공통	
 			listHtml_com = "<div class='btn dropdown-toggle' id='dropdownMenuButton"+num+"' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>"
- 									
  								+"</div>"		
  								+"<div class='dropdown-menu osl-dropdown-menu--position' aria-labelledby='dropdownMenuButton"+num+"'>"
  									+"<a class='dropdown-item stmAdmListMovebtn'>"+$.osl.lang("stm2101.label.admin")+"</a>"
@@ -1346,8 +1344,11 @@
 				$('#stmGroupUsrList').prepend(moveCard);
 				//아이콘 오른방향 감추기, 왼방향 나타내기
 				$(this).addClass('osl-arrow-group--hide');
-				$(this).parent().children('.osl-left-arrow-group').removeClass('osl-arrow-group--hide');
-				
+				$(this).siblings('.osl-left-arrow-group').removeClass('osl-arrow-group--hide');
+			}else{
+				//미배정 목록에 있으면
+				//해당 객체만 삭제
+				console.log($(this).parent().remove());
 			}
 		});
 		

@@ -154,8 +154,11 @@ var OSLPrj3001Popup = function () {
 				$.osl.alert(data.message,{type: 'error'});
 			}else{
 				// 조직 정보 세팅
-		    	$.osl.setDataFormElem(data.docInfoMap,"frPrj3001", ["upperDocId", "upperDocNm", "docId", "signUseCd", "docEdDtm", "docNm", "ord", "docDesc"]);
-			
+		    	$.osl.setDataFormElem(data.docInfoMap,"frPrj3001", ["upperDocId", "upperDocNm", "docId", "docEdDtm", "docNm", "ord", "docDesc"]);
+				
+				//결재 사용 유무  변경
+		    	$("#signUseCd").val(data.docInfoMap.signUseCd).trigger('change.select2');
+				
 		    	// 상위 산출물 Id 없을경우
 				if($.osl.isNull(data.docInfoMap.upperDocId)){
 					$("#upperDocId").val("-");

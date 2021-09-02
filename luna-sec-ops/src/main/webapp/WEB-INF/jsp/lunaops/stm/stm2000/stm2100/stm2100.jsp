@@ -130,6 +130,7 @@
 					if(type == "list"){
 						if(rowNum != 1){
 							$.osl.alert($.osl.lang("stm2100.selectStmInfoCnt", rowNum), {"type":"warning"});
+							return false;
 						}else{
 							rowData = rowDatas[0];
 						}
@@ -168,6 +169,7 @@
 					if(type == "list"){
 						if(rowNum != 1){
 							$.osl.alert($.osl.lang("stm2100.selectStmInfoCnt", rowNum), {"type":"warning"});
+							return false;
 						}else{
 							rowData = rowDatas[0];
 						}

@@ -173,6 +173,9 @@ input:-webkit-autofill,
 .osl-min-h-px--30 {
   min-height: 30px !important; 
 }
+.osl-h-px-35{
+	height: 35px;
+}
 .osl-h-px-38{
 	height: 38px;
 }
@@ -224,8 +227,14 @@ input:-webkit-autofill,
 .osl-min-h-px--490 {
   min-height: 490px; 
 }
+.osl-min-h-px--520 {
+  min-height: 520px; 
+}
 .osl-min-h-px--575 {
   min-height: 575px; 
+}
+.osl-min-h-px--580 {
+  min-height: 580px; 
 }
 .osl-max-h-px--590 {
   min-height: 590px !important; 
@@ -260,7 +269,7 @@ input:-webkit-autofill,
 
 /*percent*/
 .osl-height--100-p{
-	height: 100%;
+	height: 100% !important;
 }
 
 
@@ -280,6 +289,9 @@ input:-webkit-autofill,
 }
 .osl-min-w-px-130{
 	min-width: 130px;
+}
+.osl-w-px-80{
+	width: 80px;
 }
 /* rem */
 .osl-min-width--11rem{
@@ -306,7 +318,7 @@ input:-webkit-autofill,
 }
 
 /* line-height */
-.osl-line-height__width-38{
+.osl-line-height--38{
 	line-height: 38px;
 }
 
@@ -2422,6 +2434,12 @@ label.required:after {
 		font-family: "Font Awesome 5 Free";
 		content: "\f078";
 	}
+	.osl-flex-flow--column-tablet{
+		flex-flow: column;
+	}
+	.osl-float-left-tablet{
+		float: left;
+	}
 }
 @media (max-width:1023px){
 	.kt-timeline__item.osl-timeline-item-left .osl-timeline-content,
@@ -2514,6 +2532,9 @@ label.required:after {
 	}
 	.osl-uppy__left{
 		float: right;
+	}
+	.osl-flex-flow--column-mobile{
+		flex-flow: column;
 	}
 }
 
