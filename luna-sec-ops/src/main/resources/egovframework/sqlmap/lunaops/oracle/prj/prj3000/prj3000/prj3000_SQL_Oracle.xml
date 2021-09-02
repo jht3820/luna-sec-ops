@@ -713,13 +713,15 @@
 		AND		A.PRJ_ID = #prjId#
 		AND		A.DOC_ID = #docId#
 		AND		A.INF_TYPE = '02'
+		AND		A.ORD != 0
 	</select>
 	
+
+
+
 	
 	
 	
-	
-		
 	<delete id="prj3000DAO.deletePrj3000DocList" parameterClass="java.util.Map">
 	<![CDATA[
 		

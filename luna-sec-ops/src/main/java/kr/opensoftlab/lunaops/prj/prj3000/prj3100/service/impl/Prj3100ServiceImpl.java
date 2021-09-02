@@ -41,18 +41,20 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 		fileVo = fileMngDAO.selectFileInf(fileVo);
 		
 		
-		Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
-		
-		
-		fileMap.put("ord", "-1");
-		fileMap.put("infType", "05");
-		fileMap.put("signUseCd", paramMap.get("signUseCd"));
-		
-		
-		prj3100DAO.insertPrj3001CngInf(fileMap);
-		
-		
-		prj3100DAO.deletePrj3001CngInf(paramMap);
+		if("atchFile".equals(paramMap.get("fileType"))) {
+			
+			
+			Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
+			
+			fileMap.putAll(paramMap);
+			
+			
+			fileMap.put("ord", "-1");
+			fileMap.put("infType", "05");
+			
+			
+			prj3100DAO.insertPrj3001CngInf(fileMap);
+		}
 		
 		
 		fileMngDAO.deleteFileInf(fileVo);
@@ -60,8 +62,6 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 		
 		String fileDeletePath = fileVo.getFileStreCours() + fileVo.getStreFileNm();
 		EgovFileMngUtil.deleteFile(fileDeletePath);
-		
-		
 		
 	}
 	
@@ -78,10 +78,12 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 			
 			Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
 			
+			fileMap.putAll(paramMap);
+			
 			
 			fileMap.put("ord", "-1");
 			fileMap.put("infType", "05");
-			fileMap.put("signUseCd", signUseCd);
+			
 			
 			prj3100DAO.insertPrj3001CngInf(fileMap);
 		}
@@ -194,9 +196,12 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 					prj3100DAO.insertPrj3001CngInf(paramMap);
 					
 					
+					
+					
 					paramMap.put("ord", "1");
 				
 				}else if("02".equals(signUseCd)) {
+					
 					
 					infType = "01";
 					
@@ -244,6 +249,9 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 				Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
 				
 				
+				fileMap.putAll(paramMap);
+				
+				
 				if(maxOrd == ord) {
 					
 					fileMap.put("ord", "-1");
@@ -261,8 +269,9 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 				
 				if(maxOrd == ord) {
 					
-					paramMap.put("ord", "-1");
-					paramMap.put("infType", "01");
+					
+					fileMap.put("ord", "-1");
+					fileMap.put("infType", "01");
 					
 					
 					prj3100DAO.insertPrj3001CngInf(fileMap);
@@ -276,8 +285,6 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 	@Override
 	public void updatePrj3001SignRjt(Map<String, String> paramMap) throws Exception {
 
-		
-		
 		String checkedFileSn = (String) paramMap.get("checkedFiles");
 
 		String[] checkFileArr = checkedFileSn.split(",");
@@ -289,6 +296,8 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 				
 				
 				Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
+				
+				fileMap.putAll(paramMap);
 				
 				
 				fileMap.put("ord", "-1");

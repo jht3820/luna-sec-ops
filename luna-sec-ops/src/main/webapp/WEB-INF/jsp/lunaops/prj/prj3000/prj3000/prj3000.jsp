@@ -506,6 +506,7 @@ var OSLPrj3000Popup = function () {
 					var nodeData = selectNode.original;
 					
 					if(nodeData.signUseCd == '02'){
+						//lang
 						$.osl.alert($.osl.lang("prj3000.message.alert."));
 						return false;
 					}
@@ -708,16 +709,10 @@ var OSLPrj3000Popup = function () {
 			},
 	      	//해당 div로 이동될 대상의 동작(들어온)
 			onAdd:function(evt){
-				//아이콘 부모박스 
-				var moveDiv = $(evt.item).children('.osl-uppy__left-btn:first-child');
+				//이동하는 박스 
+				var moveDiv = $(evt.item);
 				
-				//아이콘 변경(방향,아이콘 모양)
-				moveDiv.addClass('osl-uppy__right-btn osl-uppy__right');
-				moveDiv.removeClass('osl-uppy__left-btn osl-uppy__left');
-				
-				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
-				
-				var fileSn = moveDiv.parent().children('input[name=fileSn]').val();
+				var fileSn = moveDiv.data("filesn");
 				var fileType = 'formFile';
 				//파일 타입 바꾸기
 				updateFileType(fileType,fileSn);
@@ -744,14 +739,10 @@ var OSLPrj3000Popup = function () {
 			},
 	      	//해당 div로 이동될 대상의 동작(들어온)
 			onAdd:function(evt){
-				//아이콘 부모박스 
-				var moveDiv = $(evt.item).children('.osl-uppy__right-btn:first-child');
-				//아이콘 변경(방향,아이콘 모양)
-				moveDiv.addClass('osl-uppy__left-btn osl-uppy__left');
-				moveDiv.removeClass('osl-uppy__right-btn osl-uppy__right');
+				//이동하는 박스 
+				var moveDiv =$(evt.item);
 				
-				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
-				var fileSn = moveDiv.parent().children('input[name=fileSn]').val();
+				var fileSn = moveDiv.data("filesn");
 				var fileType = 'formConfFile';
 				
 				//파일 타입 바꾸기
@@ -1171,14 +1162,14 @@ var OSLPrj3000Popup = function () {
 				iconPlace = '25';
 			}
 			
-			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--fullsize">'
+			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--fullsize formAtchFile" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
 									+	'<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__right-btn osl-uppy__right kt-margin-r-10"></div>';
 									
 			var fileDivCenter = '';
 			
 			//사진 확장자가 아닐 때
 			if($.inArray(fileData.fileExtsn, imgExt) == -1){
-				fileDivCenter +=		'<div class="osl-uppy-file-sumnail '+ iconClass +'">'
+				fileDivCenter +=		'<div class="osl-uppy-file-sumnail '+ iconClass +'" >'
 										+	'<div class="osl-uppy-file-sumnail-bg"></div>'
 										+	'<span class="osl-uppy-iconFile">'
 											+	'<svg aria-hidden="true" focusable="false" class="UppyIcon" width="'+iconPlace+'" height="'+iconPlace+'" viewBox="0 0 25 25">'
@@ -1246,7 +1237,7 @@ var OSLPrj3000Popup = function () {
 				iconPlace = '25';
 			}
 			
-			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--fullsize">'
+			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--fullsize formFile" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
 									+	'<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__left-btn osl-uppy__left kt-margin-r-10"></div>';
 									
 			var fileDivCenter = '';
@@ -1305,25 +1296,24 @@ var OSLPrj3000Popup = function () {
 		
 		$('.osl-uppy-list-dashboardItem-action--download').click(function(){
 			
-			var type = $(this).parent().parent().children('div:first-child');
-			var fileSn = $(this).parent().parent().children('input[name=fileSn]').val();
+			var type = $(this).parents('.osl-uppy-file');
+			var fileSn = type.data('filesn');
 			var atchFileId = '';
 			
 			var form = $("#"+formId)[0];
 			var fd = $.osl.formDataToJsonArray(formId);
 			
 			//확정 파일이면
-			if(type.hasClass('osl-uppy__right')){
+			if(type.hasClass('formAtchFile')){
 				
 				atchFileId = $('#docFormConfFileId').val();
 			
 			//확정 대기 파일이면
-			}else if(type.hasClass('osl-uppy__left')){
+			}else if(type.hasClass('formFile')){
 				
 				atchFileId = $('#docFormFileId').val();
 				
 			}
-			
 			//파일 다운
 			$.osl.file.fileDownload(atchFileId,fileSn);
 			
@@ -1337,13 +1327,14 @@ var OSLPrj3000Popup = function () {
 	 */
 	var fileMoveBtnEvt = function(){
 		$('.osl-uppy__arrow-btn').click(function(){
+			debugger;
 			//클릭된 화살표의 부모(첨부파일 전체) 박스
-			var target = $(this).parent();
-			var fileSn = target.children('input[name=fileSn]').val();
+			var target = $(this).parents('.osl-uppy-file');
+			var fileSn = target.data('filesn');
 			var fileType = '';
-			//버튼모양 여부로 판단
-			//좌측 버튼이 있을때(확정 대기 파일 버튼)
-			if($(this).hasClass('osl-uppy__left-btn')){
+			
+			//확정 대기 파일일 때
+			if(target.hasClass('formFile')){
 				//확정 파일로 이동
 				$('#confirmation-list').prepend(target);
 				//아이콘 변경(방향,아이콘 모양)
@@ -1352,7 +1343,8 @@ var OSLPrj3000Popup = function () {
 				
 				//확정 대기 파일
 				fileType = 'formFile';
-			//우측 버튼이 있을때
+			
+			//확정 파일일 때
 			}else{ 
 				//확정 대기 파일로 이동(확정 파일 버튼)
 				$('#wait-confirmation-list').prepend(target);
@@ -1378,15 +1370,15 @@ var OSLPrj3000Popup = function () {
 		
 		$('.fa-times-circle').click(function(){
 			
-			var targetType = $(this).parent().parent().children('div:first-child');
+			var targetType = $(this).parents('.osl-uppy-file');
+			var fileSn = targetType.data('filesn');
 			
-			var fileSn = targetType.parent().children('input[name=fileSn]').val();
-			//부모객체에 오른쪽 클래스가 있다면 확정 대기 파일
-			if(targetType.hasClass("osl-uppy__left")){
+			//확정 대기 파일일 경우
+			if(targetType.hasClass("formFile")){
 				atchFileId = $('#docFormFileId').val();
 			
-			//부모객체에 왼쪽 클래스가 있다면 확정 파일
-			}else if(targetType.hasClass("osl-uppy__right")){ 
+			//확정파일일 경우
+			}else if(targetType.hasClass("formAtchFile")){ 
 				atchFileId = $('#docFormConfFileId').val();	
 			}
 			

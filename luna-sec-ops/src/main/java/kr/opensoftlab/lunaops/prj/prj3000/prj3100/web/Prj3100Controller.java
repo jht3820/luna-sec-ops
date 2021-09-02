@@ -317,7 +317,7 @@ public class Prj3100Controller {
    		try {
 			
    			
-           	Map<String, String> paramMap = RequestConvertor.requestParamToMap(request, true);
+           	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
    			
            	
          	HttpSession ss = request.getSession();
@@ -357,7 +357,7 @@ public class Prj3100Controller {
    		try {
 			
    			
-           	Map<String, String> paramMap = RequestConvertor.requestParamToMap(request, true);
+           	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
    			
            	
  			HttpSession ss = request.getSession();

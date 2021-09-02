@@ -28,11 +28,6 @@ public class Prj3100DAO extends ComOslitsAbstractDAO {
 	}
 
 	
-	public void deletePrj3001CngInf(Map<String, String> paramMap) throws Exception{
-		delete("prj3100DAO.deletePrj3001CngInf", paramMap);
-	}
-
-	
 	@SuppressWarnings("rawtypes")
 	public Map selectPrj3001CngInf(Map<String, String> paramMap) throws Exception{
 		return (Map)select("prj3100DAO.selectPrj3001CngInf", paramMap);
