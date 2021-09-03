@@ -187,7 +187,6 @@
 													<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj3100DocTree" data-tree-action="signAtchFile" title="확정 파일 결재 승인" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="signAtchFile" tabindex="1" data-original-title="확정 파일 결재 승인">
 														<i class="fas fa-file-signature kt-font-primary"></i><span>결재 승인</span>
 													</button>
-													<input type="hidden" id="rjtRes">
 													<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj3100DocTree" data-tree-action="signAtchFileRjt" title="확정 파일 결재 반려" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="signAtchFileRjt" tabindex="1" data-original-title="확정 파일 결재 반려">
 														<i class="fas fa-file-signature kt-font-danger"></i><span>결재 반려</span>
 													</button>
@@ -1455,7 +1454,6 @@ var OSLPrj3000Popup = function () {
 	var fileDownBtnEvt = function(){
 		
 		$('.osl-uppy-list-dashboardItem-action--download').click(function(){
-			debugger
 			var type = $(this).parents(".osl-uppy-file");
 			var fileSn = type.data("filesn");
 			var atchFileId = '';
@@ -1490,7 +1488,7 @@ var OSLPrj3000Popup = function () {
 			var fileType = '';
 			//버튼모양 여부로 판단
 			//좌측 버튼이 있을때(확정 대기 파일 버튼)
-			if($(this).hasClass('waitFile')){
+			if(target.hasClass('waitFile')){
 				//확정 파일로 이동
 				$('#confirmation-list').prepend(target);
 				//아이콘 변경(방향,아이콘 모양)
@@ -1587,7 +1585,6 @@ var OSLPrj3000Popup = function () {
 	 * @param fileType : 확정파일인지 확정 대기 파일인지 구분
 	 */
 	var updateFileType = function(fileType, fileSn){
-		
 		//원래 파일 아이디
 		var beforeFileId = '';
 		

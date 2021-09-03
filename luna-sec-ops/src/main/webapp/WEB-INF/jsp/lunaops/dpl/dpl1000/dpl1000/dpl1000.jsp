@@ -167,6 +167,23 @@ var OSLDpl1000Popup = function () {
 				// 결재선 지정
 				"signRequest":function(rowData, datatableId, type, rowNum, elem){
 					
+					console.log(rowData)
+					
+					return;
+					var modalData = {
+							prjId :  nodeData.prjId,
+							docId :  nodeData.docId
+					};
+					
+					var options = {
+							modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
+							autoHeight: false,
+							modalSize: "xl"
+					};
+					
+					$.osl.layerPopupOpen('/cmm/cmm20000/cmm25000/selectCmm25000View.do',modalData,options);
+					
+					
 				}
 			},
 			theme: {
