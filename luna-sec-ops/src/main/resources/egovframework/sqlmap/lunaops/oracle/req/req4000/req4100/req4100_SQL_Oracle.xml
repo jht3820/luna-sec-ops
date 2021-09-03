@@ -163,6 +163,8 @@
 			,	T1.PRJ_GRP_ID
 			,	T1.PRJ_GRP_NM
 			,	T1.USR_SEL_PRJ_ORD
+			,	T1.REQ_GRP_ID
+			,	T1.REQ_GRP_NM
 			,	T1.REQ_ID
 			,	T1.REQ_ORD
 			,	T1.REQ_CLS_ID
@@ -216,6 +218,8 @@
 					,	A.PRJ_GRP_ID
 					,	SF_PRJ1000_GRP_NM(A.PRJ_GRP_ID) AS PRJ_GRP_NM
 					,	DECODE(A.PRJ_ID, #prjId#, '1', '2') AS USR_SEL_PRJ_ORD
+					,	C.REQ_GRP_ID
+					,	C.REQ_GRP_NM
 					,	A.REQ_ID
 					,	A.REQ_ORD
 					,	A.REQ_CLS_ID
@@ -263,10 +267,24 @@
 				    ,	A.MODIFY_USR_ID
 				    ,	A.MODIFY_USR_IP
 		    FROM (SELECT * FROM REQ4100) A
+		    LEFT JOIN REQ3001 B
+		   		ON (A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+		    LEFT JOIN REQ3000 C
+				ON (B.PRJ_GRP_ID = C.PRJ_GRP_ID AND B.REQ_GRP_ID = C.REQ_GRP_ID AND C.USE_CD = '01')
 		    WHERE 1=1
-				AND A.PRJ_ID = #prjId#
 			<isNotEmpty property="atchFileIdNotNull">
 				AND A.ATCH_FILE_ID IS NOT NULL
+			</isNotEmpty>
+			<isEmpty property="selReqInfoList">
+				AND A.PRJ_ID = #prjId#
+			</isEmpty>
+			<isNotEmpty property="selReqInfoList">
+				<iterate property="selReqInfoList" prepend="AND" open="(" close=")" conjunction=" OR ">
+					(A.PRJ_ID = #selReqInfoList[].prjId# AND A.REQ_ID = #selReqInfoList[].reqId#)
+				</iterate>
+			</isNotEmpty>
+			<isNotEmpty property="paramReqProType">
+				AND A.REQ_PRO_TYPE = #paramReqProType#
 			</isNotEmpty>
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">
@@ -291,6 +309,9 @@
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="prjGrpNm">
 					AND	T1.PRJ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="reqGrpNm">
+					AND	T1.REQ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="reqKey">
 					AND	T1.REQ_KEY LIKE '%'|| #searchTargetData# ||'%'

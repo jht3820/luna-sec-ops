@@ -157,7 +157,7 @@ var OSLStm8005Popup = function() {
 					beforeCodeLineCnt = beforeCodeLine.length;
 					
 					//코드 창 크기 높이
-					var codeWindowHeight = $("#preBefore").height() - 50;
+					var codeWindowHeight = $("#stm8005BeforeFileInfo").height() - 50;
 					
 					//스크롤바 높이 제외
 					codeWindowHeight = codeWindowHeight;
@@ -185,7 +185,7 @@ var OSLStm8005Popup = function() {
 					afterCodeLineCnt = afterCodeLine.length;
 					
 					//코드 창 크기 높이
-					var codeWindowHeight = $("#preAfter").height() - 50;
+					var codeWindowHeight = $("#stm8005AfterFileInfo").height() - 50;
 					
 					//라인 마다 스크롤 높이 구하기
 					var codeScrollLine = parseFloat((codeWindowHeight/afterCodeLineCnt));
@@ -215,18 +215,18 @@ var OSLStm8005Popup = function() {
 				$("#stm8005AfterFileInfo").prepend($("#codeLineFrameAfter"));
 				
 				//가로 스크롤 동시 제어
-				$("#preBefore").scroll(function(){
+				$("#stm8005BeforeFileInfo").scroll(function(){
 					//우측 가로,세로 스크롤 제어
-					$('#preAfter').scrollTop($("#preBefore").scrollTop());
-					$('#preAfter').scrollLeft($("#preBefore").scrollLeft());
+					$('#stm8005AfterFileInfo').scrollTop($("#stm8005BeforeFileInfo").scrollTop());
+					$('#stm8005AfterFileInfo').scrollLeft($("#stm8005BeforeFileInfo").scrollLeft());
 					
 					//코드 라인 스크롤 제어
-					$('#codeLineFrameBefore').scrollTop($("#preBefore").scrollTop());
+					$('#codeLineFrameBefore').scrollTop($("#stm8005BeforeFileInfo").scrollTop());
 				});
-				$("#preAfter").scroll(function(){
+				$("#stm8005AfterFileInfo").scroll(function(){
 					
 					//코드 라인 스크롤 제어
-					$('#codeLineFrameAfter').scrollTop($("#preAfter").scrollTop());
+					$('#codeLineFrameAfter').scrollTop($("#stm8005AfterFileInfo").scrollTop());
 				});
    			}
    		});

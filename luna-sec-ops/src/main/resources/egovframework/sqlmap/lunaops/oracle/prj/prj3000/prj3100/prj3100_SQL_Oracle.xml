@@ -75,27 +75,22 @@
 		(		
 				#prjId#				,	#docId#			,	#newInfId# 		,	#fileSn#			
 			,	#fileStreCours#		,	#streFileNm#	,	#orignlFileNm# 	,	#fileExtsn#	  		
-			,	#fileType#			,	#fileSize#		,	null 			,	SYSDATE				
+			,	#fileType#			,	#fileSize#		,	#rjtRes#		,	SYSDATE				
 			,	#regUsrId#			,	#regUsrIp#	 	,	SYSDATE 		,	#modifyUsrId#			
 			,	#modifyUsrIp#			
 		    <isEqual property="signUseCd" compareValue="01">
-			,	0					,  	null				,	null			,	'02'
+		    	<isEqual property="infType" compareValue="01">
+					,	#ord#				,  	SYSDATE				,	null			,	#infType#
+				</isEqual>
+				<isNotEqual property="infType" compareValue="01">
+					,	#ord#				,  	null				,	null			,	#infType#
+				</isNotEqual>
 		    </isEqual>
 		    <isEqual property="signUseCd" compareValue="02">
-		    ,	-1					,  	SYSDATE				,	#regUsrId#		,	'01'
+		    ,	-1					,  	SYSDATE				,	#regUsrId#		,	#infType#
 		    </isEqual>
 		)
 	</insert>
-	
-	
-	<delete id="prj3100DAO.deletePrj3001CngInf" parameterClass="java.util.Map">
-		
-		DELETE  FROM PRJ3001
-		WHERE   1 = 1
-		AND		PRJ_ID = #prjId#
-		AND		DOC_ID = #docId#
-		AND		FILE_SN = #fileSn# 
-	</delete>
 	
 	
 	<select id="prj3100DAO.selectPrj3001CngInf" parameterClass="java.util.Map" resultClass="egovMap">
@@ -145,6 +140,7 @@
 	
 	<select id="prj3100DAO.selectPrj3001CngList" parameterClass="java.util.Map" resultClass="egovMap">
 		
+		
 		SELECT 	A.PRJ_ID	
 			,	A.DOC_ID
 			,	A.CNG_INF_ID
@@ -166,44 +162,30 @@
 			,	TO_CHAR(A.MODIFY_DTM, 'YYYY-MM-DD HH:MM:SS') AS MODIFY_DTM
 			,	A.MODIFY_USR_ID
 			,	A.MODIFY_USR_IP
-			,	B.USR_NM
 			,	A.ORD
 			,   D.SIGN_USR_ID AS USR_ID
-			,	ROWNUM
-		FROM	PRJ3001 A
-		INNER JOIN PRJ1000 C
-		ON (A.PRJ_ID = C.PRJ_ID)
-		INNER JOIN STM3000 B
-		ON	(C.LIC_GRP_ID = B.LIC_GRP_ID AND A.MODIFY_USR_ID = B.USR_ID)
+		FROM PRJ3001 A
+		INNER JOIN (
+					SELECT 	MAX(REG_DTM) AS REG_DTM
+						, 	STRE_FILE_NM 
+						, 	DOC_ID
+						,	PRJ_ID
+					FROM PRJ3001
+			        GROUP BY 	STRE_FILE_NM
+			        		,	DOC_ID
+			        		,	PRJ_ID
+					) B
+		ON (A.PRJ_ID = B.PRJ_ID AND A.DOC_ID = B.DOC_ID AND A.REG_DTM = B.REG_DTM AND A.STRE_FILE_NM = B.STRE_FILE_NM)
 		LEFT JOIN PRJ3003 D
 		ON	(A.DOC_ID = D.DOC_ID AND A.PRJ_ID = D.PRJ_ID AND A.ORD = D.ORD)
 		WHERE	1 = 1
-		AND		A.DOC_ID = #docId#
-		AND		A.PRJ_ID = #prjId#
-		ORDER BY A.MODIFY_DTM DESC
+        AND		A.DOC_ID = #docId#
+        AND		A.PRJ_ID = #prjId#
+        AND   A.INF_TYPE != '05'
+        AND	  A.INF_TYPE != '03'
+        AND   A.ORD != 0
+        ORDER BY A.REG_DTM DESC
 	</select>
-	
-	
-	<update id="prj3100DAO.updatePrj3001SignInf" parameterClass="java.util.Map">
-		
-		UPDATE 	PRJ3001
-		SET		ORD = #ord#
-			,	SIGN_USR_ID = #signUsrId#
-			<isEqual property="infType" compareValue="01">
-			,	SIGN_DTM	= SYSDATE
-			</isEqual>
-			,	MODIFY_DTM	= SYSDATE
-			,	MODIFY_USR_ID = #modifyUsrId#
-			,	MODIFY_USR_IP = #modifyUsrIp#
-			,	INF_TYPE = #infType#
-			<isNotNull property="rjtRes">
-			,	RJT_RES = #rjtRes#
-			</isNotNull>
-		WHERE 	1 = 1
-		AND		PRJ_ID = #prjId#
-		AND		DOC_ID = #docId#
-		AND		FILE_SN = #fileSn#
-	</update>
 	
 	
 	<select id="prj3100DAO.selectPrj3003MaxOrd" parameterClass="java.util.Map" resultClass="int">

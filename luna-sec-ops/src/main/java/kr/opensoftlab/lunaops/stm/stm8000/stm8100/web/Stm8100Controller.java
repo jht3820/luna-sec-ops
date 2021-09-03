@@ -265,11 +265,5 @@ public class Stm8100Controller {
 			return new ModelAndView("jsonView");
 		}
 	}
-	
-	
-	@RequestMapping(value="/stm/stm8000/stm8100/selectStm8101View.do")
-	public String selectStm8101View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		return "/stm/stm8000/stm8100/stm8101";
-	}
-	
+
 }

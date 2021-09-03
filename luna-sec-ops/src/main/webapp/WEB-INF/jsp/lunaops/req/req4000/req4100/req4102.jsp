@@ -32,7 +32,7 @@
 				</div>
 				<div class="col-xl-5">
 					<div class="form-group">
-						<label><i class="flaticon2-envelope kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
+						<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
 						<input type="text" class="form-control" name="reqUsrEmail" id="email" readonly="readonly">
 					</div>
 				</div>
@@ -40,13 +40,13 @@
 			<div class="row">
 				<div class="col-xl-7">
 					<div class="form-group">
-						<label><i class="flaticon2-avatar kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
+						<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
 						<input type="text" class="form-control" name="reqUsrDeptNm" id="deptName" readonly="readonly">
 					</div>
 				</div>
 				<div class="col-xl-5">
 					<div class="form-group">
-						<label><i class="flaticon2-phone kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.telNo">요청자 연락처</span></label>
+						<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.telNo">요청자 연락처</span></label>
 						<input type="text" class="form-control" name="reqUsrNum" id="telno" readonly="readonly">
 					</div>
 				</div>
@@ -70,12 +70,12 @@
 			<div class="form-group">
 				<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReq">그룹 요구사항</span></label>
 				<div class="input-group">
-					<input type="text" class="form-control" name="reqGrpNm" id="reqGrpNm" readonly="readonly">
+					<input type="text" class="form-control" name="reqGrpNm" id="reqGrpNm" readonly="readonly" placeholder="그룹 요구사항이 연결되어 있지 않습니다.">
 				</div>
 			</div>
 			<div class="form-group kt-margin-b-0">
 				<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqDesc">그룹 요구사항 내용</span></label>
-				<textarea class="kt-hide" name="reqGrpDesc" id="reqGrpDesc" ></textarea>
+				<textarea class="kt-hide" name="reqGrpDesc" id="reqGrpDesc"></textarea>
 			</div>
 		</div>
 	</div>

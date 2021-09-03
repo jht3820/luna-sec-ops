@@ -1,76 +1,192 @@
 
 var OSLCoreChartSetting = function () {
 	
+	var chartLibrary = ["apex"];
+	
 	
 	var chartSetting = function(chartLib, targetId, config){
 		
-		var charts = {};
 		
+		var charts = {};		
 		
-		var arrays = {};
+		var chartArrays = {};
+		
+		var targetObj = $("#"+targetId);
 		
 		
 		if($.osl.isNull(targetId)){
+			return true;
 		}
 		
 		if($.osl.isNull(chartLib)){
 			chartLib = "apex";
 		}
-			
 		
-		var targetObj = $("#"+targetId);
-		if(targetObj.length > 0){
-			
-			
-			arrays[config.data.param.xKey]=[];
-			arrays[config.data.param.yKey]=[];
-			for(var idx = 1; idx <= Object.keys(config.data.param.key).length ;idx++){
-				arrays[config.data.param.key["key"+idx]]=[]
-			}
-			
-			var ajaxObj = new $.osl.ajaxRequestAction({"url": config.data.url, "async": false}, config.data.param);
-			
-	    	ajaxObj.setFnSuccess(function(data){
-	    		if(data.errorYn == "Y"){
-					$.osl.alert(data.message,{type: 'error'});
-				}else{
-					var array = data.chartData;
+		
+		var defaultConfig = {
+			data: {
+				url:"",
+				param:{
+					xkey:"",
+					ykey:"",
+					key:{
+						
+						
+					},
+					keyNm:{
+						
+						
+					},
+					chartType: "",
 					
-					$.each(array, function(idx, value){
-						for(var idx = 1; idx <= Object.keys(config.data.param.key).length ;idx++){
-							arrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
-						}
-						if(!$.osl.isNull(config.data.param.xKey)){
-							arrays[config.data.param.xKey].push( value[config.data.param.xKey] );
-						}
-						if(!$.osl.isNull(config.data.param.yKey)){
-							arrays[config.data.param.yKey].push( value[config.data.param.yKey] );
+					dataArr:[],
+				},
+				type: "remote"
+			},
+			chart:{
+				width:"100%",
+				height:360,
+				
+				toolbar:{},
+				
+				colors:[],
+				
+				labels:{},
+				
+				legend:{},
+				
+				tooltip:{},
+				
+				title:{},
+				
+				
+				xaxis:{
+					show: false
+				},
+				
+				yaxis:{
+					show: false
+				},
+				option:{
+					heatmap:{
+
+					},
+					area:{
+
+					},
+					line:{
+
+					},
+					bar:{
+
+					},
+					colum:{
+
+					}
+				}
+			},
+			callback:{
+				
+				initComplete: $.noop,
+				
+				ajaxDone: $.noop,
+				
+				reloaded: $.noop
+			},
+			actionFn:{
+				
+				beforeMount: $.noop,
+				
+				mounted: $.noop,
+				
+				click: $.noop
+			},
+		}
+		
+		
+		
+		var btnEvt = {
+			list : function(){
+				
+				if($("[data-chart-id="+targetId+"][data-chart-action]").length > 0){
+					$.each($("[data-chart-id="+targetId+"][data-chart-action]"), function(idx, map){
+						var btnChartId = $(map).data("chart-id");
+						var btnAction = $(map).data("chart-action");
+						
+						
+						if(btnEvt.action.hasOwnProperty(btnAction)){
+							btnEvt.action[btnAction](this, btnChartId, "list");
+						}else{
+							
+							if(targetConfig.actionFn.hasOwnProperty(btnAction)){
+								$(this).off("click");
+								$(this).click(function(event){
+									
+									event.cancelable = true;
+									event.stopPropagation();
+									event.preventDefault();
+									event.returnValue = false;
+									
+									targetConfig.actionFn[btnAction](this, btnChartId, "list");
+								});
+							}
 						}
 					});
-					
-					
 				}
-	    	});
-
-	    	
-			ajaxObj.send();
-			
-			
-			var chartConfig = {
-				data: {
-					url:"",
-					param:"",
-					
-					key:{},
-					
-					xKey:"",
-					
-					yKey:"",
+			},
+			action: {
+				"select": function(elem, chartId, bubleFlag){
+					$(elem).off("click");
+					$(elem).click(function(event){
+						if(bubleFlag != false){
+							
+							event.cancelable = true;
+							event.stopPropagation();
+							event.preventDefault();
+							event.returnValue = false;
+						}
+						
+						
+						if(charts.config.actionFn.hasOwnProperty("select")){
+							
+							charts.config.actionFn["select"](elem, chartId, charts.targetCt);
+						}
+						
+						else{
+							
+							var targetConfig = $.osl.chart.list[chartId].config;
+							if($.osl.isNull(targetConfig.data.type != "local")){
+								targetConfig.callback.reloaded();
+							}
+						}
+					});
 				},
+				
+			}
+		}
+		
+		
+		
+		var chartEvt = {
+			"area": $.noop,
+			"line": $.noop,
+			"heatmap": $.noop,
+			"colum": $.noop,
+		}
+
+		
+		chartLibrary["apex"] = function(){
+			
+			var targetConfig = $.extend(true, {}, defaultConfig);
+			
+			targetConfig = $.extend(true, targetConfig, config);
+			
+			
+			targetConfig = $.extend(true, targetConfig, {
 				chart: {
-					height: 320,
-					type: chartLib, 
-					
+					width: targetConfig.chart.width,
+					height: targetConfig.chart.height,
+					type: targetConfig.data.param.chartType, 
 					toolbar : {
 						show: true,
 						offsetX: 0,
@@ -90,11 +206,11 @@ var OSLCoreChartSetting = function () {
 					},
 					events:{
 						
-						beforeMount: $.noop,
+						beforeMount: targetConfig.actionFn.beforeMount,
 						
-						mounted: $.noop,
+						mounted: targetConfig.actionFn.mounted,
 						
-						click: $.noop,
+						click: targetConfig.actionFn.click,
 					}
 				},
 				grid:{
@@ -116,36 +232,314 @@ var OSLCoreChartSetting = function () {
 						stops: [0, 90, 100]
 					}
 				},
-				xaxis: {
-					show: false
-				},
-				yaxis:{
-					show: false
-				},
-				colors: [],
-				series: [],
-				callback: {
-					
-				}
-			}
-			
-			
-			var targetConfig = $.extend(true, {}, chartConfig);
+				xaxis: targetConfig.chart.xaxis,
+				yaxis: targetConfig.chart.yaxis,
 				
+				title: targetConfig.chart.title,
+				
+				colors: targetConfig.chart.colors,
+				
+				tooltip: targetConfig.chart.tooltip,
+				plotOptions:{
+					heatmap: targetConfig.chart.option.heatmap,
+					area: targetConfig.chart.option.area,
+					line: targetConfig.chart.option.line,
+					bar: targetConfig.chart.option.bar,
+					colum: targetConfig.chart.option.colum
+				},
+				
+				series: [],
+				callback:{
+					reloaded: function(dataArr){
+						
+						chartArrays=[];
+						targetConfig.xaxis.categories = [];
+						targetConfig.yaxis.categories = [];
+						
+						if($.osl.isNull(targetConfig.data.param.dataType != "local")){
+							var ajaxObj = new $.osl.ajaxRequestAction({"url": targetConfig.data.url, "async": false}, targetConfig.data.param);
+							
+					    	ajaxObj.setFnSuccess(function(data){
+					    		if(data.errorYn == "Y"){
+									$.osl.alert(data.message,{type: 'error'});
+								}else{
+									targetConfig.lastResponse = data;
+									
+									
+									chartArrays=[];
+									targetConfig.xaxis.categories = [];
+									targetConfig.yaxis.categories = [];
+									
+									apexEvt[targetConfig.data.param.chartType](data.chartData);
+									charts.targetCt.updateSeries(targetConfig.series ,true);
+									targetConfig.callback.ajaxDone(data, data.chartData);
+								}
+					    	});
+				
+					    	
+							ajaxObj.send();
+						}else{
+							apexEvt[targetConfig.data.param.chartType](dataArr);
+							targetConfig.lastResponse = targetConfig.data.param.dataArr;
+							charts.targetCt.updateSeries(targetConfig.series ,true);
+						}
+					}
+				}
+			});
 			
-			targetConfig = $.extend(true, targetConfig, config);
+			
+			var apexEvt = $.extend(true, {}, chartEvt, {
+				"area": function(array){
+					
+					$.each(array, function(idx, value){
+						for(var idx = 1; idx <= Object.keys(config.data.param.key).length ;idx++){
+							if(!chartArrays.hasOwnProperty(config.data.param.key["key"+idx])){
+								chartArrays[config.data.param.key["key"+idx]]=[]
+							}
+							chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+						}
+						
+						
+						if(!$.osl.isNull(config.data.param.xKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+								chartArrays[config.data.param.xKey]=[];
+							}
+							chartArrays[config.data.param.xKey].push( value[config.data.param.xKey] );
+						}
+						
+						if(!$.osl.isNull(config.data.param.yKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.yKey)){
+								chartArrays[config.data.param.yKey]=[];
+							}
+							chartArrays[config.data.param.yKey].push( value[config.data.param.yKey] );
+						}
+					});
+					
+					
+					for(var idx = 0; idx < Object.keys(config.data.param.key).length ;idx++){
+						targetConfig.series[idx]={name:config.data.param.keyNm["keyNm"+(idx+1)]};
+						if(!$.osl.isNull(chartArrays[config.data.param.key["key"+(idx+1)] ])){
+							targetConfig.series[idx].data=chartArrays[config.data.param.key["key"+(idx+1)] ];
+						}else{
+							targetConfig.series[idx].data=[];
+						}
+					}
+					
+					
+					if(!$.osl.isNull(config.data.param.xKey)){
+						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}
+					if(!$.osl.isNull(config.data.param.yKey)){
+						targetConfig.yaxis.categories = chartArrays[config.data.param.yKey ];
+					}
+				},
+				"heatmap": function(data){
+					
+					targetConfig = $.extend(true, targetConfig, {
+						dataLabels: {
+							enabled: false
+						},
+						chart: {
+							toolbar: {
+								show:false
+							}
+						},
+						xaxis:{
+							labels:{show:false},
+							axisBorder:{show:false},
+							axisTicks:{show:false},
+							crosshairs:{show:false},
+							tooltip: {enabled: false}
+						},
+						yaxis:{
+							labels:{show:false},
+							axisBorder:{show:false},
+							axisTicks:{show:false},
+							crosshairs:{show:false},
+							tooltip: {enabled: false}
+						},
+						legend:{
+							position: 'bottom',
+							horizontalAlign: 'right'
+						},
+						plotOptions:{
+							heatmap:{
+								radius: 0,reverseNegativeShade: false,
+								enableShades: false,
+								useFillColorAsStroke: false
+							}
+						}
+					});
+					
+					
+					var dataSize = (data.length/2);
+					if(dataSize < 0){
+						dataSize = 1;
+					}
+					var yCnt = Math.round(Math.sqrt(dataSize));
+					var xCnt = Math.round(yCnt*2);
+					var yCursor = 0;
+					var xCursor = 0;
+					
+					var series = [];
+					var seriesX = [];
+					
+					
+					var cursor = 0;
+					
+					
+					$.each(data, function(idx, info){
+						
+						seriesX.push({
+							x: (xCursor).toString(),
+						});
+						seriesX[xCursor].y = info[targetConfig.data.param.yKey]; 
+						for(var i = 1; i <= Object.keys(targetConfig.data.param.key).length ;i++){
+							seriesX[xCursor][targetConfig.data.param.key["key"+i]] = info[targetConfig.data.param.key["key"+i]];
+						}
+						
+						xCursor++;
+						
+						
+						
+						if(xCursor >= xCnt || idx == (data.length-1)){
+							xCursor = 0;
+							series.push({
+								name: yCursor,
+								data: seriesX
+							});
+							yCursor++;
+							seriesX = [];
+						}
+					});
+					
+					targetConfig.series = series;
+				},
+				"line": function(array){
+					
+					$.each(array, function(idx, value){
+						for(var idx = 1; idx <= Object.keys(config.data.param.key).length ;idx++){
+							if(!chartArrays.hasOwnProperty(config.data.param.key["key"+idx])){
+								chartArrays[config.data.param.key["key"+idx]]=[]
+							}
+							chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+						}
+						
+						
+						if(!$.osl.isNull(config.data.param.xKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+								chartArrays[config.data.param.xKey]=[];
+							}
+							chartArrays[config.data.param.xKey].push( value[config.data.param.xKey] );
+						}
+						
+						if(!$.osl.isNull(config.data.param.yKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.yKey)){
+								chartArrays[config.data.param.yKey]=[];
+							}
+							chartArrays[config.data.param.yKey].push( value[config.data.param.yKey] );
+						}
+					});
+					
+					
+					for(var idx = 0; idx < Object.keys(config.data.param.key).length ;idx++){
+						targetConfig.series[idx]={name:config.data.param.keyNm["keyNm"+(idx+1)]};
+						if(!$.osl.isNull(chartArrays[config.data.param.key["key"+(idx+1)] ])){
+							targetConfig.series[idx].data=chartArrays[config.data.param.key["key"+(idx+1)] ];
+						}else{
+							targetConfig.series[idx].data=[];
+						}
+					}
+					
+					
+					if(!$.osl.isNull(config.data.param.xKey)){
+						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}
+					
+					if(!$.osl.isNull(config.data.param.yKey)){
+						targetConfig.yaxis.categories = chartArrays[config.data.param.yKey ];
+					}
+				},
+				"colum": function(array){
+					targetConfig.chart.type="bar";
+					targetConfig.yaxis = {show:true};
+					
+					$.each(array, function(idx, value){
+						for(var idx = 1; idx <= Object.keys(config.data.param.key).length ;idx++){
+							if(!chartArrays.hasOwnProperty(config.data.param.key["key"+idx])){
+								chartArrays[config.data.param.key["key"+idx]]=[]
+							}
+							chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+						}
+						
+						if(!$.osl.isNull(config.data.param.xKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+								chartArrays[config.data.param.xKey]=[];
+							}
+							chartArrays[config.data.param.xKey].push( value[config.data.param.xKey] );
+						}
+						if(!$.osl.isNull(config.data.param.yKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+								chartArrays[config.data.param.yKey]=[];
+							}
+							chartArrays[config.data.param.yKey].push( value[config.data.param.yKey] );
+						}
+					});
+					
+					
+					for(var idx = 0; idx < Object.keys(config.data.param.key).length ;idx++){
+						targetConfig.series[idx]={name:config.data.param.keyNm["keyNm"+(idx+1)]};
+						if(!$.osl.isNull(chartArrays[config.data.param.key["key"+(idx+1)] ])){
+							targetConfig.series[idx].data=chartArrays[config.data.param.key["key"+(idx+1)] ];
+						}else{
+							targetConfig.series[idx].data=[];
+						}
+					}
+					
+					
+					if(!$.osl.isNull(config.data.param.xKey)){
+						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}
+					
+					if(!$.osl.isNull(config.data.param.yKey)){
+						targetConfig.yaxis.categories = chartArrays[config.data.param.yKey ];
+					}
+				}
+			});
 			
 			
-			for(var idx = 0; idx < Object.keys(config.data.param.key).length ;idx++){
-				targetConfig.series[idx].data=arrays[config.data.param.key["key"+(idx+1)] ]
+			
+			if($.osl.isNull(targetConfig.data.param.dataArr)){
+				
+				var ajaxObj = new $.osl.ajaxRequestAction({"url": targetConfig.data.url, "async": false}, targetConfig.data.param);
+				
+		    	ajaxObj.setFnSuccess(function(data){
+		    		if(data.errorYn == "Y"){
+						$.osl.alert(data.message,{type: 'error'});
+					}else{
+						
+						targetConfig.lastResponse = data;
+						
+						
+						apexEvt[targetConfig.data.param.chartType](data.chartData);
+						targetConfig.callback.ajaxDone(data, data.chartData);
+					}
+		    	});
+	
+		    	
+				ajaxObj.send();
+			}else{
+				
+				targetConfig.lastResponse = targetConfig.data.param.dataArr;
+				apexEvt[targetConfig.data.param.chartType](targetConfig.data.param.dataArr);
 			}
 			
 			
-			if(!$.osl.isNull(config.data.param.xKey)){
-				targetConfig.xaxis.categories = arrays[config.data.param.xKey ];
-			}
-			if(!$.osl.isNull(config.data.param.yKey)){
-				targetConfig.yaxis.categories = arrays[config.data.param.yKey ];
+			btnEvt.list();
+			
+			
+			targetConfig.chart.events.mounted = function(chartContext, config){
+				targetConfig.callback.initComplete(chartContext, config);
 			}
 			
 			
@@ -154,11 +548,22 @@ var OSLCoreChartSetting = function () {
 			
 			
 			$.osl.chart.list[targetId] = charts;
-			chartsInfo.render();
+			var test=chartsInfo.render();
+			
+			
 		}
-		return charts;
+		
+		
+		
+		if(targetObj.length > 0){
+			
+			if(chartLibrary.indexOf(chartLib)!=-1){
+				chartLibrary[chartLib]();
+			}else{
+				$.osl.toastr("지원하지 않는 차트 라이브러리입니다.",{"type":"error"});
+			}
+		}
 	}
-	
 	
     return {
         
