@@ -767,7 +767,6 @@ var OSLDpl1002Popup = function () {
 			//tabTarget : 선택된 tab target
 			var tabTarget = e.currentTarget;
 			
-		//debugger;
 			//tabDiv : 선택된 탭의 data-tab-id
 			var tabDiv = $(tabTarget).attr('data-tab-id');
 			
@@ -970,7 +969,7 @@ var OSLDpl1002Popup = function () {
 		
 		return {
 			reload: function(){
-				debugger;
+				
 				dplAssignReqTable.targetDt.reload();
 				dplReivisionListTable.targetDt.reload();
 				dplPopRevisionFileGridTable.targetDt.reload();
