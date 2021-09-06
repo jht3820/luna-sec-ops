@@ -552,6 +552,60 @@ var OSLCoreLangSetting = function () {
 				useCd: "사용유무"
 			}
 		},
+
+		prj1300 : {
+			label : {
+				templateId : "템플릿 ID",
+				templateNm : "템플릿 명",
+				templateDesc : "비고"
+			},
+			message : {
+				alert : {
+					treeSelect : "왼쪽 트리에서 템플릿을 선택해주세요.",
+					notUsedTemplate : "미사용 템플릿에는 하위 템플릿을 추가할 수 없습니다.",
+					notRootDelete : "최상위 템플릿(ROOT)은 삭제할 수 없습니다.",
+					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
+					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
+					notSignUseCd : "결재를 사용하지 않는 템플릿 입니다."
+				},
+				confirm:{
+					deleteTemplate:"템플릿 정보 삭제 시 선택한 템플릿 정보 및 하위 템플릿 정보가 모두 삭제됩니다. 선택한 템플릿 정보를 삭제 하시겠습니까?",
+				} 
+			},
+			modal : {
+				title : {
+					insertTemplate : "신규 템플릿 등록",
+					updateTemplate : "템플릿 수정",
+					insertItem : "기본항목 등록",
+					updateItem : "기본항목 수정",
+				}
+			},
+			contextmenu : {
+				insert : "하위 템플릿 등록",
+				update : "템플릿 수정",
+				delete : "템플릿 삭제"
+			}
+		},
+		prj1301 : {
+			label : {
+				upperTemplateId : "상위 템플릿 ID",
+				upperTemplateNm : "상위 템플릿 명",
+				templateId : "템플릿 ID",
+				templateNm : "템플릿 명",
+				templateDesc : "비고"
+				
+			},
+			button : {
+				insert : "작성 완료",
+				update : "수정 완료"
+			},
+			message : {
+				confirm : {
+					insert : "템플릿 정보를 추가 하시겠습니까?",
+					update : "템플릿 정보를 수정 하시겠습니까?"
+				}
+			}
+		},
 		prj2100:{
 			allUsrInsert:"${1}건의 사용자를 배정하시겠습니까?",
 			allUsrInDelete:"${1}건의 사용자를 배정 제외하시겠습니까?"

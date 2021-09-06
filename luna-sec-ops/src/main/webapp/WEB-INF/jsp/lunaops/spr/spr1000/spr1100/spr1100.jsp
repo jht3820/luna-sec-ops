@@ -354,10 +354,13 @@ var OSLSpr1100Popup = function () {
 	* param : 선택된 요구사항 목록
 	*/
 	var insertReq = function(sprId, list){
+		
 		var data = {
 				dataList : list,
 				sprId : sprId
 		};
+		
+		console.log($.osl.datatable.list["spr1000SprTable"].targetDt.responseJSON);
 		
 		//ajax 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
