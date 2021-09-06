@@ -74,18 +74,24 @@
 		<!-- end::Global Config -->
 
 		<!--begin::Global Theme Bundle(used by all pages) -->
+		<script src="<c:url value='/js/scripts.bundle.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/js/common/modalPopup.js'/>" type="text/javascript"></script>
 		<!--end::Global Theme Bundle -->
 
 		<!--begin::Page Vendors(used by this page) -->
 		<script src="<c:url value='/plugins/jquery-loading/js/app.js'/>" type="text/javascript"></script>
-		<script src="<c:url value='/plugins/custom/uppy/uppy.bundle.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/plugins/custom/uppy/uppy.min.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/custom/uppy/locales/ko_KR.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/js/lang/summernote/summernote-ko-KR.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/custom/jstree/jstree.bundle.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/apexcharts/apexcharts.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/dragula/dragula.min.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/sortable/Sortable.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/plugins/highlight/highlight.pack.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/plugins/diff/diff_match_patch_uncompressed.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/plugins/custom/jquery-ui/jquery-ui.bundle.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/plugins/flowchart/jquery.flowchart.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/plugins/panzoom/panzoom.js'/>" type="text/javascript"></script>
 		<!--end::Page Vendors -->
 
 		<iframe id="fileDownFrame" name="fileDownFrame" src="/com/fms/FileDown.do" style="width:0;height:0;display:none;"></iframe>
