@@ -410,7 +410,6 @@ var OSLSpr1004Popup = function () {
 
 		//마법사 각 단계탭 클릭시 변경 이벤트
 		wizard.on('change', function(wizardObj) {
-			debugger;
 			if(datatableInitFlag.hasOwnProperty(wizardObj.currentStep)){
 				//마법사 단계 이동 시 버튼 표출 여부 , 데이터 테이블 세팅
 				if(!datatableInitFlag[wizardObj.currentStep]){
