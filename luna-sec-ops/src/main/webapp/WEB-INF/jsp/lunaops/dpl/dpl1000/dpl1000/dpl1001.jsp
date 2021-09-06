@@ -339,7 +339,12 @@ var OSLDpl1001Popup = function () {
 					callback:[{
 						targetId: "dpl1003SelectJob",
 						actionFn: function(thisObj){
+							
+							console.log("팝업 callback : ", thisObj);
+							
 							var jobInfo = OSLDpl1003Popup.getJobInfo();
+							
+							console.log(jobInfo);
 							
 							if(!$.osl.isNull(jobInfo)){
 								//OSLDpl1001Popup.setUsrInfo(usrInfo);

@@ -14,9 +14,9 @@
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1003Table" data-datatable-action="select" title="JOB 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 					<i class="fa fa-list"></i><span>조회</span>
 				</button>
-				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1003Table" data-datatable-action="selectJob" title="JOB 선택" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
+				<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1003Table" data-datatable-action="selectJob" title="JOB 선택" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2" id="dpl1003SelectJob">
 					<i class="fa flaticon2-check-mark"></i><span>선택</span>
-				</button>
+				</button> -->
 			</div>
 		</div>
 		<div class="kt-portlet__body">
@@ -27,6 +27,7 @@
 <!-- end :: form -->
 <!-- begin :: modal-footer -->
 <div class="modal-footer">
+	<button type="button" class="btn btn-brand" id="dpl1003SelectJob"><i class="fa flaticon2-check-mark"></i><span>선택</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
 </div>
 <!-- end :: modal-footer -->
@@ -100,7 +101,7 @@ var OSLDpl1003Popup = function () {
 				"lastPush": false
 			},
 			actionTooltip:{
-				"dblClick" : $.osl.lang("stm9200.toolTip.jobDelete")
+				//"dblClick" : $.osl.lang("stm9200.toolTip.jobDelete")
 			},
 			actionFn:{
 				/* "dblClick": function(rowData, datatableId, type, rowNum, elem){
@@ -110,7 +111,7 @@ var OSLDpl1003Popup = function () {
 					// Job 배정제외
 					fnJobDelete(rowDatas);
 				}, */
-				"selectJob":function(rowDatas, datatableId, type, rowNum, elem){
+				/* "selectJob":function(rowDatas, datatableId, type, rowNum, elem){
 					
 					//선택 레코드 없는 경우 알림
 					if(rowDatas.length == 0){
@@ -120,13 +121,14 @@ var OSLDpl1003Popup = function () {
 					
 					console.log(rowDatas);
 					
-					$.osl.confirm("배정 하시겠습니까?", {html:false}, function(result){
+					$.osl.confirm("JOB을 배정 하시겠습니까?", {html:false}, function(result){
 						if (result.value) {
-							// JOB 배정제외
-							//fnJobDelete(rowDatas);
+							// 현재 선택된 job을 세팅
+							checkJobList = rowDatas;
+							$.osl.layerPopupClose();
 						}
 					});
-				},
+				}, */
 			},
 			theme:{
 				/* actionBtn:{
@@ -147,7 +149,7 @@ var OSLDpl1003Popup = function () {
         	documentSetting();
         },
         getJobInfo: function(){
-        	return JSON.stringify(selectJobs);//선택한 사용자 정보
+        	return JSON.stringify(checkJobList);//선택한 JOB정보
         }
         
     };
