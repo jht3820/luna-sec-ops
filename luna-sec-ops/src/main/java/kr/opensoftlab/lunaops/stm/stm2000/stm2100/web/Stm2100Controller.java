@@ -280,29 +280,9 @@ public class Stm2100Controller {
 			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
 			paramMap.put("licGrpId", loginVO.getLicGrpId());
 			
-			String paramPrjGrpId = (String) paramMap.get("prjGrpId");
+			List<Map> stmAuthList = stm2100Service.selectStm2100LicAllAuthAndUserList(paramMap);
 			
-			
-			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
-				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
-			}
-			
-			
-			String paramPrjId = (String) paramMap.get("prjId");
-			
-			
-			if(paramPrjId == null || "".equals(paramPrjId)) {
-				paramPrjId = (String) ss.getAttribute("selPrjId");
-			}
-			
-			paramMap.put("prjGrpId", paramPrjGrpId);
-			paramMap.put("prjId", paramPrjId);
-			
-			List<Map> stmGrpList = stm2100Service.selectStm2100BadGrpList(paramMap);
-			List<Map> stmUsrList = stm2100Service.selectStm2100BadUsrList(paramMap);
-			
-			model.addAttribute("badGrpList", stmGrpList);
-			model.addAttribute("badUsrList", stmUsrList);
+			model.addAttribute("stmAuthList", stmAuthList);
 			
 			
 			model.addAttribute("errorYn", "N");

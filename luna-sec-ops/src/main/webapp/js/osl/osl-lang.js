@@ -323,6 +323,19 @@ var OSLCoreLangSetting = function () {
 			},
 			title :"메시지 답장"
 		},
+		cmm15000:{
+			field: {
+				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
+				usrNm : "사용자명",
+			},
+			actionBtn : {
+				title : "선택",
+				clickBtn : "선택",
+			},
+		},
+		cmm16000:{
+			title: "요구사항 선택"
+		},
 		dpl1100:{
 			title : {
 				deploy : "배포계획 목록",
@@ -934,22 +947,13 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		req4103:{
-			field: {
-				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
-				usrNm : "사용자명",
-			},
-			actionBtn : {
-				title : "선택",
-				clickBtn : "선택",
-			},
-		},
-		req4104:{
+			passwordMiss : "비밀번호가 틀렸습니다.<br/> 다시 입력하세요.",
 			text: "잠긴 요구사항입니다.<br/> 비밀번호를 입력하세요.",
 			button:{
 				submit : "확인",
 			}
 		},
-		req4105:{
+		req4104:{
 			field:{
 				reqGrpNm:"그룹 요구사항 명",
 			},
@@ -2060,6 +2064,13 @@ var OSLCoreLangSetting = function () {
 				content:"Comment",
 				writeDate : "Date"
 			},
+			cmm15000Table:{
+				usrNm : "User Name",
+				usrId : "Id",
+				email : "E-mail",
+				tel : "Contact",
+				deptName: "Department",
+			},
 			cmm17000PrjTable:{
 				upPrjNm:"Project Group Name",
 				prjId:"Project ID",
@@ -2140,13 +2151,6 @@ var OSLCoreLangSetting = function () {
 				prjNm : "Project Name",
 				reqNm : "Title",
 				reqDtm : "Request Date"
-			},
-			req4103ReqTable:{
-				usrNm : "User Name",
-				usrId : "Id",
-				email : "E-mail",
-				tel : "Contact",
-				deptName: "Department",
 			},
 			prj1000PrjTable:{
 				prjNm: "Project Group Name",
@@ -2478,6 +2482,16 @@ var OSLCoreLangSetting = function () {
 			},
 			button:{
 				search:"Search"
+			},
+		},
+		cmm15000:{
+			field: {
+				/*외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기*/
+				usrNm : "User Name",
+			},
+			actionBtn : {
+				title : "Select",
+				clickBtn : "Select",
 			},
 		},
 		cmm25000:{
@@ -3028,25 +3042,16 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		req4103:{
-			field: {
-				/*외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기*/
-				usrNm : "User Name",
-			},
-			actionBtn : {
-				title : "Select",
-				clickBtn : "Select",
-			},
-		},
-		req4105:{
-			field:{
-				reqGrpNm:"Group requirements Name",
-			},
-		},
-		req4104:{
+			passwordMiss : "It doesn’t match the password for this post.<br/> Please try again.",
 			text: "This is secret request.<br/> You must entered password.",
 			button:{
 				submit : "Submit",
 			}
+		},
+		req4104:{
+			field:{
+				reqGrpNm:"Group requirements Name",
+			},
 		},
 		spr1100:{
 			title : {

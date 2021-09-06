@@ -53,15 +53,15 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	private Stm9100Service stm9100Service;
 	
 	
-	@SuppressWarnings("rawtypes")
-	public int selectDpl1000ListCnt(Map paramMap) throws Exception{
-		return  dpl1000DAO.selectDpl1000ListCnt(paramMap);
+	@SuppressWarnings({ "rawtypes" })
+	public List<Map> selectDpl1000DplList(Map paramMap) throws Exception{
+		return  dpl1000DAO.selectDpl1000DplList(paramMap);
 	}
 	
 	
-	@SuppressWarnings({ "rawtypes" })
-	public List<Map> selectDpl1000List(Map paramMap) throws Exception{
-		return  dpl1000DAO.selectDpl1000List(paramMap);
+	@SuppressWarnings("rawtypes")
+	public int selectDpl1000DplListCnt(Map paramMap) throws Exception{
+		return  dpl1000DAO.selectDpl1000DplListCnt(paramMap);
 	}
 	
 	

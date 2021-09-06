@@ -37,10 +37,11 @@ var OSLCoreChartSetting = function () {
 						
 						
 					},
-					chartType:""
+					chartType: "",
+					
+					dataArr:[],
 				},
-				
-				dataArr:[],
+				type: "remote"
 			},
 			chart:{
 				width:"100%",
@@ -58,6 +59,14 @@ var OSLCoreChartSetting = function () {
 				
 				title:{},
 				
+				
+				xaxis:{
+					show: false
+				},
+				
+				yaxis:{
+					show: false
+				},
 				option:{
 					heatmap:{
 
@@ -146,7 +155,7 @@ var OSLCoreChartSetting = function () {
 						else{
 							
 							var targetConfig = $.osl.chart.list[chartId].config;
-							if(!$.osl.isNull(targetConfig.data.url)){
+							if($.osl.isNull(targetConfig.data.type != "local")){
 								targetConfig.callback.reloaded();
 							}
 						}
@@ -223,12 +232,8 @@ var OSLCoreChartSetting = function () {
 						stops: [0, 90, 100]
 					}
 				},
-				xaxis: {
-					show: false
-				},
-				yaxis:{
-					show: false
-				},
+				xaxis: targetConfig.chart.xaxis,
+				yaxis: targetConfig.chart.yaxis,
 				
 				title: targetConfig.chart.title,
 				
@@ -251,7 +256,7 @@ var OSLCoreChartSetting = function () {
 						targetConfig.xaxis.categories = [];
 						targetConfig.yaxis.categories = [];
 						
-						if($.osl.isNull(dataArr)){
+						if($.osl.isNull(targetConfig.data.param.dataType != "local")){
 							var ajaxObj = new $.osl.ajaxRequestAction({"url": targetConfig.data.url, "async": false}, targetConfig.data.param);
 							
 					    	ajaxObj.setFnSuccess(function(data){
@@ -303,7 +308,7 @@ var OSLCoreChartSetting = function () {
 						}
 						
 						if(!$.osl.isNull(config.data.param.yKey)){
-							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.yKey)){
 								chartArrays[config.data.param.yKey]=[];
 							}
 							chartArrays[config.data.param.yKey].push( value[config.data.param.yKey] );
@@ -429,7 +434,7 @@ var OSLCoreChartSetting = function () {
 						}
 						
 						if(!$.osl.isNull(config.data.param.yKey)){
-							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.yKey)){
 								chartArrays[config.data.param.yKey]=[];
 							}
 							chartArrays[config.data.param.yKey].push( value[config.data.param.yKey] );

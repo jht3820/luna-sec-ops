@@ -79,24 +79,18 @@
 			,	#regUsrId#			,	#regUsrIp#	 	,	SYSDATE 		,	#modifyUsrId#			
 			,	#modifyUsrIp#			
 		    <isEqual property="signUseCd" compareValue="01">
-			,	#ord#				,  	null				,	null			,	#infType#
+		    	<isEqual property="infType" compareValue="01">
+					,	#ord#				,  	SYSDATE				,	null			,	#infType#
+				</isEqual>
+				<isNotEqual property="infType" compareValue="01">
+					,	#ord#				,  	null				,	null			,	#infType#
+				</isNotEqual>
 		    </isEqual>
 		    <isEqual property="signUseCd" compareValue="02">
 		    ,	-1					,  	SYSDATE				,	#regUsrId#		,	#infType#
 		    </isEqual>
 		)
 	</insert>
-	
-	
-	
-	<delete id="prj3100DAO.deletePrj3001CngInf" parameterClass="java.util.Map">
-		
-		DELETE  FROM PRJ3001
-		WHERE   1 = 1
-		AND		PRJ_ID = #prjId#
-		AND		DOC_ID = #docId#
-		AND		FILE_SN = #fileSn# 
-	</delete>
 	
 	
 	<select id="prj3100DAO.selectPrj3001CngInf" parameterClass="java.util.Map" resultClass="egovMap">
@@ -173,7 +167,6 @@
 		FROM PRJ3001 A
 		INNER JOIN (
 					SELECT 	MAX(REG_DTM) AS REG_DTM
-						,	MAX(ord) 	 AS ORD
 						, 	STRE_FILE_NM 
 						, 	DOC_ID
 						,	PRJ_ID
@@ -182,13 +175,15 @@
 			        		,	DOC_ID
 			        		,	PRJ_ID
 					) B
-		ON (A.PRJ_ID = B.PRJ_ID AND A.DOC_ID = B.DOC_ID AND A.REG_DTM = B.REG_DTM AND A.STRE_FILE_NM = B.STRE_FILE_NM AND A.ORD =  B.ORD)
+		ON (A.PRJ_ID = B.PRJ_ID AND A.DOC_ID = B.DOC_ID AND A.REG_DTM = B.REG_DTM AND A.STRE_FILE_NM = B.STRE_FILE_NM)
 		LEFT JOIN PRJ3003 D
 		ON	(A.DOC_ID = D.DOC_ID AND A.PRJ_ID = D.PRJ_ID AND A.ORD = D.ORD)
 		WHERE	1 = 1
         AND		A.DOC_ID = #docId#
         AND		A.PRJ_ID = #prjId#
         AND   A.INF_TYPE != '05'
+        AND	  A.INF_TYPE != '03'
+        AND   A.ORD != 0
         ORDER BY A.REG_DTM DESC
 	</select>
 	
