@@ -5,9 +5,9 @@
 <div class="kt-portlet kt-portlet--mobile">
 	<div class="kt-portlet__body">
 		<div class="col-lg-8 col-md-8 col-sm-12 m-auto kt-margin-t-15">
-			<div class="osl-datatable-search" data-datatable-id="cmm15000Table"></div>
+			<div class="osl-datatable-search" data-datatable-id="cmm6401Table"></div>
 		</div>
-		<div class="kt-datatable" id="cmm15000Table"></div>
+		<div class="kt-datatable" id="cmm6401Table"></div>
 		<button type="button" class="btn btn-sm kt-margin-0 kt-padding-0 osl-width-0 invisible" id="selectUsr"/>
 	</div>
 </div>
@@ -16,10 +16,10 @@
 </div>
 <script>
 "use strict";
-var OSLCmm15000Popup = function () {
+var OSLCmm6401Popup = function () {
 	var temp;
     var documentSetting = function () {
-		var datatableId = "cmm15000Table";
+		var datatableId = "cmm6401Table";
     	var name = $.osl.escapeHtml($("#paramUsrNm").val());
     	
     	//데이터 테이블 셋팅
@@ -27,7 +27,7 @@ var OSLCmm15000Popup = function () {
     		data : {
     			source:{
     				read:{
-    					url:"/cmm/cmm10000/cmm15000/selectCmm15000UsrListAjax.do",
+    					url:"/cmm/cmm6000/cmm6400/selectCmm6401UsrListAjax.do",
     					params:{
     						searchDataTxt : name
     					}
@@ -57,14 +57,14 @@ var OSLCmm15000Popup = function () {
     			{field:'deptName', title:'소속', textAlign:'left', width: 240, autoHide:false, search:true}
     		],
     		actionBtn:{
-    			title : $.osl.lang("cmm15000.actionBtn.title"),
+    			title : $.osl.lang("cmm6401.actionBtn.title"),
     			width : 80,
     			"update" : false,
     			"delete" : false,
     			"click": true,
     		},
     		actionTooltip:{
-    			"click": $.osl.lang("cmm15000.actionBtn.clickBtn"),
+    			"click": $.osl.lang("cmm6401.actionBtn.clickBtn"),
     		},
     		actionFn:{
     			"click":function(rowData){
@@ -85,7 +85,7 @@ var OSLCmm15000Popup = function () {
 			menus.find("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item");
 			menus.children("a.dropdown-item[data-field-id=usrNm]").attr("class", "dropdown-item active");
 			//검색 메뉴 버튼 변경
-			menus.siblings(".btn.btn-secondary.dropdown-toggle").text($.osl.lang("cmm15000.field.usrNm"));
+			menus.siblings(".btn.btn-secondary.dropdown-toggle").text($.osl.lang("cmm6401.field.usrNm"));
 		 
 			//select 감추기
 			menus.attr("aria-hidden", "true");
@@ -125,7 +125,7 @@ var OSLCmm15000Popup = function () {
 
 // Initialization
 $.osl.ready(function(){
-	OSLCmm15000Popup.init();
+	OSLCmm6401Popup.init();
 });
 
 	
