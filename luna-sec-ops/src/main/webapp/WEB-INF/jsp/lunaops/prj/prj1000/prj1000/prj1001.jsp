@@ -3,6 +3,48 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
+<c:if test="${not empty prjInfo}">
+	<form class="kt-form" id="frPrj1001">
+		<input type="hidden" name="paramPrjGrpId" id="paramPrjGrpId" value="${prjInfo.prjId}"/>
+	</form>
+	<div class="kt-portlet kt-portlet--mobile">
+		<div class="kt-portlet__head kt-portlet__head--lg">
+			<div class="kt-portlet__head-label">
+				<h4 class="kt-font-boldest kt-font-brand">
+					<i class="fa fa-th-large kt-margin-r-5"></i>프로젝트 그룹 정보
+				</h4>
+			</div>
+		</div>
+		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block ">
+			<div class="kt-padding-l-40 kt-padding-b-15 col-lg-4 col-md-4 col-sm-12">
+				<h5 class="kt-font-boldest text-truncate" title="<c:out value="${prjInfo.prjNm}"/>" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><c:out value="${prjInfo.prjNm}"/></h5>
+				<span class="text-muted text-truncate" title="<c:out value="${prjInfo.prjDesc}"/>" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><c:out value="${prjInfo.prjDesc}"/></span>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-12">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-12">
+						<div class="kt-pull-left kt-margin-r-25">
+							<div class="kt-padding-b-5"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i><span>시작일</span></div>
+							<h5><span class="badge badge-primary"><c:out value="${prjInfo.startDt}"/></span></h5>
+						</div>
+						<div class="kt-pull-left ">
+							<div class="kt-padding-b-5"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i><span>종료일</span></div>
+							<h5><span class="badge badge-danger"><c:out value="${prjInfo.endDt}"/></span></h5>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-12">
+						<div class="osl-progress">
+							<div class="kt-padding-b-5"><i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i><span>진척률</span></div>
+							<div class="progress osl-prj-group-md">
+								<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">78%</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</c:if>
 <div class="kt-portlet kt-portlet--mobile">
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -28,20 +70,29 @@
 			<div class="osl-datatable-search" data-datatable-id="prj1001PrjTable"></div>
 		</div>
 		<div class="col-lg-9 col-md-12 col-sm-12 text-right kt-padding-r-0">
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjTable" data-datatable-action="select" title="데이터 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjTable" data-datatable-action="select" title="프로젝트 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 				<i class="fa fa-list"></i><span>조회</span>
 			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" title="데이터 등록" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjTable" data-datatable-action="insert" title="프로젝트 등록" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
 				<i class="fa fa-plus"></i><span>등록</span>
 			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" title="데이터 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjTable" data-datatable-action="update" title="프로젝트 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
 				<i class="fa fa-edit"></i><span>수정</span>
 			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" title="데이터 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
-				<i class="fa fa-trash-alt"></i><span>삭제</span>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjTable" data-datatable-action="delete" title="프로젝트 그룹 휴지통 이동(삭제)" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
+				<i class="fa fa-trash-alt"></i><span>휴지통 이동(삭제)</span>
 			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" title="프로젝트 휴지통 이동" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5">
-				<i class="fa fa-trash"></i><span>휴지통</span>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="prjTrashListMoveBtn" id="prjTrashListMoveBtn" data-datatable-id="prj1001PrjTable" title="프로젝트 휴지통 목록 이동" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5">
+				<i class="fa fa-trash"></i><i class="fa fa-list"></i><span>휴지통 목록</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjTable" data-datatable-action="prjRedo" title="프로젝트 복구" data-title-lang-cd="prj1000.button.title.redo" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3" hidden>
+				<i class="fa fa-redo-alt"></i><span data-lang-cd="datatable.button.redo">복구</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjTable" data-datatable-action="prjDelete" title="프로젝트 완전 삭제" data-title-lang-cd="prj1000.button.title.recordDelete" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4" hidden>
+				<i class="fa fa-times-circle"></i><span data-lang-cd="datatable.button.recordDelete">완전 삭제</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="prjListMoveBtn" id="prjListMoveBtn" data-datatable-id="prj1001PrjTable" title="프로젝트 목록으로 이동" data-title-lang-cd="prj1000.button.title.prev" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5" hidden>
+				<i class="fa fa-trash"></i><i class="fa fa-list"></i><span data-lang-cd="datatable.button.prev">돌아가기</span>
 			</button>
 		</div>
 	</div>
@@ -51,86 +102,22 @@
 <script>
 "use strict";
 var OSLPrj1001Popup = function () {
+	//프로젝트 그룹 ID
+	var paramPrjGrpId = $("#paramPrjGrpId").val();
+	
 	//01 - 카드형, 02 - 그리드
 	var currentViewType = "01";
-	//차트 기본 옵션
-	var chartDefaultOption = {
-			series: [],
-			chart: {
-				toolbar:{show:false},
-				width: '100%',
-				height: 195,
-				type: 'heatmap',
-				offsetX: -5,
-				events: {
-					click: function(event, chartContext, config) {
-						console.log(event);
-						var series = config.config.series;
-						console.log(series[config.seriesIndex]["data"][config.dataPointIndex]);
-						//요구사항 상세정보
-					}
-				},
-			},
-			title:{
-				text: "처리유형별 요구사항",
-				align: "center",
-			},
-			dataLabels: {enabled: false},
-			xaxis:{labels:{show:false}, axisBorder:{show:false}, axisTicks:{show:false}, crosshairs:{show:false}, tooltip: {enabled: false}},
-			yaxis:{labels:{show:false}, axisBorder:{show:false}, axisTicks:{show:false}, crosshairs:{show:false}, tooltip: {enabled: false}},
-			legend:{
-				position: 'bottom',
-				horizontalAlign: 'right',
-			},
-			grid: {
-			    show: false,
-			    padding: {
-			    	top: 0,
-			    	bottom: 0,
-					left: 0,
-					right: 0
-			    }
-			  },
-			plotOptions:{
-				heatmap:{
-		            radius: 0,
-		            reverseNegativeShade: false,
-		            enableShades: false,
-		            useFillColorAsStroke: false,
-		            colorScale:{
-						ranges:[
-							{from: 1,to: 1,color: "#9fd1f2", name:"접수 요청"},
-							{from: 2,to: 2,color: "#5867dd", name:"진행 중"},
-							{from: 3,to: 3,color: "#FFB200", name:"접수 반려"},
-							{from: 4,to: 6,color: "#fd397a", name:"완료"},
-						]
-					}
-				}
-			},
-			tooltip: {
-				custom: function(data) {
-					var series = data.series;
-					var seriesIndex = data.seriesIndex;
-					var dataPointIndex = data.dataPointIndex;
-					
-					var selData = data.w.config.series[seriesIndex].data[dataPointIndex];
-					var reqOrd = selData.reqOrd;
-					var reqNm = selData.reqNm
-					
-					return '<div class="osl-chart--project__tooltip">['+reqOrd+'] '+reqNm+'</div>';
-					//return series[seriesIndex][dataPointIndex];
-				}
-			},
-		};
 	
 	var documentSetting = function(){
 		var config = {
+			cardUiTarget: $("#prj1001CardTable"),
 			data: {
 				source: {
 					read: {
 						url: "/prj/prj1000/prj1000/selectPrj1001ListAjaxView.do",
 						params:{
-							paramPrjGrpId: $.osl.selPrjGrpId
+							paramPrjGrpId: paramPrjGrpId,
+							delCd: "02"
 						}
 					}
 				},
@@ -153,12 +140,127 @@ var OSLPrj1001Popup = function () {
 				"delete": false,
 				"title": "기능 버튼",
 				"width": 100,
+				"dblClick": true
 			},
 			actionTooltip:{
-				"update": "프로젝트 수정",
-				"delete": "프로젝트 삭제"
+				"dblClick": "상세 정보",
 			},
 			actionFn:{
+				"insert":function(datatableId, type, rowNum){
+					//프로젝트 그룹 정보
+					var prjGrpInfo = $.osl.prjGrpAuthList[paramPrjGrpId]["prjGrpInfo"];
+					
+					var data = {
+							type:"insert",
+							paramPrjGrpId: paramPrjGrpId,
+							prjGrpNm: prjGrpInfo.prjNm,
+							prjGrpStartDt: prjGrpInfo.startDt,
+							prjGrpEndDt: prjGrpInfo.endDt
+					};
+					var options = {
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							modalTitle: $.osl.lang("prj1004.insert.title"),
+							closeConfirm: false,
+						};
+					
+					$.osl.layerPopupOpen('/prj/prj1000/prj1000/selectPrj1004View.do',data,options);
+				},
+				"update": function(rowData, datatableId, type, rowNum, elem){
+					//프로젝트 그룹 정보
+					var prjGrpInfo = $.osl.prjGrpAuthList[rowData.prjGrpId]["prjGrpInfo"];
+					
+					var data = {
+							type:"update",
+							paramPrjGrpId: rowData.prjGrpId,
+							paramPrjId: rowData.prjId,
+							prjGrpNm: prjGrpInfo.prjNm,
+							prjGrpStartDt: prjGrpInfo.startDt,
+							prjGrpEndDt: prjGrpInfo.endDt
+					};
+					var options = {
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							modalTitle: $.osl.lang("prj1004.update.title"),
+							closeConfirm: false,
+						};
+					
+					$.osl.layerPopupOpen('/prj/prj1000/prj1000/selectPrj1004View.do',data,options);
+				},
+				//휴지통 이동(삭제)
+				"delete":function(rowDatas, datatableId, c, rowNum, elem){
+					//선택 프로젝트 그룹 휴지통으로 이동
+					var ajaxObj = new $.osl.ajaxRequestAction(
+							{"url":"<c:url value='/prj/prj1000/prj1000/updatePrj1000PrjGrpTrashListAjax.do'/>"}
+							,{deleteDataList: JSON.stringify(rowDatas)});
+					//AJAX 전송 성공 함수
+					ajaxObj.setFnSuccess(function(data){
+						if(data.errorYn == "Y"){
+			   				$.osl.alert(data.message,{type: 'error'});
+			   			}else{
+			   				//삭제 성공
+			   				$.osl.toastr(data.message);
+			   				
+			   				//datatable 조회
+			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+			   			}
+					});
+					
+					//AJAX 전송
+					ajaxObj.send();
+				},
+				//완전 삭제
+				"prjDelete": function(rowData, datatableId, type){
+					var rowDatas = rowData;
+					
+					//선택 레코드 없는 경우
+					if(rowDatas.length == 0){
+						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
+						return true;
+					}
+					
+					$.osl.confirm($.osl.lang("prj1001.confirm.prjDelete",rowDatas.length),{html:true}, function(result){
+						if (result.value) {
+							//선택 프로젝트 완전 삭제 처리
+							fnPrjDelete(rowDatas, datatableId);
+						}
+					});
+				},
+				//복구
+				"prjRedo": function(rowData, datatableId, type){
+					var rowDatas = rowData;
+					
+					//선택 레코드 없는 경우
+					if(rowDatas.length == 0){
+						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
+						return true;
+					}
+					
+					$.osl.confirm($.osl.lang("prj1001.confirm.prjRedo",rowDatas.length),{html:true}, function(result){
+						if (result.value) {
+							//선택 프로젝트 그룹 복구 처리
+							fnPrjRedoUpdate(rowDatas, datatableId);
+						}
+					});
+				},
+				//상세정보
+				"dblClick":function(rowData, datatableId, type, rowNum, elem){
+					var data = {
+							paramPrjGrpId: rowData.prjGrpId,
+							paramPrjId: rowData.prjId
+						};
+						
+					var options = {
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId+"_detail",
+							modalTitle: $.osl.lang("prj1005.title"),
+							closeConfirm: false,
+						};
+					$.osl.layerPopupOpen('/prj/prj1000/prj1000/selectPrj1005View.do',data,options);
+				},
 			},
 			theme:{
 				actionBtnIcon:{
@@ -244,47 +346,75 @@ var OSLPrj1001Popup = function () {
 						if(rowCnt == 0){
 							prjGrpStr += '<div class="row">';
 						}
+						
+						//프로젝트 번호
+						var rnStr = "No. "+map.rn;
+						var rnClass = "badge-primary";
+						
+						//삭제여부에 따른 목록
+						var prjGrpDelCdMenuList = {
+								//휴지통 목록 (삭제)
+								"01":[
+									'<div class="dropdown-item" data-datatable-id="prj1001PrjTable" data-datatable-expans="dropdown" data-datatable-action="prjRedo"><i class="fa fa fa-redo-alt kt-font-primary"></i>'+$.osl.lang("prj1001.menu.projectRedo")+'</div>',
+									'<div class="dropdown-divider"></div>',
+									'<div class="dropdown-item" href="#" data-datatable-id="prj1001PrjTable" data-datatable-expans="dropdown" data-datatable-action="prjGrpDelete"><i class="fa fa-times-circle kt-font-primary"></i>'+$.osl.lang("prj1001.menu.recordDelete")+'</div>',
+									'<div class="dropdown-divider"></div>',
+									'<div class="dropdown-item" href="#" data-datatable-id="prj1001PrjTable" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fa fa-info-circle kt-font-primary"></i>'+$.osl.lang("prj1001.menu.projectDetail")+'</div>'
+								],
+								//일반 목록 (미 삭제)
+								"02":[
+									'<div class="dropdown-item" data-datatable-id="prj1001PrjTable" data-datatable-expans="dropdown" data-datatable-action="update"><i class="fa fa-edit kt-font-primary"></i>'+$.osl.lang("prj1001.menu.modify")+'</div>',
+									'<div class="dropdown-item" data-datatable-id="prj1001PrjTable" data-datatable-expans="dropdown" data-datatable-action="delete"><i class="fa fa-trash kt-font-primary"></i>'+$.osl.lang("prj1001.menu.trashMove")+'</div>',
+									'<div class="dropdown-divider"></div>',
+									'<div class="dropdown-item" data-datatable-id="prj1001PrjTable" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fa fa-info-circle kt-font-primary"></i>'+$.osl.lang("prj1001.menu.projectDetail")+'</div>',
+								]
+						};
+						
+						//삭제 여부에따른 rn -> trash, dropdown menu
+						if(map.delCd == "01"){
+							rnStr = '<i class="fa fa-trash-alt"></i>';
+							rnClass = "badge-danger"
+						}
+						
 						//카드 UI
 						prjGrpStr += 
 							'<div class="col-lg-4 col-md-6 col-sm-12">'
 								+'<div class="kt-portlet kt-portlet--mobile osl-prj-info-obj">'
 									+'<div class="kt-portlet__head kt-portlet__head--lg">'
 										+'<div class="kt-portlet__head-label">'
-											+'<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"><input type="checkbox" value="">&nbsp;<span></span></label>'
-											+'<h5 class="kt-font-boldest"><span class="badge badge-primary kt-margin-r-10">No. '+map.rn+'</span></h5>'
+											+'<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"><input type="checkbox" value="'+idx+'" name="prjCheckbox" id="prjCheckbox_'+map.prjId+'" data-datatable-id="prj1001PrjTable">&nbsp;<span></span></label>'
+											+'<h5 class="kt-font-boldest">'
+												+'<span class="badge '+rnClass+' kt-margin-r-10">'+rnStr+'</span>'
+												+'<span class="badge badge-primary kt-margin-r-10">'+$.osl.escapeHtml(map.prjTypeNm)+'</span>'
+											+'</h5>'
 										+'</div>'
 										+'<div class="kt-portlet__head-toolbar">'
 											+'<div class="kt-portlet__head-wrapper">'
 												+'<button type="button" class="btn btn-outline-primary btn-bold btn-font-sm btn-elevate btn-elevate-air"  data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">'
 													+'<i class="fa fa-bars osl-padding-r0"></i>'
 												+'</button>'
-												+'<div class="dropdown-menu dropdown-menu-right">'
-													+'<a class="dropdown-item" href="#"><i class="fa fa-edit"></i>'+$.osl.lang("prj1001.menu.modify")+'</a>'
-													+'<a class="dropdown-item" href="#"><i class="fa fa-trash"></i>'+$.osl.lang("prj1001.menu.trashMove")+'</a>'
-													+'<div class="dropdown-divider"></div>'
-													+'<a class="dropdown-item" href="#"><i class="fa fa-plus"></i>'+$.osl.lang("prj1001.menu.createProject")+'</a>'
-													+'<div class="dropdown-divider"></div>'
-													+'<a class="dropdown-item" href="#"><i class="fa fa-info-circle"></i>'+$.osl.lang("prj1001.menu.projectDetail")+'</a>'
+												+'<div class="dropdown-menu dropdown-menu-right" data-datatable-rownum="'+idx+'">'
+													+prjGrpDelCdMenuList[map.delCd].join('')
 												+'</div>'
 											+'</div>'
 										+'</div>'
 									+'</div>'
 									+'<div class="kt-portlet__body">'
-										+'<div class="osl-d-flex kt-padding-l-15 osl-align-items-center">'
-											+'<div class="kt-media kt-media--xl kt-media--circle kt-media--info osl-flex-shrink-0 osl-margin-r-2rm">'
+										+'<div class="d-flex kt-padding-l-15 align-items-center">'
+											+'<div class="kt-media kt-media--xl kt-media--circle kt-media--info flex-shrink-0 osl-margin-r-2rm">'
 												+'<span style="background-color:'+prjBgColor+';color:'+prjColor+';">'+map.prjAcrm+'</span>'
 											+'</div>'
-											+'<div class="osl-d-flex osl-flex-column osl-margin-r-auto">'
+											+'<div class="d-flex flex-column osl-margin-r-auto">'
 												+'<h5 class="kt-font-boldest" title="'+$.osl.escapeHtml(map.prjNm)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'+$.osl.escapeHtml(map.prjNm)+'</h5>'
-												+'<span class="text-muted" title="'+$.osl.escapeHtml(map.prjDesc)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'+$.osl.escapeHtml(map.prjDesc)+'</span>'
+												+'<span class="text-muted osl-max-h-px--55 text-truncate" title="'+$.osl.escapeHtml(map.prjDesc)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'+$.osl.escapeHtml(map.prjDesc)+'</span>'
 											+'</div>'
 										+'</div>'
-										+'<div class="osl-d-flex osl-flex-wrap osl-margin-t-2rm kt-padding-l-20">'
-											+'<div class="osl-margin-r-3rm osl-margin-b-175rm osl-d-flex osl-flex-column">'
+										+'<div class="d-flex flex-wrap osl-margin-t-2rm kt-padding-l-20">'
+											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
 												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1001.startDate")+'</span>'
 												+'<h5><span class="badge badge-primary">'+$.osl.escapeHtml(map.startDt)+'</span></h5>'
 											+'</div>'
-											+'<div class="osl-margin-r-3rm osl-margin-b-175rm osl-d-flex osl-flex-column">'
+											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
 												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1001.endDate")+'</span>'
 												+'<h5><span class="badge badge-danger">'+$.osl.escapeHtml(map.endDt)+'</span></h5>'
 											+'</div>'
@@ -297,8 +427,8 @@ var OSLPrj1001Popup = function () {
 												+'</div>'
 											+'</div>'
 										+'</div>'
-										+'<div class="osl-d-flex osl-flex-wrap">'
-											+'<div class="osl-widget osl-flex-row-fluid osl-flex-wrap">'
+										+'<div class="d-flex flex-wrap">'
+											+'<div class="osl-widget osl-flex-row-fluid flex-wrap">'
 												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
 													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqAll.png"></div>'
 													+'<div class="osl-widget-info__item-info">'
@@ -324,7 +454,7 @@ var OSLPrj1001Popup = function () {
 										+'</div>'
 									+'</div>'
 										+'<div class="kt-portlet__foot kt-portlet__foot--sm osl-padding-none">'
-											+'<div class="osl-chart--project" id="chart_'+map.prjId+'">등록된 요구사항이 없습니다.</div>'
+											+'<div class="osl-chart--project" id="chart_'+map.prjId+'"></div>'
 										+'</div>'
 								+'</div>'
 							+'</div>';
@@ -337,66 +467,82 @@ var OSLPrj1001Popup = function () {
 					
 					//로드된 데이터 CARD형식으로 추가
 					$("#prj1001CardTable").html(prjGrpStr);
-					
 					//프로젝트 요구사항 차트 데이터 세팅
 					$.each(Object.keys(chartDataMap), function(idx, loopPrjId){
-						//요구사항 목록
-						var selPrjReqList = chartDataMap[loopPrjId];
-						
-						//x:y = 2:1
-						var dataSize = (selPrjReqList.length/2);
-						if(dataSize < 0){
-							dataSize = 1;
-						}
-						var yCnt = Math.round(Math.sqrt(dataSize));
-						var xCnt = Math.round(yCnt*2);
-						var yCursor = 0;
-						var xCursor = 0;
-						
-						var series = [];
-						var seriesX = [];
-						//처리유형별 data
-						var reqProTypeList = {};
-						
-						//cursor
-						var cursor = 0;
-						
-						//요구사항 loop
-						$.each(selPrjReqList, function(reqIdx, reqInfo){
-							//x축 데이터
-							seriesX.push({
-								x: (xCursor).toString(),
-								y: parseInt(reqInfo.reqProType),
-								reqProTypeNm: reqInfo.reqProTypeNm,
-								reqId: reqInfo.reqId,
-								reqNm: reqInfo.reqNm,
-								reqOrd: reqInfo.reqOrd
-							});
-							xCursor++;
-							
-							
-							//x축이 가득 차는경우 초기화
-							if(xCursor >= xCnt || reqIdx == (selPrjReqList.length-1)){
-								xCursor = 0;
-								series.push({
-									name: yCursor,
-									data: seriesX
-								});
-								yCursor++;
-								seriesX = [];
+						//차트 생성 param(차트종류, 타겟ID #제외, 설정)
+						var chart = $.osl.chart.setting("apex","chart_"+loopPrjId, {
+							data:{
+								//파라메터
+								param:{
+									//차트 데이터
+									dataArr: chartDataMap[loopPrjId],
+									//y축 키
+									yKey: "reqProType",
+									//차트 데이터 키값
+									key:{
+										key1:"reqProTypeNm",
+										key2:"reqId",
+										key3:"reqNm",
+										key4:"reqOrd",
+									},
+									//차트 타입
+									chartType:"heatmap"
+								},
+								//데이터 타입 remote, local
+								type: "local"
+							},
+							chart: {
+								//툴바 표시 여부
+								toolbar:{show:false},
+								//차트 높이
+								height: 195,
+								//차트 타이틀, 타이틀 위치
+								title:{
+									text: "처리유형별 요구사항",
+									align: "center",
+								},
+								//차트 데이터 툴팁
+								tooltip: {
+									custom: function(data) {
+										var series = data.series;
+										var seriesIndex = data.seriesIndex;
+										var dataPointIndex = data.dataPointIndex;
+										
+										var selData = data.w.config.series[seriesIndex].data[dataPointIndex];
+										var reqOrd = selData.reqOrd;
+										var reqNm = selData.reqNm
+										
+										return '<div class="osl-chart--project__tooltip">['+reqOrd+'] '+reqNm+'</div>';
+									}
+								},
+								option:{
+									//heatMap 설정
+									heatmap:{
+							            colorScale:{
+											ranges:[
+												//ykey 값이 1인 경우 색상, 명칭
+												{from: 1,to: 1,color: "#9fd1f2", name:"접수 요청"},
+												//ykey 값이 2인 경우 색상, 명칭
+												{from: 2,to: 2,color: "#5867dd", name:"진행 중"},
+												//ykey 값이 3인 경우 색상, 명칭
+												{from: 3,to: 3,color: "#FFB200", name:"접수 반려"},
+												//ykey 값이 4~6인 경우 색상, 명칭
+												{from: 4,to: 6,color: "#fd397a", name:"완료"},
+											]
+										}
+									}
+								},
+							},
+							//사용자 정의 이벤트
+							actionFn:{
+								//차트 데이터 클릭시 이벤트
+								"click": function(event, chartContext, config) {
+									console.log(event);
+									console.log(chartContext);
+									console.log(config);
+								}
 							}
 						});
-						
-						//차트 옵션
-						var chartOption = $.extend(true, {}, chartDefaultOption);
-						chartOption.series = series;
-						
-						var targetElem = document.querySelector("#chart_"+loopPrjId);
-						targetElem.innerText = "";
-						if(!$.osl.isNull(targetElem)){
-							var chart = new ApexCharts(document.querySelector("#chart_"+loopPrjId), chartOption);
-							chart.render();
-						}
 					});
 				}
 			}
@@ -418,7 +564,92 @@ var OSLPrj1001Popup = function () {
 			//뷰어 변경
 			fnViewerChange();
 		});
+		
+		//휴지통 목록 이벤트
+		$("#prjTrashListMoveBtn").click(function(){
+			$.osl.datatable.list["prj1001PrjTable"].targetDt.options.data.source.read.params.delCd = "01";
+			$(this).attr("hidden","hidden");
+			$("#prjListMoveBtn").removeAttr("hidden");
+
+			//추가, 수정, 삭제 버튼 감추기
+			$("button[data-datatable-id=prj1001PrjTable][data-datatable-action=insert],"
+					+"button[data-datatable-id=prj1001PrjTable][data-datatable-action=update],"
+					+"button[data-datatable-id=prj1001PrjTable][data-datatable-action=delete]").attr("hidden","hidden");
+			 
+			//복구, 완전 삭제 버튼 보이기
+			$("button[data-datatable-id=prj1001PrjTable][data-datatable-action=prjRedo],"
+					+"button[data-datatable-id=prj1001PrjTable][data-datatable-action=prjDelete]").removeAttr("hidden","hidden");
+			
+			//데이터 테이블 조회
+			$.osl.datatable.list["prj1001PrjTable"].targetDt.reload();
+		});
+
+		//돌아가기 버튼 이벤트
+		$("#prjListMoveBtn").click(function(){
+			$.osl.datatable.list["prj1001PrjTable"].targetDt.options.data.source.read.params.delCd = "02";
+			$(this).attr("hidden","hidden");
+			$("#prjTrashListMoveBtn").removeAttr("hidden");
+			
+			//추가, 수정, 삭제 버튼 보이기
+			$("button[data-datatable-id=prj1001PrjTable][data-datatable-action=insert],"
+					+"button[data-datatable-id=prj1001PrjTable][data-datatable-action=update],"
+					+"button[data-datatable-id=prj1001PrjTable][data-datatable-action=delete]").removeAttr("hidden");
+			
+			//복구, 완전 삭제 버튼 감추기
+			$("button[data-datatable-id=prj1001PrjTable][data-datatable-action=prjRedo],"
+					+"button[data-datatable-id=prj1001PrjTable][data-datatable-action=prjDelete]").attr("hidden","hidden");
+			
+			//데이터 테이블 조회
+			$.osl.datatable.list["prj1001PrjTable"].targetDt.reload();
+		});
+		
 	};
+	
+	//프로젝트 그룹 복구처리
+	var fnPrjRedoUpdate = function(redoDataList, datatableId){
+		//선택 프로젝트 그룹 휴지통으로 이동
+		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/prj/prj1000/prj1000/updatePrj1000PrjGrpTrashRedoListAjax.do'/>"}
+				,{deleteDataList: JSON.stringify(redoDataList)});
+		//AJAX 전송 성공 함수
+		ajaxObj.setFnSuccess(function(data){
+			if(data.errorYn == "Y"){
+   				$.osl.alert(data.message,{type: 'error'});
+   			}else{
+   				//삭제 성공
+   				$.osl.toastr(data.message);
+   				
+   				//datatable 조회
+   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+   			}
+		});
+		
+		//AJAX 전송
+		ajaxObj.send();
+	}
+	
+	//프로젝트 그룹 완전 삭제
+	var fnPrjDelete = function(deleteDataList, datatableId){
+		//선택 프로젝트 그룹 휴지통으로 이동
+		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/prj/prj1000/prj1000/deletePrj1000PrjDeleteListAjax.do'/>"}
+				,{deleteDataList: JSON.stringify(deleteDataList)});
+		//AJAX 전송 성공 함수
+		ajaxObj.setFnSuccess(function(data){
+			if(data.errorYn == "Y"){
+   				$.osl.alert(data.message,{type: 'error'});
+   			}else{
+   				//삭제 성공
+   				$.osl.toastr(data.message);
+   				
+   				//datatable 조회
+   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+   			}
+		});
+		
+		//AJAX 전송
+		ajaxObj.send();
+	}
 	
 	var fnViewerChange = function(){
 		//현재 viewType에 따라 show/hide
