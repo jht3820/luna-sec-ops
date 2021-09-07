@@ -376,14 +376,14 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "선택",
 			},
 		},
-		cmm25000:{
+		cmm6600:{
 			message : {
 				confirm : {
 					saveString : "결재선 정보를 저장 하시겠습니까?"
 				}
 			}
 		},
-		cmm25100:{
+		cmm6601:{
 			infomation : {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
 			}
@@ -2548,14 +2548,14 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "Select",
 			},
 		},
-		cmm25000:{
+		cmm6600:{
 			message : {
 				confirm : {
 					saveString : "Do you want to save the approval line information?"
 				}
 			}
 		},
-		cmm25100:{
+		cmm6601:{
 			infomation : {
 				cannotUpdate : "If there is a file waiting for approval, the approval line cannot be modified."
 			}
