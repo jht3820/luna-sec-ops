@@ -376,7 +376,7 @@ var OSLReq4100Popup = function () {
 							closeConfirm: false,
 						};
 						
-						$.osl.layerPopupOpen('/cmm/cmm6000/cmm6000/selectCmm6000View.do',data,options);
+						$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6200View.do',data,options);
 						
 						if(reqProChkCnt > 0){
 							$.osl.alert(reqProChkCnt+"건의 접수대기가 아닌 요구사항을 제외했습니다.");
