@@ -167,7 +167,8 @@ var OSLPrj1101Popup = function () {
     		
     		var authUsrList = $.osl.datatable.list["prj1101ProcessAuthUsrTable"].targetDt.originalDataSet;
     		if($.osl.isNull(authUsrList) || authUsrList.length == 0){
-    			
+    			$.osl.alert("프로세스 기본 담당자는 필수 입니다.",{type: "warning"});
+    			return false;
     		}
     		
     		$.osl.confirm($.osl.lang("prj1101."+type+".saveString"),null,function(result) {

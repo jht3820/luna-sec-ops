@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frReq1001">
 	<input type="hidden" name="type" id="type" value="${requestScope.type}">
-	<input type="hidden" name="reqId" id="reqId" value="${param.paramReqId}">
+	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
+	<input type="hidden" name="paramReqId" id="paramReqId" value="${param.paramReqId}">
 	<input type="hidden" name="reqUsrId" id="reqUsrId" value="${param.paramReqUsrId}">
 	<input type="hidden" name="atchFileId" id="atchFileId">
 	<div class="kt-portlet kt-portlet--collapsed" id="req1001RequestUsrInfo">
@@ -60,7 +61,7 @@
 				<div class="col-xl-6">
 					<div class="form-group">
 						<label for="exampleSelect1"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req1001.prjNm">프로젝트</span></label>
-						<select class="form-control kt-select2" name="prjId" id="reqPrjSelect">
+						<select class="form-control kt-select2" name="reqPrjSelect" id="reqPrjSelect">
 						</select>
 					</div>
 				</div>
@@ -353,14 +354,14 @@ var OSLReq1001Popup = function () {
 	 * 	요구사항 정보 조회
 	 */
 	 var selectReqInfo = function() {
-    	var paramPrjId = $("#prjId").val();
-    	var paramReqId = $("#reqId").val();
+    	var paramPrjId = $("#paramPrjId").val();
+    	var paramReqId = $("#paramReqId").val();
     	var paramReqUsrId = $("#reqUsrId").val();
     	
 		//AJAX 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req1000/req1000/selectReq1000ReqInfoAjax.do'/>", "async": false}
-				,{"prjId": paramPrjId, "reqId" : paramReqId, "reqUsrId": paramReqUsrId });
+				,{"paramPrjId": paramPrjId, "paramReqId" : paramReqId, "reqUsrId": paramReqUsrId });
 		//AJAX 전송 성공 함수
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
