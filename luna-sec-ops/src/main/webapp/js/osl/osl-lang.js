@@ -333,7 +333,7 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "선택",
 			},
 		},
-		cmm16000:{
+		cmm6206:{
 			title: "요구사항 선택"
 		},
 		dpl1100:{
@@ -388,7 +388,7 @@ var OSLCoreLangSetting = function () {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
 			}
 		},
-		prj1000:{
+		prj1400:{
 			startDate: "시작일",
 			endDate: "종료일",
 			completedRatio: "진척률",
@@ -428,7 +428,7 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
-		prj1001:{
+		prj1000:{
 			startDate: "시작일",
 			endDate: "종료일",
 			completedRatio: "진척률",
@@ -447,37 +447,7 @@ var OSLCoreLangSetting = function () {
 				prjDelete: "${1}건의 프로젝트를 완전 삭제하시겠습니까?</br>삭제된 프로젝트는 복구 할 수 없습니다."
 			}
 		},
-		prj1002:{
-			complete: "완료",
-			insert:{
-				title: "신규 프로젝트 그룹 생성",
-				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
-				saveBtnString: "등록 완료",
-				saveMsg: "${1}명의 사용자가 배정되었습니다.",
-				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
-				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
-			},
-			update:{
-				title: "프로젝트 그룹 수정",
-				saveString: "프로젝트 그룹을 수정하시겠습니까?",
-				saveBtnString: "수정 완료"
-			}
-		},
-		prj1003:{
-			title: "프로젝트 그룹 상세정보",
-			insert:{
-				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
-				saveBtnString: "등록 완료",
-				saveMsg: "${1}명의 사용자가 배정되었습니다.",
-				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
-				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
-			},
-			update:{
-				saveString: "프로젝트 그룹을 수정하시겠습니까?",
-				saveBtnString: "수정 완료"
-			}
-		},
-		prj1004:{
+		prj1001:{
 			complete: "완료",
 			insert:{
 				title: "신규 프로젝트 생성",
@@ -509,6 +479,36 @@ var OSLCoreLangSetting = function () {
 				searchEmpty: "검색하려는 단계명을 입력하세요.",
 				processUseCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
 				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다."
+			}
+		},
+		prj1401:{
+			complete: "완료",
+			insert:{
+				title: "신규 프로젝트 그룹 생성",
+				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
+				saveBtnString: "등록 완료",
+				saveMsg: "${1}명의 사용자가 배정되었습니다.",
+				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
+				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
+			},
+			update:{
+				title: "프로젝트 그룹 수정",
+				saveString: "프로젝트 그룹을 수정하시겠습니까?",
+				saveBtnString: "수정 완료"
+			}
+		},
+		prj1402:{
+			title: "프로젝트 그룹 상세정보",
+			insert:{
+				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
+				saveBtnString: "등록 완료",
+				saveMsg: "${1}명의 사용자가 배정되었습니다.",
+				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
+				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
+			},
+			update:{
+				saveString: "프로젝트 그룹을 수정하시겠습니까?",
+				saveBtnString: "수정 완료"
 			}
 		},
 		prj1101:{
