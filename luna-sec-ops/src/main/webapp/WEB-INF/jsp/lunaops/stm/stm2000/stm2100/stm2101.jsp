@@ -134,9 +134,9 @@
 					<div class="row kt-margin-0 kt-margin-t-10">
 						<div class="input-group">
 							<div class="input-group-prepend">
-								<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="0" name="selectSearchBtn" id="selectSearchBtn"><span data-lang-cd="stm2101.button.all">전체</span></button>
+								<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="0" name="selectSearchBtn" id="selectSearchBtn"><span data-lang-cd="common.name.all">전체</span></button>
 								<div class="dropdown-menu">
-									<a class="selectSearchItem dropdown-item active" href="javascript:void(0);" data-field-id="-1" data-opt-type="all"><span data-lang-cd="stm2101.button.all">전체</span></a>
+									<a class="selectSearchItem dropdown-item active" href="javascript:void(0);" data-field-id="-1" data-opt-type="all"><span data-lang-cd="common.name.all">전체</span></a>
 									<a class="selectSearchItem dropdown-item" href="javascript:void(0);" data-field-id="searchAuthGrpNm" data-opt-type="select"><span data-lang-cd="stm2101.button.authNm">권한그룹 명</span></a>
 									<a class="selectSearchItem dropdown-item" href="javascript:void(0);" data-field-id="searchUsrId" data-opt-type="text"><span data-lang-cd="stm2101.button.userId">사용자 ID</span></a>
 									<a class="selectSearchItem dropdown-item" href="javascript:void(0);" data-field-id="searchUsrNm" data-opt-type="text"><span data-lang-cd="stm2101.button.userName">사용자 명</span></a>
@@ -147,7 +147,7 @@
 							<input type="text" class="form-control" disabled="disabled" name="subSearchData" id="subSearchData">
 							<div class="input-group-prepend">
 								<button class="btn btn-brand" type="button" name="searchBtn" id="searchBtn">
-									<span class=""><span data-lang-cd="stm2101.button.search">검색</span></span>
+									<span data-lang-cd="stm2101.button.search">검색</span>
 								</button>
 							</div>
 						</div>
@@ -182,6 +182,11 @@
 	var oriAdmin;
 	var oriWriter;
 	
+	//비교를 위한 변수 선언
+	var resultAdmin=[];
+	var resultWriter=[];
+	var resultAllList=[];
+	
 	// 기본 설정
 	var documentSetting = function(){
   		
@@ -189,9 +194,14 @@
     	selectBadInfo(); // 게시판 속성
     	selectBadChargerList(); // 게시판 담당자
     	selectBadWriterList(); // 게시판 글 작성 범위
-    	setGrpAndUsrList(oriAdmin, oriWriter); //전체 사용자 및 권한그룹 목록을 담당자와 글작성범위로 분류
-    	
-    	
+    	setGrpAndUsrList(); //전체 사용자 및 권한그룹 목록 가져오기
+    	//리스트 그린 후 click function 적용
+		drawAfterFtSetting();
+		// 위치에 맞는 버튼만 보이게 하기
+		showHideBtn("stmAdmList", "right", 'left');
+		showHideBtn("stmWtList", "right", 'left');
+		showHideBtn("stmGroupUsrList", "left", 'right');
+		
     	//kt-select2 설정
     	$('#stmTypeCd').select2({
 			ftScrollUse: false,
@@ -219,7 +229,7 @@
 			});
 
 			//검색 선택에 따른 select, input 설정 + 스크롤 위치넣기
-			if($(this).data("opt-type")=="all"){
+			if($(this).data("optType")=="all"){
 				//kt-hide 처리하기 - select
 				$("#searchSelect").addClass("kt-hide");
 				$("#searchSelect~span").addClass("osl-datatable-search--hide");
@@ -230,7 +240,7 @@
 				$("#subSearchData").attr("disabled", true);
 				
 				$("#searchBtn").click();
-			 }else if($(this).data("opt-type")=="select"){
+			 }else if($(this).data("optType")=="select"){
 				//kt-hide 지우기 - select
 				$("#searchSelect").removeClass("kt-hide");
 				$("#searchSelect~span").removeClass("osl-datatable-search--hide");
@@ -255,7 +265,7 @@
 					//사용자 id, 명 검색은 keypress 이벤트가 적용되므로
 					//해당 input으로 변경되었을 당시에 권한그룹 감추기
 					//권한그룹 목록은 숨기기
-					if(value.getAttribute("codenum")=='01'){
+					if($(value).data("authTypeCd")=='01'){
 						$(this).addClass("kt-hide");
 					}else{ //사용자 목록은 보이기
 						$(this).removeClass("kt-hide");
@@ -272,7 +282,7 @@
 				});
 			}else{
 				$.each($("#stmGroupUsrList").children(), function(idx, value){
-					if($("#searchSelect").val() != value.getAttribute("opt-index")){
+					if($("#searchSelect").val() != $(value).data("optIndex")){
 						$(this).addClass("kt-hide")
 					}else{
 						$(this).removeClass("kt-hide");
@@ -295,6 +305,7 @@
 			}
 		});
 		
+		//검색 버튼 클릭 시
 		$("#searchBtn").click(function(){
 			var space = $(".selectSearchItem.dropdown-item.active").data("fieldId");
 			if(space == "-1"){
@@ -306,11 +317,11 @@
 				//이전에 그룹/사용자 목록 hide한것이 있다면 모두 제거
 				$.each($("#stmGroupUsrList").children(), function(idx, value){
 					//권한그룹 목록은 나타내기
-					if(value.getAttribute("codenum")=='01'){
+					if($(this).data("authTypeCd")=='01'){
 						$(this).removeClass("kt-hide");
 						if($("#searchSelect").val() != "all"){
 							//검색한 조건에 맞지 않는 목록은 숨기기
-							if($("#searchSelect").val() != value.getAttribute("opt-index")){
+							if($("#searchSelect").val() != value.data("optIndex")){
 								$(this).addClass("kt-hide")
 							}else{
 								$(this).removeClass("kt-hide");
@@ -324,7 +335,7 @@
 				//검색어
 				var txt = $("#subSearchData").val();
 				$.each($("#stmGroupUsrList").children(), function(idx, value){
-					if(value.getAttribute("codenum")=="02" && value.getAttribute("codeid").indexOf(txt) > -1){
+					if($(this).data("authTypeCd")=="02" && $(this).data("authTargetId").indexOf(txt) > -1){
 						$(this).removeClass("kt-hide");
 					}else{
 						$(this).addClass("kt-hide");
@@ -334,7 +345,7 @@
 				//검색어
 				var txt = $("#subSearchData").val();
 				$.each($("#stmGroupUsrList").children(), function(idx, value){
-					if(value.getAttribute("codenum")=="02" && value.getAttribute("codenm").indexOf(txt) > -1){
+					if($(this).data("authTypeCd")=="02" && $(this).data("authTargetNm").indexOf(txt) > -1){
 						$(this).removeClass("kt-hide");
 					}else{
 						$(this).addClass("kt-hide");
@@ -391,8 +402,6 @@
 	        chosenClass: "chosen",
 	        //이동될 div(나갈)
  	        onMove:function(evt,originalEvent){
- 				evt.related.setAttribute("codeadmin", "N");
- 				
  				var UserAgent = navigator.userAgent;
 				//모바일 일때 이동 중지
  				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
@@ -404,40 +413,18 @@
  	      	//해당 div로 이동될 대상의 동작(들어온)
  			onAdd:function(evt){
  				var moveDiv = $(evt.item);
-				$(moveDiv).children('.osl-right-arrow-group').removeClass('osl-arrow-group--hide');
-				$(moveDiv).children('.osl-left-arrow-group').addClass('osl-arrow-group--hide');
  				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
-				//들어온 아이템이 이미 담당자에 배정되어 있던 경우
-				if(evt.item.getAttribute("codeadmin")=="Y"){
-					//복사 중지
-					evt.item.remove();
-					//이미 배정되어 있다고 알림창 띄우기
-					//$.osl.alert("이미 담당자에 배정되어 있습니다.");
-				}else{
-					//복사
-					//담당자에게 배정
-					evt.item.setAttribute("codeadmin", "Y");
-					evt.clone.setAttribute("codeadmin", "Y");
-					//$.osl.alert("담당자에 배정하였습니다.");
-					//원본 아이템의 정보 확인
-					if(evt.clone.getAttribute("codeadmin")=="Y" && evt.clone.getAttribute("codewriter")=="Y"){
-						evt.clone.remove();
-						var codeNum = evt.item.getAttribute("codenum");
-						var codeId = evt.item.getAttribute("codeid");
-						var codePrjGrpId = evt.item.getAttribute("codeprjgrpid");
-						var codePrjId = evt.item.getAttribute("codeprjid");
-						
-						//글작성범위에 있는 동일 객체 정보 변경
-						var otherItems = $("#stmWtList").children();
-						$.each(otherItems, function(idx, value){
-							if(value.getAttribute("codenum")==codeNum && value.getAttribute("codeid")==codeId
-									&& value.getAttribute("codeprjgrpid")==codePrjGrpId && value.getAttribute("codeprjid")==codePrjId){
-								value.setAttribute("codeadmin", "Y");
-								value.setAttribute("codewriter", "Y");
-							}
-						});
-					}
-				}//else end
+ 				var result = checkMove(moveDiv, resultAdmin);
+ 				if(result == 1){
+ 					//이미 있는 경우 복사 중지
+ 					evt.item.remove();
+ 				} 
+ 				// 위치에 맞는 버튼만 보이게 하기
+ 				showHideBtn("stmAdmList", "right", 'left');
+ 				
+ 				//미배정 목록에서 모두 배정된 경우 안보이게 처리
+ 				var oriCard = $(evt.clone);
+ 				checkDoubleMove(oriCard);
  			} 
 	    });
 		
@@ -454,8 +441,6 @@
 	        chosenClass: "chosen",
 	        //이동될 div(나갈)
  	        onMove:function(evt,originalEvent){
- 				evt.related.setAttribute("codewriter", "N");
- 				
  				var UserAgent = navigator.userAgent;
  				//모바일 일때 이동 중지
  				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
@@ -466,41 +451,19 @@
  			}, 
  	      	//해당 div로 이동될 대상의 동작(들어온)
  			 onAdd:function(evt){
-  				var moveDiv = $(evt.item);
- 				$(moveDiv).children('.osl-right-arrow-group').removeClass('osl-arrow-group--hide');
- 				$(moveDiv).children('.osl-left-arrow-group').addClass('osl-arrow-group--hide');
-				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
-				//들어온 아이템이 이미 글작성범위에 배정되어 있던 경우
-				if(evt.item.getAttribute("codewriter")=="Y"){
-					//복사 중지
-					evt.item.remove();
-					//이미 배정되어 있다고 알림창 띄우기
-					//$.osl.alert("이미 글작성 범위에 배정되어 있습니다.");
-				}else{
-					//복사
-					//담당자에게 배정
-					evt.item.setAttribute("codewriter", "Y");
-					evt.clone.setAttribute("codewriter", "Y");
-					//$.osl.alert("글작성범위에 배정하였습니다.");
-					//원본 아이템의 정보 확인
-					if(evt.clone.getAttribute("codeadmin")=="Y" && evt.clone.getAttribute("codewriter")=="Y"){
-						evt.clone.remove();
-						var codeNum = evt.item.getAttribute("codenum");
-						var codeId = evt.item.getAttribute("codeid");
-						var codePrjGrpId = evt.item.getAttribute("codeprjgrpid");
-						var codePrjId = evt.item.getAttribute("codeprjid");
-						
-						//담당자에 있는 동일 객체 정보 변경
-						var otherItems = $("#stmAmdList").children();
-						$.each(otherItems, function(idx, value){
-							if(value.getAttribute("codenum")==codeNum && value.getAttribute("codeid")==codeId
-									&& value.getAttribute("codeprjgrpid")==codePrjGrpId && value.getAttribute("codeprjid")==codePrjId){
-								value.setAttribute("codeadmin", "Y");
-								value.setAttribute("codewriter", "Y");
-							}
-						});
-					}
-				}//else end
+ 				var moveDiv = $(evt.item);
+ 				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
+ 				var result = checkMove(moveDiv, resultWriter);
+ 				if(result == 1){
+ 					//이미 있는 경우 복사 중지
+ 					evt.item.remove();
+ 				}
+ 				// 위치에 맞는 버튼만 보이게 하기
+ 				showHideBtn("stmWtList", "right", 'left');
+ 				
+ 				//미배정 목록에서 모두 배정된 경우 안보이게 처리
+ 				var oriCard = $(evt.clone);
+ 				checkDoubleMove(oriCard);
  			} 
 	    });
 		
@@ -530,85 +493,85 @@
  	      	//해당 div로 이동될 대상의 동작(들어온)
  			onAdd:function(evt){
  				var moveDiv = $(evt.item);
-				$(moveDiv).children('.osl-right-arrow-group').addClass('osl-arrow-group--hide');
-				$(moveDiv).children('.osl-left-arrow-group').removeClass('osl-arrow-group--hide');
-				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
-				//동일 객체가 있는지 확인
-				var codeNum = evt.item.getAttribute("codenum");
-				var codeId = evt.item.getAttribute("codeid");
-				var codePrjGrpId = evt.item.getAttribute("codeprjgrpid");
-				var codePrjId = evt.item.getAttribute("codeprjid");
-				
-				var otherItems = $("#stmGroupUsrList").children();
-				$.each(otherItems, function(idx, value){
-					//기존에 객체 있는지 확인
-					if(value.getAttribute("codenum")==codeNum && value.getAttribute("codeid")==codeId
-							&& value.getAttribute("codeprjgrpid")==codePrjGrpId && value.getAttribute("codeprjid")==codePrjId){
-						//있으면 복사안함, 기존 객체 정보 수정
-						evt.item.remove();
-						//어디서 들어왔는지 확인
-						if($(evt.from).attr("id")=="stmAdmList"){
-							//담당자 목록에서 들어온 경우
-							value.setAttribute("codeadmin", "N");
-						}else{
-							value.setAttribute("codewriter", "N");
-							//stmWtList 글작성 범위에서 들어온 경우
-						}
-					}else{
-						//없다가 들어온 객체
-						//어디서 들어왔는지 확인
-						//다른 확정 리스트에서 정보 수정
-						if($(evt.from).attr("id")=="stmAdmList"){
-							//담당자 목록에서 들어온 경우
-							//글작성 범위 리스트에 남아있는 동일 객체 정보 수정
-							evt.item.setAttribute("codeadmin", "N");
-							$.each($("#stmWtList").children(), function(index, items){
-								if(items.getAttribute("codenum")==codeNum && items.getAttribute("codeid")==codeId
-										&& items.getAttribute("codeprjgrpid")==codePrjGrpId && items.getAttribute("codeprjid")==codePrjId){
-									items.setAttribute("codeadmin", "N");
-								}
-							});
-						}else{
-							evt.item.setAttribute("codewriter", "N");
-							//stmWtList 글작성 범위에서 들어온 경우
-							//담당자 리스트에 남아있는 동일 객체 정보 수정
-							$.each($("#stmAdmList").children(), function(index, items){
-								if(items.getAttribute("codenum")==codeNum && items.getAttribute("codeid")==codeId
-										&& items.getAttribute("codeprjgrpid")==codePrjGrpId && items.getAttribute("codeprjid")==codePrjId){
-									items.setAttribute("codewriter", "N");
-								}
-							});
-						}
-					}//else end
-				});
+ 				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
+ 				//기존 resultArray에서 해당 항목 제거
+ 				if($(evt.from).attr("id") == "stmGroupUsrList"){
+ 	 	        	checkMove(moveDiv, resultAdmin, true);
+ 				}else{
+ 					checkMove(moveDiv, resultWriter, true);
+ 				}
+ 				//중복 여부만 체크하여
+ 				checkDoubleMove(moveDiv);
+ 				// 위치에 맞는 버튼만 보이게 하기
+ 				showHideBtn("stmGroupUsrList", "left", 'right');
+ 				//미배정 목록은 전부 가지고 있으므로
+ 				//복사 중지
+				moveDiv.remove();
+ 				//미배정 목록 중복 확인
+ 				checkDoubleMove(moveDiv, true);
  			} 
 	    });
 		
 		// 담당자 목록과 동일하게 적용하기 위한 검색 버튼 클릭 시 이벤트 발생
 		$("#equalBtn").click(function(){
+			$("#stmWtList").empty();
  			// 담당자 목록 가져오기
  			var keepList = addJsonList("stmAdmList",true);
- 			$("#stmAdmList").empty();
-			$("#stmWtList").empty();
-			setGrpAndUsrList(keepList, keepList);
+ 			resultWriter = resultAdmin;
+			drawAuthList(keepList, "stmWtList");
+			
+			var oriCard = $("#stmGroupUsrList").children();
+			//담당자, 글작성범위 권한으로 모두 배정되었으므로 동일 항목은 감추기
+			$.each(oriCard, function(idx, value){
+				checkDoubleMove($(value));
+			});
+			
+			//소스 열람영역 - left버튼 감추기
+			showHideBtn("stmWtList", "right", 'left');
+			//미배정 열람영역 - right버튼 감추기
+			showHideBtn("stmGroupUsrList", "left", 'right');
 		});
 		
 		//담당자_초기화 버튼 클릭 시
 		$("#reset_admin").click(function(){
-			//글작성 범위 목록 리스트
-			var keepList = addJsonList("stmWtList",false);
-			$("#stmAdmList").empty();
-			$("#stmWtList").empty();
-			setGrpAndUsrList(oriAdmin, keepList);
+			$("#resultAdmin").empty();
+			drawAuthList(oriAdmin, "stmAdmList");
+			resultAdmin = [];
+			$.each(oriAdmin, function(idx, value){
+				resultAdmin.push(value.authTargetId);
+			});
+			
+			var oriCard = $("#stmGroupUsrList").children();
+			//담당자, 글작성범위 권한으로 모두 배정되었는지 체크
+			$.each(oriCard, function(idx, value){
+				checkDoubleMove($(value));
+			});
+			
+			//담당자 열람영역 - left버튼 감추기
+			showHideBtn("stmAdmList", "right", 'left');
+			//미배정 열람영역 - right버튼 감추기
+			showHideBtn("strgNonAssList", "left", 'right');
 		});
 		
 		//글작성범위_초기화 버튼 클릭 시
 		$("#reset_wt").click(function(){
-			//글작성 범위 목록 리스트
-			var keepList = addJsonList("stmAdmList",true);
-			$("#stmAdmList").empty();
 			$("#stmWtList").empty();
-			setGrpAndUsrList(keepList, oriWriter);
+			drawAuthList(oriWriter, "stmWtList");
+			resultWriter = [];
+			$.each(oriWriter, function(idx, value){
+				resultWriter.push(value.authTargetId);
+			});
+			
+			var oriCard = $("#stmGroupUsrList").children();
+			//리비전, 소스코드 권한으로 모두 배정되었는지 체크
+			$.each(oriCard, function(idx, value){
+				checkDoubleMove($(value));
+			});
+			
+			//소스 열람영역 - left버튼 감추기
+			showHideBtn("stmWtList", "right", 'left');
+			//미배정 열람영역 - right버튼 감추기
+			showHideBtn("stmGroupUsrList", "left", 'right');
 		});
 		
 		// 수정완료 버튼 클릭 될 때 이벤트 발생 
@@ -752,9 +715,33 @@
 				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
-				var info = data.badChargerList;
+				var stmAdmList = data.badChargerList;
 				//ori 정보 가지고 있기
-				oriAdmin = info;
+				oriAdmin = stmAdmList;
+
+				//처음 담당자 등록하는 경우 담당자가 비어 있을 때
+				if($.osl.isNull(oriAdmin)){
+					//현재 사용자를 담당자로 지정
+					var dataOne={};
+					dataOne.authTypeCd = '02';
+					dataOne.authTargetId = $.osl.user.userInfo.usrId;
+					dataOne.authTargetNm = $.osl.user.userInfo.usrNm;
+					dataOne.prjGrpId = $.osl.selPrjGrpId;
+					dataOne.prjId = $.osl.selPrjId;
+					dataOne.authTargetImgId = $.osl.user.userInfo.usrImgId;
+					dataOne.authTargetDeptId = $.osl.user.userInfo.deptId;
+					dataOne.authTargetDeptNm = $.osl.user.userInfo.deptNm;
+					
+					oriAdmin.push(dataOne);
+				}
+				
+				//resultAdmin에 저장
+				$.each(oriAdmin, function(idx, value){
+					resultAdmin.push(value.stmAdminId);
+				});
+
+				//목록에 세팅하기 - draw
+				drawAuthList(oriAdmin, "stmAdmList");
 			}
 		});
 		
@@ -781,10 +768,17 @@
 				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
-				var info = data.badWriterList;
+				var stmWtList = data.badWriterList;
 				
 				//ori 정보 가지고 있기
-				oriWriter = info;
+				oriWriter = stmWtList;
+				//resultFileCode에 저장
+  				$.each(stmWtList, function(idx, value){
+  					resultWriter.push(value.stmWtId);
+				});
+				
+				//목록에 세팅하기 - draw
+				drawAuthList(oriWriter, "stmWtList");
 			}
 		});
 		
@@ -794,9 +788,9 @@
 	
     /**
 	* function 명 	: setGrpAndUsrList
-	* function 설명	: 전체 권한그룹 및 사용자 정보 가져와 미배정 리스트에 출력
+	* function 설명	: 배정/미배정된 권한 그룹 및 사용자 목록 호출
 	*/
-    var setGrpAndUsrList = function(adminData, writerData){
+    var setGrpAndUsrList = function(){
 		var allList = [];
 		
 		// 모든 목록 가져오기
@@ -807,7 +801,7 @@
 				};
 		//AJAX 설정
   		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/stm/stm2000/stm2100/selectStm2101BadGrpAndUsrListAjax.do'/>"}
+				{"url":"<c:url value='/stm/stm2000/stm2100/selectStm2101BadGrpAndUsrListAjax.do'/>", "async": false}
 				, data);
 		
   		//AJAX 전송 성공 함수
@@ -818,146 +812,36 @@
 				$.osl.layerPopupClose();
 			}else{
 
-				var infoGrp = data.badGrpList;
-				var infoUsr = data.badUsrList;
+				var stmAuthList = data.stmAuthList;
 				
 				var listHtml = "";
 				
 				//상단의 select 박스 option 넣기
 				$("#searchSelect").html("");
 				//select에 목록 추가
-				var innerHtml = "<option value='all'>전체</option>";
+				var innerHtml = "<option value='all'>"+$.osl.lang("common.name.all")+"</option>";
 				$("#searchSelect").append(innerHtml);
-				$.each(infoGrp, function(idx, val){
-					//select에 목록 추가
-					var innerHtml = "<option value='"+idx+"' data-prj-id='"+val.prjId+"' data-prj-grp-id='"+val.prjGrpId+"'>"+$.osl.escapeHtml(val.authGrpNm)+" ("+$.osl.escapeHtml(val.prjNm)+")</option>";
-					$("#searchSelect").append(innerHtml);
+				$.each(stmAuthList, function(idx, val){
+					if(val.authTypeCd == "01"){
+						//select에 목록 추가
+						var innerHtml = "<option value='"+idx+"' data-auth-target-id='"+val.authTargetId+"'>"+$.osl.escapeHtml(val.authTargetNm)+"("+$.osl.escapeHtml(val.prjNm)+")</option>";
+						$("#searchSelect").append(innerHtml);
+
+						//resultAllList에 저장
+						resultAllList.push(val.authTargetId);
+					}
 				});
 				
-				//불러온 전체 항목 중 담당자, 글작성자 범위 모두에 있는 항목은 제외
-				//해당 div, 담당자 : stmAdmList 글작성범위 : stmWtList 미배정 : stmGroupUsrList
-				// infoGrp에 있는건 authGrpId, authGrpNm
-				// infoUsr에 있는건 usrId, usrNm, usrImgId, deptNm
-				//DB에 담당자가 지정되어있지 않은 경우
-				
-				//처음 담당자 등록하는 경우 담당자가 비어 있을 때
-				if(oriAdmin.length==0){
-					//현재 사용자를 담당자로 지정
-					var dataOne={};
-					dataOne.codeNum = '02';
-					dataOne.id = $.osl.user.userInfo.usrId;
-					dataOne.name = $.osl.user.userInfo.usrNm;
-					dataOne.prjGrpId = $.osl.selPrjGrpId;
-					dataOne.prjId = $.osl.selPrjId;
-					dataOne.ImgId = $.osl.user.userInfo.usrImgId;
-					dataOne.deptNm = $.osl.user.userInfo.deptName;
-					dataOne.admin = 'Y';
-					dataOne.writer = 'N';
-					
-					oriAdmin.push(dataOne);
-				}
+				//목록에 세팅하기 - draw
+				drawAuthList(stmAuthList, "stmGroupUsrList");
 
-				//전체 권한그룹
-				$.each(infoGrp, function(index, value){
-					var passKey_admin = false;
-					var passKey_writer = false;
-
-					//담당자 리스트로부터 중복되는 항목이 있는지 확인
-					$.each(adminData, function(idx, items){
-						if(!$.osl.isNull(value.authGrpId) && !$.osl.isNull(value.prjId)){
-							if((value.authGrpId==items.stmAdminId || value.authGrpId==items.id) && value.prjId == items.prjId){
-								passKey_admin = true;
-							}
-						}
-					});
-					//글작성 범위 리스트로부터 중복되는 항목이 있는지 확인
-					$.each(writerData, function(idx, items){
-						if(!$.osl.isNull(value.authGrpId) && !$.osl.isNull(value.prjId)){
-							if((value.authGrpId==items.stmWtId || value.authGrpId==items.id) && value.prjId == items.prjId){
-								passKey_writer = true;
-							}
-						}
-					});
-					
-					var pushData = {};
-					pushData.codeNum = '01';
-					pushData.id = value.authGrpId;
-					pushData.prjGrpId = value.prjGrpId;
-					pushData.prjId = value.prjId;
-					pushData.managerPrjNm = $.osl.escapeHtml(value.prjNm);
-					pushData.name = $.osl.escapeHtml(value.authGrpNm);
-					pushData.ImgId = "";
-					pushData.deptNm = "";
-					
-					//담당자 값이 존재하면
-					if(passKey_admin == true){
-						pushData.admin = 'Y';
-					}else // 존재하지 않으면
-					{
-						pushData.admin = 'N';
-					}
-					//글작성범위 값이 존재하면
-					if(passKey_writer == true){
-						pushData.writer = 'Y';
-					}else // 존재하지 않으면
-					{
-						pushData.writer = 'N';
-					}
-					allList.push(pushData);
+				//그린 후 더블 체크
+				var oriCard = $("#stmGroupUsrList").children();
+				$.each(oriCard, function(idx, value){
+					checkDoubleMove($(value));
 				});
-				//전체 사용자
-				$.each(infoUsr, function(index, value){
-					var passKey_admin = false;
-					var passKey_writer = false;
-					
-					//담당자 리스트로부터 중복되는 항목이 있는지 확인
-					$.each(adminData, function(idx, items){
-						if(!$.osl.isNull(value.usrId)){
-							if(value.usrId==items.stmAdminId|| value.usrId==items.id ){
-								passKey_admin = true;
-							}
-						}
-					});
-					//글작성 범위 리스트로부터 중복되는 항목이 있는지 확인
-					$.each(writerData, function(idx, items){
-						if(!$.osl.isNull(value.usrId)){
-							if(value.usrId==items.stmWtId|| value.usrId==items.id ){
-								passKey_writer = true;
-							}
-						}
-					});
-					
-					var pushData = {};
-					pushData.codeNum = '02';
-					pushData.id = value.usrId;
-					pushData.prjGrpId = "";
-					pushData.prjId = "";
-					pushData.managerPrjNm = "";
-					pushData.name = value.usrNm;
-					pushData.ImgId = value.usrImgId;
-					pushData.deptNm = $.osl.escapeHtml(value.deptNm);
-					
-					//담당자 값이 존재하면
-					if(passKey_admin == true){
-						pushData.admin = 'Y';
-					}else // 존재하지 않으면
-					{
-						pushData.admin = 'N';
-					}
-					//글작성범위 값이 존재하면
-					if(passKey_writer == true){
-						pushData.writer = 'Y';
-					}else // 존재하지 않으면
-					{
-						pushData.writer = 'N';
-					}
-					allList.push(pushData);
-				});
-				// 그리기
-				drawList(allList, "stmAdmList", "stmWtList", "stmGroupUsrList");
 			}
 		});
-  	
 		//AJAX 전송
 		ajaxObj.send();
 	}
@@ -976,33 +860,35 @@
 		
 		$.each(divList, function(index, value){
 			var dataOne = {};
-			dataOne.codeNum = value.getAttribute("codenum");
-			dataOne.id = value.getAttribute("codeId");
-			dataOne.prjId = value.getAttribute("codeprjid");
-			dataOne.name = value.getAttribute("codenm");
-			dataOne.ImgId = value.getAttribute("codeimg");
-			dataOne.deptNm = value.getAttribute("codedept");
-			dataOne.prjGrpId = value.getAttribute("codeprjgrpid");
-			dataOne.managerPrjNm = value.getAttribute("codeprjnm");
-			dataOne.admin = value.getAttribute("codeadmin");
-			dataOne.writer = value.getAttribute("codewriter");
+			dataOne.prjGrpId = $(value).data("prjGrpId");
+			dataOne.prjId = $(value).data("prjId");
+			dataOne.prjNm = $(value).data("prjNm");
+			dataOne.authTargetId = $(value).data("authTargetId");
+			dataOne.authTypeCd = $(value).data("authTypeCd");
+			dataOne.authTargetNm = $(value).data("authTargetNm");
+			dataOne.authTargetImgId = $(value).data("authTargetImgId");
+			dataOne.authTargetEmail = $(value).data("authTargetEmail");
+			dataOne.authTargetDeptId = $(value).data("authTargetDeptId");
+			dataOne.authTargetDeptNm = $(value).data("authTargetDeptNm");
+			
 			dataList.push(dataOne);
 		});
 		
-		
 		//DB에 담당자가 지정되어있지 않은 경우
 		//처음 담당자 등록하는 경우
-		if(defaultCheck==true && dataList.length==0){
+		if(defaultCheck==true && $.osl.isNull(dataList)){
 			//현재 사용자를 담당자로 지정
 			var dataOne={};
-			dataOne.codeNum = '02';
-			dataOne.id = $.osl.user.userInfo.usrId;
-			dataOne.name = $.osl.user.userInfo.usrNm;
+
 			dataOne.prjGrpId = $.osl.selPrjGrpId;
 			dataOne.prjId = $.osl.selPrjId;
-			dataOne.ImgId = $.osl.user.userInfo.usrImgId;
-			dataOne.deptNm = $.osl.user.userInfo.deptName;
-			dataOne.admin = "Y";
+			dataOne.authTargetId = $.osl.user.userInfo.usrId;
+			dataOne.authTypeCd = '02';
+			dataOne.authTargetNm = $.osl.user.userInfo.usrNm;
+			dataOne.authTargetImgId = $.osl.user.userInfo.usrImgId;
+			dataOne.authTargetEmail = $.osl.user.userInfo.email;
+			dataOne.authTargetDeptId = $.osl.user.userInfo.deptId;
+			dataOne.authTargetDeptNm = $.osl.user.userInfo.deptName;
 			
 			dataList.push(dataOne);
 		}
@@ -1011,450 +897,248 @@
     }
 
 	/**
-     * function 명 : drawList
-     * function param : 출력 데이터 정보, 그릴 element Id(#제외), 담당자/글작성범위 목록에 그릴 것인지 확인(true, false)
+	 * function 명 	: drawAuthList
+	 * function 설명	: 배정/미배정된 권한 그룹 목록 표출
+     * function param : 출력 데이터 정보, 그릴 element Id(#제외)
      * function 설명 : 지정 element에 데이터 목록 div 출력
-     */
-     var drawList = function(setData, adminElemId, writerElemId, otherElemId){
- 		var listHtml_left = ""; //왼쪽 아이콘 보이도록
- 		var listHtml_right = ""; //오른쪽 아이콘 보이도록
- 		var listHtml_com = ""; //공통
- 		var listHtml = ""; //최종
- 		var num = 0;
+	 */
+	var drawAuthList = function(setData, elemId){
+    	//초기화
+ 		$("#"+elemId).empty();
+
+  		var listHtml = "";
  		
- 		//초기화
- 		$("#"+adminElemId).empty();
- 		$("#"+writerElemId).empty();
- 		$("#"+otherElemId).empty();
- 		
- 		$.each(setData, function(index, value){
- 			num++;
- 			//전체 틀 시작
- 			//왼쪽 아이콘 보이기, 오른쪽 아이콘 보이기
- 			listHtml_left = "<div class='card kt-margin-b-10 flex-flow--row flex-flow--row--reverse' opt-index='"+index+"' codeNum='"+value.codeNum+"' codeId='"+value.id+"' codeNm='"+$.osl.escapeHtml(value.name)+"' codeDept='"+$.osl.escapeHtml(value.deptNm)+"' codeImg='"+value.ImgId+"' codeprjid='"+value.prjId+"' codeprjgrpid='"+value.prjGrpId+"'  codeprjnm='"+$.osl.escapeHtml(value.managerPrjNm)+"' codeAdmin='"+value.admin+"' codeWriter='"+value.writer+"'>"
- 								+"<div class='dropdown osl-left-arrow-group'>";
-			listHtml_right = "<div class='card kt-margin-b-10 flex-flow--row flex-flow--row--reverse' opt-index='"+index+"' codeNum='"+value.codeNum+"' codeId='"+value.id+"' codeNm='"+$.osl.escapeHtml(value.name)+"' codeDept='"+$.osl.escapeHtml(value.deptNm)+"' codeImg='"+value.ImgId+"' codeprjid='"+value.prjId+"' codeprjgrpid='"+value.prjGrpId+"'  codeprjnm='"+$.osl.escapeHtml(value.managerPrjNm)+"' codeAdmin='"+value.admin+"' codeWriter='"+value.writer+"'>"
-								+"<div class='dropdown osl-left-arrow-group osl-arrow-group--hide'>";
-			//공통	
-			listHtml_com = "<div class='btn dropdown-toggle' id='dropdownMenuButton"+num+"' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>"
- 									
- 								+"</div>"		
- 								+"<div class='dropdown-menu osl-dropdown-menu--position' aria-labelledby='dropdownMenuButton"+num+"'>"
- 									+"<a class='dropdown-item stmAdmListMovebtn'>"+$.osl.lang("stm2101.label.admin")+"</a>"
- 									+"<a class='dropdown-item stmWtListMovebtn'>"+$.osl.lang("stm2101.label.writer")+"</a>"
- 								+"</div>"
- 							+"</div>"
- 							// 컨텐츠 전체영역 시작
- 							+"<div class='osl-content-group'>"
- 								//타이틀 시작			
- 								+"<div class='card-title left-user-group kt-margin-b-0'>";
- 			
- 			//담당자, 글작성 범위에 모두 들어간 항목인 경우
- 			if(value.admin=="Y" && value.writer=="Y"){
- 				//담당자 리스트, 글작성 범위 리스트에만 작성
- 				listHtml = listHtml_right + listHtml_com;
- 				//담당자 리스트 그리기
-				//확정 권한그룹
- 				if(value.codeNum=='01'){
- 					listHtml += "<span class='groupuser-icon'>"
- 									+"<i class='fas fa-user-tag'></i>"
- 								+"</span>"
- 								+$.osl.escapeHtml(value.name)
- 								+"<span class='badge badge-success osl-margin-left--auto'>"+$.osl.lang("stm2101.label.authGrp")+"</span>"
- 							+"</div>"
- 							//타이틀 종료							
- 							//내용 시작
- 							+"<div class='osl-card__prjnm'>"
- 								+$.osl.escapeHtml(value.managerPrjNm)
- 							+"</div>";
- 							//내용 종료
- 				}
- 				//확정 사용자
- 				else{	
- 				    var paramData = {
- 							html: "<span class='osl-user-card-flex'><span>"+value.name +"</span><span>("+value.id+")</span></span>",
- 		    				imgSize: "sm",
- 							class:{
- 								cardBtn: "osl-bad__fit-content",
- 							}
- 						};
- 				    
- 				  listHtml += "<div class='' data-openid='"+value.id+"'>"
- 										+ $.osl.user.usrImgSet(value.ImgId, paramData )
- 								+"</div>"
- 								+"<span class='badge badge-info osl-margin-left--auto'>"+$.osl.lang("stm2101.label.user")+"</span>"
- 							+"</div>";
- 							//타이틀 종료
- 					//소속 시작
- 					if($.osl.isNull(value.deptNm)){
- 						listHtml += "<div class=''>-</div>";
- 					}
- 					else{
- 						listHtml += "<div class='osl-card__prjnm'>"
- 										+$.osl.escapeHtml(value.deptNm)
- 									+"</div>";
- 					}
- 					//소속 종료
- 				}
- 				// 컨텐츠 전체영역 종료
-				listHtml += "</div>"
+  		$.each(setData, function(index, value){
+			//전체 틀 시작
+ 			listHtml = "<div class='card kt-margin-b-10 flex-flow--row flex-flow--row--reverse' data-opt-index='"+index+"'"
+ 							+"data-prj-id='"+value.prjId+"' data-auth-type-cd='"+value.authTypeCd+"' data-auth-target-id='"+value.authTargetId+"'"
+ 							+"data-auth-target-nm='"+value.authTargetNm+"' data-auth-target-id='"+value.authTargetId+"'"
+ 							+"data-auth-target-img-id='"+value.authTargetImgId+"' data-target-email='"+value.authTargetEmail+"'"
+ 							+"data-auth-target-dept-id='"+value.targetDeptId+"' data-auth-target-dept-nm='"+value.authTargetDeptNm+"'>"
+							+"<div class='dropdown osl-left-arrow-group'>"
+								+"<div class='btn dropdown-toggle' id='dropdownMenuButton"+index+"' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>"
+							+"</div>"		
+							+"<div class='dropdown-menu osl-dropdown-menu--position' aria-labelledby='dropdownMenuButton"+index+"'>"
+								+"<a class='dropdown-item stmAdmListMoveBtn'>"+$.osl.lang("stm2101.title.admin")+"</a>"
+								+"<a class='dropdown-item stmWtListMoveBtn'>"+$.osl.lang("stm2101.title.writer")+"</a>"
+							+"</div>"
+						+"</div>"
+						// 컨텐츠 전체영역 시작
+						+"<div class='osl-content-group'>"
+							//타이틀 시작			
+							+"<div class='card-title left-user-group kt-margin-b-0'>";
+						
+	 			//권한그룹인 경우
+				if(value.authTypeCd=='01'){
+					listHtml += "<span class='groupuser-icon'>"
+										+"<i class='fas fa-user-tag'></i>"
+									+"</span>"
+									+$.osl.escapeHtml(value.authTargetNm)
+									+"<span class='badge badge-success osl-margin-left--auto'>"+$.osl.lang("stm2101.label.authGrp")+"</span>"
+								+"</div>" //타이틀 종료		
+								//내용 시작
+								+"<div class='osl-card__prjnm'>"
+									+$.osl.escapeHtml(value.prjNm)
+								+"</div>"//내용 종료
+						+ "</div>"// 컨텐츠 전체영역 종료
+						//우측 이동 버튼 시작, 종료
+						+"<div class='osl-right-arrow-group'></div>"
+					+"</div>"; //전체 틀 종료
+				}else{ //사용자인 경우
+					var paramData = {
+						html: "<span class='osl-user-card-flex'><span>"+value.authTargetNm +"</span><span>("+value.authTargetId+")</span></span>",
+	    				imgSize: "sm",
+						class:{
+							cardBtn: "osl-bad__fit-content",
+						}
+					};
+					listHtml += "<span class='' data-open-Id='"+value.authTargetId+"'>"
+									+ $.osl.user.usrImgSet(value.authTargetImgId, paramData )
+								+"</span>"
+								+"<span class='badge badge-primary osl-margin-left--auto'>"+$.osl.lang("stm2101.label.user")+"</span>"
+							+"</div>"; //타이틀 종료	
+														
+								//내용 시작 (소속)
+		 					if($.osl.isNull(value.authTargetDeptNm)){
+		 						listHtml += "<div class='osl-card__prjnm'>"
+		 										+$.osl.escapeHtml(value.authTargetEmail)
+	 										+"</div>";
+		 					}else{
+		 						listHtml += "<div class='osl-card__prjnm'>"
+		 										+$.osl.escapeHtml(value.authTargetDeptNm)
+		 									+"</div>";
+ 							}//소속 종료
+ 					
+			listHtml +="</div>"	// 컨텐츠 전체영역 종료
 					//우측 이동 버튼 시작, 종료
 					+"<div class='osl-right-arrow-group'></div>"
-					+"</div>";
-				//전체 틀 종료
- 				$("#"+adminElemId).append(listHtml);
- 				$("#"+writerElemId).append(listHtml);
- 			}else{
- 				//한군데만 들어가거나 안들어간 항목인 경우
- 				//담당자에 배정된 항목인 경우(글작성 범위 미배정)
- 				listHtml = listHtml_right + listHtml_com;
-				//담당자 리스트 그리기
- 				if(value.admin=="Y" && value.writer=="N"){
- 					//확정 권한그룹
- 	 				if(value.codeNum=='01'){
- 	 					listHtml += "<span class='groupuser-icon'>"
- 	 									+"<i class='fas fa-user-tag'></i>"
- 	 								+"</span>"
- 	 								+$.osl.escapeHtml(value.name)
- 	 								+"<span class='badge badge-success osl-margin-left--auto'>"+$.osl.lang("stm2101.label.authGrp")+"</span>"
- 	 							+"</div>"
- 	 							//타이틀 종료							
- 	 							//내용 시작
- 	 							+"<div class='osl-card__prjnm'>"
- 	 								+$.osl.escapeHtml(value.managerPrjNm)
- 	 							+"</div>";
- 	 							//내용 종료
- 	 				}
- 	 				//확정 사용자
- 	 				else{	
- 	 				    var paramData = {
- 	 							html: "<span class='osl-user-card-flex'><span>"+value.name +"</span><span>("+value.id+")</span></span>",
- 	 		    				imgSize: "sm",
- 	 							class:{
- 	 								cardBtn: "osl-bad__fit-content",
- 	 							}
- 	 						};
- 	 				    
- 	 				  listHtml += "<div class='' data-openid='"+value.id+"'>"
- 	 										+ $.osl.user.usrImgSet(value.ImgId, paramData )
- 	 								+ "</div>"
- 	 								+ "<span class='badge badge-info osl-margin-left--auto'>"+$.osl.lang("stm2101.label.user")+"</span>"
- 	 							+ "</div>";
- 	 							//타이틀 종료
- 	 					//소속 시작
- 	 					if($.osl.isNull(value.deptNm)){
- 	 						listHtm += "<div class=''>-</div>";
- 	 					}
- 	 					else{
- 	 						listHtml += "<div class='osl-card__prjnm'>"
- 	 										+ $.osl.escapeHtml(value.deptNm)
- 	 									+ "</div>";
- 	 					}
- 	 					//소속 종료
- 	 				}
- 	 				// 컨텐츠 전체영역 종료
- 					listHtml+="</div>"
- 						//우측 이동 버튼 시작, 종료
- 						+"<div class='osl-right-arrow-group'></div>"
- 						+"</div>";
- 					//전체 틀 종료
- 	 				$("#"+adminElemId).append(listHtml);
- 				}else if(value.admin=="N" && value.writer=="Y"){
-	 				//글작성 범위에 배정된 항목인 경우(담당자 미배정)
- 					listHtml = listHtml_right + listHtml_com;
- 					//글작성 범위 리스트 그리기
- 					if(value.codeNum=='01'){
- 						listHtml += "<span class='groupuser-icon'>"
- 	 									+"<i class='fas fa-user-tag'></i>"
- 	 								+"</span>"
- 	 								+$.osl.escapeHtml(value.name)
- 	 								+"<span class='badge badge-success osl-margin-left--auto'>"+$.osl.lang("stm2101.label.authGrp")+"</span>"
- 	 							+"</div>"
- 	 							//타이틀 종료							
- 	 							//내용 시작
- 	 							+"<div class='osl-card__prjnm'>"
- 	 								+$.osl.escapeHtml(value.managerPrjNm)
- 	 							+"</div>";
- 	 							//내용 종료
- 	 				}
- 	 				//확정 사용자
- 	 				else{	
- 	 				    var paramData = {
- 	 							html: "<span class='osl-user-card-flex'><span>"+value.name +"</span><span>("+value.id+")</span></span>",
- 	 		    				imgSize: "sm",
- 	 							class:{
- 	 								cardBtn: "osl-bad__fit-content",
- 	 							}
- 	 						};
- 	 				    
- 	 				  listHtml += "<div class='' data-openid='"+value.id+"'>"
- 	 										+ $.osl.user.usrImgSet(value.ImgId, paramData )
- 	 								+"</div>"+
- 	 								+"<span class='badge badge-info osl-margin-left--auto'>"+$.osl.lang("stm2101.label.user")+"</span>"
- 	 							+"</div>";
- 	 							//타이틀 종료
- 	 					//소속 시작
- 	 					if($.osl.isNull(value.deptNm)){
- 	 						listHtml += "<div class=''>-</div>";
- 	 					}
- 	 					else{
- 	 						listHtml += "<div class='osl-card__prjnm'>"
- 	 										+ $.osl.escapeHtml(value.deptNm)
- 	 									+"</div>";
- 	 					}
- 	 					//소속 종료
- 	 				}
- 	 				// 컨텐츠 전체영역 종료
- 					listHtml +="</div>"
- 						//우측 이동 버튼 시작, 종료
- 						+"<div class='osl-right-arrow-group'></div>"
- 						+"</div>";
- 					//전체 틀 종료
- 	 				$("#"+writerElemId).append(listHtml);
- 				}
- 				
- 				//공통 : 미배정 리스트에 그리기
- 				//미배정 권한그룹
- 				listHtml = listHtml_left + listHtml_com;
- 				if(value.codeNum=='01'){
- 					listHtml += "<span class='groupuser-icon'>"
- 									+"<i class='fas fa-user-tag'></i>"
- 								+"</span>"
- 								+$.osl.escapeHtml(value.name)
- 								+"<span class='badge badge-success osl-margin-left--auto'>"+$.osl.lang("stm2101.label.authGrp")+"</span>"
- 							+"</div>"
- 							//타이틀 종료
- 							//내용 시작
- 							+"<div class='osl-card__prjnm'>"
- 								+$.osl.escapeHtml(value.managerPrjNm)
- 							+"</div>";
- 							//내용 종료"
- 				//미배정 사용자
- 				}else{
- 				    var paramData = {
- 							html: "<span class='osl-user-card-flex'><span>"+value.name +"</span><span>("+value.id+")</span></span>",
- 				    		imgSize: "sm",
- 							class:{
- 								cardBtn: "osl-bad__fit-content",
- 							}
- 						};
- 				    
- 					listHtml += "<div class='' data-openid='"+value.id+"'>"
- 									+$.osl.user.usrImgSet(value.ImgId, paramData)
- 								+"</div>"
- 								+"<span class='badge badge-info osl-margin-left--auto'>"+$.osl.lang("stm2101.label.user")+"</span>"
- 							+"</div>";
- 							//타이틀 종료
- 					//소속 시작
- 					if($.osl.isNull(value.deptNm)){
- 						listHtml += "<div class='osl-card__prjnm'>-</div>";
- 					}else{
- 						listHtml += "<div class='osl-card__prjnm'>"
- 										+ $.osl.escapeHtml(value.deptNm)
- 									+"</div>";
- 					}
- 					//소속 종료
- 				}
- 				// 컨텐츠 전체영역 종료
-				listHtml += "</div>"
- 						//우측 이동 버튼 시작, 종료
- 						+"<div class='osl-right-arrow-group osl-arrow-group--hide'></div>"
-					+"</div>";
- 				//전체 틀 종료
- 				$("#"+otherElemId).append(listHtml);
- 			}
+				+"</div>"; //전체 틀 종료
+			}
+			$("#"+elemId).append(listHtml);
  		});
+     };//drawAuthList 끝
  		
+     /**
+ 	* function 명 	: drawAfterFtSetting
+ 	* function 설명	: 드로잉 후 function 적용
+ 	*/
+ 	var drawAfterFtSetting = function(){
  		//그리고 난 후에 function 적용
  		//사용자 아이콘 클릭 시 사용자 정보 팝업
 		$(".kt-user-card-v2.btn.osl-bad__fit-content").click(function(){
-			var usrId = $(this).parent().data("openid");
+			var usrId = $(this).parent().data("openId");
 			$.osl.user.usrInfoPopup(usrId);
 		});
 		
+ 		//배정 목록에서 제거할 때
 		$('.osl-right-arrow-group').click(function(){
 			//이동할 객체
-			var moveCard =  $(this).parent();
+			var moveCard =  $(this).parents('.card');
 			//객체가 있던 곳
 			var formId = moveCard.parent().attr("id");
 
+			//옮길 권한 그룹id
+			var _authTargetId = moveCard.data("authTargetId");
+			var idx;
+			
 			//담당자 목록에 있던 경우
+			//배열에서 해당 제거
 			if(formId=="stmAdmList"){
-				//속성 변경
-				moveCard[0].setAttribute("codeadmin", "N");
-				//글작성 범위에도 있는 경우
-				if(moveCard[0].getAttribute("codewriter")=="Y"){
-					var codeNum = moveCard[0].getAttribute("codenum");
-					var codeId = moveCard[0].getAttribute("codeid");
-					var codePrjGrpId = moveCard[0].getAttribute("codeprjgrpid");
-					var codePrjId = moveCard[0].getAttribute("codeprjid");
-					
-					//글작성범위에 있는 동일 객체 정보 변경
-					var otherItems = $("#stmWtList").children();
-					$.each(otherItems, function(idx, value){
-						if(value.getAttribute("codenum")==codeNum && value.getAttribute("codeid")==codeId
-								&& value.getAttribute("codeprjgrpid")==codePrjGrpId && value.getAttribute("codeprjid")==codePrjId){
-							value.setAttribute("codeadmin", "N");
-						}
-					});
-				}
+				checkMove(moveCard, resultAdmin, true);
 			}else{
-				//글작성자 목록에 있던 경우
-				//속성 변경
-				moveCard[0].setAttribute("codewriter", "N");
-				//담당자 범위에도 있는 경우
-				if(moveCard[0].getAttribute("codeadmin")=="Y"){
-					var codeNum = moveCard[0].getAttribute("codenum");
-					var codeId = moveCard[0].getAttribute("codeid");
-					var codePrjGrpId = moveCard[0].getAttribute("codeprjgrpid");
-					var codePrjId = moveCard[0].getAttribute("codeprjid");
-					
-					//글작성범위에 있는 동일 객체 정보 변경
-					var otherItems = $("#stmAdminList").children();
-					$.each(otherItems, function(idx, value){
-						if(value.getAttribute("codenum")==codeNum && value.getAttribute("codeid")==codeId
-								&& value.getAttribute("codeprjgrpid")==codePrjGrpId && value.getAttribute("codeprjid")==codePrjId){
-							value.setAttribute("codewriter", "N");
-						}
-					});
-				}
+				//소스 열람 권한 배정 목록에 있던 경우
+				//배열에서 해당 제거
+				checkMove(moveCard ,resultWriter, true);
 			}//else end
 			
-			//미배정 목록에 있는지 확인
-			var otherItems = $("#stmGroupUsrList").children();
-			var result = true;
-			$.each(otherItems, function(idx, value){
-				if(value.getAttribute("codenum")==codeNum && value.getAttribute("codeid")==codeId
-						&& value.getAttribute("codeprjgrpid")==codePrjGrpId && value.getAttribute("codeprjid")==codePrjId){
-					//미배정 목록에 같은 객체 있는 경우
-					//담당자 정보만 변경
-					if(formId=="stmAdmList"){
-						value.setAttribute("codeadmin", "N");
-					}else{
-						//글작성 범위 정보만 변경
-						value.setAttribute("codewriter", "N");
-					}
-					//미배정 목록에 있으면 복사 안함
-					result = false;
-				}
-			});
+			//미배정 목록 중복 확인
+			checkDoubleMove(moveCard, true);
+
+			//미배정 영역 - right 버튼 감추기
+			showHideBtn("stmGroupUsrList", 'left', "right");
 			
-			//미배정 목록에 있으면 복사 안함, 미배정 목록에 없을 때만 복사
-			if(result){
-				//미배정 목록에 없을 경우
-				//객체이동
-				$('#stmGroupUsrList').prepend(moveCard);
-				//아이콘 오른방향 감추기, 왼방향 나타내기
-				$(this).addClass('osl-arrow-group--hide');
-				$(this).parent().children('.osl-left-arrow-group').removeClass('osl-arrow-group--hide');
-				
-			}
+			//해당 객체만 삭제
+			moveCard.remove();
 		});
 		
-		$('.stmAdmListMovebtn').click(function(){
+		//미배정 목록에서 제거할 때 - 담당자 목록으로 전달하는 경우
+		$('.stmAdmListMoveBtn').click(function(){
 			//드롭다운 버튼 감추기
 			$(this).parent().removeClass("show");
 			//원 객체
-			var oriCard = $(this).parent().parent().parent();
+			var oriCard = $(this).parents(".card");
 			//이동할 객체
 			var moveCard = oriCard.clone(true);
-			//속성 변경
-			moveCard[0].setAttribute("codeadmin", "Y");
-			oriCard[0].setAttribute("codeadmin", "Y");
+			var result = checkMove(moveCard, resultAdmin);
 			
-			//이미 담당자에게 배정이 되어 있는지 확인
-			var toList = $("#stmAdmList").children();
-			var toListResult = true;
-			$.each(toList, function(idx, value){
-				if(value.getAttribute("codenum")==moveCard[0].getAttribute("codenum") && value.getAttribute("codeid")==moveCard[0].getAttribute("codeid")
-						&& value.getAttribute("codeprjgrpid")==moveCard[0].getAttribute("codeprjgrpid") && value.getAttribute("codeprjid")==moveCard[0].getAttribute("codeprjid")){
-					toListResult = false;							
-				}
-			});
-			//담당자에게 배정이 되어 있지 않은 경우에만 실행
-			if(toListResult){
-				//객체 복사
-				$('#stmAdmList').prepend(moveCard);
-				//아이콘 오른방향 나타내기, 왼방향 감추기
-				moveCard.children('.osl-right-arrow-group').removeClass('osl-arrow-group--hide');
-				moveCard.children(".osl-left-arrow-group").addClass('osl-arrow-group--hide');
-
-				//$.osl.alert("담당자에 배정하였습니다.");
-				
-				//원본 아이템의 정보 확인
-				if(oriCard[0].getAttribute("codeadmin")=="Y" && oriCard[0].getAttribute("codewriter")=="Y"){
-					var codeNum = oriCard[0].getAttribute("codenum");
-					var codeId = oriCard[0].getAttribute("codeid");
-					var codePrjGrpId = oriCard[0].getAttribute("codeprjgrpid");
-					var codePrjId = oriCard[0].getAttribute("codeprjid");
-					
-					//글작성범위에 있는 동일 객체 정보 변경
-					var otherItems = $("#stmWtList").children();
-					$.each(otherItems, function(idx, value){
-						if(value.getAttribute("codenum")==codeNum && value.getAttribute("codeid")==codeId
-								&& value.getAttribute("codeprjgrpid")==codePrjGrpId && value.getAttribute("codeprjid")==codePrjId){
-							value.setAttribute("codeadmin", "Y");
-							value.setAttribute("codewriter", "Y");
-						}
-					});
-					
-					//미배정에 있던 객체 제거
-					oriCard.remove();
-				}
+			if(result == 0){
+				//존재안하면 복사하기
+				$("#stmAdmList").prepend(moveCard);
 			}
+			
+			//담당자, 글작성범위로 모두 배정되었는지 체크
+			checkDoubleMove(oriCard);
+			//담당자 - left버튼 감추기
+			showHideBtn("stmAdmList", "right", 'left');
 		});
-		$('.stmWtListMovebtn').click(function(){
+		
+		//미배정 목록에서 제거 - 글작성 범위로 전달
+		$('.stmWtListMoveBtn').click(function(){
 			//드롭다운 버튼 감추기
 			$(this).parent().removeClass("show");
 			//원 객체
-			var oriCard = $(this).parent().parent().parent();
+			var oriCard = $(this).parents(".card");
 			//이동할 객체
 			var moveCard = oriCard.clone(true);
-			//속성 변경
-			moveCard[0].setAttribute("codewriter", "Y");
-			oriCard[0].setAttribute("codewriter", "Y");
-			
-			//글작성 범위에 이미 등록이 되어 있는 객체인지 확인
-			var toList = $("#stmWtList").children();
-			var toListResult = true;
-			$.each(toList, function(idx, value){
-				if(value.getAttribute("codenum")==moveCard[0].getAttribute("codenum") && value.getAttribute("codeid")==moveCard[0].getAttribute("codeid")
-						&& value.getAttribute("codeprjgrpid")==moveCard[0].getAttribute("codeprjgrpid") && value.getAttribute("codeprjid")==moveCard[0].getAttribute("codeprjid")){
-					toListResult = false;							
-				}
-			});
-			//글작성 범위에게 배정이 되어 있지 않은 경우에만 실행
-			if(toListResult){
-				//객체 복사
-				$('#stmWtList').prepend(moveCard);
-				//아이콘 오른방향 나타내기, 왼방향 감추기
-				moveCard.children('.osl-right-arrow-group').removeClass('osl-arrow-group--hide');
-				moveCard.children(".osl-left-arrow-group").addClass('osl-arrow-group--hide');
 
-				//$.osl.alert("글작성 범위에 배정하였습니다.");
-
-				//원본 아이템의 정보 확인
-				if(oriCard[0].getAttribute("codeadmin")=="Y" && oriCard[0].getAttribute("codewriter")=="Y"){
-					var codeNum = oriCard[0].getAttribute("codenum");
-					var codeId = oriCard[0].getAttribute("codeid");
-					var codePrjGrpId = oriCard[0].getAttribute("codeprjgrpid");
-					var codePrjId = oriCard[0].getAttribute("codeprjid");
-					
-					//담당자에 있는 동일 객체 정보 변경
-					var otherItems = $("#stmAdmList").children();
-					$.each(otherItems, function(idx, value){
-						if(value.getAttribute("codenum")==codeNum && value.getAttribute("codeid")==codeId
-								&& value.getAttribute("codeprjgrpid")==codePrjGrpId && value.getAttribute("codeprjid")==codePrjId){
-							value.setAttribute("codeadmin", "Y");
-							value.setAttribute("codewriter", "Y");
-						}
-					});
-					
-					oriCard.remove();
-				}
+			var result = checkMove(moveCard, resultWriter);
+			if(result == 0){
+				//존재안하면 복사하기
+				$("#stmWtList").prepend(moveCard);
 			}
+			
+			//담당자, 글작성범위로 모두 배정되었는지 체크
+			checkDoubleMove(oriCard);
+			//글작성범위 - left버튼 감추기
+			showHideBtn("stmWtList", "right", 'left');
 		});
      }
+	
+
+	/**
+	* function 명 	: showHideBtn
+	* function 설명	: 위치에 따른 배정/제외 버튼 show/hide
+	* param : elemId 지정 elemId
+	* param : showing 어느 버튼 보이게 할지
+	* param : hiding 어느 버튼 숨기게 할지
+	*/
+	var showHideBtn = function(elemId, showing, hiding){
+		var list = $("#"+elemId).children();
+		$.each(list, function(idx, value){
+			$(value).find(".osl-"+showing+"-arrow-group").removeClass("kt-hide");
+			$(value).find(".osl-"+hiding+"-arrow-group").addClass("kt-hide");
+		});
+	};
+	
+
+	/**
+	* function 명 	: checkDoubleMove
+	* function 설명	: 담당자, 글작성 범위 권한으로 모두 배정되었는지 체크 or 미배정 목록 중복 검사
+	* param : oriCard 검사하려는 elem
+	* param : nonListCheck 미배정 목록 중복 검사할 경우(true)
+	*/
+	var checkDoubleMove = function(oriCard, nonListCheck){
+		var _authTargetId = oriCard.data("authTargetId");
+		if(nonListCheck){
+			//미배정 목록으로 들어오는 경우
+			var otherItems = $("#stmGroupUsrList").children();
+			$.each(otherItems, function(idx, value){
+				if($(value).data("authTargetId")==_authTargetId){
+					$(value).removeClass("kt-hide");
+				}
+			});
+		}else{
+			//미배정에서 나가는 경우
+			var adminIdx = resultAdmin.indexOf(_authTargetId);
+			var writerIdx = resultWriter.indexOf(_authTargetId);
+			
+			//둘다 존재하는지 체크
+			if(adminIdx>=0 && writerIdx >=0){
+				oriCard.addClass("kt-hide");
+			}else{
+				oriCard.removeClass("kt-hide");
+			}
+		}
+	};
+	
+	/**
+	* function 명 	: checkMove
+	* function 설명	: 이미 배정되었는지 체크
+	* param : oriCard 검사하려는 elem
+	* param : arrayList 검사하려는 목록
+	* param : delCheck 제거 여부(값 없을 경우 default 복사)
+	* return : 배정여부(1, 0)
+	*/
+	var checkMove = function(oriCard, arrayList, delCheck){
+		var _authTargetId = oriCard.data("authTargetId");
+		var arrayListIdx = arrayList.indexOf(_authTargetId);
+		
+		if(delCheck){
+			if(arrayListIdx>=0){
+				//arrayList에서 제거
+				arrayList.splice(arrayListIdx, 1);
+			}
+		}else{
+			//존재하는지 체크
+			if(arrayListIdx>=0){
+				return 1;
+			}else{
+				//존재안하면 복사하기
+				arrayList.push(_authTargetId);
+				return 0;
+			}
+		}
+	};
 	
     /**
 	* function 명 	: submitBadOption

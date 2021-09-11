@@ -5,7 +5,6 @@ import java.util.Map;
 
 
 import kr.opensoftlab.lunaops.com.dao.ComOslitsAbstractDAO;
-import oracle.net.aso.p;
 
 import org.springframework.stereotype.Repository;
 
@@ -57,6 +56,7 @@ public class Prj3000DAO extends ComOslitsAbstractDAO {
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	public void deletePrj3000DocInfo(Map infoMap) throws Exception{
 		delete("prj3000DAO.deletePrj3000DocInfo", infoMap);
 	}
@@ -115,6 +115,7 @@ public class Prj3000DAO extends ComOslitsAbstractDAO {
 	
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Map> selectPrj3003SingUsrList(Map<String, String> paramMap) throws Exception{
 		return (List) list("prj3000DAO.selectPrj3003SignInfoList",paramMap);
 	}

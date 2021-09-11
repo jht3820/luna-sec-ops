@@ -272,4 +272,152 @@ public class Stm8100Controller {
 		return "/stm/stm8000/stm8100/stm8101";
 	}
 	
+	
+	@SuppressWarnings( "rawtypes" )
+	@RequestMapping(value="/stm/stm8000/stm8100/selectStm8110AssStrgListAjax.do")
+	public ModelAndView selectStm8110AssStrgListAjax( HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
+			
+			
+			paramMap.put("type", "ass");
+			
+			
+			List<Map> stm8110AssList = null;
+
+			String paramStrgRepId = paramMap.get("strgRepId");
+			
+			if(paramStrgRepId != null && !paramStrgRepId.isEmpty()) {
+							
+				
+				stm8110AssList = stm8100Service.selectStm8110RevisionAuthList(paramMap);
+			}
+			
+			
+			model.addAttribute("stm8110AssList", stm8110AssList);
+
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectStm8110AssStrgListAjax()", ex);
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
+	
+	
+	@SuppressWarnings( "rawtypes" )
+	@RequestMapping(value="/stm/stm8000/stm8100/selectStm8120AssStrgListAjax.do")
+	public ModelAndView selectStm8120AssStrgListAjax( HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
+			
+			
+			paramMap.put("type", "ass");
+			
+			
+			List<Map> stm8120AssList = null;
+			
+			String paramStrgRepId = paramMap.get("strgRepId");
+			
+			if(paramStrgRepId != null && !paramStrgRepId.isEmpty()) {
+				
+				
+				stm8120AssList = stm8100Service.selectStm8120FileCodeAuthList(paramMap);
+			}
+			
+			
+			model.addAttribute("stm8120AssList", stm8120AssList);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectStm8110AssStrgListAjax()", ex);
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
+
+	
+	@SuppressWarnings( "rawtypes" )
+	@RequestMapping(value="/stm/stm8000/stm8100/selectStm8100PrjAllAuthAndUserList.do")
+	public ModelAndView selectStm8100PrjAllAuthAndUserList( HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			List<Map> stm8100AllList = stm8100Service.selectStm8100PrjAllAuthAndUserList(paramMap);
+			
+			
+			model.addAttribute("stm8100AllList", stm8100AllList);
+
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectStm8100PrjAllAuthAndUserList()", ex);
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
+
+	
+	@RequestMapping(value = "/stm/stm8000/stm8100/insertStm8100AuthListAjax.do")
+	public ModelAndView insertStm8100AuthListAjax(HttpServletRequest request, ModelMap model) throws Exception {
+		try {
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
+			
+			
+			stm8100Service.insertStm8100AuthList(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+			
+			return new ModelAndView("jsonView");
+		} catch (Exception ex) {
+			Log.error("insertStm8100AuthListAjax()", ex);
+			
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
+			return new ModelAndView("jsonView");
+		}
+	}
 }

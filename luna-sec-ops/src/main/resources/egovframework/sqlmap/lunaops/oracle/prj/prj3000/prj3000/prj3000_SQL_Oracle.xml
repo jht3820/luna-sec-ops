@@ -697,18 +697,31 @@
 	<select id="prj3000DAO.seletePrj3001WaitSignCnt" parameterClass="java.util.Map" resultClass="int">
 		
 		SELECT	COUNT(*) AS COUNT
-		FROM	PRJ3001
+		FROM PRJ3001 A
+		INNER JOIN (
+					SELECT 	MAX(REG_DTM) AS REG_DTM
+						, 	STRE_FILE_NM 
+						, 	DOC_ID
+						,	PRJ_ID
+					FROM PRJ3001
+			        GROUP BY 	STRE_FILE_NM
+			        		,	DOC_ID
+			        		,	PRJ_ID
+					) B
+		ON (A.PRJ_ID = B.PRJ_ID AND A.DOC_ID = B.DOC_ID AND A.REG_DTM = B.REG_DTM AND A.STRE_FILE_NM = B.STRE_FILE_NM)
 		WHERE	1 = 1
-		AND		PRJ_ID = #prjId#
-		AND		DOC_ID = #docId#
-		AND		INF_TYPE = '02'
+		AND		A.PRJ_ID = #prjId#
+		AND		A.DOC_ID = #docId#
+		AND		A.INF_TYPE = '02'
+		AND		A.ORD != 0
 	</select>
 	
+
+
+
 	
 	
 	
-	
-		
 	<delete id="prj3000DAO.deletePrj3000DocList" parameterClass="java.util.Map">
 	<![CDATA[
 		

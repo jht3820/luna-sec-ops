@@ -79,4 +79,16 @@ public class Spr1000DAO  extends ComOslitsAbstractDAO {
 	public Map  selectSpr1000SprInfoStat(Map paramMap) throws Exception {
 		return  (Map) select("spr1000DAO.selectSpr1000SprInfoStat", paramMap);
 	}
+	
+	
+	@SuppressWarnings({ "rawtypes" })
+	public Map  selectSpr1000ReqRealSpdTime(Map paramMap) throws Exception {
+		return  (Map) select("spr1000DAO.selectSpr1000ReqRealSpdTime", paramMap);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<Map>  selectSpr1000ChartInfo(Map paramMap) throws Exception {
+		return  (List<Map>) list("spr1000DAO.selectSpr1000ChartInfo", paramMap);
+	}
+	
 }

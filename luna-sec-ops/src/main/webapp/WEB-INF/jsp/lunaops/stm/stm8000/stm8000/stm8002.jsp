@@ -2,48 +2,51 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <input type="hidden" name="strgRepId" id="strgRepId" value="<c:out value='${param.strgRepId}'/>">
 <div class="row">
-	<div class="col-lg-4 col-md-4 col-sm-12 col-12">
-		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
+	<div class="col-lg-5 col-md-12 col-sm-12 col-12">
+		<div class="kt-portlet kt-portlet--mobile kt-margin-b-10">
 			<div class="kt-portlet__head">
 				<div class="kt-portlet__head-label kt-portlet__head--lg">
 					<h5 class="kt-font-boldest kt-font-brand">
 						<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="stm8002.title.revision">리비전 목록</span>
 					</h5>
 				</div>
-				<div class="kt-portlet__head-toolbar">
-					<div class="kt-portlet__head-group">
-						<input type="text" class="osl-outline--secondary rounded col-lg-3 col-md-3 col-sm-3 col-3" placeholder="시작" authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchStNum" name="searchStNum">
-						<span class="osl-h-px-38 osl-line-height__width-38">&nbsp;-&nbsp;</span>
-						<input type="text" class="osl-outline--secondary rounded col-lg-3 col-md-3 col-sm-3 col-3" placeholder="종료"  authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchEdNum" name="searchEdNum">
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8002RepTable" data-datatable-action="select" title="리비전 조회" data-title-lang-cd="stm8002.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
-						</button>
-					</div>
+			</div>
+		</div>
+		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
+			<div class="kt-portlet__head">
+				<!-- 리비전 검색 -->
+				<div class="kt-portlet__head-label">
+					<div class="osl-datatable-search kt-margin-b-0" data-datatable-id="stm8002RepTable"></div>
 				</div>
 			</div>
-			<div class="kt-portlet__body kt-padding-15">
-				<!-- 리비전 검색 -->
-				<div class="row">
-					<div class="col-lg-7 col-md-12 col-sm-12 col-12">
-						<div class="osl-datatable-search" data-datatable-id="stm8002RepTable"></div>
-					</div>
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label kt-portlet__head--lg">
+					<h6 class="kt-font-boldest kt-font-brand kt-margin-r-20">
+						리비전 번호
+					</h6>
+					<input type="text" class="osl-outline--secondary rounded kt-padding-10 kt-margin-r-10 osl-w-px-80 osl-h-px-35" placeholder="시작" authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchStNum" name="searchStNum">
+					<span class="osl-h-px-38 font-weight-bolder osl-line-height--38">-</span>
+					<input type="text" class="osl-outline--secondary rounded kt-padding-10 kt-margin-l-10 osl-w-px-80 osl-h-px-35" placeholder="종료"  authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchEdNum" name="searchEdNum">
 				</div>
+				<div class="kt-portlet__head-toolbar">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air kt-margin-l-10" data-datatable-id="stm8002RepTable" data-datatable-action="select" title="리비전 조회" data-title-lang-cd="stm8002.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+						<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
+					</button>
+				</div>
+			</div>
+			<div class="kt-portlet__body kt-padding-15 osl-min-h-px--520">
 				<!-- 리비전 목록 -->
 				<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="stm8002RepTable"></div>
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-8 col-md-8 col-sm-12 col-12">
+	<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-margin-t-20-tablet">
 		<div class="kt-portlet kt-margin-b-10">
 			<div class="kt-portlet__head">
 				<div class="kt-portlet__head-label">
 					<h5 class="kt-font-boldest kt-font-brand">
 						<i class="fa fa-th-large kt-margin-r-5"></i><span id="revisionNum"></span><span data-lang-cd="stm8002.title.file">파일 목록</span>
 					</h5>
-				</div>
-				<div class="kt-portlet__head-toolbar">
-					<div class="kt-portlet__head-group">
-					</div>
 				</div>
 			</div>
 		</div>
@@ -54,51 +57,52 @@
 						<div class="kt-portlet__head-label">
 							<div class="osl-tree-search" data-tree-id="stm8002RevisionFileTreeDiv"></div>
 						</div>
-						<div class="kt-portlet__head-toolbar">
-							<div class="kt-portlet__head-group">
-								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm8002RevisionFileTreeDiv" data-tree-action="select" title="리비전 파일 목록 조회" data-original-title="stm8002.actionBtn.selectFileTooltip"  data-title-lang-cd="stm8002.actionBtn.selectFileTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
-								</button>
-							</div>
-						</div>
 					</div>
-					<div class="kt-portlet__body kt-padding-10">
-						<div class="osl-margin-left--auto">
+					<div class="kt-portlet__head">
+						<div class="kt-portlet__head-label"></div>
+						<div class="kt-portlet__head-toolbar">
 							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-title-lang-cd="tree.label.contextmenu.allNodeOpen" data-tree-id="stm8002RevisionFileTreeDiv" data-tree-action="allNodeOpen">
 								<i class="fa fa-plus"></i>
 							</a>
 							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-title-lang-cd="tree.label.contextmenu.allNodeClose" data-tree-id="stm8002RevisionFileTreeDiv" data-tree-action="allNodeClose">
 								<i class="fa fa-minus"></i>
 							</a>
+							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm8002RevisionFileTreeDiv" data-tree-action="select" title="리비전 파일 목록 조회" data-original-title="stm8002.actionBtn.selectFileTooltip"  data-title-lang-cd="stm8002.actionBtn.selectFileTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+								<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
+							</button>
 						</div>
+					</div>
+					<div class="kt-portlet__body position-relative kt-padding-0 osl-min-h-px--520">
 						<!-- 트리구조 -->
-						<div class="kt-scroll position-relative">
-							<div class="osl-div-cover osl-width--100-p osl-height--100-p">
-								<span data-lang-cd="stm8002.message.selectRevision">리비전을 선택하세요.</span>
-							</div>
-							<div class="osl-tree kt-scroll" data-height="480" id="stm8002RevisionFileTreeDiv"></div>
+						<div class="osl-div-cover osl-width--100-p osl-height--100-p">
+							<span data-lang-cd="stm8002.message.selectRevision">리비전을 선택하세요.</span>
 						</div>
+						<div class="osl-tree kt-scroll kt-margin-20" data-height="480" id="stm8002RevisionFileTreeDiv"></div>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-6">
 				<div class="kt-portlet kt-margin-b-0">
-					<div class="kt-portlet__head">
+					<div class="kt-portlet__head kt-padding-l-20 kt-padding-r-20">
 						<div class="kt-portlet__head-label">
 							<div class="osl-datatable-search kt-margin-b-0" data-datatable-id="stm8002RevisionFileTable"></div>
 						</div>
+					</div>
+					<div class="kt-portlet__head kt-padding-l-20 kt-padding-r-20">
+						<div class="kt-portlet__head-label">
+						</div>
 						<div class="kt-portlet__head-toolbar">
 							<div class="kt-portlet__head-group">
-								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8002RevisionFileTable" data-datatable-action="select" title="파일 조회" data-title-lang-cd="stm8002.actionBtn.selectFileTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" data-datatable-id="stm8002RevisionFileTable" data-datatable-action="select" title="파일 조회" data-title-lang-cd="stm8002.actionBtn.selectFileTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 									<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 								</button>
-								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8002RevisionFileTable" data-datatable-action="diff" title="DIFF" data-title-lang-cd="stm8002.actionBtn.diffTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="diff" tabindex="2">
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" data-datatable-id="stm8002RevisionFileTable" data-datatable-action="diff" title="DIFF" data-title-lang-cd="stm8002.actionBtn.diffTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="diff" tabindex="2">
 									<i class="fas fa-code"></i><span data-lang-cd="stm8002.actionBtn.diffBtn">DIFF</span>
 								</button>
 							</div>
 						</div>
 					</div>
-					<div class="kt-portlet__body  kt-padding-10">
+					<div class="kt-portlet__body osl-min-h-px--520">
 						<!-- 파일목록 -->
 						<div class="kt_datatable osl-datatable-footer__divide" id="stm8002RevisionFileTable"></div>
 					</div>
@@ -140,7 +144,7 @@ var OSLStm8002Popup = function() {
 		//placeholder 세팅
 		$("#searchStNum").attr("placeholder",$.osl.lang("stm8002.placeholder.revision.start"));
 		$("#searchEdNum").attr("placeholder",$.osl.lang("stm8002.placeholder.revision.end"));
-			
+				
 		//strgRepId가 가진 저장소 유형, 저장소 url, 저장소 id/pw 또는 id/token 가져오기
 		getStrgRepInfo();
 
@@ -157,12 +161,12 @@ var OSLStm8002Popup = function() {
 							}
 						}
 					},
-					pageSize: 8
+					pageSize: 7
 				},
 				toolbar:{
 					items:{
 						pagination:{
-							pageSizeSelect : [8, 10, 20, 30, 50, 100],
+							pageSizeSelect : [7, 10, 20, 30, 50, 100],
 							pages:{
 								desktop: {
 									layout: 'default',
@@ -181,16 +185,15 @@ var OSLStm8002Popup = function() {
 					}
 				},
 				columns: [
-					{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+					{field: 'checkbox', title: '#', textAlign: 'center', width: 15, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 					{field: 'type', title: '유형', textAlign: 'center', width: 80, autoHide: false, sortable: false},
-					{field: 'name', title: '파일명', textAlign: 'left', width: 200, autoHide: false, search: true},
+					{field: 'name', title: '파일명', textAlign: 'left', width: 150, autoHide: false, search: true},
 				],
 				rows:{
 					clickCheckbox: true
 				},
 				actionBtn:{
 					"title": $.osl.lang("stm8002.revisionFile.actionTitle"),
-					"width": 30,
 					"insert" : false,
 					"update" : false,
 					"delete" : false,
@@ -223,6 +226,7 @@ var OSLStm8002Popup = function() {
 						if(type == "list"){
 							if(rowNum != 1){
 								$.osl.alert($.osl.lang("stm8002.revisionFile.message.diff", rowNum), {"type":"warning"});
+								return false;
 							}else{
 								rowData = rowDatas[0];
 							}
@@ -290,12 +294,12 @@ var OSLStm8002Popup = function() {
 							params : params
 						}
 					},
-					pageSize: 6,
+					pageSize: 7,
 				},
 				toolbar:{
 					items:{
 						pagination:{
-							pageSizeSelect : [6, 10, 20, 30, 50, 100],
+							pageSizeSelect : [7, 10, 20, 30, 50, 100],
 							pages:{
 								desktop: {
 									layout: 'default',

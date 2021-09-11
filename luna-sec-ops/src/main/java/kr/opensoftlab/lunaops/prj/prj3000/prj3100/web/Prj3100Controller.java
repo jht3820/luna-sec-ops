@@ -97,7 +97,7 @@ public class Prj3100Controller {
 	}
 	
 	
-   	@SuppressWarnings("unchecked")
+   	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/prj/prj3000/prj3100/insertPrj3100FormFileUploadAjax.do")
    	public ModelAndView insertPrj3100FormFileUploadAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
    		try {
@@ -173,7 +173,7 @@ public class Prj3100Controller {
    	}
    	
 	
-   	@SuppressWarnings({ "rawtypes", "unchecked" })
+   	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value ="/prj/prj3000/prj3100/selectPrj3100FileListAjax.do")
    	public ModelAndView selectPrj3100FileListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
    		try {
@@ -191,8 +191,6 @@ public class Prj3100Controller {
 			if(paramPrjId == null || "".equals(paramPrjId)) {
 				paramPrjId = (String) ss.getAttribute("selPrjId");
 			}
-			
-			String licGrpId = ((LoginVO) ss.getAttribute("loginVO")).getLicGrpId();
 			
 			paramMap.put("prjId", paramPrjId);
 			
@@ -319,8 +317,21 @@ public class Prj3100Controller {
    		try {
 			
    			
-           	Map<String, String> paramMap = RequestConvertor.requestParamToMap(request, true);
+           	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
    			
+           	
+         	HttpSession ss = request.getSession();
+           	
+           	
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("prjId", paramPrjId);
+           	
            	
         	prj3100Service.deletePrj3100File(paramMap);
         	
@@ -340,12 +351,13 @@ public class Prj3100Controller {
    	}
    	
    	
-   	@RequestMapping(value = "/prj/prj3000/prj3100/updatePrj3100FileTypeAjax.do")
+   	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/prj/prj3000/prj3100/updatePrj3100FileTypeAjax.do")
    	public ModelAndView updatePrj3100FileTypeAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception{
    		try {
 			
    			
-           	Map<String, String> paramMap = RequestConvertor.requestParamToMap(request, true);
+           	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
    			
            	
  			HttpSession ss = request.getSession();
@@ -594,10 +606,8 @@ public class Prj3100Controller {
 							in = new BufferedInputStream(new FileInputStream(uFile));
 							out = new BufferedOutputStream(response.getOutputStream());
 							
-							int copyCnt = FileCopyUtils.copy(in, out);
+							FileCopyUtils.copy(in, out);
 						
-							System.out.println(copyCnt);
-	
 							
 							out.flush();
 						} catch (IOException ex) {
@@ -649,6 +659,7 @@ public class Prj3100Controller {
 	
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/prj/prj3000/prj3100/selectPrj3100ZipDownload.do")
 	public String selectPrj3000ZipDownload(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		
@@ -806,7 +817,7 @@ public class Prj3100Controller {
 							in = new BufferedInputStream(new FileInputStream(uFile));
 							out = new BufferedOutputStream(response.getOutputStream());
 							
-							int copyCnt = FileCopyUtils.copy(in, out);
+							FileCopyUtils.copy(in, out);
 						
 							
 							out.flush();
@@ -890,7 +901,6 @@ public class Prj3100Controller {
         	
         	
         	model.addAttribute("fileCnt", formConfFileList.size());
-        	model.addAttribute("atchFileId", formConfFileList.get(0).getAtchFileId());
         	if(formConfFileList.size() == 1) {
         		model.addAttribute("fileSn", formConfFileList.get(0).getFileSn());
         	}
@@ -1065,10 +1075,8 @@ public class Prj3100Controller {
 							in = new BufferedInputStream(new FileInputStream(uFile));
 							out = new BufferedOutputStream(response.getOutputStream());
 							
-							int copyCnt = FileCopyUtils.copy(in, out);
+							FileCopyUtils.copy(in, out);
 						
-							System.out.println(copyCnt);
-	
 							
 							out.flush();
 						} catch (IOException ex) {
@@ -1095,7 +1103,7 @@ public class Prj3100Controller {
     			throw new UserDefineException(ude.getMessage());
     		}catch(Exception subE) {
     		
-    			Log.error("selectPrj3000MenuTreeZipDownload()", subE);
+    			Log.error("selectPrj3100SelectFileZipDownload()", subE);
     			str.append("<script>alert('"+egovMessageSource.getMessage("com.fail.file.select")+"');</script>");
     			
     			zipOut.close();
@@ -1105,7 +1113,7 @@ public class Prj3100Controller {
 		}catch(UserDefineException ude) {
 			str.append(ude.getMessage());
 		}catch(Exception e) {
-			Log.error("selectPrj3000MenuTreeZipDownload()", e);
+			Log.error("selectPrj3100SelectFileZipDownload()", e);
 			str.append("<script>alert('"+egovMessageSource.getMessage("com.fail.file.select")+"');</script>");
 		}
 		
@@ -1119,7 +1127,9 @@ public class Prj3100Controller {
 	}
 	
 	
-	@RequestMapping(value = "/prj/prj3000/prj3000/updatePrj3001SignAprAjax.do")
+	
+	
+	@RequestMapping(value = "/prj/prj3000/prj3100/updatePrj3001SignAprAjax.do")
 	public ModelAndView updatePrj3001SignAprAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
    		try {
 			
@@ -1146,16 +1156,16 @@ public class Prj3100Controller {
         	prj3100Service.updatePrj3001SignApr(paramMap);
 			
 			
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
 			return new ModelAndView("jsonView");
 				
            	
 		} catch (Exception ex) {
-			Log.error("selectPrj3100FormFileListAjax()", ex);
+			Log.error("updatePrj3001SignAprAjax()", ex);
 
        		
        		model.addAttribute("errorYn", "Y");
-       		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+       		model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
        		return new ModelAndView("jsonView");
 		}
    	}
@@ -1188,16 +1198,16 @@ public class Prj3100Controller {
         	prj3100Service.updatePrj3001SignRjt(paramMap);
 			
 			
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
 			return new ModelAndView("jsonView");
 				
            	
 		} catch (Exception ex) {
-			Log.error("selectPrj3100FormFileListAjax()", ex);
+			Log.error("updatePrj3001SignRjtAjax()", ex);
 
        		
        		model.addAttribute("errorYn", "Y");
-       		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+       		model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
        		return new ModelAndView("jsonView");
 		}
    	}

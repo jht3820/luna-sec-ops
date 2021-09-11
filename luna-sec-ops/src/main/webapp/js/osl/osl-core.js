@@ -107,14 +107,17 @@
 			var contentExist = $("#kt_content");
 			
 			
+			
+			
 			$(document).keydown(function(event) {
 				
 				
-				if($(document).find("#kt_login_form").length != 0){
+				if($("#kt_login_form").length != 0){
 					return;
 				}
 				
-				if($(document).find("#shortcutDiv").length != 0){
+				
+				if($("#shortcutAside").hasClass("active")){
 					return;
 				}
 				
@@ -134,6 +137,7 @@
 	        	
 				
 				var shortcut = new Array();
+				
 				if(event.ctrlKey){
 					shortcut.push("Ctrl");
 				}
@@ -143,6 +147,7 @@
 				if(event.altKey){
 					shortcut.push("Alt");
 				}
+				
 				shortcut.push(event.key.toUpperCase());
 				
 				shortcut = shortcut.join(" + ");
@@ -155,6 +160,7 @@
 				
 				$.each($.osl.user.shortcutList, function(index, item){
 					shortcutList.push(item.shortcut);
+					
 					if(item.shortcut == shortcut){
 						
 						if($(document).find(".modal-content").length != 0){
@@ -162,6 +168,7 @@
 								return;
 							}
 						}
+						
 						actionCd = item.actionCd;
 					}
 					
@@ -329,52 +336,6 @@
 					maxNumberOfFiles: 10,
 					minNumberOfFiles: 0,
 					allowedFileTypes: null,	
-					locale:Uppy.locales.ko_KR,
-					meta: {},
-					onBeforeUpload: $.noop,
-					onBeforeFileAdded: $.noop,
-				};
-				
-				
-				config = $.extend(true, defaultConfig, config);
-				
-				var targetObj = $("#"+targetId);
-				if(targetObj.length > 0){
-					rtnObject = Uppy.Core({
-						targetId: targetId,
-						autoProceed: config.autoProceed,
-						restrictions: {
-							maxFileSize: ((1024*1024)*parseInt(config.maxFileSize)),
-							maxNumberOfFiles: config.maxNumberOfFiles,
-							minNumberOfFiles: config.minNumberOfFiles,
-							allowedFileTypes: config.allowedFileTypes
-						},
-						locale:config.locale,
-						meta: config.meta,
-						onBeforeUpload: function(files){
-							return config.onBeforeUpload(files);
-						},
-						onBeforeFileAdded: function(currentFile, files){
-							
-							if(currentFile.source != "database" && config.fileReadonly){
-								$.osl.toastr($.osl.lang("file.error.fileReadonly"),{type:"warning"});
-								return false;
-							}
-							return config.onBeforeFileAdded(currentFile, files);
-						},
-						debug: config.debug,
-						logger: config.logger,
-						fileDownload: config.fileDownload
-					});
-					
-					rtnObject.use(Uppy.Dashboard, config);
-					rtnObject.use(Uppy.XHRUpload, { endpoint: config.url,formData: true });
-				}
-				
-				return rtnObject;
-			},
-			
-			
 			makeAtchfileId: function(callback){
 				
 				var ajaxObj = new $.osl.ajaxRequestAction(
@@ -2095,7 +2056,7 @@
 	        					paramPrjNm : $("#mainPrjNm").val(),
 	        			};
 	        			var options = {
-	        					modalTitle: $.osl.lang("cmm17000.title.search"),
+	        					modalTitle: $.osl.lang("cmm17000.title.searchPrj"),
 	        					closeConfirm: false,
 	        					modalSize:"xl",
 	        					callback:[{
@@ -2763,7 +2724,7 @@
 							}
 						}
 					}
-				}
+				};
 				
 				var ktDatatableTarget = $("#"+targetId);
 				if(ktDatatableTarget.length > 0){
@@ -2885,7 +2846,11 @@
 							
 							perpage: $.noop,
 							
-							gotoPage: $.noop
+							gotoPage: $.noop,
+							
+							onCheck: $.noop,
+							
+							unCheck: $.noop
 						}
 					};
 					
@@ -3302,6 +3267,15 @@
 					});
 					
 					
+					$(ktDatatableTarget).on("kt-datatable--on-check",function(evt,ids){
+						targetConfig.callback.onCheck(evt.target, ids, datatableInfo);
+					});
+					
+					$(ktDatatableTarget).on("kt-datatable--on-uncheck",function(evt,ids){
+						targetConfig.callback.unCheck(evt.target, ids, datatableInfo);
+					});
+					
+					
 					$(ktDatatableTarget).on("kt-datatable--on-sort",function(evt,data){
 						
 						if($.osl.isNull(datatableInfo.getColumnByField(data.field))){
@@ -3643,6 +3617,11 @@
 						+'</div>'
 					+'</div>';
 				
+				
+				if($.osl.isNull(cardContent) || cardContent.replace(/(\s*)/g, "") == ""){
+					returnStr = "";
+				}
+				
 				return returnStr;
 			}
 			
@@ -3656,19 +3635,21 @@
 			}
 			
 			,usrInfoPopup: function(paramUsrId){
-				var data = {paramUsrId: paramUsrId};
-				var options = {
-						autoHeight: false,
-						modalSize: "lg",
-						modalTitle: "사용자 정보",
-						keyboard: true,
-						closeConfirm: false,
-						class:{
-							body:"osl-padding-none"
-						}
-						
+				if(!$.osl.isNull(paramUsrId) && paramUsrId.replace(/(\s*)/g, "") != ""){
+					var data = {paramUsrId: paramUsrId};
+					var options = {
+							autoHeight: false,
+							modalSize: "lg",
+							modalTitle: "사용자 정보",
+							keyboard: true,
+							closeConfirm: false,
+							class:{
+								body:"osl-padding-none"
+							}
+					
 					};
-				$.osl.layerPopupOpen('/cmm/cmm8000/cmm8000/selectCmm8000View.do',data,options);
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6400View.do',data,options);
+				}
 			}
 			
 			,passwordValidate: function(inUsrId, inUsrPw){
