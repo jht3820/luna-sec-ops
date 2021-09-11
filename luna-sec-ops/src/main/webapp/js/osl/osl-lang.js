@@ -333,7 +333,7 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "선택",
 			},
 		},
-		cmm16000:{
+		cmm6206:{
 			title: "요구사항 선택"
 		},
 		dpl1100:{
