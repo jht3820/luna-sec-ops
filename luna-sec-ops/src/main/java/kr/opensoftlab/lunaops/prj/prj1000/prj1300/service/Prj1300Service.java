@@ -7,48 +7,47 @@ import java.util.Map;
 
 
 public interface Prj1300Service {
+	
+	@SuppressWarnings("rawtypes")
+	List selectPrj1300TemplateList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	Map selectPrj1300TemplateInfo(Map paramMap) throws Exception;	
+	
+	
+	String insertPrj1300PrjTemplateAjax(Map<String, String> paramMap) throws Exception;
+
+	
+	void updatePrj1300PrjTemplateAjax(Map<String, String> paramMap) throws Exception;
+
+	
+	void deletePrj1300PrjTemplateAjax(Map<String, String> paramMap) throws Exception;
+	
+	
 
 	
 	@SuppressWarnings("rawtypes")
-	List selectPrj1300PrjReqOptList(Map paramMap) throws Exception;
+	List selectPrj1302ItemList(Map paramMap) throws Exception;
 	
 	
 	@SuppressWarnings("rawtypes")
-	List selectPrj1300PrjProOptList(Map paramMap) throws Exception;
+	int selectPrj1302ItemListCnt(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	Map selectPrj1302ItemInfo(Map paramMap) throws Exception;	
+	
+	
+	String insertPrj1302ItemAjax(Map<String, String> paramMap) throws Exception;
 
 	
-	@SuppressWarnings("rawtypes")
-	Map selectPrj1300PrjProOptInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	int selectPrj1300PrjProOptCnt(Map paramMap) throws Exception;
+	void updatePrj1302ItemAjax(Map<String, String> paramMap) throws Exception;
 
 	
-	@SuppressWarnings("rawtypes")
-	void insertPrj1300PrjProOptInfo(Map paramMap) throws Exception;
+	void deletePrj1302ItemAjax(Map<String, String> paramMap) throws Exception;
 	
 	
 	@SuppressWarnings("rawtypes")
-	void updatePrj1300PrjPrpOptInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void deletePrj1300PrjProOptInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void deletePrj1300PrjProOptList(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void insertPrj1300PrjProOptValueInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void updatePrj1300PrjProOptValueInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	List selectPrj1300PrjProOptExistFileIdList(Map paramMap) throws Exception;
+	List selectPrj1302CommonCodeList(Map paramMap) throws Exception;
 }
