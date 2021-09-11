@@ -66,14 +66,8 @@ public class Stm2100ServiceImpl extends EgovAbstractServiceImpl implements Stm21
 
 	
 	@SuppressWarnings({ "rawtypes" })
-	public List<Map> selectStm2100BadGrpList(Map<String, String> paramMap) throws Exception {
-		return stm2100DAO.selectStm2100BadGrpList(paramMap);
-	}
-
-	
-	@SuppressWarnings({"rawtypes" })
-	public List<Map> selectStm2100BadUsrList(Map<String, String> paramMap) throws Exception {
-		return stm2100DAO.selectStm2100BadUsrList(paramMap);
+	public List<Map> selectStm2100LicAllAuthAndUserList(Map<String, String> paramMap) throws Exception {
+		return stm2100DAO.selectStm2100LicAllAuthAndUserList(paramMap);
 	}
 
 	
@@ -81,16 +75,14 @@ public class Stm2100ServiceImpl extends EgovAbstractServiceImpl implements Stm21
 	public void updateStm2100BadOptions(Map<String, String> paramMap) throws Exception{
 
 		
-		String str = paramMap.get("stmAdmList");
-		str = str.replace("managerNum", "stmAdminCd");
-		str = str.replace("managerId", "stmAdminId");
-		str = str.replace("managerPrjId", "prjId");
+		String str = (String) paramMap.get("stmAdmList");
+		str = str.replace("authTypeCd", "stmAdminCd");
+		str = str.replace("authTargetId", "stmAdminId");
 		paramMap.put("stmAdmList", str);
 		
-		str = paramMap.get("stmWtList");
-		str = str.replace("managerNum", "stmWtCd");
-		str = str.replace("managerId", "stmWtId");
-		str = str.replace("managerPrjId", "prjId");
+		str = (String) paramMap.get("stmWtList");
+		str = str.replace("authTypeCd", "stmWtCd");
+		str = str.replace("authTargetId", "stmWtId");
 		paramMap.put("stmWtList", str);
 		
 		
@@ -116,8 +108,7 @@ public class Stm2100ServiceImpl extends EgovAbstractServiceImpl implements Stm21
 		
 		jsonArray = (JSONArray) jsonParser.parse(listStr);
 	
-		for(int i=0; i<jsonArray.size(); i++)
-		{
+		for(int i=0; i<jsonArray.size(); i++){
 			jsonObj = (JSONObject) jsonArray.get(i);
 			
 			

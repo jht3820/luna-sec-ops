@@ -11,11 +11,18 @@
 				<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="stm8004.title">파일 리비전 목록</span>
 			</h5>
 		</div>
+	</div>
+	<div class="kt-portlet__head">
+		<div class="kt-portlet__head-label kt-portlet__head--lg">
+			<h6 class="kt-font-boldest kt-font-brand kt-margin-r-20">
+				리비전 번호
+			</h6>
+			<input type="text" class="osl-outline--secondary rounded kt-margin-r-10 kt-padding-10 osl-w-px-80 osl-h-px-35" placeholder="시작" authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchStNum" name="searchStNum" value="${param.searchStNum}">
+			<span class="osl-h-px-38 osl-line-height--38 font-weight-bolder">&nbsp;-&nbsp;</span>
+			<input type="text" class="osl-outline--secondary rounded kt-margin-l-10 kt-padding-10 osl-w-px-80 osl-h-px-35" placeholder="종료"  authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchEdNum" name="searchEdNum" value="${param.searchEdNum}">
+		</div>
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-group">
-				<input type="text" class="osl-outline--secondary rounded col-lg-3 col-md-3 col-sm-3 col-3" placeholder="시작" authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchStNum" name="searchStNum" value="${param.searchStNum}">
-				<span class="osl-h-px-38 osl-line-height__width-38">&nbsp;-&nbsp;</span>
-				<input type="text" class="osl-outline--secondary rounded col-lg-3 col-md-3 col-sm-3 col-3" placeholder="종료"  authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchEdNum" name="searchEdNum" value="${param.searchEdNum}">
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8004FileTable" data-datatable-action="select" title="파일 리비전 조회" data-title-lang-cd="stm8004.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 				</button>

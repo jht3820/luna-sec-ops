@@ -3,7 +3,6 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <div class="kt-portlet kt-portlet--mobile">
 	<div class="kt-portlet__head kt-portlet__head--lg">
@@ -14,9 +13,6 @@
 		</div>
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-wrapper">
-				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-chart-id="drawChart0" data-chart-action="select" title="test" data-title-lang-cd="stm2100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회testspan>
-				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm2100StmTable" data-datatable-action="select" title="게시판 조회" data-title-lang-cd="stm2100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 				</button>
@@ -123,6 +119,7 @@
 						$.osl.layerPopupOpen('/stm/stm2000/stm2100/selectStm2101View.do',data,options);
 					}else{
 						$.osl.alert($.osl.lang("stm2100.notAuthority"), {"type":"warning"});
+						return false;
 					}
 				},
 				"detail":function(rowDatas, datatableId, type, rowNum){
@@ -225,24 +222,24 @@
 	 				
 	 				//카드형 내 수정 버튼 클릭 시
 	 				$(".updateBtn").click(function(){
-	 					var item =$(this).parent().parent();
+	 					var item =$(this).parents(".osl-bad__card-body").siblings(".stmInfoDiv");
 	 					var data = {
 								type: "update",
-								menuId: item.data("menuId"),
-								stmTypeCd: item.data("stmTypeCd"),
-								stmNm: item.data("stmName"),
-								stmDsTypeCd : item.data("stmDsTypeCd"),
+								menuId: $(item).data("menuId"),
+								stmTypeCd: $(item).data("stmTypeCd"),
+								stmNm: $(item).data("stmName"),
+								stmDsTypeCd : $(item).data("stmDsTypeCd"),
 							};
 						var options = {
-								idKey: item.data("menuId"),
-								modalTitle: "[ "+item.data("stmName")+ " ] "+$.osl.lang("stm2100.title.updateTitle"),
+								idKey: $(item).data("menuId"),
+								modalTitle: "[ "+$(item).data("stmName")+ " ] "+$.osl.lang("stm2100.title.updateTitle"),
 								closeConfirm: false,
 								modalSize: "xl",
 								autoHeight: false,
 								backdrop: "static",
 							};
 						
-						checkUser(item.data("menuId"), item.data("stmDsTypeCd"));
+						checkUser($(item).data("menuId"), $(item).data("stmDsTypeCd"));
 						if(okManager == true){
 							$.osl.layerPopupOpen('/stm/stm2000/stm2100/selectStm2101View.do',data,options);
 						}else{
@@ -251,24 +248,23 @@
 	 				});
 	 				//카드형 내 관리 버튼 클릭 시
 	 				$(".settingBtn").click(function(){
-	 					var item = $(this).parent().parent();
-	 					
+	 					var item =$(this).parents(".osl-bad__card-body").siblings(".stmInfoDiv");
 	 					var data = {
-								menuId: item.data("menuId"),
-								stmTypeCd: item.data("stmTypeCd"),
-								stmNm: item.data("stmName"),
+								menuId: $(item).data("menuId"),
+								stmTypeCd: $(item).data("stmTypeCd"),
+								stmNm: $(item).data("stmName"),
 								//시스템 게시판에서 접근 시 라이센스 범위로 보기 위해 01로 지정
 								stmDsTypeCd : "01",
 								stmRootYn : "Y",
 							};
 						var options = {
-								idKey: "bad_"+ item.data("menId"),
-								modalTitle:"[ "+ item.data("stmName") +" ] "+$.osl.lang("stm2100.title.detailTitle"),
+								idKey: "bad_"+ $(item).data("menId"),
+								modalTitle:"[ "+ $(item).data("stmName") +" ] "+$.osl.lang("stm2100.title.detailTitle"),
 								closeConfirm: false,
 								modalSize: "fs",
 								autoHeight: false,
 							};
-						checkUser(item.data("menuId"), item.data("stmDsTypeCd"));
+						checkUser($(item).data("menuId"), $(item).data("stmDsTypeCd"));
 						if(okManager == true || okWriter == true){
 							if(item.data("stmTypeCd") == "01" || item.data("stmTypeCd") == "02"){
 								$.osl.layerPopupOpen('/bad/bad1000/bad1000/selectBad1000View.do',data,options);
@@ -287,15 +283,15 @@
 					//그 외 담당자 수 클릭 시
 					$(".otherBadChargerList").click(function(){
 						//새로운 팝업창 만들기 - 담당자 전체 리스트 출력
-						var item =$(this).parent().parent().parent().parent().parent();
+						var item =$(this).parents(".stmInfoDiv");
+						
 						var data = {
-								menuId : item.data("menuId"),
+								menuId : $(item).data("menuId"),
 						};
 						var options = {
-								idKey: "charger_"+ item.data("menId"),
-								modalTitle:"[ "+ $.osl.escapeHtml(item.data("stmName")) +" ] "+$.osl.lang("stm2100.title.chargerTitle"),
+								idKey: "charger_"+ $(item).data("menId"),
+								modalTitle:"[ "+ $.osl.escapeHtml($(item).data("stmName")) +" ] "+$.osl.lang("stm2100.title.chargerTitle"),
 								modalSize : "md",
-								closeConfirm: true,
 								autoHeight: false,
 						};
 						$.osl.layerPopupOpen('/stm/stm2000/stm2100/selectStm2103View.do',data,options);
@@ -371,7 +367,7 @@
 						
 						resultStr += "<div class='row kt-padding-10'>"
 				 						+ "<div class='kt-portlet kt-portlet--mobile'>"
-			 								+ "<div class='col-12'>"
+			 								+ "<div class='col-12 stmInfoDiv' data-menu-id='"+row.menuId+"' data-stm-type-cd='"+row.stmTypeCd+"' data-stm-name='"+$.osl.escapeHtml(row.stmNm)+"' data-stm-ds-type-cd='"+row.stmDsTypeCd+"'>"
 					 							+ "<div class='kt-portlet__head kt-portlet__head--lg'>"
 					 								+ "<div class='kt-portlet__head-label'>"
 					 									+ "<label class='kt-checkbox kt-checkbox--single kt-checkbox--solid'>"
@@ -401,10 +397,10 @@
 			 											if(index < 6){
 			 												//담당자가 5 이하일 때
 			 												//권한그룹인경우
-				 											if(value.stmAdminCd=="01"){
-				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.prjGrpNm)+" "+$.osl.escapeHtml(value.authGrpNm)+"' data-original-title='"+$.osl.escapeHtml(value.prjGrpNm)+" "+$.osl.escapeHtml(value.authGrpNm)+"'><span><i class='fa flaticon2-group kt-font-bold'></i></span></a>";
+				 											if(value.authTypeCd=="01"){
+				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")'><span><i class='fa flaticon2-group kt-font-bold'></i></span></a>";
 				 											}else{//사용자인경우
-				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle badChargerList' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.usrNm)+"' data-original-title='"+$.osl.escapeHtml(value.usrNm)+"' data-user='"+value.stmAdminId+"'><img src='/cmm/fms/getImage.do?fileSn=0&atchFileId="+value.usrImgId+"'></a>";
+				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle badChargerList' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-user='"+value.authTargetId+"'><img src='/cmm/fms/getImage.do?fileSn=0&atchFileId="+value.authTargetImgId+"'></a>";
 				 											}
 			 												//남은 사용자 수
 				 											lastCount = badChargerList.length - (index+1);
@@ -590,7 +586,7 @@
 								 					resultStr += "</div>" //첨부파일 끝
 															+ "</div>" //첨부파일 끝
 															//수정 관리 버튼 영역
-															+ "<div class='row kt-padding-t-15 kt-padding-b-15 kt-align-right'  data-menu-id='"+row.menuId+"' data-stm-type-cd='"+row.stmTypeCd+"' data-stm-name='"+$.osl.escapeHtml(row.stmNm)+"' data-stm-ds-type-cd='"+row.stmDsTypeCd+"'>"
+															+ "<div class='row kt-padding-t-15 kt-padding-b-15 kt-align-right'>"
 																+ "<div class='col-12 kt-padding-0'>"
 																	+ "<button type='button' class='btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air updateBtn' data-datatable-action='update' title='"+$.osl.lang("stm2100.actionBtn.updateTooltip")+"' data-title-lang-cd='stm2100.actionBtn.updateTooltip' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' data-auth-button='update'>"
 																		+ "<i class='fa fa-edit'></i>"
@@ -621,21 +617,29 @@
 		 */
 		 var drawChart = function(index, menuId){
 			 var chart = $.osl.chart.setting("apex","drawChart"+index,{
+				//차트 데이터 설정
 				data:{
+					//ajax 조회 url
 					url: "<c:url value='/stm/stm2000/stm2100/selectStm2102BadSummeryChartInfoAjax.do'/>",
+					//파라미터
 					param:{
 						 menuId : menuId,
+						 //차트 데이터 키값
 						 key: {
 							 key1: "totalNewCnt",
 							 key2: "delCnt",
 						 },
+						 //차트 데이터 키 명칭
 						 keyNm:{
 							 keyNm1: $.osl.lang("stm2100.chart.deletePost"),
 							 keyNm2: $.osl.lang("stm2100.chart.newPost"),
 						 },
+						 //x축 키값
 						 xKey:"chartDate",
-						 chartType:"area",
-					 }
+						 //차트 타입
+						 chartType:"area"
+					 },
+					 type: "remote"
 				},
 				chart:{
 					//라인 색상

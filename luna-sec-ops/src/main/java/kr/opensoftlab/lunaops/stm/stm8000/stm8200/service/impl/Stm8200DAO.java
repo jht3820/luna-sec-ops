@@ -18,6 +18,12 @@ public class Stm8200DAO extends ComOslitsAbstractDAO {
 	}
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectStm8200PrjAllAuthAndUserList(Map paramMap) throws Exception {
+		return  (List<Map>) list("stm8200DAO.selectStm8200PrjAllAuthAndUserList", paramMap);
+	}
+	
+	
 	@SuppressWarnings("rawtypes")
 	public void insertStm8200RevisionAuthInfo(Map paramMap) throws Exception {
 		insert("stm8200DAO.insertStm8200RevisionAuthInfo", paramMap);

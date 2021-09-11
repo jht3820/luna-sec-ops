@@ -48,6 +48,11 @@
     -ms-flex: 1 0 0px;
     min-width: 0;
 }
+.kt-user-card-v2{
+	display: -webkit-inline-box !important;
+  	display: -ms-inline-flexbox !important;
+	display: inline-flex !important;
+}
 /* 폰트 지정 */
 body {
   font-family: "Poppins", "Nanum Gothic";
@@ -173,6 +178,9 @@ input:-webkit-autofill,
 .osl-min-h-px--30 {
   min-height: 30px !important; 
 }
+.osl-h-px-35{
+	height: 35px;
+}
 .osl-h-px-38{
 	height: 38px;
 }
@@ -221,11 +229,20 @@ input:-webkit-autofill,
 .osl-min-h-px-imp--415{
   min-height: 415px !important;  
 }
+.osl-min-h-px--470 {
+  min-height: 470px; 
+}
 .osl-min-h-px--490 {
   min-height: 490px; 
 }
+.osl-min-h-px--520 {
+  min-height: 520px; 
+}
 .osl-min-h-px--575 {
   min-height: 575px; 
+}
+.osl-min-h-px--580 {
+  min-height: 580px; 
 }
 .osl-max-h-px--590 {
   min-height: 590px !important; 
@@ -260,8 +277,9 @@ input:-webkit-autofill,
 
 /*percent*/
 .osl-height--100-p{
-	height: 100%;
+	height: 100% !important;
 }
+
 
 
 /* 가로 값 */
@@ -306,7 +324,7 @@ input:-webkit-autofill,
 }
 
 /* line-height */
-.osl-line-height__width-38{
+.osl-line-height--38{
 	line-height: 38px;
 }
 
@@ -322,7 +340,9 @@ input:-webkit-autofill,
 .osl-cursor-pointer{
 	cursor: pointer;
 }
-
+.kt-switch > label {
+    margin-bottom: 0;
+}
 .osl-contents-frame {
     background: #23241f;
     color: #f8f8f2;
@@ -1796,7 +1816,13 @@ label.required:after {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
-/*단계 탭 전체 div, 기본 4단계*/
+.osl-wizard__nav-items.osl-wizard__nav-items--clickable {
+    cursor: pointer;
+}
+.osl-wizard .osl-wizard__nav .osl-wizard__nav-items.osl-wizard__nav-items--clickable .osl-wizard__nav-item:hover {
+    background-color: #fff;
+}
+/*단계 탭 전체 div*/
 .osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1810,19 +1836,19 @@ label.required:after {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 calc(25% - 0.25rem);
-    flex: 0 0 calc(25% - 0.25rem);
-    width: calc(25% - 0.25rem);
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
     height: 100px;
+    margin:0 5px;
     background-color: #F3F6F9;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
 }
-/*단계 탭 전체 div - 3단계시 사용*/
-.osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item.osl-wizard__nav-item_3{
-    -ms-flex: 0 0 calc(33.33% - 0.25rem);
-    flex: 0 0 calc(33.33% - 0.25rem);
-    width: calc(33.33% - 0.25rem);
+.osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item:first-child {
+    margin-left: 0;
+}
+.osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item:last-child {
+    margin-right: 0;
 }
 /*활성화 : 단계 탭 전체 div*/
 .osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item[data-ktwizard-state="current"] {
@@ -2091,15 +2117,12 @@ label.required:after {
 	.osl-h-px--500 {
 	  height: 500px; 
 	}
-}
 
-@media (max-width: 1399.98px){
-	/*단계 탭 전체 div, 1399,98이하*/
 	.osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item {
 	    -webkit-box-flex: 0;
 	    -ms-flex: 0 0 calc(50% - 0.25rem);
-	    flex: 0 0 calc(50% - 0.25rem);
-	    width: calc(50% - 0.25rem);
+	    flex: 1 0 auto;
+	    width: auto;
 	    border-bottom-left-radius: 0.5rem;
 	    border-bottom-right-radius: 0.5rem;
 	    margin-bottom: 0.5rem;
@@ -2117,6 +2140,7 @@ label.required:after {
 	    flex: 0 0 100% !important;
 	    position: relative;
 	    width: 100% !important;
+	    margin: 0 !important;
 	}
 	/* inbox */
 	.kt-inbox .kt-inbox__icon.osl-inbox__aside-menu-bar{
@@ -2422,6 +2446,12 @@ label.required:after {
 		font-family: "Font Awesome 5 Free";
 		content: "\f078";
 	}
+	.osl-flex-flow--column-tablet{
+		flex-flow: column;
+	}
+	.osl-float-left-tablet{
+		float: left;
+	}
 }
 @media (max-width:1023px){
 	.kt-timeline__item.osl-timeline-item-left .osl-timeline-content,
@@ -2514,6 +2544,9 @@ label.required:after {
 	}
 	.osl-uppy__left{
 		float: right;
+	}
+	.osl-flex-flow--column-mobile{
+		flex-flow: column;
 	}
 }
 

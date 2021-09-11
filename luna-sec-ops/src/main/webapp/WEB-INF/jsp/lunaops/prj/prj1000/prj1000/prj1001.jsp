@@ -469,27 +469,39 @@ var OSLPrj1001Popup = function () {
 					$("#prj1001CardTable").html(prjGrpStr);
 					//프로젝트 요구사항 차트 데이터 세팅
 					$.each(Object.keys(chartDataMap), function(idx, loopPrjId){
+						//차트 생성 param(차트종류, 타겟ID #제외, 설정)
 						var chart = $.osl.chart.setting("apex","chart_"+loopPrjId, {
 							data:{
+								//파라메터
 								param:{
+									//차트 데이터
 									dataArr: chartDataMap[loopPrjId],
+									//y축 키
 									yKey: "reqProType",
+									//차트 데이터 키값
 									key:{
 										key1:"reqProTypeNm",
 										key2:"reqId",
 										key3:"reqNm",
 										key4:"reqOrd",
 									},
+									//차트 타입
 									chartType:"heatmap"
-								}
+								},
+								//데이터 타입 remote, local
+								type: "local"
 							},
 							chart: {
+								//툴바 표시 여부
 								toolbar:{show:false},
+								//차트 높이
 								height: 195,
+								//차트 타이틀, 타이틀 위치
 								title:{
 									text: "처리유형별 요구사항",
 									align: "center",
 								},
+								//차트 데이터 툴팁
 								tooltip: {
 									custom: function(data) {
 										var series = data.series;
@@ -504,19 +516,26 @@ var OSLPrj1001Popup = function () {
 									}
 								},
 								option:{
+									//heatMap 설정
 									heatmap:{
 							            colorScale:{
 											ranges:[
+												//ykey 값이 1인 경우 색상, 명칭
 												{from: 1,to: 1,color: "#9fd1f2", name:"접수 요청"},
+												//ykey 값이 2인 경우 색상, 명칭
 												{from: 2,to: 2,color: "#5867dd", name:"진행 중"},
+												//ykey 값이 3인 경우 색상, 명칭
 												{from: 3,to: 3,color: "#FFB200", name:"접수 반려"},
+												//ykey 값이 4~6인 경우 색상, 명칭
 												{from: 4,to: 6,color: "#fd397a", name:"완료"},
 											]
 										}
 									}
 								},
 							},
+							//사용자 정의 이벤트
 							actionFn:{
+								//차트 데이터 클릭시 이벤트
 								"click": function(event, chartContext, config) {
 									console.log(event);
 									console.log(chartContext);

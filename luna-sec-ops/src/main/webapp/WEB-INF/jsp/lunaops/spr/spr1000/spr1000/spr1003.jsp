@@ -13,7 +13,7 @@
 		<div class="osl-wizard" id="kt_wizard_v3" data-ktwizard-state="step-first">
 			<!--begin: Form Wizard Nav -->
 			<div class="osl-wizard__nav">
-				<div class="osl-wizard__nav-items osl-wizard__nav-items--clickable">
+				<div class="osl-wizard__nav-items">
 					<!--begin: 1.회의록 작성 -->
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step" data-ktwizard-state="current">
 						<div class="osl-wizard-wrapper">

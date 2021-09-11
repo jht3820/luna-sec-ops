@@ -160,6 +160,10 @@ var OSLSpr1000Popup = function () {
 				},
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
 					var data = {
+							paramSprId:rowData.sprId,
+							paramSprStDt:rowData.sprStDt,
+							paramSprEdDt:rowData.sprEdDt,
+							paramSprDesc:rowData.sprDesc
 						};
 					
 					var options = {
@@ -169,6 +173,7 @@ var OSLSpr1000Popup = function () {
 							closeConfirm: false,
 							modalTitle: "스프린트 상세정보",
 						};
+					
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1001View.do',data,options);
 				},
 				//스프린트 시작

@@ -67,7 +67,7 @@
 					<div class="kt-portlet__head kt-portlet__head--lg">
 						<div class="kt-portlet__head-label">
 							<h5 class="kt-font-boldest kt-font-brand">
-								<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 담당 목록
+								<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 담당 목록 <label class="require"></label>
 							</h5>
 						</div>
 						<div class="kt-portlet__head-toolbar">
@@ -164,6 +164,13 @@ var OSLPrj1101Popup = function () {
     		if (!form.valid()) {
     			return;
     		}
+    		
+    		var authUsrList = $.osl.datatable.list["prj1101ProcessAuthUsrTable"].targetDt.originalDataSet;
+    		if($.osl.isNull(authUsrList) || authUsrList.length == 0){
+    			$.osl.alert("프로세스 기본 담당자는 필수 입니다.",{type: "warning"});
+    			return false;
+    		}
+    		
     		$.osl.confirm($.osl.lang("prj1101."+type+".saveString"),null,function(result) {
     	        if (result.value) {
     	        	//프로세스 저장
