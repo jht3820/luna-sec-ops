@@ -744,7 +744,7 @@ var OSLReq4101Popup = function () {
 						}
 					}]
     		};
-    		$.osl.layerPopupOpen('/cmm/cmm10000/cmm15000/selectCmm15000View.do',data,options);
+    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
     	});
     	
     	//그룹요구사항명 검색버튼 클릭 시
