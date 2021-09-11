@@ -38,6 +38,12 @@ public class Cmm6400Controller {
 	private Stm3000Service stm3000Service;
 	
 	
+	@RequestMapping(value="/cmm/cmm6000/cmm6400/selectCmm6400View.do")
+	public String selectCmm6400View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+			return "/cmm/cmm6000/cmm6400/cmm6400";
+	}
+	
+	
 	@RequestMapping(value="/cmm/cmm6000/cmm6400/selectCmm6401View.do")
 	public String selectCmm6401View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 			return "/cmm/cmm6000/cmm6400/cmm6401";
