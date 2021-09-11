@@ -5,6 +5,7 @@
 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 
+	
 	<resultMap id="resultMapDefaultStm6000" class="HashMap">
 		<result property="licGrpId" column="LIC_GRP_ID" />
 		<result property="deptId" column="DEPT_ID" />
@@ -23,12 +24,39 @@
 		<result property="modifyUsrIp" column="MODIFY_USR_IP" />
 	</resultMap>
 
+    
     <resultMap id="resultMapselectStm6000DeptInfo" extends="resultMapDefaultStm6000" class="HashMap">
 		<result property="upperDeptNm" column="UPPER_DEPT_NM" />
 		<result property="useNm" column="USE_NM" />
 	</resultMap>
 
 
+	<!-- 
+	         조직목록 조회
+	   : UNION을 기준으로 위쪽은 최상위 및 1뎁스 이하의 조직을 조회하고, 아래쪽은 검색 조건이 있을경우 검색 조건에 해당하는 조직을 계층으로 조회한다.
+	 
+	   1. 전체검색일 경우 ROOT 및 1뎁스 조회
+	   <isEqual property="searchSelect" compareValue="all">
+       		<![CDATA[
+	        	AND lvl < 2
+	        ]]>
+       	</isEqual>
+       	
+       2. 전체검색이 아닐 경우 ROOT만 조회 : 검색결과가 없을 경우 ROOT만 표시하기 위해
+       	<isNotEqual property="searchSelect" compareValue="all">
+       		<![CDATA[
+	        	AND lvl < 1
+	        ]]>
+       	</isNotEqual>	
+       	
+       	3. 조직검색 공통팝업에서 조직 검색시 사용유무가 사용인 조직목록만 조회한다.
+       	<isNotEmpty property="viewType">
+			<isEqual property="viewType" compareValue="cmm1200" >
+				AND B.USE_CD = '01'
+			</isEqual>
+		</isNotEmpty> 
+	
+	 -->
 	<sql id="selectStm6000DeptList">
 		SELECT 		
 				T.* 
@@ -92,7 +120,7 @@
 							WHERE 1=1
 							AND	B.LIC_GRP_ID = #licGrpId#
 						    <isNotEmpty property="viewType">
-								<isEqual property="viewType" compareValue="cmm1200" >
+								<isEqual property="viewType" compareValue="cmm6500" >
 									AND B.USE_CD = '01' 
 								</isEqual>
 							</isNotEmpty> 
@@ -112,7 +140,9 @@
       	ORDER BY T.ORD ASC, T.REG_DTM ASC
 	</sql>
 
+	
     <select id="stm6000DAO.selectStm6000DeptList" parameterClass="java.util.Map" resultMap="resultMapDefaultStm6000">
+	    
 		SELECT *
 		FROM
 			(
@@ -121,7 +151,18 @@
     </select>
     
     
+    <!-- 조직 목록 가져오기(동적 zTree) : 선택한 조직의 하위 조직 목록을 조회한다.
+    
+        1. 조직 공통팝업에서 하위 조직목록을 조회할 때 해당 부분이 실행된다.
+           - 사용유무가 사용(01)인 조직만 조회한다. 
+        <isNotEmpty property="viewType">
+			<isEqual property="viewType" compareValue="cmm1200" >
+				AND A.USE_CD = '01'
+			</isEqual>
+		</isNotEmpty>
+     -->
     <select id="stm6000DAO.selectStm6000SubDeptList" parameterClass="java.util.Map" resultClass="egovMap">
+	    
 		SELECT
 				A.LIC_GRP_ID
 			,	A.DEPT_ID
@@ -151,10 +192,10 @@
     </select>
     
 	
-	<!-- 조직 정보 가져오기(단건)-->
+	
 	<select id="stm6000DAO.selectStm6000DeptInfo" parameterClass="java.util.Map" resultMap="resultMapselectStm6000DeptInfo">
 		<![CDATA[ 
-			/* stm6000DAO.selectStm6000DeptInfo - 조직 정보 가져오기(단건) */
+			
 			SELECT	
 					LIC_GRP_ID
 				,	DEPT_ID
@@ -181,11 +222,11 @@
 	</select>
 	
 	
-	<!-- 조직 루트디렉토리 생성-->
+	
 	<insert id="stm6000DAO.insertStm6000RootDeptInfo" parameterClass="java.util.Map">
 		<selectKey resultClass="java.lang.String" keyProperty="newDeptId">
 		<![CDATA[
-			/* stm6000DAO.insertStm6000RootMenu - 신규 조직 등록(ROOT DEPT_ID 따기)*/ 
+			 
 			SELECT	NVL( 
 							SUBSTR(NEW_DEPT_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_DEPT_ID, 12, 5)) + 1) , 5, '0')
 						,	'DPT' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
@@ -200,7 +241,7 @@
 		]]>
 		</selectKey>
 		<![CDATA[ 
-			/* stm6000DAO.insertStm6000RootMenu - 조직 루트디렉토리 생성  */
+			
 			INSERT INTO STM6000 A
 			(
 					LIC_GRP_ID			,	DEPT_ID  			,	UPPER_DEPT_ID  		,	DEPT_NAME
@@ -218,9 +259,9 @@
 		]]>
 	</insert>
 	
-	<!-- 조직 등록 시 등록된 조직의 다음 순번을 가져온다. -->
+	
 	<select id="stm6000DAO.selectStm6000DeptNextOrd"  parameterClass="java.util.Map" resultClass="java.lang.Integer">
-		/* stm6000DAO.selectStm6000DeptNextOrd - 조직 등록 시 등록된 조직의 다음 순번을 가져온다. (조직 등록 팝업에 사용) */
+		
 		SELECT NVL(MAX(ORD), 0) + 1 AS NEX_ORD
         FROM STM6000 
         WHERE 1=1 
@@ -228,11 +269,11 @@
         AND UPPER_DEPT_ID = #upperDeptId#
     </select>
 	
-	<!-- 신규 조직 등록 -->
+	
 	<insert id="stm6000DAO.insertStm6000DeptInfo" parameterClass="java.util.Map">
 		<selectKey resultClass="java.lang.String" keyProperty="newDeptId">
 		<![CDATA[
-			/* stm6000DAO.insertStm6000RootMenu - 신규 조직 등록(새로운 DEPT_ID 따기)*/ 
+			 
 			SELECT	NVL( 
 							SUBSTR(NEW_DEPT_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_DEPT_ID, 12, 5)) + 1) , 5, '0')
 						,	'DPT' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
@@ -247,7 +288,7 @@
 		]]>
 		</selectKey>
 		<![CDATA[ 
-			/* stm6000DAO.insertStm6000DeptInfo - 신규 조직 등록  */
+			
 			INSERT INTO STM6000 A
 			(
 					LIC_GRP_ID			,	DEPT_ID  			,	UPPER_DEPT_ID  		,	DEPT_NAME
@@ -266,10 +307,10 @@
 	</insert>
 	
 	
-	<!-- 선택한 조직 정보 수정(단건) -->
+	
 	<update id="stm6000DAO.updateStm6000DpteInfo" parameterClass="java.util.Map">
 	<![CDATA[
-		/* stm6000DAO.updateStm6000DpteInfo - 선택한 조직 정보 수정 */
+		
 		UPDATE	STM6000 A
         SET		A.UPPER_DEPT_ID		= #upperDeptId#
         	,	A.DEPT_NAME			= #deptName#
@@ -287,9 +328,9 @@
 	</update>
 	
 	
-	<!-- 조직에 사용자가 배정되어있는지 체크 : 조직 삭제 시 사용자가 배정된 조직 확인을 위해 사용 -->
+	
 	<select id="stm6000DAO.selectStm6000ExistUsrInDept" parameterClass="java.util.Map" resultClass="java.lang.Integer">
-		/* stm6000DAO.selectStm6000ExistUsrInDept 조직에 사용자가 배정되어있는지 체크 : 조직 삭제 시 사용자가 배정된 조직 확인을 위해 사용  */
+		
 		<![CDATA[
 			SELECT COUNT(*) AS CNT
 		    FROM STM3000 A
@@ -299,10 +340,10 @@
 		]]>
 	</select>
 	
-	<!-- 선택한 조직 정보 삭제 -->
+	
 	<delete id="stm6000DAO.deleteStm6000DeptInfo" parameterClass="java.util.Map">
 	<![CDATA[
-		/* stm6000DAO.deleteStm6000DeptInfo - 선택한 조직 정보 삭제 */
+		
         DELETE FROM STM6000 A
 		WHERE 1=1
 		AND	A.LIC_GRP_ID = #licGrpId#
@@ -310,13 +351,10 @@
 	]]>
 	</delete>
 	
-	<!-- 조직 공통팝업 호출 전 검색하려는 조직목록을 찾는다. 검색된 조직이 1개일 경우 조직 ID, 상위조직을 포함한 조직명을 화면에 세팅한다 -->
+	
 	<select id="stm6000DAO.selectStm6000BeforeCmmDeptList" parameterClass="java.util.Map" resultClass="egovMap">
 		<![CDATA[ 
-			/* 
-			 *	stm6000DAO.selectStm6000BeforeCmmDeptList - 조직 공통팝업 호출 전 검색하려는 조직목록 검색
-			 *  검색된 조직이 1개일 경우 조직 ID, 상위조직을 포함한 조직명을 화면에 세팅
-			 */
+			
 			SELECT	
 	      			A.DEPT_ID
 	      		, 	SUBSTR(SYS_CONNECT_BY_PATH ( A.DEPT_NAME, ' > '), 4) AS DEPT_NAME
@@ -336,9 +374,9 @@
 	</select>
 	
 	
-	<!-- 해당 조직ID가 있는지 체크 -->
+	
 	<select id="stm6000DAO.selectStm6000ExistDeptChk" parameterClass="java.util.Map" resultClass="int">
-		/* stm6000DAO.selectStm6000ExistDeptChk 해당 조직ID가 있는지 체크 */
+		
 		<![CDATA[ 
 			SELECT	COUNT(*) AS CNT
 			FROM	STM6000 A
@@ -374,7 +412,7 @@
 	
 	-->
     <select id="stm6000DAO.selectStm6000NormalDeptList" parameterClass="java.util.Map" resultMap="resultMapDefaultStm6000">
-	    /*  stm6000DAO.selectStm6000NormalDeptList - 조직 목록 조회   */
+	    
 		SELECT T.* FROM
 		(
         	SELECT
@@ -398,7 +436,7 @@
 			AND	A.LIC_GRP_ID = #licGrpId#
 			<isNotEmpty property="viewType">
 				<isEqual property="viewType" compareValue="cmm1200" >
-					AND A.USE_CD = '01' /* 사용유무가 사용인 조직만 조회 */
+					AND A.USE_CD = '01' 
 					<isNotEmpty property="searchDeptNm">
 						AND A.DEPT_NAME LIKE '%'||#searchDeptNm#||'%'
 					</isNotEmpty>
