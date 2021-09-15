@@ -64,14 +64,8 @@ public class Stm2100DAO extends ComOslitsAbstractDAO {
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Map> selectStm2100BadGrpList(Map<String, String> paramMap) throws Exception {
-		return  (List<Map>) list("stm2100DAO.selectStm2100BadGrpList", paramMap);
-	}
-	
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Map> selectStm2100BadUsrList(Map<String, String> paramMap) throws Exception {
-		return  (List<Map>) list("stm2100DAO.selectStm2100BadUsrList", paramMap);
+	public List<Map> selectStm2100LicAllAuthAndUserList(Map<String, String> paramMap) throws Exception {
+		return  (List<Map>) list("stm2100DAO.selectStm2100LicAllAuthAndUserList", paramMap);
 	}
 	
 	
@@ -82,6 +76,12 @@ public class Stm2100DAO extends ComOslitsAbstractDAO {
 	
 	public String selectStm2100WriterCheck(Map<String, String> paramMap) throws Exception {
 		return  (String) select("stm2100DAO.selectStm2100WriterCheck", paramMap);
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectStm2100MonthChart(Map<String, String> paramMap) throws Exception {
+		return  (List<Map>) list("stm2100DAO.selectStm2100MonthChart", paramMap);
 	}
 
 	

@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.GsonBuilder;
-
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.cmm.cmm4000.cmm4000.service.Cmm4000Service;
@@ -36,6 +35,7 @@ import kr.opensoftlab.lunaops.stm.stm9000.stm9100.service.Stm9100Service;
 import kr.opensoftlab.sdf.jenkins.AutoBuildInit;
 import kr.opensoftlab.sdf.jenkins.JenkinsClient;
 import kr.opensoftlab.sdf.util.OslAgileConstant;
+import kr.opensoftlab.sdf.util.OslStringUtil;
 import kr.opensoftlab.sdf.util.PagingUtil;
 import kr.opensoftlab.sdf.util.RequestConvertor;
 
@@ -85,86 +85,136 @@ public class Dpl1000Controller {
 	
 	@Value("${Globals.fileStorePath}")
 	private String tempPath;
-    
-    
-    
+
+	
 	@RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1000View.do")
     public String selectDpl1000View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
     	return "/dpl/dpl1000/dpl1000/dpl1000";
     }
 	
+	
+    @RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1001View.do")
+    public String selectDpl1001View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		 return "/dpl/dpl1000/dpl1000/dpl1001";
+    }
     
-     @SuppressWarnings({ "rawtypes", "unchecked" })
- 	@RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1001View.do")
-     public String selectDpl1001View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
- 		
-    	 try{
- 			
- 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
- 			paramMap.put("prjId", (String)request.getSession().getAttribute("selPrjId"));
- 			
- 			Map dpl1000DplInfo = null;
- 			List<Map> dpl1000DplJobList = null;
- 			String dpl1000DplJobListJson = "{}";
- 			
- 			
- 			
- 			String pageType = paramMap.get("popupGb");
- 			
- 			
- 			if( "update".equals(pageType) || "select".equals(pageType)){
- 				dpl1000DplInfo = dpl1000Service.selectDpl1000DeployVerInfo(paramMap);
- 				dpl1000DplJobList = dpl1000Service.selectDpl1300DeployJobList(paramMap);
- 				
- 				dpl1000DplJobListJson = (new GsonBuilder().serializeNulls().create()).toJsonTree(dpl1000DplJobList).toString();
- 			}
- 			
- 			model.put("dpl1000DplInfo", dpl1000DplInfo);
- 			model.put("dpl1000DplJobList", dpl1000DplJobList);
- 			model.put("dpl1000DplJobListJson", dpl1000DplJobListJson.replaceAll("<", "&lt"));
-
- 			return "/dpl/dpl1000/dpl1000/dpl1001";
- 		}
- 		catch(Exception ex){
- 			Log.error("selectReq1001View()", ex);
- 			throw new Exception(ex.getMessage());
- 		}
-     }
     
-     
-     
-     @RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1002View.do")
-     public String selectDpl1002View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+    @RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1002View.do")
+    public String selectDpl1002View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		 return "/dpl/dpl1000/dpl1000/dpl1002";
-     }
-     
-     
-     @SuppressWarnings("rawtypes")
-	@RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1003View.do")
-     public String selectDpl1003View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-    	  try{
- 			
- 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
- 			
- 			
- 			Map dpl1000DplInfo = dpl1000Service.selectDpl1000DeployVerInfo(paramMap);
-			
- 			model.put("prjId", paramMap.get("prjId"));
- 			model.put("dpl1000DplInfo", dpl1000DplInfo);
- 			
- 			
- 			
- 			
- 			model.put("callView", paramMap.get("callView"));
+    }
 
- 			return "/dpl/dpl1000/dpl1000/dpl1003";
- 		}
- 		catch(Exception ex){
- 			Log.error("selectDpl1003View()", ex);
- 			throw new Exception(ex.getMessage());
- 		}
-    	 
-     }
+    
+    @RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1003View.do")
+    public String selectDpl1003View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+    	
+    	try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			HttpSession ss = request.getSession();
+			String prjId = (String)ss.getAttribute("selPrjId");
+			String prjGrpId = (String) ss.getAttribute("selPrjGrpId");
+			
+			String paramPrjGrpId = paramMap.get("prjGrpId");
+			String paramPrjId = paramMap.get("prjId");
+
+			
+			if(paramPrjGrpId != null && !"".equals(paramPrjGrpId)){
+				prjGrpId = paramPrjGrpId;
+			}
+			
+			
+			if(paramPrjId != null && !"".equals(paramPrjId)){
+				prjId = paramPrjId;
+			}
+			
+			model.addAttribute("prjGrpId",prjGrpId);
+        	model.addAttribute("prjId",prjId);
+			
+			 return "/dpl/dpl1000/dpl1000/dpl1003";
+		}
+		catch(Exception ex){
+			Log.error("selectDpl1003View()", ex);
+			throw new Exception(ex.getMessage());
+		}
+    }
+
+    
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/dpl/dpl1000/dpl1000/selectDpl1000DplListAjax.do")
+	public ModelAndView selectDpl1000DplListAjax(HttpServletRequest request, ModelMap model) throws Exception {
+		try {
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			
+			String _pageNo_str = paramMap.get("pagination[page]");
+			String _pageSize_str = paramMap.get("pagination[perpage]");
+			
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			String paramPrjId = paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
+			paramMap.put("prjId", paramPrjId);
+			
+			
+			String sortFieldId = (String) paramMap.get("sortFieldId");
+			sortFieldId = OslStringUtil.replaceRegex(sortFieldId,"[^A-Za-z0-9+]*");
+			String sortDirection = (String) paramMap.get("sortDirection");
+			String paramSortFieldId = OslStringUtil.convertUnderScope(sortFieldId);
+			paramMap.put("paramSortFieldId", paramSortFieldId);
+			
+			
+			paramMap.put("dplDelCd", "02"); 
+			
+			
+			/
+			/
+			
+			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
+			
+			
+			metaMap.put("sort", sortDirection);
+			metaMap.put("field", sortFieldId);
+			
+			model.addAttribute("data", dataList);
+			model.addAttribute("meta", metaMap);
+        	
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	return new ModelAndView("jsonView");
+		} catch (Exception ex) {
+			Log.error("selectDpl1000DplListAjax()", ex);
+			
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
+	
+	
+	
+    
+     
+    
+     
+     
+    
+     
+     
+    
 
      
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -587,7 +637,9 @@ public class Dpl1000Controller {
     		}
     		
     		
- 			List<Map> dplRunAuthGrp = stm9100Service.selectJen1300JenkinsJobAuthGrpNormalList(paramMap);
+    		
+ 			
+    		List<Map> dplRunAuthGrp = null;
  			
  			
  			if(dplRunAuthGrp != null && dplRunAuthGrp.size() > 0){
