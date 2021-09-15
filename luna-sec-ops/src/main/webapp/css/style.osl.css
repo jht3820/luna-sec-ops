@@ -187,6 +187,9 @@ input:-webkit-autofill,
 .osl-min-h-px--50 {
   min-height: 50px; 
 }
+.osl-min-h-px--70 {
+  min-height: 70px; 
+}
 .osl-min-h-px--80 {
   min-height: 80px; 
 }
@@ -416,7 +419,7 @@ input:-webkit-autofill,
     width: 100%;
     padding-right: 5px;
     float: left;
-    line-height: 21px;
+    line-height: 17px;
 }
 .osl-bg-none{
 	background: none;
@@ -1103,35 +1106,49 @@ label.required:after {
 	border-bottom: 1px solid #eaeaea;
 	margin: 0;
 }
+.osl-uppy-file--btngroup.osl-uppy-file{
+	padding:0;
+	width: 100%;
+	height: fit-content;
+	border-bottom: 1px solid #eaeaea;
+	margin: 0;
+	margin-bottom: 10px;
+}
 /*osl-uppy-file--fullsize 한줄 라인일때 맨마지막 박스 border값 제거*/
-.osl-uppy-file--fullsize:last-child{
+.osl-uppy-file--fullsize:last-child,
+.osl-uppy-file--btngroup:last-child{
 	border-bottom:0;
 }
 /*첨부파일  - 썸네일 전체 사이즈*/
-.osl-uppy-file--fullsize .osl-uppy-file-sumnail{
+.osl-uppy-file--fullsize .osl-uppy-file-sumnail,
+.osl-uppy-file--btngroup .osl-uppy-file-sumnail{
 	width: 50px;
 	height: 50px;
 	float: left;
 }
 
 /*첨부파일  - 썸네일 hover시 다운로드 모양*/
-.osl-uppy-file--fullsize .osl-uppy-list-dashboardItem-action--download{
+.osl-uppy-file--fullsize .osl-uppy-list-dashboardItem-action--download,
+.osl-uppy-file--btngroup .osl-uppy-list-dashboardItem-action--download{
 	font-size: 3rem;
 	line-height: 52px;
 }
 /*첨부파일  - 썸네일 뒤쪽 컬러 배경*/
-.osl-uppy-file--fullsize .osl-uppy-file-sumnail-bg{
+.osl-uppy-file--fullsize .osl-uppy-file-sumnail-bg,
+.osl-uppy-file--btngroup .osl-uppy-file-sumnail-bg{
 	width: 28.62px;
 	height: 37.5px;
 }
 
 /*첨부파일  - icon svg path사이즈*/
-.osl-uppy-file--fullsize .osl-uppy-iconFile{
+.osl-uppy-file--fullsize .osl-uppy-iconFile,
+.osl-uppy-file--btngroup .osl-uppy-iconFile{
 	width: 25px;
 	height: 25px;
 }
 /*첨부파일  - 파일명 파일 용량 영역*/
-.osl-uppy-file--fullsize .osl-uppy-file-info-group{
+.osl-uppy-file--fullsize .osl-uppy-file-info-group,
+.osl-uppy-file--btngroup .osl-uppy-file-info-group{
 	float: left;
 	padding-left: 12px;
 	padding-right: 8px;
@@ -1578,6 +1595,9 @@ label.required:after {
 }
 .osl-line-height--32{
 	line-height: 32px;
+}
+.osl-line-height--50{
+	line-height: 50px;
 }
 .osl-margin-3{
 	margin: 3px;
