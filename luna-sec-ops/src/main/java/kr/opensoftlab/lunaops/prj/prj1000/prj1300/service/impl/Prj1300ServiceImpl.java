@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -18,95 +20,109 @@ public class Prj1300ServiceImpl extends EgovAbstractServiceImpl implements Prj13
 	
 	
     @Resource(name="prj1300DAO")
-    private Prj1300DAO prj1300DAO; 
+    private Prj1300DAO prj1300DAO;
+
 	
-	
-	@SuppressWarnings("rawtypes")
-	public List selectPrj1300PrjReqOptList(Map paramMap) throws Exception {
-		return prj1300DAO.selectPrj1300PrjReqOptList(paramMap);
-	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	public List selectPrj1300PrjProOptList(Map paramMap) throws Exception {
-		return prj1300DAO.selectPrj1300PrjProOptList(paramMap);
-	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	public Map selectPrj1300PrjProOptInfo(Map paramMap) throws Exception {
-		return prj1300DAO.selectPrj1300PrjProOptInfo(paramMap);
-	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	public int selectPrj1300PrjProOptCnt(Map paramMap) throws Exception {
-		 return prj1300DAO.selectPrj1300PrjProOptCnt(paramMap);
+	@Override
+	public List selectPrj1300TemplateList(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1300TemplateList(paramMap);
 	}
 
 	
-	@SuppressWarnings({ "rawtypes" })
-	public void insertPrj1300PrjProOptInfo(Map paramMap) throws Exception {
-		
-		prj1300DAO.insertPrj1300PrjProOptInfo(paramMap);
+	@Override
+	public Map selectPrj1300TemplateInfo(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1300TemplateInfo(paramMap);
 	}
 	
 	
-	@SuppressWarnings("rawtypes")
-	public void updatePrj1300PrjPrpOptInfo(Map paramMap) throws Exception {
-		prj1300DAO.updatePrj1300PrjPrpOptInfo(paramMap);
+	@Override
+	public String insertPrj1300PrjTemplateAjax(Map<String, String> paramMap) throws Exception {
+		return prj1300DAO.insertPrj1300PrjTemplateAjax(paramMap);
 	}
+
 	
-	
-	
-	@SuppressWarnings("rawtypes")
-	public void deletePrj1300PrjProOptInfo(Map paramMap) throws Exception {
-		
-		prj1300DAO.deletePrj1300PrjProOptInfo(paramMap);
+	@Override
+	public void updatePrj1300PrjTemplateAjax(Map<String, String> paramMap) throws Exception {
+		prj1300DAO.updatePrj1300PrjTemplateAjax(paramMap);
 	}
+
 	
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void deletePrj1300PrjProOptList(Map paramMap) throws Exception {
-		List<Map<String,String>> list = (List<Map<String,String>>) paramMap.get("list");
-		
-		
-		
-		if(list.size() == 1) {
+	@Override
+	public void deletePrj1300PrjTemplateAjax(Map<String, String> paramMap) throws Exception {
+		String deleteDataList = (String) paramMap.get("deleteDataList");
+		if(deleteDataList != null && !"[]".equals(deleteDataList)) {
 			
-			prj1300DAO.deletePrj1300PrjProOptInfo(list.get(0));
-		}else {
+			JSONArray jsonArray = new JSONArray(deleteDataList);
 			
-			String prjId = (String)paramMap.get("prjId");
-			String processId = (String)paramMap.get("processId");
-			
-			
-			for(int i=0; i<list.size(); i++){
-				Map newMap = list.get(i);
-				newMap.put("prjId", prjId);
-				newMap.put("processId", processId);
+			for(int i=0;i<jsonArray.length();i++) {
+				JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+				String prjId = jsonObj.getString("prjId");
+				String templateId = jsonObj.getString("templateId");
+				paramMap.put("prjId", prjId);
+				paramMap.put("templateId", templateId);
+				prj1300DAO.deletePrj1300PrjTemplateAjax(paramMap);
 				
-				
-				prj1300DAO.deletePrj1300PrjProOptInfo(newMap);
+				prj1300DAO.deletePrj1302ItemAjax(paramMap);
+			}
+		}
+	}
+	
+
+	
+	@Override
+	public List selectPrj1302ItemList(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1302ItemList(paramMap);
+	}
+
+	
+	@Override
+	public int selectPrj1302ItemListCnt(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1302ItemListCnt(paramMap);
+	}
+
+	
+	@Override
+	public Map selectPrj1302ItemInfo(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1302ItemInfo(paramMap);
+	}
+	
+	
+	@Override
+	public String insertPrj1302ItemAjax(Map<String, String> paramMap) throws Exception {
+		return prj1300DAO.insertPrj1302ItemAjax(paramMap);
+	}
+
+	
+	@Override
+	public void updatePrj1302ItemAjax(Map<String, String> paramMap) throws Exception {
+		prj1300DAO.updatePrj1302ItemAjax(paramMap);
+	}
+
+	
+	@Override
+	public void deletePrj1302ItemAjax(Map<String, String> paramMap) throws Exception {
+		
+		String deleteDataList = (String) paramMap.get("deleteDataList");
+		if(deleteDataList != null && !"[]".equals(deleteDataList)) {
+			
+			JSONArray jsonArray = new JSONArray(deleteDataList);
+			
+			for(int i=0;i<jsonArray.length();i++) {
+				JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+				String prjId = jsonObj.getString("prjId");
+				String templateId = jsonObj.getString("templateId");
+				String itemId = jsonObj.getString("itemId");
+				paramMap.put("prjId", prjId);
+				paramMap.put("templateId", templateId);
+				paramMap.put("itemId", itemId);
+				prj1300DAO.deletePrj1302ItemAjax(paramMap);
 			}
 		}
 	}
 	
 	
-	@SuppressWarnings("rawtypes")
-	public void insertPrj1300PrjProOptValueInfo(Map paramMap) throws Exception {
-		prj1300DAO.insertPrj1300PrjProOptValueInfo(paramMap);
-	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	public void updatePrj1300PrjProOptValueInfo(Map paramMap) throws Exception {
-		prj1300DAO.updatePrj1300PrjProOptValueInfo(paramMap);
-	}
-
-	
-	@SuppressWarnings("rawtypes")
-	public List selectPrj1300PrjProOptExistFileIdList(Map paramMap) throws Exception {
-		return prj1300DAO.selectPrj1300PrjProOptExistFileIdList(paramMap);
+	@Override
+	public List selectPrj1302CommonCodeList(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1302CommonCodeList(paramMap);
 	}
 }
