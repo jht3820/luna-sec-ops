@@ -9,7 +9,7 @@
 	<input type="hidden" name="paramStartDt" id="paramStartDt" value="${param.paramStartDt}">
 	<input type="hidden" name="paramEndDt" id="paramEndDt" value="${param.paramEndDt}">
 	<input type="hidden" name="dataList" id="dataList" value='${param.dataList}'>
-	<button class="osl-user__active--block" id="reloadTable"></button>
+	
 	<div class="row">
 		<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet">
@@ -19,9 +19,11 @@
 							<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="">배정요구사항</span>
 						</h5>
 					</div>
+					<div class="kt-portlet__head-toolbar">
+						<div class="osl-datatable-search" data-datatable-id="sprAssignReqUsrTable"></div>
+					</div>
 				</div>
 				<div class="kt-portlet__body">
-					<div class="osl-datatable-search" data-datatable-id="sprAssignReqUsrTable"></div>
 					<div class="kt_datatable" id="sprAssignReqUsrTable"></div>
 				</div>
 			</div>
@@ -34,9 +36,11 @@
 							<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="">담당자</span>
 						</h5>
 					</div>
+					<div class="kt-portlet__head-toolbar">
+						<div class="osl-datatable-search" data-datatable-id="sprUstListTable"></div>
+					</div>
 				</div>
 				<div class="kt-portlet__body">
-					<div class="osl-datatable-search" data-datatable-id="sprUstListTable"></div>
 					<div id="sprUstListCardTable"></div>
 					<div class="kt_datatable osl-datatable-footer__divide" id="sprUstListTable"></div>
 				</div>
@@ -47,11 +51,11 @@
 <!-- begin:: modal-footer -->	
 <div class="modal-footer">
 	<button type="button" class="btn btn-brand" id="updateSpr1100Btn">
-		<i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span>
+		<i class="fa fa-check-square"></i><span>완료</span>
 	</button>
 	<!--end: Form Actions -->
 	<button class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 <!-- end:: modal-footer -->	
@@ -69,14 +73,11 @@ var OSLSpr1101Popup = function () {
 	
 	var dataList = $("#dataList").val();
 	
-	var msg = 0;
 	//요구사항 수
 	var reqListCnt = 0;
-	var insertParam = {
-			reqSprPointList : {},
-			reqUsrList : {}
-	}
-	
+	//요구사항 스토리포인트리스트
+	var reqSprPointList = {};
+	var reqUsrList = {};	
 	//form validate 주입
 	var formValidate = $.osl.validate(mainFormId);
 	
@@ -126,10 +127,10 @@ var OSLSpr1101Popup = function () {
 					//이미 입력된 값 있는 경우 채우기
 					if(row.reqChargerNm != null){
 						rtnVal = row.reqChargerNm;
-						return rtnVal;
 					}else if(row.reqChargerNm == null){
 						rtnVal == "";
 					}
+					
 					return '<input type="text" class="form-control kt-align-center" name="reqCharger_'+row.reqId+'" id="reqCharger_'+row.reqId+'" data-req-id="'+row.reqId+'" value="'+rtnVal+'" readonly="readonly" />';
 				}},
 			],rows:{
@@ -151,12 +152,12 @@ var OSLSpr1101Popup = function () {
 						
 						if(!isNaN(inputVal)){
 							
-							insertParam['reqSprPointList'][data.reqId] = inputVal;
+							reqSprPointList[data.reqId] = inputVal;
 							
 						}
 						else if(targetInput.val() == ""){
 							
-							insertParam['reqSprPointList'][data.reqId] = null;
+							reqSprPointList[data.reqId] = null;
 							
 						}
 						
@@ -232,10 +233,11 @@ var OSLSpr1101Popup = function () {
 									+'</div>'
 									+'<div class="kt-widget__wrapper">'
 										+'<div class="kt-widget__label">'
-											+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
+											+'<div class="kt-widget__title">'
 												+$.osl.escapeHtml(map.usrNm)
+												+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											+'</div>'
-											+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
+											
 											+'<span class="kt-widget__desc">'
 												+'<span>'+$.osl.escapeHtml(map.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(map.usrPositionNm)+'</span>'
 											+'</span>'
@@ -262,7 +264,7 @@ var OSLSpr1101Popup = function () {
 						    this.value = targetUsrNm;
 						    
 						    //data 저장
-						    insertParam['reqUsrList'][targetReqId] = {usrId: targetUsrId, usrNm: targetUsrNm};
+						    reqUsrList[targetReqId] = {usrId: targetUsrId, usrNm: targetUsrNm};
 						}
 					});
 					
@@ -315,12 +317,13 @@ var OSLSpr1101Popup = function () {
 		$.osl.datatable.list["sprAssignReqUsrTable"].targetDt.reload();
 		
 		$("#updateSpr1100Btn").click(function(){
-			insertSpr1100();
+			updateSpr1100();
 		})
 		
 	};
 	
-	var insertSpr1100 = function(sprId, list){
+	//스토리포인트 담당자 배정시작
+	var updateSpr1100 = function(){
 		//담당자배정여부확인
 		$("input[name^=reqCharger_]").each(function(){
 			if(this.value==""){
@@ -337,47 +340,20 @@ var OSLSpr1101Popup = function () {
 		})
 		
 		var fd = $.osl.formDataToJsonArray(mainFormId);
-		//스프린트 정보 추가
-		fd.append("insertParam", JSON.stringify(insertParam));
-		//스토리포인트 정보 추가
-		fd.append("dataList", list);
+		fd.append("sprPoint", reqSprPointList);
+		fd.append("reqCharger", reqUsrList);
 		
-		//ajax 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
-    			{"url":"<c:url value='/spr/spr1000/spr1100/insertSpr1100ReqListAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
-    			 , fd);
-		//ajax 전송 성공 함수
-    	ajaxObj.setFnSuccess(function(data){
-    		if(data.errorYn == "Y"){
-				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
-				$.osl.layerPopupClose();
-			}else{
-				//리로드
-				/* $.osl.datatable.list['req1100NonTable'].targetDt.reload();
-				$.osl.datatable.list['req1100AssTable'].targetDt.reload(); */
-				//모달 창 닫기
-   				$.osl.layerPopupClose();
-				
-				$("button[data-datatable-id=req1100NonTable][data-datatable-action=select]").click();
-				$("button[data-datatable-id=req1100AssTable][data-datatable-action=select]").click();
-				
-				
-			}
-    	});
-		//ajax 전송
-		$.osl.confirm("배정하시겠습니까?",null,function(result) {
-   	        if (result.value) {
-		    	ajaxObj.send();
-   	        }
-		})
+	   			{"url":"<c:url value='/spr/spr1000/spr1100/updateSpr1100ReqListAjax.do'/>"}
+				, data);
+		
 	}
-	
 	return {
         // public functions
         init: function() {
         	documentSetting();
         }
+        
     };
 }();
 

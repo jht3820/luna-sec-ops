@@ -315,10 +315,12 @@ var OSLSpr1100Popup = function () {
 			},
 			actionFn:{
 				"dblClick": function(rowData){
+					nonAssList = [];
 					nonAssList.push(rowData);
 					insertReq($("#sprId").val(), JSON.stringify(nonAssList));
 				},
 				"addReq":function(rowData, datatableId, type){
+					nonAssList = [];
 					nonAssList = rowData;
 					insertReq($("#sprId").val(), JSON.stringify(nonAssList));
 				},
@@ -355,34 +357,53 @@ var OSLSpr1100Popup = function () {
 	*/
 	var insertReq = function(sprId, list){
 		
-		var data = {
-				dataList : list,
-				sprId : sprId
-		};
-		
-		console.log($.osl.datatable.list["spr1000SprTable"].targetDt.responseJSON);
-		
-		//ajax 설정
-		var ajaxObj = new $.osl.ajaxRequestAction(
-    			{"url":"<c:url value='/spr/spr1000/spr1100/insertSpr1100ReqListAjax.do'/>"}
-				, data);
-		//ajax 전송 성공 함수
-    	ajaxObj.setFnSuccess(function(data){
-    		if(data.errorYn == "Y"){
-				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
-				$.osl.layerPopupClose();
-			}else{
-				if(list.length>0){
-					$.osl.toastr(data.message);
-					nonAssList = [];
-				}
-				selectBtnClick();
+		//시작중인 스프린트는 스토리포인트 산정 팝업창 띄우기 
+		var sprList = $.osl.datatable.list['spr1000SprTable'].targetDt.lastResponse.data
+		$.each(sprList, function(index, value){
+			if(sprId == value.sprId){
+				//상태가 시작일 경우
+				if(value.sprTypeCd == "02"){
+					var data = {
+							paramSprId: sprId,
+							dataList : list
+						};
+					var options = {
+							idKey:"selectSpr1101",
+							autoHeight: false,
+							modalSize: "xl",
+							closeConfirm: false,
+							modalTitle: "스프린트 요구사항 배정",
+							callback:[{
+								targetId: "spr1101SaveSubmit",
+								actionFn: function(thisObj){
+									//ajax 설정
+									var ajaxObj = new $.osl.ajaxRequestAction(
+							    			{"url":"<c:url value='/spr/spr1000/spr1100/insertSpr1100ReqListAjax.do'/>"}
+											, data);
+									//ajax 전송 성공 함수
+							    	ajaxObj.setFnSuccess(function(data){
+							    		if(data.errorYn == "Y"){
+											$.osl.alert(data.message,{type: 'error'});
+											//모달 창 닫기
+											$.osl.layerPopupClose();
+										}else{
+											if(list.length>0){
+												$.osl.toastr(data.message);
+												nonAssList = [];
+											}
+											selectBtnClick();
+										}
+							    	});
+									//ajax 전송
+							    	ajaxObj.send();
+								}
+							}]
+					};
+					$.osl.layerPopupOpen('/spr/spr1000/spr1100/selectSpr1101View.do',data,options);
+				} 
 			}
-    	});
-		//ajax 전송
-    	ajaxObj.send();
-	}
+		})
+	};
 
 	/**
 	* deleteReq : 선택 요구사항 배정 제외
