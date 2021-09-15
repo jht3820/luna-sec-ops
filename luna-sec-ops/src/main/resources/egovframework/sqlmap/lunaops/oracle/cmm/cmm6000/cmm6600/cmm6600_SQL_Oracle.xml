@@ -39,7 +39,7 @@
 	
 	<insert id="cmm6600DAO.insertCmm6600SignLine" parameterClass = "java.util.Map">
 		
-		INSERT INTO CMM6000
+		INSERT INTO CMM6600
 		(
 				LIC_GRP_ID		,	PRJ_ID		,	TARGET_CD		,	TARGET_ID
 			,	ORD				,	SIGN_USR_ID	,	REG_DTM			,	REG_USR_ID
@@ -60,7 +60,6 @@
 		WHERE	1 = 1
 		AND		LIC_GRP_ID  = #licGrpId#
 		AND		PRJ_ID		= #prjId#
-		AND		ORD			= #ord#
 		AND		TARGET_ID	= #targetId#
 		AND		TARGET_CD	= #targetCd#
 	</delete>
