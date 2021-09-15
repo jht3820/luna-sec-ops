@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cmm6600DAO">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	
+	<select id="cmm6600DAO.selectCmm6600SignUsrList" parameterClass = "java.util.Map" resultClass = "egovMap">
+		
+		SELECT	A.LIC_GRP_ID
+			, 	A.PRJ_ID
+			,	A.TARGET_ID
+			,	A.TARGET_CD
+			,	A.ORD
+			,	A.SIGN_USR_ID
+			,	A.REG_DTM
+			,	A.REG_USR_ID
+			,	A.REG_USR_IP
+			,	A.MODIFY_DTM
+			,	A.MODIFY_USR_ID
+			,	A.MODIFY_USR_IP
+			,	B.USR_ID
+			,   B.USR_IMG_ID
+			,	B.USR_NM
+			,	B.EMAIL
+			,   NVL(SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00008', B.USR_DUTY_CD, '1'), '-') AS USR_DUTY_NM
+			,	NVL(SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00007', B.USR_POSITION_CD, '1'), '-') AS USR_POSITION_NM
+		FROM	CMM6600 A
+		JOIN	STM3000 B
+		ON		A.SIGN_USR_ID = B.USR_ID
+		WHERE	1 = 1
+		AND		A.LIC_GRP_ID = #licGrpId#
+		AND		A.PRJ_ID = #prjId#
+		AND		A.TARGET_ID = #targetId#
+		ORDER BY ORD ASC
+	</select>
+	
+	
+	<insert id="cmm6600DAO.insertCmm6600SignLine" parameterClass = "java.util.Map">
+		
+		INSERT INTO CMM6000
+		(
+				LIC_GRP_ID		,	PRJ_ID		,	TARGET_CD		,	TARGET_ID
+			,	ORD				,	SIGN_USR_ID	,	REG_DTM			,	REG_USR_ID
+			,	REG_USR_IP		,	MODIFY_DTM	,	MODIFY_USR_ID	,	MODIFY_USR_IP
+		)
+		VALUES
+		(
+				#licGrpId#		,	#prjId#		,	#targetCd#		,	#targetId#
+			,	#ord#			,	#signUsrId#	,	#regDtm#		,	#regUsrId#
+			,	#regUsrIp#		,	#modifyDtm#	,	#modifyUsrId#	,	#modifyUsrIp#
+		)
+	</insert>
+	
+	
+	<delete id="cmm6600DAO.deleteCmm6600SignLine" parameterClass = "java.util.Map">
+		
+		DELETE FROM CMM6600
+		WHERE	1 = 1
+		AND		LIC_GRP_ID  = #licGrpId#
+		AND		PRJ_ID		= #prjId#
+		AND		ORD			= #ord#
+		AND		TARGET_ID	= #targetId#
+		AND		TARGET_CD	= #targetCd#
+	</delete>
+</sqlMap>            

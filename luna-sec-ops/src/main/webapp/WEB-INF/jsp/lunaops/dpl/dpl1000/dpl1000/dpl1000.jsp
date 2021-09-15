@@ -47,7 +47,7 @@
 var OSLDpl1000Popup = function () {
 	var documentSetting = function(){
 		
-		//데이터 테이블 세팅
+		
 		$.osl.datatable.setting("dpl1000Table",{
 			data: {
 				source: {
@@ -69,7 +69,7 @@ var OSLDpl1000Popup = function () {
 				{field: 'dplRevisionNum', title: '배포 리비전 번호', textAlign: 'center', width: 100
 					,template: function(row){
 						var dplRevisionNum = row.dplRevisionNum;
-						// 배포 리비전 없을 경우 문구 변경
+						
 						if($.osl.isNull(dplRevisionNum)){
 							dplRevisionNum = "Last Revision";
 						}
@@ -109,22 +109,22 @@ var OSLDpl1000Popup = function () {
 				},
 				"update":function(rowData, datatableId, type, rowNum, elem){
 					
-					// 배포 상태 02(성공)
+					
 					var dplStsCd = rowData.dplStsCd;
 					
-					// 결재 사용 유무
+					
 					var dplSignUseCd = rowData.dplSignUseCd;
 					
-					// 결재 상태 04(기안), 03(거절)
+					
 					var signStsCd = rowData.signStsCd;
 					
-					// 배포 상태 체크 (성공일 경우 수정 불가)
+					
 					if(dplStsCd == "02"){
 						$.osl.alert('성공된 배포 계획은 수정이 불가능합니다.');
 						return false;
 					}
 					
-					// 결재 사용이고, 승인된 배포 계획일 경우
+					
 					if(dplSignUseCd == "01" && signStsCd == "02"){
 						$.osl.alert('결재 승인된 배포 계획은 수정이 불가능합니다.');
 						return false;
@@ -164,15 +164,42 @@ var OSLDpl1000Popup = function () {
 					
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
 				},
-				// 결재선 지정
+				
 				"signRequest":function(rowData, datatableId, type, rowNum, elem){
 					
-					console.log(rowData)
+					var rowData;
 					
-					return;
+					
+					if(type == "list"){
+						
+						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
+						
+						
+						if(selRecords.length == 0){
+							$.osl.alert($.osl.lang("datatable.action.update.nonSelect"));
+							return true;
+						}
+						
+						else if(selRecords.length > 1){
+							$.osl.alert($.osl.lang("datatable.action.update.manySelect",selRecords.length));
+							return true;
+						}
+						else{
+							var rowIdx = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords().data("row");
+							
+							rowData = $.osl.datatable.list[datatableId].targetDt.dataSet[rowIdx];
+						}
+					}
+					if(rowData.dplSignUseCd == '02'){
+						
+						$.osl.alert("결재 사용 유무가 아니오인 경우 결재를 사용할 수 없습니다.");
+						return true;
+					}
+					
 					var modalData = {
-							prjId :  nodeData.prjId,
-							docId :  nodeData.docId
+							prjId :  rowData.prjId,
+							targetId :  rowData.dplId,
+							targetCd :  '02'
 					};
 					
 					var options = {
@@ -181,7 +208,7 @@ var OSLDpl1000Popup = function () {
 							modalSize: "xl"
 					};
 					
-					$.osl.layerPopupOpen('/cmm/cmm20000/cmm25000/selectCmm25000View.do',modalData,options);
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',modalData,options); 
 					
 					
 				}
@@ -198,7 +225,7 @@ var OSLDpl1000Popup = function () {
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
