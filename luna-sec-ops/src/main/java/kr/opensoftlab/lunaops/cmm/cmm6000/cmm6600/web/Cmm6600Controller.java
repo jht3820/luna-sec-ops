@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -17,11 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
-import kr.opensoftlab.lunaops.com.vo.LoginVO;
-import kr.opensoftlab.sdf.util.OslStringUtil;
-import kr.opensoftlab.sdf.util.PagingUtil;
 import kr.opensoftlab.sdf.util.RequestConvertor;
 
 
@@ -68,7 +63,7 @@ public class Cmm6600Controller {
     
     
     @SuppressWarnings("rawtypes")
-	@RequestMapping(value="/cmm/cmm3000/cmm3000/selectCmm6600SignUsrListAjax.do")
+	@RequestMapping(value="/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do")
     public ModelAndView selectCmm6600SignUsrListAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
     	try{
 			
@@ -79,7 +74,7 @@ public class Cmm6600Controller {
 			
 			
 			model.addAttribute("errorYn", "N");
-			model.addAttribute("signUsrList", signUsrList);
+			model.addAttribute("signUsrInfList", signUsrList);
 			
 			return new ModelAndView("jsonView");
 		}
@@ -88,6 +83,32 @@ public class Cmm6600Controller {
 			
 			
 			model.addAttribute("errorYn", "Y");
+			throw new Exception(ex.getMessage());
+		}
+    }
+    
+    
+    
+	@RequestMapping(value="/cmm/cmm6000/cmm6600/saveCmm6600SignLineAjax.do")
+    public ModelAndView savecmm6600SignLineAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+    	try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			cmm6600Service.saveCmm6600SignLine(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("insertCmm6600SignLineAjax()", ex);
+			
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
 			throw new Exception(ex.getMessage());
 		}
     }
