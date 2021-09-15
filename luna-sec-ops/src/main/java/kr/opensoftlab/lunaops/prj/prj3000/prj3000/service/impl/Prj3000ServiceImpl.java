@@ -137,6 +137,8 @@ public class Prj3000ServiceImpl extends EgovAbstractServiceImpl implements Prj30
 
 		
 		for (int i = 0; i < jsonArray.size(); i++) {
+			
+			
 			org.json.simple.JSONObject jsonObj = (org.json.simple.JSONObject) jsonArray.get(i);
 
 			
@@ -239,7 +241,9 @@ public class Prj3000ServiceImpl extends EgovAbstractServiceImpl implements Prj30
 			
 			
 			prj3000DAO.deletePrj3000DocInfo(infoMap);
-
+			
+			
+			prj3000DAO.deletePrj3003SignInfo(infoMap);
 		}
 	}
 

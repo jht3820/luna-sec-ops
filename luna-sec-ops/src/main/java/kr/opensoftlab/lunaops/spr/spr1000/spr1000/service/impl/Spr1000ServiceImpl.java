@@ -117,9 +117,10 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	} 
 	
 	
-	@SuppressWarnings({"rawtypes" })
+	@SuppressWarnings({"rawtypes"})
 	public List<Map>  selectSpr1000SprReqList(Map paramMap) throws Exception {
-		return spr1000DAO.selectSpr1000SprReqList(paramMap);
+		List<Map> reqList = spr1000DAO.selectSpr1000SprReqList(paramMap);
+		return reqList;
 	}
 
 	
@@ -272,7 +273,22 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		double allCnt = Double.parseDouble(String.valueOf(sprStat.get("allCntSum")));
 		double endCnt = Double.parseDouble(String.valueOf(sprStat.get("endCntSum")));
 		
+		double endTimeRequired = Double.parseDouble(String.valueOf(sprStat.get("endTimeRequired")));
+		double sprPoint = Double.parseDouble(String.valueOf(sprStat.get("sprPoint")));
+		
+		
 		sprStat.put("sprEndPercent", endCnt / allCnt * 100.0);
+		
+		sprStat.put("avgTime", endTimeRequired/endCnt);
+		
+		sprStat.put("sprPerTime", endTimeRequired/sprPoint);
+		
 		return sprStat;
+	}
+	
+	@Override
+	@SuppressWarnings({ "rawtypes" })
+	public List<Map> selectSpr1000ChartInfo(Map paramMap) throws Exception {
+		return  spr1000DAO.selectSpr1000ChartInfo(paramMap);
 	}
 }

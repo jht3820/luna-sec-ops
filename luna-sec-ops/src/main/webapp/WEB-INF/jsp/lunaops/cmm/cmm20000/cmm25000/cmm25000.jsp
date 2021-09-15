@@ -106,11 +106,12 @@ var OSLCmm25000Popup = function () {
 	    	
 	    	var selSignUsrInfs = $('.osl-sign-card');
 	    	
-	    	//본인 정보 저장
-	    	var myInf = {};
-	    	myInf.usrId = $.osl.user.userInfo.usrId;
-	    	myInf.ord = 0;
-	    	signUsrInfs.push(myInf);
+	    	if(selSignUsrInfs.length == 0){
+	    		//lang
+	    		$.osl.alert("등록된 결재자가 없습니다.");
+	    		return false;
+	    		
+	    	}
 	    	
 	    	//선택된 유저 저장
 	    	$.each(selSignUsrInfs,function(idx, map){
@@ -152,39 +153,6 @@ var OSLCmm25000Popup = function () {
 	           height: 525
 	       });
 	   	
-	   	//사용자 본인 카드 생성
-	   	var MyInfo = $.osl.user.userInfo;
-		var MyusrStr = 
-				'<div class="kt-widget osl-bg-eee kt-margin-r-10 kt-margin-b-10 kt-widget--general-2 rounded" data-usr-id="'+MyInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(MyInfo.usrNm)+'">'
-					+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
-						+'<div class="kt-margin-r-20 font-weight-bolder">No.0</div>'
-						+'<div class="kt-widget__label kt-margin-r-10 osl-user__active--block">'
-							+'<i class="fa fa-arrow-alt-circle-left"></i>'
-						+'</div>'
-						+'<div class="kt-media kt-media--circle kt-media--md">'
-							+'<img src="'+$.osl.user.usrImgUrlVal(MyInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
-						+'</div>'
-						+'<div class="kt-widget__wrapper">'
-							+'<div class="kt-widget__label">'
-								+'<div class="kt-widget__title">'
-									+$.osl.escapeHtml(MyInfo.usrNm)
-									+'<small>'+$.osl.escapeHtml(MyInfo.email)+'</small>'
-								+'</div>'
-								
-								+'<span class="kt-widget__desc">'
-									+'<span>'+$.osl.escapeHtml(MyInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(MyInfo.usrPositionNm)+'</span>'
-								+'</span>'
-							+'</div>'
-						+'</div>'
-					+'</div>'
-				+'</div>';
-		//사용자 본인 추가
-		$("#signCardTable").parent().prepend(MyusrStr);
-		selectUsrArray.push(MyInfo.usrId);
-		
-		
-		
-		
 	   	//사용자 목록 데이터 테이블 세팅
 	   	$.osl.datatable.setting("stm3000UsrTable",{
 			data: {

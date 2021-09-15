@@ -2724,7 +2724,7 @@
 							}
 						}
 					}
-				}
+				};
 				
 				var ktDatatableTarget = $("#"+targetId);
 				if(ktDatatableTarget.length > 0){
@@ -2846,7 +2846,11 @@
 							
 							perpage: $.noop,
 							
-							gotoPage: $.noop
+							gotoPage: $.noop,
+							
+							onCheck: $.noop,
+							
+							unCheck: $.noop
 						}
 					};
 					
@@ -3263,6 +3267,15 @@
 					});
 					
 					
+					$(ktDatatableTarget).on("kt-datatable--on-check",function(evt,ids){
+						targetConfig.callback.onCheck(evt.target, ids, datatableInfo);
+					});
+					
+					$(ktDatatableTarget).on("kt-datatable--on-uncheck",function(evt,ids){
+						targetConfig.callback.unCheck(evt.target, ids, datatableInfo);
+					});
+					
+					
 					$(ktDatatableTarget).on("kt-datatable--on-sort",function(evt,data){
 						
 						if($.osl.isNull(datatableInfo.getColumnByField(data.field))){
@@ -3635,7 +3648,7 @@
 							}
 					
 					};
-					$.osl.layerPopupOpen('/cmm/cmm8000/cmm8000/selectCmm8000View.do',data,options);
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6400View.do',data,options);
 				}
 			}
 			

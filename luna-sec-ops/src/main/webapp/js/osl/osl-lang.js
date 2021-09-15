@@ -1,11 +1,10 @@
 /**
- 	* function 명 	: OSLCoreLangSetting
-	* function 설명	: core에서 사용되는 언어 데이터를 세팅한다.
-	*/
+ * function 명 : OSLCoreLangSetting function 설명 : core에서 사용되는 언어 데이터를 세팅한다.
+ */
 var OSLCoreLangSetting = function () {
-	//언어 세팅 데이터
+	// 언어 세팅 데이터
 	var lang = {};
-	//한국어
+	// 한국어
 	lang["ko"] = {
 		fromValidate:{
 			messages: {
@@ -185,7 +184,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  // The week that contains Jan 4th is the first week of the year.
+		            doy : 4  // The week that contains Jan 4th is the first
+								// week of the year.
 		        }
 		    },
 		    agoTime:{
@@ -272,7 +272,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "답장",
 				checkBtn : "읽음",
 			},
-			/*검색 바 메뉴 추가한 경우 */
+			/* 검색 바 메뉴 추가한 경우 */
 			field: {
 				sendUsrId : "보낸 사람 ID",
 				sendUsrEmail : "보낸 사람 e-mail",
@@ -323,15 +323,18 @@ var OSLCoreLangSetting = function () {
 			},
 			title :"메시지 답장"
 		},
-		cmm15000:{
+		cmm6401:{
 			field: {
-				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
+				/* 외부 search bar 검색, 데이터테이블과 일치시키기 */
 				usrNm : "사용자명",
 			},
 			actionBtn : {
 				title : "선택",
 				clickBtn : "선택",
 			},
+		},
+		cmm6206:{
+			title: "요구사항 선택"
 		},
 		dpl1100:{
 			title : {
@@ -364,7 +367,7 @@ var OSLCoreLangSetting = function () {
 				searchPrj:"프로젝트 검색",
 			},
 			field: {
-				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
+				/* 외부 search bar 검색, 데이터테이블과 일치시키기 */
 				prjNm : "프로젝트 명",
 				
 			},
@@ -373,19 +376,19 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "선택",
 			},
 		},
-		cmm25000:{
+		cmm6600:{
 			message : {
 				confirm : {
 					saveString : "결재선 정보를 저장 하시겠습니까?"
 				}
 			}
 		},
-		cmm25100:{
+		cmm6601:{
 			infomation : {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
 			}
 		},
-		prj1000:{
+		prj1400:{
 			startDate: "시작일",
 			endDate: "종료일",
 			completedRatio: "진척률",
@@ -425,7 +428,7 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
-		prj1001:{
+		prj1000:{
 			startDate: "시작일",
 			endDate: "종료일",
 			completedRatio: "진척률",
@@ -444,37 +447,7 @@ var OSLCoreLangSetting = function () {
 				prjDelete: "${1}건의 프로젝트를 완전 삭제하시겠습니까?</br>삭제된 프로젝트는 복구 할 수 없습니다."
 			}
 		},
-		prj1002:{
-			complete: "완료",
-			insert:{
-				title: "신규 프로젝트 그룹 생성",
-				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
-				saveBtnString: "등록 완료",
-				saveMsg: "${1}명의 사용자가 배정되었습니다.",
-				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
-				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
-			},
-			update:{
-				title: "프로젝트 그룹 수정",
-				saveString: "프로젝트 그룹을 수정하시겠습니까?",
-				saveBtnString: "수정 완료"
-			}
-		},
-		prj1003:{
-			title: "프로젝트 그룹 상세정보",
-			insert:{
-				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
-				saveBtnString: "등록 완료",
-				saveMsg: "${1}명의 사용자가 배정되었습니다.",
-				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
-				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
-			},
-			update:{
-				saveString: "프로젝트 그룹을 수정하시겠습니까?",
-				saveBtnString: "수정 완료"
-			}
-		},
-		prj1004:{
+		prj1001:{
 			complete: "완료",
 			insert:{
 				title: "신규 프로젝트 생성",
@@ -506,6 +479,36 @@ var OSLCoreLangSetting = function () {
 				searchEmpty: "검색하려는 단계명을 입력하세요.",
 				processUseCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
 				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다."
+			}
+		},
+		prj1401:{
+			complete: "완료",
+			insert:{
+				title: "신규 프로젝트 그룹 생성",
+				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
+				saveBtnString: "등록 완료",
+				saveMsg: "${1}명의 사용자가 배정되었습니다.",
+				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
+				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
+			},
+			update:{
+				title: "프로젝트 그룹 수정",
+				saveString: "프로젝트 그룹을 수정하시겠습니까?",
+				saveBtnString: "수정 완료"
+			}
+		},
+		prj1402:{
+			title: "프로젝트 그룹 상세정보",
+			insert:{
+				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
+				saveBtnString: "등록 완료",
+				saveMsg: "${1}명의 사용자가 배정되었습니다.",
+				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
+				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
+			},
+			update:{
+				saveString: "프로젝트 그룹을 수정하시겠습니까?",
+				saveBtnString: "수정 완료"
 			}
 		},
 		prj1101:{
@@ -547,6 +550,60 @@ var OSLCoreLangSetting = function () {
 				valType: "설정 값 타입",
 				prjSetVal: "설정값",
 				useCd: "사용유무"
+			}
+		},
+
+		prj1300 : {
+			label : {
+				templateId : "템플릿 ID",
+				templateNm : "템플릿 명",
+				templateDesc : "비고"
+			},
+			message : {
+				alert : {
+					treeSelect : "왼쪽 트리에서 템플릿을 선택해주세요.",
+					notUsedTemplate : "미사용 템플릿에는 하위 템플릿을 추가할 수 없습니다.",
+					notRootDelete : "최상위 템플릿(ROOT)은 삭제할 수 없습니다.",
+					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
+					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
+					notSignUseCd : "결재를 사용하지 않는 템플릿 입니다."
+				},
+				confirm:{
+					deleteTemplate:"템플릿 정보 삭제 시 선택한 템플릿 정보 및 하위 템플릿 정보가 모두 삭제됩니다. 선택한 템플릿 정보를 삭제 하시겠습니까?",
+				} 
+			},
+			modal : {
+				title : {
+					insertTemplate : "신규 템플릿 등록",
+					updateTemplate : "템플릿 수정",
+					insertItem : "기본항목 등록",
+					updateItem : "기본항목 수정",
+				}
+			},
+			contextmenu : {
+				insert : "하위 템플릿 등록",
+				update : "템플릿 수정",
+				delete : "템플릿 삭제"
+			}
+		},
+		prj1301 : {
+			label : {
+				upperTemplateId : "상위 템플릿 ID",
+				upperTemplateNm : "상위 템플릿 명",
+				templateId : "템플릿 ID",
+				templateNm : "템플릿 명",
+				templateDesc : "비고"
+				
+			},
+			button : {
+				insert : "작성 완료",
+				update : "수정 완료"
+			},
+			message : {
+				confirm : {
+					insert : "템플릿 정보를 추가 하시겠습니까?",
+					update : "템플릿 정보를 수정 하시겠습니까?"
+				}
 			}
 		},
 		prj2100:{
@@ -836,7 +893,7 @@ var OSLCoreLangSetting = function () {
 				requestAccept: "접수"
 			},
 			field:{
-				/*외부 주입 search bar 인 경우 사용*/
+				/* 외부 주입 search bar 인 경우 사용 */
 				prjGrpNm: "프로젝트 그룹명",
 				reqGrpNm: "그룹 요구사항 명",
 			},
@@ -1159,7 +1216,7 @@ var OSLCoreLangSetting = function () {
 			notAuthority : {
 					basic : "해당 게시판에 대한 권한이 없습니다.",
 			},
-			/*카드형 그리기로 인해 선언, 데이터 테이블 필드명과 동일하게 지정*/
+			/* 카드형 그리기로 인해 선언, 데이터 테이블 필드명과 동일하게 지정 */
 			field:{
 				stmTypeNm: "유형",
 				stmNm: "게시판명",
@@ -1783,9 +1840,9 @@ var OSLCoreLangSetting = function () {
 				noticeBadge: "공지",
 			},
 			field:{
-				/*태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기*/
+				/* 태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기 */
 				tagNm:"태그",
-				/*외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정*/
+				/* 외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정 */
 				badContent: "내용",
 				badNtcCheck : "공지유무",
 				delCd:"삭제유무",
@@ -1926,7 +1983,7 @@ var OSLCoreLangSetting = function () {
 		}
 	};
 	
-	//영어
+	// 영어
 	lang["en"] = {
 		fromValidate:{
 			messages: {
@@ -2061,7 +2118,7 @@ var OSLCoreLangSetting = function () {
 				content:"Comment",
 				writeDate : "Date"
 			},
-			cmm15000Table:{
+			cmm6401Table:{
 				usrNm : "User Name",
 				usrId : "Id",
 				email : "E-mail",
@@ -2340,7 +2397,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  // The week that contains Jan 4th is the first week of the year.
+		            doy : 4  // The week that contains Jan 4th is the first
+								// week of the year.
 		        }
 		    },
 		    agoTime:{
@@ -2415,7 +2473,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "Reply",
 				checkBtn : "Read Check"
 			},
-			/*검색 바 메뉴 추가한 경우 */
+			/* 검색 바 메뉴 추가한 경우 */
 			field: {
 				sendUsrId : "From User Id",
 				sendUsrEmail : "From User E-mail",
@@ -2481,9 +2539,9 @@ var OSLCoreLangSetting = function () {
 				search:"Search"
 			},
 		},
-		cmm15000:{
+		cmm6401:{
 			field: {
-				/*외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기*/
+				/* 외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기 */
 				usrNm : "User Name",
 			},
 			actionBtn : {
@@ -2491,14 +2549,14 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "Select",
 			},
 		},
-		cmm25000:{
+		cmm6600:{
 			message : {
 				confirm : {
 					saveString : "Do you want to save the approval line information?"
 				}
 			}
 		},
-		cmm25100:{
+		cmm6601:{
 			infomation : {
 				cannotUpdate : "If there is a file waiting for approval, the approval line cannot be modified."
 			}
@@ -2932,7 +2990,7 @@ var OSLCoreLangSetting = function () {
 				copyBtn : "Copy"
 			},
 			field:{
-				/*외부 주입 search bar에서 사용*/
+				/* 외부 주입 search bar에서 사용 */
 				prjGrpNm: "Project Group Name",
 				reqGrpNm: "Requirement Group Name",
 			},
@@ -3601,9 +3659,9 @@ var OSLCoreLangSetting = function () {
 				deleteBadge: "Delete",
 				noticeBadge: "Notice",
 			},
-			field:{ /*태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기*/
+			field:{ /* 태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기 */
 				tagNm:"Tag",
-				/*외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정*/
+				/* 외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정 */
 				badContent: "Content",
 				badNtcCheck : "Notice",
 				delCd:"Delete",
@@ -3746,10 +3804,10 @@ var OSLCoreLangSetting = function () {
     return {
         // public functions
         init: function() {
-        	//언어팩 목록
+        	// 언어팩 목록
     		var langList = ["ko","en"];
     		
-    		//언어 데이터
+    		// 언어 데이터
     		var langData = {};
     		
     		$.each(langList, function(idx, map){
@@ -3758,7 +3816,7 @@ var OSLCoreLangSetting = function () {
     		
     		$.osl.langData = langData;
     		
-    		//datepicker 언어 처리
+    		// datepicker 언어 처리
     		$.osl.date.init();
         }
     };

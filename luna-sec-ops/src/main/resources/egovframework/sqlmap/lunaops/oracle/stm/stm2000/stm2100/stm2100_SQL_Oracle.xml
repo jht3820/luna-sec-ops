@@ -4,6 +4,76 @@
 <sqlMap namespace="stm2100DAO">
 	<typeAlias alias="egovMap"	 	type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 
+	
+	<sql id="selectStm2100LicAllAuthAndUser">
+		SELECT
+			ROWNUM RN
+			, T1.*
+		FROM(
+			SELECT
+			    A.PRJ_ID AS PRJ_ID
+			    , B.PRJ_NM AS PRJ_NM
+			    , A.AUTH_GRP_ID AS AUTH_TARGET_ID
+			    , A.AUTH_GRP_NM AS AUTH_TARGET_NM
+			    , TO_CHAR('01') AS AUTH_TYPE_CD 
+			    , '' AS AUTH_TARGET_IMG_ID
+			    , '' AS AUTH_TARGET_EMAIL
+			    , '' AS AUTH_TARGET_DEPT_ID
+			    , '' AS AUTH_TARGET_DEPT_NM
+			FROM PRJ2000 A LEFT JOIN PRJ1000 B
+			ON (A.PRJ_ID = B.PRJ_ID AND A.LIC_GRP_ID = B.LIC_GRP_ID)
+			WHERE 1 = 1
+			AND A.LIC_GRP_ID = #licGrpId#
+			AND A.USE_CD = '01'
+			AND A.PRJ_ID != 'ROOTSYSTEM_PRJ'
+			AND A.PRJ_ID IS NOT NULL
+			<isNotEmpty property="prjId">
+				AND A.PRJ_ID	= #prjId#
+			</isNotEmpty>
+			
+			UNION
+			
+			SELECT
+			  '' AS PRJ_ID
+			  , '' AS PRJ_NM
+			  , C.USR_ID AS AUTH_TARGET_ID
+			  , C.USR_NM AS AUTH_TARGET_NM
+			  , TO_CHAR('02') AS AUTH_TYPE_CD 
+			  , C.USR_IMG_ID AS AUTH_TARGET_IMG_ID
+			  , C.EMAIL AS AUTH_TARGET_EMAIL
+			  , C.DEPT_ID AS AUTH_TARGET_DEPT_ID
+			  , SF_STM6000_DEPT_NM(#licGrpId#, C.DEPT_ID, '2') AS AUTH_TARGET_DEPT_NM
+			FROM STM3000 C
+			WHERE 1 = 1
+			AND C.LIC_GRP_ID = #licGrpId#
+			AND C.DEL_CD = '02'
+			ORDER BY AUTH_TYPE_CD ASC, AUTH_TARGET_ID ASC
+		) T1
+		WHERE 1 = 1
+		<isNotEmpty property="searchTargetData">
+			<isNotEmpty property="searchTargetId">
+				<isEqual property="searchTargetId" compareValue="authTargetNm">
+					AND T1.AUTH_TARGET_ID LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="authTargetNm">
+					AND T1.AUTH_TARGET_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="authTypeCd">
+					AND T1.AUTH_TYPE_CD = #searchTargetData#
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="authTargetDeptId">
+					AND T1.AUTH_TARGET_DEPT_ID = #searchTargetData#
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="authTargetDeptNm">
+					AND T1.AUTH_TARGET_DEPT_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="authTargetEmail">
+					AND T1.AUTH_TARGET_EMAIL LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty>
+	</sql>
+	
     
     <select id="stm2100DAO.selectStm2100BadList" parameterClass="java.util.Map"  resultClass="egovMap">
      
@@ -107,40 +177,80 @@
     
     <select id="stm2100DAO.selectStm2110BadAdmList" parameterClass="java.util.Map"  resultClass="egovMap">
 	    
-		SELECT T1.*
-		FROM
-		(
-		  SELECT
-		    A.STM_ADMIN_ID AS STM_ADMIN_ID
-		    , A.STM_ADMIN_CD AS STM_ADMIN_CD
-		    , B.USR_IMG_ID AS USR_IMG_ID
-		    , B.USR_NM AS USR_NM
-		    , B.EMAIL AS EMAIL
-		    , SF_STM6000_DEPT_NM(A.LIC_GRP_ID, B.DEPT_ID, '2') AS DEPT_NM
-		    , C.AUTH_GRP_NM AS AUTH_GRP_NM
-		    , A.PRJ_ID AS PRJ_ID
-		    , D.PRJ_NM AS PRJ_NM
-		    , A.PRJ_GRP_ID AS PRJ_GRP_ID
-		    , E.PRJ_NM AS PRJ_GRP_NM
-		  FROM STM2110 A
-		  LEFT JOIN STM3000 B ON (A.STM_ADMIN_CD = '02'  AND B.USR_ID = A.STM_ADMIN_ID )
-		  LEFT JOIN PRJ2000 C ON ( 
-			  C.LIC_GRP_ID = A.LIC_GRP_ID 
-			  AND C.PRJ_ID = A.PRJ_ID 
-			  AND C.USE_CD = '01' 
-			  AND A.STM_ADMIN_CD = '01' 
-			  AND C.AUTH_GRP_ID = A.STM_ADMIN_ID )
-		  LEFT JOIN PRJ1000 D ON(
-		  	D.PRJ_ID = A.PRJ_ID
-		  )
-		  LEFT JOIN PRJ1000 E ON(
-		  	E.PRJ_ID = A.PRJ_GRP_ID
-		  )
-		  WHERE 1=1
-		  AND A.LIC_GRP_ID = #licGrpId#
-		  AND A.MENU_ID = #menuId#
+		SELECT 
+			T1.*
+		FROM (
+			SELECT
+				A.LIC_GRP_ID AS LIC_GRP_ID
+				, A.MENU_ID AS MENU_ID
+				, A.STM_ADMIN_ID AS AUTH_TARGET_ID
+				, A.STM_ADMIN_CD AS AUTH_TYPE_CD
+				, '' AS AUTH_TARGET_IMG_ID
+				, B.AUTH_GRP_NM AS AUTH_TARGET_NM
+				, '' AS AUTH_TARGET_EMAIL
+				, '' AS AUTH_TARGET_DEPT_NM
+				, '' AS AUTH_TARGET_DEPT_ID
+				, A.PRJ_ID AS PRJ_ID
+				, C.PRJ_NM AS PRJ_NM
+				, A.PRJ_GRP_ID AS PRJ_GRP_ID
+				, D.PRJ_NM AS PRJ_GRP_NM
+			FROM STM2110 A
+			INNER JOIN PRJ2000 B ON ( 
+				B.LIC_GRP_ID = A.LIC_GRP_ID 
+				AND B.PRJ_ID = A.PRJ_ID 
+				AND B.USE_CD = '01' 
+				AND A.STM_ADMIN_CD = '01' 
+				AND B.AUTH_GRP_ID = A.STM_ADMIN_ID 
+			)
+			LEFT JOIN PRJ1000 C 
+			ON(
+				C.PRJ_ID = A.PRJ_ID
+			)
+			LEFT JOIN PRJ1000 D 
+			ON(
+				D.PRJ_ID = A.PRJ_GRP_ID
+			)
+			AND A.LIC_GRP_ID = #licGrpId#
+			AND A.MENU_ID = #menuId#
+			
+			UNION
+		
+			SELECT
+				E.LIC_GRP_ID AS LIC_GRP_ID
+				, E.MENU_ID AS MENU_ID
+				, E.STM_ADMIN_ID AS AUTH_TARGET_ID
+				, E.STM_ADMIN_CD AS AUTH_TYPE_CD
+				, F.USR_IMG_ID AS AUTH_TARGET_IMG_ID
+				, F.USR_NM AS AUTH_TARGET_NM
+				, F.EMAIL AS AUTH_TARGET_EMAIL
+				, SF_STM6000_DEPT_NM(E.LIC_GRP_ID, F.DEPT_ID, '2') AS AUTH_TARGET_DEPT_NM
+				, F.DEPT_ID AS AUTH_TARGET_DEPT_ID
+				, E.PRJ_ID AS PRJ_ID
+				, G.PRJ_NM AS PRJ_NM
+				, E.PRJ_GRP_ID AS PRJ_GRP_ID
+				, H.PRJ_NM AS PRJ_GRP_NM
+			FROM STM2110 E
+			INNER JOIN STM3000 F 
+			ON (
+				E.STM_ADMIN_CD = '02'
+				AND F.USR_ID = E.STM_ADMIN_ID 
+				AND F.USE_CD = '01'
+				AND F.DEL_CD = '02'
+			)
+			LEFT JOIN PRJ1000 G 
+			ON(
+				G.PRJ_ID = E.PRJ_ID
+			)
+			LEFT JOIN PRJ1000 H
+			ON(
+				H.PRJ_ID = E.PRJ_GRP_ID
+			)
+			WHERE 1 = 1
+			AND E.LIC_GRP_ID = #licGrpId#
+			AND E.MENU_ID = #menuId#
 		) T1
-		ORDER BY T1.STM_ADMIN_CD ASC, T1.STM_ADMIN_ID ASC, T1.DEPT_NM ASC
+		WHERE 1 = 1
+		ORDER BY T1.AUTH_TYPE_CD ASC, T1.AUTH_TARGET_ID ASC, T1.AUTH_TARGET_DEPT_NM ASC
     </select>
     
 	
@@ -179,8 +289,8 @@
 			#licGrpId#
 			, #menuId#
 		    , #lblId#
-		    , #codeNum#
-		    , #id#
+		    , #stmAdminCd#
+		    , #stmAdminId#
 		    , #prjGrpId#
 		    , #prjId#
 		    , SYSDATE
@@ -204,40 +314,80 @@
     
     <select id="stm2100DAO.selectStm2120BadWtList" parameterClass="java.util.Map"  resultClass="egovMap">
 	    
-		SELECT T1.*
-		FROM
-		(
-		 SELECT
-		    A.STM_WT_ID AS STM_WT_ID
-		    , A.STM_WT_CD AS STM_WT_CD
-		    , B.USR_IMG_ID AS USR_IMG_ID
-		    , B.USR_NM AS USR_NM
-		    , B.EMAIL AS EMAIL
-		    , SF_STM6000_DEPT_NM(A.LIC_GRP_ID, B.DEPT_ID, '2') AS DEPT_NM
-		    , C.AUTH_GRP_NM AS AUTH_GRP_NM
-		    , A.PRJ_ID AS PRJ_ID
-		    , D.PRJ_NM AS PRJ_NM
-		    , A.PRJ_GRP_ID AS PRJ_GRP_ID
-		    , E.PRJ_NM AS PRJ_GRP_NM
-		  FROM STM2120 A
-		  LEFT JOIN STM3000 B ON (A.STM_WT_CD = '02' AND B.USR_ID = A.STM_WT_ID )
-		  LEFT JOIN PRJ2000 C ON ( 
-			  C.LIC_GRP_ID = A.LIC_GRP_ID 
-			  AND C.PRJ_ID = A.PRJ_ID 
-			  AND C.USE_CD = '01' 
-			  AND A.STM_WT_CD = '01' 
-			  AND C.AUTH_GRP_ID = A.STM_WT_ID )
-		  LEFT JOIN PRJ1000 D ON(
-		  	D.PRJ_ID = A.PRJ_ID
-		  )
-		  LEFT JOIN PRJ1000 E ON(
-		  	E.PRJ_ID = A.PRJ_GRP_ID
-		  )
-		  WHERE 1=1
-		  AND A.LIC_GRP_ID = #licGrpId#
-		  AND A.MENU_ID = #menuId#
+		SELECT 
+			T1.*
+		FROM (
+			SELECT
+				A.LIC_GRP_ID AS LIC_GRP_ID
+				, A.MENU_ID AS MENU_ID
+				, A.STM_WT_ID AS AUTH_TARGET_ID
+				, A.STM_WT_CD AS AUTH_TYPE_CD
+				, '' AS AUTH_TARGET_IMG_ID
+				, B.AUTH_GRP_NM AS AUTH_TARGET_NM
+				, '' AS AUTH_TARGET_EMAIL
+				, '' AS AUTH_TARGET_DEPT_NM
+				, '' AS AUTH_TARGET_DEPT_ID
+				, A.PRJ_ID AS PRJ_ID
+				, C.PRJ_NM AS PRJ_NM
+				, A.PRJ_GRP_ID AS PRJ_GRP_ID
+				, D.PRJ_NM AS PRJ_GRP_NM
+			FROM STM2120 A
+			INNER JOIN PRJ2000 B ON ( 
+				B.LIC_GRP_ID = A.LIC_GRP_ID 
+				AND B.PRJ_ID = A.PRJ_ID 
+				AND B.USE_CD = '01' 
+				AND A.STM_WT_CD = '01' 
+				AND B.AUTH_GRP_ID = A.STM_WT_ID 
+			)
+			LEFT JOIN PRJ1000 C 
+			ON(
+				C.PRJ_ID = A.PRJ_ID
+			)
+			LEFT JOIN PRJ1000 D 
+			ON(
+				D.PRJ_ID = A.PRJ_GRP_ID
+			)
+			AND A.LIC_GRP_ID = #licGrpId#
+			AND A.MENU_ID = #menuId#
+			
+			UNION
+		
+			SELECT
+				E.LIC_GRP_ID AS LIC_GRP_ID
+				, E.MENU_ID AS MENU_ID
+				, E.STM_WT_ID AS AUTH_TARGET_ID
+				, E.STM_WT_CD AS AUTH_TYPE_CD
+				, F.USR_IMG_ID AS AUTH_TARGET_IMG_ID
+				, F.USR_NM AS AUTH_TARGET_NM
+				, F.EMAIL AS AUTH_TARGET_EMAIL
+				, SF_STM6000_DEPT_NM(E.LIC_GRP_ID, F.DEPT_ID, '2') AS AUTH_TARGET_DEPT_NM
+				, F.DEPT_ID AS AUTH_TARGET_DEPT_ID
+				, E.PRJ_ID AS PRJ_ID
+				, G.PRJ_NM AS PRJ_NM
+				, E.PRJ_GRP_ID AS PRJ_GRP_ID
+				, H.PRJ_NM AS PRJ_GRP_NM
+			FROM STM2120 E
+			INNER JOIN STM3000 F 
+			ON (
+				E.STM_WT_CD = '02'
+				AND F.USR_ID = E.STM_WT_ID 
+				AND F.USE_CD = '01'
+				AND F.DEL_CD = '02'
+			)
+			LEFT JOIN PRJ1000 G 
+			ON(
+				G.PRJ_ID = E.PRJ_ID
+			)
+			LEFT JOIN PRJ1000 H
+			ON(
+				H.PRJ_ID = E.PRJ_GRP_ID
+			)
+			WHERE 1 = 1
+			AND E.LIC_GRP_ID = #licGrpId#
+			AND E.MENU_ID = #menuId#
 		) T1
-		ORDER BY T1.STM_WT_CD ASC, T1.STM_WT_ID ASC, T1.DEPT_NM ASC
+		WHERE 1 = 1
+		ORDER BY T1.AUTH_TYPE_CD ASC, T1.AUTH_TARGET_ID ASC, T1.AUTH_TARGET_DEPT_NM ASC
     </select>
     
     
@@ -276,8 +426,8 @@
 			#licGrpId#
 			, #menuId#
 		    , #lblId#
-		    , #codeNum#
-		    , #id#
+		    , #stmWtCd#
+		    , #stmWtId#
 		    , #prjGrpId#
 		    , #prjId#
 		    , SYSDATE
@@ -299,38 +449,9 @@
 	</delete>
 	
      
-    <select id="stm2100DAO.selectStm2100BadGrpList" parameterClass="java.util.Map"  resultClass="egovMap">
+    <select id="stm2100DAO.selectStm2100LicAllAuthAndUserList" parameterClass="java.util.Map"  resultClass="egovMap">
 	    
-		SELECT
-			A.AUTH_GRP_NM AS AUTH_GRP_NM
-			, A.AUTH_GRP_ID AS AUTH_GRP_ID
-			, B.PRJ_ID AS PRJ_ID
-			, B.PRJ_NM AS PRJ_NM
-			, B.PRJ_GRP_ID AS PRJ_GRP_ID
-		FROM PRJ2000 A
-		LEFT JOIN PRJ1000 B
-		ON ( A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID )
-		WHERE 1 = 1
-		AND A.USE_CD = '01'
-		AND A.LIC_GRP_ID = #licGrpId#
-		AND A.PRJ_ID != 'ROOTSYSTEM_PRJ'
-		AND A.PRJ_ID IS NOT NULL
-	</select>
-
-    
-    <select id="stm2100DAO.selectStm2100BadUsrList" parameterClass="java.util.Map"  resultClass="egovMap">
-	    
-	    SELECT
-			A.USR_ID AS USR_ID
-			, A.USR_NM AS USR_NM
-			, SF_STM6000_DEPT_NM(A.LIC_GRP_ID, A.DEPT_ID, '2') AS DEPT_NM
-			, A.USR_IMG_ID AS USR_IMG_ID
-		FROM STM3000 A
-		WHERE 1 = 1
-		AND A.LIC_GRP_ID = #licGrpId#
-		AND A.USE_CD = '01'
-		AND A.DEL_CD = '02'
-		ORDER BY USR_NM ASC
+	    <include refid="selectStm2100LicAllAuthAndUser"/>
 	</select>
 	
 	

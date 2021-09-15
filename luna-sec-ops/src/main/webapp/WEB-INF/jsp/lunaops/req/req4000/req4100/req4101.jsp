@@ -708,7 +708,7 @@ var OSLReq4101Popup = function () {
 				$("#searchReqGrpBtn").click();
 			}
 		});
-    	/* 
+    	/*
     	//포커스가 아웃될 경우
    		$("#usrNm").blur(function(){
    			//입력된 요청자 명이 있을 경우
@@ -722,7 +722,7 @@ var OSLReq4101Popup = function () {
    				}
    			}
    		});
-    	 */
+    	*/
     	//요청자 명 검색버튼 클릭 시
     	$("#searchUsrNmBtn").click(function(){
     		var data = {
@@ -739,12 +739,12 @@ var OSLReq4101Popup = function () {
 						actionFn: function(thisObj){
 							var temp = OSLCmm15000Popup.getUsrInfo();
 							if(!$.osl.isNull(temp)){
-								OSLCmm15000Popup.setUsrInfo(temp);
+								OSLReq4101Popup.setUsrInfo(temp);
 							}
 						}
 					}]
     		};
-    		$.osl.layerPopupOpen('/cmm/cmm10000/cmm15000/selectCmm15000View.do',data,options);
+    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
     	});
     	
     	//그룹요구사항명 검색버튼 클릭 시
@@ -993,8 +993,7 @@ var OSLReq4101Popup = function () {
 
        	//AJAX 설정
    		var ajaxObj = new $.osl.ajaxRequestAction(
-   				{"url":"<c:url value='/req/req4000/req4100/updateReq4101ReqInfoAjax.do'/>"
-   					, "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
+   				{"url":"<c:url value='/req/req4000/req4100/updateReq4101ReqInfoAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
    				,fd);
 
    		//AJAX 전송 성공 함수

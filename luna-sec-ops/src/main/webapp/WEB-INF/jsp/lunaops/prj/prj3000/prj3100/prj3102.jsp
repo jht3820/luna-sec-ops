@@ -6,6 +6,7 @@
 	<input type="hidden" id="checkedFiles" name='checkedFiles' value="${param.checkedFiles}">
 	<input type="hidden" id="ord" name="ord" value="${param.ord}">
 	<input type="hidden" id="docId" name="docId" value="${param.docId}">
+	<input type="hidden" id="signUseCd" name="signUseCd" value="${param.signUseCd }">
 	<div class="kt-portlet">
 		<div class="kt-portlet__body">
 			<div class="form-group">

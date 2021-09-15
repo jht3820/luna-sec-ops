@@ -582,19 +582,19 @@ var OSLUsr1000Popup = function () {
 		
 		var data = {deptName:searchDeptNm};
 		var options = {
-				idKey: "cmm1200",
+				idKey: "cmm6500",
 				modalSize: 'xl',
 				modalTitle: "조직 검색",
 				closeConfirm: false,
 				callback:[{
-                    targetId: "cmm1200SelDept",
+                    targetId: "cmm6500SelDept",
                     actionFn: function(thisObj){
                     	OSLUsr1000Popup.setDept(thisObj);
                     }
                  }]
 			};
 		
-		$.osl.layerPopupOpen('/cmm/cmm1000/cmm1200/selectCmm1200View.do',data,options);
+		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6500/selectCmm6500View.do',data,options);
 	};
     
    /**
