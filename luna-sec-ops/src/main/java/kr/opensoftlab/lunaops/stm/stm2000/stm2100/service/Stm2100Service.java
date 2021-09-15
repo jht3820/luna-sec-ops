@@ -23,15 +23,11 @@ public interface Stm2100Service {
 	
 	
 	@SuppressWarnings({ "rawtypes" })
-	List<Map> selectStm2100BadGrpList(Map<String, String> paramMap) throws Exception;
+	List<Map> selectStm2100LicAllAuthAndUserList(Map<String, String> paramMap) throws Exception;
 	
 	
 	@SuppressWarnings("rawtypes")
 	List<Map> selectStm2120BadWtList(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings({ "rawtypes" })
-	List<Map> selectStm2100BadUsrList(Map<String, String> paramMap) throws Exception;
 
 	
 	public String selectBad1000NtcCnt(Map<String, String> paramMap) throws Exception;
@@ -69,4 +65,9 @@ public interface Stm2100Service {
 	
 	@SuppressWarnings({ "rawtypes" })
 	public Map selectStm2100UserCheck(Map<String, String> paramMap) throws Exception;
+	
+	
+	
+	@SuppressWarnings("rawtypes")
+	public  List<Map> selectStm2100MonthChart(Map<String, String> paramMap) throws Exception;
 }
