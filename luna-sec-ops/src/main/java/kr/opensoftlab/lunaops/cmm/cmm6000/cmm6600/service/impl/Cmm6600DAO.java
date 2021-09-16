@@ -18,4 +18,15 @@ public class Cmm6600DAO extends ComOslitsAbstractDAO {
 		return (List<Map>) list("cmm6600DAO.selectCmm6600SignUsrList", paramMap);
 	}
 
+	
+	public void insertCmm6600SignLine(Map<String, String> paramMap) throws Exception{
+		insert("cmm6600DAO.insertCmm6600SignLine",paramMap);
+		
+	}
+
+	
+	public void deleteCmm6600SignLine(Map<String, String> paramMap) throws Exception{
+		delete("cmm6600DAO.deleteCmm6600SignLine",paramMap);
+	}
+
 }

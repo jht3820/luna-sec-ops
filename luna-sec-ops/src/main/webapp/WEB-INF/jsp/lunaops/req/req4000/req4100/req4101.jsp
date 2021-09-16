@@ -737,7 +737,7 @@ var OSLReq4101Popup = function () {
 					callback:[{
 						targetId: "selectUsr",
 						actionFn: function(thisObj){
-							var temp = OSLCmm15000Popup.getUsrInfo();
+							var temp = OSLCmm6401Popup.getUsrInfo();
 							if(!$.osl.isNull(temp)){
 								OSLReq4101Popup.setUsrInfo(temp);
 							}

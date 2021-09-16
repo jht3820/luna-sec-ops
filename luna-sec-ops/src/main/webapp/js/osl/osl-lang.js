@@ -1,10 +1,8 @@
-/**
- * function 명 : OSLCoreLangSetting function 설명 : core에서 사용되는 언어 데이터를 세팅한다.
- */
+
 var OSLCoreLangSetting = function () {
-	// 언어 세팅 데이터
+	
 	var lang = {};
-	// 한국어
+	
 	lang["ko"] = {
 		fromValidate:{
 			messages: {
@@ -184,8 +182,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  // The week that contains Jan 4th is the first
-								// week of the year.
+		            doy : 4  
+								
 		        }
 		    },
 		    agoTime:{
@@ -252,7 +250,7 @@ var OSLCoreLangSetting = function () {
 				closeAlert: "팝업 창을 닫으시겠습니까?"
 			}
 		},
-		/* 페이지 언어 */
+		
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -272,7 +270,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "답장",
 				checkBtn : "읽음",
 			},
-			/* 검색 바 메뉴 추가한 경우 */
+			
 			field: {
 				sendUsrId : "보낸 사람 ID",
 				sendUsrEmail : "보낸 사람 e-mail",
@@ -325,7 +323,7 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6401:{
 			field: {
-				/* 외부 search bar 검색, 데이터테이블과 일치시키기 */
+				
 				usrNm : "사용자명",
 			},
 			actionBtn : {
@@ -361,13 +359,13 @@ var OSLCoreLangSetting = function () {
 					addToolTip :"요구사항 배정",
 				},
 			}
-		},cmm17000:{
+		},cmm6000:{
 			title:{
 				mainPrjSetting:"메인프로젝트 설정",
 				searchPrj:"프로젝트 검색",
 			},
 			field: {
-				/* 외부 search bar 검색, 데이터테이블과 일치시키기 */
+				
 				prjNm : "프로젝트 명",
 				
 			},
@@ -893,7 +891,7 @@ var OSLCoreLangSetting = function () {
 				requestAccept: "접수"
 			},
 			field:{
-				/* 외부 주입 search bar 인 경우 사용 */
+				
 				prjGrpNm: "프로젝트 그룹명",
 				reqGrpNm: "그룹 요구사항 명",
 			},
@@ -1216,7 +1214,7 @@ var OSLCoreLangSetting = function () {
 			notAuthority : {
 					basic : "해당 게시판에 대한 권한이 없습니다.",
 			},
-			/* 카드형 그리기로 인해 선언, 데이터 테이블 필드명과 동일하게 지정 */
+			
 			field:{
 				stmTypeNm: "유형",
 				stmNm: "게시판명",
@@ -1570,6 +1568,90 @@ var OSLCoreLangSetting = function () {
 				selectFiles: "${1}개가 선택되었습니다.<br/>두개의 파일만 선택하세요.",
 			}
 		},
+		stm8100:{
+			title : {
+				allProjectList : "전체 프로젝트 목록",
+				assRepList : "소스 저장소 배정 목록",
+				nonAssRepList : "소스 저장소 미배정 목록"
+			},
+			toolTip : {
+				selectAssignStrg : "소스 저장소 배정 목록 조회",
+				selectNonAssignStrg : "소스 저장소 미배정 목록 조회",
+				removeStrg : "소스 저장소 배정 제외",
+				addStrg : "소스 저장소 배정",
+				authSetting : "리비전 및 소스코드 열림 권한 설정"
+			},
+			actionBtn : {
+				removeBtn : "제외",
+				addBtn : "배정",
+				authSetting : "권한 설정"
+			},
+			message:{
+				alert:{
+					treeNodeSelect : "왼쪽 트리에서 프로젝트를 선택해주세요.",
+				},
+				toastr:{
+					projectSelect : "프로젝트 그룹이 아닌 프로젝트를 선택해주세요."
+				},
+			},
+			assignStrgTable : {
+				actionBtn : {
+					title : "제외",
+				},
+				tooltip : {
+					dblClick : "소스 저장소 배정 제외",
+					authSetting : "리비전 및 소스 열람 권한 설정"
+				},
+				message : {
+					remove : "배정 제외 시 권한 설정 값도 초기화 됩니다.<br/>그래도 제외하시겠습니까?",
+					selectRep : "리비전 및 소스 열람 권한 설정을 위한<br/>소스 저장소를 하나 선택하세요.",
+					selectOnlyOne : "단건만 선택하세요",
+				},
+				title :{
+					authPop : "권한 팝업"
+				}
+			},
+			nonAssignStrgTable :{
+				actionBtn : {
+					title : "배정",
+				},
+				tooltip : {
+					dblClick : "소스 저장소 배정",
+					authSetting : "리비전 및 소스 열람 권한 설정"
+				},
+			}
+		},
+		stm8101:{
+			complete : "저장",
+			label : {
+				revision : "리비전 열람 권한",
+				fileCode : "소스 열람 권한",
+				message : "소스 열람 권한은 리비전 열람 권한이 있어야 합니다.",
+				nonAssList : "미배정 권한 그룹 및 사용자"
+			},
+			button : {
+				equalBtn : "리비전 열람 권한 동일",
+				resetBtn : "초기화",
+				searchBtn : "검색",
+			},
+			select : {
+				authGrpNm: "권한그룹 명",
+				usrId : "사용자 ID",
+				usrNm : "사용자 명"
+			},
+			draw : {
+				revisionBtn : "리비전 열람",
+				fileCodeBtn : "소스 열람",
+				badge : {
+					authGrp : "권한그룹",
+					user : "사용자"
+				}
+			},
+			message : {
+				remove : "소스 열람 권한은 리비전 열람권한이 있어야 가능합니다.<br/>리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.",
+				add : "소스 열람을 위해선 리비전 열람 권한도 필요합니다.<br/>리비전 열람 권한에도 배정됩니다.",
+			}
+		},
 		stm9000: {
 			title : {
 				jenkinsManagement : "JENKINS 관리"
@@ -1840,9 +1922,9 @@ var OSLCoreLangSetting = function () {
 				noticeBadge: "공지",
 			},
 			field:{
-				/* 태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기 */
+				
 				tagNm:"태그",
-				/* 외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정 */
+				
 				badContent: "내용",
 				badNtcCheck : "공지유무",
 				delCd:"삭제유무",
@@ -1983,7 +2065,7 @@ var OSLCoreLangSetting = function () {
 		}
 	};
 	
-	// 영어
+	
 	lang["en"] = {
 		fromValidate:{
 			messages: {
@@ -2095,7 +2177,7 @@ var OSLCoreLangSetting = function () {
 				placeholder: "After entering, please press enter key",
 				allTitle: "All"
 			},
-			/* 추가된 datatable별로 언어 지정 */
+			
 			arm1000CmmTable:{
 				sendUsrNm : "From User Name",
 				armTitle : "Title",
@@ -2125,7 +2207,7 @@ var OSLCoreLangSetting = function () {
 				tel : "Contact",
 				deptName: "Department",
 			},
-			cmm17000PrjTable:{
+			cmm6000PrjTable:{
 				upPrjNm:"Project Group Name",
 				prjId:"Project ID",
 				prjNm:"Project Name",
@@ -2275,6 +2357,20 @@ var OSLCoreLangSetting = function () {
 				author : "Commiter ID",
 				logDate : "Date"
 			},
+			stm8100AssignStrgTable
+			{
+				strgTypeNm : "Type",
+				strgRepTitle : "Repository Title",
+				strgTxt : "Repository Description",
+				strgRepUrl : "Repository URL",
+			},
+			stm8100NotAssignStrgTable
+			{
+				strgTypeNm : "Type",
+				strgRepTitle : "Repository Title",
+				strgTxt : "Repository Description",
+				strgRepUrl : "Repository URL",
+			},
 			stm9000JenkinsTable:{
 				result : "Connection check",
 				jenNm: "Jenkins Name",
@@ -2397,8 +2493,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  // The week that contains Jan 4th is the first
-								// week of the year.
+		            doy : 4  
+								
 		        }
 		    },
 		    agoTime:{
@@ -2453,7 +2549,7 @@ var OSLCoreLangSetting = function () {
 				cancel: "Cancel"
 			}
 		},
-		/* 페이지 언어 */
+		
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -2473,7 +2569,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "Reply",
 				checkBtn : "Read Check"
 			},
-			/* 검색 바 메뉴 추가한 경우 */
+			
 			field: {
 				sendUsrId : "From User Id",
 				sendUsrEmail : "From User E-mail",
@@ -2524,7 +2620,7 @@ var OSLCoreLangSetting = function () {
 			},
 			title :"Reply Message"
 		},
-		cmm17000:{
+		cmm6000:{
 			title:{
 				mainPrjSetting:"Main Project Setting",
 				searchPrj:"Project Search",
@@ -2541,7 +2637,7 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6401:{
 			field: {
-				/* 외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기 */
+				
 				usrNm : "User Name",
 			},
 			actionBtn : {
@@ -2990,7 +3086,7 @@ var OSLCoreLangSetting = function () {
 				copyBtn : "Copy"
 			},
 			field:{
-				/* 외부 주입 search bar에서 사용 */
+				
 				prjGrpNm: "Project Group Name",
 				reqGrpNm: "Requirement Group Name",
 			},
@@ -3571,6 +3667,90 @@ var OSLCoreLangSetting = function () {
 				selectFiles: "Please, select only 2 file.<br/>${1} file have been selected.",
 			}
 		},
+		stm8100:{
+			title : {
+				allProjectList : "All Project List",
+				assRepList : "Assign Repository List",
+				nonAssRepList : "Non-assign Repository List"
+			},
+			toolTip : {
+				selectAssignStrg : "Select Assign Repository List",
+				selectNonAssignStrg : "Select Non-assign Repository List",
+				removeStrg : "Send from Assign List to Non-assign List",
+				addStrg : "Send from Non-assign List to Assign List",
+				authSetting : "Setting authority for revision and file code"
+			},
+			actionBtn : {
+				removeBtn : "Remove",
+				addBtn : "Add",
+				authSetting : "Setting Authority"
+			},
+			message:{
+				alert:{
+					treeNodeSelect : "Select project from left tree table.",
+				},
+				toastr:{
+					projectSelect : "Please, select project not project group."
+				},
+			},
+			assignStrgTable : {
+				actionBtn : {
+					title : "Remove",
+				},
+				tooltip : {
+					dblClick : "Send from Assign List to Non-assign List",
+					authSetting : "Setting authority for revision and file code"
+				},
+				message : {
+					remove : "If you send form Assign List to non-assign List <br/>then reset authority list. That's Ok?",
+					selectRep : "Please, select only one repository <br/>for authority setting to revision and file code.",
+					selectOnlyOne : "Please, select only one repository.",
+				},
+				title :{
+					authPop : "Setting Authority"
+				}
+			},
+			nonAssignStrgTable :{
+				actionBtn : {
+					title : "Add",
+				},
+				tooltip : {
+					dblClick : "Send from  Non-assign List to Assign List",
+					authSetting : "Setting authority for revision and file code"
+				},
+			}
+		},
+		stm8101:{
+			complete : "Save",
+			label : {
+				revision : "Revision Authority",
+				fileCode : "File Code Authority",
+				message : "To setting authority for open file code, must have set authority for open revision.",
+				nonAssList : "Non-assign Authority group and Users"
+			},
+			button : {
+				equalBtn : "Equals Revision Authority",
+				resetBtn : "Reset",
+				searchBtn : "Search",
+			},
+			select : {
+				authGrpNm: "Authority Group Name",
+				usrId : "User ID",
+				usrNm : "User Name"
+			},
+			draw : {
+				revisionBtn : "Revision Authority",
+				fileCodeBtn : "File Code Authority",
+				badge : {
+					authGrp : "Authority Group",
+					user : "User"
+				}
+			},
+			message : {
+				remove : "To setting authority for open file code, must have set authority for open revision.<br/>As revision authority is removed, file code authority is also removed.",
+				add : "To setting authority for open file code, must have set authority for open revision.<br/>Revision authority is also added.",
+			}
+		},
 		stm9000:{
 			title:{
 				jenkinsManagement : "JENKINS Management",
@@ -3659,9 +3839,9 @@ var OSLCoreLangSetting = function () {
 				deleteBadge: "Delete",
 				noticeBadge: "Notice",
 			},
-			field:{ /* 태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기 */
+			field:{ 
 				tagNm:"Tag",
-				/* 외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정 */
+				
 				badContent: "Content",
 				badNtcCheck : "Notice",
 				delCd:"Delete",
@@ -3802,12 +3982,12 @@ var OSLCoreLangSetting = function () {
 		}
 	};
     return {
-        // public functions
+        
         init: function() {
-        	// 언어팩 목록
+        	
     		var langList = ["ko","en"];
     		
-    		// 언어 데이터
+    		
     		var langData = {};
     		
     		$.each(langList, function(idx, map){
@@ -3816,7 +3996,7 @@ var OSLCoreLangSetting = function () {
     		
     		$.osl.langData = langData;
     		
-    		// datepicker 언어 처리
+    		
     		$.osl.date.init();
         }
     };

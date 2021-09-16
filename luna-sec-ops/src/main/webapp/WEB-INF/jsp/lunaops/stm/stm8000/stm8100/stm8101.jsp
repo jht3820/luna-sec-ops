@@ -26,7 +26,7 @@
 						<div class="kt-margin-b-10">
 							<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="">소스 열람 권한</span></label>
 							<span class="float-right">
-								<button type="button" class="btn btn-brand btn-sm" id="equalBtn" name="equalBtn" value=""><span data-lang-cd="">리비전 열람 권한 동일</span></button>
+								<!-- <button type="button" class="btn btn-brand btn-sm" id="equalBtn" name="equalBtn" value=""><span data-lang-cd="">리비전 열람 권한 동일</span></button> -->
 								<button type="button" class="btn btn-outline-success btn-sm" id="reset_file" name="reset_file" value=""><span data-lang-cd="">초기화</span></button>
 							</span>
 						</div>
@@ -34,6 +34,7 @@
 							<div class="kt-list ps--active-y form-control kt-padding-10 osl-height--240 overflow-auto" id="strgFileCodeAuth" name="strgFileCodeAuth">
 							</div>
 						</div>
+						<span class="kt-margin-t-5 float-right kt-align-right font-italic kt-font-inverse-metal osl-font-xs" data-lang-cd="">소스 열람 권한은 리비전 열람 권한이 있어야 합니다.</span>
 					</div>
 				</div>
 				<!-- 배정 목록 출력 끝 -->
@@ -329,18 +330,31 @@ var OSLStm8100 = function () {
  			},
  	      	//해당 div로 이동될 대상의 동작(들어온)
  			onAdd:function(evt){
+ 				//복사되는 원본
+ 				var oriCard = $(evt.clone);
+ 				//복사된 아이템
  				var moveDiv = $(evt.item);
  				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
  				var result = checkMove(moveDiv, resultFileCode);
  				if(result == 1){
  					//이미 있는 경우 복사 중지
- 					evt.item.remove();
+ 					moveDiv.remove();
+ 				}else{
+ 					$("#strgFileCodeAuth").prepend(moveDiv);
  				}
- 				// 위치에 맞는 버튼만 보이게 하기
+ 				//리비전 열람 권한 목록에도 있는지 확인하여 리스트 추가
+				var resultLink = checkLinkAuth(moveDiv.data("authTargetId"), resultRevision, resultFileCode, "add");
+ 				if(resultLink == 1){
+ 					//동시 작업이 되었으므로
+ 					//리비전 목록에도 그리기
+ 					var copyDiv = $(oriCard.clone(true));
+ 					$("#strgRevisionAuth").prepend(copyDiv);
+	 				// 위치에 맞는 버튼만 보이게 하기
+	 				showHideBtn("strgRevisionAuth", "right", 'left');
+ 				}
  				showHideBtn("strgFileCodeAuth", "right", 'left');
  				
  				//미배정 목록에서 모두 배정된 경우 안보이게 처리
- 				var oriCard = $(evt.clone);
  				checkDoubleMove(oriCard);
  			} 
 	    });
@@ -373,7 +387,25 @@ var OSLStm8100 = function () {
  				/*추가 동작은 이쪽에서 구현하시면 됩니다*/
  				//기존 resultArray에서 해당 항목 제거
  				if($(evt.from).attr("id") == "strgRevisionAuth"){
- 	 	        	checkMove(moveDiv, resultRevision, true);
+ 					var _authTargetId = moveDiv.data("authTargetId");
+ 	 	        	//리비전에서 제거할 경우, 소스 열람권한에도 있을 시 같이 제거
+ 	 	        	var result = checkLinkAuth(_authTargetId, resultRevision, resultFileCode, "remove");
+ 	 	        	if(result == 1){
+ 	 	        		//둘다 존재하여 동시 제거했을 때
+ 	 	        		//기존의 소스 열람 권한 목록에서 동일한 항목 제거
+ 	 	        		$.each($("#strgFileCodeAuth").children(), function(idx, value){
+ 	 	        			if($(value).data("authTargetId") == _authTargetId){
+ 	 	        				//authTargetId가 같은 항목 제거
+ 	 	        				$(value).remove();
+ 	 	        				//each 종료
+ 	 	        				return false;
+ 	 	        			}
+ 	 	        		});
+ 	 	        	}else{
+ 	 	        		//둘다 존재하지 않은 경우 동작 없이 result = 0
+ 	 	        		//리비전에서 나가는 항목만 제거
+	 	 	        	checkMove(moveDiv, resultRevision, true);
+ 	 	        	}
  				}else{
  					checkMove(moveDiv, resultFileCode, true);
  				}
@@ -734,7 +766,25 @@ var OSLStm8100 = function () {
 			//리비전 권한 배정 목록에 있던 경우
 			//배열에서 해당 제거
 			if(formId=="strgRevisionAuth"){
-				checkMove(moveCard, resultRevision, true);
+				var _authTargetId = moveCard.data("authTargetId");
+				//리비전에서 제거할 경우, 소스 열람권한에도 있을 시 같이 제거
+				var result = checkLinkAuth(_authTargetId, resultRevision, resultFileCode, "remove");
+ 	        	if(result == 1){
+ 	        		//둘다 존재하여 동시 제거했을 때
+ 	        		//기존의 소스 열람 권한 목록에서 동일한 항목 제거
+ 	        		$.each($("#strgFileCodeAuth").children(), function(idx, value){
+ 	        			if($(value).data("authTargetId") == _authTargetId){
+ 	        				//authTargetId가 같은 항목 제거
+ 	        				$(value).remove();
+ 	        				//each 종료
+ 	        				return false;
+ 	        			}
+ 	        		});
+ 	        	}else{
+ 	        		//둘다 존재하지 않은 경우 동작 없이 result = 0
+ 	        		//리비전에서 나가는 항목만 제거
+	 	        	checkMove(moveCard, resultRevision, true);
+ 	        	}
 			}else{
 				//소스 열람 권한 배정 목록에 있던 경우
 				//배열에서 해당 제거
@@ -783,8 +833,21 @@ var OSLStm8100 = function () {
 			
 			var result = checkMove(moveCard, resultFileCode);
 			if(result == 0){
-				//존재안하면 복사하기
+ 				//존재안하면 복사하기
 				$("#strgFileCodeAuth").prepend(moveCard);
+				
+				//리비전 열람 권한 목록에도 있는지 확인하여 리스트 추가
+				var resultLink = checkLinkAuth(moveCard.data("authTargetId"), resultRevision, resultFileCode, "add");
+ 				if(resultLink == 1){
+ 					//리비전 권한 목록에도 추가 되었으므로
+ 					//이동할 객체 추가 복사
+					moveCard = oriCard.clone(true);
+ 					//카드 그리기
+ 					$("#strgRevisionAuth").prepend(moveCard);
+					//리비전 열람영역 - left버튼 감추기
+					showHideBtn("strgRevisionAuth", "right", 'left');
+ 				}
+ 				
 			}
 
 			//리비전, 소스코드 권한으로 모두 배정되었는지 체크
@@ -867,6 +930,46 @@ var OSLStm8100 = function () {
 			}
 		}
 	};
+	
+	/**
+	* function 명 	: checkLinkAuth
+	* function 설명	: 서로 연관된 권한 배정에 대하여 동시 추가/동시 제거
+	* param : authTargetId 검사하려는 authTargetId
+	* param : 1단계 권한 arrayUnderList
+	* param : 2단계 권한 arrayTopList
+	* param : 동작구분 action(add, remove)
+	*/
+	var checkLinkAuth = function(authTargetId, arrayUnderList, arrayTopList, action){
+		//하위 권한 리스트에 존재하는지 확인
+		var arrayUnderListIdx = arrayUnderList.indexOf(authTargetId);
+		//상위 권한 리스트에 존재하는지 확인
+		var arrayTopListIdx = arrayTopList.indexOf(authTargetId);
+		//동작 구분
+		if(action == "add"){
+			//추가
+			//2단계 권한만 존재하는 경우
+			if(arrayUnderListIdx==-1 && arrayTopListIdx >= 0){
+				$.osl.alert("소스 열람을 위해선 리비전 열람 권한도 필요합니다. 리비전 열람 권한에도 배정됩니다.");
+				//하위 권한에도 추가하기
+				arrayUnderList.push(authTargetId);
+				return 1;
+			}else{
+				return 0;
+			}
+		}else{
+			//제거
+			//둘다 존재할 때
+			if(arrayUnderListIdx >= 0 && arrayTopListIdx >= 0){
+				$.osl.alert("소스 열람 권한은 리비전 열람권한이 있어야 가능합니다. 리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.");
+				//arrayList에서 동시 제거
+				arrayUnderList.splice(arrayUnderListIdx, 1);
+				arrayTopList.splice(arrayTopListIdx, 1);
+				return 1;
+			}else{
+				return 0;
+			}
+		}
+	}
 	
 	 /**
 	* function 명 	: submitAuth
