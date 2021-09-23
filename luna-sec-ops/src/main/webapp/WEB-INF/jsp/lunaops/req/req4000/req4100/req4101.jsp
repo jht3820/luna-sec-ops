@@ -737,14 +737,14 @@ var OSLReq4101Popup = function () {
 					callback:[{
 						targetId: "selectUsr",
 						actionFn: function(thisObj){
-							var temp = OSLCmm15000Popup.getUsrInfo();
+							var temp = OSLCmm6401Popup.getUsrInfo();
 							if(!$.osl.isNull(temp)){
 								OSLReq4101Popup.setUsrInfo(temp);
 							}
 						}
 					}]
     		};
-    		$.osl.layerPopupOpen('/cmm/cmm10000/cmm15000/selectCmm15000View.do',data,options);
+    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
     	});
     	
     	//그룹요구사항명 검색버튼 클릭 시

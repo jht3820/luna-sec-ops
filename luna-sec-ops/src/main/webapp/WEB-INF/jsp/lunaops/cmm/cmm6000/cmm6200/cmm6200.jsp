@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<form class="kt-form" id="frCmm6000" autocomplete="off">
+<form class="kt-form" id="frCmm6200" autocomplete="off">
 	<input type="hidden" name="paramSelReqInfoList" id="paramSelReqInfoList" value='<c:out value="${param.paramSelReqInfoList}"/>'/>
 	<div class="osl-wizard" id="requestAcceptWizard" data-ktwizard-state="step-first">
 		<div class="osl-wizard__nav kt-margin-b-10">
@@ -75,15 +75,15 @@
 							</div>
 							<div class="kt-portlet__head-toolbar">
 								<div class="kt-portlet__head-wrapper">
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6000ReqTable" data-datatable-action="select" title="요구사항 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6200ReqTable" data-datatable-action="select" title="요구사항 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 										<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 									</button>
 									<!-- 
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6000ReqTable" data-datatable-action="insert" title="요구사항 추가" data-title-lang-cd="req4100.actionBtn.insertTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6200ReqTable" data-datatable-action="insert" title="요구사항 추가" data-title-lang-cd="req4100.actionBtn.insertTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
 										<i class="fa fa-plus"></i><span data-lang-cd="datatable.button.insert">추가</span>
 									</button>
 									 -->
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6000ReqTable" data-datatable-action="delete" title="요구사항 삭제" data-title-lang-cd="req4100.actionBtn.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5">
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6200ReqTable" data-datatable-action="delete" title="요구사항 삭제" data-title-lang-cd="req4100.actionBtn.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5">
 										<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
 									</button>
 								</div>
@@ -95,8 +95,8 @@
 							</div>
 						</div>
 						<div class="kt-portlet__body osl-min-h-px--470">
-							<div class="osl-datatable-search" data-datatable-id="cmm6000ReqTable"></div>
-							<div class="kt_datatable" id="cmm6000ReqTable"></div>
+							<div class="osl-datatable-search" data-datatable-id="cmm6200ReqTable"></div>
+							<div class="kt_datatable" id="cmm6200ReqTable"></div>
 						</div>
 					</div>
 				</div>
@@ -267,8 +267,8 @@
 							</div>
 						</div>
 						<div class="kt-portlet__body osl-min-h-px--470">
-							<div class="osl-datatable-search" data-datatable-id="cmm6000ProcessTable"></div>
-							<div class="kt_datatable" id="cmm6000ProcessTable"></div>
+							<div class="osl-datatable-search" data-datatable-id="cmm6200ProcessTable"></div>
+							<div class="kt_datatable" id="cmm6200ProcessTable"></div>
 						</div>
 					</div>
 				</div>
@@ -283,8 +283,8 @@
 <script>
 "use strict";
 
-var OSLCmm6000Popup = function () {
-	var formId = 'frCmm6000';
+var OSLCmm6200Popup = function () {
+	var formId = 'frCmm6200';
 	
 	//edit 목록
 	var formEditList = {};
@@ -293,8 +293,8 @@ var OSLCmm6000Popup = function () {
 	var formValidate = $.osl.validate(formId);
 	
 	//데이터 테이블
-	var cmm6000ReqTableData;
-	var cmm6000ProcessTableData;
+	var cmm6200ReqTableData;
+	var cmm6200ProcessTableData;
 	//파라미터 프로젝트, 요구사항 Id
 	var paramSelReqInfoList = [];
 	
@@ -358,7 +358,7 @@ var OSLCmm6000Popup = function () {
 
 	//선택 요구사항 목록
     var datatableSetting = function(){
-    	cmm6000ReqTableData = $.osl.datatable.setting("cmm6000ReqTable",{
+    	cmm6200ReqTableData = $.osl.datatable.setting("cmm6200ReqTable",{
     		data: {
 				source: {
 					read: {
@@ -466,7 +466,7 @@ var OSLCmm6000Popup = function () {
 								}
 							}]
 		    		};
-		    		$.osl.layerPopupOpen('/cmm/cmm10000/cmm16000/selectCmm16000View.do',data,options);
+		    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6000/selectCmm6206View.do',data,options);
 				},
 				"delete": function(rowDatas, datatableId, type, rowNum, elem){
 					if(paramSelReqInfoList.length > 0){
@@ -485,14 +485,14 @@ var OSLCmm6000Popup = function () {
 						});
 						
 						//데이터 반영
-						cmm6000ReqTableData.targetDt.options.data.source.read.params.paramSelReqInfoList = JSON.stringify(paramSelReqInfoList);
-						cmm6000ReqTableData.targetDt.reload();
+						cmm6200ReqTableData.targetDt.options.data.source.read.params.paramSelReqInfoList = JSON.stringify(paramSelReqInfoList);
+						cmm6200ReqTableData.targetDt.reload();
 					}
 				}
 			}
 		});
     	
-    	var cmm6000ProcessTableData = $.osl.datatable.setting("cmm6000ProcessTable",{
+    	var cmm6200ProcessTableData = $.osl.datatable.setting("cmm6200ProcessTable",{
 			data: {
 				source: {
 					read: {
@@ -612,7 +612,7 @@ var OSLCmm6000Popup = function () {
 				$.osl.layerPopupClose();
 			}else{
 				//요구사항 정보 세팅
-		    	$.osl.setDataFormElem(data.reqInfoMap,"frCmm6000");
+		    	$.osl.setDataFormElem(data.reqInfoMap,"frCmm6200");
 				
 		    	formEditList["reqDesc"].target.summernote('code', data.reqInfoMap.reqDesc);
 			}
@@ -632,7 +632,7 @@ var OSLCmm6000Popup = function () {
 
 // Initialization
 $.osl.ready(function(){
-	OSLCmm6000Popup.init();
+	OSLCmm6200Popup.init();
 });
 
 	
