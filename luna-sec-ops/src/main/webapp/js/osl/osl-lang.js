@@ -1568,6 +1568,90 @@ var OSLCoreLangSetting = function () {
 				selectFiles: "${1}개가 선택되었습니다.<br/>두개의 파일만 선택하세요.",
 			}
 		},
+		stm8100:{
+			title : {
+				allProjectList : "전체 프로젝트 목록",
+				assRepList : "소스 저장소 배정 목록",
+				nonAssRepList : "소스 저장소 미배정 목록"
+			},
+			toolTip : {
+				selectAssignStrg : "소스 저장소 배정 목록 조회",
+				selectNonAssignStrg : "소스 저장소 미배정 목록 조회",
+				removeStrg : "소스 저장소 배정 제외",
+				addStrg : "소스 저장소 배정",
+				authSetting : "리비전 및 소스코드 열림 권한 설정"
+			},
+			actionBtn : {
+				removeBtn : "제외",
+				addBtn : "배정",
+				authSetting : "권한 설정"
+			},
+			message:{
+				alert:{
+					treeNodeSelect : "왼쪽 트리에서 프로젝트를 선택해주세요.",
+				},
+				toastr:{
+					projectSelect : "프로젝트 그룹이 아닌 프로젝트를 선택해주세요."
+				},
+			},
+			assignStrgTable : {
+				actionBtn : {
+					title : "제외",
+				},
+				tooltip : {
+					dblClick : "소스 저장소 배정 제외",
+					authSetting : "리비전 및 소스 열람 권한 설정"
+				},
+				message : {
+					remove : "배정 제외 시 권한 설정 값도 초기화 됩니다.<br/>그래도 제외하시겠습니까?",
+					selectRep : "리비전 및 소스 열람 권한 설정을 위한<br/>소스 저장소를 하나 선택하세요.",
+					selectOnlyOne : "단건만 선택하세요",
+				},
+				title :{
+					authPop : "권한 팝업"
+				}
+			},
+			nonAssignStrgTable :{
+				actionBtn : {
+					title : "배정",
+				},
+				tooltip : {
+					dblClick : "소스 저장소 배정",
+					authSetting : "리비전 및 소스 열람 권한 설정"
+				},
+			}
+		},
+		stm8101:{
+			complete : "저장",
+			label : {
+				revision : "리비전 열람 권한",
+				fileCode : "소스 열람 권한",
+				message : "소스 열람 권한은 리비전 열람 권한이 있어야 합니다.",
+				nonAssList : "미배정 권한 그룹 및 사용자"
+			},
+			button : {
+				equalBtn : "리비전 열람 권한 동일",
+				resetBtn : "초기화",
+				searchBtn : "검색",
+			},
+			select : {
+				authGrpNm: "권한그룹 명",
+				usrId : "사용자 ID",
+				usrNm : "사용자 명"
+			},
+			draw : {
+				revisionBtn : "리비전 열람",
+				fileCodeBtn : "소스 열람",
+				badge : {
+					authGrp : "권한그룹",
+					user : "사용자"
+				}
+			},
+			message : {
+				remove : "소스 열람 권한은 리비전 열람권한이 있어야 가능합니다.<br/>리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.",
+				add : "소스 열람을 위해선 리비전 열람 권한도 필요합니다.<br/>리비전 열람 권한에도 배정됩니다.",
+			}
+		},
 		stm9000: {
 			title : {
 				jenkinsManagement : "JENKINS 관리"
@@ -2272,6 +2356,20 @@ var OSLCoreLangSetting = function () {
 				comment : "Commit Log",
 				author : "Commiter ID",
 				logDate : "Date"
+			},
+			stm8100AssignStrgTable
+			{
+				strgTypeNm : "Type",
+				strgRepTitle : "Repository Title",
+				strgTxt : "Repository Description",
+				strgRepUrl : "Repository URL",
+			},
+			stm8100NotAssignStrgTable
+			{
+				strgTypeNm : "Type",
+				strgRepTitle : "Repository Title",
+				strgTxt : "Repository Description",
+				strgRepUrl : "Repository URL",
 			},
 			stm9000JenkinsTable:{
 				result : "Connection check",
@@ -3567,6 +3665,90 @@ var OSLCoreLangSetting = function () {
 			message : {
 				selectFile : "Please, select 2 file.<br/>${1} file have been selected.",
 				selectFiles: "Please, select only 2 file.<br/>${1} file have been selected.",
+			}
+		},
+		stm8100:{
+			title : {
+				allProjectList : "All Project List",
+				assRepList : "Assign Repository List",
+				nonAssRepList : "Non-assign Repository List"
+			},
+			toolTip : {
+				selectAssignStrg : "Select Assign Repository List",
+				selectNonAssignStrg : "Select Non-assign Repository List",
+				removeStrg : "Send from Assign List to Non-assign List",
+				addStrg : "Send from Non-assign List to Assign List",
+				authSetting : "Setting authority for revision and file code"
+			},
+			actionBtn : {
+				removeBtn : "Remove",
+				addBtn : "Add",
+				authSetting : "Setting Authority"
+			},
+			message:{
+				alert:{
+					treeNodeSelect : "Select project from left tree table.",
+				},
+				toastr:{
+					projectSelect : "Please, select project not project group."
+				},
+			},
+			assignStrgTable : {
+				actionBtn : {
+					title : "Remove",
+				},
+				tooltip : {
+					dblClick : "Send from Assign List to Non-assign List",
+					authSetting : "Setting authority for revision and file code"
+				},
+				message : {
+					remove : "If you send form Assign List to non-assign List <br/>then reset authority list. That's Ok?",
+					selectRep : "Please, select only one repository <br/>for authority setting to revision and file code.",
+					selectOnlyOne : "Please, select only one repository.",
+				},
+				title :{
+					authPop : "Setting Authority"
+				}
+			},
+			nonAssignStrgTable :{
+				actionBtn : {
+					title : "Add",
+				},
+				tooltip : {
+					dblClick : "Send from  Non-assign List to Assign List",
+					authSetting : "Setting authority for revision and file code"
+				},
+			}
+		},
+		stm8101:{
+			complete : "Save",
+			label : {
+				revision : "Revision Authority",
+				fileCode : "File Code Authority",
+				message : "To setting authority for open file code, must have set authority for open revision.",
+				nonAssList : "Non-assign Authority group and Users"
+			},
+			button : {
+				equalBtn : "Equals Revision Authority",
+				resetBtn : "Reset",
+				searchBtn : "Search",
+			},
+			select : {
+				authGrpNm: "Authority Group Name",
+				usrId : "User ID",
+				usrNm : "User Name"
+			},
+			draw : {
+				revisionBtn : "Revision Authority",
+				fileCodeBtn : "File Code Authority",
+				badge : {
+					authGrp : "Authority Group",
+					user : "User"
+				}
+			},
+			message : {
+				remove : "To setting authority for open file code, must have set authority for open revision.<br/>As revision authority is removed, file code authority is also removed.",
+				add : "To setting authority for open file code, must have set authority for open revision.<br/>Revision authority is also added.",
 			}
 		},
 		stm9000:{
