@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frReq1001">
 	<input type="hidden" name="type" id="type" value="${requestScope.type}">
-	<input type="hidden" name="reqId" id="reqId" value="${param.paramReqId}">
+	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
+	<input type="hidden" name="paramReqId" id="paramReqId" value="${param.paramReqId}">
 	<input type="hidden" name="reqUsrId" id="reqUsrId" value="${param.paramReqUsrId}">
 	<input type="hidden" name="atchFileId" id="atchFileId">
 	<div class="kt-portlet kt-portlet--collapsed" id="req1001RequestUsrInfo">
@@ -32,7 +33,7 @@
 				</div>
 				<div class="col-xl-5">
 					<div class="form-group">
-						<label class="required"><i class="flaticon2-envelope kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.email">요청자 e-mail</span></label>
+						<label class="required"><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.email">요청자 e-mail</span></label>
 						<input type="email" class="form-control" placeholder="요청자 이메일" name="reqUsrEmail" id="email" readonly="readonly" required>
 					</div>
 				</div>
@@ -40,14 +41,14 @@
 			<div class="row">
 				<div class="col-xl-7">
 					<div class="form-group">
-						<label><i class="flaticon2-avatar kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.deptNm">요청자 소속</span></label>
+						<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.deptNm">요청자 소속</span></label>
 						<input type="text" class="form-control" name="reqUsrDeptNm" id="deptName" readonly="readonly">
 						<input type="hidden" name="reqUsrDeptId" id="deptId">
 					</div>
 				</div>
 				<div class="col-xl-5">
 					<div class="form-group">
-						<label class="required"><i class="flaticon2-phone kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.telNo">요청자 연락처</span></label>
+						<label class="required"><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req1001.reqUser.telNo">요청자 연락처</span></label>
 						<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="telno" readonly="readonly" required>
 					</div>
 				</div>
@@ -60,7 +61,7 @@
 				<div class="col-xl-6">
 					<div class="form-group">
 						<label for="exampleSelect1"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req1001.prjNm">프로젝트</span></label>
-						<select class="form-control kt-select2" name="prjId" id="reqPrjSelect">
+						<select class="form-control kt-select2" name="reqPrjSelect" id="reqPrjSelect">
 						</select>
 					</div>
 				</div>
@@ -353,14 +354,14 @@ var OSLReq1001Popup = function () {
 	 * 	요구사항 정보 조회
 	 */
 	 var selectReqInfo = function() {
-    	var paramPrjId = $("#prjId").val();
-    	var paramReqId = $("#reqId").val();
+    	var paramPrjId = $("#paramPrjId").val();
+    	var paramReqId = $("#paramReqId").val();
     	var paramReqUsrId = $("#reqUsrId").val();
     	
 		//AJAX 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req1000/req1000/selectReq1000ReqInfoAjax.do'/>", "async": false}
-				,{"prjId": paramPrjId, "reqId" : paramReqId, "reqUsrId": paramReqUsrId });
+				,{"paramPrjId": paramPrjId, "paramReqId" : paramReqId, "reqUsrId": paramReqUsrId });
 		//AJAX 전송 성공 함수
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){

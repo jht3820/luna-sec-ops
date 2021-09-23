@@ -15,7 +15,7 @@
 			<div class="osl-wizard__nav">			
 				<div class="osl-wizard__nav-items osl-wizard__nav-items--clickable">
 					<!--begin: 1.요구사항 결과 확인 -->
-					<div class="osl-wizard__nav-item osl-wizard__nav-item_3" data-ktwizard-type="step" data-ktwizard-state="current">
+					<div class="osl-wizard__nav-item" data-ktwizard-type="step" data-ktwizard-state="current">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">1</div>
 							<div class="wizard-label">
@@ -26,7 +26,7 @@
 					</div>
 					<!--end: 1.요구사항 결과 확인 -->
 					<!--begin: 2.회고록 작성 -->
-					<div class="osl-wizard__nav-item osl-wizard__nav-item_3" data-ktwizard-type="step">
+					<div class="osl-wizard__nav-item" data-ktwizard-type="step">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">2</div>
 							<div class="wizard-label">
@@ -36,7 +36,7 @@
 					</div>
 					<!--end: 2.회고록 작성 -->
 					<!--begin: 3.스프린트 결과 통계 -->
-					<div class="osl-wizard__nav-item osl-wizard__nav-item_3" data-ktwizard-type="step">
+					<div class="osl-wizard__nav-item" data-ktwizard-type="step">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">3</div>
 							<div class="wizard-label">
@@ -410,7 +410,6 @@ var OSLSpr1004Popup = function () {
 
 		//마법사 각 단계탭 클릭시 변경 이벤트
 		wizard.on('change', function(wizardObj) {
-			debugger;
 			if(datatableInitFlag.hasOwnProperty(wizardObj.currentStep)){
 				//마법사 단계 이동 시 버튼 표출 여부 , 데이터 테이블 세팅
 				if(!datatableInitFlag[wizardObj.currentStep]){

@@ -34,30 +34,30 @@
 							<div class="form-group">
 								<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.usrNm">요청자 이름</span></label>
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="요청자 이름" name="reqUsrNm" id="usrNm">
+									<input type="text" class="form-control" placeholder="요청자 이름" name="reqUsrNm" id="usrNm" autocomplete="off">
 									<button type="button" class="btn btn-brand input-group-append" id="searchUsrNmBtn" name="searchUsrNmBtn"><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
 								</div>
 							</div>
 						</div>
 						<div class="col-xl-5">
 							<div class="form-group">
-								<label><i class="flaticon2-envelope kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
-								<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="email" readonly="readonly">
+								<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
+								<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="email" autocomplete="off">
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-xl-7">
 							<div class="form-group">
-								<label><i class="flaticon2-avatar kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
-								<input type="text" class="form-control" name="reqUsrDeptNm"placeholder="요청자 소속"  id="deptName" readonly="readonly">
-								<input type="hidden" name="reqUsrDeptId" id="deptId">
+								<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
+								<input type="text" class="form-control" name="reqUsrDeptNm"placeholder="요청자 소속"  id="deptName" autocomplete="off">
+								<input type="hidden" name="reqUsrDeptId" id="deptId" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-xl-5">
 							<div class="form-group">
-								<label><i class="flaticon2-phone kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.tel">요청자 연락처</span></label>
-								<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="telno" readonly="readonly">
+								<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.tel">요청자 연락처</span></label>
+								<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="telno" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -672,7 +672,7 @@ var OSLReq4101Popup = function () {
     		//요구사항 정보 조회
     		selectReqInfo();
     	}
-    	
+    	/* 
     	//요청자 명에 포커스 될 때
     	$("#usrNm").focus(function(){
     		//관련 항목 모두 비우기
@@ -684,7 +684,7 @@ var OSLReq4101Popup = function () {
     		$("#deptId").val("");
     		$("#usrImgId").val(""); //이미지 default 넣기
     	});
-    	
+    	 */
     	//그룹 요구사항 명에 포커스 될 때
     	$("#reqGrpNm").focus(function(){
     		
@@ -708,7 +708,7 @@ var OSLReq4101Popup = function () {
 				$("#searchReqGrpBtn").click();
 			}
 		});
-    	
+    	/*
     	//포커스가 아웃될 경우
    		$("#usrNm").blur(function(){
    			//입력된 요청자 명이 있을 경우
@@ -722,7 +722,7 @@ var OSLReq4101Popup = function () {
    				}
    			}
    		});
-    	
+    	*/
     	//요청자 명 검색버튼 클릭 시
     	$("#searchUsrNmBtn").click(function(){
     		var data = {
@@ -737,14 +737,14 @@ var OSLReq4101Popup = function () {
 					callback:[{
 						targetId: "selectUsr",
 						actionFn: function(thisObj){
-							var temp = OSLReq4103Popup.getUsrInfo();
+							var temp = OSLCmm6401Popup.getUsrInfo();
 							if(!$.osl.isNull(temp)){
 								OSLReq4101Popup.setUsrInfo(temp);
 							}
 						}
 					}]
     		};
-    		$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,options);
+    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
     	});
     	
     	//그룹요구사항명 검색버튼 클릭 시
@@ -761,14 +761,14 @@ var OSLReq4101Popup = function () {
 					callback:[{
 						targetId: "selectReqGrp",
 						actionFn: function(thisObj){
-							var temp = OSLReq4105Popup.getReqGrpInfo();
+							var temp = OSLReq4104Popup.getReqGrpInfo();
 							if(!$.osl.isNull(temp)){
 								OSLReq4101Popup.setReqGrpInfo(temp);
 							}
 						}
 					}]
     		};
-    		$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4105View.do',data,options);
+    		$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,options);
     	});
     	
     	//요구사항 잠금 기능
@@ -993,8 +993,7 @@ var OSLReq4101Popup = function () {
 
        	//AJAX 설정
    		var ajaxObj = new $.osl.ajaxRequestAction(
-   				{"url":"<c:url value='/req/req4000/req4100/updateReq4101ReqInfoAjax.do'/>"
-   					, "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
+   				{"url":"<c:url value='/req/req4000/req4100/updateReq4101ReqInfoAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
    				,fd);
 
    		//AJAX 전송 성공 함수

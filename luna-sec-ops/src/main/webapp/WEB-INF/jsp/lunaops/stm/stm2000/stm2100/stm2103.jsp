@@ -41,7 +41,7 @@ var OSLStm2103Popup = function () {
 				var str = "";
 				//사용자 목록 표출하기
 				$.each(info, function(index, value){
-					if(value.stmAdminCd=="01"){
+					if(value.authTypeCd=="01"){
 						str += "<div class='row kt-padding-t-5 kt-padding-b-5'>"
 									+"<div class='kt-user-card-v2__pic kt-media kt-media--xl kt-media--circle kt-padding-5'>"
 										+"<img src=\'/media/users/default.jpg\'/>"
@@ -51,24 +51,24 @@ var OSLStm2103Popup = function () {
 											+ value.prjNm
 										+"</div>"
 										+"<div>"
-											+ value.authGrpNm
+											+ value.authTargetNm
 										+"</div>"
 									+"</div>"
 								+"</div>";
 					}else{
-						str += "<div class='row kt-padding-t-5 kt-padding-b-5 usrInfo' data-user='"+value.stmAdminId+"'>"
+						str += "<div class='row kt-padding-t-5 kt-padding-b-5 usrInfo' data-user='"+value.authTargetId+"'>"
 									+"<div class='kt-user-card-v2__pic kt-media kt-media--xl kt-media--circle kt-padding-5'>"
-										+"<img src='"+$.osl.user.usrImgUrlVal(value.usrImgId)+"' onerror='this.src=\"/media/users/default.jpg\"'/>"
+										+"<img src='"+$.osl.user.usrImgUrlVal(value.authTargetImgId)+"' onerror='this.src=\"/media/users/default.jpg\"'/>"
 									+"</div>"
 									+"<div class='kt-user-card-v2__details kt-padding-5 float-left'>"
 										+"<div class='kt-font-boldest kt-margin-b-10'>"
-											+ value.usrNm + "("+value.stmAdminId+")"
+											+ value.authTargetNm + "("+value.authTargetId+")"
 										+"</div>"
 										+"<div class='kt-margin-b-10'>"
-											+ value.email
+											+ value.authTargetEmail
 										+"</div>"
 										+"<div>"
-											+ "<span class='kt-font-sm'>" + value.deptNm +"</span>"
+											+ "<span class='kt-font-sm'>" + value.authTargetDeptNm +"</span>"
 										+"</div>"
 									+"</div>"
 								+"</div>";

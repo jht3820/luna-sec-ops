@@ -267,7 +267,6 @@ var OSLArm1001Popup = function () {
     
     /**
      * kt-select2 검색 세팅
-     * param : selectUsrList 이미 선택된 사용자 리스트
      */
     var matchCustom = function(params, data){
     	//검색 값이 빈 값인경우 전체 출력

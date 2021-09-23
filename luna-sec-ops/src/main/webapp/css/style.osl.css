@@ -48,6 +48,11 @@
     -ms-flex: 1 0 0px;
     min-width: 0;
 }
+.kt-user-card-v2{
+	display: -webkit-inline-box !important;
+  	display: -ms-inline-flexbox !important;
+	display: inline-flex !important;
+}
 /* 폰트 지정 */
 body {
   font-family: "Poppins", "Nanum Gothic";
@@ -182,6 +187,9 @@ input:-webkit-autofill,
 .osl-min-h-px--50 {
   min-height: 50px; 
 }
+.osl-min-h-px--70 {
+  min-height: 70px; 
+}
 .osl-min-h-px--80 {
   min-height: 80px; 
 }
@@ -223,6 +231,9 @@ input:-webkit-autofill,
 }
 .osl-min-h-px-imp--415{
   min-height: 415px !important;  
+}
+.osl-min-h-px--470 {
+  min-height: 470px; 
 }
 .osl-min-h-px--490 {
   min-height: 490px; 
@@ -273,6 +284,7 @@ input:-webkit-autofill,
 }
 
 
+
 /* 가로 값 */
 /*px*/
 .osl-min-width-70{
@@ -289,9 +301,6 @@ input:-webkit-autofill,
 }
 .osl-min-w-px-130{
 	min-width: 130px;
-}
-.osl-w-px-80{
-	width: 80px;
 }
 /* rem */
 .osl-min-width--11rem{
@@ -334,7 +343,9 @@ input:-webkit-autofill,
 .osl-cursor-pointer{
 	cursor: pointer;
 }
-
+.kt-switch > label {
+    margin-bottom: 0;
+}
 .osl-contents-frame {
     background: #23241f;
     color: #f8f8f2;
@@ -408,7 +419,7 @@ input:-webkit-autofill,
     width: 100%;
     padding-right: 5px;
     float: left;
-    line-height: 21px;
+    line-height: 17px;
 }
 .osl-bg-none{
 	background: none;
@@ -1095,35 +1106,49 @@ label.required:after {
 	border-bottom: 1px solid #eaeaea;
 	margin: 0;
 }
+.osl-uppy-file--btngroup.osl-uppy-file{
+	padding:0;
+	width: 100%;
+	height: fit-content;
+	border-bottom: 1px solid #eaeaea;
+	margin: 0;
+	margin-bottom: 10px;
+}
 /*osl-uppy-file--fullsize 한줄 라인일때 맨마지막 박스 border값 제거*/
-.osl-uppy-file--fullsize:last-child{
+.osl-uppy-file--fullsize:last-child,
+.osl-uppy-file--btngroup:last-child{
 	border-bottom:0;
 }
 /*첨부파일  - 썸네일 전체 사이즈*/
-.osl-uppy-file--fullsize .osl-uppy-file-sumnail{
+.osl-uppy-file--fullsize .osl-uppy-file-sumnail,
+.osl-uppy-file--btngroup .osl-uppy-file-sumnail{
 	width: 50px;
 	height: 50px;
 	float: left;
 }
 
 /*첨부파일  - 썸네일 hover시 다운로드 모양*/
-.osl-uppy-file--fullsize .osl-uppy-list-dashboardItem-action--download{
+.osl-uppy-file--fullsize .osl-uppy-list-dashboardItem-action--download,
+.osl-uppy-file--btngroup .osl-uppy-list-dashboardItem-action--download{
 	font-size: 3rem;
 	line-height: 52px;
 }
 /*첨부파일  - 썸네일 뒤쪽 컬러 배경*/
-.osl-uppy-file--fullsize .osl-uppy-file-sumnail-bg{
+.osl-uppy-file--fullsize .osl-uppy-file-sumnail-bg,
+.osl-uppy-file--btngroup .osl-uppy-file-sumnail-bg{
 	width: 28.62px;
 	height: 37.5px;
 }
 
 /*첨부파일  - icon svg path사이즈*/
-.osl-uppy-file--fullsize .osl-uppy-iconFile{
+.osl-uppy-file--fullsize .osl-uppy-iconFile,
+.osl-uppy-file--btngroup .osl-uppy-iconFile{
 	width: 25px;
 	height: 25px;
 }
 /*첨부파일  - 파일명 파일 용량 영역*/
-.osl-uppy-file--fullsize .osl-uppy-file-info-group{
+.osl-uppy-file--fullsize .osl-uppy-file-info-group,
+.osl-uppy-file--btngroup .osl-uppy-file-info-group{
 	float: left;
 	padding-left: 12px;
 	padding-right: 8px;
@@ -1571,6 +1596,9 @@ label.required:after {
 .osl-line-height--32{
 	line-height: 32px;
 }
+.osl-line-height--50{
+	line-height: 50px;
+}
 .osl-margin-3{
 	margin: 3px;
 }
@@ -1808,7 +1836,13 @@ label.required:after {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
-/*단계 탭 전체 div, 기본 4단계*/
+.osl-wizard__nav-items.osl-wizard__nav-items--clickable {
+    cursor: pointer;
+}
+.osl-wizard .osl-wizard__nav .osl-wizard__nav-items.osl-wizard__nav-items--clickable .osl-wizard__nav-item:hover {
+    background-color: #fff;
+}
+/*단계 탭 전체 div*/
 .osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1822,19 +1856,19 @@ label.required:after {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 calc(25% - 0.25rem);
-    flex: 0 0 calc(25% - 0.25rem);
-    width: calc(25% - 0.25rem);
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
     height: 100px;
+    margin:0 5px;
     background-color: #F3F6F9;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
 }
-/*단계 탭 전체 div - 3단계시 사용*/
-.osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item.osl-wizard__nav-item_3{
-    -ms-flex: 0 0 calc(33.33% - 0.25rem);
-    flex: 0 0 calc(33.33% - 0.25rem);
-    width: calc(33.33% - 0.25rem);
+.osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item:first-child {
+    margin-left: 0;
+}
+.osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item:last-child {
+    margin-right: 0;
 }
 /*활성화 : 단계 탭 전체 div*/
 .osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item[data-ktwizard-state="current"] {
@@ -2103,15 +2137,12 @@ label.required:after {
 	.osl-h-px--500 {
 	  height: 500px; 
 	}
-}
 
-@media (max-width: 1399.98px){
-	/*단계 탭 전체 div, 1399,98이하*/
 	.osl-wizard .osl-wizard__nav .osl-wizard__nav-items .osl-wizard__nav-item {
 	    -webkit-box-flex: 0;
 	    -ms-flex: 0 0 calc(50% - 0.25rem);
-	    flex: 0 0 calc(50% - 0.25rem);
-	    width: calc(50% - 0.25rem);
+	    flex: 1 0 auto;
+	    width: auto;
 	    border-bottom-left-radius: 0.5rem;
 	    border-bottom-right-radius: 0.5rem;
 	    margin-bottom: 0.5rem;
@@ -2129,16 +2160,11 @@ label.required:after {
 	    flex: 0 0 100% !important;
 	    position: relative;
 	    width: 100% !important;
+	    margin: 0 !important;
 	}
 	/* inbox */
 	.kt-inbox .kt-inbox__icon.osl-inbox__aside-menu-bar{
 		display: flex;
-	}
-}
-@media (max-width: 1024px) and (min-width: 701px){
-	/*portlet 아이콘 변경과 반응형 오차범위 버튼 레이아웃 어긋남으로 인한 버튼 여백 재정의*/
-	.osl-portlet__head-btn--padding-tablet{
-		padding: 0.65rem 5px;
 	}
 }
 @media (min-width: 1025px) {
@@ -2442,6 +2468,9 @@ label.required:after {
 	}
 	.osl-flex-flow--column-tablet{
 		flex-flow: column;
+	}
+	.osl-float-left-tablet{
+		float: left;
 	}
 }
 @media (max-width:1023px){

@@ -80,17 +80,8 @@ public class Req1000Controller {
 	private ReqHistoryMngUtil historyMng;
 	
 	
-	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value="/req/req1000/req1000/selectReq1000View.do")
 	public String selectReq1000ListView(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		
-		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-		paramMap.put("prjId", request.getSession().getAttribute("selPrjId").toString());
-		
-		
-		Map prjInfo = (Map)prj1000Service.selectPrj1000Info(paramMap);
-		model.addAttribute("currPrjInfo",prjInfo);
-		
 		return "/req/req1000/req1000/req1000";
 	}
 	
@@ -108,16 +99,8 @@ public class Req1000Controller {
 			String _pageNo_str = paramMap.get("pagination[page]");
 			String _pageSize_str = paramMap.get("pagination[perpage]");
 			
-			
-			String paramPrjId = (String) paramMap.get("dtParamPrjId");
 			HttpSession ss = request.getSession();
 			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
-			
-			
-			if(paramPrjId == null || "".equals(paramPrjId)) {
-				paramPrjId = (String) ss.getAttribute("selPrjId");
-			}
-			paramMap.put("prjId", paramPrjId);
 			
 			
 			String sortFieldId = (String) paramMap.get("sortFieldId");
@@ -166,22 +149,24 @@ public class Req1000Controller {
         	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
         	
 			HttpSession ss = request.getSession();
-			String prjId	= (String) ss.getAttribute("selPrjId");
-			
-			
-        	String paramPrjId = paramMap.get("prjId");
-        	if(paramPrjId != null && !"".equals(paramPrjId)){
-        		prjId = paramPrjId;
-        	}
         	
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			String paramReqId = (String) paramMap.get("paramReqId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
 			String licGrpId = ((LoginVO) ss.getAttribute("loginVO")).getLicGrpId();
         	
-			paramMap.put("prjId", prjId);
+			paramMap.put("prjId", paramPrjId);
+			paramMap.put("reqId", paramReqId);
 			paramMap.put("licGrpId", licGrpId);
 			
         	
         	Map reqInfoMap = (Map) req1000Service.selectReq1000ReqInfo(paramMap);        	
-        	model.addAttribute("reqInfoMap", reqInfoMap);
+        	
         	List<FileVO> fileList = null;
         	int fileCnt = 0;
         	
@@ -206,6 +191,7 @@ public class Req1000Controller {
         	}
 			model.addAttribute("fileList",fileList);
 			model.addAttribute("fileListCnt",fileCnt);
+			model.addAttribute("reqInfoMap", reqInfoMap);
 			
         	
         	model.addAttribute("errorYn", "N");
@@ -308,7 +294,15 @@ public class Req1000Controller {
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 			HttpSession ss = request.getSession();
-
+			
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			paramMap.put("prjId", (String)paramPrjId);
+			
 			
 			String atchFileId = (String) paramMap.get("atchFileId");
 			
@@ -348,9 +342,24 @@ public class Req1000Controller {
 	public ModelAndView updateReq1001ReqInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 
 		try{
+			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			HttpSession ss = request.getSession();
+			
+			
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			String paramReqId = (String) paramMap.get("paramReqId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			paramMap.put("prjId", (String)paramPrjId);
+			paramMap.put("reqId", (String)paramReqId);
+			
 			
 			req1000Service.saveReq1000ReqInfo(paramMap);
+			
 			
 			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
 
@@ -359,6 +368,7 @@ public class Req1000Controller {
 		catch(Exception ex){
 			Log.error("updateReq1001ReqInfoAjax()", ex);
 
+			
 			model.addAttribute("saveYN", "N");
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
 			return new ModelAndView("jsonView");
@@ -369,10 +379,13 @@ public class Req1000Controller {
 	@RequestMapping(value="/req/req1000/req1000/deleteReq1001ReqListAjax.do")
 	public ModelAndView deleteReq1001ReqListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try{
+			
         	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 
+			
 			req1000Service.deleteReq1000ReqList(paramMap);
 
+			
 			model.addAttribute("errorYn", "N");
 			model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
 
@@ -400,7 +413,13 @@ public class Req1000Controller {
 	@RequestMapping(value="/batteryStatus.do")
 	public void batteryStatus(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try{
+			
         	Map<String, String> paramMap = RequestConvertor.requestParamToMap(request);
+
+			System.out.println("###############################");
+			System.out.println(paramMap.get("type"));
+			System.out.println(paramMap.get("value"));
+		
 		}
 		catch(Exception e){
 

@@ -1,4 +1,4 @@
-package kr.opensoftlab.lunaops.prj.prj1000.prj1100.web;
+package kr.opensoftlab.lunaops.prj.prj1000.prj1000.web;
 
 import java.util.List;
 import java.util.Map;
@@ -20,8 +20,9 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.cmm.cmm4000.cmm4000.service.Cmm4000Service;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
-import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.Prj1100Service;
-import kr.opensoftlab.lunaops.stm.stm4000.stm4000.service.Stm4000Service;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1000.service.Prj1000Service;
+import kr.opensoftlab.lunaops.prj.prj2000.prj2000.service.Prj2000Service;
+import kr.opensoftlab.lunaops.req.req4000.req4100.service.Req4100Service;
 import kr.opensoftlab.sdf.util.ModuleUseCheck;
 import kr.opensoftlab.sdf.util.OslStringUtil;
 import kr.opensoftlab.sdf.util.PagingUtil;
@@ -30,21 +31,25 @@ import kr.opensoftlab.sdf.util.RequestConvertor;
 
 
 @Controller
-public class Prj1100Controller {
+public class Prj1000Controller {
 	
-	private static final Logger Log = Logger.getLogger(Prj1100Controller.class);
+	private static final Logger Log = Logger.getLogger(Prj1000Controller.class);
 	
 	
+    @Resource(name = "prj1000Service")
+    private Prj1000Service prj1000Service;
+    
+    
     @Resource(name = "cmm4000Service")
     private Cmm4000Service cmm4000Service;
     
     
-    @Resource(name = "stm4000Service")
-    private Stm4000Service stm4000Service;
+    @Resource(name = "prj2000Service")
+    private Prj2000Service prj2000Service;
     
-	
-    @Resource(name = "prj1100Service")
-    private Prj1100Service prj1100Service;
+    
+    @Resource(name = "req4100Service")
+    private Req4100Service req4100Service;
     
     
 	@Resource(name = "egovMessageSource")
@@ -62,29 +67,77 @@ public class Prj1100Controller {
 	@Resource(name = "leaveaTrace")
 	LeaveaTrace leaveaTrace;
 	
-
 	
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100View.do")
-    public String selectPrj1100View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		return "/prj/prj1000/prj1100/prj1100";
-    }
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1101View.do")
-	public String selectPrj1101View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		return "/prj/prj1000/prj1100/prj1101";
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/prj/prj1000/prj1000/selectPrj1000View.do")
+	public String selectPrj1000View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try {
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			String paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
+			HttpSession ss = request.getSession();
+			
+			
+			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
+				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
+			}
+			
+			
+			LoginVO loginVo = (LoginVO) ss.getAttribute("loginVO");
+			String usrId = loginVo.getUsrId();
+			paramMap.put("usrId", usrId);
+			paramMap.put("prjGrpCd", "01");
+			paramMap.put("prjAuthTypeCd", "01");
+			paramMap.put("prjId", paramPrjGrpId);
+			
+			
+			Map prjInfo = prj1000Service.selectPrj1000GrpInfo(paramMap);
+			model.addAttribute("prjInfo", prjInfo);
+		}catch(Exception e) {
+			model.addAttribute("prjInfo", null);
+		}
+		
+		return "/prj/prj1000/prj1000/prj1000";
 	}
 	
 	
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1102View.do")
-    public String selectPrj1102View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		return "/prj/prj1000/prj1100/prj1102";
-    }
-	
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100ProcessListAjax.do")
-	public ModelAndView selectPrj1100ProcessListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+	@RequestMapping(value="/prj/prj1000/prj1000/selectPrj1000PrjListView.do")
+	public String selectPrj1000PrjListView(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		String paramPrjGrpId = "";
 		try {
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
+		}catch(Exception e) {
+			
+		}
+		return "redirect:/prj/prj1000/prj1000/selectPrj1000View.do?paramPrjGrpId="+paramPrjGrpId;
+	}
+	
+	
+	
+	@RequestMapping(value="/prj/prj1000/prj1000/selectPrj1001View.do")
+	public String selectPrj1004View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/prj/prj1000/prj1000/prj1001";
+	}
+	
+	
+	@RequestMapping(value="/prj/prj1000/prj1000/selectPrj1002View.do")
+	public String selectPrj1005View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/prj/prj1000/prj1000/prj1002";
+	}
+	
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/prj/prj1000/prj1000/selectPrj1000ListAjaxView.do")
+	public ModelAndView selectPrj1000ListAjaxView(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		
+		try{
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 			
@@ -94,28 +147,20 @@ public class Prj1100Controller {
 			String _pageSize_str = paramMap.get("pagination[perpage]");
 			
 			
-			HttpSession ss = request.getSession();
-			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
-			paramMap.put("licGrpId", loginVO.getLicGrpId());
-			
-			
 			String paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
+			HttpSession ss = request.getSession();
 			
 			
 			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
 				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
 			}
 			
-			
-			String paramPrjId = (String) paramMap.get("paramPrjId");
-			
-			
-			if(paramPrjId == null || "".equals(paramPrjId)) {
-				paramPrjId = (String) ss.getAttribute("selPrjId");
-			}
-			
 			paramMap.put("prjGrpId", paramPrjGrpId);
-			paramMap.put("prjId", paramPrjId);
+			
+			
+			LoginVO loginVo = (LoginVO) ss.getAttribute("loginVO");
+			String usrId = loginVo.getUsrId();
+			paramMap.put("usrId", usrId);
 			
 			
 			String sortFieldId = (String) paramMap.get("sortFieldId");
@@ -124,30 +169,11 @@ public class Prj1100Controller {
 			String paramSortFieldId = OslStringUtil.convertUnderScope(sortFieldId);
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
-			
-			paramMap.put("delCd", "02");
-			
+			paramMap.put("prjGrpCd", "01");
 			
 			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
-			
-			
-			totCnt = prj1100Service.selectPrj1100ProcessListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			dataList = (List) prj1100Service.selectPrj1100ProcessList(paramMap);
-			
-        	
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -157,178 +183,84 @@ public class Prj1100Controller {
 			
 			model.addAttribute("data", dataList);
 			model.addAttribute("meta", metaMap);
-        	
-        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-        	
-        	return new ModelAndView("jsonView");
-		} catch (Exception ex) {
-			Log.error("selectPrj1100ProcessListAjax()", ex);
+			model.addAttribute("reqChartDataList", reqChartDataList);
 			
+			
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectPrj1000ListAjaxView()", ex);
 			
 			model.addAttribute("errorYn", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
+			throw new Exception(ex.getMessage());
 		}
 	}
 	
 	
-	@RequestMapping(value="/prj/prj1000/prj1100/savePrj1100ProcessInfoAjax.do")
-	public ModelAndView savePrj1100ProcessInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
+	@RequestMapping(value="/prj/prj1000/prj1000/savePrj1001PrjGrpInfo.do")
+	public ModelAndView savePrj1001PrjGrpInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try{
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			HttpSession ss = request.getSession();
 			String type = (String) paramMap.get("type");
 			
 			
-			HttpSession ss = request.getSession();
-						
-			
-			String paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
-			String paramProcessId = (String) paramMap.get("paramProcessId");
-			
-			
-			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
-				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
-			}
-			
-			
-			String paramPrjId = (String) paramMap.get("paramPrjId");
-			
-			
-			if(paramPrjId == null || "".equals(paramPrjId)) {
-				paramPrjId = (String) ss.getAttribute("selPrjId");
-			}
-			
-			paramMap.put("prjGrpId", paramPrjGrpId);
-			paramMap.put("prjId", paramPrjId);
+			LoginVO loginVo = (LoginVO) ss.getAttribute("loginVO");
+			String usrId = loginVo.getUsrId();
 			
 			
 			if("insert".equals(type)) {
-				prj1100Service.insertPrj1100ProcessInfo(paramMap);
+				String prjGrpId = (String) paramMap.get("paramPrjGrpId");
+				
+				paramMap.put("prjGrpCd", "02");
+				paramMap.put("prjGrpId", prjGrpId);
+				
+				
+				paramMap.put("prjAuthTypeCd", "01");
+				paramMap.put("prjAuthTargetId", usrId);
+				
+				
+				prj1000Service.insertPrj1001Ajax(paramMap);
 			}
 			
 			else if("update".equals(type)) {
-				paramMap.put("processId", paramProcessId);
-				prj1100Service.updatePrj1100ProcessInfo(paramMap);
+				paramMap.put("prjGrpCd", "02");
 				
+				
+				paramMap.put("prjAuthTypeCd", "01");
+				paramMap.put("prjAuthTargetId", usrId);
+				
+				
+				prj1000Service.updatePrj1000PrjGrp(paramMap);
 			}else {
 				
 				model.addAttribute("errorYn", "Y");
-	        	model.addAttribute("message", egovMessageSource.getMessage("fail.common.save"));
-	        	return new ModelAndView("jsonView");
+				model.addAttribute("message", egovMessageSource.getMessage("fail.common.save"));
+				return new ModelAndView("jsonView");
 			}
 			
 			
-			model.addAttribute("errorYN", "N");
+			model.addAttribute("errorYn", "N");
 			model.addAttribute("message", egovMessageSource.getMessage("success.common.save"));
-
 			return new ModelAndView("jsonView");
 		}
 		catch(Exception ex){
-			Log.error("savePrj1100ProcessInfoAjax()", ex);
-
+			Log.error("savePrj1001PrjGrpInfo()", ex);
 			
-			model.addAttribute("errorYN", "Y");
+			
+			model.addAttribute("errorYn", "Y");
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.save"));
-			return new ModelAndView("jsonView");
-		}
-	}
-
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/deletePrj1100ProcessInfoAjax.do")
-	public ModelAndView deletePrj1100ProcessInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			prj1100Service.deletePrj1100ProcessInfo(paramMap);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("deletePrj1100ProcessInfoAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.delete"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100ProcessInfoAjax.do")
-	public ModelAndView selectPrj1100ProcessInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-			HttpSession ss = request.getSession();
-						
-			
-			String paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
-			String paramProcessId = (String) paramMap.get("paramProcessId");
-			
-			
-			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
-				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
-			}
-			
-			
-			String paramPrjId = (String) paramMap.get("paramPrjId");
-			
-			
-			if(paramPrjId == null || "".equals(paramPrjId)) {
-				paramPrjId = (String) ss.getAttribute("selPrjId");
-			}
-			
-			paramMap.put("prjGrpId", paramPrjGrpId);
-			paramMap.put("prjId", paramPrjId);
-			paramMap.put("processId", paramProcessId);
-			
-			
-			Map processInfo = (Map) prj1100Service.selectPrj1100ProcessInfo(paramMap);
-			model.addAttribute("processInfo", processInfo);
-			
-			
-			
-			int totCnt = prj1100Service.selectPrj1100ProcessAuthUsrListCnt(paramMap);
-			
-			paramMap.put("firstIndex", "0");
-			paramMap.put("lastIndex", String.valueOf(totCnt));
-			
-			
-			List<Map> processAuthList = prj1100Service.selectPrj1100ProcessAuthUsrList(paramMap);
-			model.addAttribute("processAuthList", processAuthList);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectPrj1100ProcessInfoAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
+			throw new Exception(ex.getMessage());
 		}
 	}
 	
 	
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100ProcessAuthUsrListAjax.do")
-    public ModelAndView selectPrj1100ProcessAuthUsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+	@RequestMapping(value="/prj/prj1000/prj1000/selectPrj1000PrjAuthUsrListAjax.do")
+    public ModelAndView selectPrj1000PrjAuthUsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
     	
     	try{
     		
@@ -359,26 +291,8 @@ public class Prj1100Controller {
 			
 			
 			
-			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
-			
-			
-			totCnt = prj1100Service.selectPrj1100ProcessAuthUsrListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			dataList = (List) prj1100Service.selectPrj1100ProcessAuthUsrList(paramMap);
-			
-        	
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -393,7 +307,7 @@ public class Prj1100Controller {
         	return new ModelAndView("jsonView");
     	}
     	catch(Exception ex){
-    		Log.error("selectPrj1100ProcessAuthUsrListAjax()", ex);
+    		Log.error("selectPrj1000PrjAuthUsrListAjax()", ex);
     		
     		
     		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
@@ -403,8 +317,8 @@ public class Prj1100Controller {
     
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    @RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100ProcessAuthNoneUsrListAjax.do")
-    public ModelAndView selectPrj1100ProcessAuthNoneUsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+    @RequestMapping(value="/prj/prj1000/prj1000/selectPrj1000PrjAuthNoneUsrListAjax.do")
+    public ModelAndView selectPrj1000PrjAuthNoneUsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
     	try{
     		
     		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
@@ -434,26 +348,8 @@ public class Prj1100Controller {
     		
     		
     		
-    		
-    		int totCnt = 0;
-    		List<Map> dataList = null;
-    		Map<String, Object> metaMap = null;
-    		
-			
-			totCnt = prj1100Service.selectPrj1100ProcessAuthNoneUsrListCnt(paramMap);
-			
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-			
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-			
-			
-			
-			dataList = (List) prj1100Service.selectPrj1100ProcessAuthNoneUsrList(paramMap);
-			
-			
+    		/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -468,7 +364,7 @@ public class Prj1100Controller {
     		return new ModelAndView("jsonView");
     	}
     	catch(Exception ex){
-    		Log.error("selectPrj1100ProcessAuthNoneUsrListAjax()", ex);
+    		Log.error("selectPrj1000PrjAuthNoneUsrListAjax()", ex);
     		
     		
     		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
@@ -476,789 +372,131 @@ public class Prj1100Controller {
     	}
     }
     
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100FlowListAjax.do")
-	public ModelAndView selectPrj1100FlowListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
+    
+	@RequestMapping(value="/prj/prj1000/prj1000/updatePrj1000PrjGrpTrashListAjax.do")
+	public ModelAndView updatePrj1000PrjGrpTrashListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try{
 			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-    		String paramPrjId = (String) paramMap.get("paramPrjId");
-    		String paramProcessId = (String) paramMap.get("paramProcessId");
-    		
-    		HttpSession ss = request.getSession();
-    		
-    		
-    		if(paramPrjId == null || "".equals(paramPrjId)) {
-    			paramPrjId = (String) ss.getAttribute("selPrjId");
-    		}
-    		paramMap.put("prjId", paramPrjId);
-    		paramMap.put("processId", paramProcessId);
-			
-    		
-    		List<Map> flowList = prj1100Service.selectPrj1101FlowList(paramMap);
-    		
-    		
-    		List<Map> flowLinkList = prj1100Service.selectPrj1107FlowLinkList(paramMap);
-    		
-    		model.addAttribute("flowList", flowList);
-    		model.addAttribute("flowLinkList", flowLinkList);
-    		
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectPrj1100FlowListAjax()", ex);
+        	
+        	paramMap.put("delCd", "01");
+        	
+			
+        	prj1000Service.updatePrj1000PrjGrpTrashListAjax(paramMap);
 
 			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/savePrj1100FlowInfoAjax.do")
-	public ModelAndView savePrj1100FlowInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			String type = (String) paramMap.get("type");
-			
-    		String paramPrjId = (String) paramMap.get("paramPrjId");
-    		String paramProcessId = (String) paramMap.get("paramProcessId");
-    		String paramFlowId = (String) paramMap.get("paramFlowId");
-    		
-    		HttpSession ss = request.getSession();
-    		
-    		
-    		if(paramPrjId == null || "".equals(paramPrjId)) {
-    			paramPrjId = (String) ss.getAttribute("selPrjId");
-    		}
-    		paramMap.put("prjId", paramPrjId);
-    		paramMap.put("processId", paramProcessId);
-			
-			
-    		if("insert".equals(type)) {
-    			
-    			
-    			paramMap.put("flowEndCd", "02");
-    			paramMap.put("flowWorkCd", "02");
-    			paramMap.put("flowRevisionCd", "02");
-    			paramMap.put("flowDplCd", "02");
-    			paramMap.put("FlowAuthCd", "02");
-    			
-    			
-    			String newFlowId = prj1100Service.insertPrj1101FlowInfo(paramMap);
-    			
-    			model.addAttribute("newFlowId", newFlowId);
-    		}
-    		
-    		else if("update".equals(type)) {
-    			paramMap.put("flowId", paramFlowId);
-    			
-    			prj1100Service.updatePrj1101FlowInfo(paramMap);
-    		}
-    		else {
-    			
-    			model.addAttribute("errorYN", "Y");
-    			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
-    			return new ModelAndView("jsonView");
-    		}
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("savePrj1100FlowInfoAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/savePrj1100ProcessDataInfo.do")
-	public ModelAndView savePrj1100ProcessDataInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-    		String paramPrjId = (String) paramMap.get("paramPrjId");
-    		String paramProcessId = (String) paramMap.get("paramProcessId");
-    		
-    		HttpSession ss = request.getSession();
-    		
-    		
-    		if(paramPrjId == null || "".equals(paramPrjId)) {
-    			paramPrjId = (String) ss.getAttribute("selPrjId");
-    		}
-    		paramMap.put("prjId", paramPrjId);
-    		paramMap.put("processId", paramProcessId);
-			
-			prj1100Service.savePrj1100ProcessDataInfo(paramMap);
-    		
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.save"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("savePrj1100ProcessDataInfo()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.save"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@SuppressWarnings({ "rawtypes"})
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100FlowInfoAjax.do")
-	public ModelAndView selectPrj1100FlowInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-			HttpSession ss = request.getSession();
-						
-			
-			String paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
-			String paramProcessId = (String) paramMap.get("paramProcessId");
-			String paramFlowId = (String) paramMap.get("paramFlowId");
-			
-			
-			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
-				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
-			}
-			
-			
-			String paramPrjId = (String) paramMap.get("paramPrjId");
-			
-			
-			if(paramPrjId == null || "".equals(paramPrjId)) {
-				paramPrjId = (String) ss.getAttribute("selPrjId");
-			}
-			
-			paramMap.put("prjGrpId", paramPrjGrpId);
-			paramMap.put("prjId", paramPrjId);
-			paramMap.put("processId", paramProcessId);
-			paramMap.put("flowId", paramFlowId);
-			
-			
-			Map flowInfo = (Map) prj1100Service.selectPrj1101FlowInfo(paramMap);
-			model.addAttribute("flowInfo", flowInfo);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectPrj1100FlowInfoAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100FlowReqListCnt.do")
-	public ModelAndView selectPrj1100FlowReqListCnt(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-    		String paramPrjId = (String) paramMap.get("paramPrjId");
-    		String paramProcessId = (String) paramMap.get("paramProcessId");
-    		String paramFlowId = (String) paramMap.get("paramFlowId");
-    		
-    		HttpSession ss = request.getSession();
-    		
-    		
-    		if(paramPrjId == null || "".equals(paramPrjId)) {
-    			paramPrjId = (String) ss.getAttribute("selPrjId");
-    		}
-    		paramMap.put("prjId", paramPrjId);
-    		paramMap.put("processId", paramProcessId);
-    		paramMap.put("flowId", paramFlowId);
-			
-			int reqListCnt = prj1100Service.selectPrj1100FlowReqListCnt(paramMap);
-			model.addAttribute("reqListCnt", reqListCnt);
-    		
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectPrj1100FlowReqListCnt()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1103View.do")
-    public String selectPrj1103View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			String processId = paramMap.get("processId");
-			String flowId = paramMap.get("flowId");
-			String type = paramMap.get("type");
-			
-			model.addAttribute("processId",processId);
-			model.addAttribute("flowId",flowId);
-			model.addAttribute("type",type);
-		}catch(Exception ex){
-			Log.error("selectPrj1103View()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return "/err/error";
-		}
-		return "/prj/prj1000/prj1100/prj1103";
-    }
-		
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100ProcessReqCntAjax.do")
-	public ModelAndView selectPrj1100ProcessReqCntAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-			HttpSession ss = request.getSession();
-			paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
-			
-			int proReqCnt = prj1100Service.selectPrj1100ProcessReqCnt(paramMap);
-			
-			model.addAttribute("proReqCnt", proReqCnt);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-			
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectPrj1100ProcessReqCntAjax()", ex);
-			
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/updatePrj1100FlowInfoAjax.do")
-	public ModelAndView updatePrj1100FlowInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-    		HttpSession ss = request.getSession();
-    		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
-    		
-			prj1100Service.updatePrj1101FlowInfo(paramMap);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("updatePrj1100FlowInfoAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/deletePrj1100FlowInfoAjax.do")
-	public ModelAndView deletePrj1100FlowInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-    		HttpSession ss = request.getSession();
-    		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
-    		
-			prj1100Service.deletePrj1101FlowInfo(paramMap);
-			
-			
-			model.addAttribute("errorYN", "N");
+			model.addAttribute("errorYn", "N");
 			model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
 
 			return new ModelAndView("jsonView");
 		}
-		catch(Exception ex){
-			Log.error("deletePrj1100FlowInfoAjax()", ex);
+		catch(Exception e){
+			Log.error("updatePrj1000PrjGrpTrashListAjax()", e);
 
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.delete"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100OptListAjax.do")
-	public ModelAndView selectPrj1100OptListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-			String type = paramMap.get("type");
-			
-			
-    		HttpSession ss = request.getSession();
-    		if(paramMap.get("prjId") == null){
-    			paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
-    		}
-    		
-    		
-			List<Map> optList = prj1100Service.selectPrj1102OptList(paramMap);
-			model.addAttribute("optList", optList);
-			
-			if("prj1101".equals(type)){
-				
-				List<Map> commonMstList = stm4000Service.selectStm4000CommonCodeMasterList(paramMap);
-				model.addAttribute("commonMstList", commonMstList);
-			}else{
-				model.addAttribute("commonMstList", null);
-			}
-			
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectPrj1100OptListAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/insertPrj1100OptInfoAjax.do")
-	public ModelAndView insertPrj1100OptInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-    		HttpSession ss = request.getSession();
-    		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
-    		
-			prj1100Service.insertPrj1102OtpInfo(paramMap);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("insertPrj1100OptInfoAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/updatePrj1100OptInfoAjax.do")
-	public ModelAndView updatePrj1100OptInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-    		HttpSession ss = request.getSession();
-    		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
-    		
-			prj1100Service.updatePrj1102OtpInfo(paramMap);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("updatePrj1100OptInfoAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/deletePrj1100OptInfoAjax.do")
-	public ModelAndView deletePrj1100OptInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-    		HttpSession ss = request.getSession();
-    		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
-    		
-			prj1100Service.deletePrj1102OtpInfo(paramMap);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("deletePrj1100OptInfoAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.delete"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100FlwListAjax.do")
-	public ModelAndView selectPrj1100FlwListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-    		HttpSession ss = request.getSession();
-    		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
-    		
-			List<Map> flowList = prj1100Service.selectPrj1101FlowList(paramMap);
-			
-			
-			String flowId = (String) flowList.get(0).get("flowId");
-			paramMap.put("flowId", flowId);
-			
-			
-			List<Map> optList = prj1100Service.selectPrj1102OptList(paramMap);
-			
-			model.addAttribute("optList", optList);
-			model.addAttribute("flowList", flowList);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectPrj1100FlwListAjax()", ex);
-
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/insertPrj1100RevisionNumList.do")
-	public ModelAndView insertReq4100RevisionNumInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
-		try{
-			
-			Map paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			paramMap.put("prjId", paramMap.get("selPrjId"));
-			
-			
-			int selRepNumCnt = Integer.parseInt((String)paramMap.get("selRepNumCnt"));
-			
-			
-			int addFailRepNumCnt = prj1100Service.insertPrj1105RevisionNumList(paramMap);
-			
-			
-			if(selRepNumCnt == addFailRepNumCnt){
-				
-				model.addAttribute("errorYn", "Y");
-				model.addAttribute("message", "선택된 모든 리비전이 중복됩니다.");
-			}
-			
-			else if(addFailRepNumCnt > 0){
-				
-				model.addAttribute("errorYn", "N");
-				model.addAttribute("message", egovMessageSource.getMessage("success.common.insert")+"</br>"+addFailRepNumCnt+"건의 중복 선택 리비전은 제외되었습니다.");
-			}else{
-				
-				model.addAttribute("errorYn", "N");
-				model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
-			}
-			
-			
-			
-			return new ModelAndView("jsonView");
-
-		}catch(Exception e){
-			Log.error("insertReq4100RevisionNumInfo()", e);
 			model.addAttribute("errorYn", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.delete"));
+
 			return new ModelAndView("jsonView");
 		}
 	}
 	
-
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/deletePrj1100RevisionNumList.do")
-	public ModelAndView deletePrj1100RevisionNumList(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
+	@RequestMapping(value="/prj/prj1000/prj1000/updatePrj1000PrjGrpTrashRedoListAjax.do")
+	public ModelAndView updatePrj1000PrjGrpTrashRedoListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try{
 			
-			Map paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			paramMap.put("prjId", paramMap.get("selPrjId"));
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 			
 			
-			prj1100Service.deletePrj1104RevisionNumList(paramMap);
+        	paramMap.put("delCd", "02");
+        	
+			
+			prj1000Service.updatePrj1000PrjGrpTrashListAjax(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
+			
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception e){
+			Log.error("updatePrj1000PrjGrpTrashRedoListAjax()", e);
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
+			
+			return new ModelAndView("jsonView");
+		}
+	}
+
+	
+	@RequestMapping(value="/prj/prj1000/prj1000/deletePrj1000PrjDeleteListAjax.do")
+	public ModelAndView deletePrj1000PrjDeleteListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			prj1000Service.deletePrj1001Ajax(paramMap);
 			
 			
 			model.addAttribute("errorYn", "N");
 			model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
 			
 			return new ModelAndView("jsonView");
-
-		}catch(Exception e){
-			Log.error("deletePrj1100RevisionNumList()", e);
+		}
+		catch(Exception e){
+			Log.error("deletePrj1000PrjDeleteListAjax()", e);
+			
 			model.addAttribute("errorYn", "Y");
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.delete"));
+			
 			return new ModelAndView("jsonView");
 		}
 	}
 	
-
-	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100FlowAuthGrpListAjax.do")
-	public ModelAndView selectPrj1100FlowAuthGrpListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		
+	@RequestMapping(value="/prj/prj1000/prj1000/selectPrj1000PrjInfoAjax.do")
+	public ModelAndView selectPrj1000PrjInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try{
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			if(paramMap.get("prjId") == null){
-    			paramMap.put("prjId", (String) paramMap.get("selPrjId"));
-    		}
+			HttpSession ss = request.getSession();
 			
 			
-			List<Map> flowAuthGrpList = prj1100Service.selectPrj1105FlowAuthGrpList(paramMap);
-			model.addAttribute("flowAuthGrpList", flowAuthGrpList);
+			LoginVO loginVo = (LoginVO) ss.getAttribute("loginVO");
+			String usrId = loginVo.getUsrId();
+			paramMap.put("usrId", usrId);
+			paramMap.put("prjGrpCd", "02");
 			
 			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-			
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectPrj1100FlowAuthGrpListAjax()", ex);
+			Map prjInfo = prj1000Service.selectPrj1000Info(paramMap);
+			model.addAttribute("prjInfo", prjInfo);
 			
 			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
-		}
-	}
-
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/insertPrj1100FlowAuthGrpList.do")
-	public ModelAndView insertPrj1100FlowAuthGrpList(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
-		try{
 			
-			Map paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			paramMap.put("prjId", paramMap.get("selPrjId"));
+			int totCnt = prj1000Service.selectPrj1000PrjAuthUsrListCnt(paramMap);
+			
+			paramMap.put("firstIndex", "0");
+			paramMap.put("lastIndex", String.valueOf(totCnt));
 			
 			
-			int selAuthCnt = Integer.parseInt((String)paramMap.get("selAuthCnt"));
-			
-			
-			int addFailAuthCnt = prj1100Service.insertPrj1105FlowAuthGrpList(paramMap);
-			
-			
-			if(selAuthCnt == addFailAuthCnt){
-				
-				model.addAttribute("errorYn", "Y");
-				model.addAttribute("message", "선택된 모든 역할그룹이 중복됩니다.");
-			}
-			
-			else if(addFailAuthCnt > 0){
-				
-				model.addAttribute("errorYn", "N");
-				model.addAttribute("message", egovMessageSource.getMessage("success.common.insert")+"</br>"+addFailAuthCnt+"건의 중복 선택 역할그룹은 제외되었습니다.");
-			}else{
-				
-				model.addAttribute("errorYn", "N");
-				model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
-			}
-			
-			return new ModelAndView("jsonView");
-
-		}catch(Exception e){
-			Log.error("insertPrj1100FlowAuthGrpList()", e);
-			model.addAttribute("errorYn", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1100/deletePrj1100FlowAuthGrpList.do")
-	public ModelAndView deletePrj1100FlowAuthGrpList(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
-		try{
-			
-			Map paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			paramMap.put("prjId", paramMap.get("selPrjId"));
-			
-			
-			prj1100Service.deletePrj1105FlowAuthGrpList(paramMap);
+			List<Map> prjAuthList = prj1000Service.selectPrj1000PrjAuthUsrList(paramMap);
+			model.addAttribute("prjAuthList", prjAuthList);
 			
 			
 			model.addAttribute("errorYn", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
-			
-			return new ModelAndView("jsonView");
-
-		}catch(Exception e){
-			Log.error("deletePrj1100FlowAuthGrpList()", e);
-			model.addAttribute("errorYn", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.delete"));
-			return new ModelAndView("jsonView");
-		}
-	}
-
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100ProcessCopyList.do")
-	public ModelAndView selectPrj1100ProcessCopyList(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		
-		try{
-			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
-			HttpSession ss = request.getSession();
-			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
-    		paramMap.put("usrId", loginVO.getUsrId());
-
-			List<Map> processCopyList = prj1100Service.selectPrj1100ProcessCopyList(paramMap);
-			model.addAttribute("processCopyList", processCopyList);
-			
-			paramMap.remove("prjId");
-			paramMap.put("prjId", "ROOTSYSTEM_PRJ");
-			paramMap.put("dshType", "dsh1000");
-			
-			
-			List<Map> rootProcessList = prj1100Service.selectPrj1100ProcessList(paramMap);
-			model.addAttribute("rootProcessList", rootProcessList);
-			
-			
-			model.addAttribute("errorYN", "N");
 			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
 			
 			return new ModelAndView("jsonView");
 		}
-		catch(Exception ex){
-			Log.error("selectPrj1100ProcessCopyList()", ex);
+		catch(Exception e){
+			Log.error("selectPrj1000PrjInfoAjax()", e);
 			
-			
-			model.addAttribute("errorYN", "Y");
+			model.addAttribute("errorYn", "Y");
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-			return new ModelAndView("jsonView");
-		}
-	}
-	
-	
-	@RequestMapping(value="/prj/prj1000/prj1100/insertPrj1100ProcessCopyInfoAjax.do")
-	public ModelAndView insertPrj1100ProcessCopyInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		
-		try{
 			
-			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			prj1100Service.insertPrj1100ProcessCopyInfo(paramMap);
-			
-			
-			model.addAttribute("errorYN", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
-			
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("insertPrj1100ProcessCopyInfoAjax()", ex);
-			
-			
-			model.addAttribute("errorYN", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
 			return new ModelAndView("jsonView");
 		}
 	}

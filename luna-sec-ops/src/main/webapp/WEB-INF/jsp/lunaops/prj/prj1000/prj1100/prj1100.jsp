@@ -164,16 +164,15 @@
 </div>
 <script>
 "use strict";
-//작업흐름 추가 데이터
-var flowAddList = [];
-//작업흐름 삭제 데이터
-var flowRemoveList = [];
+var OSLPrj1100Popup = function () {
+	
+	//작업흐름 추가 데이터
+	var flowAddList = [];
+	//작업흐름 삭제 데이터
+	var flowRemoveList = [];
 	//프로세스 데이터
 	var flowChart = $("#flowChartDiv");
 	var zoomObj;
-var OSLPrj1100Popup = function () {
-	
-	
 	
 	//현재 선택된 프로세스
 	var selProcessId;

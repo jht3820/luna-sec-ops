@@ -107,4 +107,24 @@ public class Spr1100ServiceImpl extends EgovAbstractServiceImpl implements Spr11
 	public Map selectSpr1100ReqResultInfo(Map paramMap) throws Exception {
 		return spr1100DAO.selectSpr1100ReqResultInfo(paramMap);
 	}
+	
+	
+	@Override
+	public int selectSpr1101SprReqListCnt(Map<String, String> paramMap) throws Exception {
+		return spr1100DAO.selectSpr1101SprReqListCnt(paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List selectSpr1101SprReqList(Map<String, String> paramMap) throws Exception {
+		return spr1100DAO.selectSpr1101SprReqList(paramMap);
+	}
+	
+	
+	@Override
+	public void updateSpr1100ReqListAjax(Map<String, String> paramMap) throws Exception {
+		
+		
+	}
 }

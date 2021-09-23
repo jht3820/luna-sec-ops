@@ -229,7 +229,10 @@
 				<div class="kt-portlet__body">
 					<div class="alert alert-solid-info alert-bold fade show kt-margin-t-20 kt-margin-b-40" role="alert">
 						<div class="alert-icon"><i class="fa fa-exclamation-circle"></i></div>
-						<div class="alert-text">단축키는 단일키 혹은 Ctrl,Alt,Shift 버튼과 키의 조합으로 구성할 수 있습니다. ex) F2, Ctrl+F2, Ctrl + Shift + F2</div>
+						<div class="alert-text"> 단축키는 단일키 혹은 Ctrl,Alt,Shift 버튼과 키의 조합으로 구성할 수 있습니다. ex) F2, Ctrl+F2, Ctrl + Shift + F2 <br/> 
+												  또한 단축키는 최우선적으로 적용되므로 주로 사용하는 기본 단축키를 설정할 경우 기본 단축키는 사용할 수 없습니다. <br/>
+												 단축키 입력 시 단축키 입력란을 클릭 후 사용할 단축키를 눌러주세요.
+						</div>
 						<div class="alert-close">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true"><i class="la la-close"></i></span>
@@ -579,19 +582,19 @@ var OSLUsr1000Popup = function () {
 		
 		var data = {deptName:searchDeptNm};
 		var options = {
-				idKey: "cmm1200",
+				idKey: "cmm6500",
 				modalSize: 'xl',
 				modalTitle: "조직 검색",
 				closeConfirm: false,
 				callback:[{
-                    targetId: "cmm1200SelDept",
+                    targetId: "cmm6500SelDept",
                     actionFn: function(thisObj){
                     	OSLUsr1000Popup.setDept(thisObj);
                     }
                  }]
 			};
 		
-		$.osl.layerPopupOpen('/cmm/cmm1000/cmm1200/selectCmm1200View.do',data,options);
+		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6500/selectCmm6500View.do',data,options);
 	};
     
    /**
@@ -881,6 +884,7 @@ var OSLUsr1000Popup = function () {
 						$(this).val("");
 					}
 				});
+				
 				//팝업창시 실행 여부 조회
 				data.shortcutInfo.forEach(function(value, index){
 					if(value.popupActionCd == "01"){
@@ -897,11 +901,17 @@ var OSLUsr1000Popup = function () {
 		        	
 		        });
 				
+				//페이지 나가짐 방지
+		        $(window).on('beforeunload', function(e) {
+				       return true;
+				});
+		        
 		      	//단축키 입력
 		        $(".keyCode").keydown(function(event){
 		        	
 		        	//크롬 단축키 막아줌. 현재 이벤트의 기본 동작을 중단함.
 		        	event.preventDefault();
+		        	
 		        	//조합키 단일 중복값 입력시 입력안됨.
 		        	if(event.keyCode == 17){
 		        		//CTRL
@@ -925,6 +935,7 @@ var OSLUsr1000Popup = function () {
 		        	if(event.key == null){
 		        		return;
 		        	}
+		        	
 		        	var shortCut = new Array();
 		        	
 		        	if(event.ctrlKey){
@@ -953,8 +964,10 @@ var OSLUsr1000Popup = function () {
 			    			return;
 			    		}
 		    		}
+		    		
 		    		//입력
 		    		$(this).val(shortCut.join(" + "));
+		    		
 		        })
 
     		}
@@ -992,6 +1005,7 @@ var OSLUsr1000Popup = function () {
 			
 			shortcutObject.actionCd = actionCd;
 			
+			//입력 공백 제거
 			var keycode = $(this).val().replace(" ", "").split("+");
 			
 			//ctrl여부
@@ -1012,7 +1026,7 @@ var OSLUsr1000Popup = function () {
 			}else{
 				shortcutObject.altCd = "02";
 			}
-			
+			//팝업창 존재시 실행여부
 			if($("input[type='checkbox'][actionCd="+actionCd+"]").is(":checked") == true){
         		shortcutObject.popupActionCd = "01"	
         	}else{
@@ -1031,6 +1045,7 @@ var OSLUsr1000Popup = function () {
 		}
 		
 		$.osl.confirm("정말 수정하시겠습니까?",null,function(result) {
+			
 	        if (result.value) {
 	        	
 	    		//AJAX 설정
@@ -1058,7 +1073,9 @@ var OSLUsr1000Popup = function () {
 	    		ajaxObj.send();
 	    		
 	    		//단축키 리로드
+	    		$(document).off("keydown");
 	    		$.osl.init();
+	    		
 	        }
 	    });
     }

@@ -107,14 +107,17 @@
 			var contentExist = $("#kt_content");
 			
 			
+			
+			
 			$(document).keydown(function(event) {
 				
 				
-				if($(document).find("#kt_login_form").length != 0){
+				if($("#kt_login_form").length != 0){
 					return;
 				}
 				
-				if($(document).find("#shortcutDiv").length != 0){
+				
+				if($("#shortcutAside").hasClass("active")){
 					return;
 				}
 				
@@ -134,6 +137,7 @@
 	        	
 				
 				var shortcut = new Array();
+				
 				if(event.ctrlKey){
 					shortcut.push("Ctrl");
 				}
@@ -143,6 +147,7 @@
 				if(event.altKey){
 					shortcut.push("Alt");
 				}
+				
 				shortcut.push(event.key.toUpperCase());
 				
 				shortcut = shortcut.join(" + ");
@@ -155,6 +160,7 @@
 				
 				$.each($.osl.user.shortcutList, function(index, item){
 					shortcutList.push(item.shortcut);
+					
 					if(item.shortcut == shortcut){
 						
 						if($(document).find(".modal-content").length != 0){
@@ -162,6 +168,7 @@
 								return;
 							}
 						}
+						
 						actionCd = item.actionCd;
 					}
 					
@@ -2095,18 +2102,18 @@
 	        					paramPrjNm : $("#mainPrjNm").val(),
 	        			};
 	        			var options = {
-	        					modalTitle: $.osl.lang("cmm17000.title.search"),
+	        					modalTitle: $.osl.lang("cmm6000.title.searchPrj"),
 	        					closeConfirm: false,
 	        					modalSize:"xl",
 	        					callback:[{
 	        						targetId: "selectPrj",
 	        						actionFn: function(thisObj){
-	        							var prjNm = OSLCmm17000Popup.getPrjInfo();
+	        							var prjNm = OSLCmm6000Popup.getPrjInfo();
 	        							$("#mainPrjNm").val(prjNm);
 	        						}
 	        					}]
 	        			};
-	        			$.osl.layerPopupOpen('/cmm/cmm10000/cmm17000/selectCmm17000View.do', data, options);
+	        			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6000/selectCmm6000View.do', data, options);
 	        			
 	        		});
 	        		
@@ -2763,7 +2770,7 @@
 							}
 						}
 					}
-				}
+				};
 				
 				var ktDatatableTarget = $("#"+targetId);
 				if(ktDatatableTarget.length > 0){
@@ -2885,7 +2892,11 @@
 							
 							perpage: $.noop,
 							
-							gotoPage: $.noop
+							gotoPage: $.noop,
+							
+							onCheck: $.noop,
+							
+							unCheck: $.noop
 						}
 					};
 					
@@ -3302,6 +3313,15 @@
 					});
 					
 					
+					$(ktDatatableTarget).on("kt-datatable--on-check",function(evt,ids){
+						targetConfig.callback.onCheck(evt.target, ids, datatableInfo);
+					});
+					
+					$(ktDatatableTarget).on("kt-datatable--on-uncheck",function(evt,ids){
+						targetConfig.callback.unCheck(evt.target, ids, datatableInfo);
+					});
+					
+					
 					$(ktDatatableTarget).on("kt-datatable--on-sort",function(evt,data){
 						
 						if($.osl.isNull(datatableInfo.getColumnByField(data.field))){
@@ -3643,6 +3663,11 @@
 						+'</div>'
 					+'</div>';
 				
+				
+				if($.osl.isNull(cardContent) || cardContent.replace(/(\s*)/g, "") == ""){
+					returnStr = "";
+				}
+				
 				return returnStr;
 			}
 			
@@ -3656,19 +3681,21 @@
 			}
 			
 			,usrInfoPopup: function(paramUsrId){
-				var data = {paramUsrId: paramUsrId};
-				var options = {
-						autoHeight: false,
-						modalSize: "lg",
-						modalTitle: "사용자 정보",
-						keyboard: true,
-						closeConfirm: false,
-						class:{
-							body:"osl-padding-none"
-						}
-						
+				if(!$.osl.isNull(paramUsrId) && paramUsrId.replace(/(\s*)/g, "") != ""){
+					var data = {paramUsrId: paramUsrId};
+					var options = {
+							autoHeight: false,
+							modalSize: "lg",
+							modalTitle: "사용자 정보",
+							keyboard: true,
+							closeConfirm: false,
+							class:{
+								body:"osl-padding-none"
+							}
+					
 					};
-				$.osl.layerPopupOpen('/cmm/cmm8000/cmm8000/selectCmm8000View.do',data,options);
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6400View.do',data,options);
+				}
 			}
 			
 			,passwordValidate: function(inUsrId, inUsrPw){

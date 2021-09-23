@@ -1,7 +1,5 @@
 package kr.opensoftlab.lunaops.prj.prj3000.prj3000.web;
 
-import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -575,8 +573,21 @@ public class Prj3000Controller {
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
 			
-			/
-			/
+			
+			int totCnt = prj3000Service.selectPrj3002DocConListCnt(paramMap);
+
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+
+			
+			
+			List<Map> prj3002List = prj3000Service.selectPrj3002DocConList(paramMap);
+			
+			
 			
 			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -609,10 +620,8 @@ public class Prj3000Controller {
     		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
     		
     		String docId = paramMap.get("docId");
-    		System.out.println(docId);
     		model.addAttribute("docId", docId);
     		
-			
 			return "/prj/prj3000/prj3000/prj3002";
         	
     	}
@@ -656,8 +665,26 @@ public class Prj3000Controller {
     		
     		
     		
-    		/
-			/
+    		
+    		int totCnt = 0;
+    		List<Map> dataList = null;
+    		Map<String, Object> metaMap = null;
+    		
+			
+			totCnt = prj3000Service.selectPrj3002ConTargetCnt(paramMap);
+			
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+			
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+			
+			
+			
+			dataList = (List) prj3000Service.selectPrj3002ConTargetList(paramMap);
+			
+			
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -776,7 +803,8 @@ public class Prj3000Controller {
     }
     
     
-    @RequestMapping(value = "/prj/prj3000/prj3000/selectPrj3003SignUsrListAjax.do")
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/prj/prj3000/prj3000/selectPrj3003SignUsrListAjax.do")
     public ModelAndView selectPrj3003SignUsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception{
     	
     	try{
@@ -840,59 +868,5 @@ public class Prj3000Controller {
     		return new ModelAndView("jsonView");
     	}
     }
-    
-    
-	
-	private String getBrowser(HttpServletRequest request) {
-		String header = request.getHeader("User-Agent");
-		if (header.indexOf("MSIE") > -1) {
-			return "MSIE";
-		} else if (header.indexOf("Trident") > -1) { 
-			return "Trident";
-		} else if (header.indexOf("Chrome") > -1) {
-			return "Chrome";
-		} else if (header.indexOf("Opera") > -1) {
-			return "Opera";
-		}
-		return "Firefox";
-	}
-
-	
-	
-	private void setDisposition(String filename, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String browser = getBrowser(request);
-
-		String dispositionPrefix = "attachment; filename=";
-		String encodedFilename = null;
-
-		if (browser.equals("MSIE")) {
-			encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
-		} else if (browser.equals("Trident")) { 
-			encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
-		} else if (browser.equals("Firefox")) {
-			encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
-		} else if (browser.equals("Opera")) {
-			encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
-		} else if (browser.equals("Chrome")) {
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < filename.length(); i++) {
-				char c = filename.charAt(i);
-				if (c > '~') {
-					sb.append(URLEncoder.encode("" + c, "UTF-8"));
-				} else {
-					sb.append(c);
-				}
-			}
-			encodedFilename = sb.toString();
-		} else {
-			throw new IOException("Not supported browser");
-		}
-
-		response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
-
-		if ("Opera".equals(browser)) {
-			response.setContentType("application/octet-stream;charset=UTF-8");
-		}
-	}
 	
 }
