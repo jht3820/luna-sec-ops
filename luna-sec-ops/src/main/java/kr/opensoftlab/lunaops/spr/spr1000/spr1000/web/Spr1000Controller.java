@@ -132,20 +132,12 @@ public class Spr1000Controller {
 			
 			paramMap.put("delCd", "02");
 			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
 			
-			totCnt = spr1000Service.selectSpr1000SprListCnt(paramMap);
-
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			dataList = (List) spr1000Service.selectSpr1000SprList(paramMap);
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
+			
 			
 			metaMap.put("sort", sortDirection);
 			metaMap.put("field", sortFieldId);
@@ -359,18 +351,11 @@ public class Spr1000Controller {
 			String paramSortFieldId = OslStringUtil.convertUnderScope(sortFieldId);
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
 			
-			totCnt = spr1000Service.selectSpr1000SprReqListCnt(paramMap);
-
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			dataList = (List) spr1000Service.selectSpr1000SprReqList(paramMap);
+			
+			
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -606,7 +591,7 @@ public class Spr1000Controller {
 	}
 	
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value = "/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do")
 	public ModelAndView selectSpr1000SprInfoStatAjax(HttpServletRequest request, ModelMap model) throws Exception {
 
@@ -651,6 +636,46 @@ public class Spr1000Controller {
 			model.addAttribute("errorYn", "Y");
         	model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
 			throw new Exception(ex.getMessage());
+		}
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do")
+	public ModelAndView selectSpr1000ChartInfoAjax( HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
+			
+			
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			paramMap.put("prjId", paramPrjId);
+			
+			List<Map> chartData = spr1000Service.selectSpr1000ChartInfo(paramMap);
+			model.addAttribute("chartData", chartData);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectSpr1000ChartInfoAjax()", ex);
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
 		}
 	}
 }

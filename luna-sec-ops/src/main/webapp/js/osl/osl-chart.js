@@ -232,7 +232,9 @@ var OSLCoreChartSetting = function () {
 						stops: [0, 90, 100]
 					}
 				},
+				stroke: targetConfig.chart.stroke,
 				xaxis: targetConfig.chart.xaxis,
+				grid: targetConfig.chart.grid,
 				yaxis: targetConfig.chart.yaxis,
 				
 				title: targetConfig.chart.title,
