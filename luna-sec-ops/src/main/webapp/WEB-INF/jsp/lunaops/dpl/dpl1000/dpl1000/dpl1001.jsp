@@ -315,7 +315,7 @@ var OSLDpl1001Popup = function () {
 						}
 					}]
     		};
-    		$.osl.layerPopupOpen('/cmm/cmm10000/cmm15000/selectCmm15000View.do',data,options);
+    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
     	});
     	
     	// 배포자 입력 영역 엔터키 눌렀을 경우
@@ -339,7 +339,12 @@ var OSLDpl1001Popup = function () {
 					callback:[{
 						targetId: "dpl1003SelectJob",
 						actionFn: function(thisObj){
+							
+							console.log("팝업 callback : ", thisObj);
+							
 							var jobInfo = OSLDpl1003Popup.getJobInfo();
+							
+							console.log(jobInfo);
 							
 							if(!$.osl.isNull(jobInfo)){
 								//OSLDpl1001Popup.setUsrInfo(usrInfo);
