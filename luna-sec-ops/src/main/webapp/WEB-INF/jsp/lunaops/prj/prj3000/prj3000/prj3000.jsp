@@ -190,7 +190,7 @@
 											<!-- end:: 산출물 확정 파일 등록 button -->
 										</div>
 
-										<div class="kt-portlet__body kt-padding-0 kt-scroll border osl-radius-bottom" data-height="350" id="confirmation-list">
+										<div class="kt-portlet__body kt-padding-10 kt-scroll border osl-radius-bottom" data-height="350" id="confirmation-list">
 										</div>
 										
 									</div>
@@ -212,7 +212,7 @@
 											</div>
 											<!-- end:: 산출물 확정 대기 파일 등록  button -->
 										</div>
-										<div class="kt-portlet__body kt-padding-0 kt-scroll border osl-radius-bottom" data-height="350" id="wait-confirmation-list"></div>
+										<div class="kt-portlet__body kt-padding-10 kt-scroll border osl-radius-bottom" data-height="350" id="wait-confirmation-list"></div>
 									</div>
 								</div>
 							</div>
@@ -513,7 +513,8 @@ var OSLPrj3000Popup = function () {
 					
 					var modalData = {
 							prjId :  nodeData.prjId,
-							docId :  nodeData.docId
+							targetId :  nodeData.docId,
+							targetCd : '03'
 					};
 					
 					
@@ -536,7 +537,7 @@ var OSLPrj3000Popup = function () {
 										modalSize: "xl"
 								};
 								
-								$.osl.layerPopupOpen('/cmm/cmm20000/cmm25000/selectCmm25000View.do',modalData,options);
+								$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',modalData,options);
 								
 							// 결재 대기 중인 파일 있다면 결재선 조회 팝업 오픈
 							}else{
@@ -547,7 +548,7 @@ var OSLPrj3000Popup = function () {
 										modalSize: "md"
 								};
 								
-								$.osl.layerPopupOpen('/cmm/cmm20000/cmm25100/selectCmm25100View.do',modalData,options);
+								$.osl.layerPopupOpen('/cmm/cmm20000/cmm6600/selectCmm6601View.do',modalData,options);
 							}
 						}
 					});
@@ -1132,6 +1133,19 @@ var OSLPrj3000Popup = function () {
 		
 		var waitFileList = data.formFileList;
 		
+		//버튼
+		//인포
+		var infoIcon ='<div class="osl-uppy__btn osl-uppy__left kt-margin-r-10">'
+							+'<i class="fas fa-info-circle"></i>'
+						+'</div>';
+		//오른쪽이동
+		var rightIcon = '<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__right-btn osl-uppy__left kt-margin-r-10"></div>';
+		//왼쪽이동
+		var leftIcon = '<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__left-btn osl-uppy__left kt-margin-r-10"></div>';
+		//삭제
+		var deleteIcon = '<div class="osl-uppy__btn osl-uppy__left kt-margin-r-10">'
+								+'<i class="fa fa-times-circle"></i>'
+							+'</div>';
 		
 		//확정 산출물 파일 리스트 돌기
 		$.each(atchFileList, function(idx, fileData){
@@ -1162,9 +1176,17 @@ var OSLPrj3000Popup = function () {
 				iconPlace = '25';
 			}
 			
-			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--fullsize formAtchFile" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
-									+	'<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__right-btn osl-uppy__right kt-margin-r-10"></div>';
-									
+			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--btngroup border form-atch-file" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
+									+	'<div class="border-bottom osl-min-h-px--50 kt-padding-l-20 kt-padding-r-20">'
+									+		'<div class="float-left"></div>'
+									+		'<div class="float-left osl-line-height--50">'
+									+			deleteIcon
+									+		'</div>'
+									+		'<div class="float-right">'
+									+			rightIcon
+									+		'</div>'
+									+	'</div>'
+									+	'<div class="w-100 osl-min-h-px--70 kt-padding-l-20 kt-padding-r-20 kt-padding-t-10 kt-padding-b-10">';		
 			var fileDivCenter = '';
 			
 			//사진 확장자가 아닐 때
@@ -1191,12 +1213,9 @@ var OSLPrj3000Popup = function () {
 			}
 			var fileDivAfter = 			'</div>'
 									+	'<div class="osl-uppy-file-info-group kt-padding-t-0">'
-										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(fileData.orignlFileNm) +'</div>'
+										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">' + $.osl.escapeHtml(truncateString(fileData.orignlFileNm,'30')) +'</div>'
 										+	'<div class="osl-uppy-file-volume">'+fileVolume+'</div>'
 										+ 	'<div class="osl-uppy-file-name"> 업로드 일자 :'+fileData.creatDt+'</div>'
-									+	'</div>'
-									+	'<div class="osl-uppy__btn osl-uppy__right kt-margin-r-10">'
-										+	'<i class="fa fa-times-circle"></i>'
 									+	'</div>'
 									+	'<input type="hidden" name="fileSn" id="fileSn'+idx+'" value="'+fileData.fileSn +'">'
 								+	'</div>'; 
@@ -1237,9 +1256,17 @@ var OSLPrj3000Popup = function () {
 				iconPlace = '25';
 			}
 			
-			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--fullsize formFile" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
-									+	'<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__left-btn osl-uppy__left kt-margin-r-10"></div>';
-									
+			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--btngroup form-file border" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
+									+	'<div class="border-bottom osl-min-h-px--50 kt-padding-l-20 kt-padding-r-20">'
+									+		'<div class="float-left"></div>'
+									+		'<div class="float-left osl-line-height--50">'
+									+			leftIcon
+									+		'</div>'
+									+		'<div class="float-right">'
+									+			deleteIcon
+									+		'</div>'
+									+	'</div>'
+									+	'<div class="w-100 osl-min-h-px--70 kt-padding-l-20 kt-padding-r-20 kt-padding-t-10 kt-padding-b-10">';									
 			var fileDivCenter = '';
 			
 			//사진 확장자가 아닐 때
@@ -1266,12 +1293,9 @@ var OSLPrj3000Popup = function () {
 			}
 			var fileDivAfter = 			'</div>'
 									+	'<div class="osl-uppy-file-info-group kt-padding-t-0">'
-										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(fileData.orignlFileNm) +'</div>'
+										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+ $.osl.escapeHtml(truncateString(fileData.orignlFileNm,'30')) +'</div>'
 										+	'<div class="osl-uppy-file-volume">'+fileVolume+'</div>'
 										+ 	'<div class="osl-uppy-file-name"> 업로드 일자 :'+fileData.creatDt+'</div>'
-									+	'</div>'
-									+	'<div class="osl-uppy__btn osl-uppy__right kt-margin-r-10">'
-										+	'<i class="fa fa-times-circle"></i>'
 									+	'</div>'
 									+	'<input type="hidden" name="fileSn" id="fileSn'+idx+'" value="'+fileData.fileSn +'">'
 								+	'</div>'; 
@@ -1304,12 +1328,12 @@ var OSLPrj3000Popup = function () {
 			var fd = $.osl.formDataToJsonArray(formId);
 			
 			//확정 파일이면
-			if(type.hasClass('formAtchFile')){
+			if(type.hasClass('form-atch-file')){
 				
 				atchFileId = $('#docFormConfFileId').val();
 			
 			//확정 대기 파일이면
-			}else if(type.hasClass('formFile')){
+			}else if(type.hasClass('form-file')){
 				
 				atchFileId = $('#docFormFileId').val();
 				
@@ -1327,14 +1351,13 @@ var OSLPrj3000Popup = function () {
 	 */
 	var fileMoveBtnEvt = function(){
 		$('.osl-uppy__arrow-btn').click(function(){
-			debugger;
 			//클릭된 화살표의 부모(첨부파일 전체) 박스
 			var target = $(this).parents('.osl-uppy-file');
 			var fileSn = target.data('filesn');
 			var fileType = '';
 			
 			//확정 대기 파일일 때
-			if(target.hasClass('formFile')){
+			if(target.hasClass('form-file')){
 				//확정 파일로 이동
 				$('#confirmation-list').prepend(target);
 				//아이콘 변경(방향,아이콘 모양)
@@ -1374,11 +1397,11 @@ var OSLPrj3000Popup = function () {
 			var fileSn = targetType.data('filesn');
 			
 			//확정 대기 파일일 경우
-			if(targetType.hasClass("formFile")){
+			if(targetType.hasClass("form-file")){
 				atchFileId = $('#docFormFileId').val();
 			
 			//확정파일일 경우
-			}else if(targetType.hasClass("formAtchFile")){ 
+			}else if(targetType.hasClass("form-atch-file")){ 
 				atchFileId = $('#docFormConfFileId').val();	
 			}
 			
@@ -1478,6 +1501,21 @@ var OSLPrj3000Popup = function () {
 		return true;
 		
 	} 
+	
+	/**
+	*function 명 : truncateString
+	*function 설명 : 파일명칭 길어졌을 경우 자르기
+	*@param name : 파일 명칭
+	*@param length : 고정시킬 길이
+	**/
+	 var truncateString = function (name, length) {
+          if (name.length <= length) return name;
+          if (length <= "...".length) return name.substr(0, length);
+          var showlength = length - "...".length,
+              startText = Math.ceil(showlength / 2),
+              endText = Math.floor(showlength / 2);
+          return name.substr(0, startText) + "..." + name.substr(name.length - endText);
+      }
 	
 	return {
 	       // public functions
