@@ -175,7 +175,7 @@
 
 						<div class="kt-portlet__body">
 							<div class="row">
-								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 									<div class="kt-portlet--contain">
 										<div class="kt-portlet__head kt-portlet__head--lg border osl-border-bottom--none">
 											<div class="kt-portlet__head-label">
@@ -215,7 +215,7 @@
 									</div>
 								</div>
 								<div
-									class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 kt-margin-t-20-mobile">
+									class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-margin-t-20-tablet kt-margin-t-20-mobile">
 									<div class="kt-portlet--contain">
 										<div class="kt-portlet__head kt-portlet__head--lg border osl-border-bottom--none">
 											<div class="kt-portlet__head-label">
@@ -1205,7 +1205,6 @@ var OSLPrj3000Popup = function () {
 		
 		
 		
-		
 		var infoIcon ='<div class="osl-uppy__btn osl-uppy__left kt-margin-r-10">'
 							+'<i class="fas fa-info-circle"></i>'
 						+'</div>';
@@ -1353,7 +1352,7 @@ var OSLPrj3000Popup = function () {
 			if(fileData.infType == '01'){
 				fileDivAfter = 			'</div>'
 									+	'<div class="osl-uppy-file-info-group kt-padding-t-0">'
-										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(fileData.orignlFileNm) +'</div>'
+										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(truncateString(fileData.orignlFileNm,'30')) +'</div>'
 										+	'<div class="osl-uppy-file-volume">'+fileVolume+'</div>'
 										+ 	'<div class="osl-uppy-file-name" infType="'+fileData.infType+'">확정 일자:'+fileData.signDtm+'</div>'
 									+	'</div>'
@@ -1364,7 +1363,7 @@ var OSLPrj3000Popup = function () {
 			else if(fileData.infType == '02'){
 				fileDivAfter = 			'</div>'
 									+	'<div class="osl-uppy-file-info-group kt-padding-t-0">'
-										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(fileData.orignlFileNm) +'</div>'
+										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(truncateString(fileData.orignlFileNm,'30')) +'</div>'
 										+	'<div class="osl-uppy-file-volume">'+fileVolume+'</div>'
 										+ 	'<div class="osl-uppy-file-name" infType="'+fileData.infType+'"></div>'
 									+	'</div>'
@@ -1376,7 +1375,7 @@ var OSLPrj3000Popup = function () {
 			else{
 				fileDivAfter = 			'</div>'
 									+	'<div class="osl-uppy-file-info-group kt-padding-t-0">'
-										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(fileData.orignlFileNm) +'</div>'
+										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(truncateString(fileData.orignlFileNm,'30')) +'</div>'
 										+	'<div class="osl-uppy-file-volume">'+fileVolume+'</div>'
 										+ 	'<div class="osl-uppy-file-name" infType="'+fileData.infType+'"></div>'
 									+	'</div>'
@@ -1467,7 +1466,7 @@ var OSLPrj3000Popup = function () {
 			}
 			var fileDivAfter = 			'</div>'
 									+	'<div class="osl-uppy-file-info-group kt-padding-t-0">'
-										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(fileData.orignlFileNm) +'</div>'
+										+	'<div class="osl-uppy-file-name" title="' + $.osl.escapeHtml(fileData.orignlFileNm) + '">'+ $.osl.escapeHtml(truncateString(fileData.orignlFileNm,'30')) +'</div>'
 										+	'<div class="osl-uppy-file-volume">'+fileVolume+'</div>'
 										+ 	'<div class="osl-uppy-file-name"> 업로드 일자 :'+fileData.creatDt+'</div>'
 									+	'</div>'
@@ -1609,7 +1608,21 @@ var OSLPrj3000Popup = function () {
 		});
 		
 	}
-	 
+	
+	
+	 var truncateString = function (name, length) {
+            if (name.length <= length) return name;
+            if (length <= "...".length) return name.substr(0, length);
+            var showlength = length - "...".length,
+                startText = Math.ceil(showlength / 2),
+                endText = Math.floor(showlength / 2);
+            return name.substr(0, startText) + "..." + name.substr(name.length - endText);
+        }
+	
+	
+	
+	
+	
 	
 	var updateFileType = function(fileType, fileSn){
 		
