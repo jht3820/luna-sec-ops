@@ -23,7 +23,17 @@ public class Stm8000DAO extends ComOslitsAbstractDAO {
 	}
 	
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public String selectStm8000AuthRevisionCheck(Map<String, String> paramMap) throws Exception {
+		return (String) select("stm8000DAO.selectStm8000AuthRevisionCheck", paramMap);
+	}
+	
+	
+	public String selectStm8000AuthFileCodeCheck(Map<String, String> paramMap) throws Exception {
+		return (String) select("stm8000DAO.selectStm8000AuthFileCodeCheck", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes" )
 	public Map selectStm8000ServerInfo(Map<String, String> paramMap) throws Exception {
 		return  (Map) select("stm8000DAO.selectStm8000ServerInfo", paramMap);
 	}
