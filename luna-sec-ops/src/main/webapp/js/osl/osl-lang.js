@@ -1479,7 +1479,8 @@ var OSLCoreLangSetting = function () {
 						common : "접속 실패",
 					},
 					success : "접속 성공"
-				}
+				},
+				auth : "접근 권한이 없습니다."
 			}
 		},
 		stm8001:{
@@ -1512,6 +1513,9 @@ var OSLCoreLangSetting = function () {
 					revisionFile : "상세",
 					repository : "선택",
 				},
+			},
+			label : {
+				revisionNum : "리비전 번호",
 			},
 			revisionFile : {
 				actionTitle : "상세",
@@ -1547,6 +1551,7 @@ var OSLCoreLangSetting = function () {
 			},
 			message :{
 				selectRevision : "리비전을 선택하세요.",
+				auth: "접근 권한이 없습니다."
 			}
 		},
 		stm8004:{
@@ -1564,8 +1569,7 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectFile : "${1}개가 선택되었습니다.<br/>두개의 파일을 선택하세요.",
-				selectFiles: "${1}개가 선택되었습니다.<br/>두개의 파일만 선택하세요.",
+				selectFile : "${1}개가 선택되었습니다.<br/>한의 파일을 선택하세요.",
 			}
 		},
 		stm8100:{
@@ -2357,15 +2361,13 @@ var OSLCoreLangSetting = function () {
 				author : "Commiter ID",
 				logDate : "Date"
 			},
-			stm8100AssignStrgTable
-			{
+			stm8100AssignStrgTable:{
 				strgTypeNm : "Type",
 				strgRepTitle : "Repository Title",
 				strgTxt : "Repository Description",
 				strgRepUrl : "Repository URL",
 			},
-			stm8100NotAssignStrgTable
-			{
+			stm8100NotAssignStrgTable : {
 				strgTypeNm : "Type",
 				strgRepTitle : "Repository Title",
 				strgTxt : "Repository Description",
@@ -3578,7 +3580,8 @@ var OSLCoreLangSetting = function () {
 						common : "Connection Fail ",
 					},
 					success : "Connection Success"
-				}
+				},
+				auth : "You don't have access rights."
 			}
 		},
 		stm8001:{
@@ -3611,6 +3614,9 @@ var OSLCoreLangSetting = function () {
 					revisionFile : "Detail",
 					repository : "Select",
 				},
+			},
+			label : {
+				revisionNum : "Revision Number",
 			},
 			revisionFile : {
 				actionTitle : "Detail",
@@ -3646,6 +3652,7 @@ var OSLCoreLangSetting = function () {
 			},
 			message :{
 				selectRevision : "Please, select revision.",
+				auth : "You don't have access rights."
 			}
 		},
 		stm8004:{
@@ -3663,8 +3670,7 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectFile : "Please, select 2 file.<br/>${1} file have been selected.",
-				selectFiles: "Please, select only 2 file.<br/>${1} file have been selected.",
+				selectFile : "Please, select 1 file.<br/>${1} file have been selected.",
 			}
 		},
 		stm8100:{
@@ -3725,7 +3731,7 @@ var OSLCoreLangSetting = function () {
 			label : {
 				revision : "Revision Authority",
 				fileCode : "File Code Authority",
-				message : "To setting authority for open file code, must have set authority for open revision.",
+				message : "To setting authority for open file code,<br/>must have set authority for open revision.",
 				nonAssList : "Non-assign Authority group and Users"
 			},
 			button : {
