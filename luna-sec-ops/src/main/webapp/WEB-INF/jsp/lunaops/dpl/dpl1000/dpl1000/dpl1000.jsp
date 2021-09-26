@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
+	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -167,9 +168,12 @@ var OSLDpl1000Popup = function () {
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
 					var data = {
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
 						};
 					var options = {
-							modalTitle: '[배포 명] 상세팝업',
+							idKey: datatableId +"_"+ rowData.dplId,
+							modalTitle: "["+rowData.dplNm +"] "+ "상세 정보",
 							autoHeight: false,
 							modalSize: 'xl'
 						};

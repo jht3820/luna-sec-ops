@@ -585,6 +585,7 @@
 			 , 	DPL_DESC         	= #dplDesc#
 			 , 	DPL_STS_CD			= #dplStsCd#
 			 , 	DPL_TYPE_CD			= #dplTypeCd#
+			 , 	DPL_SIGN_USE_CD		= #dplSignUseCd#
 			 , 	DPL_AUTO_AFTER_CD	= #dplAutoAfterCd#
 			 , 	DPL_AUTO_DTM		= #dplAutoDtm#
 			 , 	DPL_RESTORE_CD		= #dplRestoreCd#
