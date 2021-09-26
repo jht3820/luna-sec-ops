@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <input type="hidden" name="strgRepId" id="strgRepId" value="<c:out value='${param.strgRepId}'/>">
+<input type="hidden" name="systemRoot" id="systemRoot" value="<c:out value='${param.systemRoot}'/>">
 <div class="row">
 	<div class="col-lg-5 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile kt-margin-b-10">
@@ -142,6 +143,8 @@ var OSLStm8002Popup = function() {
 	var okRevision = false;
 	var okFileCode = false;
 	
+	var systemRoot = $("#systemRoot").val();
+	
 	
 	var documentSetting = function() {
 		
@@ -224,7 +227,13 @@ var OSLStm8002Popup = function() {
 						};
 						
 						
-						authCheck(strgRepId);
+						if(!$.osl.isNull(systemRoot) && systemRoot){
+							
+							okRevision = true;
+							okFileCode = true;
+						}else{
+							authCheck(strgRepId);
+						}
 						
 						if(okFileCode){
 							$.osl.layerPopupOpen('/stm/smt8000/stm8000/selectStm8003View.do',data,options);
@@ -266,7 +275,13 @@ var OSLStm8002Popup = function() {
 						};
 
 						
-						authCheck(strgRepId);
+						if(!$.osl.isNull(systemRoot) && systemRoot){
+							
+							okRevision = true;
+							okFileCode = true;
+						}else{
+							authCheck(strgRepId);
+						}
 						
 						if(okFileCode){
 							$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8004View.do',data,options);

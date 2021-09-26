@@ -79,10 +79,10 @@ public class Stm8000Controller {
 
 			
 			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
 			
 			
 			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
-			metaMap = PagingUtil.getPageSettingMap(metaMap, paginationInfo);
 						
 			
 			List<Map> stm8000List = stm8000Service.selectStm8000ServerList(paramMap);
@@ -111,7 +111,6 @@ public class Stm8000Controller {
 	}
 	
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8000RepoConnectCheckAjax.do")
 	public ModelAndView selectStm8000RepoConnectCheckAjax( HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try{
@@ -222,11 +221,6 @@ public class Stm8000Controller {
 			return new ModelAndView("jsonView");
 		}
 	}
-	
-	
-	
-	
-	
 	
 	
 	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8002View.do")
@@ -545,12 +539,12 @@ public class Stm8000Controller {
 			
 			
 			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
-			metaMap = PagingUtil.getPageSettingMap(metaMap, paginationInfo);
 			
+			metaMap = PagingUtil.getPageSettingMap(metaMap, paginationInfo); 
 
 			
 			int firstIndex = (int) metaMap.get("firstIndex");
-			int lastIndex = (int) metaMap.get("lastIndex");
+			int lastIndex =  (int) metaMap.get("lastIndex");
 			if(lastIndex > list.size()) {
 				lastIndex = list.size();
 			}
