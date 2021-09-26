@@ -2,78 +2,78 @@
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="req6000DAO">
-	 <!-- out class define  -->
+	 
 	<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
-	<select id="req6000DAO.selectReq6000ChgDetailList" parameterClass="java.util.Map" resultClass="egovMap">
-		<![CDATA[
-			SELECT 'MOD' AS TYPE ,
-				A.PRJ_ID,					A.REQ_ID,				A.CHG_DETAIL_ID,			A.CHG_DETAIL_NUM
-	            ,A.CHG_DETAIL_TYPE,			A.CHG_DETAIL_NM,		A.CHG_DETAIL_OPT_TYPE,		A.PRE_DETAIL_VAL
-                ,A.CHG_DETAIL_VAL
-	            ,SF_STM3000_USR_INFO(A.REG_USR_ID,'1') AS REG_USR_NM
-				,SF_STM3000_USR_INFO(A.REG_USR_ID,'2') AS REG_USR_EMAIL
-                ,SF_STM3000_USR_INFO(A.REG_USR_ID,'6') AS REG_USR_IMG
-	            ,A.REG_DTM,					A.REG_USR_ID,			A.REG_USR_IP
-	            ,B.REQ_NM,					B.REQ_ORD
-			FROM REQ6000 A LEFT JOIN REQ4100 B
-			ON ( A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID )
-			WHERE 1=1
-		]]>
-			<isNotEmpty property="popupPrjId">
-				AND		A.PRJ_ID = #popupPrjId#
-			</isNotEmpty>
-			<isEmpty property="popupPrjId">
-				AND		A.PRJ_ID = #prjId#
-			</isEmpty>
-			<isNotEmpty property="reqId">
-			AND		A.REQ_ID = #reqId#
-			</isNotEmpty>
-		<![CDATA[
-			            
-            ORDER BY A.CHG_DETAIL_ID DESC, A.CHG_DETAIL_NUM, A.REG_DTM DESC
-		]]>	
 	
+	<select id="req6000DAO.selectReq6001ReqChgList" parameterClass="java.util.Map" resultClass="egovMap">
+		<![CDATA[
+			 
+			SELECT
+				A.LIC_GRP_ID,				A.PRJ_ID,				A.REQ_ID,				A.REQ_CHG_ID
+				,A.REQ_CHG_TYPE,			A.CHG_USR_ID,			A.CHG_DTM,				A.PRE_PROCESS_ID
+				,A.CHG_PROCESS_ID,			A.PRE_FLOW_ID,			A.CHG_FLOW_ID	
+				,A.CHARGER_CHG_CD,			A.PRE_CHARGER_ID,		A.CHG_CHARGER_ID
+	            ,A.REG_DTM,					A.REG_USR_ID,			A.REG_USR_IP
+			FROM REQ6001 A
+				INNER JOIN REQ4100 B ON ( A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID AND B.USE_CD = '01' )
+			WHERE 1=1
+			AND	A.PRJ_ID = #prjId#
+		]]>
+			<isNotEmpty property="reqId">
+			AND A.REQ_ID = #reqId#
+			</isNotEmpty>
+		<![CDATA[
+            ORDER BY A.CHG_DTM DESC
+		]]>	
 	</select>
 	
-	<select id="req6000DAO.selectReq6000NewChgDetailId" parameterClass="java.util.Map" resultClass="java.lang.String">
+	
+	<insert id="req6000DAO.insertReq6001ReqChgInfo" parameterClass="java.util.Map">
+		<selectKey resultClass="java.lang.String" keyProperty="newReqChgId">
 		<![CDATA[
+			 
 			SELECT	NVL( 
-							SUBSTR(NEW_CHG_DETAIL_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_CHG_DETAIL_ID, 12, 5)) + 1) , 5, '0')
+							SUBSTR(NEW_REQ_CHG_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_REQ_CHG_ID, 12, 5)) + 1) , 5, '0')
 						,	'CHG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
-            		) AS NEW_CHG_DETAIL_ID 
+            		) AS NEW_REQ_CHG_ID 
 			FROM	(
-			            SELECT	MAX(CHG_DETAIL_ID)  AS NEW_CHG_DETAIL_ID
-			            FROM	REQ6000 A
+			            SELECT	MAX(REQ_CHG_ID)  AS NEW_REQ_CHG_ID
+			            FROM	REQ6001 A
 			            WHERE	1=1
                         AND		A.PRJ_ID = #prjId#
                         AND		A.REQ_ID = #reqId#
-			            AND		A.CHG_DETAIL_ID LIKE 'CHG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '%'
+			            AND		A.REQ_CHG_ID LIKE 'CHG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '%'
 					)
 		]]>
-	</select>
-	
-	<insert id="req6000DAO.insertReq6000ModifyHistoryInfo" parameterClass="java.util.Map">
+		</selectKey>
 		<![CDATA[ 
-			INSERT INTO REQ6000 A
+			
+			INSERT INTO REQ6001 A
 	        (
-	            PRJ_ID,					REQ_ID,				CHG_DETAIL_ID,			CHG_DETAIL_NUM
-	            ,CHG_DETAIL_TYPE,		CHG_DETAIL_NM,		CHG_DETAIL_OPT_TYPE,	CHG_DETAIL_COMMON_CD		
-	            ,PRE_DETAIL_VAL,		CHG_DETAIL_VAL
-	            ,REG_DTM,				REG_USR_ID,			REG_USR_IP
+	           A.LIC_GRP_ID,			A.PRJ_ID,					A.REQ_ID,					A.REQ_CHG_ID
+	           ,A.REQ_CHG_TYPE,			A.CHG_USR_ID,				A.CHG_DTM,					A.PRE_PROCESS_ID
+	           ,A.CHG_PROCESS_ID,		A.PRE_FLOW_ID,				A.CHG_FLOW_ID
+	           ,A.CHARGER_CHG_CD,		A.PRE_CHARGER_ID,			A.CHG_CHARGER_ID
+	           ,A.REG_DTM,				A.REG_USR_ID,				A.REG_USR_IP
+	           ,A.MODIFY_DTM,			A.MODIFY_USR_ID,			A.MODIFY_USR_IP
 	        )
 	        VALUES
 	        (
-	        	 #prjId#,				#reqId#,			#newChgDetailId#,		#chgDetailNum#
-	        	 ,#chgDetailType#,		#chgDetailNm#,		#chgDetailOptType#, 	#chgDetailCommonCd#
-	        	 ,#preDetailVal#,		#chgDetailVal#
-	        	 ,sysdate,				#regUsrId#,			#regUsrIp#
+	        	#licGrpId#,				#prjId#,					#reqId#,					#newReqChgId#
+	        	,#reqChgType#,			#chgUsrId#,					SYSDATE,					#preProcessId#
+	        	,#chgProcessId#,		#preFlowId#,				#chgFlowId#
+	        	,#chargerChgCd#,		#preChargerId#,				#chgChargerId#
+	        	,SYSDATE,				#regUsrId#,					#regUsrIp#
+	        	,SYSDATE,				#modifyUsrId#,				#modifyUsrIp#
 	        )
 		]]>
 	</insert>
 	
-	<delete id="req6000DAO.deleteReq6000ReqHistoryInfo" parameterClass="java.util.Map" >
-		DELETE FROM REQ6000 A
+	
+	<delete id="req6000DAO.deleteReq6001ReqChgInfo" parameterClass="java.util.Map" >
+		
+		DELETE FROM REQ6001 A
 		WHERE	1=1
 		AND		A.PRJ_ID = #prjId#
 		AND		A.REQ_ID = #reqId#

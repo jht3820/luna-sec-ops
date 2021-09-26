@@ -54,10 +54,13 @@
 					</div>
 				</div>
 			</div>
+			<button type="button" class="btn btn-outline-danger kt-margin-l-20" id="cmm6200RejectSubmit" name="cmm6200RejectSubmit">
+				<i class="fa fa-stop-circle"></i><span data-lang-cd="req4101.complete">접수 반려</span>
+			</button>
 			<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
 				<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
 			</button>
-			<button type="button" class="btn btn-outline-brand kt-margin-l-20" id="cmm6200AcceptSubmit" data-ktwizard-type="action-submit">
+			<button type="button" class="btn btn-outline-brand kt-margin-l-20" id="cmm6200AcceptSubmit" name="cmm6200AcceptSubmit" data-ktwizard-type="action-submit">
 				<i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">접수 승인</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
@@ -208,7 +211,8 @@
 													<span></span>
 												</label>
 											</span>
-											<span class="form-text text-muted">* 프로세스에 배정된 기본 담당자가 선택됩니다.</span>
+											<span class="form-text text-muted">* 이미 배정된 담당자가 우선 배정됩니다.</span>
+											<span class="form-text text-muted">* 프로세스 기본 담당자가 배정됩니다.</span>
 										</div>
 									</div>
 								</div>
@@ -310,7 +314,6 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-danger kt-margin-l-20" id="cmm6200RejectSubmit"><i class="fa fa-stop-circle"></i><span data-lang-cd="req4101.complete">접수 반려</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
@@ -493,26 +496,96 @@ var OSLCmm6200Popup = function () {
     	
     	
     	$("#cmm6200RejectSubmit").click(function(){
-    		var data = {
-    				paramSelReqInfoList : JSON.stringify(paramSelReqInfoList)
-    		};
-    		var options = {
-    				idKey: "cmm6209SubmitBtn",
-					modalTitle: $.osl.lang("req4101.modalTitle.userSearch"),
-					closeConfirm: true,
-					autoHeight:false,
-					modalSize: "xl",
-					callback:[{
-						targetId: "cmm6209SubmitBtn",
-						actionFn: function(thisObj){
-							var selRejectDesc = OSLCmm6209Popup.getReqRejectDesc();
-							
-							
-							fnReqRejectAction(selRejectDesc);
-						}
-					}]
-    		};
-    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6209View.do',data,options);
+    		$.osl.confirm("선택 요구사항을 접수 반려 처리하시겠습니까?",{html:true}, function(result){
+				if (result.value) {
+					
+					var data = {
+		    				paramSelReqInfoList : JSON.stringify(paramSelReqInfoList)
+		    		};
+		    		var options = {
+		    				idKey: "cmm6209SubmitBtn",
+							modalTitle: $.osl.lang("req4101.modalTitle.userSearch"),
+							closeConfirm: true,
+							autoHeight:false,
+							modalSize: "xl",
+							callback:[{
+								targetId: "cmm6209SubmitBtn",
+								actionFn: function(thisObj){
+									var selRejectDesc = OSLCmm6209Popup.getReqRejectDesc();
+									
+									
+									fnReqRejectAction(selRejectDesc);
+								}
+							}]
+		    		};
+		    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6209View.do',data,options);
+				}
+			});
+    	});
+    	
+    	
+    	$("#cmm6200AcceptSubmit").click(function(){
+    		$.osl.confirm("선택 요구사항을 접수 승인 처리하시겠습니까?",{html:true}, function(result){
+				if (result.value) {
+					
+					
+		    		var defaultSwitchCd = ($("#selChargerDefaultSwitch").is(":checked"))?"01":"02";
+		    		var selReqChargerId;
+		    		
+		    		
+		    		if(defaultSwitchCd == "02"){
+		    			selReqChargerId = $("#selReqChargerId").val();
+		    		}
+		    		
+		    		
+		    		var reqAcceptTxt = $("#reqAcceptTxt").val();
+		    		
+		    		
+		    		var selProcess = cmm6200ProcessTableData.targetDt.getSelectedRecords();
+		    		 
+		    		if(selProcess.length == 0 || selProcess.length > 1){
+		    			$.osl.alert("1개의 프로세스를 선택해주세요.");
+		    			return false;
+		    		}
+		    		
+		    		
+		    		var selProcessId = cmm6200ProcessTableData.targetDt.getSelectedRecords().find(".kt-checkbox > input[type=checkbox]").val();
+		    		
+		    		
+		    		var ajaxObj = new $.osl.ajaxRequestAction(
+		    				{"url":"<c:url value='/req/req4000/req4100/updateReq4100ReqAcceptList.do'/>", "async":"false"}
+		    				,{
+		    					paramSelReqInfoList : JSON.stringify(paramSelReqInfoList),
+		    					defaultSwitchCd: defaultSwitchCd,
+		    					selReqChargerId: selReqChargerId,
+		    					reqAcceptTxt: reqAcceptTxt,
+		    					selProcessId: selProcessId
+		    				});
+		    		
+		    		
+		    		ajaxObj.setFnSuccess(function(data){
+		    			if(data.errorYn == "Y"){
+		    				$.osl.alert(data.message,{type: 'error'});
+
+		    				
+		    				$.osl.layerPopupClose();
+		    			}else{
+		    				$.osl.toastr(data.message);
+		    				
+		    				
+		    				$.osl.layerPopupClose();
+		    				
+		    				
+		    				if(typeof OSLReq4100Popup != "undefined"){
+		    					OSLReq4100Popup.getReqDatatable().targetDt.reload();
+		    				}
+		    			}
+		    		});
+		    		
+		    		
+		    		ajaxObj.send();
+				}
+			});
     	});
     	
     	
@@ -541,7 +614,6 @@ var OSLCmm6200Popup = function () {
 				}
 			},
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, autoHide: false, search: true},
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false, search: true},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
@@ -571,6 +643,24 @@ var OSLCmm6200Popup = function () {
 					},
 					onclick: function(rowData){
 						$.osl.user.usrInfoPopup(rowData.reqUsrId);
+					}
+				},
+				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
+					template: function (row) {
+						if($.osl.isNull(row.reqChargerNm)){
+							row.reqChargerNm = "";
+						}
+						var usrData = {
+							html: row.reqChargerNm,
+							imgSize: "sm",
+							class:{
+								cardBtn: "osl-width__fit-content"
+							}
+						};
+						return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.reqChargerId);
 					}
 				},
 				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"date",
@@ -671,9 +761,6 @@ var OSLCmm6200Popup = function () {
 			},
 			actionFn:{
 				"click": function(rowData, datatableId, type, rowNum, elem){
-					
-					selProcessId = rowData.processId;
-					
 					
 					flowChart.flowchart("setData",{});
 					
@@ -857,8 +944,8 @@ var OSLCmm6200Popup = function () {
 				$.osl.alert(data.message);
 				
 				
-				if(!$.osl.isNull(OSLReq4100Popup.getReqDatatable)){
-					OSLReq4100Popup.getReqDatatable.targetDt.reload();
+				if(typeof OSLReq4100Popup != "undefined"){
+					OSLReq4100Popup.getReqDatatable().targetDt.reload();
 				}
 			}
 			

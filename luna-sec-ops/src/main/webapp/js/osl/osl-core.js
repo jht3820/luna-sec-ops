@@ -3993,24 +3993,29 @@
 	
 	$.osl.isNull = function(sValue)
 	{
-		if( typeof sValue == "undefined") {
-	        return true;
-	    }
-	    if( String(sValue).valueOf() == "undefined") {
-	        return true;
-	    }
-	    if( sValue == null ){
-	        return true;
-	    }
-	    if( ("x"+sValue == "xNaN") && ( new String(sValue.length).valueOf() == "undefined" ) ){
-	        return true;
-	    }
-	    if( sValue.length == 0 ){
-	        return true;
-	    }
-	    if( sValue == "NaN"){
-	        return true;
-	    }
+		
+		try{
+			if( typeof sValue == "undefined") {
+		        return true;
+		    }
+		    if( String(sValue).valueOf() == "undefined") {
+		        return true;
+		    }
+		    if( sValue == null ){
+		        return true;
+		    }
+		    if( ("x"+sValue == "xNaN") && ( new String(sValue.length).valueOf() == "undefined" ) ){
+		        return true;
+		    }
+		    if( sValue.length == 0 ){
+		        return true;
+		    }
+		    if( sValue == "NaN"){
+		        return true;
+		    }
+		}catch(e){
+			return false;
+		}
 	    return false;
 	};
 	
