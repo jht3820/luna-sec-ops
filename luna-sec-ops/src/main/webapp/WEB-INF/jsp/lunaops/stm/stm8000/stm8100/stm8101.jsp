@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="stm8110Info" autocomplete="off" >
 	<input type="hidden" name="prjGrpId" id="prjGrpId" value="<c:out value='${param.prjGrpId}'/>">
 	<input type="hidden" name="prjId" id="prjId" value="<c:out value='${param.prjId}'/>">
@@ -26,7 +26,7 @@
 						<div class="kt-margin-b-10">
 							<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="stm8101.label.fileCode">소스 열람 권한</span></label>
 							<span class="float-right">
-								
+								<button type="button" class="btn btn-brand btn-sm invisible" id="equalBtn" name="equalBtn"><span data-lang-cd="stm8101.button.equalBtn">리비전 열람 권한 동일</span></button>
 								<button type="button" class="btn btn-outline-success btn-sm" id="reset_file" name="reset_file"><span data-lang-cd="stm8101.button.resetBtn">초기화</span></button>
 							</span>
 						</div>
@@ -485,6 +485,12 @@ var OSLStm8100 = function () {
 		
 		
 		$("#stm8110SaveSubmit").click(function(){
+			
+			if(!$.osl.isNull(resultRevision) && $.osl.isNull(resultFileCode)){
+				
+				$.osl.alert($.osl.lang("stm8101.message.link"));
+				$("#equalBtn").click();
+			}
 			submitAuth();
 		});
 	};

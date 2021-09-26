@@ -1707,8 +1707,9 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				remove : "소스 열람 권한은 리비전 열람권한이 있어야 가능합니다.<br/>리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.",
+				remove : "소스 열람 권한은 리비전 열람 권한이 있어야 가능합니다.<br/>리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.",
 				add : "소스 열람을 위해선 리비전 열람 권한도 필요합니다.<br/>리비전 열람 권한에도 배정됩니다.",
+				link : "리비전 열람 권한 목록은 있으나 소스 열람 권한에 배정된 항목이 없습니다.<br/>리비전 열람 권한과 동기화 됩니다."
 			}
 		},
 		stm8200:{
@@ -3824,6 +3825,7 @@ var OSLCoreLangSetting = function () {
 			message : {
 				remove : "To setting authority for open file code, must have set authority for open revision.<br/>As revision authority is removed, file code authority is also removed.",
 				add : "To setting authority for open file code, must have set authority for open revision.<br/>Revision authority is also added.",
+				link : "There is a list of Revision Authority, but no list of File Code Authority.<br/>Synchronize with Revision Authority list.",
 			}
 		},
 		stm8200:{
