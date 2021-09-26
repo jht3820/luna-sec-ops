@@ -1656,6 +1656,11 @@ var OSLCoreLangSetting = function () {
 				add : "소스 열람을 위해선 리비전 열람 권한도 필요합니다.<br/>리비전 열람 권한에도 배정됩니다.",
 			}
 		},
+		stm8200:{
+			actionBtn:{
+				selectTooltip :"전체 현황 조회",
+			},
+		},
 		stm9000: {
 			title : {
 				jenkinsManagement : "JENKINS 관리"
@@ -2368,6 +2373,15 @@ var OSLCoreLangSetting = function () {
 				strgRepUrl : "Repository URL",
 			},
 			stm8100NotAssignStrgTable : {
+				strgTypeNm : "Type",
+				strgRepTitle : "Repository Title",
+				strgTxt : "Repository Description",
+				strgRepUrl : "Repository URL",
+			},
+			stm8200RepTable:{
+				useNm : "Used",
+				prjGrpNm : "Project Group Name",
+				prjNm : "Project Name",
 				strgTypeNm : "Type",
 				strgRepTitle : "Repository Title",
 				strgTxt : "Repository Description",
@@ -3756,6 +3770,11 @@ var OSLCoreLangSetting = function () {
 				remove : "To setting authority for open file code, must have set authority for open revision.<br/>As revision authority is removed, file code authority is also removed.",
 				add : "To setting authority for open file code, must have set authority for open revision.<br/>Revision authority is also added.",
 			}
+		},
+		stm8200:{
+			actionBtn:{
+				selectTooltip :"View all status",
+			},
 		},
 		stm9000:{
 			title:{

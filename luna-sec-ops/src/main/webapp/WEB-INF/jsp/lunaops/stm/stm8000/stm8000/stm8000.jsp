@@ -54,6 +54,8 @@
 	 var okRevision = false;
 	 var okFileCode = false;
 	 
+	 var systemRoot = true;
+	 
 	 var documentSetting = function() {
 		 $.osl.datatable.setting(datatableId,{
 				data: {
@@ -71,10 +73,18 @@
 							return '<i class="fas fa-circle"></i>';
 						}	
 					},
-					{field: 'useNm', title: '사용 여부', textAlign: 'center', width: 35, search: true, searchType:"select", searchCd: "CMM00001", searchField:"usrCd", sortField:"usrCd"},
+					{field: 'useNm', title: '사용 여부', textAlign: 'center', width: 35, search: true, searchType:"select", searchCd: "CMM00001", searchField:"useCd", sortField:"useCd"},
 					{field: 'strgTypeNm', title: '유형', textAlign: 'left', width: 40, search: true, searchType:"select", searchCd: "STM00004", searchField:"strgTypeCd", sortField: "strgTypeCd"},
 					{field: 'strgRepTitle', title: '저장소명', textAlign: 'left', width: 200, search: true},
-					{field: 'strgTxt', title: '저장소 설명', textAlign: 'left', width: 240, search: true},
+					{field: 'strgTxt', title: '저장소 설명', textAlign: 'left', width: 240, search: true,
+						template: function(row){
+							if($.osl.isNull(row.strgTxt)){
+								return '-';
+							}else{
+								return row.strgTxt;
+							}
+						}	
+					},
 					{field: 'strgRepUrl', title: '저장소 URL', textAlign: 'left', width: 240},
 				],
 				rows:{
@@ -144,6 +154,7 @@
 					"dblClick":function(rowData, datatableId, type, rowNum){
 						var data = {
 								strgRepId: rowData.strgRepId,
+								systemRoot : systemRoot, 
 							};
 						var options = {
 								idKey: rowData.strgRepId,
@@ -153,7 +164,13 @@
 							};
 
 						
-						authCheck(rowData.strgRepId);
+						if(!$.osl.isNull(systemRoot) && systemRoot){
+							
+							okRevision = true;
+							okFileCode = true;
+						}else{
+							authCheck(rowData.strgRepId);
+						}
 						
 						if(okRevision){
 							$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8002View.do',data,options);
