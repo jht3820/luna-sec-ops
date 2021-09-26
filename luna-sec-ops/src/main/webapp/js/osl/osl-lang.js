@@ -441,6 +441,35 @@ var OSLCoreLangSetting = function () {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
 			}
 		},
+		cmm6800 :{
+			complete : "선택 완료",
+			title :{
+				revision : "리비전 목록",
+				actionTitle:"선택"
+			},
+			label : {
+				revisionNum : "리비전 번호",
+			},
+			placeholder : {
+				revision : {
+					start : "시작",
+					end : "종료",
+				}
+			},
+			actionTooltip:{
+				chooseTooltip : "리비전 선택",
+			},
+			message :{
+				selectRevision : "리비전을 선택하세요.",
+				auth: "접근 권한이 없습니다."
+			}
+		},
+		cmm6801:{
+			message :{
+				selectRevision : "리비전을 선택하세요.",
+				auth: "접근 권한이 없습니다."
+			}
+		},
 		prj1400:{
 			startDate: "시작일",
 			endDate: "종료일",
@@ -2272,6 +2301,12 @@ var OSLCoreLangSetting = function () {
 				tel : "Contact",
 				deptName: "Department",
 			},
+			cmm6800RepTable:{
+				revision : "Revision",
+				comment : "Commit Log",
+				author : "Commiter ID",
+				logDate : "Date"
+			},
 			cmm6000PrjTable:{
 				upPrjNm:"Project Group Name",
 				prjId:"Project ID",
@@ -2727,6 +2762,35 @@ var OSLCoreLangSetting = function () {
 		cmm6601:{
 			infomation : {
 				cannotUpdate : "If there is a file waiting for approval, the approval line cannot be modified."
+			}
+		},
+		cmm6800 :{
+			complete : "Choose",
+			title :{
+				revision : "Revision List",
+				actionTitle:"Choose"
+			},
+			label : {
+				revisionNum : "Revision Number",
+			},
+			placeholder : {
+				revision : {
+					start : "Start",
+					end : "End",
+				}
+			},
+			actionTooltip:{
+				chooseTooltip : "Select Revision",
+			},
+			message :{
+				selectRevision : "Please, select revision.",
+				auth: "You don't have access rights."
+			}
+		},
+		cmm6801:{
+			message :{
+				selectRevision : "Please, select revision.",
+				auth : "You don't have access rights."
 			}
 		},
 		dpl1100:{

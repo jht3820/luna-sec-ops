@@ -151,7 +151,22 @@ var OSLStm8002Popup = function() {
 		
 		$("#searchStNum").attr("placeholder",$.osl.lang("stm8002.placeholder.revision.start"));
 		$("#searchEdNum").attr("placeholder",$.osl.lang("stm8002.placeholder.revision.end"));
+		
+		
+		if(!$.osl.isNull(systemRoot) && systemRoot){
+			
+			okRevision = true;
+			okFileCode = true;
+		}else{
+			authCheck(strgRepId);
+			
+			if(!okRevision){
+				$.osl.alert($.osl.lang("stm8002.message.auth"));
 				
+				$.osl.layerPopupClose();
+			}
+		}
+		
 		
 		getStrgRepInfo();
 
@@ -220,25 +235,16 @@ var OSLStm8002Popup = function() {
 							strgRepId : strgRepId
 						};
 						var options = {
-							idKey:"stm8002_"+revision,
+							idKey:"fileCode_"+revision,
 							modalTitle: "[Revision "+revision+"] "+ rowData.name,
 							autoHeight: false,
 							ftScrollUse: false
 						};
 						
-						
-						if(!$.osl.isNull(systemRoot) && systemRoot){
-							
-							okRevision = true;
-							okFileCode = true;
-						}else{
-							authCheck(strgRepId);
-						}
-						
 						if(okFileCode){
-							$.osl.layerPopupOpen('/stm/smt8000/stm8000/selectStm8003View.do',data,options);
+							$.osl.layerPopupOpen('/cmm/cmm6000/cmm6800/selectCmm6801View.do',data,options);
 						}else{
-							$.osl.alert($.osl.lang("stm8002.message.auth"));
+							$.osl.alert($.osl.lang("cmm6801.message.auth"));
 							return false;
 						}
 					},
@@ -274,15 +280,6 @@ var OSLStm8002Popup = function() {
 							autoHeight: false,
 						};
 
-						
-						if(!$.osl.isNull(systemRoot) && systemRoot){
-							
-							okRevision = true;
-							okFileCode = true;
-						}else{
-							authCheck(strgRepId);
-						}
-						
 						if(okFileCode){
 							$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8004View.do',data,options);
 						}else{
@@ -356,7 +353,15 @@ var OSLStm8002Popup = function() {
 				},
 				columns: [
 					{field: 'revision', title: '리비전', textAlign: 'center', width: 40, autoHide: false, sortable: false},
-					{field: 'comment', title: '내용', textAlign: 'left', width: 200, sortable: false, search:true},
+					{field: 'comment', title: '내용', textAlign: 'left', width: 200, sortable: false, search:true,
+						template : function(row){
+							if($.osl.isNull((row.comment).trim())){
+								return "-";
+							}else{
+								return row.comment;
+							}
+						},
+					},
 					{field: 'author', title: '등록자', textAlign: 'center', width: 80, sortable: false, search:true},
 					{field: 'logDate', title: '등록일', textAlign: 'center', width: 80, sortable: false, search:true, searchType:"daterange",
 						template : function(row){
@@ -436,7 +441,6 @@ var OSLStm8002Popup = function() {
 	    				treeLoad();
 						
 						fileLoad();
-						
 					}
 				},
 				theme:{
@@ -586,18 +590,6 @@ var OSLStm8002Popup = function() {
 		
 		
 		$("button[data-datatable-id="+treeDatatableId+"][data-datatable-action=select]").click(); 
-	};
-	
-	
-	var selectBtnClick = function(){
-		searchStNum = $("#searchStNum").val();
-		searchEdNum = $("#searchEdNum").val();
-		
-		
-		var datatable = $.osl.datatable.list[datatableId].targetDt;
-		datatable.setDataSourceParam("searchStNum", searchStNum);
-		datatable.setDataSourceParam("searchEdNum", searchEdNum);						
-		$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 	};
 	
 	
