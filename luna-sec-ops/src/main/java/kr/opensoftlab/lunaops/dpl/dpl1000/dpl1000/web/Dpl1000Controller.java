@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.cmm.cmm4000.cmm4000.service.Cmm4000Service;
@@ -179,8 +178,26 @@ public class Dpl1000Controller {
 			paramMap.put("dplDelCd", "02"); 
 			
 			
-			/
-			/
+			
+			int totCnt = 0;
+			List<Map> dataList = null;
+			Map<String, Object> metaMap = null;
+			
+			
+			totCnt = dpl1000Service.selectDpl1000DplListCnt(paramMap);
+
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+
+			
+			
+			dataList = dpl1000Service.selectDpl1000DplList(paramMap);
+			
+        	
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -202,6 +219,84 @@ public class Dpl1000Controller {
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
 			return new ModelAndView("jsonView");
 		}
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1000DplInfoAjax.do")
+	public ModelAndView selectDpl1000DplInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			
+			
+			String paramPrjId = paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("prjId", paramPrjId);
+			
+			
+			Map dplInfo = dpl1000Service.selectDpl1000DplInfo(paramMap);
+			
+			
+			List dplJobList = dpl1000Service.selectDpl1300DplJobList(paramMap);
+			
+			model.addAttribute("dplInfo", dplInfo);
+			model.addAttribute("dplJobList", dplJobList);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectDpl1000DplInfoAjax()", ex);
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
+	
+	
+	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/insertDpl1000DplInfoAjax.do")
+    public ModelAndView insertDpl1000DplInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+    	try{
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		HttpSession ss = request.getSession();
+    		
+    		
+			String prjId = paramMap.get("paramPrjId");
+			if(prjId == null || "".equals(prjId)) {
+				prjId = (String) ss.getAttribute("selPrjId"); 
+			}
+			
+			paramMap.put("prjId", prjId);
+			
+			
+        	dpl1000Service.insertDpl1000DplInfo(paramMap);
+			
+        	
+        	model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+        	return new ModelAndView("jsonView");
+    	}
+    	catch(Exception ex){
+    		Log.error("insertDpl1000DplInfoAjax()", ex);
+    		
+    		
+    		model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
+    		return new ModelAndView("jsonView");
+    	}
 	}
 	
 	
@@ -577,7 +672,8 @@ public class Dpl1000Controller {
         	List<Map> dplModifyHistoryList = dpl1000Service.selectDpl1500ModifyHistoryList(paramMap);
         	
         	
-			List<Map> jobList = dpl1000Service.selectDpl1300DeployJobList(paramMap);
+        	
+			List<Map> jobList = null;
 			
         	model.addAttribute("dplDplHistoryList", dplDplHistoryList);
         	model.addAttribute("dplModifyHistoryList", dplModifyHistoryList);

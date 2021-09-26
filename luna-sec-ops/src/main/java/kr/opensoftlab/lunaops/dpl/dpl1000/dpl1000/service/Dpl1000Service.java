@@ -15,13 +15,26 @@ import kr.opensoftlab.sdf.jenkins.vo.ChangeVO;
 public interface Dpl1000Service {
 
 	
-	@SuppressWarnings("rawtypes")
-	public int selectDpl1000ListCnt(Map paramMap) throws Exception;
-	
-	
 	@SuppressWarnings({ "rawtypes" })
-	public List<Map> selectDpl1000List(Map paramMap) throws Exception;
-
+	public List<Map> selectDpl1000DplList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	public int selectDpl1000DplListCnt(Map paramMap) throws Exception;
+	
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	Map selectDpl1000DplInfo(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	void insertDpl1000DplInfo(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	List selectDpl1300DplJobList(Map inputMap)  throws Exception;
+	
 	
 	@SuppressWarnings({"rawtypes" })
 	List selectDpl1400DplBldNumList(Map paramMap) throws Exception;
@@ -50,9 +63,6 @@ public interface Dpl1000Service {
     
 	@SuppressWarnings("rawtypes")
 	List selectDpl1000ReqCount(Map inputMap) throws Exception;
-	
-	@SuppressWarnings({"rawtypes" })
-	List selectDpl1300DeployJobList(Map inputMap)  throws Exception;
 	
 	
 	List<Dpl1300VO> selectDpl1300dplJobGridList(Dpl1300VO dpl1300VO)  throws Exception;
