@@ -182,6 +182,13 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception {
+		return dpl1000DAO.selectCmm6601SignHistoryList(paramMap);
+	}
+	
+	
 	
 	@SuppressWarnings("rawtypes")
 	public List selectDpl1000DeployNmList(Map inputMap) throws Exception {
@@ -769,4 +776,6 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	public List selectDpl1700SvnChangePathList(Map paramMap)  throws Exception{
 		return dpl1000DAO.selectDpl1700SvnChangePathList(paramMap);
 	}
+
+	
 }
