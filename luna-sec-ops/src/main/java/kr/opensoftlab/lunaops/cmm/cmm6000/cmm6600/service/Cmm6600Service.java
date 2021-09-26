@@ -12,4 +12,10 @@ public interface Cmm6600Service {
 
 	
 	void saveCmm6600SignLine(Map<String, String> paramMap) throws Exception;
+
+	
+	int selectCmm6600SignListCnt(Map<String, String> paramMap) throws Exception;
+
+	
+	List<Map> selectCmm6600SignList(Map<String, String> paramMap) throws Exception;
 }

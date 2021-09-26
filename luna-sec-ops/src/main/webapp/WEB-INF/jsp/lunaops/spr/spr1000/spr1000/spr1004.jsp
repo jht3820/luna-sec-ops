@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- begin page DOM -->
+
 <form class="kt-form" id="frSpr1004">
 	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}">
 	<input type="hidden" name="paramPrjGrpId" id="paramPrjGrpId" value="${param.paramPrjGrpId}">
@@ -8,13 +8,12 @@
 	<input type="hidden" name="paramSprId" id="paramSprId" value="${param.paramSprId}">
 	<input type="hidden" name="paramStartDt" id="paramStartDt" value="${param.paramStartDt}">
 	<input type="hidden" name="paramEndDt" id="paramEndDt" value="${param.paramEndDt}">
-	
 	<div class="kt-portlet__body">
 		<div class="osl-wizard" id="kt_wizard_v3" data-ktwizard-state="step-first">
-			<!--begin: Form Wizard Nav -->
+			
 			<div class="osl-wizard__nav">			
 				<div class="osl-wizard__nav-items osl-wizard__nav-items--clickable">
-					<!--begin: 1.요구사항 결과 확인 -->
+					
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step" data-ktwizard-state="current">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">1</div>
@@ -24,8 +23,8 @@
 							</div>
 						</div>
 					</div>
-					<!--end: 1.요구사항 결과 확인 -->
-					<!--begin: 2.회고록 작성 -->
+					
+					
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">2</div>
@@ -34,8 +33,8 @@
 							</div>
 						</div>
 					</div>
-					<!--end: 2.회고록 작성 -->
-					<!--begin: 3.스프린트 결과 통계 -->
+					
+					
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">3</div>
@@ -44,10 +43,10 @@
 							</div>
 						</div>
 					</div>
-					<!--end: 3.스프린트 결과 통계 -->
+					
 				</div>
 			</div>
-			<!--end: Form Wizard Nav -->
+			
 			<div class="osl-form__actions kt-padding-l-25" id="wizardStepBtnTmp">
 				<button class="btn btn-outline-brand" data-ktwizard-type="action-prev">
 					<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
@@ -59,7 +58,7 @@
 					<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
 				</button>
 			</div>
-			<!-- begin:: 1. 요구사항 결과 확인 스프린트 리뷰 -->
+			
 			<div class="osl-wizard__content w-100 osl-h-px--500 kt-bg-light kt-padding-30 kt-padding-l-40 kt-padding-r-40" data-ktwizard-type="step-content" data-ktwizard-state="current">
 				<div class="row kt-margin-t-20">
 					<div class="col-lg-12 col-md-12 col-sm-12">
@@ -77,8 +76,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- end:: 1. 요구사항 결과 확인 스프린트 리뷰 -->
-			<!-- begin:: 2. 스토리 포인트 입력 요구사항 스토리 포인트 입력 -->
+			
+			
 			<div class="osl-wizard__content w-100 osl-h-px--500 kt-bg-light kt-padding-30 kt-padding-l-40 kt-padding-r-40" data-ktwizard-type="step-content">
 				<div class="row">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -97,21 +96,21 @@
 					</div>
 				</div>
 			</div>
-			<!-- end:: 2. 스토리 포인트 입력 요구사항 스토리 포인트 입력 -->
-			<!-- begin:: 3. 담당자 지정 요구사항 담당자 지정 -->
+			
+			
 			<div class="osl-wizard__content w-100 kt-bg-light kt-padding-30 kt-padding-l-40 kt-padding-r-40" data-ktwizard-type="step-content">
 				<div class="row kt-padding-l-20 kt-padding-r-20">
-					<!-- begin :: 스프린트 이름 -->
-					<div class="col-12 text-center kt-margin-t-20"><h1 class="font-weight-bold">${param.paramSprNm}</h1></div>
-					<!-- end :: 스프린트 이름 -->
 					
-					<!-- begin :: 스프린트 시간, 관리자, 설명 -->
+					<div class="col-12 text-center kt-margin-t-20"><h1 class="font-weight-bold">${param.paramSprNm}</h1></div>
+					
+					
+					
 					<div class="col-12 text-right">2020-01-01 11:40</div>
 					<div class="col-12 text-right">관리자</div>
 					<div class="col-12 text-right">${param.paramSprDesc}</div>
-					<!-- end :: 스프린트 시간, 관리자, 설명 -->
 					
-					<!-- begin :: 스프린트 내용 table -->
+					
+					
 					<div class="table border kt-margin-t-20">
 						<div class="row kt-margin-0">
 							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">전체 배정 백로그</div>
@@ -126,7 +125,7 @@
 							<div class="col-6 text-center kt-padding-15" id="sprStat03"></div>
 						</div>
 						<div class="row kt-margin-0 border-top">
-							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">평균 소요시간</div>
+							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">평균 완료 소요시간</div>
 							<div class="col-6 text-center kt-padding-15" id="sprStat04"></div>
 						</div>
 						<div class="row kt-margin-0 border-top">
@@ -134,49 +133,54 @@
 							<div class="col-6 text-center kt-padding-15" id="sprStat05"></div>
 						</div>
 						<div class="row kt-margin-0 border-top">
-							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">스토리 포인트 공수</div>
+							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">완료 스토리 포인트 공수</div>
 							<div class="col-6 text-center kt-padding-15" id="sprStat06"></div>
 						</div>
 					</div>
-					<!-- end :: 스프린트 내용 table -->
+					
 				</div>
 				
-				<!-- begin :: 스프린트 차트 -->
+				
 				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
 					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
-						<div class="border osl-min-h-px--140">차트 1</div>
+						<div class="border osl-min-h-px--140" id="burnUpChart"></div>
 					</div>
 					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
-						<div class="border osl-min-h-px--140">차트 2</div>
+						<div class="border osl-min-h-px--140" id="burnDownChart"></div>
 					</div>
 				</div>
-				<!-- end :: 스프린트 차트 -->
+				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
+						<div class="border osl-min-h-px--140" id="velocityChart"></div>
+					</div>
+				</div>
 				
-				<!-- begin :: 스프린트 데이터테이블 전체영역-->
+				
+				
 				<div class="row kt-margin-t-20">
 					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="row">
-							<!-- begin :: 스프린트 데이터테이블 검색영역 -->
+							
 							<div class="col-lg-6 col-md-6 col-sm-12">
 								<div class="osl-datatable-search" data-datatable-id="sprDetailTable"></div>
 							</div>
-							<!-- end :: 스프린트 데이터테이블 검색영역 -->
-							<!-- begin :: 스프린트 데이터테이블 조회버튼 -->
+							
+							
 							<div class="col-lg-6 col-md-6 col-sm-12">
 								<button type="button" class="btn btn-brand float-right" data-datatable-id="sprDetailTable" data-datatable-action="select" title="스프린트 상세정보 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 									<i class="fa fa-list"></i><span>조회</span>
 								</button>
 							</div>
-							<!-- end :: 스프린트 데이터테이블 조회버튼 -->
+							
 						</div>
-						<!-- begin :: 스프린트 데이터테이블  -->
+						
 						<div class="kt_datatable" id="sprDetailTable"></div>
-						<!-- end :: 스프린트 데이터테이블  -->
+						
 					</div>
 				</div>
-				<!-- end :: 스프린트 데이터테이블 전체영역 -->
+				
 			</div>
-			<!-- end:: 3. 담당자 지정 요구사항 담당자 지정  -->
+			
 		</div>
 	</div>
 
@@ -186,38 +190,46 @@
 		</button>
 	</div>
 </form>
-<!-- end DOM -->
-<!-- begin page script -->
+
+
 <script>
 "use strict";
 var OSLSpr1004Popup = function () {
 	
 	var formId = 'frSpr1004'
 	
-	//edit 목록
+	
 	var formEditList = [];
 
-	//datatableOpenFlag
+	
 	var datatableInitFlag = {3:false};
 	var datatableSetting = {};
 	
-	//스프린트 ID
+	
 	var paramSprId = $("#paramSprId").val();
 	
-	//form validate 주입
+	var totalSprPoint = 0;
+	
+	var endSprPoint = 0;
+	
 	var formValidate = $.osl.validate(formId);
 	
-	//단계별 데이터
+	
+	var paramSprStDt = $("#paramStartDt").val();
+	
+	var paramSprEdDt = $("#paramEndDt").val();
+	
+	
 	var wizardData = {
-		//요구사항 결과 입력
+		
 		reqResultDescList: {}
 	};
 	
 	var documentSetting = function(){
-		//edit 세팅
+		
     	formEditList.push($.osl.editorSetting("mmrDesc", {formValidate: formValidate,'minHeight': 220, disableResizeEditor: false}));
 		
-    	// begin:: 요구사항 결과 확인 데이터테이블
+    	
 		datatableInitFlag[1] = 
 			$.osl.datatable.setting("sprReqResultTable",{
 				data: {
@@ -229,13 +241,13 @@ var OSLSpr1004Popup = function () {
 							}
 						}
 					},
-					//그리드에 표출되는 row 개수
+					
 					pageSize : 5,
 				},
 				toolbar:{
 					items:{
 						pagination:{
-							//그리드에 표출되는 row 개수
+							
 							pageSizeSelect : [5, 10, 20, 30, 50, 100],
 						}
 					}
@@ -314,91 +326,113 @@ var OSLSpr1004Popup = function () {
 				},
 			});
 		
-		// end:: 요구사항 결과 확인 데이터테이블
+		
 		datatableSetting[3] = function(){
-			// begin:: 스프린트 상세정보 데이터테이블 
+			
     		return $.osl.datatable.setting("sprDetailTable",{
-				data: {
-					source: {
-						read: {
-							url: "/spr/spr1000/spr1000/selectSpr1000SprReqListAjax.do",
-							params:{
-								sprId: paramSprId
-							}
-						}
-					},
-					 pageSize : 5,
-				},
-				toolbar:{
-					 items:{
-						 pagination:{
-							 pageSizeSelect : [5, 10, 20, 30, 50, 100],
-							//페이지 그룹단위 변경
-							pages:{
-								desktop: {
-									layout: 'default',
-									pagesNumber: 5
-								},
-								tablet:{
-									layout: 'default',
-									pagesNumber: 3
-								}
-							}
-						 }
-					 }
-				},
-				columns: [
-					{field: 'prjNm', title: '프로젝트 명', textAlign: 'center', width: 100},
-					{field: 'reqOrd', title: '순번', textAlign: 'center', width: 50, search: true},
-					{field: 'reqNm', title: '요청 제목', textAlign: 'center', width: 200, search: true},
-					{field: 'reqProTypeNm', title: '진행 상태', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"}, 
-					{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 100, search: true,
-						template: function (row) {
-							if($.osl.isNull(row.reqChargerNm)){
-								row.reqChargerNm = "";
-							}
-							var usrData = {
-								html: row.reqChargerNm,
-								imgSize: "sm",
-								class:{
-									cardBtn: "osl-width__fit-content"
-								}
-							};
-							return $.osl.user.usrImgSet(row.reqChargerId, usrData);
-						},
-						onclick: function(rowData){
-							$.osl.user.usrInfoPopup(rowData.reqChargerId);
-						}
-					},
-					{field: 'timeRequired', title: '실 소요시간', textAlign: 'center', width: 100,
-						template: function (row) {
-							if($.osl.isNull(row.timeRequired)){
-								row.reqChargerNm = "te";
-							}
-							return row.reqChargerNm;
-						},
-					},
-					{field: 'sprPoint', title: '스토리포인트', textAlign: 'center', width: 70}
-					
-				],
-				actionBtn:{
-					"width": 80,
-				},
-			});
-			// end:: 스프린트 상세정보 데이터테이블
+    			data: {
+    				source: {
+    					read: {
+    						url: "/spr/spr1000/spr1000/selectSpr1000SprReqListAjax.do",
+    						params:{
+    							sprId: paramSprId
+    						}
+    					}
+    				},
+    				 pageSize : 5,
+    			},
+    			toolbar:{
+    				 items:{
+    					 pagination:{
+    						 pageSizeSelect : [5, 10, 20, 30, 50, 100],
+    						
+    						pages:{
+    							desktop: {
+    								layout: 'default',
+    								pagesNumber: 5
+    							},
+    							tablet:{
+    								layout: 'default',
+    								pagesNumber: 3
+    							}
+    						}
+    					 }
+    				 }
+    			},
+    			columns: [
+    				{field: 'prjNm', title: '프로젝트 명', textAlign: 'center', width: 150},
+    				{field: 'reqOrd', title: '순번', textAlign: 'center', width: 50, search: true},
+    				{field: 'reqNm', title: '요청 제목', textAlign: 'center', width: 200, search: true},
+    				{field: 'reqProTypeNm', title: '진행 상태', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"}, 
+    				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 100, search: true,
+    					template: function (row) {
+    						if($.osl.isNull(row.reqChargerNm)){
+    							row.reqChargerNm = "";
+    						}
+    						var usrData = {
+    							html: row.reqChargerNm,
+    							imgSize: "sm",
+    							class:{
+    								cardBtn: "osl-width__fit-content"
+    							}
+    						};
+    						return $.osl.user.usrImgSet(row.reqChargerId, usrData);
+    					},
+    					onclick: function(rowData){
+    						$.osl.user.usrInfoPopup(rowData.reqChargerId);
+    					}
+    				},
+    				{field: 'timeRequired', title: '실 소요시간', textAlign: 'center', width: 100,
+    					template: function (row) {
+    						if(row.reqProType == '01'){
+    							return '-';
+    						}else if(row.reqProType == '04'){
+    							return $.osl.escapeHtml(String(row.endTimeRequired)); 
+    						}
+    						return $.osl.escapeHtml(String(row.notEndTimeRequired));
+    					},
+    				},
+    				{field: 'sprPoint', title: '스토리포인트', textAlign: 'center', width: 80,
+    					template: function (row) {
+    						
+    						if($.osl.isNull(row.sprPoint)){
+    							return '-'
+    						}else{
+    							return $.osl.escapeHtml(String(row.sprPoint));	
+    						}
+    					}
+    				}
+    			],
+    			actionBtn:{
+    				select:false,
+    				delete:false,
+    				update:false,
+    			},
+    			callback:{
+    				ajaxDone:function(evt, list){
+    					
+    	 				var reqChartDataList = [];
+    	 				if($.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.hasOwnProperty('data')){
+    	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
+    	 				}
+    				}
+    			}
+    		});
+    		
+    		
 		};
 		
-		// begin :: 마법사 
-		//마법사 세팅
+		
+		
 		var wizard = new KTWizard('kt_wizard_v3', {
 			startStep: 1, 
 			clickableSteps: false, 		
 		});
 		
-		//스텝 변경 전 현재 단계에 데이터 저장
+		
 		wizard.on('beforeNext', function(wizardObj) {
 			var reqEndCnt = $.osl.datatable.list.sprReqResultTable.targetDt.lastResponse.meta.reqEndCnt;
-			//form valid check
+			
 			if($("#"+formId).valid() !== true){
 				wizardObj.stop();
 			}
@@ -407,11 +441,11 @@ var OSLSpr1004Popup = function () {
 				$.osl.toastr($.osl.lang("spr1004.alert.reqEndCnt",reqEndCnt),{"type":"error"});
 			};
 		});
-
-		//마법사 각 단계탭 클릭시 변경 이벤트
+		
+		
 		wizard.on('change', function(wizardObj) {
 			if(datatableInitFlag.hasOwnProperty(wizardObj.currentStep)){
-				//마법사 단계 이동 시 버튼 표출 여부 , 데이터 테이블 세팅
+				
 				if(!datatableInitFlag[wizardObj.currentStep]){
 					datatableInitFlag[wizardObj.currentStep] = datatableSetting[wizardObj.currentStep]();
 				}else if(datatableInitFlag[wizardObj.currentStep].hasOwnProperty("targetDt")){
@@ -420,54 +454,54 @@ var OSLSpr1004Popup = function () {
 			}
 		});
 		
-		// begin :: 마법사 단계 이동 시 버튼 표출 여부 , 데이터 테이블 세팅
+		
 		var initWizard = function(wizard){
-			//전체 단계 수
+			
 			var totalStep = wizard.totalSteps;
-			//현재 단계
+			
 			var checkThis = wizard.currentStep;
-			//전체 단계-현재 단계
+			
 			var checking = totalStep - checkThis;
 			
-			//마지막 단계
+			
 			if(checking==0){
 				$('[data-ktwizard-type="action-prev"]').css('display','inline-block');
 				$('[data-ktwizard-type="action-next"]').css('display','none');
 				$('[data-ktwizard-type="action-submit"]').css('display','inline-block');
-			//중간 단계
+			
 			}else if(checking<totalStep-1){
 				
 				$('[data-ktwizard-type="action-prev"]').css('display','inline-block');
 				$('[data-ktwizard-type="action-next"]').css('display','inline-block');
 				$('[data-ktwizard-type="action-submit"]').css('display','none');
-			//첫번째 단계
+			
 			}else{
 				$('[data-ktwizard-type="action-next"]').css('display','inline-block');
 				$('[data-ktwizard-type="action-prev"]').css('display','none');
 				$('[data-ktwizard-type="action-submit"]').css('display','none');
 			}
 		};
-		// end :: 마법사 단계 이동 시 버튼 표출 여부 , 데이터 테이블 세팅
+		
 		
 		$('#frSpr1004 [data-ktwizard-type="action-submit"]').click(function(){
-	       	//formData
+	       	
 	   		var fd = $.osl.formDataToJsonArray(formId);
 	       	
-	   		//AJAX 설정
+	   		
 	   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/spr/spr1000/spr1000/updateSpr1003SprEnd.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
-	   		//AJAX 전송 성공 함수
+	   		
 	   		ajaxObj.setFnSuccess(function(data){
 	   			if(data.errorYn == "Y"){
 	   				$.osl.alert(data.message,{type: 'error'});
 	   			}else{
-	   				//등록 성공
+	   				
 	   				$.osl.toastr(data.message);
 
-	   				//모달 창 닫기
+	   				
 	   				$.osl.layerPopupClose();
 	   				
-	   				//datatable 조회
+	   				
 	   				if($("button[data-datatable-id=spr1000Table][data-datatable-action=select]").length > 0){
 		   				$("button[data-datatable-id=spr1000Table][data-datatable-action=select]").click();
 	   				}
@@ -475,11 +509,11 @@ var OSLSpr1004Popup = function () {
 	   			}
 	   		});
 	   		
-	   		//AJAX 전송
+	   		
 	   		ajaxObj.send();
 		});
 		
-		//스프린트 종료 > 1.요구사항 결과 확인 > 신규 백로그 추가 버튼
+		
 		$('#newReqappend').click(function(){
 			var data = {
 					type: "insert"
@@ -493,35 +527,412 @@ var OSLSpr1004Popup = function () {
 		
 		selectSprInfoStat();
 		
+		
+		drawAllChart();
+		
 	};
 	
 	var selectSprInfoStat = function(){
- 		//AJAX 설정
+ 		
  		var ajaxObj = new $.osl.ajaxRequestAction(
  				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"true"},{sprId: paramSprId});
  		
- 		//AJAX 전송 성공 함수
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
  				$.osl.alert(data.message,{type: 'error'});
  			}else{
- 				//사용자 목록 저장
+ 				
  				var sprStat= data.sprStat;
- 				console.log(sprStat);
+ 				
  				$("#sprStat01").html($.osl.escapeHtml(sprStat.allCntSum));
+ 				
  				$("#sprStat02").html($.osl.escapeHtml(sprStat.endCntSum));
+ 				
  				$("#sprStat03").html($.osl.escapeHtml(sprStat.notEndCntSum));
- 				//$("#sprStat04").html($.osl.escapeHtml(sprStat.allCntSum));
- 				$("#sprStat05").html($.osl.escapeHtml(sprStat.sprEndPercent)+" %");
- 				//$("#sprStat06").html($.osl.escapeHtml(sprStat.allCntSum));
+ 				
+ 				if($.osl.escapeHtml(sprStat.avgTime)=='NaN'){
+	 				$("#sprStat04").html("0");
+ 				}else{
+ 					$("#sprStat04").html($.osl.escapeHtml(sprStat.avgTime.toFixed(2)));
+ 				}
+ 				
+ 				if($.osl.escapeHtml(sprStat.sprEndPercent)=='NaN'){
+	 				$("#sprStat05").html($.osl.escapeHtml("0 %"));
+ 				}else{
+ 					$("#sprStat05").html($.osl.escapeHtml(sprStat.sprEndPercent.toFixed(2))+" %");
+ 				}
+ 				if($.osl.escapeHtml(sprStat.sprPerTime)=='NaN'){
+	 				$("#sprStat06").html("0 시간   /  1 스토리 포인트");
+ 				}else{
+ 					$("#sprStat06").html($.osl.escapeHtml(sprStat.sprPerTime.toFixed(2)) + "시간 /  1 스토리 포인트");
+ 				}
+ 				
+ 				totalSprPoint = sprStat.sprPoint;
  			}
  		});
- 		//AJAX 전송
+ 		
  		ajaxObj.send();
  	};
  	
+ 	
+ 	var drawAllChart = function(){
+ 		var ajaxObj = new $.osl.ajaxRequestAction(
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"true"},{sprId: paramSprId});
+ 		
+ 		ajaxObj.setFnSuccess(function(data){
+ 			if(data.errorYn == "Y"){
+ 				$.osl.alert(data.message,{type: 'error'});
+ 			}else{
+ 				
+ 				var chartData = data.chartData;
+ 				
+ 				var today = new Date();
+ 				var endDt  = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
+ 				
+ 				var seriesData = getDataRangeData(paramSprStDt, endDt, "1", chartData);
+ 				
+ 				drawBurnUpChart(seriesData);
+ 				
+ 				
+ 				drawBurnDownChart(seriesData);
+ 				
+ 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				
+				drawVelocityChart();
+ 			}	
+ 		});
+ 		
+ 		ajaxObj.send();
+ 	}
+ 	
+ 	
+ 	var drawBurnUpChart = function(dateRange){
+		 var chart = $.osl.chart.setting("apex","burnUpChart",{
+				
+				data:{										
+					param:{
+						dataArr: dateRange,	
+						 
+						 xKey:"time",
+						 key:{
+							 key1:"idealBurnUPLine",
+							 key2:"burnUpSprPoint"
+						 },
+						 keyNm:{
+							 keyNm1:"idealBurnUPLine",
+							 keyNm2:"Actual burnUpSprPoint"
+						 },
+						 
+						 chartType:"line",
+						 dataType: "local"
+					}
+				},
+				fill:{
+					type:false
+				},
+				chart:{
+					
+					colors: ["#586272", "#1cac81"],
+					title: {
+						text: "번업차트",
+						align: "center",
+					},
+					stroke: {
+				          curve: 'smooth'
+				    },
+				    grid: {
+				          borderColor: '#e7e7e7',
+				          row: {
+				            colors: ['#f3f3f3', 'transparent'], 
+				            opacity: 0.5
+				          },
+				    },
+					xaxis: {
+						type: 'datetime',
+				        labels: {
+				        	hideOverlappingLabels :true,
+				            formatter: function(value){
+				            	return new Date(value).format("MM-dd");
+				            }
+				        },
+				        tickAmount: '10',
+		        	},
+					yaxis: {
+						show:true
+		        	},
+		        	toolbar:{
+		        		tools:{
+		        			pan:false
+		        		}
+		        	},
+		        	grid:{
+		        		show:true
+		        	}
+				},
+				callback:{
+					
+					initComplete: function(chartContext, config){
+						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
+						$(".apexcharts-reset-icon").addClass("kt-margin-0");
+						$(".apexcharts-toolbar").addClass("kt-margin-10");
+						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
+						$(".apexcharts-toolbar").removeAttr("style[padding]");
+					}
+				}
+			});
+		 }
+ 	
+ 	var drawBurnDownChart = function(dateRange){
+ 		 var chart = $.osl.chart.setting("apex","burnDownChart",{
+ 			
+				data:{										
+					param:{
+						dataArr: dateRange,	
+						 
+						 xKey:"time",
+						 key:{
+							 key1:"idealBurnDownLine",
+							 key2:"burnDownSprPoint"
+						 },
+						 keyNm:{
+							 keyNm1:"idealBurnDownLine",
+							 keyNm2:"Actual burnDownSprPoint"
+						 },
+						 
+						 chartType:"line",
+						 dataType: "local"
+					}
+				},
+				fill:{
+					type:false
+				},
+				chart:{
+					
+					colors: ["#586272", "#1cac81"],
+					title: {
+						text: "번다운차트",
+						align: "center",
+					},
+					stroke: {
+				          curve: 'smooth'
+				    },
+				    grid: {
+				          borderColor: '#e7e7e7',
+				          row: {
+				            colors: ['#f3f3f3', 'transparent'], 
+				            opacity: 0.5
+				          },
+				    },
+					xaxis: {
+				        type: 'datetime',
+				        
+				        labels: {
+				        	hideOverlappingLabels :true,
+				            formatter: function(value){
+				            	return new Date(value).format("MM-dd");
+				            }
+				        },
+				        
+				        tickAmount: '10',
+				        
+				        tickPlacement: 'between',
+		        	},
+					yaxis: {
+						show:true
+		        	},
+		        	toolbar:{
+		        		tools:{
+		        			pan:false
+		        		}
+		        	},
+		        	grid:{
+		        		show:true
+		        	}
+				},
+				callback:{
+					
+					initComplete: function(chartContext, config){
+						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
+						$(".apexcharts-reset-icon").addClass("kt-margin-0");
+						$(".apexcharts-toolbar").addClass("kt-margin-10");
+						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
+						$(".apexcharts-toolbar").removeAttr("style[padding]");
+					}
+				}
+			});
+		 }
+ 	
+ 	var drawVelocityChart = function(){
+ 		var chart = $.osl.chart.setting("apex","velocityChart",{
+ 			data:{
+				
+				url: "<c:url value='/spr/spr1000/spr1000/selectSpr1000VelocityChartInfoAjax.do'/>",
+				
+				param:{
+					 data: paramSprId,
+					 totalSprPoint: totalSprPoint,
+					 endSprPoint: endSprPoint,
+					 
+					 key: {
+						 key1: "sprPoint",
+						 key2: "commitSprPoint",
+						 key3: "commitVelocity",
+						 key4: "actualVelocity"
+					 },
+					 
+					 keyNm:{
+						 keyNm1: "Actual StoryPoint",
+						 keyNm2: "Commitment StoryPoint",
+						 keyNm3: "Commitment Velocity",
+						 keyNm4: "Actual Velocity",
+					 },
+					 keyType:{
+						 keyType1:"bar",
+						 keyType2:"bar",
+						 keyType3:"line",
+						 keyType4:"line"
+					 }
+					 ,
+					 
+					 xKey:"term",
+					 
+					 chartType:"mix"
+				 },
+				 type: "remote"
+			},
+			chart:{
+				
+				colors: ["#586272", "#1cac81","#03070D", "#D0D3D9"],
+				 stroke: {
+			          width: [5, 5, 5, 5],
+			          curve: 'straight',
+			          dashArray: [0, 0, 5, 5]
+			       },
+			},
+			callback:{
+				
+				initComplete: function(chartContext, config){
+					$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
+					$(".apexcharts-reset-icon").addClass("kt-margin-0");
+					$(".apexcharts-toolbar").addClass("kt-margin-10");
+					$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
+					$(".apexcharts-toolbar").removeAttr("style[padding]");
+				}
+			}
+		});
+	}
+ 	
+ 	
+ 	var getDataRangeData = function(sttDt, endDT, type, data){
+ 		
+ 		
+ 		
+ 		var sprPoint = [];
+ 		$.each(data, function(index, value){
+ 			var _series = {};
+ 			_series[value.reqEdDtm] = value.cumSprPoint;
+ 			sprPoint.push(_series);
+ 		});
+ 		
+ 		
+ 		if(type=='1'){
+ 			var resDay = [];
+	 	 	var stDay = new Date(sttDt);
+	 	   	var edDay = new Date(endDT);    	
+	 	  	while(stDay.getTime() <= edDay.getTime()){
+	 	  			var ideal = 0;
+	 	  			var _mon = (stDay.getMonth()+1);
+	 	  			_mon = _mon < 10 ? '0'+_mon : _mon;
+	 	  			var _day = stDay.getDate();
+	 	  			_day = _day < 10 ? '0'+_day : _day;
+	 	  			var _time = stDay.getFullYear() + '-' + _mon + '-' +  _day;
+	 	  			if(_time == data.reqEdDtm){
+	 	  				resDay.push({"time":stDay.getFullYear() + '-' + _mon + '-' +  _day})
+	 	  			}else{  
+		 	   		resDay.push({"time":stDay.getFullYear() + '-' + _mon + '-' +  _day});
+	 	  			
+	 	  			}
+	 	   			stDay.setDate(stDay.getDate() + 1);
+	 	   			ideal = ideal + 10
+	 	   	}
+	 	
+ 		}else if(type=='2'){
+ 			
+ 		}
+ 		
+ 		
+ 		var length = resDay.length
+ 		
+ 		var step = totalSprPoint / length
+ 		
+ 		var start = 0;
+ 		$.each(resDay, function(index, value){
+ 			
+	 		if(length == 1){
+	 			value['idealBurnUPLine'] = totalSprPoint;
+	 		
+	 		}else if(length == 2){
+	 			value['idealBurnUPLine'] = start;
+	 			start += totalSprPoint;
+	 		
+	 		}else{
+	 			value['idealBurnUPLine'] = start.toFixed(1);
+	 			start += step;
+	 		}
+ 		})
+ 		
+ 		
+ 		var end = totalSprPoint;
+ 		$.each(resDay, function(index, value){
+ 			
+	 		if(length == 1){
+	 			value['idealBurnDownLine'] = totalSprPoint;
+	 		
+	 		}else if(length == 2){
+	 			value['idealBurnDownLine'] = end;
+	 			end -= totalSprPoint;
+	 		
+	 		}else{
+	 			value['idealBurnDownLine'] = end.toFixed(1);
+	 			end -= step	
+	 		}
+ 		})
+ 		
+ 		var today = new Date();
+ 		
+ 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
+ 			var match = false;
+ 			
+ 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
+ 			if(gap < 0){
+	 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
+	 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
+	 					match = true;
+	 					
+	 					resDay[dayIndex]['burnUpSprPoint'] = data[dataIndex].cumSprPoint
+	 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
+	 					break;
+	 				}
+	 			}
+	 			
+	 			if(!match){
+	 				
+	 				if(dayIndex == 0){
+	 					resDay[dayIndex]['burnUpSprPoint'] = 0;
+	 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
+	 				
+	 				}else{
+		 				resDay[dayIndex]['burnUpSprPoint'] = resDay[dayIndex - 1]['burnUpSprPoint']; 
+		 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
+	 				}
+	 			}
+ 			}
+ 		}
+ 	   	return resDay;
+ 	}
+ 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -533,4 +944,4 @@ $.osl.ready(function(){
 	OSLSpr1004Popup.init();
 });
 </script>
-<!-- end script -->
+

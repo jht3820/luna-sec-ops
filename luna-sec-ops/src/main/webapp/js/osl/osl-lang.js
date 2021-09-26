@@ -334,6 +334,61 @@ var OSLCoreLangSetting = function () {
 		cmm6206:{
 			title: "요구사항 선택"
 		},
+		dpl1001:{
+			label:{
+				dplStatus : "배포 상태",
+				dplVersion : "배포 버전",
+				dplName : "배포 명",
+				dplDate: "배포 일자",
+				dplUser : "배포자",
+				dplSignUse : "결재 사용 유무",
+				dplRevisionNum : "배포 리비전",
+				dplType : "배포 방법",
+				dplFailAction : "실패 후 처리",
+				dplAutoTime : "자동 실행 시간",
+				dplRestoreType : "원복 타입",
+				dplSignText : "결재 요청 의견",
+				dplDesc : "배포 설명",
+				autoTimeCompl : "적용",
+				autoTimeCancel : "취소"	
+			},
+			button:{
+				searchBtn : "검색",
+				insertBtn : "작성 완료",
+				updateBtn : "수정 완료",
+				deleteBtn : "삭제",
+				upMoveBtn : "위로",
+				downMoveBtn : "아래로",
+				assignBtn : "배정"
+			},
+			tooltip:{
+				upMoveBtnTooltip : "JOB 순서 위로",
+				downMoveBtnTooltip : "JOB 순서 아래로",
+				deleteBtnTooltip : "배정 JOB 삭제",
+				assignBtnTooltip : "JOB 배정"
+			},
+			modal:{
+				title:{
+					dplUserSelect : "배포자 선택",
+					dplJobAssign : "JOB 배정",
+				}
+			},
+			message:{
+				confirm:{
+					insert:"신규 JENKINS를 등록하시겠습니까?",
+					update:"JENKINS 정보를 수정하시겠습니까?"
+				},
+				alert:{
+					delJob : "삭제할 JOB에 체크해주세요.",
+					jobAssign : "배포 계획에 배정된 JOB이 없습니다. JOB을 배정해주세요.",
+					jobMove : "이동할 JOB을 선택해 주세요.",
+					selectOneJob : "1개의 JOB만 선택하세요."
+				},
+				warning:{
+					notDplUsr : "배포자를 검색하여 입력해주세요."
+				}
+			}
+		},
 		dpl1100:{
 			title : {
 				deploy : "배포계획 목록",
@@ -1479,7 +1534,8 @@ var OSLCoreLangSetting = function () {
 						common : "접속 실패",
 					},
 					success : "접속 성공"
-				}
+				},
+				auth : "접근 권한이 없습니다."
 			}
 		},
 		stm8001:{
@@ -1512,6 +1568,9 @@ var OSLCoreLangSetting = function () {
 					revisionFile : "상세",
 					repository : "선택",
 				},
+			},
+			label : {
+				revisionNum : "리비전 번호",
 			},
 			revisionFile : {
 				actionTitle : "상세",
@@ -1547,6 +1606,7 @@ var OSLCoreLangSetting = function () {
 			},
 			message :{
 				selectRevision : "리비전을 선택하세요.",
+				auth: "접근 권한이 없습니다."
 			}
 		},
 		stm8004:{
@@ -1564,8 +1624,7 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectFile : "${1}개가 선택되었습니다.<br/>두개의 파일을 선택하세요.",
-				selectFiles: "${1}개가 선택되었습니다.<br/>두개의 파일만 선택하세요.",
+				selectFile : "${1}개가 선택되었습니다.<br/>한의 파일을 선택하세요.",
 			}
 		},
 		stm8100:{
@@ -1648,9 +1707,15 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				remove : "소스 열람 권한은 리비전 열람권한이 있어야 가능합니다.<br/>리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.",
+				remove : "소스 열람 권한은 리비전 열람 권한이 있어야 가능합니다.<br/>리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.",
 				add : "소스 열람을 위해선 리비전 열람 권한도 필요합니다.<br/>리비전 열람 권한에도 배정됩니다.",
+				link : "리비전 열람 권한 목록은 있으나 소스 열람 권한에 배정된 항목이 없습니다.<br/>리비전 열람 권한과 동기화 됩니다."
 			}
+		},
+		stm8200:{
+			actionBtn:{
+				selectTooltip :"전체 현황 조회",
+			},
 		},
 		stm9000: {
 			title : {
@@ -2357,15 +2422,22 @@ var OSLCoreLangSetting = function () {
 				author : "Commiter ID",
 				logDate : "Date"
 			},
-			stm8100AssignStrgTable
-			{
+			stm8100AssignStrgTable:{
 				strgTypeNm : "Type",
 				strgRepTitle : "Repository Title",
 				strgTxt : "Repository Description",
 				strgRepUrl : "Repository URL",
 			},
-			stm8100NotAssignStrgTable
-			{
+			stm8100NotAssignStrgTable : {
+				strgTypeNm : "Type",
+				strgRepTitle : "Repository Title",
+				strgTxt : "Repository Description",
+				strgRepUrl : "Repository URL",
+			},
+			stm8200RepTable:{
+				useNm : "Used",
+				prjGrpNm : "Project Group Name",
+				prjNm : "Project Name",
 				strgTypeNm : "Type",
 				strgRepTitle : "Repository Title",
 				strgTxt : "Repository Description",
@@ -3578,7 +3650,8 @@ var OSLCoreLangSetting = function () {
 						common : "Connection Fail ",
 					},
 					success : "Connection Success"
-				}
+				},
+				auth : "You don't have access rights."
 			}
 		},
 		stm8001:{
@@ -3611,6 +3684,9 @@ var OSLCoreLangSetting = function () {
 					revisionFile : "Detail",
 					repository : "Select",
 				},
+			},
+			label : {
+				revisionNum : "Revision Number",
 			},
 			revisionFile : {
 				actionTitle : "Detail",
@@ -3646,6 +3722,7 @@ var OSLCoreLangSetting = function () {
 			},
 			message :{
 				selectRevision : "Please, select revision.",
+				auth : "You don't have access rights."
 			}
 		},
 		stm8004:{
@@ -3663,8 +3740,7 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectFile : "Please, select 2 file.<br/>${1} file have been selected.",
-				selectFiles: "Please, select only 2 file.<br/>${1} file have been selected.",
+				selectFile : "Please, select 1 file.<br/>${1} file have been selected.",
 			}
 		},
 		stm8100:{
@@ -3725,7 +3801,7 @@ var OSLCoreLangSetting = function () {
 			label : {
 				revision : "Revision Authority",
 				fileCode : "File Code Authority",
-				message : "To setting authority for open file code, must have set authority for open revision.",
+				message : "To setting authority for open file code,<br/>must have set authority for open revision.",
 				nonAssList : "Non-assign Authority group and Users"
 			},
 			button : {
@@ -3749,7 +3825,13 @@ var OSLCoreLangSetting = function () {
 			message : {
 				remove : "To setting authority for open file code, must have set authority for open revision.<br/>As revision authority is removed, file code authority is also removed.",
 				add : "To setting authority for open file code, must have set authority for open revision.<br/>Revision authority is also added.",
+				link : "There is a list of Revision Authority, but no list of File Code Authority.<br/>Synchronize with Revision Authority list.",
 			}
+		},
+		stm8200:{
+			actionBtn:{
+				selectTooltip :"View all status",
+			},
 		},
 		stm9000:{
 			title:{
