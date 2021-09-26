@@ -892,7 +892,8 @@
 	<update id="req4100DAO.updateReq4101ReqSubInfo" parameterClass="java.util.Map">
 		 
 		UPDATE 	REQ4100 A
-		SET		REQ_CHARGER_ID = #reqChargerId#
+		SET		REQ_CHARGER_ID 	= #reqChargerId#
+			,	REQ_PRO_TYPE 	= '02'
 		    ,	MODIFY_DTM		= SYSDATE
 		    ,	MODIFY_USR_ID	= #modifyUsrId#
 		    ,	MODIFY_USR_IP	= #modifyUsrIp#

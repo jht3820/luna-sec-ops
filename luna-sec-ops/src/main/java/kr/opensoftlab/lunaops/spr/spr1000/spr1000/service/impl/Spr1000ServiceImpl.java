@@ -1,5 +1,7 @@
 package kr.opensoftlab.lunaops.spr.spr1000.spr1000.service.impl;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,6 +15,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 
 import egovframework.com.cmm.EgovMessageSource;
@@ -269,19 +272,22 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map selectSpr1000SprInfoStat(Map paramMap) throws Exception {
+		
 		Map sprStat = spr1000DAO.selectSpr1000SprInfoStat(paramMap);
+		
 		double allCnt = Double.parseDouble(String.valueOf(sprStat.get("allCntSum")));
 		double endCnt = Double.parseDouble(String.valueOf(sprStat.get("endCntSum")));
 		
-		double endTimeRequired = Double.parseDouble(String.valueOf(sprStat.get("endTimeRequired")));
-		double sprPoint = Double.parseDouble(String.valueOf(sprStat.get("sprPoint")));
+		double endTimeRequired = Double.parseDouble(String.valueOf(sprStat.get("totalEndTime")));
+		double avgEndTime = Double.parseDouble(String.valueOf(sprStat.get("avgEndTimeRequired")));
+		double endSprPoint = Double.parseDouble(String.valueOf(sprStat.get("endSprPoint")));
 		
 		
 		sprStat.put("sprEndPercent", endCnt / allCnt * 100.0);
 		
-		sprStat.put("avgTime", endTimeRequired/endCnt);
+		sprStat.put("avgTime", avgEndTime);
 		
-		sprStat.put("sprPerTime", endTimeRequired/sprPoint);
+		sprStat.put("sprPerTime", endTimeRequired / endSprPoint);
 		
 		return sprStat;
 	}
@@ -290,5 +296,49 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	@SuppressWarnings({ "rawtypes" })
 	public List<Map> selectSpr1000ChartInfo(Map paramMap) throws Exception {
 		return  spr1000DAO.selectSpr1000ChartInfo(paramMap);
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Map> selectSpr1000VelocityChartInfo(Map<String, String> paramMap) throws Exception {
+		Calendar cal = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Map termInfo = spr1000DAO.selectSpr1000SprTerm(paramMap);
+		Double totalSprPoint = Double.parseDouble(String.valueOf(paramMap.get("totalSprPoint")));
+		Double endSprPoint = Double.parseDouble(String.valueOf(paramMap.get("endSprPoint")));
+		Integer term = Integer.parseInt(String.valueOf(termInfo.get("distance")));
+		Integer interval = term/4;
+		Integer remainder = term%4;
+		Double commitSprPoint = (double) (totalSprPoint/4);
+		Double endVelocity = (double) (endSprPoint/4);
+		Date stDt = (Date) termInfo.get("sprStDt");
+		List<Map> velocityData = new ArrayList();
+		
+		cal.setTime(stDt);
+		for(int i = 1 ; i<5 ; i++) {
+			
+			String startD = df.format(cal.getTime());
+			if(i==4) {
+				cal.add(Calendar.DATE, interval+remainder);
+			}else {
+				cal.add(Calendar.DATE, interval);
+			}
+			
+			String endD = df.format(cal.getTime());
+			
+			paramMap.put("startD", startD);
+			paramMap.put("endD", endD);
+			
+			Map data = spr1000DAO.selectSpr1000VelocityChartInfo(paramMap);
+			data.put("term", "Sprint#"+i);
+			data.put("commitSprPoint", commitSprPoint);
+			data.put("commitVelocity", commitSprPoint);
+			data.put("actualVelocity", endVelocity);
+			
+			velocityData.add(data);
+		}
+		return velocityData;
 	}
 }
