@@ -40,7 +40,7 @@
 		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
 		<result property="reqNewType"			column="REQ_NEW_TYPE"/>
 		<result property="reqNewTypeNm"			column="REQ_NEW_TYPE_NM"/>		
-		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT"/>	
+		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT" jdbcType="CLOB" javaType="java.lang.String"/>	
 		<result property="sclCd"				column="SCL_CD"/>
 		<result property="reqTypeCd"			column="REQ_TYPE_CD"/>
 		<result property="piaCd"				column="PIA_CD"/>
@@ -88,7 +88,7 @@
 		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
 		<result property="reqNewType"			column="REQ_NEW_TYPE"/>
 		<result property="reqNewTypeNm"			column="REQ_NEW_TYPE_NM"/>		
-		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT"/>	
+		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT" jdbcType="CLOB" javaType="java.lang.String"/>	
 		<result property="reqTypeCd"			column="REQ_TYPE_CD"/>
 		<result property="atchFileId"			column="ATCH_FILE_ID"/>
 		<result property="cbAtchFileId"			column="CB_ATCH_FILE_ID"/>
@@ -136,7 +136,7 @@
 		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
 		<result property="reqNewType"			column="REQ_NEW_TYPE"/>
 		<result property="reqNewTypeNm"			column="REQ_NEW_TYPE_NM"/>		
-		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT"/>	
+		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT" jdbcType="CLOB" javaType="java.lang.String"/>	
 		<result property="reqTypeCd"			column="REQ_TYPE_CD"/>
 		<result property="atchFileId"			column="ATCH_FILE_ID"/>
 		<result property="cbAtchFileId"			column="CB_ATCH_FILE_ID"/>
@@ -831,6 +831,20 @@
 		AND		A.PRJ_ID = #prjId#
 		AND		A.REQ_ID = #reqId#
 	</update>
+	
+	
+	<update id="req4100DAO.updateReq4100ReqRejectInfo" parameterClass="java.util.Map">
+		 
+		UPDATE 	REQ4100 A
+		SET		REQ_ACCEPT_TXT = #reqAcceptTxt#
+			,	REQ_PRO_TYPE = '03'
+		    ,	MODIFY_DTM		= SYSDATE
+		    ,	MODIFY_USR_ID	= #modifyUsrId#
+		    ,	MODIFY_USR_IP	= #modifyUsrIp#
+		WHERE	1=1
+		AND		A.PRJ_ID = #prjId#
+		AND		A.REQ_ID = #reqId#
+	</update>
     
     <!-- 요구사항 키값 수정 
 		프로젝트 ID와 요구사항 등록 시 생성된 요구사항 ID를 조합하여 암호화 시킨 후
@@ -878,7 +892,8 @@
 	<update id="req4100DAO.updateReq4101ReqSubInfo" parameterClass="java.util.Map">
 		 
 		UPDATE 	REQ4100 A
-		SET		REQ_CHARGER_ID = #reqChargerId#
+		SET		REQ_CHARGER_ID 	= #reqChargerId#
+			,	REQ_PRO_TYPE 	= '02'
 		    ,	MODIFY_DTM		= SYSDATE
 		    ,	MODIFY_USR_ID	= #modifyUsrId#
 		    ,	MODIFY_USR_IP	= #modifyUsrIp#

@@ -588,6 +588,33 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateReq4100ReqRejectList(Map paramMap) throws Exception{
+		
+		String paramRejectContents = (String) paramMap.get("paramRejectContents");
+		paramMap.put("reqAcceptTxt", paramRejectContents);
+		
+		
+		String paramRejectReqList = (String) paramMap.get("paramRejectReqList");
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONArray jsonArray = (JSONArray) jsonParser.parse(paramRejectReqList);
+		for(int i=0;i<jsonArray.size();i++) {
+			JSONObject reqInfo = (JSONObject) jsonArray.get(i);
+			
+			
+			String prjId = (String) reqInfo.get("prjId");
+			String reqId = (String) reqInfo.get("reqId");
+			
+			
+			paramMap.put("prjId", prjId);
+			paramMap.put("reqId", reqId);
+			req4100DAO.updateReq4100ReqRejectInfo(paramMap);
+		}
+	}
+	
+	
 	@SuppressWarnings({ "rawtypes" })
 	public void updateReq4101ReqSubInfo(Map paramMap) throws Exception{
 		req4100DAO.updateReq4101ReqSubInfo(paramMap);

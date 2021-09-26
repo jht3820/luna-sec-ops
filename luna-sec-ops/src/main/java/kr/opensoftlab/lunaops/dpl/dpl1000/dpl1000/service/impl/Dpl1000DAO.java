@@ -19,15 +19,39 @@ import org.springframework.stereotype.Repository;
 public class Dpl1000DAO extends ComOslitsAbstractDAO {
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map>  selectDpl1000DplList(Map paramMap) throws Exception {
+		return  (List<Map>) list("dpl1000DAO.selectDpl1000DplList", paramMap);
+	}
+	
+	
 	@SuppressWarnings("rawtypes")
-	public int  selectDpl1000ListCnt(Map paramMap) throws Exception {
-		return  (Integer) select("dpl1000DAO.selectDpl1000ListCnt", paramMap);
+	public int  selectDpl1000DplListCnt(Map paramMap) throws Exception {
+		return  (Integer) select("dpl1000DAO.selectDpl1000DplListCnt", paramMap);
 	} 
 	
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Map>  selectDpl1000List(Map paramMap) throws Exception {
-		return  (List<Map>) list("dpl1000DAO.selectDpl1000List", paramMap);
+	@SuppressWarnings({"rawtypes" })
+	public Map selectDpl1000DplInfo(Map map) throws Exception{
+		return (Map) select("dpl1000DAO.selectDpl1000DplInfo", map);
+	} 
+	
+	
+	@SuppressWarnings("rawtypes")
+	public String insertDpl1000DplInfo(Map paramMap) throws Exception{
+		return (String) insert("dpl1000DAO.insertDpl1000DplInfo", paramMap);
+    }
+	
+	
+	@SuppressWarnings("rawtypes")
+	public void insertDpl1300DeployJobInfo(Map paramMap) throws Exception{
+		insert("dpl1000DAO.insertDpl1300DeployJobInfo", paramMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public List selectDpl1300DplJobList(Map inputMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1300DplJobList", inputMap);
 	}
 	
 	
@@ -68,12 +92,6 @@ public class Dpl1000DAO extends ComOslitsAbstractDAO {
 	} 
 	
 	
-	@SuppressWarnings({"rawtypes" })
-	public List selectDpl1300DeployJobList(Map inputMap)  throws Exception{
-		return (List) list("dpl1000DAO.selectDpl1300DeployJobList", inputMap);
-	}
-	
-	
 	@SuppressWarnings({ "rawtypes" })
 	public List selectDpl1300dplJobGridList(Dpl1300VO dpl1300VO)  throws Exception{
 		return (List) list("dpl1000DAO.selectDpl1300dplJobGridList", dpl1300VO);
@@ -96,11 +114,6 @@ public class Dpl1000DAO extends ComOslitsAbstractDAO {
 		return (String) insert("dpl1000DAO.insertDpl1000DeployVerInfo", paramMap);
     }
 	
-	
-	@SuppressWarnings("rawtypes")
-	public void insertDpl1300DeployJobInfo(Map paramMap) throws Exception{
-		insert("dpl1000DAO.insertDpl1300DeployJobInfo", paramMap);
-	}
 	
 	
 	@SuppressWarnings("rawtypes")

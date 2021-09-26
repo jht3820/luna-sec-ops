@@ -66,6 +66,111 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	
 	
 	@SuppressWarnings({"rawtypes" })
+	public Map selectDpl1000DplInfo(Map paramMap) throws Exception{
+		return dpl1000DAO.selectDpl1000DplInfo(paramMap);
+	} 
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void insertDpl1000DplInfo(Map paramMap) throws Exception{
+		
+		
+		Map rtnMap = new HashMap();
+		for( Object key : paramMap.keySet() ) {
+			String jsonVal = "";
+			try{
+				jsonVal = (String) paramMap.get(key);
+			}catch(ClassCastException cce){	
+				continue;
+			}
+			
+			JSONObject jsonObj = null;
+			
+			
+			try{
+				jsonObj = new JSONObject(jsonVal);
+				rtnMap.put(key, jsonObj.getString("optVal"));
+			}catch(JSONException jsonE){
+				rtnMap.put(key, jsonVal);
+			}catch(NullPointerException npe){
+				rtnMap.put(key, jsonVal);
+			}
+		}
+		paramMap = rtnMap;
+		
+		
+		paramMap.put("dplStsCd", "01");
+		
+		
+		String prjId = (String)paramMap.get("prjId");
+		
+		
+		String dplId = dpl1000DAO.insertDpl1000DplInfo(paramMap);
+		paramMap.put("dplId", dplId);
+		
+    	
+    	JSONArray selJobList = new JSONArray(paramMap.get("selJobList").toString());
+    	
+    	
+    	for(int i=0; i<selJobList.length(); i++){
+    		JSONObject jsonObj = selJobList.getJSONObject(i);
+    		
+    		
+    		HashMap<String, Object> jobInfo = new ObjectMapper().readValue(jsonObj.toString(), HashMap.class) ;
+    		jobInfo.put("prjId", prjId);
+    		jobInfo.put("dplId", dplId);
+    		jobInfo.put("regUsrId", paramMap.get("regUsrId"));
+    		jobInfo.put("regUsrIp", paramMap.get("regUsrIp"));
+    		
+    		
+    		dpl1000DAO.insertDpl1300DeployJobInfo(jobInfo);
+    	}
+    	
+    	
+
+
+
+
+
+
+
+
+    	
+    	
+    	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public List selectDpl1300DplJobList(Map inputMap)  throws Exception{
+		return dpl1000DAO.selectDpl1300DplJobList(inputMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
 	public List selectDpl1400DplBldNumList(Map paramMap)  throws Exception{
 		return dpl1000DAO.selectDpl1400DplBldNumList(paramMap);
 	}
@@ -105,12 +210,6 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	public List selectDpl1000ReqCount(Map inputMap) throws Exception {
 		return dpl1000DAO.selectDpl1000ReqCount(inputMap);
     }
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	public List selectDpl1300DeployJobList(Map inputMap)  throws Exception{
-		return dpl1000DAO.selectDpl1300DeployJobList(inputMap);
-	}
 	
 	
 	@SuppressWarnings("unchecked")

@@ -5,21 +5,13 @@ import java.util.Map;
 
 
 public interface Stm8200Service {
-	
 
 	
 	@SuppressWarnings( "rawtypes" )
-	public List<Map> selectStm8200RevisionAuthList(Map paramMap) throws Exception;
+	public int selectStm8200AssRepAllListCnt(Map paramMap) throws Exception;
 	
 	
 	@SuppressWarnings( "rawtypes" )
-	public List<Map> selectStm8200PrjAllAuthAndUserList(Map paramMap) throws Exception;
-
+	public List<Map> selectStm8200AssRepAllList(Map paramMap) throws Exception;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void insertStm8200RevisionAuthList(Map paramMap) throws Exception;
-
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void deleteStm8200RevisionAuthList(Map paramMap) throws Exception;
 }
