@@ -162,4 +162,8 @@ public interface Dpl1000Service {
 	
 	@SuppressWarnings({"rawtypes" })
 	List selectDpl1700SvnChangePathList(Map paramMap)  throws Exception;
+
+	
+	@SuppressWarnings("rawtypes")
+	public List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception;
 }

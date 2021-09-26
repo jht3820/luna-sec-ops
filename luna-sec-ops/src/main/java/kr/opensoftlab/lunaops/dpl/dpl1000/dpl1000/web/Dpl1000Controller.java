@@ -658,8 +658,8 @@ public class Dpl1000Controller {
 
      
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/selectDpl1000DplHistoryListAjax.do")
-    public ModelAndView selectDpl1000DplHistoryListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/selectDpl1000DplAllHistoryListAjax.do")
+    public ModelAndView selectDpl1000DplAllHistoryListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
     	try{
 
     		
@@ -675,8 +675,12 @@ public class Dpl1000Controller {
         	
 			List<Map> jobList = null;
 			
+			
+			List<Map> dplSignHistoryList = dpl1000Service.selectCmm6601SignHistoryList(paramMap);
+			
         	model.addAttribute("dplDplHistoryList", dplDplHistoryList);
         	model.addAttribute("dplModifyHistoryList", dplModifyHistoryList);
+        	model.addAttribute("dplSignHistoryList",dplSignHistoryList);
         	model.addAttribute("jobList", jobList);
         	
         	

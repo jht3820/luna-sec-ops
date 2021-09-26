@@ -67,6 +67,11 @@ public class Dpl1000DAO extends ComOslitsAbstractDAO {
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
+	public List selectCmm6601SignHistoryList(Map paramMap)throws Exception{
+		return (List) select("dpl1000DAO.selectCmm6601SignHistoryList", paramMap);
+	}
+	
 	
 	@SuppressWarnings({"rawtypes" })
 	public List selectDpl1000DeployNmList(Map inputMap)  throws Exception{
