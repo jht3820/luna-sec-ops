@@ -334,6 +334,61 @@ var OSLCoreLangSetting = function () {
 		cmm6206:{
 			title: "요구사항 선택"
 		},
+		dpl1001:{
+			label:{
+				dplStatus : "배포 상태",
+				dplVersion : "배포 버전",
+				dplName : "배포 명",
+				dplDate: "배포 일자",
+				dplUser : "배포자",
+				dplSignUse : "결재 사용 유무",
+				dplRevisionNum : "배포 리비전",
+				dplType : "배포 방법",
+				dplFailAction : "실패 후 처리",
+				dplAutoTime : "자동 실행 시간",
+				dplRestoreType : "원복 타입",
+				dplSignText : "결재 요청 의견",
+				dplDesc : "배포 설명",
+				autoTimeCompl : "적용",
+				autoTimeCancel : "취소"	
+			},
+			button:{
+				searchBtn : "검색",
+				insertBtn : "작성 완료",
+				updateBtn : "수정 완료",
+				deleteBtn : "삭제",
+				upMoveBtn : "위로",
+				downMoveBtn : "아래로",
+				assignBtn : "배정"
+			},
+			tooltip:{
+				upMoveBtnTooltip : "JOB 순서 위로",
+				downMoveBtnTooltip : "JOB 순서 아래로",
+				deleteBtnTooltip : "배정 JOB 삭제",
+				assignBtnTooltip : "JOB 배정"
+			},
+			modal:{
+				title:{
+					dplUserSelect : "배포자 선택",
+					dplJobAssign : "JOB 배정",
+				}
+			},
+			message:{
+				confirm:{
+					insert:"신규 JENKINS를 등록하시겠습니까?",
+					update:"JENKINS 정보를 수정하시겠습니까?"
+				},
+				alert:{
+					delJob : "삭제할 JOB에 체크해주세요.",
+					jobAssign : "배포 계획에 배정된 JOB이 없습니다. JOB을 배정해주세요.",
+					jobMove : "이동할 JOB을 선택해 주세요.",
+					selectOneJob : "1개의 JOB만 선택하세요."
+				},
+				warning:{
+					notDplUsr : "배포자를 검색하여 입력해주세요."
+				}
+			}
+		},
 		dpl1100:{
 			title : {
 				deploy : "배포계획 목록",
