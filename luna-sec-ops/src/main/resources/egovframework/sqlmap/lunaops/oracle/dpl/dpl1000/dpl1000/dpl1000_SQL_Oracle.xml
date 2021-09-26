@@ -95,7 +95,7 @@
 			ON (A.PRJ_ID = B.PRJ_ID AND A.DPL_ID = B.DPL_ID)
 			WHERE 1=1
 			AND A.PRJ_ID = #prjId#
-			AND A.DPL_DEL_CD = #dplDelCd#
+			AND A.DPL_DEL_CD = '02'
 			AND B.SIGN_DTM = (
 		                	SELECT 
 								  SIGN_DTM 
@@ -235,7 +235,7 @@
 			FROM DPL1000 A
 			WHERE 1=1
 			AND A.PRJ_ID = #prjId#
-			AND A.DPL_DEL_CD = #dplDelCd#
+			AND A.DPL_DEL_CD = '02'
 		) SUB1
 		WHERE 1=1
 		<isNotEmpty property="searchTargetData">
@@ -575,6 +575,40 @@
 	</insert>
 	
 	
+	<update id="dpl1000DAO.updateDpl1000DplInfo" parameterClass="java.util.Map">
+		
+		UPDATE DPL1000 SET    
+				DPL_NM 				= #dplNm#		 
+			 , 	DPL_VER				= #dplVer#
+			 , 	DPL_DT 				= #dplDt#
+			 , 	DPL_USR_ID 			= #dplUsrId#
+			 , 	DPL_DESC         	= #dplDesc#
+			 , 	DPL_STS_CD			= #dplStsCd#
+			 , 	DPL_TYPE_CD			= #dplTypeCd#
+			 , 	DPL_AUTO_AFTER_CD	= #dplAutoAfterCd#
+			 , 	DPL_AUTO_DTM		= #dplAutoDtm#
+			 , 	DPL_RESTORE_CD		= #dplRestoreCd#
+			 ,	DPL_REVISION_NUM 	= #dplRevisionNum#
+			 , 	DPL_SIGN_TXT		= #dplSignTxt#
+			 , 	MODIFY_DTM			= SYSDATE
+			 , 	MODIFY_USR_ID		= #regUsrId#	
+			 , 	MODIFY_USR_IP		= #regUsrIp#
+		WHERE 1=1
+		AND PRJ_ID = #prjId#			
+		AND DPL_ID = #dplId#
+	</update>
+	
+	
+	<update id="dpl1000DAO.deleteDpl1000DplInfo" parameterClass="java.util.Map" >
+		
+		UPDATE DPL1000 A SET
+			DPL_DEL_CD = '01'
+       	WHERE 1=1
+       	AND	A.PRJ_ID = #prjId#
+       	AND	A.DPL_ID = #dplId#
+	</update>
+	
+	
 	<insert id="dpl1000DAO.insertDpl1300DeployJobInfo" parameterClass="java.util.Map">
 		<![CDATA[ 
 			
@@ -622,41 +656,108 @@
 			<include refid="selectDpl1400DplBldNumBase"/>
 		) Z
 	</select>
+	
+	
+	<delete id="dpl1000DAO.deleteDpl1300DplJobList" parameterClass="java.util.Map">
+		
+		DELETE FROM	DPL1300
+		WHERE 1=1
+		AND PRJ_ID = #prjId#
+		AND	DPL_ID = #dplId# 
+	</delete>
+	
+	
+	<select id="dpl1000DAO.selectDpl1500NewChgId" parameterClass="java.util.Map" resultClass="java.lang.String">
+		<![CDATA[
+			 
+			SELECT	NVL( 
+							SUBSTR(NEW_CHG_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_CHG_ID, 12, 5)) + 1) , 5, '0')
+						,	'CHG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
+            		) AS NEW_CHG_ID 
+			FROM	(
+			            SELECT	MAX(CHG_ID) AS NEW_CHG_ID
+			            FROM DPL1500 A
+			            WHERE 1=1
+                        AND	A.PRJ_ID = #prjId#
+                        AND	A.DPL_ID = #dplId#
+			            AND	A.CHG_ID LIKE 'CHG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '%'
+					)
+		]]>
+	</select>
+	
+	
+	<insert id="dpl1000DAO.insertDpl1500ModifyHistoryInfo" parameterClass="java.util.Map">
+		<![CDATA[ 
+			
+			INSERT INTO DPL1500
+	        (
+	        		PRJ_ID,			DPL_ID,				CHG_ID,					CHG_NUM
+				,	CHG_TYPE_CD,	CHG_NM,				CHG_OPT_TYPE_CD,		CHG_COMMON_CD
+				,	PRE_VAL,		CHG_VAL,			CHG_USR_ID,				CHG_DTM
+				,	REG_DTM,		REG_USR_ID,			REG_USR_IP
+	        )
+	        VALUES
+	        (
+	        	 	#prjId#,		#dplId#,			#chgId#,				#chgNum#
+	        	,	#chgTypeCd#,	#chgNm#,			#chgOptTypeCd#,			#chgCommonCd#
+				,	#preVal#,		#chgVal#,			#chgUsrId#,				SYSDATE
+				,	SYSDATE,		#regUsrId#,			#regUsrIp#
+	        )
+		]]>
+	</insert>
     
     
     <select id="dpl1000DAO.selectCmm6601SignHistoryList" parameterClass="java.util.Map" resultClass="egovMap">
     	
-    	SELECT	A.LIC_GRP_ID
-    		,	A.PRJ_ID
-    		,	A.SIGN_ID
-    		,	A.TARGET_CD
-    		,	A.TARGET_ID
-    		,	A.ORD
-    		,	A.SIGN_USR_ID
-    		,	SF_STM3000_USR_INFO(A.SIGN_USR_ID, '1')  AS SIGN_USR_NM
-			,	SF_STM3000_USR_INFO(A.SIGN_USR_ID, '6')  AS SIGN_USR_IMG_ID
-    		,	A.SIGN_TYPE_CD
-    		,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
-    		,	A.SIGN_RES
-    		,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH:MM:SS') AS SIGN_DTM
-    		,	A.REG_DTM
-    		,	A.REG_USR_ID
-    		,	A.REG_USR_IP
-    		,	A.MODIFY_DTM
-    		,	A.MODIFY_USR_ID
-    		,	A.MODIFY_USR_IP
-    	FROM	CMM6601 A
-    	WHERE   1 = 1
-    	AND		LIC_GRP_ID = #licGrpId#
-    	AND		PRJ_ID	   = #prjId#
-    	AND		TARGET_ID  = #targetId#
-    	AND		TARGET_CD  = #targetCd#
-		ORDER BY SIGN_DTM DESC    
+		SELECT
+				SUB1.LIC_GRP_ID
+			,	SUB1.PRJ_ID
+			,	SUB1.SIGN_ID
+			,	SUB1.TARGET_CD
+			,	SUB1.TARGET_ID
+			,	SUB1.ORD
+			,	SUB1.SIGN_USR_ID
+			,	SF_STM3000_USR_INFO(SUB1.SIGN_USR_ID, '1')  AS SIGN_USR_NM
+			,	SF_STM3000_USR_INFO(SUB1.SIGN_USR_ID, '6')  AS SIGN_USR_IMG_ID
+			,	SUB1.SIGN_TYPE_CD
+			,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', SUB1.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
+			,	SUB1.SIGN_RES
+			,	SUB1.SIGN_DTM
+			,	SUB1.REG_DTM
+			,	SUB1.REG_USR_ID
+			,	SUB1.REG_USR_IP
+			,	SUB1.MODIFY_DTM
+			,	SUB1.MODIFY_USR_ID
+			,	SUB1.MODIFY_USR_IP
+		FROM
+		(
+			SELECT	
+		    			A.LIC_GRP_ID
+		    		,	A.PRJ_ID
+		    		,	A.SIGN_ID
+		    		,	A.TARGET_CD
+		    		,	A.TARGET_ID
+		    		,	A.ORD
+		    		,	A.SIGN_USR_ID
+		    		,	A.SIGN_TYPE_CD
+		    		,	A.SIGN_RES
+		    		,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH:MM:SS') AS SIGN_DTM
+		    		,	A.REG_DTM
+		    		,	A.REG_USR_ID
+		    		,	A.REG_USR_IP
+		    		,	A.MODIFY_DTM
+		    		,	A.MODIFY_USR_ID
+		    		,	A.MODIFY_USR_IP
+		    	FROM	CMM6601 A
+		    	WHERE   1 = 1
+		    	AND		A.LIC_GRP_ID = #licGrpId#
+		    	AND		A.PRJ_ID	   = #prjId#
+		    	AND		A.TARGET_ID  = #targetId#
+    			AND		A.TARGET_CD  = #targetCd#
+		) SUB1
+		WHERE 1=1
+		ORDER BY SUB1.SIGN_DTM DESC
     </select>
-    
-    
-    
-    
     
 	
 	
@@ -923,82 +1024,6 @@
 	</select>
 	
 	
-	<insert id="dpl1000DAO.insertDpl1000DeployVerInfo" parameterClass="java.util.Map">
-		<selectKey resultClass="java.lang.String" keyProperty="newDplId">
-		<![CDATA[
-			 
-			SELECT   NVL(
-                SUBSTR(NEW_DPL_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_DPL_ID, 12, 5)) + 1) , 5, '0')
-            ,   'DPL' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
-        	) AS NEW_DPL_ID
-				FROM   (
-	            SELECT   MAX(DPL_ID)  AS NEW_DPL_ID
-	            FROM   DPL1000 A
-	            WHERE   1=1
-	            AND      A.PRJ_ID = #prjId#
-	            AND      A.DPL_ID LIKE 'DPL' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '%'
-        	)
-		]]>
-		</selectKey>
-		<![CDATA[ 
-			
-			INSERT INTO DPL1000
-			(
-				PRJ_ID					,DPL_ID							,DPL_NM
-				,DPL_VER				,DPL_DT							,DPL_USR_ID
-				,DPL_DESC				,DPL_STS_CD						,DPL_TYPE_CD
-				,DPL_AUTO_AFTER_CD		,DPL_AUTO_DTM					,DPL_RESTORE_CD
-				,DPL_SIGN_TXT			,DPL_DEL_CD
-				,REG_DTM				,REG_USR_ID						,REG_USR_IP		
-					    
-			)
-			VALUES
-			(
-				#prjId#					,#newDplId#						,#dplNm#
-				,#dplVer#				,REPLACE(#dplDt#, '-' ,'')		,#dplUsrId#
-				,#dplDesc#  			,#dplStsCd#						,#dplTypeCd#
-				,#dplAutoAfterCd#		,#dplAutoDtm#					,#dplRestoreCd#
-				,#dplSignTxt#			,'02'
-				,SYSDATE				,#regUsrId#						,#regUsrIp#
-			)
-		]]>
-	</insert>
-	
-	
-	<update id="dpl1000DAO.deleteDpl1000DeployVerInfo" parameterClass="java.util.Map" >
-			
-			UPDATE DPL1000 A
-				SET	A.DPL_DEL_CD = '01'
-        	WHERE	1=1
-        	AND		A.PRJ_ID = #prjId#
-        	AND		A.DPL_ID = #dplId#
-	</update>
-
-	
-	<update id="dpl1000DAO.updateDpl1000DeployVerInfo" parameterClass="java.util.Map">
-		
-		UPDATE DPL1000
-		SET    DPL_NM 			= #dplNm#		 
-			 , DPL_VER			= #dplVer#
-			 , DPL_DT 			= #dplDt#
-			 , DPL_USR_ID 		= #dplUsrId#
-			 , DPL_DESC         = #dplDesc#
-			 , DPL_STS_CD		= #dplStsCd#
-			 , DPL_TYPE_CD		= #dplTypeCd#
-			 , DPL_AUTO_AFTER_CD= #dplAutoAfterCd#
-			 , DPL_AUTO_DTM		= #dplAutoDtm#
-			 , DPL_RESTORE_CD	= #dplRestoreCd#
-			 , DPL_SIGN_TXT		= #dplSignTxt#
-			 , MODIFY_DTM		= SYSDATE
-			 , MODIFY_USR_ID	= #regUsrId#	
-			 , MODIFY_USR_IP	= #regUsrIp#
-			
-		WHERE	1=1
-			AND PRJ_ID = #prjId#			
-			AND DPL_ID = #dplId#
-	</update>
-
-	
 	<update id="dpl1000DAO.updateDpl1000DplStsCdInfo" parameterClass="java.util.Map">
 		
 		UPDATE DPL1000
@@ -1221,16 +1246,6 @@
 	
 	
 	
-	<delete id="dpl1000DAO.deleteDpl1300DplJobList" parameterClass="java.util.Map">
-		
-		DELETE FROM	DPL1300 A
-		WHERE	1=1
-			AND PRJ_ID = #prjId#
-			AND	DPL_ID = #dplId# 
-	</delete>
-	
-	
-	
 	<insert id="dpl1000DAO.insertDpl1400DeployJobBuildLogInfo" parameterClass="BuildVO">
 		<selectKey resultClass="java.lang.Integer" keyProperty="bldSeq">
 		<![CDATA[
@@ -1314,45 +1329,6 @@
 		]]>
 	</select>
 	
-	
-	<select id="dpl1000DAO.selectDpl1500NewChgId" parameterClass="java.util.Map" resultClass="java.lang.String">
-		<![CDATA[
-			 
-			SELECT	NVL( 
-							SUBSTR(NEW_CHG_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_CHG_ID, 12, 5)) + 1) , 5, '0')
-						,	'CHG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
-            		) AS NEW_CHG_ID 
-			FROM	(
-			            SELECT	MAX(CHG_ID)  AS NEW_CHG_ID
-			            FROM	DPL1500 A
-			            WHERE	1=1
-                        AND		A.PRJ_ID = #prjId#
-                        AND		A.DPL_ID = #dplId#
-			            AND		A.CHG_ID LIKE 'CHG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '%'
-					)
-		]]>
-	</select>
-	
-	
-	<insert id="dpl1000DAO.insertDpl1500ModifyHistoryInfo" parameterClass="java.util.Map">
-		<![CDATA[ 
-			
-			INSERT INTO DPL1500 A
-	        (
-	        	PRJ_ID					,DPL_ID				,CHG_ID					,CHG_NUM
-	           ,CHG_TYPE_CD				,CHG_NM				,CHG_OPT_TYPE_CD		,CHG_COMMON_CD
-	           ,PRE_VAL					,CHG_VAL			,CHG_USR_ID				,CHG_DTM
-	           ,REG_DTM					,REG_USR_ID			,REG_USR_IP
-	        )
-	        VALUES
-	        (
-	        	 #prjId#				,#dplId#			,#chgId#				,#chgNum#
-	        	 ,#chgTypeCd#			,#chgNm#			,#chgOptTypeCd#			,#chgCommonCd#
-	        	 ,#preVal#				,#chgVal#			,#chgUsrId#				,SYSDATE
-	        	 ,SYSDATE				,#regUsrId#			,#regUsrIp#
-	        )
-		]]>
-	</insert>
 	
 	
 	<select id="dpl1000DAO.selectDpl1500ModifyHistoryList" parameterClass="java.util.Map" resultClass="egovMap">

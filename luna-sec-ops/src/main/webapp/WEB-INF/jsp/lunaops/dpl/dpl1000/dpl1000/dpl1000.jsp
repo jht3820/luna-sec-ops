@@ -124,7 +124,6 @@ var OSLDpl1000Popup = function () {
 					
 					
 					
-					
 					var data = {
 						type:"update",
 						paramPrjId: rowData.prjId,
@@ -144,14 +143,27 @@ var OSLDpl1000Popup = function () {
 				},
 				"delete":function(rowDatas, datatableId, type, rowNum, elem){
 					
-					var delFlag = false;
 					
-					$.each(rowDatas, function(idx, map){
-						
-						
-						
+					
+					
+					var ajaxObj = new $.osl.ajaxRequestAction(
+							{"url":"<c:url value='/dpl/dpl1000/dpl1000/deleteDpl1000DplListAjax.do'/>"}
+							,{deleteDataList: JSON.stringify(rowDatas)});
+					
+					ajaxObj.setFnSuccess(function(data){
+						if(data.errorYn == "Y"){
+			   				$.osl.alert(data.message,{type: 'error'});
+			   			}else{
+			   				
+			   				$.osl.toastr(data.message);
+			   				
+			   				
+			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+			   			}
 					});
 					
+					
+					ajaxObj.send();
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
 					var data = {

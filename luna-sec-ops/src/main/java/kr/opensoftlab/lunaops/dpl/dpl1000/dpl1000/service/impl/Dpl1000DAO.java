@@ -44,6 +44,18 @@ public class Dpl1000DAO extends ComOslitsAbstractDAO {
 	
 	
 	@SuppressWarnings("rawtypes")
+	public void updateDpl1000DplInfo(Map paramMap) throws Exception{
+		update("dpl1000DAO.updateDpl1000DplInfo", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public void deleteDpl1000DplInfo(Map paramMap) throws Exception{
+		update("dpl1000DAO.deleteDpl1000DplInfo", paramMap);
+    }
+	
+	
+	@SuppressWarnings("rawtypes")
 	public void insertDpl1300DeployJobInfo(Map paramMap) throws Exception{
 		insert("dpl1000DAO.insertDpl1300DeployJobInfo", paramMap);
 	}
@@ -64,6 +76,24 @@ public class Dpl1000DAO extends ComOslitsAbstractDAO {
 	@SuppressWarnings({"rawtypes" })
 	public int selectDpl1400DplBldNumListCnt(Map paramMap)  throws Exception{
 		return (Integer) select("dpl1000DAO.selectDpl1400DplBldNumListCnt", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public void deleteDpl1300DplJobList(Map paramMap)  throws Exception{
+		 delete("dpl1000DAO.deleteDpl1300DplJobList", paramMap);
+	}
+	
+		
+	@SuppressWarnings("rawtypes")
+	public String selectDpl1500NewChgId(Map paramMap) throws Exception{
+		return (String)select("dpl1000DAO.selectDpl1500NewChgId", paramMap);
+	}
+	
+		
+	@SuppressWarnings("rawtypes")
+	public String insertDpl1500ModifyHistoryInfo(Map paramMap) throws Exception{
+		return (String)insert("dpl1000DAO.insertDpl1500ModifyHistoryInfo", paramMap);
 	}
 	
 	
@@ -112,31 +142,12 @@ public class Dpl1000DAO extends ComOslitsAbstractDAO {
 	public List selectDpl1000ReqCount(Map inputMap)  throws Exception{
 		return (List) list("dpl1000DAO.selectDpl1000ReqCount", inputMap);
 	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	public String insertDpl1000DeployVerInfo(Map paramMap) throws Exception{
-		return (String) insert("dpl1000DAO.insertDpl1000DeployVerInfo", paramMap);
-    }
-	
-	
-	
-	@SuppressWarnings("rawtypes")
-	public void updateDpl1000DeployVerInfo(Map paramMap) throws Exception{
-		update("dpl1000DAO.updateDpl1000DeployVerInfo", paramMap);
-	}
-	
+
 	
 	@SuppressWarnings("rawtypes")
 	public void updateDpl1000DplStsCdInfo(Map paramMap) throws Exception{
 		update("dpl1000DAO.updateDpl1000DplStsCdInfo", paramMap);
 	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	public void deleteDpl1000DeployVerInfo(Map paramMap) throws Exception{
-		update("dpl1000DAO.deleteDpl1000DeployVerInfo", paramMap);
-    }
 	
 	
 	public int selectDpl1000ListCnt(Dpl1000VO dpl1000vo) throws Exception {
@@ -170,12 +181,6 @@ public class Dpl1000DAO extends ComOslitsAbstractDAO {
 	}
 	
 	
-	@SuppressWarnings("rawtypes")
-	public void deleteDpl1300DplJobList(Map paramMap)  throws Exception{
-		 delete("dpl1000DAO.deleteDpl1300DplJobList", paramMap);
-	}
-	
-	
 	public int insertDpl1400DeployJobBuildLogInfo(BuildVO buildVo) throws Exception{
 		return (int) insert("dpl1000DAO.insertDpl1400DeployJobBuildLogInfo", buildVo);
     }
@@ -184,18 +189,6 @@ public class Dpl1000DAO extends ComOslitsAbstractDAO {
 	@SuppressWarnings({"rawtypes" })
 	public List selectDpl1000DplHistoryList(Map paramMap)  throws Exception{
 		return (List) list("dpl1000DAO.selectDpl1000DplHistoryList", paramMap);
-	}
-	
-		
-	@SuppressWarnings("rawtypes")
-	public String selectDpl1500NewChgId(Map paramMap) throws Exception{
-		return (String)select("dpl1000DAO.selectDpl1500NewChgId", paramMap);
-	}
-	
-		
-	@SuppressWarnings("rawtypes")
-	public String insertDpl1500ModifyHistoryInfo(Map paramMap) throws Exception{
-		return (String)insert("dpl1000DAO.insertDpl1500ModifyHistoryInfo", paramMap);
 	}
 	
 		
