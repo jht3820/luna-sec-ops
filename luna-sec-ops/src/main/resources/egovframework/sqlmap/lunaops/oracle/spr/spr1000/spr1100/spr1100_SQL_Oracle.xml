@@ -371,7 +371,7 @@
             AND A.LIC_GRP_ID = #licGrpId#
 		    AND A.PRJ_GRP_ID = #prjGrpId#
 			AND A.PRJ_ID = #prjId#
-			AND A.SPR_ID = #sprId#
+			AND A.SPR_ID = #paramSprId#
 		</selectKey>
 		<![CDATA[ 
 			 
@@ -385,7 +385,7 @@
 			VALUES
 			(
 					#licGrpId#,			#prjGrpId#,				#prjId#
-			       ,#sprId#,				#reqId#,					#newReqLinkOrd#
+			       ,#paramSprId#,		#reqId#,				#newReqLinkOrd#
 				   ,SYSDATE,			#regUsrId#,				#regUsrIp#
 			       ,SYSDATE,			#modifyUsrId#,		#modifyUsrIp#
 			)
