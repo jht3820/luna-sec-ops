@@ -98,9 +98,34 @@ public class Dpl1000Controller {
     }
     
     
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1002View.do")
     public String selectDpl1002View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		 return "/dpl/dpl1000/dpl1000/dpl1002";
+    	try {
+    		
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		
+			
+			String paramPrjId = (String) paramMap.get("prjId");
+			HttpSession ss = request.getSession();
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("prjId", paramPrjId);
+			paramMap.put("dplId", paramMap.get("paramDplId"));
+			
+			
+			Map dplInfo = dpl1000Service.selectDpl1000DplInfo(paramMap);
+			model.addAttribute("dplInfo", dplInfo);
+			
+    	}catch(Exception e) {
+			model.addAttribute("dplInfo", null);
+		}
+    	
+    	return "/dpl/dpl1000/dpl1000/dpl1002";
     }
 
     
@@ -336,8 +361,16 @@ public class Dpl1000Controller {
     public ModelAndView selectDpl1000DplHistoryListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
     	try{
     		
-        	Map paramMap = RequestConvertor.requestParamToMap(request, true);
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		HttpSession ss = request.getSession();
 
+        	
+			String prjId = paramMap.get("prjId");
+			if(prjId == null || "".equals(prjId)) {
+				prjId = (String) ss.getAttribute("selPrjId"); 
+			}
+			paramMap.put("prjId", prjId);
+        	
         	
         	List<Map> dplDplHistoryList = dpl1000Service.selectDpl1000DplHistoryList(paramMap);
         	
@@ -346,7 +379,11 @@ public class Dpl1000Controller {
         	
         	
         	List<Map> jobList = dpl1000Service.selectDpl1300DplJobList(paramMap);
-			
+        	
+        	
+			paramMap.put("targetId", paramMap.get("dplId"));
+        	paramMap.put("targetCd", "02");
+        	
 			
 			List<Map> dplSignHistoryList = dpl1000Service.selectCmm6601SignHistoryList(paramMap);
 			

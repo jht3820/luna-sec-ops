@@ -71,27 +71,27 @@
 							</select>
 						</div>
 					</div>		
-					<div class="form-group row kt-margin-b-10" data-dpltype-expans="auto">
+					<div class="form-group row kt-margin-b-10" data-dpl-info-expans="dpltype">
 						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplFailAction">실패 후 처리</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<select class="form-control kt-select2" id="dplAutoAfterCd" name="dplAutoAfterCd" opttype="02" cmmcode="DPL00004">
 							</select>
 						</div>
 					</div>
-					<div class="form-group row kt-margin-b-10" data-dpltype-expans="auto">
+					<div class="form-group row kt-margin-b-10" data-dpl-info-expans="dpltype">
 						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplAutoTime">자동 실행 시간</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<input type="text" class="form-control" id="dplAutoTm" name="dplAutoTm">
 						</div>
 					</div>	
-					<div class="form-group row kt-margin-b-10" data-dpltype-expans="auto">
+					<div class="form-group row kt-margin-b-10" data-dpl-info-expans="dpltype">
 						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-step-backward kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplRestoreType">원복 타입</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<select class="form-control kt-select2" id="dplRestoreCd" name="dplRestoreCd" opttype="02" cmmcode="DPL00005">
 							</select>
 						</div>
 					</div>
-					<div class="form-group row kt-margin-b-10">
+					<div class="form-group row kt-margin-b-10" data-dpl-info-expans="sign">
 						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplSignText">결재요청 의견</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<textarea class="form-control" id="dplSignTxt" name="dplSignTxt" maxlength="1000"></textarea>
@@ -263,10 +263,15 @@ var OSLDpl1001Popup = function () {
 		
 		
 		$("#dplTypeCd").change(function(){
-			
 			var dplTypeCd = $(this).val();
 			
-			fnDplTypeShowAndHide(dplTypeCd);
+			fnDplInfoShowAndHide("dpltype", dplTypeCd);
+		});
+		
+		
+		$("#dplSignUseCd").change(function(){
+			var dplSignUseCd = $(this).val();
+			fnDplInfoShowAndHide("sign", dplSignUseCd);
 		});
 		
 		
@@ -410,7 +415,10 @@ var OSLDpl1001Popup = function () {
 		    	}
 		    	
 		    	
-		    	fnDplTypeShowAndHide(dplInfo.dplTypeCd);
+		    	fnDplInfoShowAndHide("dpltype", dplInfo.dplTypeCd);
+		    	
+		    	
+		    	fnDplInfoShowAndHide("sign", dplInfo.dplSignUseCd);
 		    	
 		    	
 		    	$("#dpl1001JobCardTable").html("");
@@ -484,16 +492,27 @@ var OSLDpl1001Popup = function () {
 	
 	
 	
-	var fnDplTypeShowAndHide = function(dplTypeCd){
+	var fnDplInfoShowAndHide = function(optType, optVal){
 		
 		
-		var dplTypeTarget = $(".form-group[data-dpltype-expans='auto']");
-		
-		
-		if(dplTypeCd == "01"){
-			dplTypeTarget.slideDown();
-		}else{
-			dplTypeTarget.slideUp();
+		var target = $(".form-group[data-dpl-info-expans="+optType+"]");
+		 
+		 if(optType == "dpltype"){
+			
+			
+			if(optVal == "01"){
+				target.slideDown();
+			}else{
+				target.slideUp();
+			}
+		}else if(optType == "sign"){
+			
+			
+			if(optVal == "01"){
+				target.slideDown();
+			}else{
+				target.slideUp();
+			}
 		}
 	}
 	
