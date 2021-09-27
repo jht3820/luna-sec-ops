@@ -479,13 +479,36 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		cmm6800 :{
-			complete : "선택 완료",
 			title :{
 				revision : "리비전 목록",
-				actionTitle:"선택"
+				file :"파일 목록",
+				actionTitle : {
+					revisionFile : "상세",
+					repository : "선택",
+				},
 			},
 			label : {
 				revisionNum : "리비전 번호",
+			},
+			revisionFile : {
+				actionTitle : "선택",
+				actionTooltip : {
+					dblClickTooltip : "파일 소스보기",
+					diffTooltip : "파일 비교"
+				},
+				message : {
+					selectOne : "${1}개가 선택되었습니다.<br/>한개의 파일만 선택하세요."
+				}
+			},
+			repository:{
+				actionTooltip : {
+					chooseTooltip : "리비전 선택",
+				}
+			},
+			dirTree:{
+				message:{
+					selectRevision : "리비전을 선택하세요.",
+				}
 			},
 			placeholder : {
 				revision : {
@@ -493,12 +516,37 @@ var OSLCoreLangSetting = function () {
 					end : "종료",
 				}
 			},
-			actionTooltip:{
-				chooseTooltip : "리비전 선택",
+			actionBtn:{
+				selectTooltip :"리비전 조회",
+				selectFileTooltip : "리비전 파일 목록 조회",
+				chooseTooltip : "리비전 선택 완료",
+				chooseBtn : "선택 완료",
+				detailTooltip : "소스보기",
+				detailBtn : "상세",
+				diffTooltip : "파일 비교",
+				diffBtn : "DIFF"
 			},
 			message :{
 				selectRevision : "리비전을 선택하세요.",
 				auth: "접근 권한이 없습니다."
+			}
+		},
+		stm8004:{
+			title : "파일 리비전 목록",
+			actionBtn : {
+				title : "선택",
+				selectTooltip : "파일 리비전 조회",
+				diffTooltip : "파일 비교",
+				diffBtn : "DIFF"
+			},
+			placeholder : {
+				revision : {
+					start : "시작",
+					end : "종료",
+				}
+			},
+			message : {
+				selectFile : "${1}개가 선택되었습니다.<br/>한의 파일을 선택하세요.",
 			}
 		},
 		cmm6801:{
@@ -1626,55 +1674,6 @@ var OSLCoreLangSetting = function () {
 				strgKey : "GIT TOKEN",
 			}
 		},
-		stm8002 :{
-			title :{
-				revision : "리비전 목록",
-				file :"파일 목록",
-				actionTitle : {
-					revisionFile : "상세",
-					repository : "선택",
-				},
-			},
-			label : {
-				revisionNum : "리비전 번호",
-			},
-			revisionFile : {
-				actionTitle : "상세",
-				actionTooltip : {
-					dblClickTooltip : "파일 소스보기",
-					diffTooltip : "파일 비교"
-				},
-				message : {
-					diff : "${1}개가 선택되었습니다.<br/>한개의 파일만 선택하세요."
-				}
-			},
-			repository:{
-				actionTooltip : {
-					"clickTooltip" : "리비전 선택",
-				}
-			},
-			dirTree:{
-				message:{
-					selectRevision : "리비전을 선택하세요.",
-				}
-			},
-			placeholder : {
-				revision : {
-					start : "시작",
-					end : "종료",
-				}
-			},
-			actionBtn:{
-				selectTooltip :"리비전 조회",
-				selectFileTooltip : "리비전 파일 목록 조회",
-				diffTooltip : "파일 비교",
-				diffBtn : "DIFF"
-			},
-			message :{
-				selectRevision : "리비전을 선택하세요.",
-				auth: "접근 권한이 없습니다."
-			}
-		},
 		stm8004:{
 			title : "파일 리비전 목록",
 			actionBtn : {
@@ -2338,6 +2337,10 @@ var OSLCoreLangSetting = function () {
 				tel : "Contact",
 				deptName: "Department",
 			},
+			cmm6800RevisionFileTable:{
+				type : "Type",
+				name : "File Name",
+			},
 			cmm6800RepTable:{
 				revision : "Revision",
 				comment : "Commit Log",
@@ -2477,16 +2480,6 @@ var OSLCoreLangSetting = function () {
 				strgRepTitle : "Repository Title",
 				strgTxt : "Repository Description",
 				strgRepUrl : "Repository URL",
-			},
-			stm8002RevisionFileTable:{
-				type : "Type",
-				name : "File Name",
-			},
-			stm8002RepTable:{
-				revision : "Revision",
-				comment : "Commit Log",
-				author : "Commiter ID",
-				logDate : "Date"
 			},
 			stm8004FileTable:{
 				revision : "Revision",
@@ -2812,13 +2805,36 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		cmm6800 :{
-			complete : "Choose",
 			title :{
 				revision : "Revision List",
-				actionTitle:"Choose"
+				file :"File List",
+				actionTitle : {
+					revisionFile : "Detail",
+					repository : "Select",
+				},
 			},
 			label : {
 				revisionNum : "Revision Number",
+			},
+			revisionFile : {
+				actionTitle : "Select",
+				actionTooltip : {
+					dblClickTooltip : "Code View",
+					diffTooltip : "Code Diff"
+				},
+				message : {
+					selectOne : "Please, select only 1 file.<br/>${1} file have been selected."
+				}
+			},
+			repository:{
+				actionTooltip : {
+					"chooseTooltip" : "Select Revision",
+				}
+			},
+			dirTree:{
+				message:{
+					selectRevision : "Please, select revision.",
+				}
 			},
 			placeholder : {
 				revision : {
@@ -2826,44 +2842,19 @@ var OSLCoreLangSetting = function () {
 					end : "End",
 				}
 			},
-			actionTooltip:{
-				chooseTooltip : "Select Revision",
+			actionBtn:{
+				selectTooltip :"Select Revision",
+				selectFileTooltip : "Select Revision File List",
+				chooseTooltip : "Revision Selection Complete",
+				chooseBtn : "Complete",
+				detailTooltip : "Code View",
+				detailBtn : "View",
+				diffTooltip : "Code Diff",
+				diffBtn : "DIFF"
 			},
-			message :{
-				selectRevision : "Please, select revision.",
-				auth: "You don't have access rights."
-			}
-		},
-		cmm6801:{
 			message :{
 				selectRevision : "Please, select revision.",
 				auth : "You don't have access rights."
-			}
-		},
-		dpl1100:{
-			title : {
-				deploy : "Deploy List",
-				assignment : "Assignment Request List",
-				unassigned : "Unassigned Request List",
-			},
-			button:{
-				removeBtn: "Remove",
-				addBtn:"Add"
-			},
-			actionBtn :{
-				title :{
-					selectBtn : "Select",
-					removeBtn :"Remove",
-					addBtn :"Add",
-					dplSelect : "Select Deploy List",
-					assSelect : "Select Assignment Request",
-					nonSelect : "Select Unassigned Request",
-				},
-				tooltip :{
-					clickToolTip : "Select Sprint",
-					removeToolTip :"Remove Request",
-					addToolTip :"Add Request",
-				},
 			}
 		},
 		dpl2100:{
@@ -3804,55 +3795,6 @@ var OSLCoreLangSetting = function () {
 				strgUsrPw : "USER Password",
 				strgRepNm : "GIT Project Repository Name",
 				strgKey : "GIT TOKEN",
-			}
-		},
-		stm8002 :{
-			title :{
-				revision : "Revision List",
-				file :"File List",
-				actionTitle : {
-					revisionFile : "Detail",
-					repository : "Select",
-				},
-			},
-			label : {
-				revisionNum : "Revision Number",
-			},
-			revisionFile : {
-				actionTitle : "Detail",
-				actionTooltip : {
-					dblClickTooltip : "Code View",
-					diffTooltip : "Code Diff"
-				},
-				message : {
-					diff : "Please, select only 1 file.<br/>${1} file have been selected."
-				}
-			},
-			repository:{
-				actionTooltip : {
-					"clickTooltip" : "Select Revision",
-				}
-			},
-			dirTree:{
-				message:{
-					selectRevision : "Please, select revision.",
-				}
-			},
-			placeholder : {
-				revision : {
-					start : "Start",
-					end : "End",
-				}
-			},
-			actionBtn:{
-				selectTooltip :"Select Revision",
-				selectFileTooltip : "Select Revision File List",
-				diffTooltip : "Code Diff",
-				diffBtn : "DIFF"
-			},
-			message :{
-				selectRevision : "Please, select revision.",
-				auth : "You don't have access rights."
 			}
 		},
 		stm8004:{
