@@ -34,6 +34,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
    	private Cmm6600DAO cmm6600DAO;
    	
    	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Map> selectCmm6600SignUsrList(Map<String, String> paramMap) throws Exception {
 		return cmm6600DAO.selectCmm6600SignUsrList(paramMap);
@@ -85,6 +86,64 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	@Override
 	public List<Map> selectCmm6600SignList(Map<String, String> paramMap) throws Exception {
 		return cmm6600DAO.selectCmm6600SignList(paramMap);
+	}
+
+	
+	@Override
+	public int selectCmm6600UsrSignListCnt(Map<String, String> paramMap) throws Exception {
+		return cmm6600DAO.selectCmm6600UsrSignListCnt(paramMap);
+	}
+
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Map> selectCmm6600UsrSignList(Map<String, String> paramMap) throws Exception {
+		return cmm6600DAO.selectCmm6600UsrSignList(paramMap);
+	}
+
+	
+	@Override
+	public void insertCmm6601SignInfo(Map<String, String> paramMap) throws Exception {
+		String rowDatas = paramMap.get("rowDatas");
+		
+		if(rowDatas != null && !"[]".equals(rowDatas)) {
+			
+			JSONArray jsonArray = new JSONArray(rowDatas);
+			
+			
+			for(int i=0;i<jsonArray.length();i++) {
+				JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+				
+				
+				int ord = Integer.parseInt(jsonObj.getString("ord"));
+				
+				paramMap.put("ord", String.valueOf(ord));
+				paramMap.put("targetId", jsonObj.getString("dplId"));
+				
+				
+				if("signRjt".equals(paramMap.get("type"))) {
+					paramMap.put("signTypeCd", "04");
+				
+				
+				}else if("signApr".equals(paramMap.get("type"))) {
+					
+					int maxOrd = cmm6600DAO.selectCmm6600MaxOrd(paramMap);
+					
+					
+					if(maxOrd == ord) {
+						paramMap.put("signTypeCd", "03");
+					
+					
+					}else {
+						paramMap.put("signTypeCd", "02");
+					}
+				}
+				
+				
+				cmm6600DAO.insertCmm6601SignInfo(paramMap);
+				
+			}
+		}
 	}
 
 }

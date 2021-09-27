@@ -421,7 +421,27 @@ var OSLCoreLangSetting = function () {
 					notAssignedReq : "배포 상태가 대기인 배포 계획에만 요구사항 배정을 할 수 있습니다."
 				}
 			}
-		},cmm6000:{
+		},
+		dpl2100:{
+			modal : {
+				title : {
+					signAprRes : "결재 의견",
+					signRjtRes : "반려 사유"
+				}
+			},
+			action : {
+				sign : {
+					nonSelect : "결재하려는 데이터를 선택해주세요."
+				}
+			},
+			message : {
+				confirm : {
+					signApr : "결재 승인 하시겠습니까?",
+					signRjt : "결재 반려 하시겠습니까?"
+				}
+			}
+		},
+		cmm6000:{
 			title:{
 				mainPrjSetting:"메인프로젝트 설정",
 				searchPrj:"프로젝트 검색",
@@ -446,6 +466,16 @@ var OSLCoreLangSetting = function () {
 		cmm6601:{
 			infomation : {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
+			}
+		},
+		cmm6602:{
+			label : {
+				signApr : "결재 의견",
+				signRjt : "반려 사유"
+			},
+			button : {
+				signApr : "결재 승인",
+				signRjt : "결재 반려"
 			}
 		},
 		cmm6800 :{
@@ -2771,6 +2801,16 @@ var OSLCoreLangSetting = function () {
 				cannotUpdate : "If there is a file waiting for approval, the approval line cannot be modified."
 			}
 		},
+		cmm6602:{
+			label : {
+				signApr : "approval opinion",
+				signRjt : "Reasons for rejection"
+			},
+			button : {
+				signApr : "approval",
+				signRjt : "return of approval"
+			}
+		},
 		cmm6800 :{
 			complete : "Choose",
 			title :{
@@ -2824,6 +2864,25 @@ var OSLCoreLangSetting = function () {
 					removeToolTip :"Remove Request",
 					addToolTip :"Add Request",
 				},
+			}
+		},
+		dpl2100:{
+			modal : {
+				title : {
+					signAprRes : "approval opinion",
+					signRjtRes : "Reasons for rejection"
+				}
+			},
+			action : {
+				sign : {
+					nonSelect : "Please select the data you want to approval"
+				}
+			},
+			message : {
+				confirm : {
+					signApr : "Would you like to approve?",
+					signRjt : "Would you like to return of approval?"
+				}
 			}
 		},
 		prj1000:{
