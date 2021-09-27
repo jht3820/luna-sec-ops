@@ -31,11 +31,15 @@ public class Cmm6200Controller {
 	@Resource(name = "leaveaTrace")
 	LeaveaTrace leaveaTrace;
 	
-	
     
     @RequestMapping(value="/cmm/cmm6000/cmm6200/selectCmm6200View.do")
     public String selectCmm6000View(Model model) throws Exception {
     	return "/cmm/cmm6000/cmm6200/cmm6200";
+    }
+    
+    @RequestMapping(value="/cmm/cmm6000/cmm6200/selectCmm6201View.do")
+    public String selectCmm6001View(Model model) throws Exception {
+    	return "/cmm/cmm6000/cmm6200/cmm6201";
     }
     
 
