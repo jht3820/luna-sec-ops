@@ -400,8 +400,8 @@ var OSLCmm6200Popup = function () {
 		
 		//flowchart 생성
 		flowChart.flowchart({
-				multipleLinksOnInput: false,
-				multipleLinksOnOutput: false,
+				multipleLinksOnInput: true,
+				multipleLinksOnOutput: true,
 				canUserEditLinks: false,
 				canUserMoveOperators: false,
 				distanceFromArrow:1,
@@ -765,7 +765,7 @@ var OSLCmm6200Popup = function () {
 					flowChart.flowchart("setData",{});
 					
 					//ajax로 작업흐름 데이터 조회하기
-					fnSelectFlowList();
+					fnSelectFlowList(rowData.processId);
 					
 					//mask 제거
 					$("#flowMaskDiv").hide();
@@ -807,7 +807,7 @@ var OSLCmm6200Popup = function () {
 	};
 	
 	//작업흐름 데이터 조회
-	var fnSelectFlowList = function(){
+	var fnSelectFlowList = function(selProcessId){
 		//프로세스 정보 조회
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAjax.do'/>"}

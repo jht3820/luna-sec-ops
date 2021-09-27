@@ -336,52 +336,6 @@
 					maxNumberOfFiles: 10,
 					minNumberOfFiles: 0,
 					allowedFileTypes: null,	
-					locale:Uppy.locales.ko_KR,
-					meta: {},
-					onBeforeUpload: $.noop,
-					onBeforeFileAdded: $.noop,
-				};
-				
-				
-				config = $.extend(true, defaultConfig, config);
-				
-				var targetObj = $("#"+targetId);
-				if(targetObj.length > 0){
-					rtnObject = Uppy.Core({
-						targetId: targetId,
-						autoProceed: config.autoProceed,
-						restrictions: {
-							maxFileSize: ((1024*1024)*parseInt(config.maxFileSize)),
-							maxNumberOfFiles: config.maxNumberOfFiles,
-							minNumberOfFiles: config.minNumberOfFiles,
-							allowedFileTypes: config.allowedFileTypes
-						},
-						locale:config.locale,
-						meta: config.meta,
-						onBeforeUpload: function(files){
-							return config.onBeforeUpload(files);
-						},
-						onBeforeFileAdded: function(currentFile, files){
-							
-							if(currentFile.source != "database" && config.fileReadonly){
-								$.osl.toastr($.osl.lang("file.error.fileReadonly"),{type:"warning"});
-								return false;
-							}
-							return config.onBeforeFileAdded(currentFile, files);
-						},
-						debug: config.debug,
-						logger: config.logger,
-						fileDownload: config.fileDownload
-					});
-					
-					rtnObject.use(Uppy.Dashboard, config);
-					rtnObject.use(Uppy.XHRUpload, { endpoint: config.url,formData: true });
-				}
-				
-				return rtnObject;
-			},
-			
-			
 			makeAtchfileId: function(callback){
 				
 				var ajaxObj = new $.osl.ajaxRequestAction(
@@ -3470,6 +3424,7 @@
 					var maxYear = moment().subtract(-10, 'year').format('YYYY');
 					
 					var defaultConfig = {
+							parentEl: 'body',
 				            buttonClasses: 'btn btn-sm',
 				            applyClass: "btn-primary",
 				            cancelClass: "btn-secondary",
@@ -3478,6 +3433,15 @@
 							todayHighlight: false,
 							minYear : parseInt(minYear),
 							maxYear : parseInt(maxYear),
+							singleDatePicker: false,
+							timePicker: false,
+					        timePicker24Hour: false,
+					        timePickerIncrement: 1,
+					        timePickerSeconds: false,
+					        locale:{
+					        	applyLabel: '적용',
+					            cancelLabel: '취소',
+					        }
 				        };
 					
 					
