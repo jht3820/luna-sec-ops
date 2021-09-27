@@ -29,4 +29,36 @@ public class Cmm6600DAO extends ComOslitsAbstractDAO {
 		delete("cmm6600DAO.deleteCmm6600SignLine",paramMap);
 	}
 
+	
+	public void insertCmm6601SignInfo(Map<String, String> paramMap) throws Exception{
+		insert("cmm6600DAO.insertCmm6601SignInfo",paramMap);
+	}
+
+	
+	public int selectCmm6600SignListCnt(Map<String, String> paramMap) throws Exception {
+		return (Integer) select("cmm6600DAO.selectCmm6601SignListCnt", paramMap);
+	}
+
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectCmm6600SignList(Map<String, String> paramMap) throws Exception {
+		return (List<Map>) list("cmm6600DAO.selectCmm6601SignList",paramMap);
+	}
+
+	
+	public int selectCmm6600UsrSignListCnt(Map<String, String> paramMap) throws Exception {
+		return (Integer) select("cmm6600DAO.selectCmm6601UsrSignListCnt",paramMap);
+	}
+
+	
+	@SuppressWarnings("rawtypes")
+	public List selectCmm6600UsrSignList(Map<String, String> paramMap) throws Exception{
+		return (List) list("cmm6600DAO.selectCmm6601UsrSignList",paramMap);
+	}
+
+	
+	public int selectCmm6600MaxOrd(Map<String, String> paramMap) throws Exception{
+		return (Integer) select("cmm6600DAO.selectCmm6600MaxOrd",paramMap);
+	}
+
 }

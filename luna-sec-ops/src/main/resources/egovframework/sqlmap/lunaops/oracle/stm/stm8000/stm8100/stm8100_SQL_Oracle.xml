@@ -147,7 +147,6 @@
 			AND A.LIC_GRP_ID = #licGrpId#
 			AND A.PRJ_ID = #prjId#
 			AND A.STRG_REP_ID = #strgRepId#
-			AND C.USE_CD = '01'
 			AND D.USE_CD = '01'
 			AND E.USE_CD = '01'
 			ORDER BY AUTH_TYPE_CD ASC, AUTH_TARGET_ID ASC
@@ -197,7 +196,6 @@
 			AND A.LIC_GRP_ID = #licGrpId#
 			AND A.PRJ_ID = #prjId#
 			AND A.STRG_REP_ID = #strgRepId#
-			AND C.USE_CD = '01'
 			AND D.USE_CD = '01'
 			AND E.USE_CD = '01'
 			AND NOT EXISTS (
@@ -258,7 +256,6 @@
 			AND A.LIC_GRP_ID = #licGrpId#
 			AND A.PRJ_ID = #prjId#
 			AND A.STRG_REP_ID = #strgRepId#
-			AND C.USE_CD = '01'
 			AND D.USE_CD = '01'
 			AND E.USE_CD = '01'
 			ORDER BY AUTH_TYPE_CD ASC, AUTH_TARGET_ID ASC
@@ -311,7 +308,6 @@
 			AND A.LIC_GRP_ID = #licGrpId#
 			AND A.PRJ_ID = #prjId#
 			AND A.STRG_REP_ID = #strgRepId#
-			AND C.USE_CD = '01'
 			AND D.USE_CD = '01'
 			AND E.USE_CD = '01'
 			AND NOT EXISTS (
@@ -555,6 +551,7 @@
 			ON ( C.PRJ_ID = #prjId# AND C.PRJ_AUTH_TYPE_CD='01' AND B.USR_ID = C.PRJ_AUTH_TARGET_ID )
 			WHERE 1 = 1
 			AND B.LIC_GRP_ID = #licGrpId#
+			AND B.USE_CD = '01'
 			AND B.DEL_CD = '02'
 			ORDER BY AUTH_TYPE_CD ASC, AUTH_TARGET_ID ASC
 		) T1
