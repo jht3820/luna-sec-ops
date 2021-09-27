@@ -5,6 +5,8 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
+	 
+	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
@@ -64,7 +66,7 @@ var OSLDpl1000Popup = function () {
 				{field: 'signUsrNm', title: '결재자', textAlign: 'center', width: 100},
 				{field: 'dplStsNm', title: '배포 상태', textAlign: 'center', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "DPL00001", searchField:"dplStsCd", sortField: "dplStsCd"},
 				{field: 'dplVer', title: '배포 버전', textAlign: 'center', width: 100, search: true},
-				{field: 'dplNm', title: '배포 명', textAlign: 'center', width: 300, autoHide: false, search: true},
+				{field: 'dplNm', title: '배포 명', textAlign: 'left', width: 300, autoHide: false, search: true},
 				{field: 'dplTypeNm', title: '배포 방법', textAlign: 'center', width: 70, autoHide: false, search: true, searchType:"select", searchCd: "DPL00003", searchField:"dplTypeCd", sortField: "dplTypeCd"},
 				{field: 'dplRevisionNum', title: '배포 리비전 번호', textAlign: 'center', width: 100
 					,template: function(row){
@@ -112,11 +114,7 @@ var OSLDpl1000Popup = function () {
 					
 					var dplStsCd = rowData.dplStsCd;
 					
-					
 					var dplSignUseCd = rowData.dplSignUseCd;
-					
-					
-					var signStsCd = rowData.signStsCd;
 					
 					
 					if(dplStsCd == "02"){
@@ -125,39 +123,57 @@ var OSLDpl1000Popup = function () {
 					}
 					
 					
-					if(dplSignUseCd == "01" && signStsCd == "02"){
-						$.osl.alert('결재 승인된 배포 계획은 수정이 불가능합니다.');
-						return false;
-					}
 					
 					
 					var data = {
-						type:"update"	
+						type:"update",
+						paramPrjId: rowData.prjId,
+						paramDplId: rowData.dplId,
+						paramDplDelCd: rowData.dplDelCd
 					};
+					
 					var options = {
-							modalTitle: '배포 계획 수정',
-							autoHeight: false,
-							modalSize: 'xl'
-						};
+						idKey: rowData.prjId+"_"+rowData.dplId,
+						modalTitle: '배포 계획 수정',
+						modalSize: 'xl',
+						autoHeight: false,
+						closeConfirm: false
+					};
 					
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1001View.do',data,options);
 				},
 				"delete":function(rowDatas, datatableId, type, rowNum, elem){
 					
-					var delFlag = false;
 					
-					$.each(rowDatas, function(idx, map){
-						
-						
-						
+					
+					
+					var ajaxObj = new $.osl.ajaxRequestAction(
+							{"url":"<c:url value='/dpl/dpl1000/dpl1000/deleteDpl1000DplListAjax.do'/>"}
+							,{deleteDataList: JSON.stringify(rowDatas)});
+					
+					ajaxObj.setFnSuccess(function(data){
+						if(data.errorYn == "Y"){
+			   				$.osl.alert(data.message,{type: 'error'});
+			   			}else{
+			   				
+			   				$.osl.toastr(data.message);
+			   				
+			   				
+			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+			   			}
 					});
 					
+					
+					ajaxObj.send();
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
 					var data = {
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
 						};
 					var options = {
-							modalTitle: '[배포 명] 상세팝업',
+							idKey: datatableId +"_"+ rowData.dplId,
+							modalTitle: "["+rowData.dplNm +"] "+ "상세 정보",
 							autoHeight: false,
 							modalSize: 'xl'
 						};
@@ -190,13 +206,14 @@ var OSLDpl1000Popup = function () {
 							rowData = $.osl.datatable.list[datatableId].targetDt.dataSet[rowIdx];
 						}
 					}
+					
 					if(rowData.dplSignUseCd == '02'){
 						
 						$.osl.alert("결재 사용 유무가 아니오인 경우 결재를 사용할 수 없습니다.");
 						return true;
 					}
 					
-					var modalData = {
+					var data = {
 							prjId :  rowData.prjId,
 							targetId :  rowData.dplId,
 							targetCd :  '02'
@@ -207,8 +224,8 @@ var OSLDpl1000Popup = function () {
 							autoHeight: false,
 							modalSize: "xl"
 					};
-					
-					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',modalData,options); 
+					 
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',data,options); 
 					
 					
 				}

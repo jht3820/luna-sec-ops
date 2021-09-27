@@ -37,9 +37,349 @@
 	</select>
 	
 	
+	
+	<sql id="selectCmm6601List">
+		SELECT	
+				ROWNUM AS RN,
+				T.*
+		FROM 
+		(
+			SELECT  A.LIC_GRP_ID
+				, 	A.PRJ_ID
+				,	A.TARGET_ID
+				,	A.TARGET_CD
+				,	A.ORD
+				, 	CASE WHEN A.SIGN_TYPE_CD='01' OR A.SIGN_TYPE_CD='02' THEN E.SIGN_USR_ID ELSE A.SIGN_USR_ID END AS LAST_SIGN_USR_ID
+				, 	CASE WHEN A.SIGN_TYPE_CD='01' OR A.SIGN_TYPE_CD='02' THEN SF_STM3000_USR_INFO( E.SIGN_USR_ID , '1') ELSE SF_STM3000_USR_INFO(A.SIGN_USR_ID, '1') END AS LAST_SIGN_USR_NM
+				,	CASE WHEN A.SIGN_TYPE_CD='01' OR A.SIGN_TYPE_CD='02' THEN SF_STM3000_USR_INFO(E.SIGN_USR_ID , '6') ELSE SF_STM3000_USR_INFO(A.SIGN_USR_ID, '6') END AS LAST_SIGN_USR_IMG_ID
+				, 	CASE WHEN A.SIGN_TYPE_CD='01' THEN  '02' ELSE A.SIGN_TYPE_CD END AS NOW_SIGN_TYPE_CD
+				, 	CASE WHEN A.SIGN_TYPE_CD='01' THEN   SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', '02', '1') ELSE SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') END AS NOW_SIGN_TYPE_NM
+				,	A.SIGN_TYPE_CD
+				,   SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
+				,	A.SIGN_USR_ID
+				,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH:MM:SS') AS SIGN_DTM
+				,	A.REG_DTM
+				,	A.REG_USR_ID
+				,	A.REG_USR_IP
+				,	A.MODIFY_DTM
+				,	A.MODIFY_USR_ID
+				,	A.MODIFY_USR_IP
+				<isEqual property="targetCd" compareValue = "02">
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00001', D.DPL_STS_CD, '1') AS DPL_STS_NM
+					,	D.DPL_VER
+					,	D.DPL_NM
+					,	D.DPL_ID
+					,	TO_CHAR(D.DPL_DT, 'YYYY-MM-DD') AS DPL_DT
+					,	D.DPL_USR_ID
+					,	SF_STM3000_USR_INFO(D.DPL_USR_ID, '1')  AS DPL_USR_NM
+					,	SF_STM3000_USR_INFO(D.DPL_USR_ID, '6')  AS DPL_USR_IMG_ID
+					,	D.DPL_DESC
+					,	D.DPL_STS_CD
+					,	D.DPL_TYPE_CD
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00003', D.DPL_TYPE_CD, '1') AS DPL_TYPE_NM
+					,	D.DPL_REVISION_NUM
+					,	D.DPL_AUTO_AFTER_CD
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00004', D.DPL_AUTO_AFTER_CD, '1') AS DPL_AUTO_AFTER_NM
+					,	D.DPL_AUTO_DTM
+					,	TO_DATE(TO_CHAR(D.DPL_DT,'YYYY-MM-DD') || ' ' || TO_CHAR(D.DPL_AUTO_DTM,'HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS') AS DPL_ST_DTM
+					,	D.DPL_RESTORE_CD
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00005', D.DPL_RESTORE_CD, '1') AS DPL_RESTORE_NM
+				</isEqual>
+				FROM CMM6601 A
+				INNER JOIN (
+							SELECT  LIC_GRP_ID
+								,	PRJ_ID
+								,	ORD
+								,	TARGET_ID
+								,	TARGET_CD
+								,	MAX(SIGN_DTM) AS SIGN_DTM
+							FROM	CMM6601
+							WHERE	1 = 1
+							AND		ORD = 0
+							AND		LIC_GRP_ID = #licGrpId#
+							AND		PRJ_ID	= #prjId#
+							AND		SIGN_USR_ID = #usrId#
+							AND		TARGET_CD = #targetCd#
+							GROUP BY	LIC_GRP_ID
+									,	PRJ_ID
+									,	ORD
+									,	TARGET_ID
+									,	TARGET_CD							
+							) B
+				ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID = B.TARGET_ID AND A.TARGET_CD = A.TARGET_CD)
+				INNER JOIN (
+							SELECT  MAX(SIGN_DTM) AS SIGN_DTM
+								,	LIC_GRP_ID
+								,	PRJ_ID
+								,	TARGET_ID
+								,	TARGET_CD
+							FROM	CMM6601
+							WHERE	1 = 1
+							AND		LIC_GRP_ID = #licGrpId#
+							AND		PRJ_ID	= #prjId#
+							AND		TARGET_CD = #targetCd#
+							GROUP BY	LIC_GRP_ID
+									,	PRJ_ID
+									,	TARGET_ID
+									,	TARGET_CD
+							) C
+				ON (A.LIC_GRP_ID = C.LIC_GRP_ID AND A.PRJ_ID = C.PRJ_ID AND A.TARGET_ID = C.TARGET_ID AND A.TARGET_CD = C.TARGET_CD AND A.SIGN_DTM = C.SIGN_DTM)
+				INNER JOIN CMM6600 E
+				ON (A.LIC_GRP_ID = E.LIC_GRP_ID AND A.PRJ_ID = E.PRJ_ID AND A.TARGET_ID =E.TARGET_ID AND A.TARGET_CD =E.TARGET_CD AND (A.ORD+1) = E.ORD)
+				<isEqual property="targetCd" compareValue = "02">
+					INNER JOIN DPL1000 D
+					ON (A.PRJ_ID = D.PRJ_ID AND A.TARGET_ID = D.DPL_ID)
+				</isEqual>
+				WHERE	1 = 1
+		) T
+		WHERE 1 = 1
+		<isNotEmpty property="searchTargetData">
+			<isEqual property="targetCd" compareValue="02">
+				<isNotEmpty property="searchTargetId">
+					<isEqual property="searchTargetId" compareValue="dplNm">
+						AND	T.DPL_NM LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplVer">
+						AND	T.DPL_VER LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplUsrNm">
+						AND	T.DPL_USR_NM LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplDesc">
+					<![CDATA[
+						AND	T.DPL_DESC LIKE '%'|| #searchTargetData# ||'%'
+					]]>
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplStsCd">
+						AND	T.DPL_STS_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplTypeCd">
+						AND	T.DPL_TYPE_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplAutoAfterCd">
+						AND	T.DPL_AUTO_AFTER_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplRestoreCd">
+						AND	T.DPL_RESTORE_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="nowSignTypeCd">
+						AND	T.NOW_SIGN_TYPE_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="lastSignUsrNm">
+						AND	T.LAST_SIGN_USR_NM = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplDt">
+						<isNotEmpty property="searchStartDt">
+							AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &gt;= TO_CHAR(T.DPL_DT, 'YYYY-MM-DD')  
+						</isNotEmpty>
+						<isNotEmpty property="searchEndDt">
+							AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &lt;= TO_CHAR(T.DPL_DT, 'YYYY-MM-DD')   
+						</isNotEmpty>
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplAutoDtm">
+						<isNotEmpty property="searchStartDt">
+							AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &gt;= TO_CHAR(T.DPL_AUTO_DTM, 'YYYY-MM-DD')  
+						</isNotEmpty>
+						<isNotEmpty property="searchEndDt">
+							AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &lt;= TO_CHAR(T.DPL_AUTO_DTM, 'YYYY-MM-DD')   
+						</isNotEmpty>
+					</isEqual>
+				</isNotEmpty>
+			</isEqual>
+		</isNotEmpty>
+		<isNotEmpty property="paramSortFieldId">
+			<isNotEmpty property="sortDirection">
+				ORDER BY $paramSortFieldId$
+				<isEqual property="sortDirection" compareValue="desc">
+					DESC
+				</isEqual>
+				<isEqual property="sortDirection" compareValue="asc">
+					ASC
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty> 
+		<isEmpty property="paramSortFieldId">
+			ORDER BY T.REG_DTM DESC	
+		</isEmpty> 
+	</sql>
+	
+	
+	
+	<sql id="cmm6600DAO.selectCmm6601UsrSignList">
+		SELECT 
+				ROWNUM AS RN
+			,	T.*
+		FROM
+			(
+			SELECT 	A.LIC_GRP_ID
+				,	A.PRJ_ID
+			    ,	A.TARGET_ID
+			    ,	A.TARGET_CD
+				,	B.ORD
+			    ,	B.SIGN_USR_ID
+			    ,	SF_STM3000_USR_INFO( B.SIGN_USR_ID , '1') AS SIGN_USR_NM
+			    ,	SF_STM3000_USR_INFO( B.SIGN_USR_ID , '6') AS SIGN_USR_IMG_ID
+			    , 	CASE WHEN A.SIGN_TYPE_CD='01' OR A.SIGN_TYPE_CD='02' THEN  '02' ELSE A.SIGN_TYPE_CD END AS NOW_SIGN_TYPE_CD
+			    ,	CASE WHEN A.SIGN_TYPE_CD='01' THEN   SF_STM4001_COM_CD_INFO('jht1215_GRP', 'CMM00008', '02', '1') ELSE SF_STM4001_COM_CD_INFO('jht1215_GRP', 'CMM00008', A.SIGN_TYPE_CD, '1') END AS NOW_SIGN_TYPE_NM
+			    ,  	SF_STM4001_COM_CD_INFO('jht1215_GRP', 'CMM00008', A.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
+			    ,	(SELECT SIGN_USR_ID FROM CMM6600 WHERE 1 = 1 AND LIC_GRP_ID = 'jht1215_GRP' AND	PRJ_ID	= 'PRJ2018102900001' AND	TARGET_CD ='02' AND ORD = 0 AND TARGET_ID = A.TARGET_ID) AS SIGN_DRF_USR_ID
+			    ,	SF_STM3000_USR_INFO((SELECT SIGN_USR_ID FROM CMM6600 WHERE 1 = 1 AND LIC_GRP_ID = 'jht1215_GRP' AND	PRJ_ID	= 'PRJ2018102900001' AND	TARGET_CD ='02' AND ORD = 0 AND TARGET_ID = A.TARGET_ID) , '1') AS SIGN_DRF_USR_NM
+			    ,	SF_STM3000_USR_INFO((SELECT SIGN_USR_ID FROM CMM6600 WHERE 1 = 1 AND LIC_GRP_ID = 'jht1215_GRP' AND	PRJ_ID	= 'PRJ2018102900001' AND	TARGET_CD ='02' AND ORD = 0 AND TARGET_ID = A.TARGET_ID) , '6') AS SIGN_DRF_USR_IMG_ID
+			    ,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH:MM:SS') AS SIGN_DTM
+				,	A.REG_DTM
+				,	A.REG_USR_ID
+				,	A.REG_USR_IP
+				,	A.MODIFY_DTM
+				,	A.MODIFY_USR_ID
+				,	A.MODIFY_USR_IP
+				<isEqual property="targetCd" compareValue = "02">
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00001', D.DPL_STS_CD, '1') AS DPL_STS_NM
+					,	D.DPL_VER
+					,	D.DPL_NM
+					,	D.DPL_ID
+					,	TO_CHAR(D.DPL_DT, 'YYYY-MM-DD') AS DPL_DT
+					,	D.DPL_USR_ID
+					,	SF_STM3000_USR_INFO(D.DPL_USR_ID, '1')  AS DPL_USR_NM
+					,	SF_STM3000_USR_INFO(D.DPL_USR_ID, '6')  AS DPL_USR_IMG_ID
+					,	D.DPL_DESC
+					,	D.DPL_STS_CD
+					,	D.DPL_TYPE_CD
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00003', D.DPL_TYPE_CD, '1') AS DPL_TYPE_NM
+					,	D.DPL_REVISION_NUM
+					,	D.DPL_AUTO_AFTER_CD
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00004', D.DPL_AUTO_AFTER_CD, '1') AS DPL_AUTO_AFTER_NM
+					,	D.DPL_AUTO_DTM
+					,	TO_DATE(TO_CHAR(D.DPL_DT,'YYYY-MM-DD') || ' ' || TO_CHAR(D.DPL_AUTO_DTM,'HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS') AS DPL_ST_DTM
+					,	D.DPL_RESTORE_CD
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00005', D.DPL_RESTORE_CD, '1') AS DPL_RESTORE_NM
+				</isEqual>
+			FROM   CMM6601 A
+			INNER JOIN (
+						SELECT  MAX(SIGN_DTM) AS SIGN_DTM
+							,	LIC_GRP_ID
+							,	PRJ_ID
+							,	TARGET_ID
+							,	TARGET_CD
+						FROM	CMM6601
+						WHERE	1 = 1
+						GROUP BY	LIC_GRP_ID
+								,	PRJ_ID
+								,	TARGET_ID
+								,	TARGET_CD
+						) C
+			ON (A.LIC_GRP_ID = C.LIC_GRP_ID AND A.PRJ_ID = C.PRJ_ID AND A.TARGET_ID = C.TARGET_ID AND A.TARGET_CD = C.TARGET_CD AND A.SIGN_DTM = C.SIGN_DTM)
+			INNER JOIN CMM6600 B
+			ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID =B.TARGET_ID AND A.TARGET_CD =B.TARGET_CD AND (A.ORD+1) = B.ORD)
+			<isEqual property="targetCd" compareValue = "02">
+				INNER JOIN DPL1000 D
+				ON (A.PRJ_ID = D.PRJ_ID AND A.TARGET_ID = D.DPL_ID)
+			</isEqual>
+			WHERE  	1 = 1
+			AND		A.LIC_GRP_ID = 'jht1215_GRP'
+			AND		A.PRJ_ID	= 'PRJ2018102900001'
+			AND		A.TARGET_CD ='02'
+			AND   	A.SIGN_TYPE_CD != '03'
+			AND   	A.SIGN_TYPE_CD != '04'
+			) T
+			WHERE 1 = 1
+		<isNotEmpty property="searchTargetData">
+			<isEqual property="targetCd" compareValue="02">
+				<isNotEmpty property="searchTargetId">
+					<isEqual property="searchTargetId" compareValue="dplNm">
+						AND	T.DPL_NM LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplVer">
+						AND	T.DPL_VER LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplUsrNm">
+						AND	T.DPL_USR_NM LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplDesc">
+					<![CDATA[
+						AND	T.DPL_DESC LIKE '%'|| #searchTargetData# ||'%'
+					]]>
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplStsCd">
+						AND	T.DPL_STS_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplTypeCd">
+						AND	T.DPL_TYPE_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplAutoAfterCd">
+						AND	T.DPL_AUTO_AFTER_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplRestoreCd">
+						AND	T.DPL_RESTORE_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="nowSignTypeCd">
+						AND	T.NOW_SIGN_TYPE_CD = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="lastSignUsrNm">
+						AND	T.LAST_SIGN_USR_NM = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplDt">
+						<isNotEmpty property="searchStartDt">
+							AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &gt;= TO_CHAR(T.DPL_DT, 'YYYY-MM-DD')  
+						</isNotEmpty>
+						<isNotEmpty property="searchEndDt">
+							AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &lt;= TO_CHAR(T.DPL_DT, 'YYYY-MM-DD')   
+						</isNotEmpty>
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="dplAutoDtm">
+						<isNotEmpty property="searchStartDt">
+							AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &gt;= TO_CHAR(T.DPL_AUTO_DTM, 'YYYY-MM-DD')  
+						</isNotEmpty>
+						<isNotEmpty property="searchEndDt">
+							AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &lt;= TO_CHAR(T.DPL_AUTO_DTM, 'YYYY-MM-DD')   
+						</isNotEmpty>
+					</isEqual>
+				</isNotEmpty>
+			</isEqual>
+		</isNotEmpty>
+		<isNotEmpty property="paramSortFieldId">
+			<isNotEmpty property="sortDirection">
+				ORDER BY $paramSortFieldId$
+				<isEqual property="sortDirection" compareValue="desc">
+					DESC
+				</isEqual>
+				<isEqual property="sortDirection" compareValue="asc">
+					ASC
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty> 
+		<isEmpty property="paramSortFieldId">
+			ORDER BY T.REG_DTM DESC	
+		</isEmpty>
+	</sql>
+	
+	
+	
+    <select id="cmm6600DAO.selectCmm6601SignList" parameterClass="java.util.Map" resultClass="egovMap">
+	    
+		SELECT Z.*
+		FROM
+			(
+					<include refid="selectCmm6601List"/>
+	    	) Z
+	    	WHERE 1=1 
+	    	AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+    </select>
+    
+    
+    <select id="cmm6600DAO.selectCmm6601SignListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
+	    
+	    SELECT
+			COUNT(*)
+		FROM	(
+			<include refid="selectCmm6601List"/>
+						) T
+    </select>
+	
+	
+	
 	<insert id="cmm6600DAO.insertCmm6600SignLine" parameterClass = "java.util.Map">
 		
-		INSERT INTO CMM6000
+		INSERT INTO CMM6600
 		(
 				LIC_GRP_ID		,	PRJ_ID		,	TARGET_CD		,	TARGET_ID
 			,	ORD				,	SIGN_USR_ID	,	REG_DTM			,	REG_USR_ID
@@ -48,8 +388,8 @@
 		VALUES
 		(
 				#licGrpId#		,	#prjId#		,	#targetCd#		,	#targetId#
-			,	#ord#			,	#signUsrId#	,	#regDtm#		,	#regUsrId#
-			,	#regUsrIp#		,	#modifyDtm#	,	#modifyUsrId#	,	#modifyUsrIp#
+			,	#ord#			,	#signUsrId#	,	SYSDATE			,	#regUsrId#
+			,	SYSDATE			,	#modifyDtm#	,	#modifyUsrId#	,	#modifyUsrIp#
 		)
 	</insert>
 	
@@ -60,8 +400,57 @@
 		WHERE	1 = 1
 		AND		LIC_GRP_ID  = #licGrpId#
 		AND		PRJ_ID		= #prjId#
-		AND		ORD			= #ord#
 		AND		TARGET_ID	= #targetId#
 		AND		TARGET_CD	= #targetCd#
 	</delete>
+	
+	
+	<select id = "cmm6600DAO.selectCmm6600MaxOrd" parameterClass = "java.util.Map" resultClass = "int">
+		
+		SELECT	MAX(ORD) AS MAXORD
+		FROM	CMM6600
+		WHERE	1 = 1
+		AND		LIC_GRP_ID = #licGrpId#
+		AND		PRJ_ID	= #prjId#
+		AND		TARGET_ID = #targetId#
+		AND		TARGET_CD = #targetCd#
+	</select>
+	
+	
+	
+	<insert id="cmm6600DAO.insertCmm6601SignInfo" parameterClass = "java.util.Map" >
+		<selectKey resultClass="java.lang.String" keyProperty="newSignId">
+		<![CDATA[
+			 
+			SELECT	NVL( 
+							SUBSTR(NEW_SIGN_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_SIGN_ID, 12, 5)) + 1) , 5, '0')
+						,	'SIG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
+            		) AS NEW_REQ_ID 
+			FROM	(
+			            SELECT	MAX(SIGN_ID)  AS NEW_SIGN_ID
+			            FROM	CMM6601 A
+			            WHERE	1=1
+			            AND		A.LIC_GRP_ID = #licGrpId#
+                        AND		A.PRJ_ID = #prjId#
+			            AND		A.SIGN_ID LIKE 'SIG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '%'
+					)
+		]]>
+		</selectKey>
+		
+		INSERT INTO CMM6601
+		(
+				LIC_GRP_ID		,	PRJ_ID			,	SIGN_ID			,	TARGET_CD
+			,	TARGET_ID		,	ORD				,	SIGN_USR_ID		,	SIGN_TYPE_CD
+			,	SIGN_RES		,	SIGN_DTM		,	REG_DTM			,	REG_USR_ID
+			,	REG_USR_IP		,	MODIFY_DTM		,	MODIFY_USR_ID	,	MODIFY_USR_IP
+		)
+		VALUES
+		(
+				#licGrpId#		,	#prjId#			,	#newSignId#		,	#targetCd#	
+			,	#targetId#		,	#ord#			,	#signUsrId#		,	#signTypeCd#
+			,	#signRes#		,	SYSDATE			,	SYSDATE			,	#regUsrId#
+			,	#regUsrIp#		,	SYSDATE			,	#modifyUsrId#	,	#modifyUsrIp#
+		
+		)
+	</insert>
 </sqlMap>            

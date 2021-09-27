@@ -92,6 +92,19 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	}
 	
 	
+	@SuppressWarnings( "rawtypes" )
+	public Map selectStm8000AuthCheck(Map<String, String> paramMap) throws Exception {
+		Map<String, String> result = new HashMap<>();
+		String resultRevision = stm8000DAO.selectStm8000AuthRevisionCheck(paramMap);
+		String resultFileCode = stm8000DAO.selectStm8000AuthFileCodeCheck(paramMap);
+		
+		result.put("resultRevision", resultRevision);
+		result.put("resultFileCode", resultFileCode);
+		return result;
+	}
+
+	
+	@SuppressWarnings("unchecked")
 	public Map<String, String> selectStm8000ServerInfo(Map<String, String> paramMap) throws Exception {
 		return  stm8000DAO.selectStm8000ServerInfo(paramMap);
 	}
@@ -280,7 +293,6 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		String searchFilePath = (String)paramMap.get("filePath");
 		
 		String[] filePath = new String[] {};
-		
 		
 		if(searchFilePath != null && !"".equals(searchFilePath)) {
 			filePath = new String[] {searchFilePath};
@@ -530,7 +542,6 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 					for (Map map : revisionFileList) {
 						
 						String path = (String) map.get("path");
-						path = path.substring(0, path.lastIndexOf("/"));
 						if(path.indexOf(paramMap.get("filePath"))==0) {
 							fileList.add(map);
 						}

@@ -26,7 +26,7 @@ public class Cmm6200Controller {
 	
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
-
+	
 	
 	@Resource(name = "leaveaTrace")
 	LeaveaTrace leaveaTrace;
@@ -43,5 +43,11 @@ public class Cmm6200Controller {
     @RequestMapping(value="/cmm/cmm6000/cmm6200/selectCmm6206View.do")
     public String selectCmm6006View(Model model) throws Exception {
     	return "/cmm/cmm6000/cmm6200/cmm6206";
+    }
+    
+    
+    @RequestMapping(value="/cmm/cmm6000/cmm6200/selectCmm6209View.do")
+    public String selectCmm6009View(Model model) throws Exception {
+    	return "/cmm/cmm6000/cmm6200/cmm6209";
     }
 }
