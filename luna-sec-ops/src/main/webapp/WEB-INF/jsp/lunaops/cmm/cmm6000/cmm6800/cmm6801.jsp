@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <input type="hidden" name="type" id="type" value="<c:out value='${param.type}'/>">
-<input type="hidden" name="systemRoot" id="systemRoot" value="<c:out value='${param.systemRoot}'/>">
 <input type="hidden" name="strgRepId" id="strgRepId" value="<c:out value='${param.strgRepId}'/>">
 <input type="hidden" name="path" id="path" value="<c:out value='${param.path}'/>">
 <input type="hidden" name="revision" id="revision" value="<c:out value='${param.revision}'/>">
@@ -25,25 +24,8 @@ var OSLCmm6801Popup = function() {
 	var okRevision = false;
 	var okFileCode = false;
 	
-	var systemRoot = $("#systemRoot").val();
-	
 	
 	 var documentSetting = function() {
-		
-		if(!$.osl.isNull(systemRoot) && systemRoot){
-			
-			okRevision = true;
-			okFileCode = true;
-		}else{
-			authCheck(strgRepId);
-			
-			
-			if(!okFileCode){
-				$.osl.alert($.osl.lang("cmm6800.message.auth"));
-				
-				$.osl.layerPopupClose();
-			}
-		}
 	
 		
 		getFileInfo();
@@ -123,44 +105,6 @@ var OSLCmm6801Popup = function() {
    		});
   	 	
    		ajaxObj.send();
-	};
-	
-	
-	var authCheck = function(strgRepId){
-		var data = {
-				strgRepId : strgRepId,
-		};
-		
-		
-    	var ajaxObj = new $.osl.ajaxRequestAction(
-	   			{"url":"<c:url value='/stm/stm8000/stm8000/selectStm8000AuthCheckAjax.do'/>", "async": false}
-				, data);
-		
-    	
-    	ajaxObj.setFnSuccess(function(data){
-    		if(data.errorYn == "Y"){
-				$.osl.alert(data.message,{type: 'error'});
-				
-				$.osl.layerPopupClose();
-			}else{
-				var result = data.result;
-				
-				
-				if(result.resultRevision == "Y"){
-					okRevision = true;
-				}else{
-					okRevision = false;
-				}
-				
-				if(result.resultFileCode == "Y"){
-					okFileCode = true;
-				}else{
-					okFileCode = false;
-				}
-			}
-    	});
-    	
-		ajaxObj.send();
 	};
 
 	return {
