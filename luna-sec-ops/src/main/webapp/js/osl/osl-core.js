@@ -179,6 +179,10 @@
 				switch (actionCd){
 				
 				case "01":
+					event.preventDefault();
+					if($(document).find("#menuNAuthShortCut").length != 0){
+						return;
+					}
 					var data = {};
 					var options = {
 						modalTitle: "단축키 설정 정보",
