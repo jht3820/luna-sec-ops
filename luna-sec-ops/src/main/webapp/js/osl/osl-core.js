@@ -76,6 +76,9 @@
 
 			
 			OSLCoreChartSetting.init();
+
+			
+			OSLCoreCustomOptionSetting.init();
 			
 			
 			$.validator.addMethod("email", function(value, element) {
@@ -2093,6 +2096,11 @@
 			
 			
 			ajaxObj.send();
+		}
+		
+		,customOpt:{
+			
+			setting: $.noop
 		}
 		
 		,chart:{
