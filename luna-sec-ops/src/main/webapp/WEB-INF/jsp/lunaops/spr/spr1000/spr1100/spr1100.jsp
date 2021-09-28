@@ -54,9 +54,9 @@
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="select" title="요구사항 배정 조회" data-title-lang-cd="spr1100.actionBtn.title.assSelect" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="removeReq" title="요구사항 배정 제외" data-title-lang-cd="spr1100.actionBtn.tooltip.removeToolTip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="removeReq" tabindex="2">
+						<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="removeReq" title="요구사항 배정 제외" data-title-lang-cd="spr1100.actionBtn.tooltip.removeToolTip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="removeReq" tabindex="2">
 							<i class="fa fa-arrow-alt-circle-down"></i><span data-lang-cd="spr1100.button.removeBtn">제외</span>
-						</button>
+						</button> -->
 					</div>
 				</div>
 			</div>
@@ -215,7 +215,6 @@ var OSLSpr1100Popup = function () {
 				}
 			},
 			columns:[
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 80, sortField: "rn"},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 450, autoHide: false, sortField: "reqNm", search:true,
 					template: function(row){
@@ -238,36 +237,12 @@ var OSLSpr1100Popup = function () {
 				}
 			],
 			rows:{
-				clickCheckbox: true
-			},
+				minHeight:50,
+			}, 
 			actionBtn:{
-				"title" : $.osl.lang("spr1100.actionBtn.title.removeBtn"),
-				"dblClick": true,
-				"removeReq": true,
+				
 				"delete":false,
 				"update":false,
-				"lastPush": false
-			},
-			actionTooltip:{
-				"dblClick" : $.osl.lang("spr1100.actionBtn.tooltip.removeToolTip")
-			},
-			actionFn:{
-				"dblClick": function(rowData){
-					assList.push(rowData);
-					deleteReq($("#sprId").val(), JSON.stringify(assList));
-				},
-				"removeReq":function(rowData, datatableId, type){
-					assList = rowData;
-					deleteReq($("#sprId").val(), JSON.stringify(assList));
-				},
-			},
-			theme:{
-				actionBtn:{
-					"removeReq" : " kt-hide"
-				},
-				actionBtnIcon:{
-					dblClick: "fa fa-arrow-alt-circle-down",
-				}
 			},
 		});
 		
@@ -380,30 +355,8 @@ var OSLSpr1100Popup = function () {
 							closeConfirm: false,
 							modalTitle: "스프린트 요구사항 배정",
 							callback:[{
-								
-								targetId: "updateSpr1100Btn",
-								
+								targetId: "selectUsr",
 								actionFn: function(thisObj){
-									
-									var ajaxObj = new $.osl.ajaxRequestAction(
-							    			{"url":"<c:url value='/spr/spr1000/spr1100/insertSpr1100ReqListAjax.do'/>"}
-											, data);
-									
-							    	ajaxObj.setFnSuccess(function(data){
-							    		if(data.errorYn == "Y"){
-											$.osl.alert(data.message,{type: 'error'});
-											
-											$.osl.layerPopupClose();
-										}else{
-											if(list.length>0){
-												$.osl.toastr(data.message);
-												nonAssList = [];
-											}
-											selectBtnClick();
-										}
-							    	});
-									
-							    	ajaxObj.send();
 									
 								}
 							}]

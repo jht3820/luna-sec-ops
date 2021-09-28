@@ -1,5 +1,6 @@
 package kr.opensoftlab.lunaops.spr.spr1000.spr1100.service.impl;
 
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -54,7 +55,8 @@ public class Spr1100ServiceImpl extends EgovAbstractServiceImpl implements Spr11
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void insertSpr1100ReqList(Map paramMap) throws Exception {
 		
-		String listStr = (String) paramMap.get("dataList");
+		
+		List<String> listStr = (List<String>) paramMap.get("dataList");
 		
 		
 		JSONParser jsonParser = new JSONParser();
@@ -62,7 +64,7 @@ public class Spr1100ServiceImpl extends EgovAbstractServiceImpl implements Spr11
 		Map infoMap = null;
 		org.json.simple.JSONObject jsonObj = null;
 		
-		jsonArray = (JSONArray) jsonParser.parse(listStr);
+		jsonArray = (JSONArray) jsonParser.parse(listStr.get(0));
 	
 		for(int i=0; i<jsonArray.size(); i++)
 		{
@@ -76,6 +78,49 @@ public class Spr1100ServiceImpl extends EgovAbstractServiceImpl implements Spr11
 			
 			
 			spr1100DAO.insertSpr1100ReqInfo(paramMap);
+			
+		}
+		
+		String insertParam = (String) paramMap.get("insertParam");
+		
+		
+		JSONObject insertJsonParam = new JSONObject(insertParam); 
+		
+		
+		JSONObject sprPointList = insertJsonParam.getJSONObject("reqSprPointList");
+		
+		if(sprPointList != null) {
+			
+			Iterator reqKey = sprPointList.keys();
+			
+			
+			while(reqKey.hasNext())
+			{
+				String reqId = reqKey.next().toString();
+				int sprPoint = sprPointList.getInt(reqId);
+				
+				paramMap.put("reqId", reqId);
+				paramMap.put("sprPoint", sprPoint);
+				
+				spr1100DAO.updateSpr1100ReqSprPointInfo(paramMap);
+			}
+		}
+		
+		JSONObject reqChargerList = insertJsonParam.getJSONObject("reqUsrList");
+		if(reqChargerList != null) {
+			
+			Iterator reqKey = (Iterator) reqChargerList.keys();
+			
+			
+			while(reqKey.hasNext())
+			{
+				String reqId = reqKey.next().toString();
+				JSONObject usrInfo = (JSONObject) reqChargerList.get(reqId);
+				
+				paramMap.put("reqId", reqId);
+				paramMap.put("reqChargerId", (String) usrInfo.get("usrId"));
+				req4100DAO.updateReq4101ReqSubInfo(paramMap);
+			}
 		}
 	} 
 	
