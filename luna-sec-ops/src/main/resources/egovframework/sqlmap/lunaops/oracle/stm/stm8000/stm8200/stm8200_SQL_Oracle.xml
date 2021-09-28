@@ -6,246 +6,112 @@
 
 	
 	
-	<sql id="selectStm8200AssList">
+	<sql id="selectStm8200AssRepAllList">
 		SELECT
 			ROWNUM RN
 			, T1.*
 		FROM(
 			SELECT
-				A.LIC_GRP_ID AS LIC_GRP_ID
-				, A.PRJ_GRP_ID AS PRJ_GRP_ID
-				, A.PRJ_ID AS PRJ_ID
-				, A.STRG_REP_ID AS STRG_REP_ID
-				, A.AUTH_TARGET_ID AS AUTH_TARGET_ID
-				, A.AUTH_TYPE_CD AS AUTH_TYPE_CD
-				, B.USR_IMG_ID AS AUTH_TARGET_IMG_ID
-			    , (CASE WHEN A.AUTH_TYPE_CD='01' THEN C.AUTH_GRP_NM ELSE B.USR_NM END) AS AUTH_TARGET_NM
-			    , (CASE WHEN A.AUTH_TYPE_CD='01' THEN '' ELSE B.EMAIL END) AS AUTH_TARGET_EMAIL
-			    , (CASE WHEN A.AUTH_TYPE_CD='01' THEN '' ELSE SF_STM6000_DEPT_NM(A.LIC_GRP_ID, B.DEPT_ID, '2') END) AS AUTH_TERGET_DEPT_NM
-				, D.PRJ_NM AS PRJ_NM
-				, E.PRJ_NM AS PRJ_GRP_NM
-			FROM STM8200 A
-			LEFT JOIN STM3000 B ON (A.AUTH_TYPE_CD = '02'  AND B.USR_ID = A.AUTH_TARGET_ID )
-			LEFT JOIN PRJ2000 C
-			ON (   C.LIC_GRP_ID = A.LIC_GRP_ID 
-			  AND C.PRJ_ID = A.PRJ_ID 
-			  AND C.USE_CD = '01' 
-			  AND A.AUTH_TYPE_CD = '01'
-			  AND C.AUTH_GRP_ID = A.AUTH_TARGET_ID )
-			LEFT JOIN PRJ1000 D
-			ON (  D.PRJ_ID = A.PRJ_ID  )
-			LEFT JOIN PRJ1000 E
-			ON (  E.PRJ_ID = A.PRJ_GRP_ID  )
+			  D.LIC_GRP_ID AS LIC_GRP_ID
+			  , D.PRJ_ID AS PRJ_ID
+			  , D.PRJ_NM AS PRJ_NM
+			  , D.PRJ_GRP_ID AS PRJ_GRP_ID
+			  , E.PRJ_NM AS PRJ_GRP_NM
+			  , D.STRG_REP_ID AS STRG_REP_ID
+			  , D.STRG_TYPE_CD AS STRG_TYPE_CD
+			  , D.STRG_TYPE_NM AS STRG_TYPE_NM
+			  , D.STRG_REP_TITLE AS STRG_REP_TITLE
+			  , D.STRG_TXT AS STRG_TXT
+			  , D.STRG_REP_URL AS STRG_REP_URL
+			  , D.USE_CD AS USE_CD
+			  , D.USE_NM AS USE_NM
+			FROM(
+			  SELECT
+			    A.LIC_GRP_ID AS LIC_GRP_ID
+			    , A.PRJ_ID AS PRJ_ID
+			    , B.PRJ_NM AS PRJ_NM
+			    , B.PRJ_GRP_ID AS PRJ_GRP_ID
+			    , A.STRG_REP_ID AS STRG_REP_ID
+			    , C.STRG_TYPE_CD AS STRG_TYPE_CD
+			    , SF_STM4001_COM_CD_INFO( #licGrpId#, 'STM00004', C.STRG_TYPE_CD, '1') AS STRG_TYPE_NM
+			    , C.STRG_REP_TITLE AS STRG_REP_TITLE
+			    , C.STRG_TXT AS STRG_TXT
+			    , C.STRG_REP_URL AS STRG_REP_URL
+			    , C.USE_CD AS USE_CD
+			    , SF_STM4001_COM_CD_INFO( #licGrpId#, 'CMM00001', C.USE_CD, '1') AS USE_NM
+			  FROM STM8100 A
+			  LEFT JOIN PRJ1000 B
+			  ON(B.LIC_GRP_ID = A.LIC_GRP_ID AND B.PRJ_ID=A.PRJ_ID)
+			  LEFT JOIN STM8000 C
+			  ON(A.LIC_GRP_ID = C.LIC_GRP_ID AND A.STRG_REP_ID = C.STRG_REP_ID)
+			  WHERE 1 = 1
+			  AND A.LIC_GRP_ID = #licGrpId#
+			) D LEFT JOIN PRJ1000 E
+			ON(E.LIC_GRP_ID = D.LIC_GRP_ID AND D.PRJ_GRP_ID = E.PRJ_ID)
 			WHERE 1 = 1
-			AND A.LIC_GRP_ID = #licGrpId#
-			AND A.PRJ_ID = #prjId#
-			AND A.STRG_REP_ID = #strgRepId#
-			AND C.USE_CD = '01'
-			AND D.USE_CD = '01'
-			AND E.USE_CD = '01'
-			ORDER BY AUTH_TYPE_CD ASC, AUTH_TARGET_ID ASC
+			AND D.LIC_GRP_ID = #licGrpId#
 		) T1
 		WHERE 1 = 1
+		<isNotEmpty property="strgRepId">
+			AND T1.STRG_REP_ID = #strgRepId#
+		</isNotEmpty>
 		<isNotEmpty property="searchTargetData">
 			<isNotEmpty property="searchTargetId">
-				<isEqual property="searchTargetId" compareValue="authGrpNm">
-					AND T1.AUTH_GRP_NM = #searchTargetData#
+				<isEqual property="searchTargetId" compareValue="strgTypeCd">
+					AND T1.STRG_TYPE_CD = #searchTargetData#
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="strgRepTitle">
+					AND T1.STRG_REP_TITLE LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="strgTxt">
+					AND T1.STRG_TXT LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="prjGrpNm">
+					AND T1.PRJ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="prjNm">
+					AND T1.PRJ_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="useCd">
+					AND T1.USE_CD = #searchTargetData#
 				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
+		<isNotEmpty property="paramSortFieldId">
+			<isNotEmpty property="sortDirection">
+				ORDER BY $paramSortFieldId$
+				<isEqual property="sortDirection" compareValue="desc">
+					DESC
+				</isEqual>
+				<isEqual property="sortDirection" compareValue="asc">
+					ASC
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty>
+		<isEmpty property="paramSortFieldId">
+			ORDER BY PRJ_GRP_ID ASC, PRJ_ID ASC, STRG_REP_ID ASC
+		</isEmpty>
 	</sql>
 	
 	
-	<sql id="selectStm8200NonAssList">
+	<select id="stm8200DAO.selectStm8200AssRepAllListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
+	    
 		SELECT
-			ROWNUM RN
-			, T1.*
-		FROM(
-			SELECT
-				A.LIC_GRP_ID AS LIC_GRP_ID
-				, A.PRJ_GRP_ID AS PRJ_GRP_ID
-				, A.PRJ_ID AS PRJ_ID
-				, A.STRG_REP_ID AS STRG_REP_ID
-				, A.AUTH_TARGET_ID AS AUTH_TARGET_ID
-				, A.AUTH_TYPE_CD AS AUTH_TYPE_CD
-				, B.USR_IMG_ID AS AUTH_TARGET_IMG_ID
-			    , (CASE WHEN A.AUTH_TYPE_CD='01' THEN C.AUTH_GRP_NM ELSE B.USR_NM END) AS AUTH_TARGET_NM
-			    , (CASE WHEN A.AUTH_TYPE_CD='01' THEN '' ELSE B.EMAIL END) AS AUTH_TARGET_EMAIL
-			    , (CASE WHEN A.AUTH_TYPE_CD='01' THEN '' ELSE SF_STM6000_DEPT_NM(A.LIC_GRP_ID, B.DEPT_ID, '2') END) AS AUTH_TERGET_DEPT_NM
-				, D.PRJ_NM AS PRJ_NM
-				, E.PRJ_NM AS PRJ_GRP_NM
-			FROM STM8200 A
-			LEFT JOIN STM3000 B ON (A.AUTH_TYPE_CD = '02'  AND B.USR_ID = A.AUTH_TARGET_ID )
-			LEFT JOIN PRJ2000 C
-			ON (   C.LIC_GRP_ID = A.LIC_GRP_ID 
-			  AND C.PRJ_ID = A.PRJ_ID 
-			  AND C.USE_CD = '01' 
-			  AND A.AUTH_TYPE_CD = '01'
-			  AND C.AUTH_GRP_ID = A.AUTH_TARGET_ID )
-			LEFT JOIN PRJ1000 D
-			ON (  D.PRJ_ID = A.PRJ_ID  )
-			LEFT JOIN PRJ1000 E
-			ON (  E.PRJ_ID = A.PRJ_GRP_ID  )
-			WHERE 1 = 1
-			AND A.LIC_GRP_ID = #licGrpId#
-			AND A.PRJ_ID = #prjId#
-			AND A.STRG_REP_ID = #strgRepId#
-			AND C.USE_CD = '01'
-			AND D.USE_CD = '01'
-			AND E.USE_CD = '01'
-			AND NOT EXISTS (
-				SELECT
-					F.AUTH_TARGET_ID AS AUTH_TARGET_ID
-				FROM STM8200 F
-				WHERE 1 = 1
-				AND F.LIC_GRP_ID = A.LIC_GRP_ID
-				AND F.PRJ_ID = A.PRJ_ID
-				AND F.STRG_REP_ID = A.STRG_REP_ID
-			)
-			ORDER BY AUTH_TYPE_CD ASC, AUTH_TARGET_ID ASC
-		) T1
-		<isNotEmpty property="searchTargetData">
-			<isNotEmpty property="searchTargetId">
-				<isEqual property="searchTargetId" compareValue="authGrpNm">
-					AND T1.AUTH_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="authTypeCd">
-					AND T1.AUTH_TYPE_CD = #searchTargetData#
-				</isEqual>
-			</isNotEmpty>
-		</isNotEmpty>
-	</sql>
+			COUNT(*) AS CNT
+		FROM ( 
+			<include refid="selectStm8200AssRepAllList"/>
+		) Z
+    </select>
+    
 	
-	
-	<sql id="selectStm8200PrjAllAuthAndUser">
-		SELECT
-			ROWNUM RN
-			, T1.*
-		FROM(
-			SELECT
-			    A.PRJ_ID AS PRJ_ID
-			    , A.AUTH_GRP_ID AS AUTH_TARGET_ID
-			    , A.AUTH_GRP_NM AS AUTH_TARGET_NM
-			    , TO_CHAR('01') AS AUTH_TYPE_CD 
-			    , '' AS AUTH_TARGET_IMG_ID
-			    , '' AS AUTH_TARGET_EMAIL
-			    , '' AS AUTH_TARGET_DEPT_ID
-			    , '' AS AUTH_TARGET_DEPT_NM
-			FROM PRJ2000 A
-			WHERE 1 = 1
-			AND A.LIC_GRP_ID = #licGrpId#
-			AND A.USE_CD = '01'
-			<isNotEmpty property="prjId">
-				AND A.PRJ_ID	= #prjId#
-			</isNotEmpty>
-			
-			UNION
-			
-			SELECT
-			  '' AS PRJ_ID
-			  , B.USR_ID AS AUTH_TARGET_ID
-			  , B.USR_NM AS AUTH_TARGET_NM
-			  , TO_CHAR('02') AS AUTH_TYPE_CD 
-			  , B.USR_IMG_ID AS AUTH_TARGET_IMG_ID
-			  , B.EMAIL AS AUTH_TARGET_EMAIL
-			  , B.DEPT_ID AS AUTH_TARGET_DEPT_ID
-			  , SF_STM6000_DEPT_NM(#licGrpId#, B.DEPT_ID, '2') AS AUTH_TARGET_DEPT_NM
-			FROM STM3000 B LEFT JOIN PRJ1001 C
-			ON ( C.PRJ_ID = #prjId# AND C.PRJ_AUTH_TYPE_CD='01' AND B.USR_ID = C.PRJ_AUTH_TARGET_ID )
-			WHERE 1 = 1
-			AND B.LIC_GRP_ID = #licGrpId#
-			AND B.DEL_CD = '02'
-			ORDER BY AUTH_TYPE_CD ASC, AUTH_TARGET_ID ASC
-		) T1
-		WHERE 1 = 1
-		<isNotEmpty property="searchTargetData">
-			<isNotEmpty property="searchTargetId">
-				<isEqual property="searchTargetId" compareValue="authTargetNm">
-					AND T1.AUTH_TARGET_ID LIKE '%'|| #searchTargetData# ||'%'
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="authTargetNm">
-					AND T1.AUTH_TARGET_NM LIKE '%'|| #searchTargetData# ||'%'
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="authTypeCd">
-					AND T1.AUTH_TYPE_CD = #searchTargetData#
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="authTargetDeptId">
-					AND T1.AUTH_TARGET_DEPT_ID = #searchTargetData#
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="authTargetDeptNm">
-					AND T1.AUTH_TARGET_DEPT_NM LIKE '%'|| #searchTargetData# ||'%'
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="authTargetEmail">
-					AND T1.AUTH_TARGET_EMAIL LIKE '%'|| #searchTargetData# ||'%'
-				</isEqual>
-			</isNotEmpty>
-		</isNotEmpty>
-	</sql>
-	
-	
-    <select id="stm8200DAO.selectStm8200RevisionAuthList" parameterClass="java.util.Map"  resultClass="egovMap">
+    <select id="stm8200DAO.selectStm8200AssRepAllList" parameterClass="java.util.Map"  resultClass="egovMap">
      
 		SELECT 
 			Z.*
 		FROM ( 
-			<isNotEmpty property="type">
-				<isEqual	property="type" compareValue="ass">
-					<include refid="selectStm8200AssList"/>
-				</isEqual>
-				<isEqual	property="type" compareValue="non">
-					<include refid="selectStm8200NonAssList"/>
-				</isEqual>
-			</isNotEmpty>
+			<include refid="selectStm8200AssRepAllList"/>
 		) Z
 		WHERE 1 = 1
+		AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
 	</select>
-	
-	
-    <select id="stm8200DAO.selectStm8200PrjAllAuthAndUserList" parameterClass="java.util.Map"  resultClass="egovMap">
-     
-		SELECT 
-			Z.*
-		FROM ( 
-			<include refid="selectStm8200PrjAllAuthAndUser"/>
-		) Z
-		WHERE 1 = 1
-	</select>
-	
-	
-	<insert id="stm8200DAO.insertStm8200RevisionAuthInfo" parameterClass="java.util.Map">
-		 
-		INSERT INTO STM8200
-		(
-		        LIC_GRP_ID,			PRJ_GRP_ID,			PRJ_ID					
-		        ,STRG_REP_ID,		AUTH_TYPE_CD,		AUTH_TARGET_ID
-		        ,REG_DTM,				REG_USR_ID,			REG_USR_IP
-		        ,MODIFY_DTM,			MODIFY_USR_ID,		MODIFY_USR_IP
-		)                    
-		VALUES
-		(
-				#licGrpId#,			#prjGrpId#,				#prjId#			
-				,#strgRepId#,		#authTypeCd#,		#authTargetId#
-				,SYSDATE,			#regUsrId#,				#regUsrIp#
-				,SYSDATE,			#modifyUsrId#,		#modifyUsrIp#
-		)
-	</insert>
-	
-	
-	<delete id="stm8200DAO.deleteStm8200RevisionAuthInfo" parameterClass="java.util.Map">
-		
-		DELETE	
-		FROM	STM8200 A
-		WHERE	1=1
-		AND A.LIC_GRP_ID 		= #licGrpId#
-		AND A.STRG_REP_ID 	= #strgRepId# 	
-		<isNotEmpty property="prjGrpId">
-			AND A.PRJ_GRP_ID	= #prjGrpId#
-		</isNotEmpty>
-		<isNotEmpty property="prjId">
-			AND A.PRJ_ID			= #prjId#
-		</isNotEmpty>
-		<isNotEmpty property="authTargetId">
-			AND A.AUTH_TARGET_ID = #authTargetId# 	
-		</isNotEmpty>
-	</delete>
 </sqlMap>

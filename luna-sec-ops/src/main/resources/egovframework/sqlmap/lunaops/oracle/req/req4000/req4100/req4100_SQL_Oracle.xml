@@ -40,7 +40,7 @@
 		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
 		<result property="reqNewType"			column="REQ_NEW_TYPE"/>
 		<result property="reqNewTypeNm"			column="REQ_NEW_TYPE_NM"/>		
-		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT"/>	
+		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT" jdbcType="CLOB" javaType="java.lang.String"/>	
 		<result property="sclCd"				column="SCL_CD"/>
 		<result property="reqTypeCd"			column="REQ_TYPE_CD"/>
 		<result property="piaCd"				column="PIA_CD"/>
@@ -88,7 +88,7 @@
 		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
 		<result property="reqNewType"			column="REQ_NEW_TYPE"/>
 		<result property="reqNewTypeNm"			column="REQ_NEW_TYPE_NM"/>		
-		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT"/>	
+		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT" jdbcType="CLOB" javaType="java.lang.String"/>	
 		<result property="reqTypeCd"			column="REQ_TYPE_CD"/>
 		<result property="atchFileId"			column="ATCH_FILE_ID"/>
 		<result property="cbAtchFileId"			column="CB_ATCH_FILE_ID"/>
@@ -136,7 +136,7 @@
 		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
 		<result property="reqNewType"			column="REQ_NEW_TYPE"/>
 		<result property="reqNewTypeNm"			column="REQ_NEW_TYPE_NM"/>		
-		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT"/>	
+		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT" jdbcType="CLOB" javaType="java.lang.String"/>	
 		<result property="reqTypeCd"			column="REQ_TYPE_CD"/>
 		<result property="atchFileId"			column="ATCH_FILE_ID"/>
 		<result property="cbAtchFileId"			column="CB_ATCH_FILE_ID"/>
@@ -190,7 +190,6 @@
 			,   T1.REQ_PRO_TYPE_NM
 			,	T1.REQ_NEW_TYPE
 			,   T1.REQ_NEW_TYPE_NM
-			,	T1.REQ_ACCEPT_TXT
 	    	,	T1.REQ_TYPE_CD
 	    	,   T1.REQ_TYPE_NM
 			,	T1.ATCH_FILE_ID
@@ -246,7 +245,6 @@
 					,   SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', A.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
 					,	A.REQ_NEW_TYPE
 					,   SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00009', A.REQ_NEW_TYPE, '1') AS REQ_NEW_TYPE_NM
-					,	A.REQ_ACCEPT_TXT
 			    	,	A.REQ_TYPE_CD
 			    	,   SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00012', A.REQ_TYPE_CD, '1') AS REQ_TYPE_NM
 					,	A.ATCH_FILE_ID
@@ -388,7 +386,6 @@
 			,   T1.REQ_PRO_TYPE_NM
 			,	T1.REQ_NEW_TYPE
 			,   T1.REQ_NEW_TYPE_NM
-			,	T1.REQ_ACCEPT_TXT
 	    	,	T1.REQ_TYPE_CD
 	    	,   T1.REQ_TYPE_NM
 			,	T1.ATCH_FILE_ID
@@ -827,6 +824,39 @@
 		    ,	MODIFY_USR_ID	= #modifyUsrId#
 		    ,	MODIFY_USR_IP	= #modifyUsrIp#
 		    ,   REQ_CLS_ID      = #reqClsId# 
+		WHERE	1=1
+		AND		A.PRJ_ID = #prjId#
+		AND		A.REQ_ID = #reqId#
+	</update>
+	
+	
+	<update id="req4100DAO.updateReq4100ReqRejectInfo" parameterClass="java.util.Map">
+		 
+		UPDATE 	REQ4100 A
+		SET		A.REQ_ACCEPT_TXT = #reqAcceptTxt#
+			,	A.REQ_PRO_TYPE = '03'
+		    ,	A.MODIFY_DTM = SYSDATE
+		    ,	A.MODIFY_USR_ID	= #modifyUsrId#
+		    ,	A.MODIFY_USR_IP	= #modifyUsrIp#
+		WHERE	1=1
+		AND		A.PRJ_ID = #prjId#
+		AND		A.REQ_ID = #reqId#
+	</update>
+	
+	
+	<update id="req4100DAO.updateReq4100ReqAcceptInfo" parameterClass="java.util.Map">
+		 
+		UPDATE 	REQ4100 A
+		SET		A.REQ_ACCEPT_TXT = #reqAcceptTxt#
+			,	A.REQ_PRO_TYPE = '02'
+			,	A.PROCESS_ID = #processId#
+			,	A.FLOW_ID = #flowId#
+			<isNotEmpty property="reqChargerId">
+				, A.REQ_CHARGER_ID = #reqChargerId#
+			</isNotEmpty>
+		    ,	A.MODIFY_DTM		= SYSDATE
+		    ,	A.MODIFY_USR_ID	= #modifyUsrId#
+		    ,	A.MODIFY_USR_IP	= #modifyUsrIp#
 		WHERE	1=1
 		AND		A.PRJ_ID = #prjId#
 		AND		A.REQ_ID = #reqId#

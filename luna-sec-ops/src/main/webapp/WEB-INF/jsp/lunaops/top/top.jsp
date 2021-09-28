@@ -124,12 +124,13 @@
 						<!-- begin:: Header Topbar -->
 						<div class="kt-header__topbar kt-grid__item kt-grid__item--fluid">
 							<!--begin: Search -->
+							<!-- 
 							<div class="kt-header__topbar-item kt-header__topbar-item--search dropdown" data-toggle="kt-tooltip" data-skin="brand" title="검색">
 								<div class="kt-header__topbar-wrapper" id="kt_offcanvas_toolbar_search_toggler_btn">
 									<span class="kt-header__topbar-icon"><i class="flaticon2-search"></i></span>
 								</div>
 							</div>
-
+ -->
 							<!--end: Search -->
 							
 							<!--begin: MyPage -->
@@ -304,6 +305,7 @@
 						<div class="kt-offcanvas-panel__body">
 							<form class="kt-form" id="userSettingForm" name="userSettingForm">
 								<div class="kt-heading kt-heading--space-sm">Header</div>
+								<%-- 
 								<div class="form-group form-group-xs row" data-toggle="kt-tooltip" data-html="true" title="[상단 메뉴 타입]</br>전체 펼침: 대 메뉴 하위 메뉴 전체 펼침 표시  </br>계층 펼침: 대 메뉴 부터 하위 메뉴를 계층적으로 표시" data-placement="top" data-skin="brand">
 									<label class="col-6 col-form-label">
 										<span class="badge badge-dark badge-pill kt-font-sm kt-font-bolder osl-aside__badge flaticon2-settings kt-margin-r-10"></span>
@@ -316,6 +318,7 @@
 										</span>
 									</div>
 								</div>
+								 --%>
 								<div class="form-group form-group-xs row" data-toggle="kt-tooltip" data-html="true" title="상단 추가 기능바 항상 보이기/선택 보이기" data-placement="top" data-skin="brand">
 									<label class="col-6 col-form-label">
 										<span class="badge badge-dark badge-pill kt-font-sm kt-font-bolder osl-aside__badge flaticon2-settings kt-margin-r-10"></span>

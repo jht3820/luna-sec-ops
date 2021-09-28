@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.service.Dpl1000Service;
 import kr.opensoftlab.lunaops.dpl.dpl2000.dpl2000.service.Dpl2000Service;
 import kr.opensoftlab.lunaops.dpl.dpl2000.dpl2000.vo.Dpl2000VO;
 import kr.opensoftlab.sdf.util.OslAgileConstant;
+import kr.opensoftlab.sdf.util.OslStringUtil;
 import kr.opensoftlab.sdf.util.PagingUtil;
 import kr.opensoftlab.sdf.util.RequestConvertor;
 
@@ -53,6 +55,9 @@ public class Dpl2000Controller {
     @Resource(name = "dpl2000Service")
     private Dpl2000Service dpl2000Service;
     
+    @Resource(name = "cmm6600Service")
+    private Cmm6600Service cmm6600Service;
+    
 	@Value("${Globals.fileStorePath}")
 	private String tempPath;
     
@@ -71,6 +76,7 @@ public class Dpl2000Controller {
 		try{
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
 			
 			String _pageNo_str = paramMap.get("pageNo");
 			String _pageSize_str = paramMap.get("pageSize");
@@ -132,6 +138,74 @@ public class Dpl2000Controller {
 			model.addAttribute("selectYN", "N");
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
 			return new ModelAndView("jsonView");
+		}
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/dpl/dpl2000/dpl2000/selectDpl2000SignListAjax.do")
+	public ModelAndView selectDpl2000SignListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			
+			String _pageNo_str = paramMap.get("pagination[page]");
+			String _pageSize_str = paramMap.get("pagination[perpage]");
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			String sortFieldId = (String) paramMap.get("sortFieldId");
+			sortFieldId = OslStringUtil.replaceRegex(sortFieldId,"[^A-Za-z0-9+]*");
+			String sortDirection = (String) paramMap.get("sortDirection");
+			String paramSortFieldId = OslStringUtil.convertUnderScope(sortFieldId);
+			paramMap.put("paramSortFieldId", paramSortFieldId);
+			
+			
+			paramMap.put("usrId", loginVO.getUsrId());
+			paramMap.put("prjId", (String)ss.getAttribute("selPrjId"));
+			paramMap.put("targetCd", "02");
+			
+			
+			
+			int totCnt = cmm6600Service.selectCmm6600SignListCnt(paramMap);
+
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+
+			
+			
+			List<Map> cmm6601List = cmm6600Service.selectCmm6600SignList(paramMap);
+			
+			
+			
+			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
+			
+			
+			metaMap.put("sort", sortDirection);
+			metaMap.put("field", sortFieldId);
+			
+			model.addAttribute("data", cmm6601List);
+			model.addAttribute("meta", metaMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectReq1000ListView()", ex);
+			
+			model.addAttribute("errorYn", "Y");
+			throw new Exception(ex.getMessage());
 		}
 	}
 }

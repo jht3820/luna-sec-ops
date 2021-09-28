@@ -526,20 +526,20 @@ jQuery(function ($) {
             $operator_function.appendTo($operator);
             
             var $operator_title = $('<div class="flowchart-operator-title" style="background-color:'+flowTitleBgColor+';color:'+flowTitleColor+';"></div>');
-            var dropdownMenuClass = 'hide';
+            var dropdownEditMenuList = '';
 
-            //edit인경우 dropdown class
             if(operatorData.properties.hasOwnProperty("editable") && operatorData.properties.editable === true){
-            	dropdownMenuClass = '';
+            	dropdownEditMenuList = 
+	            		'<div class="dropdown-item" data-flow-action="update"><i class="fa fa fa-edit kt-font-primary"></i>'+$.osl.lang("process.menu.update")+'</div>'
+	            		+'<div class="dropdown-item" data-flow-action="delete"><i class="fa fa fa-trash kt-font-primary"></i>'+$.osl.lang("process.menu.delete")+'</div>';
             }
             $operator_title.html(
             		'<div class="flowchart-operator-title__lebel">'+infos.title+'</div>'
-	            	+'<div class="flowchart-operator-menu '+dropdownMenuClass+'">'
+	            	+'<div class="flowchart-operator-menu">'
 						+'<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" style="background-color:'+flowTitleBgColor+';color:'+flowTitleColor+';" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1"><i class="fa fa-bars osl-padding-r0"></i></button>'
 						+'<div class="dropdown-menu dropdown-menu-right">'
-							+'<div class="dropdown-item" data-flow-action="update"><i class="fa fa fa-edit kt-font-primary"></i>'+$.osl.lang("process.menu.update")+'</div>'
-							+'<div class="dropdown-item" data-flow-action="delete"><i class="fa fa fa-trash kt-font-primary"></i>'+$.osl.lang("process.menu.delete")+'</div>'
-							
+							+dropdownEditMenuList
+							+'<div class="dropdown-item" data-flow-action="detail"><i class="fa fa fa-info-circle kt-font-primary"></i>'+$.osl.lang("process.menu.detail")+'</div>'
 						+'</div>'
 					+'</div>'
             );

@@ -9,43 +9,112 @@
 
 	
 	
+   	<resultMap id="resultMapSelectDplReqCommon" class="egovMap">
+		<result property="rn"  					column="RN"/>
+		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
+		<result property="prjId"				column="PRJ_ID"/>
+		<result property="reqId"				column="REQ_ID"/>
+		<result property="reqNm"				column="REQ_NM"/>
+		<result property="reqDesc"				column="REQ_DESC" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="reqUsrId"				column="REQ_USR_ID"/>
+		<result property="reqUsrNm"				column="REQ_USR_NM"/>
+		<result property="reqUsrDeptId"			column="REQ_USR_DEPT_ID"/>
+		<result property="reqUsrDeptNm"			column="REQ_USR_DEPT_NM"/>
+		<result property="reqUsrEmail"			column="REQ_USR_EMAIL"/>
+		<result property="reqUsrNum"			column="REQ_USR_NUM"/>
+		<result property="reqUsrImgId"			column="REQ_USR_IMG_ID"/>
+		<result property="reqOrd"				column="REQ_ORD"/>
+		<result property="reqChargerId"			column="REQ_CHARGER_ID"/>
+		<result property="reqChargerNm"			column="REQ_CHARGER_NM"/>
+		<result property="reqChargerImgID"		column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqProType"			column="REQ_PRO_TYPE"/>
+		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
+		<result property="reqDtm"				column="REQ_DTM"/>
+		<result property="reqPw"				column="REQ_PW"/>
+		<result property="processId"			column="PROCESS_ID"/>
+		<result property="processNm"			column="PROCESS_NM"/>
+		<result property="flowId"				column="FLOW_ID"/>
+		<result property="flowNm"				column="FLOW_NM"/>
+		<result property="reqStDtm"				column="REQ_ST_DTM"/>
+		<result property="reqEdDtm"				column="REQ_ED_DTM"/>
+		<result property="reqStDuDtm"			column="REQ_ST_DU_DTM"/>
+		<result property="reqEdDuDtm"			column="REQ_ED_DU_DTM"/>
+    </resultMap>
+	
+	 
+	<resultMap id="resultMapSelectDplAssignReq" extends="resultMapSelectDplReqCommon" class="HashMap">
+		<result property="dplId" 				column="DPL_ID" />
+	</resultMap>
+	
+	
+	
 	
 	<sql id="selectDpl1100AssReqList">
 		SELECT
-			ROWNUM RN
-			, T1.REQ_ID AS REQ_ID
-			, T1.REQ_NM AS REQ_NM
-			, T1.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
-			, T1.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
-			, T1.REQ_USR_EMAIL AS REQ_USR_EMAIL
-			, T1.REQ_USR_NUM AS REQ_USR_NUM
-			, T1.REQ_USR_IMG_ID AS REQ_USR_IMG_ID
-			, T1.REQ_ORD AS REQ_ORD
-			, T1.REQ_PRO_TYPE AS REQ_PRO_TYPE
-			, T1.REQ_PRO_TYPE_NM AS REQ_PRO_TYPE_NM
-			, T1.REQ_DTM AS REQ_DTM
-			, T1.REQ_PW AS REQ_PW
-			, T1.PROCESS_ID AS PROCESS_ID
-			, T1.FLOW_ID AS FLOW_ID
+				ROWNUM RN
+			,	T1.PRJ_GRP_ID
+			,	T1.PRJ_ID
+			,	T1.DPL_ID
+			,	T1.REQ_ID
+			, 	T1.REQ_NM
+			, 	T1.REQ_DESC
+			,	T1.REQ_USR_ID
+			,	NVL(T1.REQ_USR_NM, SF_STM3000_USR_INFO(T1.REQ_USR_ID, '1')) AS REQ_USR_NM
+			, 	T1.REQ_USR_DEPT_ID
+			, 	T1.REQ_USR_DEPT_NM
+			, 	T1.REQ_USR_EMAIL
+			, 	T1.REQ_USR_NUM
+			, 	SF_STM3000_USR_INFO(T1.REQ_USR_ID, '6')  AS REQ_USR_IMG_ID
+			, 	T1.REQ_ORD
+			,	T1.REQ_CHARGER_ID
+			,	T1.REQ_CHARGER_NM
+			, 	T1.REQ_CHARGER_IMG_ID
+			, 	T1.REQ_PRO_TYPE
+			, 	SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', T1.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
+			, 	T1.REQ_DTM
+			, 	T1.REQ_PW
+			, 	T1.PROCESS_ID
+			,	T1.PROCESS_NM
+			, 	T1.FLOW_ID
+			,	T1.FLOW_NM
+			, 	T1.REQ_ST_DTM
+  		   	, 	T1.REQ_ED_DTM
+			, 	T1.REQ_ST_DU_DTM
+			, 	T1.REQ_ED_DU_DTM
 		FROM (
 			SELECT 
-				A.REQ_ID AS REQ_ID
-				, A.REQ_NM AS REQ_NM
-				, A.REQ_DESC AS REQ_DESC
-				, A.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
-				, A.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
-				, A.REQ_USR_EMAIL AS REQ_USR_EMAIL
-				, A.REQ_USR_NUM AS REQ_USR_NUM
-				, SF_STM3000_USR_INFO(A.REQ_USR_ID, '6')  AS REQ_USR_IMG_ID
-				, A.REQ_ORD AS REQ_ORD
-				, A.REQ_PRO_TYPE AS REQ_PRO_TYPE
-				, SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', A.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
-				, TO_CHAR(A.REQ_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REQ_DTM
-				, NVL2(A.REQ_PW, 'Y', 'N') AS REQ_PW
-				, A.PROCESS_ID AS PROCESS_ID
-				, A.FLOW_ID AS FLOW_ID
-		    FROM REQ4100 A JOIN DPL1100 B
+					A.PRJ_GRP_ID
+				,	A.PRJ_ID
+				,	B.DPL_ID
+				,	A.REQ_ID
+				, 	A.REQ_NM
+				, 	A.REQ_DESC
+				,	A.REQ_USR_ID
+				,	A.REQ_USR_NM
+				, 	A.REQ_USR_DEPT_ID
+				, 	A.REQ_USR_DEPT_NM
+				, 	A.REQ_USR_EMAIL
+				, 	A.REQ_USR_NUM
+				, 	A.REQ_ORD
+				, 	A.REQ_PRO_TYPE
+				,	A.REQ_CHARGER_ID
+				,	C.USR_NM AS REQ_CHARGER_NM
+				, 	C.USR_IMG_ID AS REQ_CHARGER_IMG_ID
+				, 	TO_CHAR(A.REQ_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REQ_DTM
+				, 	NVL2(A.REQ_PW, 'Y', 'N') AS REQ_PW
+				, 	B.PROCESS_ID
+				,	'' AS PROCESS_NM
+				, 	B.FLOW_ID
+				,	'' AS FLOW_NM
+				, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
+   		   		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
+				, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI') , '') REQ_ST_DU_DTM
+				, 	NVL2(A.REQ_ED_DU_DTM, TO_CHAR(A.REQ_ED_DU_DTM, 'YYYY-MM-DD HH24:MI') , '') REQ_ED_DU_DTM
+		    FROM REQ4100 A 
+		    INNER JOIN DPL1100 B
 		    ON (A.REQ_ID = B.REQ_ID AND A.PRJ_ID = B.PRJ_ID )
+		    LEFT JOIN STM3000 C
+        	ON (C.LIC_GRP_ID = #licGrpId# AND A.REQ_CHARGER_ID	= C.USR_ID)
 		    WHERE 1=1
 		    AND A.PRJ_GRP_ID = #prjGrpId#
 			AND A.PRJ_ID = #prjId#
@@ -107,39 +176,66 @@
 	
 	<sql id="selectDpl1100NonAssReqList">
 		SELECT
-			ROWNUM RN
-			, T1.REQ_ID AS REQ_ID
-			, T1.REQ_NM AS REQ_NM
-			, T1.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
-			, T1.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
-			, T1.REQ_USR_EMAIL AS REQ_USR_EMAIL
-			, T1.REQ_USR_NUM AS REQ_USR_NUM
-			, T1.REQ_USR_IMG_ID AS REQ_USR_IMG_ID
-			, T1.REQ_ORD AS REQ_ORD
-			, T1.REQ_PRO_TYPE AS REQ_PRO_TYPE
-			, T1.REQ_PRO_TYPE_NM AS REQ_PRO_TYPE_NM
-			, T1.REQ_DTM AS REQ_DTM
-			, T1.REQ_PW AS REQ_PW
-			, T1.PROCESS_ID AS PROCESS_ID
-			, T1.FLOW_ID AS FLOW_ID
+				ROWNUM RN
+			,	T1.PRJ_GRP_ID
+			,	T1.PRJ_ID	
+			, 	T1.REQ_ID
+			, 	T1.REQ_NM
+			, 	T1.REQ_DESC
+			,	T1.REQ_USR_ID
+			,	NVL(T1.REQ_USR_NM, SF_STM3000_USR_INFO(T1.REQ_USR_ID, '1')) AS REQ_USR_NM
+			, 	T1.REQ_USR_DEPT_ID
+			, 	T1.REQ_USR_DEPT_NM
+			, 	T1.REQ_USR_EMAIL
+			, 	T1.REQ_USR_NUM
+			, 	SF_STM3000_USR_INFO(T1.REQ_USR_ID, '6')  AS REQ_USR_IMG_ID
+			, 	T1.REQ_ORD
+			,	T1.REQ_CHARGER_ID
+			,	T1.REQ_CHARGER_NM
+			, 	T1.REQ_CHARGER_IMG_ID
+			, 	T1.REQ_PRO_TYPE
+			, 	SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', T1.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
+			, 	T1.REQ_DTM
+			, 	T1.REQ_PW
+			, 	T1.PROCESS_ID
+			,	T1.PROCESS_NM
+			, 	T1.FLOW_ID
+			,	T1.FLOW_NM
+			, 	T1.REQ_ST_DTM
+  		   	, 	T1.REQ_ED_DTM
+			, 	T1.REQ_ST_DU_DTM
+			, 	T1.REQ_ED_DU_DTM
 		FROM (
 			SELECT
-				 A.REQ_ID AS REQ_ID
-				, A.REQ_NM AS REQ_NM
-				, A.REQ_DESC AS REQ_DESC
-				, A.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
-				, A.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
-				, A.REQ_USR_EMAIL AS REQ_USR_EMAIL
-				, A.REQ_USR_NUM AS REQ_USR_NUM
-				, SF_STM3000_USR_INFO(A.REQ_USR_ID, '6')  AS REQ_USR_IMG_ID
-				, A.REQ_ORD AS REQ_ORD
-				, A.REQ_PRO_TYPE AS REQ_PRO_TYPE
-				, SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', A.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
-				, TO_CHAR(A.REQ_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REQ_DTM
-				, NVL2(A.REQ_PW, 'Y', 'N') AS REQ_PW
-				, A.PROCESS_ID AS PROCESS_ID
-				, A.FLOW_ID AS FLOW_ID
-		    FROM REQ4100 A 
+					A.PRJ_GRP_ID
+				,	A.PRJ_ID	
+				, 	A.REQ_ID
+				, 	A.REQ_NM
+				, 	A.REQ_DESC
+				,	A.REQ_USR_ID
+				,	A.REQ_USR_NM
+				, 	A.REQ_USR_DEPT_ID
+				, 	A.REQ_USR_DEPT_NM
+				, 	A.REQ_USR_EMAIL
+				, 	A.REQ_USR_NUM
+				, 	A.REQ_ORD
+				,	A.REQ_CHARGER_ID
+				,	B.USR_NM AS REQ_CHARGER_NM
+				, 	B.USR_IMG_ID AS REQ_CHARGER_IMG_ID
+				, 	A.REQ_PRO_TYPE
+				, 	TO_CHAR(A.REQ_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REQ_DTM
+				, 	NVL2(A.REQ_PW, 'Y', 'N') AS REQ_PW
+				, 	A.PROCESS_ID
+				,	'' AS PROCESS_NM
+				, 	A.FLOW_ID
+				,	'' AS FLOW_NM
+				, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
+   		   		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
+				, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI') , '') REQ_ST_DU_DTM
+				, 	NVL2(A.REQ_ED_DU_DTM, TO_CHAR(A.REQ_ED_DU_DTM, 'YYYY-MM-DD HH24:MI') , '') REQ_ED_DU_DTM
+		    FROM REQ4100 A
+	     	LEFT JOIN STM3000 B
+        	ON (B.LIC_GRP_ID = #licGrpId# AND A.REQ_CHARGER_ID	= B.USR_ID)
 		    WHERE 1=1
 		    AND A.PRJ_GRP_ID = #prjGrpId#
 			AND A.PRJ_ID = #prjId#
@@ -211,36 +307,47 @@
 	    
 		SELECT
 			COUNT(*) AS CNT
-		FROM ( 
-			<isNotEmpty property="type">
-				<isEqual	property="type" compareValue="ass">
-					<include refid="selectDpl1100AssReqList"/>
-				</isEqual>
-				<isEqual	property="type" compareValue="non">
-					<include refid="selectDpl1100NonAssReqList"/>
-				</isEqual>
-			</isNotEmpty>
+		FROM 
+		( 
+			<include refid="selectDpl1100AssReqList"/>
 		) Z
     </select>
     
      
-    <select id="dpl1100DAO.selectDpl1100ReqList" parameterClass="java.util.Map"  resultClass="egovMap">
+    <select id="dpl1100DAO.selectDpl1100ReqList" parameterClass="java.util.Map"  resultMap="resultMapSelectDplAssignReq">
 	    
 		SELECT 
 			Z.*
-		FROM ( 
-			<isNotEmpty property="type">
-				<isEqual	property="type" compareValue="ass">
-					<include refid="selectDpl1100AssReqList"/>
-				</isEqual>
-				<isEqual	property="type" compareValue="non">
-					<include refid="selectDpl1100NonAssReqList"/>
-				</isEqual>
-			</isNotEmpty>
+		FROM 
+		( 
+			<include refid="selectDpl1100AssReqList"/>
 		) Z
 		WHERE 1 = 1
 		AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
     </select>
+    
+   	
+	<select id="dpl1100DAO.selectDpl1100NotAssignReqListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
+	    
+		SELECT
+			COUNT(*) AS CNT
+		FROM ( 
+			<include refid="selectDpl1100NonAssReqList"/>
+		) Z
+    </select>
+    
+     
+    <select id="dpl1100DAO.selectDpl1100NotAssignReqList" parameterClass="java.util.Map"  resultMap="resultMapSelectDplReqCommon">
+	    
+		SELECT 
+			Z.*
+		FROM ( 
+			<include refid="selectDpl1100NonAssReqList"/>
+		) Z
+		WHERE 1 = 1
+		AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+    </select>
+    
     
     
     <insert id="dpl1100DAO.insertDpl1100ReqInfo" parameterClass="java.util.Map">
@@ -673,15 +780,6 @@
 			AND A.FLOW_ID = #flowId#
 		]]>
 	</update>
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<update id="dpl1100DAO.updateDpl1100Dpl" parameterClass="java.util.Map">
 		<![CDATA[ 
 			

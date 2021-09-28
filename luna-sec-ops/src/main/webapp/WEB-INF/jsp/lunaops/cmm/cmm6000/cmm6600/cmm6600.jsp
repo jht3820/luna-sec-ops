@@ -130,7 +130,6 @@ var OSLCmm6600Popup = function () {
 	    	
     		$.osl.confirm($.osl.lang("cmm6600.message.confirm.saveString"),null,function(result) {
     	        if (result.value) {
-    	        	
 					
    	        		//산출물 결재선 정보 저장
     	        	saveFormAction();
@@ -139,13 +138,8 @@ var OSLCmm6600Popup = function () {
 	    	
 	    });
 	    
-	    
-	    
-	    
-	    
 	    //결재선 저장
 	    var saveFormAction = function(){
-	    	debugger
 			var signUsrInfs = [];
 	    	
 	    	var selSignUsrInfs = $('.osl-sign-card');
@@ -557,7 +551,6 @@ var OSLCmm6600Popup = function () {
   	
 	//실행 순서 변경 적용
 	function fnJobDivOrdModify(item, newIndex, oldIndex){
-		//debugger;
 		//ord 변경하기
 		$.each($(".dplStartOrdCell"),function(idx, map){
 			//현재 ord가져오기

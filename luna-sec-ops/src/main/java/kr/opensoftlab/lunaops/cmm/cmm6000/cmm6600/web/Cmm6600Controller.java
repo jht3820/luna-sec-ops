@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
+import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.sdf.util.RequestConvertor;
 
 
@@ -56,7 +58,7 @@ public class Cmm6600Controller {
     }
     
     
-    @RequestMapping(value="/cmm/cmm6000/cmm6600/selectCmm6601View.do")
+    @RequestMapping(value="/cmm/cmm6000/cmm6600/selectCmm6602View.do")
     public String selectCmm6602View(Model model) throws Exception {
        	return "/cmm/cmm6000/cmm6600/cmm6602";
     }
@@ -69,34 +71,30 @@ public class Cmm6600Controller {
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 			
-			
-			List<Map> signUsrList = cmm6600Service.selectCmm6600SignUsrList(paramMap);
-			
-			
-			model.addAttribute("errorYn", "N");
-			model.addAttribute("signUsrInfList", signUsrList);
-			
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectCmm6600SignUsrListAjax()", ex);
-			
-			
-			model.addAttribute("errorYn", "Y");
-			throw new Exception(ex.getMessage());
-		}
-    }
-    
-    
-    
+			/
 	@RequestMapping(value="/cmm/cmm6000/cmm6600/saveCmm6600SignLineAjax.do")
     public ModelAndView savecmm6600SignLineAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
     	try{
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 			
+			/
+	@RequestMapping(value = "/cmm/cmm6000/cmm6600/insertCmm6601SignInfoAjax.do")
+	public ModelAndView insertCmm6601SignInfoAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+    	try{
 			
-			cmm6600Service.saveCmm6600SignLine(paramMap);
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			paramMap.put("signUsrId", loginVO.getUsrId());
+			paramMap.put("prjId", (String)ss.getAttribute("selPrjId"));
+			paramMap.put("targetCd", "02");
+			
+			
+			cmm6600Service.insertCmm6601SignInfo(paramMap);
 			
 			
 			model.addAttribute("errorYn", "N");
@@ -104,7 +102,7 @@ public class Cmm6600Controller {
 			return new ModelAndView("jsonView");
 		}
 		catch(Exception ex){
-			Log.error("insertCmm6600SignLineAjax()", ex);
+			Log.error("insertCmm6601SignAprInfoAjax()", ex);
 			
 			
 			model.addAttribute("errorYn", "Y");
