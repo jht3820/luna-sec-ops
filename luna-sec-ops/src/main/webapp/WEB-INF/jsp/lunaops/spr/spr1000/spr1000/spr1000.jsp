@@ -317,12 +317,8 @@ var OSLSpr1000Popup = function () {
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprStart"><i class="fas fa-play-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintStart")+'</div>'
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprEnd"><i class="fas fa-stop-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintEnd")+'</div>'
 													+'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
-													+'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintMeetList")+'</div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintResultList")+'</div>'
-													+'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-print kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintReport")+'</div>'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
+													 
 												+'</div>'
 											+'</div>'
 										+'</div>'
@@ -344,29 +340,29 @@ var OSLSpr1000Popup = function () {
 												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
 													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqAll.png"></div>'
 													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1001.requestAll")+'</a>'
+														+'<a href="#" class="osl-widget-info__item-title">'+"전체"+'</a>'
 														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqAllCnt)+'</div>'
 													+'</div>'
 												+'</div>'
 												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
 													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqInProgress.png"></div>'
 													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1001.requestInProgress")+'</a>'
+														+'<a href="#" class="osl-widget-info__item-title">'+"진행 중"+'</a>'
 														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqProgressCnt)+'</div>'
 													+'</div>'
 												+'</div>'
 												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
 													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqDone.png"></div>'
 													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1001.requestDone")+'</a>'
+														+'<a href="#" class="osl-widget-info__item-title">'+"완료"+'</a>'
 														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqDoneCnt)+'</div>'
 													+'</div>'
 												+'</div>'
 												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
-													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqDone.png"></div>'
+													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqPointer.png"></div>'
 													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1001.requestDone")+'</a>'
-														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqDoneCnt)+'</div>'
+														+'<a href="#" class="osl-widget-info__item-title">'+"평균 완료 시간"+'</a>'
+														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.avgTime.toFixed(1))+'</div>'
 													+'</div>'
 												+'</div>'
 											+'</div>'
@@ -428,7 +424,6 @@ var OSLSpr1000Popup = function () {
         init: function() {
         	documentSetting();
         }
-        
     };
 }();
 

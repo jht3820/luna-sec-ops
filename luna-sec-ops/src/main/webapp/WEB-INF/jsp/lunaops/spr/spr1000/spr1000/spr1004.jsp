@@ -149,7 +149,7 @@
 						<div class="border osl-min-h-px--140" id="burnDownChart"></div>
 					</div>
 				</div>
-				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
+				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20 ">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
 						<div class="border osl-min-h-px--140" id="velocityChart"></div>
 					</div>
@@ -448,6 +448,7 @@ var OSLSpr1004Popup = function () {
 				
 				if(!datatableInitFlag[wizardObj.currentStep]){
 					datatableInitFlag[wizardObj.currentStep] = datatableSetting[wizardObj.currentStep]();
+					
 				}else if(datatableInitFlag[wizardObj.currentStep].hasOwnProperty("targetDt")){
 					datatableInitFlag[wizardObj.currentStep].targetDt.reload();
 				}
@@ -535,7 +536,7 @@ var OSLSpr1004Popup = function () {
 	var selectSprInfoStat = function(){
  		
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"true"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"false"},{sprId: paramSprId});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -553,7 +554,7 @@ var OSLSpr1004Popup = function () {
  				if($.osl.escapeHtml(sprStat.avgTime)=='NaN'){
 	 				$("#sprStat04").html("0");
  				}else{
- 					$("#sprStat04").html($.osl.escapeHtml(sprStat.avgTime.toFixed(2)));
+ 					$("#sprStat04").html($.osl.escapeHtml(sprStat.avgTime.toFixed(2)+" 시간"));
  				}
  				
  				if($.osl.escapeHtml(sprStat.sprEndPercent)=='NaN'){
@@ -577,7 +578,7 @@ var OSLSpr1004Popup = function () {
  	
  	var drawAllChart = function(){
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"true"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: paramSprId});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -638,14 +639,20 @@ var OSLSpr1004Popup = function () {
 						align: "center",
 					},
 					stroke: {
-				          curve: 'smooth'
+				          curve: 'straight'
 				    },
+				    markers: {
+				          size: 1
+				        },
 				    grid: {
 				          borderColor: '#e7e7e7',
 				          row: {
 				            colors: ['#f3f3f3', 'transparent'], 
 				            opacity: 0.5
 				          },
+				    },
+				    dataLabels:{
+				    	enabled:true,
 				    },
 					xaxis: {
 						type: 'datetime',
@@ -708,13 +715,19 @@ var OSLSpr1004Popup = function () {
 				},
 				chart:{
 					
-					colors: ["#586272", "#1cac81"],
+					colors: ["#ffb822","#840ad9"],
 					title: {
 						text: "번다운차트",
 						align: "center",
 					},
 					stroke: {
-				          curve: 'smooth'
+				          curve: 'straight'
+				    },
+				    markers: {
+				          size: 1
+				        },
+				    dataLabels:{
+				    	enabled:true,
 				    },
 				    grid: {
 				          borderColor: '#e7e7e7',
@@ -776,15 +789,15 @@ var OSLSpr1004Popup = function () {
 					 key: {
 						 key1: "sprPoint",
 						 key2: "commitSprPoint",
-						 key3: "commitVelocity",
-						 key4: "actualVelocity"
+						 key3: "actualVelocity",
+						 key4: "commitVelocity",
 					 },
 					 
 					 keyNm:{
-						 keyNm1: "Actual StoryPoint",
-						 keyNm2: "Commitment StoryPoint",
-						 keyNm3: "Commitment Velocity",
-						 keyNm4: "Actual Velocity",
+						 keyNm1: "실제 완료 스토리포인트",
+						 keyNm2: "약속된 완료 스토리포인트",
+						 keyNm3: "실제 진행 속도",
+						 keyNm4: "약속된 진행 속도",
 					 },
 					 keyType:{
 						 keyType1:"bar",
@@ -802,12 +815,16 @@ var OSLSpr1004Popup = function () {
 			},
 			chart:{
 				
-				colors: ["#586272", "#1cac81","#03070D", "#D0D3D9"],
-				 stroke: {
-			          width: [5, 5, 5, 5],
-			          curve: 'straight',
-			          dashArray: [0, 0, 5, 5]
-			       },
+				colors: ["#ffb822","#840ad9", "#ffb822","#840ad9"],
+			    yaxis: {
+					show:true,
+					min:0
+	        	},
+				stroke: {
+			    	width: [1, 1, 1, 1],
+			        curve: 'straight',
+			        dashArray: [0, 0, 5, 5]
+			    },
 			},
 			callback:{
 				

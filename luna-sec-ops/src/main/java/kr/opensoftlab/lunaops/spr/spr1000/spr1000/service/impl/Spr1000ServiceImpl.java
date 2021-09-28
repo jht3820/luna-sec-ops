@@ -62,9 +62,17 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	} 
 	
 	
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<Map> selectSpr1000SprList(Map paramMap) throws Exception {
-		return  spr1000DAO.selectSpr1000SprList(paramMap);
+		List<Map> sprList= spr1000DAO.selectSpr1000SprList(paramMap);
+		for(Map param : sprList) {
+			
+			Map sprStat = spr1000DAO.selectSpr1000SprInfoStat(param);
+			double avgEndTime = Double.parseDouble(String.valueOf(sprStat.get("avgEndTimeRequired")));
+			
+			param.put("avgTime", avgEndTime);
+		}
+		return  sprList;
 	}
 	
 	
@@ -263,7 +271,10 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		
 		
 		paramMap.put("sprTypeCd", "03");
+		Date today = new Date();
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 		
+		paramMap.put("spr", dateformat.format(today));
 		spr1000DAO.updateSpr1000Info(paramMap);
 		
 		return rtnValue;
