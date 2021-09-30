@@ -343,25 +343,40 @@ var OSLSpr1100Popup = function () {
 		$.each(sprList, function(index, value){
 			if(sprId == value.sprId){
 				
+				var data = {
+						paramSprId: sprId,
+						dataList : list
+					};
 				if(value.sprTypeCd == "02"){
-					var data = {
-							paramSprId: sprId,
-							dataList : list
-						};
 					var options = {
 							idKey:"selectSpr1101",
 							autoHeight: false,
 							modalSize: "xl",
 							closeConfirm: false,
 							modalTitle: "스프린트 요구사항 배정",
-							callback:[{
-								targetId: "selectUsr",
-								actionFn: function(thisObj){
-									
-								}
-							}]
 					};
 					$.osl.layerPopupOpen('/spr/spr1000/spr1100/selectSpr1101View.do',data,options);
+				}else{
+					
+					var ajaxObj = new $.osl.ajaxRequestAction(
+			    			{"url":"<c:url value='/spr/spr1000/spr1100/insertSpr1100ReqListAjax.do'/>"}
+							, data);
+					
+			    	ajaxObj.setFnSuccess(function(data){
+			    		if(data.errorYn == "Y"){
+							$.osl.alert(data.message,{type: 'error'});
+							
+							$.osl.layerPopupClose();
+						}else{
+							if(list.length>0){
+								$.osl.toastr(data.message);
+								assList = [];
+							}
+							selectBtnClick();
+						}
+			    	});
+					
+			    	ajaxObj.send();
 				} 
 			}
 		})
