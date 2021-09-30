@@ -6,7 +6,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	</head>
+	<!-- end::Head -->
 	
+	<!-- begin::Body -->
 	<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader-mobile--fixed kt-aside--enabled kt-aside--left kt-aside--fixed kt-aside--offcanvas-default kt-page--loading">
 		<form name="hideAuthForm" method="post">
 			<input type="hidden" name="url">
@@ -22,7 +24,9 @@
 			<input type="hidden" name="authGrpId">
 			<input type="hidden" name="moveType">
 		</form>
-		
+		<!-- begin:: Page -->
+
+		<!-- begin:: Header Mobile -->
 		<div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
 			<div class="kt-header-mobile__logo">
 				<a href="javascript:$.osl.goAuthGrp('${sessionScope.selPrjGrpId}', '${sessionScope.selPrjId}','${sessionScope.selAuthGrpId}');">
@@ -35,25 +39,29 @@
 			</div>
 		</div>
 
+		<!-- end:: Header Mobile -->
 		<div class="kt-grid kt-grid--hor kt-grid--root">
 			<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
 				<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
 
-					
+					<!-- begin:: Header -->
 					<div id="kt_header" class="kt-header kt-grid__item kt-grid kt-grid--ver  kt-header--fixed ">
 
-						
+						<!-- begin:: Brand -->
 						<div class="kt-header__brand   kt-grid__item" id="kt_header_brand">
 							<a href="javascript:$.osl.goAuthGrp('${sessionScope.selPrjGrpId}', '${sessionScope.selPrjId}','${sessionScope.selAuthGrpId}');">
 								<img alt="Logo" src="/media/logos/logo_S_osl.png" />
 							</a>
 						</div>
 
+						<!-- end:: Brand -->
+						
+						<!-- begin: Header Menu -->
 						<button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
 						<div class="kt-header-menu-wrapper kt-grid__item" id="kt_header_menu_wrapper">
 							<div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile ">
 								<ul class="kt-menu__nav" id="globalsTopMenuUl">
-									
+									<!-- 즐겨찾기 메뉴 -->
 									<li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel kt-menu__item--open" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
 										<a href="javascript:;" class="kt-menu__link kt-menu__toggle" data-toggle="kt-tooltip" data-skin="brand" title="즐겨찾기">
 											<i class="kt-menu__link-icon flaticon-star osl-favorites--active"></i>
@@ -112,33 +120,36 @@
 							</div>
 						</div>
 						
-						
-						
+						<!-- end: Header Menu -->
+						<!-- begin:: Header Topbar -->
 						<div class="kt-header__topbar kt-grid__item kt-grid__item--fluid">
-							
+							<!--begin: Search -->
+							<!-- 
 							<div class="kt-header__topbar-item kt-header__topbar-item--search dropdown" data-toggle="kt-tooltip" data-skin="brand" title="검색">
 								<div class="kt-header__topbar-wrapper" id="kt_offcanvas_toolbar_search_toggler_btn">
 									<span class="kt-header__topbar-icon"><i class="flaticon2-search"></i></span>
 								</div>
 							</div>
-
+ -->
+							<!--end: Search -->
 							
+							<!--begin: MyPage -->
 							<div class="kt-header__topbar-item">
 								<div class="kt-header__topbar-wrapper" id="kt_offcanvas_toolbar_mypage_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="마이페이지" onclick="$.osl.user.usrMyPagePopUp('${sessionScope.loginVO.usrId}');">
 									<span class="kt-header__topbar-icon"><i class="flaticon2-user"></i></span>
 								</div>
 							</div>
+							<!--end: MyPage -->
 							
-							
-							
+							<!--begin: Message -->
 							<div class="kt-header__topbar-item">
 								<div class="kt-header__topbar-wrapper" id="kt_offcanvas_toolbar_message_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="메시지" onclick="$.osl.layerPopupOpen('/arm/arm1000/arm1000/selectArm1000View.do',null,{idKey:'message', modalSize:'xl', modalTitle:'MESSAGE'})">
 									<span class="kt-header__topbar-icon"><i class="flaticon-email-black-circular-button"></i></span>
 								</div>
 							</div>
+							<!--end: Message -->
 							
-							
-							
+							<!--begin: Notifications -->
 							<div class="kt-header__topbar-item">
 								<div class="kt-header__topbar-wrapper pulse pulse-success" id="kt_offcanvas_toolbar_notifications_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="알림">
 									<span class="kt-header__topbar-icon"><i class="flaticon2-notification"></i></span>
@@ -147,23 +158,27 @@
 								</div>
 							</div>
 
-							
+							<!--end: Notifications -->
 
-							
+							<!--begin: Quick actions -->
 							<div class="kt-header__topbar-item">
 								<div class="kt-header__topbar-wrapper" id="kt_offcanvas_toolbar_quick_actions_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="개인 설정">
 									<span class="kt-header__topbar-icon"><i class="flaticon2-settings"></i></span>
 								</div>
 							</div>
 
-							
+							<!--end: Quick actions -->
+
+							<!--begin: Quick panel toggler -->
 							<div class="kt-header__topbar-item">
 								<div class="kt-header__topbar-wrapper" id="kt_quick_panel_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="담당 요구사항">
 									<span class="kt-header__topbar-icon" id="kt_quick_panel_toggler_btn"><i class="flaticon2-menu"></i></span>
 								</div>
 							</div>
 
-							
+							<!--end: Quick panel toggler -->
+
+							<!--begin: Language bar -->
 							<div class="kt-header__topbar-item kt-header__topbar-item--langs" data-toggle="kt-tooltip" data-skin="brand" title="언어 변경">
 								<div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
 									<span class="kt-header__topbar-icon" id="usrCurrentLangCd">
@@ -187,8 +202,10 @@
 									</ul>
 								</div>
 							</div>
-							
-							
+
+
+							<!--end: Language bar -->
+							<!--begin: User bar -->
 							<div class="kt-header__topbar-item kt-header__topbar-item--user" id="kt_offcanvas_toolbar_profile_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="개인 정보">
 								<div class="kt-header__topbar-username">
 									${sessionScope.loginVO.usrNm}
@@ -197,13 +214,15 @@
 									<img alt="Pic" src="/cmm/fms/getImage.do?fileSn=0&atchFileId=${sessionScope.loginVO.usrImgId}" onerror="this.src='/media/users/default.jpg'"/>
 								</div>
 							</div>
-							
+							<!--end: User bar -->
 						</div>
 
+						<!-- end:: Header Topbar -->
+						<!-- begin:: Subheader -->
 						<div id="kt_subheader" class="kt-subheader kt-grid__item ">
 							<div class="kt-container  kt-container--fluid ">
 	
-								
+								<!-- begin:: Subheader Title -->
 								<div class="kt-subheader__title">
 									<button class="kt-subheader__toggler kt-subheader__toggler--left" id="kt_aside_toggler" data-toggle="kt-tooltip" data-skin="brand" title="프로젝트 및 권한그룹 선택"><span></span></button>
 									<div class="kt-subheader__breadcrumbs" id="kt-subheader__breadcrumbs">
@@ -214,9 +233,9 @@
 										<a href="#" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--home osl-subheader__menuNm osl-link--disabled osl-word__break osl-word__break--w200" title="<c:out value="${sessionScope.selMenuNm}"/>"><c:out value="${sessionScope.selMenuNm}"/></a>
 									</div>
 								</div>
-								
+								<!-- end:: Subheader Title -->
 	
-								
+								<!-- begin:: Sub-header toolbar -->
 								<div class="kt-subheader__toolbar">
 									<div class="kt-subheader__toolbar-wrapper">
 										<div class="dropdown dropdown-inline" data-toggle="kt-tooltip" data-skin="brand" title="프로젝트 그룹 선택" data-placement="top">
@@ -225,7 +244,7 @@
 											<div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-anim kt-padding-t-0">
 												<div class="kt-head" style="background-image: url(/media/misc/head_bg_sm.jpg)">
 													<h4 class="kt-head__title kt-font-boldest">프로젝트 그룹</h4>
-													
+													<!-- <div class="kt-head__sub"><span class="kt-head__desc">권한있는 프로젝트 그룹 목록</span></div> -->
 												</div>
 												<div class="dropdown-divider"></div>
 												<ul class="kt-nav kt-nav--active-bg kt-nav--v3  ps ps--active-y" data-ktmenu-vertical="1" data-ktmenu-scroll="1" id="submenu-prjGrp-sel_opt" role="tablist">
@@ -239,7 +258,7 @@
 											<div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-anim kt-padding-t-0">
 												<div class="kt-head" style="background-image: url(/media/misc/head_bg_sm.jpg)">
 													<h4 class="kt-head__title kt-font-boldest">프로젝트</h4>
-													
+													<!-- <div class="kt-head__sub"><span class="kt-head__desc">권한있는 프로젝트 그룹 목록</span></div> -->
 												</div>
 												<div class="dropdown-divider"></div>
 												<ul class="kt-nav kt-nav--active-bg kt-nav--v3" id="submenu-prj-sel_opt" role="tablist">
@@ -253,7 +272,7 @@
 											<div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-anim kt-padding-t-0">
 												<div class="kt-head" style="background-image: url(/media/misc/head_bg_sm.jpg)">
 													<h4 class="kt-head__title kt-font-boldest">권한 그룹</h4>
-													
+													<!-- <div class="kt-head__sub"><span class="kt-head__desc">권한있는 프로젝트 그룹 목록</span></div> -->
 												</div>
 												<div class="dropdown-divider"></div>
 												<ul class="kt-nav kt-nav--active-bg kt-nav--v3" id="submenu-authGrp-sel_opt" role="tablist">
@@ -268,13 +287,14 @@
 										</div>
 									</div>
 								</div>
-								
+								<!-- end:: Sub-header toolbar -->
 							</div>
 						</div>
-						
+						<!-- end:: Subheader -->
 					</div>
 
-					
+					<!-- end:: Header -->
+					<!-- begin::Offcanvas Toolbar Quick Actions -->
 					<div id="kt_offcanvas_toolbar_quick_actions" class="kt-offcanvas-panel">
 						<div class="kt-offcanvas-panel__head">
 							<h4 class="kt-offcanvas-panel__title kt-font-boldest">
@@ -285,6 +305,7 @@
 						<div class="kt-offcanvas-panel__body">
 							<form class="kt-form" id="userSettingForm" name="userSettingForm">
 								<div class="kt-heading kt-heading--space-sm">Header</div>
+								<%-- 
 								<div class="form-group form-group-xs row" data-toggle="kt-tooltip" data-html="true" title="[상단 메뉴 타입]</br>전체 펼침: 대 메뉴 하위 메뉴 전체 펼침 표시  </br>계층 펼침: 대 메뉴 부터 하위 메뉴를 계층적으로 표시" data-placement="top" data-skin="brand">
 									<label class="col-6 col-form-label">
 										<span class="badge badge-dark badge-pill kt-font-sm kt-font-bolder osl-aside__badge flaticon2-settings kt-margin-r-10"></span>
@@ -297,6 +318,7 @@
 										</span>
 									</div>
 								</div>
+								 --%>
 								<div class="form-group form-group-xs row" data-toggle="kt-tooltip" data-html="true" title="상단 추가 기능바 항상 보이기/선택 보이기" data-placement="top" data-skin="brand">
 									<label class="col-6 col-form-label">
 										<span class="badge badge-dark badge-pill kt-font-sm kt-font-bolder osl-aside__badge flaticon2-settings kt-margin-r-10"></span>
@@ -331,7 +353,7 @@
 									<div class="col-12 kt-align-right">
 										<div class="input-group">
 											<input type="text" class="form-control" placeholder="메인 프로젝트명" name="mainPrjNm" id="mainPrjNm">
-											<button type="button" class="btn btn-brand input-group-append" id="searchPrjNmBtn" name="searchPrjNmBtn"><i class="fa fa-search"></i><span data-lang-cd="cmm17000.button.search">검색</span></button>
+											<button type="button" class="btn btn-brand input-group-append" id="searchPrjNmBtn" name="searchPrjNmBtn"><i class="fa fa-search"></i><span data-lang-cd="cmm6000.button.search">검색</span></button>
 										</div>
 									</div>
 								</div>
@@ -339,6 +361,10 @@
 						</div>
 					</div>
 					
+					<!-- end::Scrolltop -->
+					<!-- end::Offcanvas Toolbar Quick Actions -->
+					
+					<!-- begin::Offcanvas Toolbar Quick Panel -->
 					<div id="kt_quick_panel" class="kt-offcanvas-panel">
 						<div class="kt-offcanvas-panel__head">
 							<h4 class="kt-offcanvas-panel__title kt-font-boldest">
@@ -357,8 +383,10 @@
 							
 						</div>
 					</div>
+					<!-- end::Offcanvas Toolbar Quick Panel -->
 					
 					
+					<!-- begin::Offcanvas Toolbar Quick Notifications -->
 					<div id="kt_offcanvas_toolbar_notifications" class="kt-offcanvas-panel">
 						<div class="kt-offcanvas-panel__head">
 							<h4 class="kt-offcanvas-panel__title kt-font-boldest">
@@ -374,9 +402,10 @@
 							
 						</div>
 					</div>
-					
+					<!-- end::Offcanvas Toolbar Quick Notifications -->
 					
 					<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
 
+						<!-- begin:: Content -->
 						<div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
 	

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="cmm17000DAO">
+<sqlMap namespace="cmm6000DAO">
 
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
-	<resultMap id="resultMapSelectCmm17000" class="egovMap">
+	<resultMap id="resultMapSelectCmm6000" class="egovMap">
 		<result property="rn"					column="RN"/>
 		<result property="upPrjNm"				column="UP_PRJ_NM"/>
 		<result property="prjId"				column="PRJ_ID"/>
@@ -27,7 +27,7 @@
 		<result property="modifyUsrIp"      	column="MODIFY_USR_IP" />  
     </resultMap>
     
-	<sql id="selectCmm17000List">
+	<sql id="selectCmm6000List">
 		 SELECT 
 		 		ROWNUM AS RN
       			, A.PRJ_NM AS UP_PRJ_NM 
@@ -77,29 +77,29 @@
 	</sql>
 	
 	
-	<select id="cmm17000DAO.selectCmm17000PrjList" parameterClass="java.util.Map" resultMap="resultMapSelectCmm17000">
+	<select id="cmm6000DAO.selectCmm6000PrjList" parameterClass="java.util.Map" resultMap="resultMapSelectCmm6000">
 		
 		SELECT 
 			Z.*
 		FROM (
-			<include refid="selectCmm17000List"/>
+			<include refid="selectCmm6000List"/>
 		) Z
 		WHERE 1 = 1
 		AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
 	</select>
 	
 	
-	<select id="cmm17000DAO.selectCmm17000PrjListCnt" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	<select id="cmm6000DAO.selectCmm6000PrjListCnt" parameterClass="java.util.Map" resultClass="java.lang.Integer">
 	
 	SELECT
 			COUNT(*) AS PRJ_CNT
 		FROM	
 		(
-			<include refid="selectCmm17000List"/>
+			<include refid="selectCmm6000List"/>
 		) Z
 	</select>
 	
-	<select id="cmm17000DAO.selectCmm17000UsrMainPrj" parameterClass="java.util.Map" resultClass="egovMap">
+	<select id="cmm6000DAO.selectCmm6000UsrMainPrj" parameterClass="java.util.Map" resultClass="egovMap">
 		
 			SELECT		
 					  	A.PRJ_ID
@@ -118,7 +118,7 @@
 	</select>
 	
 	
-	<update id="cmm17000DAO.updateCmm17000UsrMainPrj" parameterClass="java.util.Map">
+	<update id="cmm6000DAO.updateCmm6000UsrMainPrj" parameterClass="java.util.Map">
 		
 		UPDATE		STM3000 A
 		  	  SET	

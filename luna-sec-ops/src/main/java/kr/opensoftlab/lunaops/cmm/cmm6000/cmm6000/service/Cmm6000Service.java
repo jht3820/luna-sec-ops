@@ -1,10 +1,10 @@
-package kr.opensoftlab.lunaops.cmm.cmm10000.cmm17000.service;
+package src.main.java.kr.opensoftlab.lunaops.cmm.cmm6000.cmm6000.service;
 
 import java.util.List;
 import java.util.Map;
 
 
-public interface Cmm17000Service {
+public interface Cmm6000Service {
 	
 	
 	@SuppressWarnings("rawtypes")

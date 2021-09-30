@@ -1,448 +1,343 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/lunaops/top/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
+<jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<link rel='stylesheet' href='<c:url value='/css/oslops/dpl.css'/>' type='text/css'>
-
-<style type="text/css">
-	.accptFont{color:#4b73eb !important;text-shadow: none !important;}
-	.rejectFont{color:#eb4b6a !important;text-shadow: none !important;}
-	.defaultFont{color:#000 !important;}
-</style>
-
-<script>
-var mySearch;
-var loginUsrId = '${sessionScope.loginVO.usrId}';
-
-$(document).ready(function(){
-	// 팝업 나타내기
-	$("#btn_reject").click(function(){
-		fnRequestEvent("reject");
-	});
-	// 팝업 숨기기
-	$("#btn_cancel_chk1100").click(function(){
-		$("#chkCmntPop").val("");
-		$('.approval_box').hide();
-	});
-	
-	//타겟이 상세정보 창이 아닌 경우 상세 정보 창 닫기
-	$(document).click(function(event){
-
-	});	
-	
-	// 배포 계획 결제 승인관리 가이드 상자 호출
-	gfnGuideStack("add",fnDpl2100GuideShow);
-	
-	//그리드 및 검색 상자 호출
-	fnAxGrid5View();
-	fnSearchBoxControl();
-});
-
-//요구사항 승인&반려 처리
-function fnRequestEvent(type){
-	var item = firstGrid.list[firstGrid.selectedDataIndexs[0]];
-	
-	//선택 데이터 없는경우
-	if(gfnIsNull(item)){
-		jAlert("결재 대기 배포계획을 선택해주세요.","알림창");
-		return false;
-	}
-	
-	var dplStatusCd = item.signStsCd;
-	if(dplStatusCd != "01"){
-		jAlert("승인상태가 대기 상태인 배포계획만 승인/반려가 가능합니다.","알림창");
-		return false;
-	}
-	
-	if(item.signUsrId != loginUsrId){
-		jAlert("결재자가 본인일 경우에만 결재 승인/반려가 가능합니다.","알림창");
-		return false;
-	}
-
-	//결재 승인
-	if(type == "accept"){
-		var rtnData = {	
-						view: 'dpl2100',
-						type: 'accept',
-						dplId: item.dplId,
-						signId: item.signId
-					};
-		//팝업 화면 오픈
-		gfnLayerPopupOpen("/dpl/dpl2000/dpl2100/selectDpl2101View.do", rtnData, '550', '290','scroll');
-	}
-	//반려
-	else if(type == "reject"){
-		var rtnData = {	
-						view: 'dpl2100',
-						type: 'reject',
-						dplId: item.dplId,
-						signId: item.signId
-					};
-		//팝업 화면 오픈
-		gfnLayerPopupOpen("/dpl/dpl2000/dpl2100/selectDpl2102View.do", rtnData, '500', '290','scroll');
-	}
-
-}
-
-
-//결재 승인&반려 데이터 세팅후 Ajax 전송
-function fnDplSignComplete(rtnData){
-	//AJAX 설정
-	var ajaxObj = new gfnAjaxRequestAction(
-			{"url":"<c:url value='/dpl/dpl2000/dpl2100/insertDpl2100SignActionAjax.do'/>"},
-			rtnData);
-	//AJAX 전송 성공 함수
-	ajaxObj.setFnSuccess(function(data){
-		data = JSON.parse(data);
-		
-		//에러 없는경우
-		if(data.errorYn != "Y"){
-			jAlert(data.message,"알림");
-			
-			//그리드 새로고침
-			fnInGridListSet(firstGrid.page.currentPage,mySearch.getParam());
-		}
-		else{
-			toast.push(data.message);
-		}
-	});
-	
-	//AJAX 전송 오류 함수
-	ajaxObj.setFnError(function(xhr, status, err){
-		data = JSON.parse(data);
-		jAlert(data.message, "알림");
- 	});
-	//AJAX 전송
-	ajaxObj.send();
-	
-}
-
-
-//axisj5 그리드
-function fnAxGrid5View(){
-	firstGrid = new ax5.ui.grid();
- 
-        firstGrid.setConfig({
-            target: $('[data-ax5grid="first-grid"]'),
-            sortable:false,
-            header: {align:"center"},
-          
-            columns: [
-                		{key: "signStsNm", label: "결재 상태", width: 150, align: "center"},
-	              		{key: "signRegUsrNm", label: "요청자", width: 150, align: "center"},
-	              		{key: "signUsrNm", label: "결재자", width: 150, align: "center"},
-	              		{key: "signDtm", label: "결재 요청 일자", width: 150, align: "center",formatter:function(){
-	              			return new Date(this.item.signDtm).format("yyyy-MM-dd");
-	              		}},
-	              		{key: "dplNm", label: "배포계획명", width: 220, align: "center"},
-	              		{key: "signTxt", label: "결재 의견", width: 320, align: "left"},
-	              		{key: "signRejectTxt", label: "반려내용", width: 314, align: "left"},
-                		],
-            body: {
-                align: "center",
-                columnHeight: 30,
-                onClick: function () {
-                	//이전 선택 row 해제
-                    this.self.select(firstGrid.selectedDataIndexs[0]);
-                	
-                	//현재 선택 row 전체 선택
-                    this.self.select(this.doindex);
-                	
-                },onDBLClick:function(){
-                	// 더블클릭 시 상세보기
-                	var item = this.item;
-                	var data = {"dplId" : item.dplId, "prjId" : item.prjId};
-					gfnLayerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1003View.do',data, "415", "690",'scroll');
-                }
-            },
-            /* 
-            contextMenu: {
-                iconWidth: 20,
-                acceleratorWidth: 100,
-                itemClickAndClose: false,
-                icons: {
-                    'arrow': '<i class="fa fa-caret-right"></i>'
-                },
-                items: [
-                    {type: "reply", label: "쪽지 전송", icon:"<i class='fa fa-mail-reply' aria-hidden='true'></i>"},
-                   	{divide: true},
-                    {type: "rowFrozen", label: "열 고정", icon:"<i class='fa fa-lock' aria-hidden='true'></i>"}
-                ],
-                popupFilter: function (item, param) {
-                	var selItem = firstGrid.list[param.doindex];
-                	//선택 개체 없는 경우 중지
-                	if(typeof selItem == "undefined"){
-                		return false;
-                	}
-
-                	return true;
-                },
-                onClick: function (item, param) {
-                	var selItem = firstGrid.list[param.doindex];
-                    if(item.type == "rowFrozen"){
-                    	//이미 해당 열에 고정인경우 중지
-                    	if(firstGrid.config.frozenColumnIndex != (param.colIndex+1)){
-                    		firstGrid.setConfig({frozenColumnIndex:param.colIndex+1});
-                    		fnInGridListSet(firstGrid.page.currentPage);
-                    	}
-                    //쪽지 전송
-                    }else if(item.type == "reply"){
-                    	gfnAlarmOpen(param.item.reqChargerId,param.item.reqId,param.item.reqNm);
-                    }
-                    firstGrid.contextMenu.close();
-                }
-            },
-             */
-            page: {
-                navigationItemCount: 9,
-                height: 30,
-                display: true,
-                firstIcon: '<i class="fa fa-step-backward" aria-hidden="true"></i>',
-                prevIcon: '<i class="fa fa-caret-left" aria-hidden="true"></i>',
-                nextIcon: '<i class="fa fa-caret-right" aria-hidden="true"></i>',
-                lastIcon: '<i class="fa fa-step-forward" aria-hidden="true"></i>',
-                onChange: function () {
-                   fnInGridListSet(this.page.selectPage,mySearch.getParam());
-                }
-            } 
-        });
-        //그리드 데이터 불러오기
- 		fnInGridListSet();
-
-}
-//그리드 데이터 넣는 함수
-function fnInGridListSet(_pageNo,ajaxParam){
-     	/* 그리드 데이터 가져오기 */
-     	//파라미터 세팅
-     	if(gfnIsNull(ajaxParam)){
-   			ajaxParam = $('form#searchFrm').serialize();
-   		}
-     	
-     	//페이지 세팅
-     	if(!gfnIsNull(_pageNo)){
-     		ajaxParam += "&pageNo="+_pageNo;
-     	}else if(typeof firstGrid.page.currentPage != "undefined"){
-     		ajaxParam += "&pageNo="+firstGrid.page.currentPage;
-     	}
-     	
-     	//AJAX 설정
-		var ajaxObj = new gfnAjaxRequestAction(
-				{"url":"<c:url value='/dpl/dpl2000/dpl2100/selectDpl2100AjaxView.do'/>","loadingShow":true}
-				,ajaxParam);
-		//AJAX 전송 성공 함수
-		ajaxObj.setFnSuccess(function(data){
-			data = JSON.parse(data);
-			
-			// 조회 실패
-	    	if(data.errorYn == 'Y'){ 
-	    		toast.push(data.message);
-	    		return;
-	    	}
-			
-			var list = data.list;
-			var page = data.page;
-			
-		   	firstGrid.setData({
-		             	list:list,
-		             	page: {
-		                  currentPage: _pageNo || 0,
-		                  pageSize: page.pageSize,
-		                  totalElements: page.totalElements,
-		                  totalPages: page.totalPages
-		              }
-		             });
-		});
-		
-		//AJAX 전송 오류 함수
-		ajaxObj.setFnError(function(xhr, status, err){
-			//세션이 만료된 경우 로그인 페이지로 이동
-           	if(status == "999"){
-           		alert('세션이 만료되어 로그인 페이지로 이동합니다.');
-        		document.location.href="<c:url value='/cmm/cmm4000/cmm4000/selectCmm4000View.do'/>";
-        		return;
-           	}
-		});
-		
-		//AJAX 전송
-		ajaxObj.send();
-}
-
-//검색 상자
-function fnSearchBoxControl(){
-	var pageID = "AXSearch";
-	mySearch = new AXSearch();
-
-	var fnObjSearch = {
-		pageStart: function(){
-			//검색도구 설정 01 ---------------------------------------------------------
-			mySearch.setConfig({
-				targetID:"AXSearchTarget",
-				theme : "AXSearch",
-				rows:[
-					{display:true, addClass:"top_searchGroup", style:"", list:[
-       					{label:"", labelWidth:"", type:"button", width:"55",style:"float:right;", key:"btn_update",valueBoxStyle:"padding:5px;", value:"<i class='fa fa-trash-alt' aria-hidden='true'></i>&nbsp;<span>반려</span>",
-							onclick:function(){
-								fnRequestEvent("reject");
-						}},
-						{label:"", labelWidth:"", type:"button", width:"55",style:"float:right;", key:"btn_update",valueBoxStyle:"padding:5px;", value:"<i class='fa fa-check' aria-hidden='true'></i>&nbsp;<span>승인</span>",
-							onclick:function(){
-								fnRequestEvent("accept");
-						}}
-					]                                            
-					},
-					{display:true, addClass:"bottom_searchGroup", style:"", list:[
-						{label:"<i class='fa fa-search'></i>&nbsp;", labelWidth:"30", type:"selectBox", width:"", key:"searchSelect", addClass:"", valueBoxStyle:"", value:"all",
-							options:[
-								{optionValue:"0", optionText:"전체 보기",optionAll:true},
-                                {optionValue:"signStsCd", optionText:"결재 상태", optionCommonCode:"REQ00004"},
-                                {optionValue:'signUsrNm', optionText:'결재자'},
-                                {optionValue:'signTxt', optionText:'결재 의견'},
-                                {optionValue:'signRejectTxt', optionText:'반려 내용'},
-                                {optionValue:"dplStsCd", optionText:"배포 상태", optionCommonCode:"DPL00001"},
-                                {optionValue:"dplTypeCd", optionText:"배포 방법", optionCommonCode:"DPL00003"},
-                                {optionValue:'dplNm', optionText:'배포계획명'},
-                                {optionValue:"dplVer", optionText:"배포 버전"},
-                                {optionValue:'dplUsrNm', optionText:'배포자'},
-                                {optionValue:'dplDesc', optionText:'배포 설명'},
-                            ],onChange: function(selectedObject, value){
-								//선택 값이 전체목록인지 확인 후 입력 상자를 readonly처리
-    							if(!gfnIsNull(selectedObject.optionAll) && selectedObject.optionAll == true){
-									axdom("#" + mySearch.getItemId("searchTxt")).attr("readonly", "readonly");	
-									axdom("#" + mySearch.getItemId("searchTxt")).val('');	
-								}else{
-									axdom("#" + mySearch.getItemId("searchTxt")).removeAttr("readonly");
-								}
-    							//공통코드 처리 후 select box 세팅이 필요한 경우 사용
-								if(!gfnIsNull(selectedObject.optionCommonCode)){
-									gfnCommonSetting(mySearch,selectedObject.optionCommonCode,"searchCd","searchTxt");
-								}else{
-									//공통코드 처리(추가 selectbox 작업이 아닌 경우 type=text를 나타낸다.)
-									axdom("#" + mySearch.getItemId("searchTxt")).show();
-									axdom("#" + mySearch.getItemId("searchCd")).hide();
-								}
-							}
-						},
-						{label:"", labelWidth:"", type:"inputText", width:"150", key:"searchTxt", addClass:"secondItem sendBtn", valueBoxStyle:"padding-left:0px;", value:"",
-							onkeyup:function(e){
-								if(e.keyCode == '13' ){
-									axdom("#" + mySearch.getItemId("btn_search_sign")).click();
-								}
-							}
-						},
-						{label:"", labelWidth:"", type:"selectBox", width:"100", key:"searchCd", addClass:"selectBox", valueBoxStyle:"padding-left:0px;", value:"01",
-							options:[]
-						},
-						{label:"<i class='fas fa-list-ol'></i>&nbsp;목록 수&nbsp;", labelWidth:"60", type:"selectBox", width:"", key:"pageSize", addClass:"", valueBoxStyle:"", value:"30",
-							options:[
-		                               {optionValue:15, optionText:"15"},
-		                               {optionValue:30, optionText:"30"},
-		                               {optionValue:50, optionText:"50"},
-		                               {optionValue:100, optionText:"100"},
-		                               {optionValue:300, optionText:"300"},
-		                               {optionValue:600, optionText:"600"},
-		                               {optionValue:1000, optionText:"1000"},
-		                               {optionValue:5000, optionText:"5000"},
-		                               {optionValue:10000, optionText:"10000"},
-		                                
-		                            ],onChange: function(selectedObject, value){
-		                            	fnInGridListSet(0,mySearch.getParam());
-		    						}
-						},
-						{label:"<i class='fas fa-arrows-v'></i>&nbsp;목록 높이&nbsp;", labelWidth:"60", type:"selectBox", width:"", key:"gridHeight", addClass:"", valueBoxStyle:"", value:"600",
-							options:[
-							         	{optionValue:300, optionText:"300px"},
-		                                {optionValue:600, optionText:"600px"},
-		                                {optionValue:1000, optionText:"1000px"},
-		                                {optionValue:1200, optionText:"1200px"},
-		                                {optionValue:2000, optionText:"2000px"},
-		                                
-		                            ],onChange: function(selectedObject, value){
-		                            	firstGrid.setHeight(value);
-		    						}
-						},
-						
-						{label:"", labelWidth:"", type:"button", width:"70",style:"float:right;", key:"btn_print_newReqDemand",valueBoxStyle:"padding:5px;", value:"<i class='fa fa-print' aria-hidden='true'></i>&nbsp;<span>프린트</span>",
-							onclick:function(){
-								$(firstGrid.exportExcel()).printThis({importCSS: false,importStyle: false,loadCSS: "/css/common/printThis.css"});
-						}},
-						{label:"", labelWidth:"", type:"button", width:"60",style:"float:right;", key:"btn_excel_newReqDemand",valueBoxStyle:"padding:5px;", value:"<i class='fa fa-file-excel' aria-hidden='true'></i>&nbsp;<span>엑셀</span>",
-							onclick:function(){
-								firstGrid.exportExcel("${sessionScope.selMenuNm}.xls");
-						}},
-						
-						{label:"", labelWidth:"", type:"button", width:"55",style:"float:right;", key:"btn_search_sign",valueBoxStyle:"padding-left:0px;padding-right:5px;", value:"<i class='fa fa-list' aria-hidden='true'></i>&nbsp;<span>조회</span>",
-						onclick:function(){
-							/* 검색 조건 설정 후 reload */
-				            fnInGridListSet(0,mySearch.getParam());
-						}}
-					]}
-				]
-			});
-		},
-		search1: function(){
-			var pars = mySearch.getParam();
-			fnAxGridView(pars);
-		}	
-	};
-	
-	jQuery(document.body).ready(function(){
-		fnObjSearch.pageStart();
-		//검색 상자 로드 후 텍스트 입력 폼 readonly 처리
-		axdom("#" + mySearch.getItemId("searchTxt")).attr("readonly", "readonly");
-		
-		//공통코드 selectBox hide 처리
-		axdom("#" + mySearch.getItemId("searchCd")).hide();
-		
-		//버튼 권한 확인
-		fnBtnAuthCheck(mySearch);
-		
-		// 상단 승인, 반려 버튼이 권한이 없어서 hide일 경우
-		// 해당 버튼이 있는 div도 hide 처리해야함 
-		// $(".top_searchGroup") div의 하위에 있는 버튼 목록을 가져온다.
-		var childList = $(".top_searchGroup").children('.searchItem');
-
-		var childCnt = 0;
-		
-		// 가져온 버튼의 hide 여부 체크
-		$.each(childList,function(idx, child){
-			if($(this).is(':visible') == false ){
-				childCnt ++;
-			}
-		});
-		
-		// 버튼의 개수와 hide된 버튼의 수가 같다면 
-		// $(".top_searchGroup") div를 hide 처리한다.
-		if(childList.length == childCnt){
-			$(".top_searchGroup").hide();
-		}
-		
-	});
-}
-
-
-//배포 계획 결제 승인관리 가이드 상자
-function fnDpl2100GuideShow(){
-	var mainObj = $(".main_contents");
-	
-	// mainObj가 없는경우 false return
-	if(mainObj.length == 0){
-		return false;
-	}
-	// guide box setting
-	var guideBoxInfo = globals_guideContents["dpl2100"];
-	gfnGuideBoxDraw(true,mainObj,guideBoxInfo);
-}
-
-</script>
-
-<div class="main_contents" style="height: auto;">
-	<form:form commandName="dpl2100VO" id="searchFrm" name="searchFrm" method="post" onsubmit="return false;"></form:form>
-	<div class="dpl_title">${sessionScope.selMenuNm }</div>
-	<div class="tab_contents menu">
-		<input type="hidden" name="strInSql" id="strInSql" />
-		<div id="AXSearchTarget" style="border-top:1px solid #ccc;" guide="ddplSignApprovalGridBtn"></div>
-		<br/>
-		<div data-ax5grid="first-grid" data-ax5grid-config="{}" style="height: 600px;" guide="dplSignApprovalGrid"></div>	
+<!-- begin page DOM -->
+<div class="kt-portlet kt-portlet--mobile">
+	<!-- 카드형, 그리드형 보기 부분은 현재 주석처리
+	<div class="kt-portlet__head kt-portlet__head--lg">
+		<div class="kt-portlet__head-label">
+			<h4 class="kt-font-boldest kt-font-brand">
+				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
+			</h4>
+		</div>	
+		<div class="kt-portlet__head-toolbar">
+			<div class="kt-portlet__head-wrapper">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type active" title="데이터 카드 형식으로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="6" data-view-type="01">
+						<i class="fa fa-table osl-padding-r0"></i>
+					</button>
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type" title="데이터 테이블 형식으로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="7" data-view-type="02">
+						<i class="fa fa-list osl-padding-r0"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block ">
+		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
+			<div class="osl-datatable-search" data-datatable-id="dpl1000Table"></div>
+		</div>
+		<div class="col-lg-9 col-md-12 col-sm-12 text-right kt-padding-r-0">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+				<i class="fa fa-list"></i><span>조회</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="insert" title="배포 계획  등록" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
+				<i class="fa fa-plus"></i><span>등록</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="update" title="배포 계획  수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
+				<i class="fa fa-edit"></i><span>수정</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="delete" title="배포 계획  삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
+				<i class="fa fa-trash-alt"></i><span>삭제</span>
+			</button>
+		</div>
+	</div>
+	<div id="dpl1000CardTable"></div>
+	<div class="kt_datatable osl-datatable-footer__divide" id="dpl1000Table"></div>
+	 -->
+	 
+	<!-- 배포 계획 목록 그리드형 보기만 -->
+	<div class="kt-portlet__head kt-portlet__head--lg">
+		<div class="kt-portlet__head-label">
+			<h4 class="kt-font-boldest kt-font-brand">
+				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
+			</h4>
+		</div>
+		<!-- begin::버튼영역 -->
+		<div class="kt-portlet__head-toolbar">
+			<input type="hidden" name="signRes" id="signRes">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl2100Table" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+				<i class="fa fa-list"></i><span>조회</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl2100Table" data-datatable-action="signApr" title="결재 승인" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="signApr" tabindex="6">
+				<i class="fas fa-check-square"></i><span>승인</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl2100Table" data-datatable-action="signReject" title="결재 반려" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="signReject" tabindex="7">
+				<i class="fas fa-times"></i><span>반려</span>
+			</button>
+		</div>
+		<!-- end::버튼 영역 -->
+	</div>
+	<div class="kt-portlet__body">
+		<!-- begin:: datatable 영역 -->
+		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
+			<div class="osl-datatable-search" data-datatable-id="dpl2100Table"></div>
+		</div>
+		<div class="kt_datatable osl-datatable-footer__divide" id="dpl2100Table"></div>
+		<!-- end:: datatable 영역 -->
 	</div>
 </div>
 
+<!-- begin page script -->
+<script>
+"use strict";
+var OSLDpl2100Popup = function () {
+	
+	//datatable Id
+	var dpl2100DatatableId = "dpl2100Table";
+	
+	var documentSetting = function(){
+		
+		//데이터 테이블 세팅
+		$.osl.datatable.setting("dpl2100Table",{
+			data: {
+				source: {
+					read: {
+						url: "/dpl/dpl2000/dpl2100/selectDpl2100SignListAjax.do",
+						params:{
+							targetCd : '02'
+						}
+					}
+				}
+			},
+			columns: [
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
+				{field: 'nowSignTypeNm', title: '결재 상태', textAlign: 'center', width: 100,autoHide: false, search: true, searchType:"select", searchCd: "CMM00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"},
+				{field: 'signReqUsrId', title: '요청자', textAlign: 'center', width: 100,autoHide: false, search: false,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.signDrfUsrImgId, row.signDrfUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.signDrfUsrId);
+					}
+				},
+				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100, search: true,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.signUsrImgId, row.signUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.signUsrId);
+					}
+				},
+				{field: 'signDtm', title: '결재 요청 일자', textAlign: 'center', width: 150, search: true,searchType:"daterange"},
+				{field: 'dplNm', title: '배포 명', textAlign: 'left', width: 300, autoHide: false, search: true},
+				{field: 'signRes', title: '결재 의견', textAlign: 'left', width: 250,  search: false,
+					template: function(row){
+					var signRes = row.signRes;
+					
+					// 결재 의견 없을 경우 
+					if($.osl.isNull(signRes)){
+						signRes = "결재 의견 없음";
+					}
+					return signRes;
+				}},
+				{field: 'dplUsrNm', title: '배포자', textAlign: 'center', width: 100, search: true,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.dplUsrImgId, row.dplUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.dplUsrId);
+					}
+				},
+			],
+			rows:{
+				clickCheckbox: true
+			},
+			actionBtn:{
+				"signApr":true,
+				"signReject":true,
+				"dblClick": true, 
+				"update":false,
+				"delete":false,
+				"title": "Actions",
+				"width" : 160
+			},
+			actionTooltip:{
+				"dblClick": "배포 계획 상세 보기",
+				"signApr" : "결재 승인",
+				"signReject" : "결재 반려",
+			},
+			actionFn:{
+				"signApr":function(rowData, datatableId, type, rowNum, elem){
+					var rowDatas = [];
+					
+					//외부 버튼 클릭 시 (체크박스 데이터 연동)
+					if(type == "list"){
+						//선택 레코드 수
+						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
+						
+						//선택 레코드 없는 경우
+						if(selRecords.length == 0){
+							$.osl.alert($.osl.lang("dpl2100.action.sign.nonSelect"));
+							return true;
+						}
+						
+						rowDatas = rowData;
+						
+					//액션 버튼 클릭시 (각 로우 버튼)
+					}else{
+						rowDatas.push(rowData);
+					}
+					
+					var data = {
+							type : "signApr"
+					};
+					
+					var options = {
+						modalTitle: $.osl.lang("dpl2100.modal.title.signAprRes"),
+						autoHeight: false,
+						modalSize: "xl",
+						callback:[{
+							targetId: "cmm6602SaveSubmit",
+							actionFn: function(thisObj){
+								
+								$.osl.confirm($.osl.lang("dpl2100.message.confirm.signApr"),null,function(result) {
+							        if (result.value) {
+							        	//값 저장
+							        	var signRes = OSLCmm6602Popup.getSignRes();
+							        	var type = OSLCmm6602Popup.getType();
+							        	//모달 창 닫기
+										$.osl.layerPopupClose();
+							        	
+							        	//결재 승인
+							        	signApr(rowDatas,signRes,type);
+							        	
+							        	//새로 고침
+							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        }
+							    });
+								
+							}
+						}]
+							
+					};
+					 
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6602View.do',data,options); 
+					
+				},
+				"signReject":function(rowData, datatableId, type, rowNum, elem){
+					var rowDatas = [];
+					
+					//외부 버튼 클릭 시 (체크박스 데이터 연동)
+					if(type == "list"){
+						//선택 레코드 수
+						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
+						
+						//선택 레코드 없는 경우
+						if(selRecords.length == 0){
+							$.osl.alert($.osl.lang("dpl2100.action.sign.nonSelect"));
+							return true;
+						}
+						
+						rowDatas = rowData;
+						
+					//액션 버튼 클릭시 (각 로우 버튼)
+					}else{
+						rowDatas.push(rowData);
+					}
+					
+					var data = {
+							type : "signRjt"
+					};
+					
+					var options = {
+						modalTitle: $.osl.lang("dpl2100.modal.title.signRjtRes"),
+						autoHeight: false,
+						modalSize: "xl",
+						callback:[{
+							targetId: "cmm6602SaveSubmit",
+							actionFn: function(thisObj){
+								
+								$.osl.confirm($.osl.lang("dpl2100.modal.confirm.signRjt"),null,function(result) {
+							        if (result.value) {
+							        	//값 저장
+							        	var signRes = OSLCmm6602Popup.getSignRes();
+							        	var type = OSLCmm6602Popup.getType();
+							        	//모달 창 닫기
+										$.osl.layerPopupClose();
+							        	
+							        	//결재 승인
+							        	signApr(rowDatas,signRes,type);
+							        	
+							        	//새로 고침
+							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        }
+							    });
+								
+							}
+						}]
+							
+					};
+					 
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6602View.do',data,options); 
+				},
+				"dblClick":function(rowData, datatableId, type, rowNum, elem){
+					var data = {
+					};
+				var options = {
+						modalTitle: '[배포 명] 상세팝업',
+						autoHeight: false,
+						modalSize: 'xl'
+					};
+				
+				$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
+			},
+			},
+			theme: {
+				 actionBtnIcon:{
+					 "dblClick": "fa fa-info-circle",
+					 "signApr": "fas fa-check-square",
+					 "signReject":"fas fa-times",
+				 }
+			 }
+		});
+			
+				
+	};
+	
+	/*
+	 * function명 : signApr
+	 * function설명 : 선택한 결재 대기 배포 정보들을 결재 승인한다.
+	 * @param rowDatas : 선택한 결재 정보들
+	 * @param signRes : 결재 승인 사유
+	 */
+	var signApr = function(rowDatas, signRes, type){
+		
+		//AJAX 설정
+ 		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/cmm/cmm6000/cmm6600/insertCmm6601SignInfoAjax.do'/>"}
+				,{rowDatas: JSON.stringify(rowDatas), signRes:signRes, type:type});
+
+ 		//AJAX 전송 성공 함수
+ 		ajaxObj.setFnSuccess(function(data){
+ 			if(data.errorYn == "Y"){
+ 				$.osl.alert($.lang("cmm6601.sign.fail"),{type: 'error'});
+ 			}else{
+ 				//결재 성공
+ 				$.osl.toastr($.lang("cmm6601.sign.fail"));
+ 				
+ 			}
+ 		});
+ 		
+ 		//AJAX 전송
+ 		ajaxObj.send();
+	};
+	
+	return {
+        // public functions
+        init: function() {
+        	documentSetting();
+        }
+        
+    };
+}();
+
+$.osl.ready(function(){
+	OSLDpl2100Popup.init();
+});
+</script>
+<!-- end script -->
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

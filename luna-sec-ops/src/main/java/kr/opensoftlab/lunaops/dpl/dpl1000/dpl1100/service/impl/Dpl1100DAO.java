@@ -27,6 +27,18 @@ public class Dpl1100DAO extends ComOslitsAbstractDAO {
 	
 	
 	@SuppressWarnings("rawtypes")
+	public int  selectDpl1100NotAssignReqListCnt(Map paramMap) throws Exception {
+		return  (Integer)select("dpl1100DAO.selectDpl1100NotAssignReqListCnt", paramMap);
+	} 
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectDpl1100NotAssignReqList(Map paramMap) throws Exception {
+		return  (List<Map>) list("dpl1100DAO.selectDpl1100NotAssignReqList", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
 	public void insertDpl1100ReqInfo(Map paramMap) throws Exception {
 		insert("dpl1100DAO.insertDpl1100ReqInfo", paramMap);
 	} 
