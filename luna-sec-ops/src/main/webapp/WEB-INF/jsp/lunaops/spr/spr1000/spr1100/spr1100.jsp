@@ -128,14 +128,14 @@ var OSLSpr1100Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'sprTypeNm', title: '상태', textAlign: 'center', width: 80, search: true, searchType:"select", searchCd: "SPR00001", searchField:"sprTypeCd", sortable: true, sortField:"sprTypeCd"},
 				{field: 'sprNm', title: '스프린트명', textAlign: 'left', width: 240, autoHide: false, search: true, sortField: "sprNm"},
-				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 120, sortField: "sprStDt",
+				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 120, sortField: "sprStDt",search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.sprStDt);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
 		                return agoTimeStr.agoString;
 					}
 				},
-				{field: 'sprEdDt', title:'종료일', textAlign: 'center', width: 120, sortField: "sprEdDt",
+				{field: 'sprEdDt', title:'종료일', textAlign: 'center', width: 120, sortField: "sprEdDt", search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.sprEdDt);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
@@ -144,7 +144,7 @@ var OSLSpr1100Popup = function () {
 				},
 			],
 			searchColumns:[
-				{field: 'sprDesc', title: '스프린트 설명', searchOrd: 3},
+				{field: 'sprDesc', title: '스프린트 설명', searchOrd: 3, search:true},
 				{field: 'sprDtm', title: '기간', searchOrd:4, searchType:"daterange"}
 			],
 			actionBtn:{
@@ -226,9 +226,9 @@ var OSLSpr1100Popup = function () {
 						return resultStr;
 					}	
 				},
-				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80},
+				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80, search:true},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 80, sortField: "reqProTypeCd", search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortable: true, sortField:"reqProTypeCd"},
-				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",
+				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.reqDtm);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
@@ -276,9 +276,9 @@ var OSLSpr1100Popup = function () {
 						return resultStr;
 					}	
 				},
-				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80},
+				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80 ,search:true},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 80, sortField: "reqProTypeCd", search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortable: true, sortField:"reqProTypeCd"},
-				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",
+				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.reqDtm);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});

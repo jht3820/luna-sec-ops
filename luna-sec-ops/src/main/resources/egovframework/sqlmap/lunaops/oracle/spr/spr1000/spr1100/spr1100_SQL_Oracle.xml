@@ -303,6 +303,9 @@
 				<isEqual property="searchTargetId" compareValue="reqNm">
 					AND	T1.REQ_NM LIKE '%'|| #searchTargetData# ||'%'
 				</isEqual>
+				<isEqual property="searchTargetId" compareValue="reqOrd">
+					AND	T1.REQ_ORD LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
 				<isEqual property="searchTargetId" compareValue="reqDesc">
 				<![CDATA[
 					AND	REGEXP_REPLACE(T1.REQ_DESC, '<[^>]*>', '') LIKE '%'|| #searchTargetData# ||'%'

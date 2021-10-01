@@ -91,12 +91,15 @@ var OSLSpr1000Popup = function () {
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false},
-				{field: 'sprTypeNm', title: '상태 ', textAlign: 'center', width: 100},
-				{field: 'sprNm', title: '스프린트 이름', textAlign: 'center', width: 300},
-				{field: 'sprDesc', title: '스프린트 설명', textAlign: 'center', width: 150},
+				{field: 'sprTypeNm', title: '상태 ', textAlign: 'center', width: 100, searchType:"select", searchCd: "SPR00001", searchField:"sprTypeNm", sortField: "sprTypeNm"},
+				{field: 'sprNm', title: '스프린트 이름', textAlign: 'center', width: 300, search:true},
+				{field: 'sprDesc', title: '스프린트 설명', textAlign: 'center', width: 150, search:true},
 				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 150, search: true, searchType:"date"},
 				{field: 'sprEdDt', title: '종료일', textAlign: 'center', width: 150, search: true, searchType:"date"},
 				{field: 'useNm', title: '사용 유무', textAlign: 'center', width: 100, search: true, searchType:"select", searchCd: "CMM00001", searchField:"useCd", sortField: "useCd"},
+			],
+			searchColumns:[
+				{field: 'sprDtm', title: '기간', searchOrd:4, searchType:"daterange"}
 			],
 			actionBtn:{
 				"dblClick": true
