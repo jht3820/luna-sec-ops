@@ -14,32 +14,32 @@
 			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 				<div class="kt-portlet__body">
 					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-edit kt-margin-r-5"></i><span>배포 상태</span></label>
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplStatus">배포 상태</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<select class="form-control kt-select2" id="dplStsCd" name="dplStsCd" disabled="disabled" opttype="02" cmmcode="DPL00001">
 							</select>
 						</div>
 					</div>	
 					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span>배포 버전</span></label>
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplVersion">배포 버전</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<input class="form-control" type="text" id="dplVer" name="dplVer" placeholder="배포 버전" maxlength="50" />
 						</div>
 					</div>	
 					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-edit kt-margin-r-5"></i><span>배포 명</span></label>
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplName">배포 명</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<input class="form-control" type="text" id="dplNm" name="dplNm" placeholder="배포 명" maxlength="100" required/>
 						</div>
 					</div>	
 					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-calendar-alt kt-margin-r-5"></i><span>배포 일자</span></label>
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplDate">배포 일자</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<input class="form-control" type="text" id="dplDt" name="dplDt" placeholder="배포 일자" readonly="readonly" modifyset="02" required/>
 						</div>
 					</div>	
 					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-user-cog kt-margin-r-5"></i><span>배포자</span></label>
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-user-cog kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplUser">배포자</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="배포자" id="dplUsrNm" name="dplUsrNm" modifyset="02" required>
@@ -48,7 +48,7 @@
 						</div>
 					</div>
 					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-file-signature kt-margin-r-5"></i><span>결재 사용 유무</span></label>
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-file-signature kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplSignUse">결재 사용 유무</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<select class="form-control kt-select2" id="dplSignUseCd" name="dplSignUseCd" modifyset="02">
 							</select>
@@ -56,7 +56,7 @@
 					</div>
 					<!-- 리비전 선택 주석처리
 					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span>배포 리비전</span></label>
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplRevisionNum">배포 리비전</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="리비전 검색 후 선택" id="dplRevisionNumStr" name="dplRevisionNumStr" opttype="05" >
@@ -65,40 +65,40 @@
 						</div>
 					</div>	 -->
 					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fab fa-cloudsmith kt-margin-r-5"></i><span>배포 방법</span></label>
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fab fa-cloudsmith kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplType">배포 방법</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<select class="form-control kt-select2" id="dplTypeCd" name="dplTypeCd" opttype="02" cmmcode="DPL00003">
 							</select>
 						</div>
 					</div>		
-					<div class="form-group row kt-margin-b-10" data-dpltype-expans="auto">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-edit kt-margin-r-5"></i><span>실패 후 처리</span></label>
+					<div class="form-group row kt-margin-b-10" data-dpl-info-expans="dpltype">
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplFailAction">실패 후 처리</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<select class="form-control kt-select2" id="dplAutoAfterCd" name="dplAutoAfterCd" opttype="02" cmmcode="DPL00004">
 							</select>
 						</div>
 					</div>
-					<div class="form-group row kt-margin-b-10" data-dpltype-expans="auto">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-clock kt-margin-r-5"></i><span>자동 실행 시간</span></label>
+					<div class="form-group row kt-margin-b-10" data-dpl-info-expans="dpltype">
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplAutoTime">자동 실행 시간</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<input type="text" class="form-control" id="dplAutoTm" name="dplAutoTm">
 						</div>
 					</div>	
-					<div class="form-group row kt-margin-b-10" data-dpltype-expans="auto">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-step-backward kt-margin-r-5"></i><span>원복 타입</span></label>
+					<div class="form-group row kt-margin-b-10" data-dpl-info-expans="dpltype">
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fa fa-step-backward kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplRestoreType">원복 타입</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<select class="form-control kt-select2" id="dplRestoreCd" name="dplRestoreCd" opttype="02" cmmcode="DPL00005">
 							</select>
 						</div>
 					</div>
-					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span>결재요청 의견</span></label>
+					<div class="form-group row kt-margin-b-10" data-dpl-info-expans="sign">
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplSignText">결재요청 의견</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<textarea class="form-control" id="dplSignTxt" name="dplSignTxt" maxlength="1000"></textarea>
 						</div>
 					</div>	
 					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span>배포 설명</span></label>
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplDesc">배포 설명</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<textarea class="form-control" id="dplDesc" name="dplDesc" maxlength="500"></textarea>
 						</div>
@@ -114,17 +114,17 @@
 					<div class="kt-portlet__head-label"></div>
 					<div class="kt-portlet__head-toolbar">
 						
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" id="dpl1001JobOrdUp" title="JOB 순서 위로" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="up" tabindex="5">
-							<i class="fas fa-arrow-up"></i><span>위로</span>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" id="dpl1001JobOrdUp" title="JOB 순서 위로" data-title-lang-cd="dpl1001.tooltip.upMoveBtnTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="up" tabindex="5">
+							<i class="fas fa-arrow-up"></i><span data-lang-cd="dpl1001.button.upMoveBtn">위로</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" id="dpl1001JobOrdDown" title="JOB 순서 아래로" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="down" tabindex="6">
-							<i class="fas fa-arrow-down"></i><span>아래로</span>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" id="dpl1001JobOrdDown" title="JOB 순서 아래로" data-title-lang-cd="dpl1001.tooltip.downMoveBtnTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="down" tabindex="6">
+							<i class="fas fa-arrow-down"></i><span data-lang-cd="dpl1001.button.downMoveBtn">아래로</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air osl-jop-append" id="dpl1001DplJobInsert" title="JOB 배정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="7">
-							<i class="fa fa-plus"></i><span>배정</span>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air osl-jop-append" id="dpl1001DplJobInsert" title="JOB 배정" data-title-lang-cd="dpl1001.tooltip.assignBtnTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="7">
+							<i class="fa fa-plus"></i><span data-lang-cd="dpl1001.button.assignBtn">배정</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" id="dpl1001DplJobDelete" title="배정 JOB 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="8">
-							<i class="fa fa-trash-alt"></i><span>삭제</span>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" id="dpl1001DplJobDelete" title="배정 JOB 삭제"  data-title-lang-cd="dpl1001.tooltip.deleteBtnTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="8">
+							<i class="fa fa-trash-alt"></i><span data-lang-cd="dpl1001.button.deleteBtn">삭제</span>
 						</button>
 						
 					</div>
@@ -162,9 +162,35 @@ var OSLDpl1001Popup = function () {
 	var documentSetting = function(){
 		
 		
+		$("#dpl1001SaveSubmit > span").text($.osl.lang("dpl1001.button."+type+"Btn"));
 		$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
 	
 		
+    	autosize($("#dplSignTxt"));
+    	autosize($("#dplDesc"));
+    	
+    	
+		var commonCodeArr = [
+			{mstCd: "DPL00001", useYn: "Y",targetObj: "#dplStsCd", comboType:"OS"}, 		
+			{mstCd: "CMM00001", useYn: "Y",targetObj: "#dplSignUseCd", comboType:"OS"}, 	
+			{mstCd: "DPL00003", useYn: "Y",targetObj: "#dplTypeCd", comboType:"OS"}, 		
+			{mstCd: "DPL00004", useYn: "Y",targetObj: "#dplAutoAfterCd", comboType:"OS"}, 	
+			{mstCd: "DPL00005", useYn: "Y",targetObj: "#dplRestoreCd", comboType:"OS"} 		
+		];
+
+  		
+		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
+		
+		
+  		if(type == "insert"){
+  			$("#dplStsCd").val("01");
+  			
+  		}else if(type == "update"){
+  			
+  			selectDplInfo();
+  		}
+		
+  		
 		var minMaxYear = new Date().getFullYear();
 		var minDate = new Date(new Date().setDate(new Date().getDate()+ 1));
 		var maxDate =  new Date(minMaxYear, 12, 0);
@@ -181,42 +207,14 @@ var OSLDpl1001Popup = function () {
             minYear: minMaxYear,
 			locale: {
 				format: 'HH:mm:ss',
-					"applyLabel": "적용",
-					"cancelLabel": "취소"
+					"applyLabel": $.osl.lang("dpl1001.label.autoTimeCompl"),
+					"cancelLabel": $.osl.lang("dpl1001.label.autoTimeCancel")
 			}
         }).on('show.daterangepicker', function (ev, picker) {
             picker.container.find(".calendar-table").hide();
         });
-		
-		
-    	autosize($("#dplSignTxt"));
-    	autosize($("#dplDesc"));
-    	
-    	
-		var commonCodeArr = [
-			{mstCd: "DPL00001", useYn: "Y",targetObj: "#dplStsCd", comboType:"OS"}, 	
-			{mstCd: "CMM00001", useYn: "Y",targetObj: "#dplSignUseCd", comboType:"OS"}, 		
-			{mstCd: "DPL00003", useYn: "Y",targetObj: "#dplTypeCd", comboType:"OS"}, 	
-			{mstCd: "DPL00004", useYn: "Y",targetObj: "#dplAutoAfterCd", comboType:"OS"}, 	
-			{mstCd: "DPL00005", useYn: "Y",targetObj: "#dplRestoreCd", comboType:"OS"} 		
-		];
-
-  		
-		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
-		
-		
-  		if(type == "insert"){
-  			$("#dplStsCd").val("01");
-  			
-  		
-  		}else if(type == "update"){
-  			
-  			
-  			selectDplInfo();
-  		}
   		
 		
-    	
     	$("#dpl1001DplUsrSearch").click(function(){
     		
     		var data = {
@@ -224,7 +222,7 @@ var OSLDpl1001Popup = function () {
     		};
     		var options = {
     				idKey: "dpl1001SearchUsr",
-					modalTitle: "배포자 선택",
+					modalTitle: $.osl.lang("dpl1001.modal.title.dplUserSelect"),
 					closeConfirm: true,
 					autoHeight:false,
 					modalSize: "xl",
@@ -255,8 +253,8 @@ var OSLDpl1001Popup = function () {
     			prjId : $("#paramPrjId").val()
     		};
     		var options = {
-    				idKey: "",
-					modalTitle: "JOB 배정",
+    				idKey: "dpl1001AssignJob",
+					modalTitle: $.osl.lang("dpl1001.modal.title.dplJobAssign"),
 					closeConfirm: true,
 					autoHeight:false
     		};
@@ -265,17 +263,15 @@ var OSLDpl1001Popup = function () {
 		
 		
 		$("#dplTypeCd").change(function(){
-			
-			
-			var dplTypeTarget = $(".form-group[data-dpltype-expans='auto']");
 			var dplTypeCd = $(this).val();
 			
-			
-			if(dplTypeCd == "01"){
-				dplTypeTarget.slideDown();
-			}else{
-				dplTypeTarget.slideUp();
-			}
+			fnDplInfoShowAndHide("dpltype", dplTypeCd);
+		});
+		
+		
+		$("#dplSignUseCd").change(function(){
+			var dplSignUseCd = $(this).val();
+			fnDplInfoShowAndHide("sign", dplSignUseCd);
 		});
 		
 		
@@ -297,7 +293,7 @@ var OSLDpl1001Popup = function () {
 			
 			
 			if(chkInfo.length == 0){
-				$.osl.alert("삭제할 JOB에 체크해주세요.");
+				$.osl.alert($.osl.lang("dpl1001.message.alert.delJob"));
 				return false;
 			}
 			
@@ -328,7 +324,6 @@ var OSLDpl1001Popup = function () {
 				var oldIndex = evt.oldIndex;
 				
 				
-				
 				if(newIndex == oldIndex){
 					return false;
 				}
@@ -354,7 +349,7 @@ var OSLDpl1001Popup = function () {
     		if($.osl.isNull(dplUsrId)){
     			
     			$("#dplUsrNm").parents("div.input-group").after(
-   					'<div class="invalid-feedback invalid-dplUsrNm" style="display:block">배포자를 검색하여 입력해주세요.</div>'
+   					'<div class="invalid-feedback invalid-dplUsrNm" style="display:block">'+$.osl.lang("dpl1001.message.warning.notDplUsr")+'</div>'
     			);
     			
     			$("#dplUsrNm").addClass("is-invalid");
@@ -364,23 +359,19 @@ var OSLDpl1001Popup = function () {
     		
     		var dplAssignJob = $("[data-dpl-job-info=jobinfo]").length;
     		if(dplAssignJob == 0){
-    			$.osl.alert("배포 계획에 배정된 JOB이 없습니다. JOB을 배정해주세요.",{type: "warning"});
+    			$.osl.alert($.osl.lang("dpl1001.message.alert.jobAssign"),{type: "warning"});
 				return false;
     		}
     		
     		
-    		$.osl.confirm("배포 계획을 등록 하시겠습니까?", null,function(result) {
+    		$.osl.confirm($.osl.lang("dpl1001.message.confirm."+type), null,function(result) {
     	        if (result.value) {
     	        	
     	        	saveDpl1001FormAction();
     	        }
     		});
-    		
-    		
 		});
-		
 	};
-	
 	
 	
 	 var selectDplInfo = function() {
@@ -391,7 +382,7 @@ var OSLDpl1001Popup = function () {
     	
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/dpl/dpl1000/dpl1000/selectDpl1000DplInfoAjax.do'/>", "async": false}
+				{"url":"<c:url value='/dpl/dpl1000/dpl1000/selectDpl1000DplInfoAjax.do'/>"}
 				,{"prjId": paramPrjId, "dplId" : paramDplId, "dplDelCd":paramDplDelCd});
 		
 		ajaxObj.setFnSuccess(function(data){
@@ -407,11 +398,7 @@ var OSLDpl1001Popup = function () {
 				var dplJobList = data.dplJobList;
 				
 				
-				
 		    	$.osl.setDataFormElem(dplInfo,"frDpl1001", ["dplVer","dplNm","dplDt","dplUsrId","dplUsrNm","dplSignTxt", "dplDesc"]);
-				
-				
-		    	
 				
 		    	
    				$("#dplStsCd").val(dplInfo.dplStsCd).trigger('change.select2');
@@ -428,18 +415,18 @@ var OSLDpl1001Popup = function () {
 		    	}
 		    	
 		    	
+		    	fnDplInfoShowAndHide("dpltype", dplInfo.dplTypeCd);
+		    	
+		    	
+		    	fnDplInfoShowAndHide("sign", dplInfo.dplSignUseCd);
+		    	
+		    	
 		    	$("#dpl1001JobCardTable").html("");
 				if(!$.osl.isNull(dplJobList)){
 			    	fnSetDplJobInfo(dplJobList);
 				}
 				
 			}
-		});
-		
-		
-		ajaxObj.setFnError(function(xhr, status, err){
-			data = JSON.parse(data);
-			jAlert(data.message, "알림창");
 		});
 		
 		
@@ -456,6 +443,10 @@ var OSLDpl1001Popup = function () {
     	var dplDt = $("#dplDt").val();
     	
     	var dplAutoTm = $("#dplAutoTm").val();
+    	
+    	
+		fd.append("prjId", $("#paramPrjId").val());
+		fd.append("dplId", $("#paramDplId").val());
     	
     	
 		fd.append("dplAutoDtm", dplDt+" "+dplAutoTm);
@@ -477,7 +468,7 @@ var OSLDpl1001Popup = function () {
    		fd.append("selJobList",JSON.stringify(jobList));
     	
     	
-   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/dpl/dpl1000/dpl1000/insertDpl1000DplInfoAjax.do'/>", "async": false,"contentType":false,"processData":false ,"cache":false},fd);
+   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/dpl/dpl1000/dpl1000/saveDpl1000DplInfoAjax.do'/>", "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
    		
    		ajaxObj.setFnSuccess(function(data){
@@ -497,10 +488,33 @@ var OSLDpl1001Popup = function () {
    		
    		
    		ajaxObj.send();
-		 
-		 
-	}
+	};
 	
+	
+	
+	var fnDplInfoShowAndHide = function(optType, optVal){
+		
+		
+		var target = $(".form-group[data-dpl-info-expans="+optType+"]");
+		 
+		 if(optType == "dpltype"){
+			
+			
+			if(optVal == "01"){
+				target.slideDown();
+			}else{
+				target.slideUp();
+			}
+		}else if(optType == "sign"){
+			
+			
+			if(optVal == "01"){
+				target.slideDown();
+			}else{
+				target.slideUp();
+			}
+		}
+	}
 	
 	
 	var fnSetDplJobInfo = function(jobDatas){
@@ -566,26 +580,26 @@ var OSLDpl1001Popup = function () {
 		var jobList = $("[data-dpl-job-info=jobinfo]").length;
 		
 		
-		var $chkInfo = $("input[type=checkbox][data-dpl-job-info=checkbox]:checked");
+		var chkInfo = $("input[type=checkbox][data-dpl-job-info=checkbox]:checked");
 		
-		if($chkInfo.length == 0){
-			$.osl.alert(type + "이동 할 JOB을 선택해주세요.");
+		if(chkInfo.length == 0){
+			$.osl.alert($.osl.lang("dpl1001.message.alert.jobMove"));
 			return false;
 		}
 		
 		
-		if($chkInfo.length > 1){
-			$.osl.alert("1개의 JOB만 선택해주세요.");
+		if(chkInfo.length > 1){
+			$.osl.alert($.osl.lang("dpl1001.message.alert.selectOneJob"));
 			return false;
 		}
 		
 		
-		var jenId = $chkInfo.data("dpl-jenid");
-		var jobId = $chkInfo.data("dpl-jobid");
+		var jenId = chkInfo.data("dpl-jenid");
+		var jobId = chkInfo.data("dpl-jobid");
 		
 		
-		var $chkJobInfo = $("[data-dpl-job-info=jobinfo][data-dpl-jenid="+jenId+"][data-dpl-jobid="+jobId+"]");
-		var jobOrd = parseInt($chkJobInfo.data("job-ord"));
+		var chkJobInfo = $("[data-dpl-job-info=jobinfo][data-dpl-jenid="+jenId+"][data-dpl-jobid="+jobId+"]");
+		var jobOrd = parseInt(chkJobInfo.data("job-ord"));
 		
 		
 		if(type == "up"){
@@ -599,21 +613,21 @@ var OSLDpl1001Popup = function () {
 			var chgJobOrd = jobOrd-1;
 			
 			
-			var $targetObj = $("[data-dpl-job-info=jobinfo][data-job-ord="+chgJobOrd+"]");
-			$targetObj.before($chkJobInfo);
+			var targetObj = $("[data-dpl-job-info=jobinfo][data-job-ord="+chgJobOrd+"]");
+			targetObj.before(chkJobInfo);
 		
 			
-			var $chkJobChildren = $chkJobInfo.find("[data-dpl-job-info=ord]");
-			$chkJobChildren.attr("data-job-ord",chgJobOrd);
-			$chkJobChildren.text(chgJobOrd);
+			var chkJobChildren = chkJobInfo.find("[data-dpl-job-info=ord]");
+			chkJobChildren.attr("data-job-ord",chgJobOrd);
+			chkJobChildren.text(chgJobOrd);
 			
-			$chkJobInfo.attr("data-job-ord",chgJobOrd);
+			chkJobInfo.attr("data-job-ord",chgJobOrd);
 		
 			
-			var targetObjChildren = $targetObj.find("[data-dpl-job-info=ord]");
-			$targetObjChildren.attr("data-job-ord",jobOrd);
-			$targetObjChildren.text(jobOrd);
-			$targetObj.attr("data-job-ord",jobOrd);
+			var targetObjChildren = targetObj.find("[data-dpl-job-info=ord]");
+			targetObjChildren.attr("data-job-ord",jobOrd);
+			targetObjChildren.text(jobOrd);
+			targetObj.attr("data-job-ord",jobOrd);
 		}
 		else if(type == "down"){
 			
@@ -625,22 +639,21 @@ var OSLDpl1001Popup = function () {
 			
 			var chgJobOrd = jobOrd+1;
 
-			var $targetObj = $("[data-dpl-job-info=jobinfo][data-job-ord="+chgJobOrd+"]");
-			$targetObj.after($chkJobInfo);
+			var targetObj = $("[data-dpl-job-info=jobinfo][data-job-ord="+chgJobOrd+"]");
+			targetObj.after(chkJobInfo);
 			
 			
-			var chkJobChildren = $chkJobInfo.find("[data-dpl-job-info=ord]");
-			$chkJobChildren.attr("data-job-ord",chgJobOrd);
-			$chkJobChildren.text(chgJobOrd);
+			var chkJobChildren = chkJobInfo.find("[data-dpl-job-info=ord]");
+			chkJobChildren.attr("data-job-ord",chgJobOrd);
+			chkJobChildren.text(chgJobOrd);
 			
-			$chkJobInfo.attr("data-job-ord",chgJobOrd);
+			chkJobInfo.attr("data-job-ord",chgJobOrd);
 		
 			
-			var $targetObjChildren = $targetObj.find("[data-dpl-job-info=ord]");
-			$targetObjChildren.attr("data-job-ord",jobOrd);
-			$targetObjChildren.text(jobOrd);
-			$targetObj.attr("data-job-ord",jobOrd);
-			
+			var targetObjChildren = targetObj.find("[data-dpl-job-info=ord]");
+			targetObjChildren.attr("data-job-ord", jobOrd);
+			targetObjChildren.text(jobOrd);
+			targetObj.attr("data-job-ord", jobOrd);
 		}
 	};
 	

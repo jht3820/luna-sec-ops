@@ -79,10 +79,10 @@ public class Stm8000Controller {
 
 			
 			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
 			
 			
 			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
-			metaMap = PagingUtil.getPageSettingMap(metaMap, paginationInfo);
 						
 			
 			List<Map> stm8000List = stm8000Service.selectStm8000ServerList(paramMap);
@@ -111,7 +111,6 @@ public class Stm8000Controller {
 	}
 	
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8000RepoConnectCheckAjax.do")
 	public ModelAndView selectStm8000RepoConnectCheckAjax( HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try{
@@ -124,11 +123,11 @@ public class Stm8000Controller {
 			paramMap.put("licGrpId", loginVO.getLicGrpId());
 			
 			
-			String connectResult = stm8000Service.selectStm8000SvnConnectCheck(paramMap);
+			String connectResult = stm8000Service.selectStm8000StmConnectCheck(paramMap);
 			model.addAttribute("connectResult", connectResult);
 			
 			
-			if(connectResult.isEmpty()) {
+			if(connectResult == null || connectResult.isEmpty()) {
 				model.addAttribute("errorYn", "Y");
 				model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
 			}else {
@@ -221,17 +220,6 @@ public class Stm8000Controller {
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
 			return new ModelAndView("jsonView");
 		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8002View.do")
-	public String selectStm8002View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-			return "/stm/stm8000/stm8000/stm8002";
 	}
 	
 	
@@ -380,16 +368,23 @@ public class Stm8000Controller {
 			String _pageSize_str = paramMap.get("pagination[perpage]");
 			
 			
+			int totCnt = 0;
+			
+			long searchStNum = 0;
+			long searchEdNum = 0;
+			
+			
 			List<Map> list = stm8000Service.selectStm8000RevisionList(paramMap);
-			
-			
-			int totCnt = Integer.parseInt((String) list.get(0).get("totalCnt"));
-			
-			long searchStNum = (long)list.get(0).get("searchStNum");
-			long searchEdNum = (long)list.get(0).get("searchEdNum");
-			
-			
-			list.remove(0);
+			if(list != null && list.size() != 0) {
+				
+				totCnt = Integer.parseInt((String) list.get(0).get("totalCnt"));
+				
+				searchStNum = (long)list.get(0).get("searchStNum");
+				searchEdNum = (long)list.get(0).get("searchEdNum");
+				
+				
+				list.remove(0);
+			}
 
 			
 			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
@@ -545,12 +540,12 @@ public class Stm8000Controller {
 			
 			
 			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
-			metaMap = PagingUtil.getPageSettingMap(metaMap, paginationInfo);
 			
+			metaMap = PagingUtil.getPageSettingMap(metaMap, paginationInfo); 
 
 			
 			int firstIndex = (int) metaMap.get("firstIndex");
-			int lastIndex = (int) metaMap.get("lastIndex");
+			int lastIndex =  (int) metaMap.get("lastIndex");
 			if(lastIndex > list.size()) {
 				lastIndex = list.size();
 			}
@@ -584,13 +579,7 @@ public class Stm8000Controller {
 			return new ModelAndView("jsonView");
 		}
 	}
-	
-	
-	@RequestMapping(value="/stm/smt8000/stm8000/selectStm8003View.do")
-	public String selectStm8003View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-			return "/stm/stm8000/stm8000/stm8003";
-	}
-	
+
 	
 	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8000RevisionFileInfoAjax.do")
 	public ModelAndView selectStm8000RevisionFileInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
@@ -643,9 +632,15 @@ public class Stm8000Controller {
 	}
 	
 	
-	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8004View.do")
-	public String selectStm8004View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-			return "/stm/stm8000/stm8000/stm8004";
+	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8002View.do")
+	public String selectStm8002View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/stm/stm8000/stm8000/stm8002";
+	}
+	
+	
+	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8003View.do")
+	public String selectStm8003View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+			return "/stm/stm8000/stm8000/stm8003";
 	}
 	
 	
@@ -740,9 +735,9 @@ public class Stm8000Controller {
 	}
 	
 	
-	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8005View.do")
-	public String selectStm8005View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-			return "/stm/stm8000/stm8000/stm8005";
+	@RequestMapping(value="/stm/stm8000/stm8000/selectStm8004View.do")
+	public String selectStm8004View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+			return "/stm/stm8000/stm8000/stm8004";
 	}
 	
 	
@@ -827,5 +822,5 @@ public class Stm8000Controller {
 			return new ModelAndView("jsonView");
 		}
 	}
-	
+
 }

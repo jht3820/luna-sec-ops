@@ -26,65 +26,14 @@ public class Stm8200ServiceImpl extends EgovAbstractServiceImpl implements Stm82
 
 	
 	@SuppressWarnings( "rawtypes" )
-	public List<Map> selectStm8200RevisionAuthList(Map paramMap) throws Exception {
-		return  stm8200DAO.selectStm8200RevisionAuthList(paramMap);
+	public int selectStm8200AssRepAllListCnt(Map paramMap) throws Exception{
+		return stm8200DAO.selectStm8200AssRepAllListCnt(paramMap);
 	}
 	
 	
 	@SuppressWarnings( "rawtypes" )
-	public List<Map> selectStm8200PrjAllAuthAndUserList(Map paramMap) throws Exception {
-		return  stm8200DAO.selectStm8200PrjAllAuthAndUserList(paramMap);
+	public List<Map> selectStm8200AssRepAllList(Map paramMap) throws Exception{
+		return stm8200DAO.selectStm8200AssRepAllList(paramMap);
 	}
-
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void insertStm8200RevisionAuthList(Map paramMap) throws Exception {
-		
-		
-		stm8200DAO.deleteStm8200RevisionAuthInfo(paramMap);
-		
-		
-    	JSONArray revisionList = new JSONArray(paramMap.get("revisionList").toString());
-    	
-    	
-    	for(int i=0; i < revisionList.length(); i++){
-    		
-    		JSONObject jsonObj = revisionList.getJSONObject(i);
-    		
-    		
-    		HashMap<String, Object> addStrgRepAuthInfoMap = new ObjectMapper().readValue(jsonObj.toString(), HashMap.class) ;
-			
-    		
-    		addStrgRepAuthInfoMap.put("licGrpId", paramMap.get("licGrpId"));
-    		addStrgRepAuthInfoMap.put("regUsrId", paramMap.get("regUsrId"));
-    		addStrgRepAuthInfoMap.put("regUsrIp", paramMap.get("regUsrIp"));
-    		addStrgRepAuthInfoMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
-    		addStrgRepAuthInfoMap.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
-    		
-    		
-			stm8200DAO.insertStm8200RevisionAuthInfo(addStrgRepAuthInfoMap);
-    	}
-	}
-
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void deleteStm8200RevisionAuthList(Map paramMap) throws Exception {
-		
-		
-    	JSONArray revisionList = new JSONArray(paramMap.get("revisionList").toString());
-    	
-    	
-    	for(int i=0; i < revisionList.length(); i++){
-    		
-    		JSONObject jsonObj = revisionList.getJSONObject(i);
-    		
-    		
-    		HashMap<String, Object> addStrgRepAuthInfoMap = new ObjectMapper().readValue(jsonObj.toString(), HashMap.class) ;
-			
-    		addStrgRepAuthInfoMap.put("licGrpId", paramMap.get("licGrpId"));
-    		
-    		
-			stm8200DAO.deleteStm8200RevisionAuthInfo(addStrgRepAuthInfoMap);
-    	}
-	}
 }

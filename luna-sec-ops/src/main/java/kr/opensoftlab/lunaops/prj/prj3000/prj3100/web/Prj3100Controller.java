@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.EgovWebUtil;
 import egovframework.com.cmm.service.EgovFileMngService;
@@ -97,7 +96,6 @@ public class Prj3100Controller {
 	}
 	
 	
-   	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/prj/prj3000/prj3100/insertPrj3100FormFileUploadAjax.do")
    	public ModelAndView insertPrj3100FormFileUploadAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
    		try {
@@ -146,10 +144,13 @@ public class Prj3100Controller {
 			List<FileVO> _result = fileUtil.fileUploadInsert(mptRequest,atchFileId,fileSn,"Prj");
 			
 			
-        	Map<String, String> docInfoMap = (Map) prj3000Service.selectPrj3000MenuInfo(paramMap);
+			
         	
         	
-        	paramMap.put("signUseCd", docInfoMap.get("signUseCd"));
+        	
+        	
+        	
+        	paramMap.put("signUseCd", "02");
         	
 			
 			
@@ -351,7 +352,6 @@ public class Prj3100Controller {
    	}
    	
    	
-   	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/prj/prj3000/prj3100/updatePrj3100FileTypeAjax.do")
    	public ModelAndView updatePrj3100FileTypeAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception{
    		try {
@@ -383,9 +383,13 @@ public class Prj3100Controller {
 			paramMap.put("afterFileSn", String.valueOf(fileSn));
 			
 			
-        	Map<String, String> docInfoMap = (Map) prj3000Service.selectPrj3000MenuInfo(paramMap);
+			
         	
-        	paramMap.put("signUseCd", docInfoMap.get("signUseCd"));
+        	
+        	
+        	
+        	paramMap.put("signUseCd", "02");
+        	
         	
            	
         	prj3100Service.updatePrj3100FileType(paramMap);

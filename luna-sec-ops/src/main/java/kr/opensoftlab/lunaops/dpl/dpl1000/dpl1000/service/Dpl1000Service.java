@@ -32,8 +32,15 @@ public interface Dpl1000Service {
 	void insertDpl1000DplInfo(Map paramMap) throws Exception;
 	
 	
+	@SuppressWarnings("rawtypes")
+	void updateDpl1000DplInfo(Map paramMap) throws Exception;
+	
+	
+	void deleteDpl1000DplList(Map<String, String> paramMap) throws Exception;
+	
+	
 	@SuppressWarnings({"rawtypes" })
-	List selectDpl1300DplJobList(Map inputMap)  throws Exception;
+	List selectDpl1300DplJobList(Map paramMap)  throws Exception;
 	
 	
 	@SuppressWarnings({"rawtypes" })
@@ -43,6 +50,21 @@ public interface Dpl1000Service {
 	@SuppressWarnings({"rawtypes" })
 	int selectDpl1400DplBldNumListCnt(Map paramMap)  throws Exception;
 	
+	
+	@SuppressWarnings("rawtypes")
+	void deleteDpl1300DplJobList(Map paramMap)  throws Exception;
+	
+		
+	@SuppressWarnings("rawtypes")
+	String selectDpl1500NewChgId(Map paramMap) throws Exception;
+	
+		
+	@SuppressWarnings("rawtypes")
+	String insertDpl1500ModifyHistoryInfo(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	public List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception;
 	
 	
 	
@@ -72,20 +94,7 @@ public interface Dpl1000Service {
 	
 	
 	@SuppressWarnings("rawtypes")
-	void insertDpl1000DeployVerInfo(Map paramMap) throws Exception;
-	
-	
-	
-	@SuppressWarnings("rawtypes")
-	void updateDpl1000DeployVerInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
 	void updateDpl1000DplStsCdInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void deleteDpl1000DeployVerInfo(Map paramMap) throws Exception;
 	
 	
 	int selectDpl1000ListCnt(Dpl1000VO dpl1000VO) throws Exception;
@@ -108,11 +117,6 @@ public interface Dpl1000Service {
 	Map selectDpl1400DplSelBuildInfoAjax(Map map)  throws Exception;
 	
 	
-	@SuppressWarnings("rawtypes")
-	void deleteDpl1300DplJobList(Map paramMap)  throws Exception;
-	
-	
-	
 	int insertDpl1400DeployJobBuildLogInfo(BuildVO buildVo) throws Exception;
 	
 	
@@ -128,14 +132,6 @@ public interface Dpl1000Service {
 	
 	@SuppressWarnings({"rawtypes" })
 	void insertDpl1000DplSignRequestList(Map paramMap)  throws Exception;
-	
-		
-	@SuppressWarnings("rawtypes")
-	String selectDpl1500NewChgId(Map paramMap) throws Exception;
-	
-		
-	@SuppressWarnings("rawtypes")
-	String insertDpl1500ModifyHistoryInfo(Map paramMap) throws Exception;
 	
 		
 	@SuppressWarnings("rawtypes")

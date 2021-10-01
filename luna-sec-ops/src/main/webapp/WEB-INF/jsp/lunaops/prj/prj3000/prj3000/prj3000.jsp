@@ -14,7 +14,7 @@
 	</div>
 	<div class="kt-portlet__body">
 		<div class="row">
-			<!-- begin:: 산출물 메뉴 목록  -->
+			
 			<div class="col-xl-4">
 				<div class="kt-portlet osl-content__border--light kt-margin-b-20"
 					id="prj3000DocTreeMenu">
@@ -24,7 +24,7 @@
 								<i class="fas fa-copy kt-margin-r-5"></i>산출물 메뉴 목록
 							</h5>
 						</div>
-						<!-- begin:: 산출물 메뉴 목록 button -->
+						
 						<div class="kt-portlet__head-toolbar">
 							<div class="kt-portlet__head-wrapper">
 								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj3000DocTree" data-tree-action="select" title="산출물 메뉴 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="산출물 메뉴 목록 조회">
@@ -40,7 +40,7 @@
 								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
 							</div>
 						</div>
-						<!-- end:: 산출물 메뉴 목록 button -->
+						
 					</div>
 
 					<div class="kt-portlet__body">
@@ -57,10 +57,10 @@
 					</div>
 				</div>
 			</div>
-			<!-- end:: 산출물 메뉴 목록  -->
-			<!-- begin:: 산출물 양식 정보 + 산출물 양식 파일 관리 영역 + 산출물 연결 관리  -->
+			
+			
 			<div class="col-xl-8">
-				<!-- begin:: 산출물 양식 정보  -->
+				
 				<div class="kt-portlet--contain osl-content__border--light">
 					<div class="kt-blog-grid">
 						<div class="kt-portlet__head kt-portlet__head--lg">
@@ -69,7 +69,7 @@
 									<i class="fas fa-file-signature kt-margin-r-5"></i>산출물 양식 정보
 								</h5>
 							</div>
-							<!-- begin:: 산출물 양식 정보 button -->
+							
 							<div class="kt-portlet__head-toolbar">
 								<div class="kt-portlet__head-wrapper">
 									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj3000DocTree" data-tree-action="selectDocInfo" title="데이터 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="selectDocInfo" tabindex="1" data-original-title="산출물 양식 정보 조회">
@@ -86,7 +86,7 @@
 									</button>
 								</div>
 							</div>
-							<!-- end:: 산출물 양식 정보 button -->
+							
 						</div>
 
 						<div class="kt-portlet__body">
@@ -149,8 +149,8 @@
 						</div>
 					</div>
 				</div>
-				<!-- end:: 산출물 양식 정보  -->
-				<!-- begin:: 산출물 양식 파일 관리  -->
+				
+				
 				<div class="kt-portlet--contain osl-content__border--light kt-margin-t-20">
 					<div class="kt-blog-grid">
 						<div class="kt-portlet__head kt-portlet__head--lg">
@@ -159,7 +159,7 @@
 									<i class="fas fa-clipboard-list kt-margin-r-5"></i>산출물 양식 파일 관리
 								</h5>
 							</div>
-							<!-- begin:: 산출물 양식 파일 관리 조회 button -->
+							
 							<div class="kt-portlet__head-toolbar">
 								<div class="kt-portlet__head-wrapper">
 									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj3000DocTree" data-tree-action="selectFiles" title="산출물 양식 파일 관리 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="selectFiles" tabindex="1" data-original-title="산출물 양식 파일 관리 조회">
@@ -167,7 +167,7 @@
 									</button>
 								</div>
 							</div>
-							<!-- end:: 산출물 양식 파일 관리 조회 button -->
+							
 						</div>
 
 						<div class="kt-portlet__body">
@@ -178,7 +178,7 @@
 											<div class="kt-portlet__head-label">
 												<h5 class="kt-font-boldest kt-font-brand">확정 파일</h5>
 											</div>
-											<!-- begin:: 산출물 확정 파일 등록 button -->
+											
 											<div class="kt-portlet__head-toolbar">
 												<div class="kt-portlet__head-wrapper">
 													<input type="file" class="kt-hide" id="confFileBtn" multiple="multiple" name="confFileBtn">
@@ -187,7 +187,7 @@
 													</button>
 												</div>
 											</div>
-											<!-- end:: 산출물 확정 파일 등록 button -->
+											
 										</div>
 
 										<div class="kt-portlet__body kt-padding-10 kt-scroll border osl-radius-bottom" data-height="350" id="confirmation-list">
@@ -201,7 +201,7 @@
 											<div class="kt-portlet__head-label">
 												<h5 class="kt-font-boldest kt-font-brand">확정 대기 파일</h5>
 											</div>
-											<!-- begin:: 산출물 확정 대기 파일 등록  button -->
+											
 											<div class="kt-portlet__head-toolbar">
 												<div class="kt-portlet__head-wrapper">
 													<input type="file" class="kt-hide" id="fileBtn" multiple="multiple" name="fileBtn">
@@ -210,7 +210,7 @@
 													</button>
 												</div>
 											</div>
-											<!-- end:: 산출물 확정 대기 파일 등록  button -->
+											
 										</div>
 										<div class="kt-portlet__body kt-padding-10 kt-scroll border osl-radius-bottom" data-height="350" id="wait-confirmation-list"></div>
 									</div>
@@ -219,8 +219,8 @@
 						</div>
 					</div>
 				</div>
-				<!-- end:: 산출물 양식 파일 관리  -->
-				<!-- begin:: 산출물 연결 관리  -->
+				
+				
 				<div class="kt-portlet--contain osl-content__border--light kt-margin-t-20">
 					<div class="kt-blog-grid">
 						<div class="kt-portlet__head kt-portlet__head--lg">
@@ -229,7 +229,7 @@
 									<i class="fas fa-file-signature kt-margin-r-5"></i>산출물 연결 관리
 								</h5>
 							</div>
-							<!-- begin:: 산출물 연결 관리 button -->
+							
 							<div class="kt-portlet__head-toolbar">
 								<div class="kt-portlet__head-wrapper">
 									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj3002PrjTable" data-datatable-action="select" title="산출물 연결 관리 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="산출물 연결 관리 조회">
@@ -243,7 +243,7 @@
 									</button>
 								</div>
 							</div>
-							<!-- end:: 산출물 연결 관리 button -->
+							
 						</div>
 
 						<div class="kt-portlet__body">
@@ -256,13 +256,13 @@
 						</div>
 					</div>
 				</div>
-				<!-- end:: 산출물 연결 관리  -->
+				
 			</div>
-			<!-- end:: 산출물 양식 정보 + 산출물 양식 파일 관리 영역 + 산출물 연결 관리 -->
+			
 		</div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLPrj3000Popup = function () {
@@ -271,29 +271,29 @@ var OSLPrj3000Popup = function () {
 	
 	var formId = "frPrj3000";
 	
-	//산출물 아이디
+	
 	var docId = '';
 	
 	var treeObj = null;
 	
-	//파일 타입 (확정파일인지 대기파일인지)
+	
 	var fileType = ''; 
 	
-	//atchfileId
+	
 	var atchFileId = '';
 	
 	var documentSetting = function(){
 		
-		//파일 드래그앤 드랍 펑션
+		
 		fileDropDown();
 		
-		//Portlet 세팅
+		
 		new KTPortlet('prj3000DocTreeMenu', $.osl.lang("portlet"));
 		
-		/**************************************/
-		/* 트리 메뉴 및 관련 메서드 시작                                      */
-		/**************************************/
-		// 조직 tree 세팅
+		
+		
+		
+		
 		treeObj = $.osl.tree.setting("prj3000DocTree",{
 			data:{
 				url:"<c:url value='/prj/prj3000/prj3000/selectPrj3000DocListAjax.do'/>",
@@ -302,23 +302,23 @@ var OSLPrj3000Popup = function () {
 				labelKey: "docNm"
 			},
 			search:{
-				//대소문자 구분
+				
 				case_insensitive : true,
-				//검색 결과 노드만 표시
+				
 				show_only_matches: true,
-				//show_only_matches: true 일때 하위 노드도 같이 표시 할건지
+				
 				show_only_matches_children: true,
 			},
 			callback:{
 				onclick: function(treeObj,selNode){
-					// 산출물 정보 단건 조회
+					
 					selectDocInfo(selNode.original);
 					
-					//파일 정보 조회
+					
 					selectFormFileList();
 				},
 				init: function(treeObj,data){
-					//console.log(treeObj,data); 
+					
 				}
 			},
 			contextmenu: {
@@ -348,21 +348,21 @@ var OSLPrj3000Popup = function () {
             	}
 			},
 			actionFn : {
-				//산출물 양식 정보 추가
+				
 				"insert" : function(obj){
 					
-					//선택한 트리 노드 없으면 튕기기
+					
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
 						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
 						return false;
 					}
 					
-					// 선택노드
+					
 					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
 					var nodeData = selectNode.original;
 					
-					// 등록 팝업 호출
+					
 					var data = {
 							type:"insert",
 							upperDocId : nodeData.docId,
@@ -379,21 +379,21 @@ var OSLPrj3000Popup = function () {
 					
 					$.osl.layerPopupOpen('/prj/prj3000/prj3000/selectPrj3001View.do',data,options);
 				},
-				//산출물 양식 정보 수정
+				
 				"update" : function(obj){
 					
-					//선택한 트리 노드 없으면 튕기기
+					
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
 						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
 						return false;
 					}
 					
-					// 선택노드
+					
 					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
 					var nodeData = selectNode.original;
 					
-					// 수정 팝업 호출
+					
 					var data = {
 							type:"update",
 							docId : docId,
@@ -407,54 +407,54 @@ var OSLPrj3000Popup = function () {
 					
 					$.osl.layerPopupOpen('/prj/prj3000/prj3000/selectPrj3001View.do',data,options);
 				},
-				//산출물 삭제, 하위 노드 존재한다면 모두 삭제
+				
 				"delete" :function(obj){
 					
 					var children = $("#confirmation-list").children('div');
 					
-					//선택한 트리 노드 없으면 튕기기
+					
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
 						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
 						return false;
 					}
 					
-					// 선택노드
+					
 					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
 					var nodeData = selectNode.original;
 					
-					// root 삭제불가
+					
 					if(nodeData.lvl == 0 || $.osl.isNull(nodeData.upperDocId)){
 						$.osl.alert($.osl.lang("prj3000.message.alert.notRootDelete"));
 					}else{
 						
-						// 산출물 삭제
+						
 						deleteDocList(nodeData, selectNode.children_d);
 					}
 				},
-				//선택 단일 산출물 정보 조회
+				
 				"selectDocInfo" : function(obj){
 					
-					//선택한 트리 노드 없으면 튕기기
+					
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
 						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
 						return false;
 					}
 					
-					// 선택노드
+					
 					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
 					var nodeData = selectNode.original;
 					
-					// 산출물 정보 단건 조회
+					
 					selectDocInfo(nodeData);
 					
-					//파일 정보 조회
+					
 					selectFormFileList();
 				},
-				//확정 산출물 양식 파일 등록
+				
 				"insertConfFile" : function(obj){
-					//선택한 트리 노드 없으면 튕기기
+					
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
 						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
@@ -465,9 +465,9 @@ var OSLPrj3000Popup = function () {
 					insertConfFile.trigger("click");
 					
 				},
-				//확정 대기 산출물 양식 파일 등록
+				
 				"insertFile" : function(obj){
-					//선택한 트리 노드 없으면 튕기기
+					
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
 						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
@@ -478,110 +478,43 @@ var OSLPrj3000Popup = function () {
 					insertFile.trigger("click");
 					
 				},
-				//선택 산출물 양식 파일 리스트 조회
+				
 				"selectFiles" : function(obj){
 					
-					//선택한 트리 노드 없으면 튕기기
+					
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
 						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
 						return false;
 					}
 					
-					//그림 다시그리기
+					
 					selectFormFileList();
 				},
-				//결재선 지정
-				"signLine" : function(obj){
-					
-					//선택한 트리 노드 없으면 튕기기
-					var selectNodeIds = treeObj.jstree("get_selected");
-					if($.osl.isNull(selectNodeIds)){
-						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
-						return false;
-					}
-					
-					// 선택노드
-					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
-					var nodeData = selectNode.original;
-					
-					if(nodeData.signUseCd == '02'){
-						//lang
-						$.osl.alert($.osl.lang("prj3000.message.alert."));
-						return false;
-					}
-					
-					var modalData = {
-							prjId :  nodeData.prjId,
-							targetId :  nodeData.docId,
-							targetCd : '03'
-					};
-					
-					
-					var ajaxObj = new $.osl.ajaxRequestAction(
-							{"url":"<c:url value='/prj/prj3000/prj3100/selectPrj3001WaitSignCntAjax.do'/>", "async": false}
-							,{"docId": nodeData.docId, "prjId":nodeData.prjId });
-					
-					//AJAX 전송 성공 함수
-					ajaxObj.setFnSuccess(function(data){
-						if(data.errorYn == "Y"){
-							$.osl.alert(data.message,{type: 'error'});
-							
-						}else{
-							
-							// 결재 대기 중인 파일 없다면 결재선 지정 팝업 오픈
-							if(data.waitSignCnt == 0){
-								var options = {
-										modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
-										autoHeight: false,
-										modalSize: "xl"
-								};
-								
-								$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',modalData,options);
-								
-							// 결재 대기 중인 파일 있다면 결재선 조회 팝업 오픈
-							}else{
-								
-								var options = {
-										modalTitle: $.osl.lang("prj3000.modal.title.selectSignLine"),  
-										autoHeight: false,
-										modalSize: "md"
-								};
-								
-								$.osl.layerPopupOpen('/cmm/cmm20000/cmm6600/selectCmm6601View.do',modalData,options);
-							}
-						}
-					});
-					
-					//AJAX 전송
-					ajaxObj.send();
-					
-					
-					
-				}
+				
 			}
 		});
 		
 
     	
-		/**************************************/
-		/* 트리 메뉴 및 관련 메서드 종료                                      */
-		/**************************************/
 		
 		
 		
-		/**************************************/
-		/*   파일 관련 스크립트 시작                                          */
-		/**************************************/
 		
-		//확정 대기 파일 업로드 버튼 클릭 이벤트
+		
+		
+		
+		
+		
+		
+		
 		$('#fileBtn').change(function(){
 			fileType = 'waitFile';
 			fnFileAjaxUpload($('#fileBtn')[0].files , fileType);
 			$('#fileBtn').val('');
 		});
 		
-		//확정 파일 업로드 버튼 클릭 이벤트
+		
 		$('#confFileBtn').change(function(){
 			fileType = 'confFile';
 			fnFileAjaxUpload($('#confFileBtn')[0].files , fileType);
@@ -591,34 +524,31 @@ var OSLPrj3000Popup = function () {
 		
 		
 		
-		/*
-		 * function명 : fileDropDown
-		 * function설명 : 파일 드래그앤 드랍 이벤트
-		 */
+		
         function fileDropDown() {
             var confirmation = $("#confirmation-list");
-            //Drag기능 
+            
             confirmation.on('dragenter', function(e) {
                 e.stopPropagation();
                 e.preventDefault();
-                // 드롭다운 영역 css
+                
                 confirmation.addClass('osl-border-brand');
             });
             confirmation.on('dragleave', function(e) {
                 e.stopPropagation();
                 e.preventDefault();
-                // 드롭다운 영역 css
+                
                 confirmation.removeClass('osl-border-brand');
             }); 
             confirmation.on('dragover', function(e) {
             	e.stopPropagation(); 
                 e.preventDefault();
-                // 드롭다운 영역 css  
+                
                  confirmation.addClass('osl-border-brand');
             });
             confirmation.on('drop', function(e) {
             	e.preventDefault();
-                // 드롭다운 영역 css
+                
                 confirmation.removeClass('osl-border-brand');
 
                 var files = e.originalEvent.dataTransfer.files;
@@ -628,7 +558,7 @@ var OSLPrj3000Popup = function () {
                        
                         return;
                     } else {
-                    	//선택한 트리 노드 없으면 튕기기
+                    	
         				var selectNodeIds = treeObj.jstree("get_selected");
         				if($.osl.isNull(selectNodeIds)){
         					$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
@@ -642,29 +572,29 @@ var OSLPrj3000Popup = function () {
             });
             
             var waitConfirmation = $("#wait-confirmation-list");
-            //Drag기능 
+            
             waitConfirmation.on('dragenter', function(e) {
                 e.stopPropagation();
                 e.preventDefault();
-                // 드롭다운 영역 css
+                
                 waitConfirmation.addClass('osl-border-brand');
             });
             waitConfirmation.on('dragleave', function(e) {
                 e.stopPropagation();
                 e.preventDefault();
-                // 드롭다운 영역 css
+                
                 waitConfirmation.removeClass('osl-border-brand');
             });
             waitConfirmation.on('dragover', function(e) {
             	e.stopPropagation(); 
                 e.preventDefault();
-                // 드롭다운 영역 css  
+                
                 waitConfirmation.addClass('osl-border-brand');
             });
             waitConfirmation.on('drop', function(e) {
             	
             	e.preventDefault();
-                // 드롭다운 영역 css
+                
                 waitConfirmation.removeClass('osl-border-brand');
 
                 var files = e.originalEvent.dataTransfer.files;
@@ -674,7 +604,7 @@ var OSLPrj3000Popup = function () {
                         return;
                     } else {
 						
-                    	//선택한 트리 노드 없으면 튕기기
+                    	
         				var selectNodeIds = treeObj.jstree("get_selected");
         				if($.osl.isNull(selectNodeIds)){
         					$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
@@ -692,13 +622,13 @@ var OSLPrj3000Popup = function () {
 		
         
 		
-		/*확정파일 영역 drag&drop sortable*/
+		
 		new Sortable($('#confirmation-list')[0], {
 			group:'shared',
 	        animation: 100,
-	        //선택된 대상 active css효과
+	        
 	        chosenClass: "chosen",
-	        //이동될 div(나갈)
+	        
 	        onMove:function(evt,originalEvent){
 				var UserAgent = navigator.userAgent;
 
@@ -708,26 +638,26 @@ var OSLPrj3000Popup = function () {
 					return true;
 				}
 			},
-	      	//해당 div로 이동될 대상의 동작(들어온)
+	      	
 			onAdd:function(evt){
-				//이동하는 박스 
+				
 				var moveDiv = $(evt.item);
 				
 				var fileSn = moveDiv.data("filesn");
 				var fileType = 'formFile';
-				//파일 타입 바꾸기
+				
 				updateFileType(fileType,fileSn);
 			}
 	    });
 
 		
-		/*확정 대기파일 drag&drop sortable*/
+		
 		new Sortable($('#wait-confirmation-list')[0], {
 	        group:'shared',
 	        animation: 100,
-	        //선택된 대상 active css효과
+	        
 	        chosenClass: "chosen",
-	        //이동될 div(나갈)
+	        
 	        onMove:function(evt,originalEvent){
 	        	
 				var UserAgent = navigator.userAgent;
@@ -738,29 +668,29 @@ var OSLPrj3000Popup = function () {
 					return true;
 				}
 			},
-	      	//해당 div로 이동될 대상의 동작(들어온)
+	      	
 			onAdd:function(evt){
-				//이동하는 박스 
+				
 				var moveDiv =$(evt.item);
 				
 				var fileSn = moveDiv.data("filesn");
 				var fileType = 'formConfFile';
 				
-				//파일 타입 바꾸기
+				
 				updateFileType(fileType,fileSn);
 			}
 	    });
 		
 		 
-		/**************************************/
-		/*   파일 관련 스크립트 종료                                         */
-		/**************************************/
 		
 		
-		/**************************************/
-		/*  산출물 연결관리 관련 스크립트 시작                            */
-		/**************************************/
-		//데이터 테이블 세팅
+		
+		
+		
+		
+		
+		
+		
 		$.osl.datatable.setting("prj3002PrjTable",{
 			data: {
 				source: {
@@ -801,14 +731,14 @@ var OSLPrj3000Popup = function () {
 			actionFn:{
 				"insert":function(datatableId, type, rowNum){
 					
-					//선택된 산출물 없다면 튕기기
+					
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
 						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
 						return false;
 					}
 					
-					// 선택노드
+					
 					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
 					var nodeData = selectNode.original;
 					
@@ -824,60 +754,55 @@ var OSLPrj3000Popup = function () {
 					$.osl.layerPopupOpen('/prj/prj3000/prj3000/selectPrj3002View.do',data,options);
 				},
 				"delete":function(rowDatas, datatableId, type, rowNum, elem){
-					//AJAX 설정
+					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/prj/prj3000/prj3000/deletePrj3002DocConInfoAjax.do'/>"}
 							,{deleteDataList: JSON.stringify(rowDatas)});
-					//AJAX 전송 성공 함수
+					
 					ajaxObj.setFnSuccess(function(data){
 						if(data.errorYn == "Y"){
 			   				$.osl.alert(data.message,{type: 'error'});
 			   			}else{
-			   				//삭제 성공
+			   				
 			   				$.osl.toastr(data.message);
 			   				
-			   				//datatable 조회
+			   				
 			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			   			}
 					});
 					
-					//AJAX 전송
+					
 					ajaxObj.send();
 				}
 			}
 		});
 		
 		
-		/**************************************/
-		/*  산출물 연결관리 관련 스크립트 종료                            */
-		/**************************************/
 		
-		/*스크롤 세팅*/
-		//산출물 트리 스크롤 세팅
+		
+		
+		
+		
+		
 		ktScrollInit("#prj3000DocTree", "410");
-		//확정 파일 스크롤 세팅
+		
 		ktScrollInit("#confirmation-list", "350");
-		//확정 대기 파일 스크롤 세팅
+		
 		ktScrollInit("#wait-confirmation-list", "350");	
 		
 		
 		 
 		
-		/*
-		 * function명 : ktScrollInit
-		 * function설명 : 스크롤 세팅 및 반응형 될 때 세로크기값을 계산해준다
-		 * @param targetName : 스크롤 세팅할 대상 class, id
-		 * @param targetHeight : 스크롤의 세로 사이즈
-		 */
+		
 		function ktScrollInit (targetName, targetHeight) {
 			KTUtil.scrollInit($(targetName)[0], {
-		   		//모바일 스크롤 바 마우스 제어 비활성화
+		   		
 		         disableForMobile: true, 
-		         //반응형 시 스크롤 유지 여부
+		         
 		         resetHeightOnDestroy: true, 
-		         //브라우저 창의 크기를 조정할 때 크기를 자동으로 조절 여부
+		         
 		         handleWindowResize: true, 
-		         //세로 사이즈
+		         
 		         height: targetHeight
 		    });
 		}
@@ -886,19 +811,15 @@ var OSLPrj3000Popup = function () {
 	}
 	
 	
-	/**
-	 * function 명 	: selectDocInfo
-	 * function 설명	: 선택한 산출물의 상세정보를 조회하여 화면에 세팅한다.
-	 * @param docId : 선택한 산출물 ID
-	 */
+	
 	var selectDocInfo = function(nodeData) {
     	
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj3000/prj3000/selectPrj3000DocInfoAjax.do'/>", "async": false}
 				,{"docId": nodeData.docId, "dtParamPrjId" : nodeData.prjId});
 		
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
@@ -906,57 +827,52 @@ var OSLPrj3000Popup = function () {
 			}else{
 				$("#"+formId)[0].reset();
 				
-				// 산출물 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.docInfoMap,"frPrj3000", ["docId", "docNm", "useNm", "ord", "docEdDtm", "signUseNm", "docFormFileId", "docFormConfFileId", "docAtchFileId", "docWaitFileId"]);
 			
-				//비고칸 비우기
+				
 		    	$("#docDesc").html('');
 				
 		    	var docDesc = data.docInfoMap.docDesc;
 				
-				// 산출물 마감일 없을 경우
+				
 				if($.osl.isNull(data.docInfoMap.docEdDtm)){
 					$("#docEdDtm").val("-");
 				}
 				
 				if(!$.osl.isNull(docDesc)){
 					docDesc =  $.osl.escapeHtml(docDesc);
-			    	// 비고 값 div영역에 세팅
+			    	
 					$("#docDesc").html(docDesc.replace(/\n/g, '<br/>'));
 				}
 				
-				//데이터 테이블 정보 세팅
+				
 				selectDocConInfo();
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	}
 	
 	
-	/*
-	 * function명 : fnFileAjaxUpload
-	 * function설명 : 파일 업로드를 위한 메소드
-	 * @param files : 업로드할 파일의 정보들
-	 * @param fileType : 확정 파일인지 확정 대기파일인지 (확정파일 = confFile, 확정대기파일 = waitFile)
-	 */
+	
 	var fnFileAjaxUpload = function(files,fileType) {
 		 
 		var fd = $.osl.formDataToJsonArray(formId);
 		
-		//확장자 체크
+		
 		var extChk = true;
 		
-		//다중 파일 모두 넣기
+		
 		$.each(files, function(idx, file){
 			
-			//확장자 가져오기
+			
 			var ext = file.name.split(".").pop().toLowerCase();
 			
 			if(!fileWhiteList(ext)){
-				//lang
-				//$.osl.toastr("확장자가 [ " + ext + " ] 인 파일은 첨부가 불가능 합니다.");
+				
+				
 				$.osl.alert($.osl.lang("prj3000.message.alert.fileExtChk",ext));
 				extChk = false;
 				return false;
@@ -964,30 +880,30 @@ var OSLPrj3000Popup = function () {
 			fd.append('file', file);
 		});
 		
-		//false면 리턴
+		
 		if(!extChk){
 			return;
 		}
 		
 		fd.append('fileType', fileType);
 		
-		//확정파일이면  확정 파일 아이디 가져오기
+		
 		if(fileType == 'confFile'){
 			atchFileId = $('#docFormConfFileId').val();
 			
-		//확정 대기파일이면 
+		
 		}else if(fileType == 'waitFile'){
 			atchFileId = $('#docFormFileId').val();
 		}
 		
 		fd.append('atchFileId', atchFileId);
 		
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj3000/prj3000/insertPrj3000FormFileUploadAjax.do'/>", "async": false, "contentType":false,"processData":false ,"cache":false}
 				,fd);
 		
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
@@ -995,23 +911,19 @@ var OSLPrj3000Popup = function () {
 			}else{
 				$.osl.toastr(data.message);
 				
-				//파일 정보 조회
+				
 				selectFormFileList();
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
 	
 	
 	
 	
-	/**
-	 * function 명 	: selectDocConInfo
-	 * function 설명	: 선택한 산출물의 연결 정보를 조회하여 화면에 세팅한다.
-	 * @param docId : 선택한 산출물 ID
-	 */
+	
 	var selectDocConInfo = function(){
 		docId = $("#docId").val();
 		$.osl.datatable.list[prj3002PrjTable].targetDt.setDataSourceParam("docId", docId);
@@ -1020,24 +932,19 @@ var OSLPrj3000Popup = function () {
 	}
 	
 	
-	 /**
-	 * function 명 	: deleteDocList
-	 * function 설명	: 선택한 산출물 및 하위 산출물을 모두 삭제한다.
-	 * @param selectNodeData : 선택한 산출물 노드 데이터
-	 * @param childrenIds : 선택한 산출물 노드의 자식 노드 id 배열
-	 */
+	 
 	var deleteDocList = function(selectNodeData, childrenIds){
 		
-		// 삭제할 산출물 목록
+		
 		var delDocList = [];
 		var delFileList = [];
 		
-		// 선택한 산출물 정보 추가
+		
 		delDocList.push({"docId":selectNodeData.docId, "upperDeptId":selectNodeData.upperDocId, "docNm":selectNodeData.docNm, "prjId" : selectNodeData.prjId,
 					 "docFormFileId":selectNodeData.docFormFileId, "docFormConfFileId":selectNodeData.docFormConfFileId, "docAtchFileId":selectNodeData.docAtchFileId, "docWaitFileId":selectNodeData.docWaitFileId});
-		// 자식 노드 loop
+		
 		$.each(childrenIds, function(idx, treeNodeId){
-			// 삭제시 필요한 정보 세팅
+			
 			var childNodeData = treeObj.jstree().get_node(treeNodeId).original;
 			delDocList.push({"docId":childNodeData.docId, "upperDocId":childNodeData.upperDocId, "docNm":childNodeData.docNm, "prjId" : selectNodeData.prjId,
 					 "docFormFileId":childNodeData.docFormFileId, "docFormConfFileId":childNodeData.docFormConfFileId, "docAtchFileId":childNodeData.docAtchFileId, "docWaitFileId":childNodeData.docWaitFileId});
@@ -1046,35 +953,35 @@ var OSLPrj3000Popup = function () {
 		$.osl.confirm($.osl.lang("prj3000.message.confirm.deleteDoc"),null,function(result) {
 	        if (result.value) {
 	        	
-	    		//AJAX 설정
+	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction(
 					{"url":"<c:url value='/prj/prj3000/prj3000/deletePrj3000DocInfoAjax.do'/>"}
 					,{deleteDataList: JSON.stringify(delDocList)});
 
-	    		//AJAX 전송 성공 함수
+	    		
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
 	    			}else{
-	    				//삭제 성공
+	    				
 	    				$.osl.toastr(data.message);
 	    				
-	    				// 삭제 후 우측 상세정보 초기화
+	    				
 	    				$("#"+formId)[0].reset();
 	    				
-	    				//비고칸 비우기
+	    				
 				    	$("#docDesc").html('');
 	    				
-	    				//트리 재조회
+	    				
 	    				$("button[data-tree-id=prj3000DocTree][data-tree-action=select]").click();
 	    				
-	    				//파일 리스트 비우기
+	    				
 	    				$("#confirmation-list").empty();
 	    				$("#wait-confirmation-list").empty();
 	    			}
 	    		});
 	    		
-	    		//AJAX 전송
+	    		
 	    		ajaxObj.send();
 	        }
 	    });
@@ -1082,50 +989,42 @@ var OSLPrj3000Popup = function () {
 	}
 	
 	 
-	/*
-	 * function명 : selectFormFileList
-	 * function설명 : 가져온 파일 리스트 그리기
-	 * @param data : 가져온 파일 데이터
-	 */
+	
 	var selectFormFileList = function(){
 		
-		 //확정 산출물 양식
+		 
 		var docFormConfFileId = $('#docFormConfFileId').val();
 		
-		 //확정 대기 산출물 양식
+		 
 		var docFormFileId = $('#docFormFileId').val();
 		
-		//AJAX 설정
+		
 		var ajaxObj1 = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj3000/prj3000/selectPrj3000FormFileListAjax.do'/>", "async": true, "loadingShow": false}
 				,{'docFormConfFileId': docFormConfFileId, 'docFormFileId':docFormFileId});
 					
 		
-		//AJAX 전송 성공 함수
+		
 		ajaxObj1.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 			}else{
 				
-				//가져온 데이터로 그림그리기
+				
 				drawList(data);
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj1.send();			
 		
 	}
 	
-	 /*
-	 * function명 : drawList
-	 * function설명 : 가져온 파일 리스트 그리기
-	 * @param data : 가져온 파일 데이터
-	 */
+	 
 	var drawList = function(data){
 		
-		//파일 리스트 비우기
+		
 		$("#confirmation-list").empty();
 		$("#wait-confirmation-list").empty();
 		
@@ -1133,21 +1032,21 @@ var OSLPrj3000Popup = function () {
 		
 		var waitFileList = data.formFileList;
 		
-		//버튼
-		//인포
+		
+		
 		var infoIcon ='<div class="osl-uppy__btn osl-uppy__left kt-margin-r-10">'
 							+'<i class="fas fa-info-circle"></i>'
 						+'</div>';
-		//오른쪽이동
+		
 		var rightIcon = '<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__right-btn osl-uppy__left kt-margin-r-10"></div>';
-		//왼쪽이동
+		
 		var leftIcon = '<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__left-btn osl-uppy__left kt-margin-r-10"></div>';
-		//삭제
+		
 		var deleteIcon = '<div class="osl-uppy__btn osl-uppy__left kt-margin-r-10">'
 								+'<i class="fa fa-times-circle"></i>'
 							+'</div>';
 		
-		//확정 산출물 파일 리스트 돌기
+		
 		$.each(atchFileList, function(idx, fileData){
 			var fileVolume = $.osl.byteCalc(fileData.fileMg)
 			var iconPath = '';
@@ -1155,10 +1054,10 @@ var OSLPrj3000Popup = function () {
 			var iconColor = '';
 			var iconPlace = '';
 			
-			//사진 확장자
+			
 			var imgExt = ['jpg','jpeg','png','gif'];
 			
-			//파일 종류에 따라 이미지 다르게 설정
+			
 			if(fileData.fileExtsn == 'pdf'){
 				iconPath =	'<path d="M9.766 8.295c-.691-1.843-.539-3.401.747-3.726 1.643-.414 2.505.938 2.39 3.299-.039.79-.194 1.662-.537 3.148.324.49.66.967 1.055 1.51.17.231.382.488.629.757 1.866-.128 3.653.114 4.918.655 1.487.635 2.192 1.685 1.614 2.84-.566 1.133-1.839 1.084-3.416.249-1.141-.604-2.457-1.634-3.51-2.707a13.467 13.467 0 0 0-2.238.426c-1.392 4.051-4.534 6.453-5.707 4.572-.986-1.58 1.38-4.206 4.914-5.375.097-.322.185-.656.264-1.001.08-.353.306-1.31.407-1.737-.678-1.059-1.2-2.031-1.53-2.91zm2.098 4.87c-.033.144-.068.287-.104.427l.033-.01-.012.038a14.065 14.065 0 0 1 1.02-.197l-.032-.033.052-.004a7.902 7.902 0 0 1-.208-.271c-.197-.27-.38-.526-.555-.775l-.006.028-.002-.003c-.076.323-.148.632-.186.8zm5.77 2.978c1.143.605 1.832.632 2.054.187.26-.519-.087-1.034-1.113-1.473-.911-.39-2.175-.608-3.55-.608.845.766 1.787 1.459 2.609 1.894zM6.559 18.789c.14.223.693.16 1.425-.413.827-.648 1.61-1.747 2.208-3.206-2.563 1.064-4.102 2.867-3.633 3.62zm5.345-10.97c.088-1.793-.351-2.48-1.146-2.28-.473.119-.564 1.05-.056 2.405.213.566.52 1.188.908 1.859.18-.858.268-1.453.294-1.984z"></path>';
 				iconClass = 'osl-uppy-pdf-bg';
@@ -1189,7 +1088,7 @@ var OSLPrj3000Popup = function () {
 									+	'<div class="w-100 osl-min-h-px--70 kt-padding-l-20 kt-padding-r-20 kt-padding-t-10 kt-padding-b-10">';		
 			var fileDivCenter = '';
 			
-			//사진 확장자가 아닐 때
+			
 			if($.inArray(fileData.fileExtsn, imgExt) == -1){
 				fileDivCenter +=		'<div class="osl-uppy-file-sumnail '+ iconClass +'" >'
 										+	'<div class="osl-uppy-file-sumnail-bg"></div>'
@@ -1203,7 +1102,7 @@ var OSLPrj3000Popup = function () {
 										+	'<div class="osl-uppy-list-dashboardItem-action--download" aria-label="파일 다운로드">'
 											+	'<i class="fas fa-arrow-circle-down"></i>'
 										+	'</div>'
-			//사진 확장자일 때
+			
 			}else{
 				fileDivCenter +=		'<div class="osl-uppy-file-sumnail">'
 										+ 	'<img src="'+ "/cmm/fms/getImage.do?fileSn="+fileData.fileSn+"&atchFileId="+fileData.atchFileId+'">'
@@ -1226,7 +1125,7 @@ var OSLPrj3000Popup = function () {
 			
 		});
 		
-		//확정 대기 산출물 양식 리스트 돌기
+		
 		$.each(waitFileList, function(idx, fileData){
 			var fileVolume =$.osl.byteCalc(fileData.fileMg)
 			var iconPath = '';
@@ -1235,10 +1134,10 @@ var OSLPrj3000Popup = function () {
 			var iconColor = '';
 			var iconPlace = '';
 			
-			//사진 확장자
+			
 			var imgExt = ['jpg','jpeg','png','gif'];
 			
-			//파일 종류에 따라 이미지 다르게 설정
+			
 			if(fileData.fileExtsn == 'pdf'){
 				iconPath =	'<path d="M9.766 8.295c-.691-1.843-.539-3.401.747-3.726 1.643-.414 2.505.938 2.39 3.299-.039.79-.194 1.662-.537 3.148.324.49.66.967 1.055 1.51.17.231.382.488.629.757 1.866-.128 3.653.114 4.918.655 1.487.635 2.192 1.685 1.614 2.84-.566 1.133-1.839 1.084-3.416.249-1.141-.604-2.457-1.634-3.51-2.707a13.467 13.467 0 0 0-2.238.426c-1.392 4.051-4.534 6.453-5.707 4.572-.986-1.58 1.38-4.206 4.914-5.375.097-.322.185-.656.264-1.001.08-.353.306-1.31.407-1.737-.678-1.059-1.2-2.031-1.53-2.91zm2.098 4.87c-.033.144-.068.287-.104.427l.033-.01-.012.038a14.065 14.065 0 0 1 1.02-.197l-.032-.033.052-.004a7.902 7.902 0 0 1-.208-.271c-.197-.27-.38-.526-.555-.775l-.006.028-.002-.003c-.076.323-.148.632-.186.8zm5.77 2.978c1.143.605 1.832.632 2.054.187.26-.519-.087-1.034-1.113-1.473-.911-.39-2.175-.608-3.55-.608.845.766 1.787 1.459 2.609 1.894zM6.559 18.789c.14.223.693.16 1.425-.413.827-.648 1.61-1.747 2.208-3.206-2.563 1.064-4.102 2.867-3.633 3.62zm5.345-10.97c.088-1.793-.351-2.48-1.146-2.28-.473.119-.564 1.05-.056 2.405.213.566.52 1.188.908 1.859.18-.858.268-1.453.294-1.984z"></path>';
 				iconClass = 'osl-uppy-pdf-bg';
@@ -1269,7 +1168,7 @@ var OSLPrj3000Popup = function () {
 									+	'<div class="w-100 osl-min-h-px--70 kt-padding-l-20 kt-padding-r-20 kt-padding-t-10 kt-padding-b-10">';									
 			var fileDivCenter = '';
 			
-			//사진 확장자가 아닐 때
+			
 			if($.inArray(fileData.fileExtsn, imgExt) == -1){
 				fileDivCenter +=		'<div class="osl-uppy-file-sumnail '+ iconClass +'">'
 										+	'<div class="osl-uppy-file-sumnail-bg"></div>'
@@ -1283,7 +1182,7 @@ var OSLPrj3000Popup = function () {
 										+	'<div class="osl-uppy-list-dashboardItem-action--download" aria-label="파일 다운로드">'
 											+	'<i class="fas fa-arrow-circle-down"></i>'
 										+	'</div>'
-			//사진 확장자일 때
+			
 			}else{
 				fileDivCenter +=		'<div class="osl-uppy-file-sumnail">'
 										+ 	'<img src="'+ "/cmm/fms/getImage.do?fileSn="+fileData.fileSn+"&atchFileId="+fileData.atchFileId+'">'
@@ -1304,7 +1203,7 @@ var OSLPrj3000Popup = function () {
 			$('#wait-confirmation-list').append(fileDiv);
 		});
 		
-		//파일 이동 버튼 이벤트, 삭제버튼, 다운버튼 이벤트 걸기
+		
 		fileMoveBtnEvt();
 		deleteFileBtnEvt();
 		fileDownBtnEvt();
@@ -1312,10 +1211,7 @@ var OSLPrj3000Popup = function () {
     
     
 	
-    /*
-	 * function명 : fileDownBtnEvt
-	 * function설명 : 파일 다운로드 이벤트
-	 */
+    
 	var fileDownBtnEvt = function(){
 		
 		$('.osl-uppy-list-dashboardItem-action--download').click(function(){
@@ -1327,68 +1223,62 @@ var OSLPrj3000Popup = function () {
 			var form = $("#"+formId)[0];
 			var fd = $.osl.formDataToJsonArray(formId);
 			
-			//확정 파일이면
+			
 			if(type.hasClass('form-atch-file')){
 				
 				atchFileId = $('#docFormConfFileId').val();
 			
-			//확정 대기 파일이면
+			
 			}else if(type.hasClass('form-file')){
 				
 				atchFileId = $('#docFormFileId').val();
 				
 			}
-			//파일 다운
+			
 			$.osl.file.fileDownload(atchFileId,fileSn);
 			
 		});
 	}
     
     
-	 /*
-	 * function명 : fileMoveBtnEvt
-	 * function설명 : 파일 리스트 화살표 버튼 클릭 이벤트
-	 */
+	 
 	var fileMoveBtnEvt = function(){
 		$('.osl-uppy__arrow-btn').click(function(){
-			//클릭된 화살표의 부모(첨부파일 전체) 박스
+			
 			var target = $(this).parents('.osl-uppy-file');
 			var fileSn = target.data('filesn');
 			var fileType = '';
 			
-			//확정 대기 파일일 때
+			
 			if(target.hasClass('form-file')){
-				//확정 파일로 이동
+				
 				$('#confirmation-list').prepend(target);
-				//아이콘 변경(방향,아이콘 모양)
+				
 				$(this).addClass('osl-uppy__right-btn osl-uppy__right');
 				$(this).removeClass('osl-uppy__left-btn osl-uppy__left');
 				
-				//확정 대기 파일
+				
 				fileType = 'formFile';
 			
-			//확정 파일일 때
+			
 			}else{ 
-				//확정 대기 파일로 이동(확정 파일 버튼)
+				
 				$('#wait-confirmation-list').prepend(target);
-				//아이콘 변경(방향,아이콘 모양)
+				
 				$(this).addClass('osl-uppy__left-btn osl-uppy__left');
 				$(this).removeClass('osl-uppy__right-btn osl-uppy__right');
 
-				//확정 파일
+				
 				fileType = 'formConfFile';
 			}
 			
-			//파일 타입 바꾸기
+			
 			updateFileType(fileType,fileSn);
 		});
 	}
 	
 	 
-	 /*
-	 * function명 : deleteFileBtnEvt
-	 * function설명 : 파일 리스트 삭제 버튼 클릭 이벤트
-	 */
+	 
 	var deleteFileBtnEvt = function(){
 		
 		$('.fa-times-circle').click(function(){
@@ -1396,39 +1286,39 @@ var OSLPrj3000Popup = function () {
 			var targetType = $(this).parents('.osl-uppy-file');
 			var fileSn = targetType.data('filesn');
 			
-			//확정 대기 파일일 경우
+			
 			if(targetType.hasClass("form-file")){
 				atchFileId = $('#docFormFileId').val();
 			
-			//확정파일일 경우
+			
 			}else if(targetType.hasClass("form-atch-file")){ 
 				atchFileId = $('#docFormConfFileId').val();	
 			}
 			
 			
-			//파일 삭제 확인창
+			
 			$.osl.confirm($.osl.lang("prj3000.message.confirm.deleteFormFile"),null,function(result) {
 		        if (result.value) {
 		        	
-		    		//AJAX 설정
+		    		
 		    		var ajaxObj = new $.osl.ajaxRequestAction(
 						{"url":"<c:url value='/prj/prj3000/prj3000/deletePrj3000FileAjax.do'/>"}
 						,{"atchFileId":atchFileId, "fileSn":fileSn});
 	
-		    		//AJAX 전송 성공 함수
+		    		
 		    		ajaxObj.setFnSuccess(function(data){
 		    			if(data.errorYn == "Y"){
 		    				$.osl.alert(data.message,{type: 'error'});
 		    			}else{
-		    				//삭제 성공
+		    				
 		    				$.osl.toastr(data.message);
 		    				
-		    				//트리 재조회
+		    				
 		    				$("button[data-tree-id=prj3000DocTree][data-tree-action=selectFiles]").click();
 		    			}
 		    		});
 		    		
-		    		//AJAX 전송
+		    		
 		    		ajaxObj.send();
 		        }
 		    });
@@ -1438,63 +1328,59 @@ var OSLPrj3000Popup = function () {
 	}
 	
 	 
-	/**
-	 * function 명 	: updateFileType
-	 * function 설명	: 선택한 파일을 확정 혹은 확정대기로 바꾼다
-	 * @param fileType : 확정파일인지 확정 대기 파일인지 구분
-	 */
+	
 	var updateFileType = function(fileType, fileSn){
 		
-		//원래 파일 아이디
+		
 		var beforeFileId = '';
 		
-		//변경 후 바뀔 파일 아이디
+		
 		var afterFileId = '';
 		
-		//확정 예정 파일일 경우
+		
 		if(fileType == 'formFile'){
 			
-			//확정 예정 파일 아이디에서 확정 파일 아이디로
+			
 			beforeFileId = $('#docFormFileId').val();
 			afterFileId = $('#docFormConfFileId').val();
 			
-		//확정 파일일 경우
+		
 		}else if(fileType == 'formConfFile'){
 			
-			//확정 파일 아이디에서 확정 예정 파일 아이디로
+			
 			beforeFileId = $('#docFormConfFileId').val();
 			afterFileId = $('#docFormFileId').val();
 			
 		}
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj3000/prj3000/updatePrj3000FileTypeAjax.do'/>", "async": false}
 				,{"docId": docId, "beforeFileId":beforeFileId, "afterFileId":afterFileId, "fileSn":fileSn});
 		
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 				
-				//파일 리스트 초기화하기
+				
 				$("button[data-tree-id=prj3000DocTree][data-tree-action=selectFiles]").click();
 			}else{
 				
 				$.osl.toastr(data.message);
 				
-				//파일 리스트 다시 그리기
+				
 				selectFormFileList();
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	}
     
 	
 	var fileWhiteList = function( fileExt ){
-		// 화이트 리스트가 아니라면 중지 업로드 중지.
+		
 		if( $.inArray(fileExt, ['doc','docx','hwp','pdf','ppt','pptx','xls','xlsx','zip','jpg','jpeg','png','gif','eml','cell','show']) == -1) {
 			return false;
 	   }
@@ -1502,12 +1388,7 @@ var OSLPrj3000Popup = function () {
 		
 	} 
 	
-	/**
-	*function 명 : truncateString
-	*function 설명 : 파일명칭 길어졌을 경우 자르기
-	*@param name : 파일 명칭
-	*@param length : 고정시킬 길이
-	**/
+	
 	 var truncateString = function (name, length) {
           if (name.length <= length) return name;
           if (length <= "...".length) return name.substr(0, length);
@@ -1518,7 +1399,7 @@ var OSLPrj3000Popup = function () {
       }
 	
 	return {
-	       // public functions
+	       
         init: function() {
         	documentSetting();
         }
@@ -1530,5 +1411,5 @@ $.osl.ready(function(){
 	OSLPrj3000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

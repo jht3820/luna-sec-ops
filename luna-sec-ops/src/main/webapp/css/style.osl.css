@@ -141,6 +141,9 @@ input:-webkit-autofill,
 .osl-margin-b-05{
 	margin-bottom: 0.5rem;
 }
+.osl-overflow--x-auto{
+	overflow-x: auto;
+}
 
 .osl-badge-lightgray{
 	background-color: #f7f7f7;
@@ -177,6 +180,9 @@ input:-webkit-autofill,
 
 .osl-min-h-px--30 {
   min-height: 30px !important; 
+}
+.osl-h-px-34{
+	height: 34px;
 }
 .osl-h-px-35{
 	height: 35px;
@@ -286,6 +292,9 @@ input:-webkit-autofill,
 
 
 
+.osl-width-300{
+	width: 300px;
+}
 
 .osl-min-width-70{
 	min-width: 70px;
@@ -333,6 +342,9 @@ input:-webkit-autofill,
 .osl-line-height--38{
 	line-height: 38px;
 }
+.osl-line-height--23{
+	line-height: 23px;
+}
 
 
 .osl-color--blue{
@@ -379,6 +391,9 @@ input:-webkit-autofill,
 }
 .osl-code-bg{
 	background-color: #23241f;
+}
+.osl-dash-gridkaban-bg{
+	background-color: #eaf1f7;
 }
 .osl-code__line-frame {
     width: 30px;
@@ -544,6 +559,11 @@ select[id^=usrOpt_] {
 }
 .btn.btn-default i {
     color: #645ca1;
+}
+.dsh-reload-btn{
+	background: none;
+	border: none;
+	color: #1cac81;
 }
 .kt-nav.kt-nav--v3 .kt-nav__item .kt-nav__link
 {
@@ -886,6 +906,9 @@ label.required:after {
 .osl-div__cursor--grab{
 	cursor: grab;
 }
+.osl-btn__cursor--default{
+	cursor: default !important;
+}
 .osl-hover--brand{
 	border: 1px solid transparent;
 }
@@ -897,6 +920,11 @@ label.required:after {
 }
 .modal-footer{
 	background-color:#fff;
+}
+.osl-kaban--card__body{
+	padding: 0 10px 10px 10px !important;
+	height: 500px;
+	overflow: auto;
 }
 
 .jstree-default .jstree-anchor {
@@ -926,7 +954,6 @@ label.required:after {
 .osl-content__border--light{
  	border: 1px solid #ebedf2;
 }
-
 
 
 .osl-uppy-DashboardItem-action--download{
@@ -1613,6 +1640,10 @@ label.required:after {
 .osl-font-xs{
 	font-size: 0.5rem;
 }
+.osl-flex-flow--row{
+	flex-flow: row;
+}
+
 .osl-flex-flow--column{
 	flex-flow: column;
 }
@@ -1636,7 +1667,7 @@ label.required:after {
 	background: #EAF1F7;
 }
 .osl-flowchart__operator {
-    position: absolute;
+	 position: absolute;
     min-width: 200px;
     background: #FAFAFA;
     -webkit-box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
@@ -1645,6 +1676,33 @@ label.required:after {
 	border: 1px solid transparent;
     border-radius: 4px;
     pointer-events: auto;
+}
+
+.osl-dsh-kanban{
+	height: 590px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	display: inline-flex;
+	align-items: center;
+}
+.osl-dsh-flowchart{
+	height: 85px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	display: inline-flex;
+	align-items: center;
+}
+.osl-dsh-flowchart>.osl-flowchart__operator {
+    position: relative;
+	width: 250px;
+}
+.osl-dsh-flowchart>i,.osl-dsh-kanban>i{
+	width: 80px;
+	font-size: 30px; 
+	text-align: center;
+}
+.osl-dsh-flowchart .flowchart-operator .flowchart-operator-title{
+	cursor: default;
 }
 .flowchart-operator .flowchart-operator-function {
     width: 100%;
@@ -1772,6 +1830,17 @@ label.required:after {
     animation: flowError 1s linear infinite;
 }
 
+
+.osl-title--all-view-content {
+    font-family: "Font Awesome 5 Free";
+    font-size: 1.2rem;
+}
+.osl-title--all-view-content.off::before{
+	content: "\f070";
+}
+.osl-title--all-view-content.on::before{
+	content: "\f06e"; 
+}
 
 @-webkit-keyframes flowError {
     0% { border: 1px solid transparent; }
@@ -2635,6 +2704,9 @@ label.required:after {
 		height: 10px;
 		line-height: 10px;
 		text-align:left;
+	}
+	.osl-flex-flow--column-mobile-430{
+		flex-flow: column;
 	}
 }
 
