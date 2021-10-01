@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http:
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -571,114 +571,7 @@ var OSLPrj3000Popup = function () {
 					
 				},
 				
-				"signAtchFile" : function(obj){
-					
-					var selectNodeIds = treeObj.jstree("get_selected");
-					if($.osl.isNull(selectNodeIds)){
-						$.osl.alert($.osl.lang("prj3100.message.alert.treeSelect"));
-						return false;
-					}
-					
-					
-					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
-					var nodeData = selectNode.original;
-					
-					
-					var checkedFiles = $('input[type=checkbox][name=fileSn]:checked');
-					
-					
-					if(checkedFiles.length == 0){
-						$.osl.alert($.osl.lang("prj3100.message.alert.notCheckedFile"));
-						return false;
-					}
-					
-					var checkedFileSn = [];
-					
-					$.each(checkedFiles, function(){
-						
-						checkedFileSn.push({"fileSn":$(this).val()});
-						
-					});
-					
-					
-					$.osl.confirm($.osl.lang("prj3100.message.confirm.signAtchFile"),null,function(result) {
-				        if (result.value) {
-				        	
-				        	var ord = $('input[type=checkbox][name=fileSn]:first').parent().data("ord");
-							
-							
-							var ajaxObj = new $.osl.ajaxRequestAction(
-									{"url":"<c:url value='/prj/prj3000/prj3100/updatePrj3001SignAprAjax.do'/>"}
-									,{deleteDataList: JSON.stringify(checkedFileSn), docId:nodeData.docId, prjId:nodeData.prjId, ord:ord, signUseCd:nodeData.signUseCd});
-							
-							ajaxObj.setFnSuccess(function(data){
-								if(data.errorYn == "Y"){
-					   				$.osl.alert(data.message,{type: 'error'});
-					   			}else{
-					   				
-					   				
-					   				$.osl.toastr($.osl.lang("prj3100.toastr.success",checkedFileSn.length));
-					   				
-					   				
-				    				$("button[data-tree-id=prj3100DocTree][data-tree-action=selectFiles]").click();
-					   			}
-							});
-							
-							
-							ajaxObj.send();
-				        }
-				    });
-					
-				},
 				
-				"signAtchFileRjt" : function(obj){
-				
-					
-					var selectNodeIds = treeObj.jstree("get_selected");
-					if($.osl.isNull(selectNodeIds)){
-						$.osl.alert($.osl.lang("prj3100.message.alert.treeSelect"));
-						return false;
-					}
-					
-					
-					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
-					var nodeData = selectNode.original;
-					
-					
-					var ord = $('input[type=checkbox][name=fileSn]:first').parent().data("ord");
-					
-					
-					var checkedFiles = $('input[type=checkbox][name=fileSn]:checked');
-					
-					
-					if(checkedFiles.length == 0){
-						$.osl.alert($.osl.lang("prj3100.message.alert.notCheckedFile"));
-						return false;
-					}
-					
-					var checkedFileSn = [];
-					$.each(checkedFiles, function(){
-						
-						checkedFileSn.push($(this).val());
-						
-					});
-					
-					var data = {docId: nodeData.docId,
-								dtParamPrjId : nodeData.prjId,
-								checkedFiles : checkedFileSn.join(','),
-								ord : ord,
-								signUseCd : nodeData.signUseCd
-								};
-					
-					var options = {
-						modalTitle: $.osl.lang("prj3100.modal.title.signRjtRes"),
-						closeConfirm: false,
-						autoHeight: false
-					};
-				
-					$.osl.layerPopupOpen('/prj/prj3000/prj3100/selectPrj3102View.do',data,options)
-					
-				}
 			}
 		});
 		
@@ -867,8 +760,9 @@ var OSLPrj3000Popup = function () {
 				if(infType == '01' && signUseNm == '예'){
 					
 					
-					$.osl.confirm("확정된 파일을 확정 대기 파일로 바꾸시겠습니까? 바꾼 후에는 결재 정보가 사라지고 처음부터 결재를 받아야 합니다.",null,function(result) {
-				        if (result.value) {
+					
+					
+				        
 				        	
 				        	var fileSn = moveDiv.data('filesn');
 							var fileType = 'atchFile';
@@ -877,13 +771,13 @@ var OSLPrj3000Popup = function () {
 							updateFileType(fileType,fileSn);
 				        	
 				        
-				        }else{
+				       
 				        	
 				        	
 		    				$("button[data-tree-id=prj3100DocTree][data-tree-action=selectFiles]").click();
-				        }
+				        
 					
-					})
+					
 				}
 				
 				else if(infType == '02'){
@@ -1258,9 +1152,6 @@ var OSLPrj3000Popup = function () {
 				iconPlace = '25';
 			}
 			
-			
-			
-			
 			var fileDivbefore = 	'';
 			
 			
@@ -1304,7 +1195,7 @@ var OSLPrj3000Popup = function () {
 									
 									
 									if(fileData.infType == '01'){
-										fileDivbefore += '<div class="float-left osl-line-height--50"><span class="badge badge-info">결재 확정</span></div>';
+										fileDivbefore += '<div class="float-left osl-line-height--50"><span class="badge badge-info">확정</span></div>';
 									
 									}else if(fileData.infType == '04'){
 										fileDivbefore += '<div class="float-left osl-line-height--50"><span class="badge badge-danger">결재 반려</span></div>';
@@ -1312,7 +1203,8 @@ var OSLPrj3000Popup = function () {
 									
 									
 					fileDivbefore +=	'<div class="float-right">'
-									+			infoIcon
+					
+									
 									+			rightIcon
 									+			deleteIcon
 									+		'</div>'
