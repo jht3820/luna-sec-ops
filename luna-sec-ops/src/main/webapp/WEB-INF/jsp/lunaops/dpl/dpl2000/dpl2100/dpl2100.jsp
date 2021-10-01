@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<!-- begin page DOM -->
+
 <div class="kt-portlet kt-portlet--mobile">
 	<!-- 카드형, 그리드형 보기 부분은 현재 주석처리
 	<div class="kt-portlet__head kt-portlet__head--lg">
@@ -48,14 +48,14 @@
 	<div class="kt_datatable osl-datatable-footer__divide" id="dpl1000Table"></div>
 	 -->
 	 
-	<!-- 배포 계획 목록 그리드형 보기만 -->
+	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
 				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
 			</h4>
 		</div>
-		<!-- begin::버튼영역 -->
+		
 		<div class="kt-portlet__head-toolbar">
 			<input type="hidden" name="signRes" id="signRes">
 			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl2100Table" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
@@ -68,29 +68,29 @@
 				<i class="fas fa-times"></i><span>반려</span>
 			</button>
 		</div>
-		<!-- end::버튼 영역 -->
+		
 	</div>
 	<div class="kt-portlet__body">
-		<!-- begin:: datatable 영역 -->
+		
 		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
 			<div class="osl-datatable-search" data-datatable-id="dpl2100Table"></div>
 		</div>
 		<div class="kt_datatable osl-datatable-footer__divide" id="dpl2100Table"></div>
-		<!-- end:: datatable 영역 -->
+		
 	</div>
 </div>
 
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLDpl2100Popup = function () {
 	
-	//datatable Id
+	
 	var dpl2100DatatableId = "dpl2100Table";
 	
 	var documentSetting = function(){
 		
-		//데이터 테이블 세팅
+		
 		$.osl.datatable.setting("dpl2100Table",{
 			data: {
 				source: {
@@ -128,7 +128,7 @@ var OSLDpl2100Popup = function () {
 					template: function(row){
 					var signRes = row.signRes;
 					
-					// 결재 의견 없을 경우 
+					
 					if($.osl.isNull(signRes)){
 						signRes = "결재 의견 없음";
 					}
@@ -164,12 +164,12 @@ var OSLDpl2100Popup = function () {
 				"signApr":function(rowData, datatableId, type, rowNum, elem){
 					var rowDatas = [];
 					
-					//외부 버튼 클릭 시 (체크박스 데이터 연동)
+					
 					if(type == "list"){
-						//선택 레코드 수
+						
 						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
 						
-						//선택 레코드 없는 경우
+						
 						if(selRecords.length == 0){
 							$.osl.alert($.osl.lang("dpl2100.action.sign.nonSelect"));
 							return true;
@@ -177,7 +177,7 @@ var OSLDpl2100Popup = function () {
 						
 						rowDatas = rowData;
 						
-					//액션 버튼 클릭시 (각 로우 버튼)
+					
 					}else{
 						rowDatas.push(rowData);
 					}
@@ -189,23 +189,31 @@ var OSLDpl2100Popup = function () {
 					var options = {
 						modalTitle: $.osl.lang("dpl2100.modal.title.signAprRes"),
 						autoHeight: false,
-						modalSize: "xl",
+						modalSize: "md",
 						callback:[{
 							targetId: "cmm6602SaveSubmit",
 							actionFn: function(thisObj){
 								
+								
+					        	var signRes = OSLCmm6602Popup.getSignRes();
+								
+								
+								if($.osl.isNull(signRes)){
+									$.osl.alert("결재 사유를 입력해주세요.");
+									return true;
+								}
+								
 								$.osl.confirm($.osl.lang("dpl2100.message.confirm.signApr"),null,function(result) {
 							        if (result.value) {
-							        	//값 저장
-							        	var signRes = OSLCmm6602Popup.getSignRes();
+							        	
 							        	var type = OSLCmm6602Popup.getType();
-							        	//모달 창 닫기
+							        	
 										$.osl.layerPopupClose();
 							        	
-							        	//결재 승인
-							        	signApr(rowDatas,signRes,type);
 							        	
-							        	//새로 고침
+							        	signDpl(rowDatas,signRes,type);
+							        	
+							        	
 							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
 							        }
 							    });
@@ -221,12 +229,12 @@ var OSLDpl2100Popup = function () {
 				"signReject":function(rowData, datatableId, type, rowNum, elem){
 					var rowDatas = [];
 					
-					//외부 버튼 클릭 시 (체크박스 데이터 연동)
+					
 					if(type == "list"){
-						//선택 레코드 수
+						
 						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
 						
-						//선택 레코드 없는 경우
+						
 						if(selRecords.length == 0){
 							$.osl.alert($.osl.lang("dpl2100.action.sign.nonSelect"));
 							return true;
@@ -234,7 +242,7 @@ var OSLDpl2100Popup = function () {
 						
 						rowDatas = rowData;
 						
-					//액션 버튼 클릭시 (각 로우 버튼)
+					
 					}else{
 						rowDatas.push(rowData);
 					}
@@ -246,23 +254,30 @@ var OSLDpl2100Popup = function () {
 					var options = {
 						modalTitle: $.osl.lang("dpl2100.modal.title.signRjtRes"),
 						autoHeight: false,
-						modalSize: "xl",
+						modalSize: "md",
 						callback:[{
 							targetId: "cmm6602SaveSubmit",
 							actionFn: function(thisObj){
 								
+					        	var signRes = OSLCmm6602Popup.getSignRes();
+								
+								
+								if($.osl.isNull(signRes)){
+									$.osl.alert("반려 사유를 입력해주세요.");
+									return true;
+								}
+								
 								$.osl.confirm($.osl.lang("dpl2100.modal.confirm.signRjt"),null,function(result) {
 							        if (result.value) {
-							        	//값 저장
-							        	var signRes = OSLCmm6602Popup.getSignRes();
+							        	
 							        	var type = OSLCmm6602Popup.getType();
-							        	//모달 창 닫기
+							        	
 										$.osl.layerPopupClose();
 							        	
-							        	//결재 승인
-							        	signApr(rowDatas,signRes,type);
 							        	
-							        	//새로 고침
+							        	signDpl(rowDatas,signRes,type);
+							        	
+							        	
 							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
 							        }
 							    });
@@ -276,6 +291,8 @@ var OSLDpl2100Popup = function () {
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
 					var data = {
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
 					};
 				var options = {
 						modalTitle: '[배포 명] 상세팝업',
@@ -298,36 +315,31 @@ var OSLDpl2100Popup = function () {
 				
 	};
 	
-	/*
-	 * function명 : signApr
-	 * function설명 : 선택한 결재 대기 배포 정보들을 결재 승인한다.
-	 * @param rowDatas : 선택한 결재 정보들
-	 * @param signRes : 결재 승인 사유
-	 */
-	var signApr = function(rowDatas, signRes, type){
+	
+	var signDpl = function(rowDatas, signRes, type){
 		
-		//AJAX 설정
+		
  		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/cmm/cmm6000/cmm6600/insertCmm6601SignInfoAjax.do'/>"}
 				,{rowDatas: JSON.stringify(rowDatas), signRes:signRes, type:type});
 
- 		//AJAX 전송 성공 함수
+ 		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
  				$.osl.alert($.lang("cmm6601.sign.fail"),{type: 'error'});
  			}else{
- 				//결재 성공
+ 				
  				$.osl.toastr($.lang("cmm6601.sign.fail"));
  				
  			}
  		});
  		
- 		//AJAX 전송
+ 		
  		ajaxObj.send();
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -339,5 +351,5 @@ $.osl.ready(function(){
 	OSLDpl2100Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

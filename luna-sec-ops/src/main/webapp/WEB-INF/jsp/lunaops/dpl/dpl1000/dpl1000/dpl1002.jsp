@@ -1194,13 +1194,13 @@ var OSLDpl1002Popup = function () {
 	var fnKtScrollInit = function(targetName, targetHeight) {
 		KTUtil.scrollInit($(targetName)[0], {
 	   		
-	         disableForMobile: true, 
-	         
-	         resetHeightOnDestroy: true, 
-	         
-	         handleWindowResize: true, 
-	         
-	         height: targetHeight
+	        disableForMobile: true, 
+	        
+	        resetHeightOnDestroy: true, 
+	        
+	        handleWindowResize: true, 
+	        
+	        height: targetHeight
 	    });
 	};
 	
