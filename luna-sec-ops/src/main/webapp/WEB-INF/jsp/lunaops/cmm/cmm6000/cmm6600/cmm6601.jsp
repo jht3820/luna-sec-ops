@@ -2,8 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frCmm6601">
-	<input type="hidden" name="paramDeptNm" id="paramDeptNm" value="${param.deptName}">
-	<input type="hidden" name="paramDocId" id="paramDocId" value="${param.docId}">
+	<input type="hidden" name="paramTargetId" id="paramTargetId" value="${param.targetId}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.prjId}">
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -30,11 +29,7 @@
 <script>
 "use strict";
 var OSLCmm6601Popup = function () {
-		
 	
-    var ord=0;
-    
-    var selectUsrArray=[];
     
     var usrStr = '';
 	
@@ -44,7 +39,7 @@ var OSLCmm6601Popup = function () {
 	var prjId = $('#paramPrjId').val();
 	
 	
-	var docId = $('#paramDocId').val();
+	var targetId = $('#paramTargetId').val();
 	
     
     var documentSetting = function () {
@@ -65,12 +60,14 @@ var OSLCmm6601Popup = function () {
 	
 	};
    
-    
+	
+	
 	var selectSignUsrInfList = function(){
+    	
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
-			{"url":"<c:url value='/prj/prj3000/prj3000/selectPrj3003SignUsrListAjax.do'/>"}
-			, {prjId : prjId, docId:docId});
+				{"url":"<c:url value='/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do'/>"}
+			, {"prjId" : prjId, "targetId" : targetId});
 
 		
 		ajaxObj.setFnSuccess(function(data){
@@ -85,22 +82,21 @@ var OSLCmm6601Popup = function () {
 					userSetting(map);
 			    		
 				});
-				
 			}
 		});
 		
 		
 		ajaxObj.send();
 	}
-  	
+	
     
   	
-   	function userSetting(userInfo){
+   	var userSetting = function(userInfo){
 		usrStr += 
 			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'">'
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
 				+'<div class="kt-margin-r-20 font-weight-bolder">'
-					+'<span class="cardNumber">No.</span><span class="dplStartOrdCell" ord='+ord+'>'+ord+'</span>'
+					+'<span class="cardNumber">No.</span><span class="signStartOrdCell" data-ord="0"></span>'
 				+'</div>'
 				+'<div class="kt-widget__label kt-margin-r-10 osl-user__active--block">'
 						+'<i class="fa fa-arrow-alt-circle-left"></i>'
@@ -126,27 +122,38 @@ var OSLCmm6601Popup = function () {
 		
 		$("#signCardTable").append(usrStr);
 		
-		selectUsrArray.push(userInfo.usrId);
-		
 		usrStr='';	
-		
-		ord++;
 		
 		
 		updateLastUsrCard();
    	}
   	
-  	
+  
     var updateLastUsrCard = function(){
-    	var usrCardList = $("#signCardTable .dplStartOrdCell").parent();
+    	var usrCardList = $("#signCardTable .signStartOrdCell").parent();
     	var usrCardCnt = usrCardList.length;
     	$.each(usrCardList,function(idx,map){
-			if((idx+1) == usrCardCnt){
+			
+    		
+    		if((idx+1) == usrCardCnt){
 				$(this).children(".cardNumber").text("");
-				$(this).children(".dplStartOrdCell").text("최종");
-			}else{
+				var ordCell = $(this).children(".signStartOrdCell"); 
+				ordCell.text("최종");
+				ordCell.data('ord', idx);
+			}
+    		
+			else if(idx == 0){
+				$(this).children(".cardNumber").text("");
+				var ordCell = $(this).children(".signStartOrdCell"); 
+				ordCell.text("기안");
+				ordCell.data('ord', idx);
+			
+			}
+			else{
 				$(this).children(".cardNumber").text("No.");
-				$(this).children(".dplStartOrdCell").text(idx);
+				var ordCell = $(this).children(".signStartOrdCell"); 
+				ordCell.text(idx);
+				ordCell.data('ord', idx);
 			}
     		
     	});

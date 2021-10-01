@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http:
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -105,8 +104,8 @@ var OSLDpl1000Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
 				{field: 'dplSignUseNm', title: '결재 사용 유무', textAlign: 'center', width: 120, search: true, searchType:"select", searchCd: "CMM00001", searchField:"dplSignUseCd", sortField: "dplSignUseCd"},
-				{field: 'signStsNm', title: '결재 상태', textAlign: 'center', width: 100, search: true, searchType:"select", searchCd: "REQ00004", searchField:"signStsCd", sortField: "signStsCd"},
-				{field: 'signUsrNm', title: '결재자', textAlign: 'center', width: 100},
+				{field: 'nowSignTypeNm', title: '결재 상태', textAlign: 'center', width: 100, search: true, searchType:"select", searchCd: "REQ00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"},
+				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100},
 				{field: 'dplStsNm', title: '배포 상태', textAlign: 'center', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "DPL00001", searchField:"dplStsCd", sortField: "dplStsCd"},
 				{field: 'dplVer', title: '배포 버전', textAlign: 'center', width: 100, search: true},
 				{field: 'dplNm', title: '배포 명', textAlign: 'left', width: 300, autoHide: false, search: true},
@@ -159,9 +158,25 @@ var OSLDpl1000Popup = function () {
 					
 					var dplSignUseCd = rowData.dplSignUseCd;
 					
+					var signType = rowData.nowSignTypeCd;
+					
 					
 					if(dplStsCd == "02"){
 						$.osl.alert('성공된 배포 계획은 수정이 불가능합니다.');
+						return false;
+					}
+					
+					
+					if(signType == "03"){
+						
+						$.osl.alert('결재 승인된 배포 계획은 수정이 불가능합니다.');
+						return false;
+					}
+					
+					
+					if(signType == "02"){
+						
+						$.osl.alert('결재 대기중인 배포 계획은 수정이 불가능합니다.');
 						return false;
 					}
 					
@@ -188,7 +203,32 @@ var OSLDpl1000Popup = function () {
 				"delete":function(rowDatas, datatableId, type, rowNum, elem){
 					
 					
+					var delFlag = false;
 					
+					$.each(rowDatas, function(idx, map){
+						
+						
+						if(map.nowSignTypeCd == "03"){
+							
+							$.osl.alert('결재 승인된 배포 계획은 삭제가 불가능합니다.');
+							delFlag = true;
+							return false;
+						}
+						
+						
+						if(map.nowSignTypeCd == "02"){
+							
+							$.osl.alert('결재 대기중인 배포 계획은 삭제가 불가능합니다.');
+							delFlag = true;
+							return false;
+						}
+					});
+					
+					if(delFlag){
+						return false;
+					}
+					
+					return;
 					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/dpl/dpl1000/dpl1000/deleteDpl1000DplListAjax.do'/>"}
@@ -250,25 +290,48 @@ var OSLDpl1000Popup = function () {
 						}
 					}
 					
+					
+					var signType = rowData.nowSignTypeCd
+					
 					if(rowData.dplSignUseCd == '02'){
 						
 						$.osl.alert("결재 사용 유무가 아니오인 경우 결재를 사용할 수 없습니다.");
 						return true;
 					}
 					
-					var data = {
-							prjId :  rowData.prjId,
-							targetId :  rowData.dplId,
-							targetCd :  '02'
-					};
 					
-					var options = {
-							modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
-							autoHeight: false,
-							modalSize: "xl"
-					};
-					 
-					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',data,options); 
+					if(signType == '02' || signType == '03'){
+						var data = {
+								prjId :  rowData.prjId,
+								targetId :  rowData.dplId,
+								targetCd : '02'
+						};
+						var options = {
+								
+								modalTitle: $.osl.lang("prj3000.modal.title.selectSignLine"),  
+								autoHeight: false,
+								modalSize: "md"
+						};
+						
+						$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6601View.do',data,options);
+					
+					}
+					
+					else {
+						var data = {
+								prjId :  rowData.prjId,
+								targetId :  rowData.dplId,
+								targetCd :  '02'
+						};
+						
+						var options = {
+								modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
+								autoHeight: false,
+								modalSize: "xl"
+						};
+						 
+						$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',data,options); 
+					}
 					
 					
 				}

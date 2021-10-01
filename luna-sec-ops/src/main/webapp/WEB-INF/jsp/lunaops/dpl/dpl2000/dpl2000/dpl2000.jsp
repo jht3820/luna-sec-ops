@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<!-- begin page DOM -->
+
 <div class="kt-portlet kt-portlet--mobile">
 	<!-- 카드형, 그리드형 보기 부분은 현재 주석처리
 	<div class="kt-portlet__head kt-portlet__head--lg">
@@ -48,38 +48,38 @@
 	<div class="kt_datatable osl-datatable-footer__divide" id="dpl1000Table"></div>
 	 -->
 	 
-	<!-- 배포 계획 목록 그리드형 보기만 -->
+	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
 				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
 			</h4>
 		</div>
-		<!-- begin::버튼영역 -->
+		
 		<div class="kt-portlet__head-toolbar">
 			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl2000Table" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 				<i class="fa fa-list"></i><span>조회</span>
 			</button>
 		</div>
-		<!-- end::버튼 영역 -->
+		
 	</div>
 	<div class="kt-portlet__body">
-		<!-- begin:: datatable 영역 -->
+		
 		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
 			<div class="osl-datatable-search" data-datatable-id="dpl2000Table"></div>
 		</div>
 		<div class="kt_datatable osl-datatable-footer__divide" id="dpl2000Table"></div>
-		<!-- end:: datatable 영역 -->
+		
 	</div>
 </div>
 
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLDpl2000Popup = function () {
 	var documentSetting = function(){
 		
-		//데이터 테이블 세팅
+		
 		$.osl.datatable.setting("dpl2000Table",{
 			data: {
 				source: {
@@ -119,7 +119,7 @@ var OSLDpl2000Popup = function () {
 					template: function(row){
 					var signRes = row.signRes;
 					
-					// 결재 의견 없을 경우 
+					
 					if($.osl.isNull(signRes)){
 						signRes = "결재 의견 없음";
 					}
@@ -150,6 +150,8 @@ var OSLDpl2000Popup = function () {
 			actionFn:{
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
 					var data = {
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
 						};
 					var options = {
 							modalTitle: '[배포 명] 상세팝업',
@@ -171,7 +173,7 @@ var OSLDpl2000Popup = function () {
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -183,5 +185,5 @@ $.osl.ready(function(){
 	OSLDpl2000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />
