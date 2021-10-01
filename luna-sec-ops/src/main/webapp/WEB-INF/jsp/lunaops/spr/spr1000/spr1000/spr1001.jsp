@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <form class="kt-form" id="spr1001">
 	<input type="hidden" id="sprId" name="sprId" value="${param.paramSprId}">
 	<input type="hidden" id="sprStDt" name="sprStDt" value="${param.paramSprStDt}">
@@ -15,12 +17,11 @@
 				
 				
 				<div class="col-12 text-right">${param.paramSprStDt} - ${param.paramSprEdDt}</div>
-				<div class="col-12 text-right">관리자</div>
 				<div class="col-12 text-right">${param.paramSprDesc}</div>
 				
 				
 				
-				<div class="table border kt-margin-t-20">
+				<div class="table border kt-margin-t-20 kt-margin-b-0">
 					<div class="row kt-margin-0">
 						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">전체 배정 백로그</div>
 						<div class="col-6 text-center kt-padding-15" id="sprStat01"></div>
@@ -50,7 +51,7 @@
 			</div>
 			
 			
-			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
+			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
 					<div class="border osl-min-h-px--140" id="burnUpChart"></div>
 				</div>
@@ -58,8 +59,8 @@
 					<div class="border osl-min-h-px--140" id="burnDownChart"></div>
 				</div>
 			</div>
-			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20 osl-user__active--block" id="velocityChartWrap">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
+			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 osl-user__active--block" id="velocityChartWrap">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
 					<div class="border osl-min-h-px--140" id="velocityChart"></div>
 				</div>
 			</div>
@@ -67,7 +68,7 @@
 			
 			
 			<div class="row kt-margin-t-20">
-				<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="col-lg-12 col-md-12 col-sm-12 kt-padding-20">
 					<div class="row">
 						
 						<div class="col-lg-6 col-md-6 col-sm-12">
