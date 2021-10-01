@@ -200,26 +200,8 @@ public class Dpl1000Controller {
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
 			
-			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
-			
-			
-			totCnt = dpl1000Service.selectDpl1000DplListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			dataList = dpl1000Service.selectDpl1000DplList(paramMap);
-			
-        	
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -332,7 +314,6 @@ public class Dpl1000Controller {
     public ModelAndView deleteDpl1000DplListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
     	try{
     		
-			
     		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
         	
         	

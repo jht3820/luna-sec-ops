@@ -657,6 +657,27 @@
 		
 		<include refid="selectDpl1300DplJobListBase"/>
 	</select>
+	
+	
+	<select id="dpl1000DAO.selectDpl1300DplJobPagingList" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT Z.*
+		FROM
+		(
+			<include refid="selectDpl1300DplJobListBase"/>
+		) Z
+		WHERE RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+	</select>
+	
+	
+    <select id="dpl1000DAO.selectDpl1300DplJobPagingListCnt" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		
+		SELECT COUNT(*) AS CNT
+		FROM 
+		( 
+			<include refid="selectDpl1300DplJobListBase"/>
+		) Z
+	</select>
     
     
     <select id="dpl1000DAO.selectDpl1400DplBldNumList" parameterClass="java.util.Map" resultClass="egovMap">
