@@ -293,15 +293,16 @@ var OSLDpl2100Popup = function () {
 					var data = {
 							paramPrjId : rowData.prjId,
 							paramDplId : rowData.dplId
-					};
-				var options = {
-						modalTitle: '[배포 명] 상세팝업',
-						autoHeight: false,
-						modalSize: 'xl'
-					};
-				
-				$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
-			},
+						};
+					var options = {
+							idKey: datatableId +"_"+ rowData.dplId,
+							modalTitle: "["+rowData.dplNm+"] 상세 정보",
+							autoHeight: false,
+							modalSize: 'xl'
+						};
+					
+					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
+				},
 			},
 			theme: {
 				 actionBtnIcon:{
