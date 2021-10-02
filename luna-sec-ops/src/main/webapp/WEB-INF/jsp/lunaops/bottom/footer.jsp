@@ -5,10 +5,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-					<!-- end:: Content -->
+					
 					</div>
 				</div>
-				<!-- begin:: Footer -->
+				
 					<div class="kt-footer kt-grid__item" id="kt_footer">
 						<div class="kt-container kt-container--fluid">
 							<div class="kt-footer__copyright">
@@ -21,18 +21,18 @@
 							</div>
 						</div>
 					</div>
-				<!-- end:: Footer -->
+				
 			</div>
 		</div>
 		
-		<!-- begin::Scrolltop -->
+		
 		<div id="kt_scrolltop" class="kt-scrolltop">
 			<i class="fa fa-arrow-up"></i>
 		</div>
 
-		<!-- end::Scrolltop -->
-		<!-- end:: Page -->
-		<!-- begin::Global Config(global config for global JS sciprts) -->
+		
+		
+		
 		<script>
 			var KTAppOptions = {
 				"colors": {
@@ -71,14 +71,14 @@
 			};
 		</script>
 
-		<!-- end::Global Config -->
+		
 
-		<!--begin::Global Theme Bundle(used by all pages) -->
+		
 		<script src="<c:url value='/js/scripts.bundle.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/js/common/modalPopup.js'/>" type="text/javascript"></script>
-		<!--end::Global Theme Bundle -->
+		
 
-		<!--begin::Page Vendors(used by this page) -->
+		
 		<script src="<c:url value='/plugins/jquery-loading/js/app.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/custom/uppy/uppy.min.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/custom/uppy/locales/ko_KR.js'/>" type="text/javascript"></script>
@@ -92,10 +92,11 @@
 		<script src="<c:url value='/plugins/custom/jquery-ui/jquery-ui.bundle.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/flowchart/jquery.flowchart.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/panzoom/panzoom.js'/>" type="text/javascript"></script>
-		<!--end::Page Vendors -->
+		<script src="<c:url value='/plugins/swiper/swiper.min.js'/>" type="text/javascript"></script>
+		
 
 		<iframe id="fileDownFrame" name="fileDownFrame" src="/com/fms/FileDown.do" style="width:0;height:0;display:none;"></iframe>
 	</body>
 
-	<!-- end::Body -->
+	
 </html>
