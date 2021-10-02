@@ -43,6 +43,11 @@ public class Prj1300DAO  extends ComOslitsAbstractDAO {
 	
 	
 	
+	@SuppressWarnings("rawtypes")
+	public List selectPrj1302AllItemList(Map paramMap) throws Exception{
+		return (List)list("prj1300DAO.selectPrj1302AllItemList",paramMap);
+	}
+	
 	
 	@SuppressWarnings("rawtypes")
 	public List selectPrj1302ItemList(Map paramMap) throws Exception{

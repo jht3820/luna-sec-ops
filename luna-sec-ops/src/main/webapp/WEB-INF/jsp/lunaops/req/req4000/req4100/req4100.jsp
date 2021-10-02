@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -12,6 +12,9 @@
 		</div>
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-wrapper">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="requestProcessing" title="요구사항 업무 처리" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="5">
+					<i class="fa fa-chalkboard-teacher"></i><span data-lang-cd="req4100.button.requestAccept">업무 처리</span>
+				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air kt-hide" data-datatable-id="req4100ReqTable" data-datatable-action="requestAccept" title="요구사항 접수" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="5">
 					<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAccept">접수</span>
 				</button>
@@ -347,7 +350,7 @@ var OSLReq4100Popup = function () {
 					}
 				},
 				"requestAccept": function(rowDatas, datatableId, type, rowNum){
-					if(rowDatas == 0){
+					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("req4100.alert.selectData"));
 						return false;
 					}else{
@@ -377,6 +380,7 @@ var OSLReq4100Popup = function () {
 							idKey: datatableId,
 							modalTitle: $.osl.lang("prj1102.update.title"),
 							closeConfirm: false,
+							ftScrollUse: false
 						};
 						
 						
@@ -390,8 +394,37 @@ var OSLReq4100Popup = function () {
 						if(reqProChkCnt > 0){
 							$.osl.alert(reqProChkCnt+"건의 접수대기가 아닌 요구사항을 제외했습니다.");
 						}
-						
 					}
+				},
+				
+				"requestProcessing": function(rowDatas, datatableId, type, rowNum){
+					if(rowDatas.length == 0){
+						$.osl.alert($.osl.lang("req4100.alert.selectData"));
+						return false;
+					}
+					else if(rowDatas.length > 1){
+						$.osl.alert("요구사항을 1개만 선택해주세요.");
+						return false;
+					}
+					
+					if(rowDatas[0].reqProType != "02"){
+						$.osl.alert("처리중인 요구사항만 업무 처리가 가능합니다.");
+						return false;
+					}
+					
+					var data = {
+							paramPrjId: rowDatas[0].prjId,
+							paramReqId: rowDatas[0].reqId
+					};
+					var options = {
+						autoHeight: false,
+						modalSize: "fs",
+						idKey: datatableId,
+						modalTitle: "["+rowDatas[0].reqNm+"] 요구사항 업무 처리",
+						closeConfirm: false
+					};
+					
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6201View.do',data,options);
 				}
 			},
 			theme:{

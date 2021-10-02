@@ -227,6 +227,8 @@ var OSLCoreChartSetting = function () {
 					offsetX: 0,
 					offsetY: 0,
 				},
+				dataLabels:targetConfig.chart.dataLabels,
+				markers:targetConfig.chart.markers,
 				stroke: targetConfig.chart.stroke,
 				xaxis: targetConfig.chart.xaxis,
 				grid: targetConfig.chart.grid,
@@ -504,7 +506,6 @@ var OSLCoreChartSetting = function () {
 				},
 				"mix": function(array){
 					targetConfig.chart.type="line";
-					targetConfig.yaxis = {show:true};
 					
 					$.each(array, function(idx, value){
 						

@@ -173,7 +173,7 @@
 						}
 						
 						if(okRevision){
-							$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8002View.do',data,options);
+							$.osl.layerPopupOpen('/cmm/cmm6000/cmm6800/selectCmm6800View.do',data,options);
 						}else{
 							$.osl.alert($.osl.lang("stm8000.message.auth"));
 							return false;

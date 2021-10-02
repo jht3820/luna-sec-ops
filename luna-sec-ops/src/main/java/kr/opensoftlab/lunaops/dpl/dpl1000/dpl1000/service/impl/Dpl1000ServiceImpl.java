@@ -176,7 +176,8 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	public void updateDpl1000DplInfo(Map paramMap) throws Exception{
 		
 		
-		this.insertDpl1500DplInfoModifyList(paramMap);
+		
+		
 		
 		Map<String, String> convertParamMap = selectDpl1000JsonToMap(paramMap);
 		
@@ -318,6 +319,18 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	public List selectDpl1300DplJobList(Map paramMap)  throws Exception{
 		return dpl1000DAO.selectDpl1300DplJobList(paramMap);
 	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public List<Map> selectDpl1300DplJobPagingList(Map paramMap) throws Exception {
+		return dpl1000DAO.selectDpl1300DplJobPagingList(paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public int selectDpl1300DplJobPagingListCnt(Map paramMap) throws Exception {
+		return dpl1000DAO.selectDpl1300DplJobPagingListCnt(paramMap);
+	} 
 	
 	
 	@SuppressWarnings({"rawtypes" })

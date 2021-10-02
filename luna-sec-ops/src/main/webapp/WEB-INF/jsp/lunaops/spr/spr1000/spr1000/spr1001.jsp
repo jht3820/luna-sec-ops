@@ -17,12 +17,12 @@
 				
 				
 				<div class="col-12 text-right">${param.paramSprStDt} - ${param.paramSprEdDt}</div>
-				<div class="col-12 text-right">관리자</div>
-				<div class="col-12 text-right">${param.paramSprDesc}</div>
+				<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
+				<div class="col-12 text-right osl-word__break">${param.paramSprDesc}</div>
 				
 				
 				
-				<div class="table border kt-margin-t-20">
+				<div class="table border kt-margin-t-20 kt-margin-b-0">
 					<div class="row kt-margin-0">
 						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">전체 배정 백로그</div>
 						<div class="col-6 text-center kt-padding-15" id="sprStat01"></div>
@@ -52,7 +52,7 @@
 			</div>
 			
 			
-			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
+			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
 					<div class="border osl-min-h-px--140" id="burnUpChart"></div>
 				</div>
@@ -60,11 +60,16 @@
 					<div class="border osl-min-h-px--140" id="burnDownChart"></div>
 				</div>
 			</div>
+			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 osl-user__active--block" id="velocityChartWrap">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
+					<div class="border osl-min-h-px--140" id="velocityChart"></div>
+				</div>
+			</div>
 			
 			
 			
 			<div class="row kt-margin-t-20">
-				<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="col-lg-12 col-md-12 col-sm-12 kt-padding-20">
 					<div class="row">
 						
 						<div class="col-lg-6 col-md-6 col-sm-12">
@@ -112,6 +117,8 @@ var OSLSpr1001Popup = function () {
 	var paramSprTypeCd = $("#sprTypeCd").val();
 	
 	var totalSprPoint = 0;
+	
+	var endSprPoint = 0;
 	
 	var chartDataMap = [];
 	
@@ -173,20 +180,28 @@ var OSLSpr1001Popup = function () {
 				},
 				{field: 'timeRequired', title: '실 소요시간', textAlign: 'center', width: 100,
 					template: function (row) {
-						if(row.reqProType == '01'){
-							return '-';
+						
+						var gap = new Date() - new Date(row.reqStDtm);
+						if(row.reqProType =='01'){
+							return "-";
+							
+						}else if(gap < 0){
+							return '0 시간';
 						
 						}else if(paramSprTypeCd == '03'){
+							if(row.reqProType == '04'){
+								return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
+							}
 							
 							var timeRequired = new Date(paramSprEdDt) - new Date(row.reqStDtm);
-							timeRequired = (timeRequired % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60).toFixed(2);
-							return timeRequired;
+							timeRequired = (timeRequired % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+							return Math.trunc(timeRequired) +" 시간";
 						}
 						
 						else if(row.reqProType == '04'){
-							return $.osl.escapeHtml(String(row.endTimeRequired)); 
+							return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
 						}
-						return $.osl.escapeHtml(String(row.notEndTimeRequired));
+						return $.osl.escapeHtml(String(Math.trunc(row.notEndTimeRequired))) +" 시간";
 					},
 				},
 				{field: 'sprPoint', title: '스토리포인트', textAlign: 'center', width: 80,
@@ -211,23 +226,22 @@ var OSLSpr1001Popup = function () {
 	 				if($.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.hasOwnProperty('data')){
 	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
 	 				}
+	 				
+	 				selectSprInfoStat();
+	 				
+	 				
+	 				drawAllChart();
 				}
 			}
 		});
 		
-		
-		
-		selectSprInfoStat();
-		
-		
-		drawAllChart();
 		
 	};
 	
 	var selectSprInfoStat = function(){
  		
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"true"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"false"},{sprId: paramSprId});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -269,7 +283,7 @@ var OSLSpr1001Popup = function () {
  	
  	var drawAllChart = function(){
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"true"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: paramSprId});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -287,9 +301,11 @@ var OSLSpr1001Popup = function () {
  				
  				drawBurnDownChart(seriesData);
  				
+ 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
  				
  				if(paramSprTypeCd == "03"){
  					drawVelocityChart();
+ 					$("#velocityChartWrap").removeClass("osl-user__active--block");
  				}
  			}	
  		});
@@ -311,8 +327,8 @@ var OSLSpr1001Popup = function () {
 							 key2:"burnUpSprPoint"
 						 },
 						 keyNm:{
-							 keyNm1:"idealBurnUPLine",
-							 keyNm2:"Actual burnUpSprPoint"
+							 keyNm1:"이상적인 번업 라인",
+							 keyNm2:"실제 번업 라인"
 						 },
 						 
 						 chartType:"line",
@@ -330,14 +346,33 @@ var OSLSpr1001Popup = function () {
 						align: "center",
 					},
 					stroke: {
-				          curve: 'smooth'
+				          curve: 'straight'
 				    },
 				    grid: {
 				          borderColor: '#e7e7e7',
 				          row: {
-				            colors: ['#f3f3f3', 'transparent'], 
+				            colors: ['#ffb822', 'transparent'], 
 				            opacity: 0.5
 				          },
+				    },
+					animations:{
+						enabled:false
+					},
+				    dataLabels:{
+				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map(x => new Date(x).format("MM-dd"));
+				    		
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
 				    },
 					xaxis: {
 						type: 'datetime',
@@ -347,7 +382,7 @@ var OSLSpr1001Popup = function () {
 				            	return new Date(value).format("MM-dd");
 				            }
 				        },
-				        tickAmount: '10',
+				        tickAmount: '15',
 		        	},
 					yaxis: {
 						show:true
@@ -387,8 +422,8 @@ var OSLSpr1001Popup = function () {
 							 key2:"burnDownSprPoint"
 						 },
 						 keyNm:{
-							 keyNm1:"idealBurnDownLine",
-							 keyNm2:"Actual burnDownSprPoint"
+							 keyNm1:"이상적인 번다운 라인",
+							 keyNm2:"실제 번다운 라인"
 						 },
 						 
 						 chartType:"line",
@@ -400,13 +435,32 @@ var OSLSpr1001Popup = function () {
 				},
 				chart:{
 					
-					colors: ["#586272", "#1cac81"],
+					colors: ["#ffb822", "#840ad9"],
 					title: {
 						text: "번다운차트",
 						align: "center",
 					},
 					stroke: {
-				          curve: 'smooth'
+				          curve: 'straight'
+				    },
+				    animations:{
+						enabled:false
+					},
+				    dataLabels:{
+				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map(x => new Date(x).format("MM-dd"));
+				    		
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
 				    },
 				    grid: {
 				          borderColor: '#e7e7e7',
@@ -425,12 +479,12 @@ var OSLSpr1001Popup = function () {
 				            }
 				        },
 				        
-				        tickAmount: '10',
+				        tickAmount: '15',
 				        
 				        tickPlacement: 'between',
 		        	},
 					yaxis: {
-						show:true
+						show:true,
 		        	},
 		        	toolbar:{
 		        		tools:{
@@ -455,8 +509,67 @@ var OSLSpr1001Popup = function () {
 		 }
  	
  	var drawVelocityChart = function(){
- 		
- 	}
+ 		var chart = $.osl.chart.setting("apex","velocityChart",{
+ 			data:{
+				
+				url: "<c:url value='/spr/spr1000/spr1000/selectSpr1000VelocityChartInfoAjax.do'/>",
+				
+				param:{
+					 data: paramSprId,
+					 totalSprPoint: totalSprPoint,
+					 endSprPoint: endSprPoint,
+					 
+					 key: {
+						 key1: "sprPoint",
+						 key2: "commitSprPoint",
+						 key3: "actualVelocity",
+						 key4: "commitVelocity"
+					 },
+					 
+					 keyNm:{
+						 keyNm1: "실제 완료 스토리포인트",
+						 keyNm2: "약속된 완료 스토리포인트",
+						 keyNm3: "실제 진행 속도",
+						 keyNm4: "약속된 진행 속도",
+					 },
+					 keyType:{
+						 keyType1:"bar",
+						 keyType2:"bar",
+						 keyType3:"line",
+						 keyType4:"line"
+					 },
+					 
+					 xKey:"term",
+					 
+					 chartType:"mix"
+				 },
+				 type: "remote"
+			},
+			chart:{
+				
+				colors: ["#840ad9", "#ffb822","#840ad9", "#ffb822"],
+			 	stroke: {
+		        	width: [5, 5, 5, 5],
+		          	curve: 'straight',
+		          	dashArray: [0, 0, 5, 5]
+		       },
+		       yaxis: {
+		    	   show:true,
+		    	   min:0,
+	    	   },
+			},
+			callback:{
+				
+				initComplete: function(chartContext, config){
+					$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
+					$(".apexcharts-reset-icon").addClass("kt-margin-0");
+					$(".apexcharts-toolbar").addClass("kt-margin-10");
+					$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
+					$(".apexcharts-toolbar").removeAttr("style[padding]");
+				}
+			}
+		});
+	}
  	
  	
  	var getDataRangeData = function(sttDt, endDT, type, data){
@@ -499,18 +612,39 @@ var OSLSpr1001Popup = function () {
  		
  		var length = resDay.length
  		
- 		var step = totalSprPoint / length
+ 		var step = totalSprPoint / (length-1)
+ 		
  		var start = 0;
  		$.each(resDay, function(index, value){
- 			value['idealBurnUPLine'] = start.toFixed(1);
- 			start += step	
+ 			
+	 		if(length == 1){
+	 			value['idealBurnUPLine'] = totalSprPoint;
+	 		
+	 		}else if(length == 2){
+	 			value['idealBurnUPLine'] = start;
+	 			start += totalSprPoint;
+	 		
+	 		}else{
+	 			value['idealBurnUPLine'] = start.toFixed(1);
+	 			start += step;
+	 		}
  		})
  		
  		
  		var end = totalSprPoint;
  		$.each(resDay, function(index, value){
- 			value['idealBurnDownLine'] = end.toFixed(1);
- 			end -= step	
+ 			
+	 		if(length == 1){
+	 			value['idealBurnDownLine'] = totalSprPoint;
+	 		
+	 		}else if(length == 2){
+	 			value['idealBurnDownLine'] = end;
+	 			end -= totalSprPoint;
+	 		
+	 		}else{
+	 			value['idealBurnDownLine'] = end.toFixed(1);
+	 			end -= step	
+	 		}
  		})
  		
  		var today = new Date();
@@ -541,6 +675,9 @@ var OSLSpr1001Popup = function () {
 		 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
 	 				}
 	 			}
+ 			}else{
+ 				resDay[dayIndex]['burnUpSprPoint'] = null;
+				resDay[dayIndex]['burnDownSprPoint'] = null;
  			}
  		}
  	   	return resDay;

@@ -6,7 +6,6 @@
 
 <div class="kt-portlet kt-portlet--mobile">
 	
-	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
@@ -15,7 +14,7 @@
 		</div>
 		
 		<div class="kt-portlet__head-toolbar">
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl2000Table" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 				<i class="fa fa-list"></i><span>조회</span>
 			</button>
 		</div>
@@ -65,28 +64,24 @@ var OSLDpl2000Popup = function () {
 				},
 				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100, search: true,
 					template: function (row) {
-						console.log(row)
 						return $.osl.user.usrImgSet(row.lastSignUsrImgId, row.lastSignUsrNm);
 					},
 					onclick: function(rowData){
 						$.osl.user.usrInfoPopup(rowData.lastSignUsrId);
 					}
 				},
-				{field: 'dplStsNm', title: '배포 상태', textAlign: 'center', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "DPL00001", searchField:"dplStsCd", sortField: "dplStsCd"},
-				{field: 'dplVer', title: '배포 버전', textAlign: 'center', width: 100, search: true},
+				{field: 'signDtm', title: '결재 요청 일자', textAlign: 'center', width: 150, search: true,searchType:"daterange"},
 				{field: 'dplNm', title: '배포 명', textAlign: 'left', width: 300, autoHide: false, search: true},
-				{field: 'dplTypeNm', title: '배포 방법', textAlign: 'center', width: 70, autoHide: false, search: true, searchType:"select", searchCd: "DPL00003", searchField:"dplTypeCd", sortField: "dplTypeCd"},
-				{field: 'dplRevisionNum', title: '배포 리비전 번호', textAlign: 'center', width: 100
-					,template: function(row){
-						var dplRevisionNum = row.dplRevisionNum;
-						
-						if($.osl.isNull(dplRevisionNum)){
-							dplRevisionNum = "Last Revision";
-						}
-						return dplRevisionNum;
+				{field: 'signRes', title: '결재 의견', textAlign: 'left', width: 250,  search: false,
+					template: function(row){
+					var signRes = row.signRes;
+					
+					
+					if($.osl.isNull(signRes)){
+						signRes = "결재 의견 없음";
 					}
-				},
-				{field: 'dplDt', title: '배포 일자', textAlign: 'center', width: 100, search: true, searchType:"daterange"},
+					return signRes;
+				}},
 				{field: 'dplUsrNm', title: '배포자', textAlign: 'center', width: 100, search: true,
 					template: function (row) {
 						return $.osl.user.usrImgSet(row.dplUsrImgId, row.dplUsrNm);
@@ -101,7 +96,6 @@ var OSLDpl2000Popup = function () {
 			},
 			actionBtn:{
 				"dblClick": true, 
-				"signRequest": true,
 				"update":false,
 				"delete":false,
 				"title": "상세 조회",
@@ -113,9 +107,12 @@ var OSLDpl2000Popup = function () {
 			actionFn:{
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
 					var data = {
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
 						};
 					var options = {
-							modalTitle: '[배포 명] 상세팝업',
+							idKey: datatableId +"_"+ rowData.dplId,
+							modalTitle: "["+rowData.dplNm+"] 상세 정보",
 							autoHeight: false,
 							modalSize: 'xl'
 						};
