@@ -34,22 +34,6 @@ public class Dpl4000Controller {
 	protected EgovPropertyService propertiesService;
 
 	
-	@Resource(name = "leaveaTrace")
-	LeaveaTrace leaveaTrace;
-
-	
-	@Resource(name="fileMngService")
-	private FileMngService fileMngService;
-	
-	
-	@Resource(name="stm3000Service")
-	private Stm3000Service stm3000Service;
-	
-    
-    @Resource(name = "dpl1000Service")
-    private Dpl1000Service dpl1000Service;
-
-	
 	
 	@RequestMapping(value="/dpl/dpl4000/dpl4000/selectDpl4000View.do")
 	public String selectDpl4000View( HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {

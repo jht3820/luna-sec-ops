@@ -69,57 +69,46 @@ var OSLPrj3001Popup = function () {
 	var formId = 'frPrj3001';
 	var type = $("#type").val();
 	
-	//산출물 아이디
+	
 	var docId = $("#docId").val();
 	
-	//프로젝트 아이디
+	
 	var dtParamPrjId = $("#dtParamPrjId").val();
 	
-	// 버튼 문구 세팅
+	
 	$("#prj3001SaveSubmit > span").text($.osl.lang("prj3001.button."+type));
 	$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
-    // Private functions
+    
     var documentSetting = function () {
     	
-    	// textarea 자동 사이즈 조절 설정
+    	
     	autosize($("#docEtc"));
     	
-    	//수정인경우
+    	
+		var commonCodeArr = [
+			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"}, 
+			{mstCd: "PRJ00021", useYn: "Y",targetObj: "#signUseCd", comboType:"OS"} 
+		];
+
+  		
+		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
+  		
+    	
     	if(type == "update"){
     		
-        	// prj3001 팝업 공통코드 select 세팅
-    		var commonCodeArr = [
-    			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"}, // 사용유무
-    			{mstCd: "PRJ00021", useYn: "Y",targetObj: "#signUseCd", comboType:"OS"} // 결재사용유무
-    		];
-
-      		//공통코드 채우기
-    		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
-    		
-    		// 조직 단건 조회
     		selectDocInfo();
-    		
-    	}else{
-    		// prj3001 팝업 공통코드 select 세팅
-    		var commonCodeArr = [
-    			{mstCd: "PRJ00021", useYn: "Y",targetObj: "#signUseCd", comboType:"OS"} // 결재사용유무
-    		];
-    		
-    		//공통코드 채우기
-    		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
     	}
     	
     	
-    	// 등록 버튼 클릭
     	$("#prj3001SaveSubmit").click(function(){
     		
     		var form = $('#'+formId);
     		
-    		//폼 유효 값 체크
+    		
     		if (!form.valid()) {
     			return;
     		}
@@ -131,69 +120,61 @@ var OSLPrj3001Popup = function () {
     		}
     	});
     	
-    	//datepicker 세팅
+    	
     	$.osl.date.datepicker($("#docEdDtm"), {});
     };
 
   	
-    /**
-	 * function 명 	: selectDocInfo
-	 * function 설명	: 선택한 산출물의 상세정보를 조회하여 화면에 세팅한다.
-	 * @param docId : 선택한 산출물 ID
-	 */
+    
 	var selectDocInfo = function() {
     	
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj3000/prj3000/selectPrj3000DocInfoAjax.do'/>", "async": false}
 				,{"docId": docId});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 			}else{
-				// 조직 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.docInfoMap,"frPrj3001", ["upperDocId", "upperDocNm", "docId", "docEdDtm", "docNm", "ord", "docDesc"]);
 				
-				//결재 사용 유무  변경
-		    	$("#signUseCd").val(data.docInfoMap.signUseCd).trigger('change.select2');
-				
-		    	// 상위 산출물 Id 없을경우
+		    	
 				if($.osl.isNull(data.docInfoMap.upperDocId)){
 					$("#upperDocId").val("-");
 				}
 		    	
-				// 상위 산출물 명  없을경우
+				
 				if($.osl.isNull(data.docInfoMap.upperDocNm)){
 					$("#upperDocNm").val("-");
 				}
 		    	
-		    	
 		    	if(type == "update"){
-		    		$("#useCd").attr("data-osl-value", data.docInfoMap.useCd);
+		    		$("#useCd").data("osl-value", data.docInfoMap.useCd);
 		    	}
 		    	
-		    	// textarea 입력된 내용에 따라 size 조정
+		    	
+		    	$("#signUseCd").val("data.docInfoMap.signUseCd").trigger('change.select2');
+		    	
+		    	
 				autosize.update($("#docDesc"));
 		    	
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
     
     
-   /**
- 	* function 명 	: submitInsertAction
-	* function 설명	: 신규 조직을 등록한다.
-	*/
+   
     var submitInsertAction = function(){
     	
     	var form = $('#'+formId);
     	
-		//폼 유효 값 체크
+		
 		if (!form.valid()) {
 			return;
 		}
@@ -203,43 +184,40 @@ var OSLPrj3001Popup = function () {
 	        	
 	        	var formData = form.serializeArray();
 	        	
-	    		//AJAX 설정
+	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/prj/prj3000/prj3000/insertPrj3000DocInfoAjax.do'/>", "loadingShow": false}, formData);
 
-	    		//AJAX 전송 성공 함수
+	    		
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    				//모달 창 닫기
+	    				
 						$.osl.layerPopupClose();
 	    			}else{
-	    				// 등록 성공
+	    				
 	    				$.osl.toastr(data.message);
 
-	    				//모달 창 닫기
+	    				
 	    				$.osl.layerPopupClose();
 	    				
-	    				//트리 재조회
+	    				
 	    				$("button[data-tree-id=prj3000DocTree][data-tree-action=select]").click();
 	    			}
 	    		});
 	    		
-	    		//AJAX 전송
+	    		
 	    		ajaxObj.send();
 	        }
 	    });
     };
     
     
-   /**
- 	* function 명 	: submitUpdateAction
-	* function 설명	: 조직 정보를 수정한다.
-	*/
+   
     var submitUpdateAction = function(){
     	
     	var form = $('#'+formId);
   		
-		//폼 유효 값 체크
+		
 		if (!form.valid()) {
 			return;
 		}
@@ -249,49 +227,47 @@ var OSLPrj3001Popup = function () {
 	        	
 	        	var formData = form.serializeArray();
 	        	
-	    		//AJAX 설정
+	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/prj/prj3000/prj3000/updatePrj3000DocInfoAjax.do'/>", "loadingShow": false}, formData);
 
-	    		//AJAX 전송 성공 함수
+	    		
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    				//모달 창 닫기
+	    				
 						$.osl.layerPopupClose();
 	    			}else{
-	    				//수정 성공
+	    				
 	    				$.osl.toastr(data.message);
 
-	    				//모달 창 닫기
+	    				
 	    				$.osl.layerPopupClose();
 
-	    				//트리 노드 정보 재조회
+	    				
 	    				$("button[data-tree-id=prj3000DocTree][data-tree-action=selectDocInfo]").click();
 	    				
-	    				//트리 재조회
+	    				
 	    				$("button[data-tree-id=prj3000DocTree][data-tree-action=select]").click();
 	    				
 	    			}
 	    		});
 	    		
-	    		//AJAX 전송
+	    		
 	    		ajaxObj.send();
 	        }
 	    });
 		
     };
     
-	
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
-        
     };
 }();
 
-//Initialization
+
 $.osl.ready(function(){
 	OSLPrj3001Popup.init();
 });

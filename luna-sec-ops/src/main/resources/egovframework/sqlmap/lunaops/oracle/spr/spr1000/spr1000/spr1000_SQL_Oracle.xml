@@ -7,6 +7,58 @@
 	<typeAlias alias="egovMap"	 	type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
 	
+	 <resultMap id="resultMapSpr1000ReqList" class="egovMap">
+		<result property="rn"					column="RN"/>
+		<result property="prjId"				column="PRJ_ID"/>
+		<result property="prjNm"				column="PRJ_NM"/>
+		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
+		<result property="prjGrpNm"				column="PRJ_GRP_NM"/>
+		<result property="reqId"				column="REQ_ID"/>
+		<result property="reqOrd"				column="REQ_ORD"/>
+		<result property="reqClsId"				column="REQ_CLS_ID"/>
+		<result property="reqClsNm"				column="REQ_CLS_NM"/>
+		<result property="reqUsrId"				column="REQ_USR_ID"/>
+		<result property="reqUsrNm"				column="REQ_USR_NM"/>
+		<result property="reqDtm"				column="REQ_DTM"/>
+		<result property="reqUsrDeptId"			column="REQ_USR_DEPT_ID"/>
+		<result property="reqUsrDeptNm"			column="REQ_USR_DEPT_NM"/>
+		<result property="reqUsrDeptNm"			column="REQ_USR_DEPT_NM"/>
+		<result property="reqUsrEmail"			column="REQ_USR_EMAIL"/>
+		<result property="reqUsrNum"			column="REQ_USR_NUM"/>
+		<result property="reqUsrImgId"			column="REQ_USR_IMG_ID"/>
+		<result property="reqNm"				column="REQ_NM"/>
+		<result property="reqPw"				column="REQ_PW"/>
+		<result property="reqChargerId"			column="REQ_CHARGER_ID"/>
+		<result property="reqChargerNm"			column="REQ_CHARGER_NM"/>
+		<result property="reqChargerImgID"		column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqStDtm"				column="REQ_ST_DTM"/>
+		<result property="reqEdDtm"				column="REQ_ED_DTM"/>
+		<result property="reqStDuDtm"			column="REQ_ST_DU_DTM"/>
+		<result property="reqEdDuDtm"			column="REQ_ED_DU_DTM"/>
+		<result property="endTimeRequired"		column="END_TIME_REQUIRED"/>
+		<result property="notEndTimeRequired"	column="NOT_END_TIME_REQUIRED"/>
+		<result property="reqProType"			column="REQ_PRO_TYPE"/>
+		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
+		<result property="reqNewType"			column="REQ_NEW_TYPE"/>
+		<result property="reqNewTypeNm"			column="REQ_NEW_TYPE_NM"/>
+		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="reqTypeCd"			column="REQ_TYPE_CD"/>
+		<result property="reqTypeNm"			column="REQ_TYPE_NM"/>
+		<result property="atchFileid"			column="ATCH_FILE_ID"/>
+		<result property="cbAtchFileid"			column="CB_ATCH_FILE_ID"/>
+		<result property="useCd"				column="USE_CD"/>
+		<result property="reqKey"				column="REQ_KEY"/>
+		<result property="sprPoint"				column="SPR_POINT"/>	
+		<result property="reqResultDescLen"		column="REQ_RESULT_DESC_LEN"/>	
+		<result property="regDtm"				column="REG_DTM"/>	
+		<result property="regDtmDay"			column="REG_DTM_DAY"/>	
+		<result property="regUsrId"				column="REG_USR_ID"/>	
+		<result property="regUsrIp"				column="REG_USR_IP"/>	
+		<result property="modifyDtm"			column="MODIFY_DTM"/>	
+		<result property="modifyUsrId"			column="MODIFY_USR_ID"/>	
+		<result property="modifyUsrIp"			column="MODIFY_USR_IP"/>	
+    </resultMap>
+	
 	
 	<sql id="selectSpr1000List">
 		SELECT 
@@ -95,6 +147,22 @@
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="sprTypeCd">
 					AND	T1.SPR_TYPE_CD = #searchTargetData#
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="sprStDt">
+					<isNotEmpty property="searchStartDt">
+						AND	TO_DATE(T1.SPR_ST_DT, 'YYYY-MM-DD') &gt;= TO_DATE(SUBSTR(#searchStartDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+					<isNotEmpty property="searchEndDt">
+						AND	TO_DATE(T1.SPR_ST_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="sprEdDt">
+					<isNotEmpty property="searchStartDt">
+						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &gt;= TO_DATE(SUBSTR(#searchStartDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+					<isNotEmpty property="searchEndDt">
+						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="sprDtm">
 					<isNotEmpty property="searchStartDt">
@@ -422,7 +490,7 @@
     </select>
     
     
-    <select id="spr1000DAO.selectSpr1000SprReqList" parameterClass="java.util.Map"  resultClass="egovMap">
+    <select id="spr1000DAO.selectSpr1000SprReqList" parameterClass="java.util.Map"  resultMap="resultMapSpr1000ReqList">
 	    
 		SELECT 
 			Z.*
@@ -449,7 +517,7 @@
     
     <select id="spr1000DAO.selectSpr1000SprInfoStat" parameterClass="java.util.Map"  resultClass="egovMap">
 	    
-	   	SELECT 	T2.END_TIME_REQUIRED / T2.END_CNT_SUM AS AVG_END_TIME_REQUIRED
+	   	SELECT 	DECODE(T2.END_CNT_SUM, 0, 0, T2.END_TIME_REQUIRED / T2.END_CNT_SUM) AS AVG_END_TIME_REQUIRED
 	   			, T2.ALL_CNT_SUM AS ALL_CNT_SUM
 	   			, T2.END_CNT_SUM AS END_CNT_SUM
 	   			, T2.SPR_POINT AS SPR_POINT
@@ -473,9 +541,9 @@
 			      , CASE WHEN B.REQ_PRO_TYPE!='04' THEN 1 ELSE 0 END AS NOT_END_CNT
 			      , CASE WHEN B.REQ_PRO_TYPE!='04' THEN NVL2(B.REQ_ED_DTM, TRUNC((SYSDATE - B.REQ_ST_DTM)*24,1),0) ELSE 0 END AS NOT_END_TIME_REQUIRED 
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL2(B.REQ_ED_DTM,TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24,1) , 0) ELSE 0 END AS END_TIME_REQUIRED
-			      , CASE WHEN B.REQ_PRO_TYPE='01' THEN 0 ELSE NVL(A.SPR_POINT,0) END AS SPR_POINT
+			      , NVL(A.SPR_POINT,0) AS SPR_POINT
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL(A.SPR_POINT,0) ELSE 0  END AS END_SPR_POINT
-			    FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+			    FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
 			    WHERE 	1=1
 					AND A.LIC_GRP_ID = #licGrpId#
 					AND A.PRJ_ID = #prjId#
@@ -542,7 +610,7 @@
 	
 	<select id="spr1000DAO.selectSpr1000SprTerm" parameterClass="java.util.Map" resultClass="egovMap">
 		
-		SELECT 	A.SPR_ED_DT - A.SPR_ST_DT AS DISTANCE
+		SELECT 	TRUNC(A.SPR_ED_DT - A.SPR_ST_DT) AS DISTANCE
 				,A.SPR_ED_DT AS SPR_ED_DT
 				,A.SPR_ST_DT AS SPR_ST_DT
 		FROM SPR1000 A

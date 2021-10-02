@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<input type="hidden" id="dplId" name="dplId" value="${param.sqrId }"/>
+<input type="hidden" id="dplId" name="dplId"/>
 <div class="kt-portlet kt-portlet--mobile">
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -102,6 +102,9 @@ var OSLDpl1100Popup = function () {
 	//미배정 리스트
 	var nonAssList = [];
 	
+	// 선택한 배포계획의 상태
+	var dplStsCd = "";
+	
 	var documentSetting = function(){
 		//배포계획 데이터 테이블 셋팅
 		$.osl.datatable.setting(dplDatatableId,{
@@ -115,7 +118,7 @@ var OSLDpl1100Popup = function () {
 			columns:[
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'dplStsNm', title: '배포 상태', textAlign: 'center', width: 80, search: true, searchType:"select", searchCd: "DPL00001", searchField:"dplStsCd", sortable: true, sortField:"dplStsCd"},
-				{field: 'dplNm', title: '배포계획명', textAlign: 'left', width: 240, autoHide: false, search: true, sortable: true, sortField: "dplNm"},
+				{field: 'dplNm', title: '배포계획명', textAlign: 'left', width: 220, autoHide: false, search: true, sortable: true, sortField: "dplNm"},
 				{field: 'dplDt', title: '배포일', textAlign: 'center', width: 120, sortable: true,  sortField: "dplDt", search:true,  searchType:"daterange",
 					template: function (row) {
 						var paramDatetime = new Date(row.dplDt);
@@ -123,8 +126,8 @@ var OSLDpl1100Popup = function () {
 		                return agoTimeStr.agoString;
 					}
 				},
-				{field: 'dplVer', title: '버전', textAlign: 'left', width: 50, search: true, sortable: true, sortField: "dplVer"},
-				{field: 'dplTypeNm', title: '배포 방법', textAlign: 'left', width: 50, search: true, searchType:"select", searchCd: "DPL00003", searchField:"dplTypeCd", sortable: true, sortField:"dplTypeCd"},
+				{field: 'dplVer', title: '버전', textAlign: 'center', width: 50, search: true, sortable: true, sortField: "dplVer"},
+				{field: 'dplTypeNm', title: '배포 방법', textAlign: 'center', width: 60, search: true, searchType:"select", searchCd: "DPL00003", searchField:"dplTypeCd", sortable: true, sortField:"dplTypeCd"},
 			],
 			searchColumns:[
 				{field: 'dplDesc', title: '배포계획 설명', searchOrd: 3},
@@ -132,11 +135,13 @@ var OSLDpl1100Popup = function () {
 			actionBtn:{
 				"title" : $.osl.lang("dpl1100.actionBtn.title.selectBtn"),
 				"click": true,
+				"dblClick":true,
 				"delete":false,
 				"update":false,
 			},
 			actionTooltip:{
 				"click" : $.osl.lang("dpl1100.actionBtn.tooltip.clickToolTip"),
+				"dblClick" : "배포 계획 상세보기",
 			},
 			actionFn:{
 				"select": function(datatableId, elem, datatable){
@@ -169,12 +174,29 @@ var OSLDpl1100Popup = function () {
 						
 						//검색한 경우 기존에 선택 항목 초기화
 						$("#dplId").val("");
+						dplStsCd = "";
 						selectBtnClick();
 					}
 				},
 				"click": function(rowData){
 					$("#dplId").val(rowData.dplId);
+					dplStsCd = rowData.dplStsCd; // 배포 상태 값
 					selectBtnClick();
+				},
+				// 더블 클릭 시 배포 계획 상세보기
+				"dblClick":function(rowData, datatableId, type, rowNum, elem){
+					var data = {
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
+						};
+					var options = {
+							idKey: datatableId +"_"+ rowData.dplId,
+							modalTitle: "["+rowData.dplNm +"] "+ "상세 정보",
+							autoHeight: false,
+							modalSize: 'xl'
+						};
+					
+					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
 				}
 			}
 		});
@@ -348,6 +370,12 @@ var OSLDpl1100Popup = function () {
 	* param : 선택된 요구사항 목록
 	*/
 	var insertReq = function(dplId, list){
+		
+		if(dplStsCd != "01"){
+			$.osl.alert($.osl.lang("dpl1100.message.alert.notAssignedReq"));
+			return false;
+		}
+		
 		var data = {
 				selReqList : list,
 				dplId : dplId

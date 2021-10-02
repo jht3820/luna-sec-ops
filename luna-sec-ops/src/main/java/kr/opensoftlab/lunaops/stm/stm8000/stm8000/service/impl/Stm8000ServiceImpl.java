@@ -95,8 +95,11 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	@SuppressWarnings( "rawtypes" )
 	public Map selectStm8000AuthCheck(Map<String, String> paramMap) throws Exception {
 		Map<String, String> result = new HashMap<>();
-		result.put("resultRevision", stm8000DAO.selectStm8000AuthRevisionCheck(paramMap));
-		result.put("resultFileCode", stm8000DAO.selectStm8000AuthFileCodeCheck(paramMap));
+		String resultRevision = stm8000DAO.selectStm8000AuthRevisionCheck(paramMap);
+		String resultFileCode = stm8000DAO.selectStm8000AuthFileCodeCheck(paramMap);
+		
+		result.put("resultRevision", resultRevision);
+		result.put("resultFileCode", resultFileCode);
 		return result;
 	}
 
