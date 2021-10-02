@@ -2,21 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frCmm6201" autocomplete="off">
-	<input type="hidden" name="paramPrjId" id="paramPrjId"/>
-	<input type="hidden" name="paramReqId" id="paramReqId"/>
+	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}"/>
+	<input type="hidden" name="paramReqId" id="paramReqId" value="${param.paramReqId}"/>
 	<div class="osl-req__process-main d-flex">
 		<div class="osl-req__process-history" id="osl-req__process-history" data-scroll-x="true">
-			<c:forEach begin="0" end="10" >
-				<div class="osl-flowchart__operator">
-					<div class="flowchart-operator-title" style="background-color:#ffffff;color:#000000;">
-						<div class="flowchart-operator-title__lebel d-inline-block text-truncate">1번 단계</div>
-					</div>
-					<div class="flowchart-operator-inputs-outputs">
-					
-					</div>
-					<div class="osl-flowchart__label"><i class="fa fa-arrow-right"></i></div>
-				</div>
-			</c:forEach>
 		</div>
 	</div>
 	<div class="osl-wizard" id="requestProcessWizard" data-ktwizard-state="step-first">
@@ -106,6 +95,48 @@ var OSLCmm6201Popup = function () {
  				$.osl.layerPopupClose();
  			}else{
  				
+ 				var reqChgList = data.reqChgList;
+ 				var reqChgStr = '';
+ 				if(!$.osl.isNull(reqChgList) && reqChgList.length > 0){
+ 					$.each(reqChgList, function(idx, map){
+ 						var processNextLabel = '<div class="osl-flowchart__label"><i class="fa fa-arrow-right"></i></div>';
+ 						
+ 						
+ 						if((idx+1) == reqChgList.length){
+ 							processNextLabel = '';
+ 						}
+ 						
+ 						
+ 						var processNm, bgColor, color, flowNm, chgDtm;
+ 						
+ 						
+ 						if(map.reqChgTypeCd == "03") {
+ 							processNm = $.osl.escapeHtml(map.chgProcessNm);
+ 							bgColor = map.chgFlowTitleBgColor;
+ 							color = map.chgFlowTitleColor;
+ 							flowNm = map.chgFlowNm;
+ 						}
+ 						
+ 						var paramDatetime = new Date(map.chgDtm);
+		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
+		                chgDtm = agoTimeStr.agoString;
+		                
+ 						reqChgStr += 
+ 							'<div class="osl-flowchart__operator">'
+	 							+'<div class="flowchart-operator-process-title">'
+	 								+'<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate">'+processNm+'</div>'
+	 							+'</div>'
+	 							+'<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">'
+	 								+'<div class="flowchart-operator-title__lebel d-inline-block text-truncate">'+flowNm+'</div>'
+	 							+'</div>'
+	 							+'<div class="flowchart-operator-inputs-outputs">'
+	 								+'<div class="flowchart-operator-dtm">처리 일시: '+chgDtm+'</div>'
+	 							+'</div>'
+	 							+processNextLabel
+	 						+'</div>';
+ 					});
+ 				}
+ 				$("#osl-req__process-history").html(reqChgStr);
  				
  				
  			}
