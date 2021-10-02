@@ -122,6 +122,10 @@
 						<script type="text/javascript">
 							
 							$("#kt_header_pc_topbar_toggler").click(function(){
+								mssArmLoad();
+							});
+							
+							var mssArmLoad = function(){
 								
 								
 								var ajaxObj = new $.osl.ajaxRequestAction(
@@ -149,7 +153,7 @@
 						    	});
 								
 						    	ajaxObj.send();
-							})
+							};
 						</script>
 						
 						
