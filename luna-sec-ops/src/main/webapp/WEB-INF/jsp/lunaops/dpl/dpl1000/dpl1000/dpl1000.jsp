@@ -143,7 +143,6 @@ var OSLDpl1000Popup = function () {
 					
 					
 					
-					
 					var data = {
 						type:"update",
 						paramPrjId: rowData.prjId,
@@ -260,12 +259,13 @@ var OSLDpl1000Popup = function () {
 						return true;
 					}
 					
-					
 					if(signType == '02' || signType == '03'){
 						var data = {
 								prjId :  rowData.prjId,
 								targetId :  rowData.dplId,
-								targetCd : '02'
+								targetCd : '02',
+								ord : rowData.lastOrd,
+								signType : rowData.nowSignTypeNm
 						};
 						var options = {
 								

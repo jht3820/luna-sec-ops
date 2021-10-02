@@ -146,6 +146,13 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 		}
 	}
 
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Map selectCmm6601SignInfo(Map<String, String> paramMap) throws Exception {
+		return cmm6600DAO.selectCmm6601SignInfo(paramMap);
+	}
+
 }
 
 
