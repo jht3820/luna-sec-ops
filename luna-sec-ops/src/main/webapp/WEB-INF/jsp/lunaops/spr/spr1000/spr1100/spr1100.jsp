@@ -54,9 +54,9 @@
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="select" title="요구사항 배정 조회" data-title-lang-cd="spr1100.actionBtn.title.assSelect" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="removeReq" title="요구사항 배정 제외" data-title-lang-cd="spr1100.actionBtn.tooltip.removeToolTip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="removeReq" tabindex="2">
+						<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="removeReq" title="요구사항 배정 제외" data-title-lang-cd="spr1100.actionBtn.tooltip.removeToolTip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="removeReq" tabindex="2">
 							<i class="fa fa-arrow-alt-circle-down"></i><span data-lang-cd="spr1100.button.removeBtn">제외</span>
-						</button>
+						</button> -->
 					</div>
 				</div>
 			</div>
@@ -128,14 +128,14 @@ var OSLSpr1100Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'sprTypeNm', title: '상태', textAlign: 'center', width: 80, search: true, searchType:"select", searchCd: "SPR00001", searchField:"sprTypeCd", sortable: true, sortField:"sprTypeCd"},
 				{field: 'sprNm', title: '스프린트명', textAlign: 'left', width: 240, autoHide: false, search: true, sortField: "sprNm"},
-				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 120, sortField: "sprStDt",
+				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 120, sortField: "sprStDt",search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.sprStDt);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
 		                return agoTimeStr.agoString;
 					}
 				},
-				{field: 'sprEdDt', title:'종료일', textAlign: 'center', width: 120, sortField: "sprEdDt",
+				{field: 'sprEdDt', title:'종료일', textAlign: 'center', width: 120, sortField: "sprEdDt", search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.sprEdDt);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
@@ -144,7 +144,7 @@ var OSLSpr1100Popup = function () {
 				},
 			],
 			searchColumns:[
-				{field: 'sprDesc', title: '스프린트 설명', searchOrd: 3},
+				{field: 'sprDesc', title: '스프린트 설명', searchOrd: 3, search:true},
 				{field: 'sprDtm', title: '기간', searchOrd:4, searchType:"daterange"}
 			],
 			actionBtn:{
@@ -215,7 +215,6 @@ var OSLSpr1100Popup = function () {
 				}
 			},
 			columns:[
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 80, sortField: "rn"},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 450, autoHide: false, sortField: "reqNm", search:true,
 					template: function(row){
@@ -227,9 +226,9 @@ var OSLSpr1100Popup = function () {
 						return resultStr;
 					}	
 				},
-				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80},
+				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80, search:true},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 80, sortField: "reqProTypeCd", search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortable: true, sortField:"reqProTypeCd"},
-				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",
+				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.reqDtm);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
@@ -238,36 +237,12 @@ var OSLSpr1100Popup = function () {
 				}
 			],
 			rows:{
-				clickCheckbox: true
-			},
+				minHeight:50,
+			}, 
 			actionBtn:{
-				"title" : $.osl.lang("spr1100.actionBtn.title.removeBtn"),
-				"dblClick": true,
-				"removeReq": true,
+				
 				"delete":false,
 				"update":false,
-				"lastPush": false
-			},
-			actionTooltip:{
-				"dblClick" : $.osl.lang("spr1100.actionBtn.tooltip.removeToolTip")
-			},
-			actionFn:{
-				"dblClick": function(rowData){
-					assList.push(rowData);
-					deleteReq($("#sprId").val(), JSON.stringify(assList));
-				},
-				"removeReq":function(rowData, datatableId, type){
-					assList = rowData;
-					deleteReq($("#sprId").val(), JSON.stringify(assList));
-				},
-			},
-			theme:{
-				actionBtn:{
-					"removeReq" : " kt-hide"
-				},
-				actionBtnIcon:{
-					dblClick: "fa fa-arrow-alt-circle-down",
-				}
 			},
 		});
 		
@@ -301,9 +276,9 @@ var OSLSpr1100Popup = function () {
 						return resultStr;
 					}	
 				},
-				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80},
+				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80 ,search:true},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 80, sortField: "reqProTypeCd", search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortable: true, sortField:"reqProTypeCd"},
-				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",
+				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.reqDtm);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
@@ -368,47 +343,40 @@ var OSLSpr1100Popup = function () {
 		$.each(sprList, function(index, value){
 			if(sprId == value.sprId){
 				
+				var data = {
+						paramSprId: sprId,
+						dataList : list
+					};
 				if(value.sprTypeCd == "02"){
-					var data = {
-							paramSprId: sprId,
-							dataList : list
-						};
 					var options = {
 							idKey:"selectSpr1101",
 							autoHeight: false,
 							modalSize: "xl",
 							closeConfirm: false,
 							modalTitle: "스프린트 요구사항 배정",
-							callback:[{
-								
-								targetId: "updateSpr1100Btn",
-								
-								actionFn: function(thisObj){
-									
-									var ajaxObj = new $.osl.ajaxRequestAction(
-							    			{"url":"<c:url value='/spr/spr1000/spr1100/insertSpr1100ReqListAjax.do'/>"}
-											, data);
-									
-							    	ajaxObj.setFnSuccess(function(data){
-							    		if(data.errorYn == "Y"){
-											$.osl.alert(data.message,{type: 'error'});
-											
-											$.osl.layerPopupClose();
-										}else{
-											if(list.length>0){
-												$.osl.toastr(data.message);
-												nonAssList = [];
-											}
-											selectBtnClick();
-										}
-							    	});
-									
-							    	ajaxObj.send();
-									
-								}
-							}]
 					};
 					$.osl.layerPopupOpen('/spr/spr1000/spr1100/selectSpr1101View.do',data,options);
+				}else{
+					
+					var ajaxObj = new $.osl.ajaxRequestAction(
+			    			{"url":"<c:url value='/spr/spr1000/spr1100/insertSpr1100ReqListAjax.do'/>"}
+							, data);
+					
+			    	ajaxObj.setFnSuccess(function(data){
+			    		if(data.errorYn == "Y"){
+							$.osl.alert(data.message,{type: 'error'});
+							
+							$.osl.layerPopupClose();
+						}else{
+							if(list.length>0){
+								$.osl.toastr(data.message);
+								assList = [];
+							}
+							selectBtnClick();
+						}
+			    	});
+					
+			    	ajaxObj.send();
 				} 
 			}
 		})

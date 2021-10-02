@@ -91,12 +91,15 @@ var OSLSpr1000Popup = function () {
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false},
-				{field: 'sprTypeNm', title: '상태 ', textAlign: 'center', width: 100},
-				{field: 'sprNm', title: '스프린트 이름', textAlign: 'center', width: 300},
-				{field: 'sprDesc', title: '스프린트 설명', textAlign: 'center', width: 150},
+				{field: 'sprTypeNm', title: '상태 ', textAlign: 'center', width: 100, searchType:"select", searchCd: "SPR00001", searchField:"sprTypeNm", sortField: "sprTypeNm"},
+				{field: 'sprNm', title: '스프린트 이름', textAlign: 'center', width: 300, search:true},
+				{field: 'sprDesc', title: '스프린트 설명', textAlign: 'center', width: 150, search:true},
 				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 150, search: true, searchType:"date"},
 				{field: 'sprEdDt', title: '종료일', textAlign: 'center', width: 150, search: true, searchType:"date"},
 				{field: 'useNm', title: '사용 유무', textAlign: 'center', width: 100, search: true, searchType:"select", searchCd: "CMM00001", searchField:"useCd", sortField: "useCd"},
+			],
+			searchColumns:[
+				{field: 'sprDtm', title: '기간', searchOrd:4, searchType:"daterange"}
 			],
 			actionBtn:{
 				"dblClick": true
@@ -317,12 +320,8 @@ var OSLSpr1000Popup = function () {
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprStart"><i class="fas fa-play-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintStart")+'</div>'
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprEnd"><i class="fas fa-stop-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintEnd")+'</div>'
 													+'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
-													+'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintMeetList")+'</div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintResultList")+'</div>'
-													+'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-print kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintReport")+'</div>'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
+													 
 												+'</div>'
 											+'</div>'
 										+'</div>'
@@ -334,9 +333,27 @@ var OSLSpr1000Popup = function () {
 											+'<div class="kt-media kt-media--xl kt-media--circle '+sprTypeClass+' osl-margin-r-2rm">'
 												+'<span>'+sprTypeNm+'</span>'
 											+'</div>'
-											+'<div class="d-flex flex-column osl-margin-r-auto">'
+											+'<div class="d-flex flex-column osl-margin-r-auto osl-word__break">'
 												+'<h5 class="kt-font-boldest text-truncate" title="'+$.osl.escapeHtml(map.sprNm)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"> '+$.osl.escapeHtml(map.sprNm)+'</h5>'
 												+'<span class="text-muted text-truncate" title="'+$.osl.escapeHtml(map.sprDesc)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'+$.osl.escapeHtml(map.sprDesc)+'</span>'
+											+'</div>'
+										+'</div>'
+										+'<div class="d-flex flex-wrap osl-margin-t-2rm kt-padding-l-20">'
+											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
+												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1000.startDate")+'</span>'
+												+'<h5><span class="badge badge-primary">'+$.osl.escapeHtml(map.sprStDt)+'</span></h5>'
+											+'</div>'
+											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
+												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1000.endDate")+'</span>'
+												+'<h5><span class="badge badge-danger">'+$.osl.escapeHtml(map.sprEdDt)+'</span></h5>'
+											+'</div>'
+											+'<div class="osl-flex-row-fluid osl-margin-b-175rm">'
+												+'<div class="osl-progress">'
+													+'<div class="osl-margin-b-1rm"><i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i><span>'+$.osl.lang("prj1000.completedRatio")+'</span></div>'
+													+'<div class="progress osl-prj-group-md">'
+														+'<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:'+Math.trunc(map.sprEndPercent)+'%" aria-valuenow="'+Math.trunc(map.sprEndPercent)+'" aria-valuemin="0" aria-valuemax="100">'+Math.trunc(map.sprEndPercent)+'%</div>'
+													+'</div>'
+												+'</div>'
 											+'</div>'
 										+'</div>'
 										+'<div class="d-flex flex-wrap border-top kt-margin-t-20 kt-padding-t-10">'
@@ -344,29 +361,29 @@ var OSLSpr1000Popup = function () {
 												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
 													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqAll.png"></div>'
 													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1001.requestAll")+'</a>'
+														+'<a href="#" class="osl-widget-info__item-title">'+"전체"+'</a>'
 														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqAllCnt)+'</div>'
 													+'</div>'
 												+'</div>'
 												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
 													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqInProgress.png"></div>'
 													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1001.requestInProgress")+'</a>'
+														+'<a href="#" class="osl-widget-info__item-title">'+"진행 중"+'</a>'
 														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqProgressCnt)+'</div>'
 													+'</div>'
 												+'</div>'
 												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
 													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqDone.png"></div>'
 													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1001.requestDone")+'</a>'
+														+'<a href="#" class="osl-widget-info__item-title">'+"완료"+'</a>'
 														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqDoneCnt)+'</div>'
 													+'</div>'
 												+'</div>'
 												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
-													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqDone.png"></div>'
+													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqPointer.png"></div>'
 													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1001.requestDone")+'</a>'
-														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqDoneCnt)+'</div>'
+														+'<a href="#" class="osl-widget-info__item-title">'+"평균 완료 시간"+'</a>'
+														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.avgTime.toFixed(1))+'</div>'
 													+'</div>'
 												+'</div>'
 											+'</div>'
@@ -428,7 +445,6 @@ var OSLSpr1000Popup = function () {
         init: function() {
         	documentSetting();
         }
-        
     };
 }();
 

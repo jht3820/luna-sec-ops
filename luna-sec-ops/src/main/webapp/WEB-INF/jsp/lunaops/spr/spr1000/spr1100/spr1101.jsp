@@ -9,7 +9,7 @@
 	<input type="hidden" name="paramStartDt" id="paramStartDt" value="${param.paramStartDt}">
 	<input type="hidden" name="paramEndDt" id="paramEndDt" value="${param.paramEndDt}">
 	<input type="hidden" name="dataList" id="dataList" value='${param.dataList}'>
-	
+	<button class="osl-user__active--block" id="reloadTable"></button>
 	<div class="row">
 		<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet">
@@ -69,7 +69,7 @@ var OSLSpr1101Popup = function () {
 	
 	var dataList = $("#dataList").val();
 	
-	
+	var msg = 0;
 	
 	var reqListCnt = 0;
 	var insertParam = {
@@ -316,13 +316,12 @@ var OSLSpr1101Popup = function () {
 		$.osl.datatable.list["sprAssignReqUsrTable"].targetDt.reload();
 		
 		$("#updateSpr1100Btn").click(function(){
-			updateSpr1100();
+			insertSpr1100();
 		})
 		
 	};
 	
-	
-	var updateSpr1100 = function(){
+	var insertSpr1100 = function(sprId, list){
 		
 		$("input[name^=reqCharger_]").each(function(){
 			if(this.value==""){
@@ -342,34 +341,43 @@ var OSLSpr1101Popup = function () {
 		
 		fd.append("insertParam", JSON.stringify(insertParam));
 		
+		fd.append("dataList", list);
+		
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
-	   			{"url":"<c:url value='/spr/spr1000/spr1100/updateSpr1100ReqListAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
-				, fd);
+    			{"url":"<c:url value='/spr/spr1000/spr1100/insertSpr1100ReqListAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
+    			 , fd);
 		
-		
- 		ajaxObj.setFnSuccess(function(data){
- 			if(data.errorYn == "Y"){
- 				$.osl.alert(data.message,{type: 'error'});
- 			}else{
- 				
- 				
-   				$.osl.toastr(data.message);
-
-   				
+    	ajaxObj.setFnSuccess(function(data){
+    		if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+				
+				$.osl.layerPopupClose();
+			}else{
+				
+				
+				
    				$.osl.layerPopupClose();
-   				
- 			}
- 		});
+				
+				$("button[data-datatable-id=req1100NonTable][data-datatable-action=select]").click();
+				$("button[data-datatable-id=req1100AssTable][data-datatable-action=select]").click();
+				
+				
+			}
+    	});
 		
-		ajaxObj.send();
-		
+		$.osl.confirm("배정하시겠습니까?",null,function(result) {
+   	        if (result.value) {
+		    	ajaxObj.send();
+   	        }
+		})
 	}
+	
 	return {
         
         init: function() {
         	documentSetting();
         }
-        
     };
 }();
 

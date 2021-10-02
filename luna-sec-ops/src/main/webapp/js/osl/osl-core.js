@@ -78,6 +78,9 @@
 			OSLCoreChartSetting.init();
 			
 			
+			OSLCoreCustomOptionSetting.init();
+			
+			
 			$.validator.addMethod("email", function(value, element) {
 			    if (/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value)) {
 			        return true;
@@ -176,6 +179,10 @@
 				switch (actionCd){
 				
 				case "01":
+					event.preventDefault();
+					if($(document).find("#menuNAuthShortCut").length != 0){
+						return;
+					}
 					var data = {};
 					var options = {
 						modalTitle: "단축키 설정 정보",
@@ -2141,6 +2148,11 @@
 			ajaxObj.send();
 		}
 		
+		,customOpt:{
+			
+			setting: $.noop
+		}
+		
 		,chart:{
 			
 			list: {},
@@ -3470,6 +3482,7 @@
 					var maxYear = moment().subtract(-10, 'year').format('YYYY');
 					
 					var defaultConfig = {
+							parentEl: 'body',
 				            buttonClasses: 'btn btn-sm',
 				            applyClass: "btn-primary",
 				            cancelClass: "btn-secondary",
@@ -3478,6 +3491,15 @@
 							todayHighlight: false,
 							minYear : parseInt(minYear),
 							maxYear : parseInt(maxYear),
+							singleDatePicker: false,
+							timePicker: false,
+					        timePicker24Hour: false,
+					        timePickerIncrement: 1,
+					        timePickerSeconds: false,
+					        locale:{
+					        	applyLabel: '적용',
+					            cancelLabel: '취소',
+					        }
 				        };
 					
 					
@@ -4783,7 +4805,7 @@
 			}
 			
 			var defaultConfig = {
-				container: container,
+				
 	    		lang: 'ko-KR',
 	    		height: null,
 				maxHeight: null,

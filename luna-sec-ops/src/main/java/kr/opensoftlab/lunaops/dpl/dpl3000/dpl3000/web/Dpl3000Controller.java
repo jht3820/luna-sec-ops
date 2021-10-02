@@ -2,6 +2,7 @@ package kr.opensoftlab.lunaops.dpl.dpl3000.dpl3000.web;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,18 +21,21 @@ import org.springframework.web.servlet.ModelAndView;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.service.Dpl1000Service;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1100.service.Dpl1100Service;
+import kr.opensoftlab.lunaops.dpl.dpl3000.dpl3000.service.Dpl3000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9000.service.Stm9000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9100.service.Stm9100Service;
 import kr.opensoftlab.sdf.jenkins.JenkinsClient;
 import kr.opensoftlab.sdf.jenkins.service.BuildService;
 import kr.opensoftlab.sdf.jenkins.vo.BuildVO;
 import kr.opensoftlab.sdf.util.CommonScrty;
+import kr.opensoftlab.sdf.util.OslStringUtil;
+import kr.opensoftlab.sdf.util.PagingUtil;
 import kr.opensoftlab.sdf.util.RequestConvertor;
-
 
 
 @Controller
@@ -56,6 +59,10 @@ public class Dpl3000Controller {
 	
     @Resource(name = "dpl1100Service")
     private Dpl1100Service dpl1100Service;
+    
+    
+    @Resource(name = "dpl3000Service")
+    private Dpl3000Service dpl3000Service;
 
     
 	@Resource(name = "stm9000Service")
@@ -72,53 +79,159 @@ public class Dpl3000Controller {
 	
 	@Resource(name = "buildService")
 	private BuildService buildService;
+    
 	
-	
-	@Value("${Globals.fileStorePath}")
-	private String tempPath;
-    
-    
-    
 	@RequestMapping(value="/dpl/dpl3000/dpl3000/selectDpl3000View.do")
     public String selectDpl3000View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
     	return "/dpl/dpl3000/dpl3000/dpl3000";
     }
 	  
-    
+	
 	@RequestMapping(value="/dpl/dpl3000/dpl3000/selectDpl3001View.do")
     public String selectDpl3001View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
     	return "/dpl/dpl3000/dpl3000/dpl3001";
     }  
 	
-    
+	
 	@RequestMapping(value="/dpl/dpl3000/dpl3000/selectDpl3002View.do")
     public String selectDpl3002View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
     	return "/dpl/dpl3000/dpl3000/dpl3002";
     }
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/dpl/dpl3000/dpl3000/selectDpl3000DplJobListAjax.do")
+	public ModelAndView selectDpl3000DplJobListAjax(HttpServletRequest request, ModelMap model) throws Exception {
+		try {
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			
+			String _pageNo_str = paramMap.get("pagination[page]");
+			String _pageSize_str = paramMap.get("pagination[perpage]");
+			
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			String paramPrjId = paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
+			paramMap.put("prjId", paramPrjId);
+			
+			
+			String sortFieldId = (String) paramMap.get("sortFieldId");
+			sortFieldId = OslStringUtil.replaceRegex(sortFieldId,"[^A-Za-z0-9+]*");
+			String sortDirection = (String) paramMap.get("sortDirection");
+			String paramSortFieldId = OslStringUtil.convertUnderScope(sortFieldId);
+			paramMap.put("paramSortFieldId", paramSortFieldId);
+			
+			
+			/
+			/
+			
+			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
+			
+			
+			metaMap.put("sort", sortDirection);
+			metaMap.put("field", sortFieldId);
+			
+			model.addAttribute("data", dataList);
+			model.addAttribute("meta", metaMap);
+			
+        	
+			model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	return new ModelAndView("jsonView");
+		} catch (Exception ex) {
+			Log.error("selectDpl3000DplJobListAjax()", ex);
+			
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/dpl/dpl3000/dpl3000/selectDpl3000DplJobNormalListAjax.do")
+	public ModelAndView selectDpl3000DplJobNormalListAjax(HttpServletRequest request, ModelMap model) throws Exception {
+		try {
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			String paramPrjId = paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
+			paramMap.put("prjId", paramPrjId);
+			
+			
+			List<Map> dataList = dpl1000Service.selectDpl1300DplJobList(paramMap);
+			
+			model.addAttribute("list", dataList);
+			
+        	
+			model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	return new ModelAndView("jsonView");
+		} catch (Exception ex) {
+			Log.error("selectDpl3000DplJobNormalListAjax()", ex);
+			
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
+	
+	
 	@SuppressWarnings({ "rawtypes"})
 	@RequestMapping(value="/dpl/dpl3000/dpl3000/selectDpl3000JobBuildAjax.do")
 	public ModelAndView selectDpl3000JobBuildAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-
 		try{
 			
     		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
     		
     		
     		HttpSession ss = request.getSession();
-    		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
     		
-    		
-    		paramMap.remove("licGrpId");
     		LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
     		paramMap.put("licGrpId", loginVO.getLicGrpId());
+    		
+    		
+    		String paramPrjId = paramMap.get("prjId");
+    		if(paramPrjId == null || "".equals(paramPrjId)) {
+    			
+    			paramPrjId = (String) ss.getAttribute("selPrjId");
+    		}
+    		
+    		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
     		
     		
     		Map jenMap = stm9000Service.selectStm9000JenkinsInfo(paramMap);
     		
     		
-    		Map dplMap = dpl1000Service.selectDpl1000DeployVerInfo(paramMap);
+    		Map dplMap = dpl1000Service.selectDpl1000DplInfo(paramMap);
     		
     		
 			String dplUsrId = (String) dplMap.get("dplUsrId");
@@ -360,7 +473,8 @@ public class Dpl3000Controller {
 				
 				if(requestConsole != null && !"".equals(requestConsole) && "Y".equals(requestConsole)){
 					
-		 			List<Map> dplRunAuthGrp = stm9100Service.selectJen1300JenkinsJobAuthGrpNormalList(paramMap);
+					
+		 			List<Map> dplRunAuthGrp = null;
 		 			
 		 			
 	 				boolean authGrpChk = false;
@@ -470,20 +584,27 @@ public class Dpl3000Controller {
  	public ModelAndView selectDpl3000DplConsoleLogView(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
  		try{
  			
- 			
  			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
  			
  			
  			HttpSession ss = request.getSession();
- 			paramMap.put("prjId", (String)ss.getAttribute("selPrjId"));
  			
  			
- 			Map localJobInfo = dpl1000Service.selectDpl1400DplJobBuildInfo(paramMap);
+    		String paramPrjId = paramMap.get("prjId");
+    		if(paramPrjId == null || "".equals(paramPrjId)) {
+    			
+    			paramPrjId = (String) ss.getAttribute("selPrjId");
+    		}
+    		
+    		paramMap.put("prjId", paramPrjId);
+ 			
+ 			
+ 			Map localJobInfo = dpl3000Service.selectDpl1400DplJobBuildInfo(paramMap);
  			model.addAttribute("localJobInfo", localJobInfo);
  			
  			
  			model.addAttribute("errorYn", "N");
- 			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
+ 			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
  			return new ModelAndView("jsonView", model);
  		}
  		catch(Exception ex){
@@ -491,7 +612,7 @@ public class Dpl3000Controller {
  			
  			
  			model.addAttribute("errorYn", "Y");
- 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
+ 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
  			return new ModelAndView("jsonView", model);
  		}
  	}

@@ -206,6 +206,15 @@
 				,	SUB1.MODIFY_DTM
 				,	SUB1.MODIFY_USR_ID
 				,	SUB1.MODIFY_USR_IP	
+				, 	SUB1.TARGET_ID
+		       	, 	SUB1.TARGET_CD
+		        , 	SUB1.ORD
+		        , 	SUB1.LAST_SIGN_USR_ID
+		        , 	SF_STM3000_USR_INFO(SUB1.LAST_SIGN_USR_ID, '1') AS LAST_SIGN_USR_NM
+		        , 	SF_STM3000_USR_INFO(SUB1.LAST_SIGN_USR_ID, '6') AS LAST_SIGN_USR_IMG_ID
+		        , 	SUB1.NOW_SIGN_TYPE_CD
+				, 	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', SUB1.NOW_SIGN_TYPE_CD, '1') AS NOW_SIGN_TYPE_NM
+				,	SUB1.LAST_ORD
 		FROM
 		(
 			SELECT
@@ -232,10 +241,48 @@
 				,	A.MODIFY_DTM
 				,	A.MODIFY_USR_ID
 				,	A.MODIFY_USR_IP	
+				,  	C.TARGET_ID
+			    ,	C.TARGET_CD
+			    ,	C.ORD
+			    ,	CASE WHEN C.SIGN_TYPE_CD='01' OR C.SIGN_TYPE_CD='02' THEN D.ORD ELSE C.ORD END AS LAST_ORD
+			    , 	CASE WHEN C.SIGN_TYPE_CD='01' OR C.SIGN_TYPE_CD='02' THEN D.SIGN_USR_ID ELSE C.SIGN_USR_ID END AS LAST_SIGN_USR_ID
+				, 	CASE WHEN C.SIGN_TYPE_CD='01' THEN  '02' ELSE C.SIGN_TYPE_CD END AS NOW_SIGN_TYPE_CD
+				
 			FROM DPL1000 A
+			LEFT JOIN	(
+							SELECT 	LIC_GRP_ID
+								,	PRJ_ID 
+								, 	TARGET_ID
+								, 	TARGET_CD
+								, 	MAX(SIGN_DTM) AS MAX_SIGN_DTM 
+							FROM 	CMM6601 
+							GROUP BY  LIC_GRP_ID
+									, PRJ_ID
+									, TARGET_CD
+									, TARGET_ID
+						) B
+		    ON (A.PRJ_ID = B.PRJ_ID AND A.DPL_ID = B.TARGET_ID)
+		    LEFT JOIN CMM6601 C
+		    ON (B.LIC_GRP_ID = C.LIC_GRP_ID AND B.PRJ_ID = C.PRJ_ID AND B.TARGET_ID = C.TARGET_ID AND B.TARGET_CD = C.TARGET_CD AND B.MAX_SIGN_DTM = C.SIGN_DTM)
+		    LEFT JOIN CMM6600 D
+		    ON (B.LIC_GRP_ID = D.LIC_GRP_ID AND B.PRJ_ID = D.PRJ_ID AND B.TARGET_ID = D.TARGET_ID AND B.TARGET_CD = D.TARGET_CD AND (C.ORD+1) = D.ORD)
 			WHERE 1=1
 			AND A.PRJ_ID = #prjId#
 			AND A.DPL_DEL_CD = '02'
+			<isNotEmpty property="paramSortFieldId">
+				<isNotEmpty property="sortDirection">
+					ORDER BY $paramSortFieldId$
+					<isEqual property="sortDirection" compareValue="desc">
+						DESC
+					</isEqual>
+					<isEqual property="sortDirection" compareValue="asc">
+						ASC
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty> 
+			<isEmpty property="paramSortFieldId">
+				ORDER BY A.REG_DTM DESC	
+			</isEmpty> 
 		) SUB1
 		WHERE 1=1
 		<isNotEmpty property="searchTargetData">
@@ -287,20 +334,6 @@
 				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
-		<isNotEmpty property="paramSortFieldId">
-			<isNotEmpty property="sortDirection">
-				ORDER BY $paramSortFieldId$
-				<isEqual property="sortDirection" compareValue="desc">
-					DESC
-				</isEqual>
-				<isEqual property="sortDirection" compareValue="asc">
-					ASC
-				</isEqual>
-			</isNotEmpty>
-		</isNotEmpty> 
-		<isEmpty property="paramSortFieldId">
-			ORDER BY SUB1.REG_DTM DESC	
-		</isEmpty> 
 	</sql>
 	
 	
@@ -636,6 +669,27 @@
 		
 		<include refid="selectDpl1300DplJobListBase"/>
 	</select>
+	
+	
+	<select id="dpl1000DAO.selectDpl1300DplJobPagingList" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT Z.*
+		FROM
+		(
+			<include refid="selectDpl1300DplJobListBase"/>
+		) Z
+		WHERE RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+	</select>
+	
+	
+    <select id="dpl1000DAO.selectDpl1300DplJobPagingListCnt" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		
+		SELECT COUNT(*) AS CNT
+		FROM 
+		( 
+			<include refid="selectDpl1300DplJobListBase"/>
+		) Z
+	</select>
     
     
     <select id="dpl1000DAO.selectDpl1400DplBldNumList" parameterClass="java.util.Map" resultClass="egovMap">
@@ -719,11 +773,16 @@
 			,	SUB1.ORD
 			,	SUB1.SIGN_USR_ID
 			,	SF_STM3000_USR_INFO(SUB1.SIGN_USR_ID, '1')  AS SIGN_USR_NM
+			,	SF_STM3000_USR_INFO(SUB1.SIGN_USR_ID, '2')  AS SIGN_USR_EMAIL
 			,	SF_STM3000_USR_INFO(SUB1.SIGN_USR_ID, '6')  AS SIGN_USR_IMG_ID
 			,	SUB1.SIGN_TYPE_CD
 			,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', SUB1.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
 			,	SUB1.SIGN_RES
 			,	SUB1.SIGN_DTM
+			,	SUB1.NEXT_USR_ID
+			,	SF_STM3000_USR_INFO(SUB1.NEXT_USR_ID, '1')  AS NEXT_USR_NM
+			,	SF_STM3000_USR_INFO(SUB1.NEXT_USR_ID, '2')  AS NEXT_USR_EMAIL
+			,	SF_STM3000_USR_INFO(SUB1.NEXT_USR_ID, '6')  AS NEXT_USR_IMG_ID
 			,	SUB1.REG_DTM
 			,	SUB1.REG_USR_ID
 			,	SUB1.REG_USR_IP
@@ -741,7 +800,7 @@
 		    		,	A.ORD
 		    		,	A.SIGN_USR_ID
 		    		,	A.SIGN_TYPE_CD
-		    		,	A.SIGN_RES
+		    		,	NVL(A.SIGN_RES,'') AS SIGN_RES
 		    		,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH:MM:SS') AS SIGN_DTM
 		    		,	A.REG_DTM
 		    		,	A.REG_USR_ID
@@ -749,7 +808,10 @@
 		    		,	A.MODIFY_DTM
 		    		,	A.MODIFY_USR_ID
 		    		,	A.MODIFY_USR_IP
+		    		,	B.SIGN_USR_ID AS NEXT_USR_ID
 		    	FROM	CMM6601 A
+		    	LEFT JOIN CMM6600 B
+		    	ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID =B.TARGET_ID AND A.TARGET_CD =B.TARGET_CD AND (A.ORD+1) = B.ORD)
 		    	WHERE   1 = 1
 		    	AND		A.LIC_GRP_ID = #licGrpId#
 		    	AND		A.PRJ_ID	   = #prjId#

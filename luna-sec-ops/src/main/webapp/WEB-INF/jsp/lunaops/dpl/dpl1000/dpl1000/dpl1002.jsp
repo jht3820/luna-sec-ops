@@ -19,19 +19,19 @@
 						<a class="nav-link text-center" data-toggle="tab" href="#allHistoryTab" data-tab-id="dplInfoAll" role="tab">전체 이력</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#osl_tabs_1_3" data-tab-id="dplInfoBuild" role="tab">빌드 이력</a>
+						<a class="nav-link text-center" data-toggle="tab" href="#bldHistoryTab" data-tab-id="dplInfoBuild" role="tab">빌드 이력</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#osl_tabs_1_4" data-tab-id="dplInfoSign" role="tab">결재 이력</a>
+						<a class="nav-link text-center" data-toggle="tab" href="#dplSignHistoryTab" data-tab-id="dplInfoSign" role="tab">결재 이력</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#osl_tabs_1_5" data-tab-id="dplInfoModify" role="tab">수정 이력</a>
+						<a class="nav-link text-center" data-toggle="tab" href="#dplChgHistoryTab" data-tab-id="dplInfoModify" role="tab">수정 이력</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#osl_tabs_1_6" data-tab-id="dplRevision" role="tab">배정 리비전</a>
+						<a class="nav-link text-center" data-toggle="tab" href="#dplReqRevisionTab" data-tab-id="dplRevision" role="tab">배정 리비전</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#osl_tabs_1_7" data-tab-id="dplAssignReq" role="tab">배정 요구사항 목록</a>
+						<a class="nav-link text-center" data-toggle="tab" href="#dplReqTab" data-tab-id="dplAssignReq" role="tab">배정 요구사항 목록</a>
 					</li>
 				</ul>
 			</div>
@@ -328,7 +328,7 @@
 				</div>
 				
 				
-				<div class="tab-pane  kt-scroll" id="osl_tabs_1_3" data-tab-id="dplInfoBuild" role="tabpanel">
+				<div class="tab-pane  kt-scroll" id="bldHistoryTab" data-tab-id="dplInfoBuild" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 						<div class="kt-portlet__head">
 							<div class="kt-portlet__head-label">
@@ -483,7 +483,7 @@
 				</div>
 				
 				
-				<div class="tab-pane kt-scroll" id="osl_tabs_1_4" data-tab-id="dplInfoSign" role="tabpanel">
+				<div class="tab-pane kt-scroll" id="dplSignHistoryTab" data-tab-id="dplInfoSign" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 						<div class="kt-portlet__head">
 							<div class="kt-portlet__head-label">
@@ -495,134 +495,6 @@
 						<div class="kt-portlet__body">
 							<div class="kt-timeline">
 								
-								<div class="kt-timeline__item kt-timeline__item--danger osl-timeline-item-right">	
-									<div class="kt-timeline__item-section">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-times kt-font-danger"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-l-10">2019-07-23 20:14:30</span>
-									</div>
-									<div class="osl-timeline-content">
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">
-											<div class="w-100 float-left kt-padding-r-90">
-												<div class="badge badge-danger kt-margin-r-15 float-left">반려</div>
-												<div class="kt-font-bolder kt-padding-l-55">[반려] 결재 반려</div>
-											</div>
-											<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">장애처리 긴급배포에 대한 결재 반려합니다.</div>
-										</div>
-										<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">
-											<div class="kt-user-card-v2 btn kt-margin-b-10">
-												<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
-													<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000088" onerror=""/>
-												</div>
-												<div class="kt-user-card-v2__details">
-													<span class="kt-user-card-v2__name text-left">홍길동</span>
-												</div>
-												<div class="kt-margin-l-10 osl-email">rlfehd@opensoftlab.kr</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-		
-								
-								<div class="kt-timeline__item kt-timeline__item--success osl-timeline-item-left">
-									<div class="kt-timeline__item-section flex-row-reverse-desktop">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-check kt-font-success"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-r-10">2019-07-20 12:14:30</span>
-									</div>
-									<div class="osl-timeline-content">
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">
-											<div class="w-100 float-left kt-padding-r-90">
-												<div class="badge badge-success kt-margin-r-15 float-left">승인</div>
-												<div class="kt-font-bolder kt-padding-l-55">[승인] 결재 승인</div>
-											</div>
-											<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">장애처리 긴급배포에 대한 결재 승인합니다.</div>
-										</div>
-										<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">
-											<div class="kt-user-card-v2 btn kt-margin-b-10">
-												<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
-													<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000088" onerror=""/>
-												</div>
-												<div class="kt-user-card-v2__details">
-													<span class="kt-user-card-v2__name text-left">홍길동</span>
-												</div>
-												<div class="kt-margin-l-10 osl-email">rlfehd@opensoftlab.kr</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-								
-								
-								<div class="kt-timeline__item kt-timeline__item--dark osl-timeline-item-left">
-									<div class="kt-timeline__item-section flex-row-reverse-desktop">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-edit kt-font-dark"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-r-10">2019-07-20 12:14:30</span>
-									</div>
-									<div class="osl-timeline-content">
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">
-											<div class="w-100 float-left kt-padding-r-90">
-												<div class="badge badge-dark kt-margin-r-15 float-left">요청</div>
-												<div class="kt-font-bolder kt-padding-l-55">[대기] 결재 요청</div>
-											</div>
-											<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0"></div>
-										</div>
-										<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">
-											<div class="kt-user-card-v2 btn kt-margin-b-10">
-												<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
-													<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000088" onerror=""/>
-												</div>
-												<div class="kt-user-card-v2__details">
-													<span class="kt-user-card-v2__name text-left">홍길동</span>
-												</div>
-												<div class="kt-margin-l-10 osl-email">rlfehd@opensoftlab.kr</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-								
-								<div class="kt-timeline__item kt-timeline__item--dark osl-timeline-item-left">
-									<div class="kt-timeline__item-section flex-row-reverse-desktop">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-edit kt-font-dark"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-r-10">2019-07-20 12:14:30</span>
-									</div>
-									<div class="osl-timeline-content">
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">
-											<div class="w-100 float-left kt-padding-r-90">
-												<div class="badge badge-success kt-margin-r-15 float-left">기안</div>
-												<div class="kt-font-bolder kt-padding-l-55">[기안] 기안서 작성</div>
-											</div>
-											<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0"></div>
-										</div>
-										<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">
-											<div class="kt-user-card-v2 btn kt-margin-b-10">
-												<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
-													<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000088" onerror=""/>
-												</div>
-												<div class="kt-user-card-v2__details">
-													<span class="kt-user-card-v2__name text-left">홍길동</span>
-												</div>
-												<div class="kt-margin-l-10 osl-email">rlfehd@opensoftlab.kr</div>
-											</div>
-										</div>
-									</div>
-								</div>
 								
 							</div>
 						</div>
@@ -630,7 +502,7 @@
 				</div>
 				
 				
-				<div class="tab-pane kt-scroll" id="osl_tabs_1_5" data-tab-id="dplInfoModify" role="tabpanel">
+				<div class="tab-pane kt-scroll" id="dplChgHistoryTab" data-tab-id="dplInfoModify" role="tabpanel">
 					<div class="row">
 						<div class="col-lg-8 col-md-12 col-sm-12 col-12">
 							<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
@@ -723,7 +595,7 @@
 				</div>
 				
 				
-				<div class="tab-pane kt-scroll" id="osl_tabs_1_6" data-tab-id="dplRevision" role="tabpanel">
+				<div class="tab-pane kt-scroll" id="dplReqRevisionTab" data-tab-id="dplRevision" role="tabpanel">
 					<div class="kt-portlet">
 						<div class="kt-portlet__head">
 							<div class="kt-portlet__head-label">
@@ -777,7 +649,7 @@
 				</div>
 				
 				
-				<div class="tab-pane kt-scroll" id="osl_tabs_1_7" data-tab-id="dplAssignReq" role="tabpanel">
+				<div class="tab-pane kt-scroll" id="dplReqTab" data-tab-id="dplAssignReq" role="tabpanel">
 					<div class="kt-portlet kt-margin-b-0">
 						<div class="kt-portlet__head">
 							<div class="kt-portlet__head-label">
@@ -789,7 +661,7 @@
 						<div class="kt-portlet__body kt-padding-b-0">
 							<div class="row">
 								<div class="col-7">
-									<div class="osl-datatable-search" data-datatable-id="dpl1002Table"></div>
+									<div class="osl-datatable-search" data-datatable-id="dpl1002DplReqTable"></div>
 								</div>
 								<div class="col-5 text-right">
 									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="select" title="배포 계획 생성 관리 관리 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
@@ -797,7 +669,7 @@
 									</button>
 								</div>
 							</div>
-							<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="dpl1002Table"></div>
+							<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="dpl1002DplReqTable"></div>
 						</div>
 					</div>
 				</div>
@@ -831,7 +703,7 @@ var OSLDpl1002Popup = function () {
 	var documentSetting = function(){
 		
 		
-		
+		fnSelectDplHistoryInfo();
 		
 		
 		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -886,11 +758,11 @@ var OSLDpl1002Popup = function () {
 		fnKtScrollInit("#dplPopRevisionFileTreeDiv", "312.5");
 		fnKtScrollInit("#dplInfoTab", "550");
 		fnKtScrollInit("#allHistoryTab", "550");
-		fnKtScrollInit("#osl_tabs_1_3", "550");
-		fnKtScrollInit("#osl_tabs_1_4", "550");
-		fnKtScrollInit("#osl_tabs_1_5", "550");
-		fnKtScrollInit("#osl_tabs_1_6", "550");
-		fnKtScrollInit("#osl_tabs_1_7", "550");
+		fnKtScrollInit("#bldHistoryTab", "550");
+		fnKtScrollInit("#dplSignHistoryTab", "550");
+		fnKtScrollInit("#dplChgHistoryTab", "550");
+		fnKtScrollInit("#dplReqRevisionTab", "550");
+		fnKtScrollInit("#dplReqTab", "550");
 	};
 	
 	
@@ -900,7 +772,12 @@ var OSLDpl1002Popup = function () {
 			data: {
 				source: {
 					read: {
-						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do"
+						url: "/dpl/dpl1000/dpl1100/selectDpl1100AssReqListAjax.do",
+						params:{
+							prjId : $("#paramPrjId").val(),
+					    	dplId : $("#paramDplId").val(),
+					    	
+						}
 					}
 				},
 				 pageSize : 3,
@@ -924,18 +801,22 @@ var OSLDpl1002Popup = function () {
 				 }
 			 },
 			columns: [
-				{field: '', title: '순번', textAlign: 'center', width: 30, search: true},
-				{field: '', title: '처리 상태', textAlign: 'center', width: 50, autoHide: false},
-				{field: '', title: '요구사항 명', textAlign: 'center', width: 150, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortField: "reqProTypeCd"},
-				{field: '', title: '요구사항 설명', textAlign: 'center', width: 150, search: true},
-				{field: '', title: '프로세스명', textAlign: 'center', width: 70, search: true, searchType:"date"},
-				{field: '', title: '작업흐름 명', textAlign: 'center', width: 100, search: true, searchType:"date"},
-				{field: '', title: '요청자', textAlign: 'center', width: 70, search: true, searchType:"date"},
-				{field: '', title: '담당자', textAlign: 'center', width: 70, search: true, searchType:"date"},
+				{field: 'rn', title: '순번', textAlign: 'center', width: 30, search: true},
+				{field: 'reqOrd', title: '요구사항 순번', textAlign: 'center', width: 80, autoHide: false},
+				{field: 'reqProTypeNm', title: '처리 상태', textAlign: 'center', width: 70, autoHide: false, search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortField: "reqProTypeCd"},
+				{field: 'reqNm', title: '요구사항 명', textAlign: 'left', width: 250, autoHide: false, search: true},
+				
+				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 70, search: true},
+				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 70, search: true}
 			],
 			actionBtn:{
+				"title": "기능 버튼",
+				"width" : 120,
 				"click": true,
-				"dblClick": false
+				"dblClick": false,
+				"insert": false,
+				"update": false,
+				"delete": false
 			},
 			actionTooltip:{
 				"click": "배정리비전 조회"				
@@ -983,8 +864,13 @@ var OSLDpl1002Popup = function () {
 				{field: '', title: '내용', textAlign: 'center', width: 100},
 			],
 			actionBtn:{
+				"title": "기능 버튼",
+				"width" : 120,
 				"click": true,
-				"dblClick": false
+				"dblClick": false,
+				"insert": false,
+				"update": false,
+				"delete": false
 			},
 			actionTooltip:{
 				"click": "배정리비전 조회"				
@@ -1046,14 +932,15 @@ var OSLDpl1002Popup = function () {
 	
 	
 	datatableSetting["dplAssignReq"] = function(){
-		$.osl.datatable.setting("dpl1002Table",{
+		$.osl.datatable.setting("dpl1002DplReqTable",{
 			data: {
 				source: {
 					read: {
 						url: "/dpl/dpl1000/dpl1100/selectDpl1100AssReqListAjax.do",
-						param:{
+						params:{
 							prjId : $("#paramPrjId").val(),
-					    	dplId : $("#paramDplId").val()
+					    	dplId : $("#paramDplId").val(),
+					    	
 						}
 					}
 				},
@@ -1078,18 +965,36 @@ var OSLDpl1002Popup = function () {
 				 }
 			 },
 			columns: [
-				{field: '', title: '순번', textAlign: 'center', width: 30, search: true},
-				{field: '', title: '처리 상태', textAlign: 'center', width: 50, autoHide: false},
-				{field: '', title: '요구사항 명', textAlign: 'center', width: 150, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortField: "reqProTypeCd"},
-				{field: '', title: '요구사항 설명', textAlign: 'center', width: 150, search: true},
-				{field: '', title: '프로세스명', textAlign: 'center', width: 70, search: true, searchType:"date"},
-				{field: '', title: '작업흐름 명', textAlign: 'center', width: 100, search: true, searchType:"date"},
-				{field: '', title: '요청자', textAlign: 'center', width: 70, search: true, searchType:"date"},
-				{field: '', title: '담당자', textAlign: 'center', width: 70, search: true, searchType:"date"},
+					{field: 'rn', title: '순번', textAlign: 'center', width: 30, search: true},
+					{field: 'reqOrd', title: '요구사항 순번', textAlign: 'center', width: 80, autoHide: false},
+					{field: 'reqProTypeNm', title: '처리 상태', textAlign: 'center', width: 70, autoHide: false, search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortField: "reqProTypeCd"},
+					{field: 'reqNm', title: '요구사항 명', textAlign: 'left', width: 250, autoHide: false, search: true},
+					
+					{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 70, search: true},
+					{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 70, search: true}
 			],
 			actionBtn:{
-				"dblClick": false 
-			}
+				"title": "기능 버튼",
+				"width" : 120,
+				"click": false,
+				"dblClick": true,
+				"insert": false,
+				"delete": false,
+				"update": false
+			},
+			actionTooltip:{
+				"dblClick": "요구사항 상세 보기",
+			},
+			actionFn:{
+				"dblClick":function(rowData, datatableId, type, rowNum, elem){
+					
+				}
+			},
+			theme: {
+				 actionBtnIcon:{
+					 "dblClick": "fa fa-info-circle"
+				 }
+			 }
 		});
 	};
 	
@@ -1113,7 +1018,7 @@ var OSLDpl1002Popup = function () {
 			}else{
 				
 				console.log(data);
-				
+				signHistorySetting(data.dplSignHistoryList);
 			}
 		});
 		
@@ -1122,16 +1027,180 @@ var OSLDpl1002Popup = function () {
 	};
 	
 	
+	var signHistorySetting = function(dplSignHistoryList){
+		
+		$.each(dplSignHistoryList,function(idx, signInfo){
+			
+			var signTypeCd = signInfo.signTypeCd;
+			
+			
+			if(signTypeCd == '01' ){
+				
+				
+				drawSignInfoCard(signInfo, 2);
+				
+				drawSignInfoCard(signInfo, 1);
+			
+			}else if(signTypeCd == '02'){
+				
+				
+				drawSignInfoCard(signInfo, 2);
+				
+				drawSignInfoCard(signInfo, 3);
+			
+			}else if(signTypeCd == '03'){
+				
+				
+				drawSignInfoCard(signInfo, 4);
+			
+			}else if(signTypeCd == '04'){
+				
+				
+				drawSignInfoCard(signInfo, 5);
+			}
+			
+		});
+		
+	};
+	
+	
+	var drawSignInfoCard = function(signInfo, type){
+		
+		
+		var itemPosition = '';
+		
+		var itemColor = '';
+		
+		var itemIconPosition = '';
+		
+		var iconImg = '';
+		
+		var badgeColor = '';
+		
+		var signType = '';
+		
+		var signTitle = '';
+		
+		var signRes = '';
+		
+		var signUsrNm = signInfo.signUsrNm;
+		
+		var signUsrEmail = signInfo.signUsrEmail;
+		
+		var signUsrImgId = signInfo.signUsrImgId;
+		
+		var dtmMargin = 'kt-margin-r-10';
+		
+		
+		
+		if(type == 1){
+			itemPosition = "osl-timeline-item-left";
+			itemColor = "kt-timeline__item--dark ";
+			itemIconPosition = "flex-row-reverse-desktop";
+			iconImg = "fa-edit kt-font-dark";
+			signType = "기안";
+			signTitle = "[기안] 기안서 작성";
+			badgeColor = "badge-success";
+		
+		
+		}else if(type == 2){
+			itemPosition = "osl-timeline-item-left";
+			itemColor = "kt-timeline__item--dark ";
+			itemIconPosition = "flex-row-reverse-desktop";
+			iconImg = "fa-edit kt-font-dark";
+			signType = "요청";
+			signTitle = "[대기] 결재 요청";
+			signUsrNm = signInfo.nextUsrNm;
+			signUsrEmail = signInfo.nextUsrEmail;
+			signUsrImgId = signInfo.nextUsrImgId;
+			badgeColor = "badge-dark";
+			
+		
+		}else if(type == 3){
+			itemPosition = "osl-timeline-item-left";
+			itemColor = "kt-timeline__item--success ";
+			itemIconPosition = "flex-row-reverse-desktop";
+			iconImg = "fa-check kt-font-success";
+			signRes = signInfo.signRes;
+			signType = "승인";
+			signTitle = "[승인] 결재 승인";
+			badgeColor = "badge-success";
+		
+		
+		}else if(type == 4){
+			itemPosition = "osl-timeline-item-left";
+			itemColor = "kt-timeline__item--success ";
+			itemIconPosition = "flex-row-reverse-desktop";
+			iconImg = "fa-check kt-font-success";
+			signRes = signInfo.signRes;
+			signType = "승인";
+			signTitle = "[최종 승인] 결재 최종 승인";
+			badgeColor = "badge-success";
+		
+		
+		}else if(type ==5){
+			itemPosition = "osl-timeline-item-right";
+			itemColor = "kt-timeline__item--danger ";
+			iconImg = "fa-times kt-font-danger";
+			signRes = signInfo.signRes;
+			signType = "반려";
+			signTitle = "[반려] 결재 반려";
+			badgeColor = "badge-danger";
+			dtmMargin = 'kt-margin-l-10';
+		}
+		
+		
+		if($.osl.isNull(signRes)){
+			signRes ='';
+		}
+		
+		
+		var timelineItemDiv =	'<div class="kt-timeline__item '+itemColor+itemPosition+'">'
+							+		'<div class="kt-timeline__item-section '+itemIconPosition+'">'
+							+			'<div class="kt-timeline__item-section-border">'
+							+				'<div class="kt-timeline__item-section-icon">'
+							+					'<i class="fas '+iconImg+'"></i>'
+							+				'</div>'
+							+			'</div>'
+							+			'<span class="kt-timeline__item-datetime '+dtmMargin+'">'+signInfo.signDtm+'</span>'
+							+		'</div>'
+							+		'<div class="osl-timeline-content">'
+							+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">'
+							+				'<div class="w-100 float-left kt-padding-r-90">'
+							+					'<div class="badge '+badgeColor+' kt-margin-r-15 float-left">'+signType+'</div>'
+							+					'<div class="kt-font-bolder kt-padding-l-55">'+signTitle+'</div>'
+							+				'</div>'
+							+				'<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">'+signRes+'</div>'
+							+			'</div>'
+							+			'<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">'
+							+				'<div class="kt-user-card-v2 btn kt-margin-b-10">'
+							+					'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
+							+						'<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId='+signUsrImgId+'" onerror=""/>'
+							+					'</div>'
+							+					'<div class="kt-user-card-v2__details">'
+							+						'<span class="kt-user-card-v2__name text-left">'+signUsrNm+'</span>'
+							+					'</div>'
+							+					'<div class="kt-margin-l-10 osl-email">'+signUsrEmail+'</div>'
+							+				'</div>'
+							+			'</div>'
+							+		'</div>'
+							+	'</div>'
+		
+		
+		$(".kt-timeline").append(timelineItemDiv);
+	}
+	
+	
 	var fnKtScrollInit = function(targetName, targetHeight) {
 		KTUtil.scrollInit($(targetName)[0], {
 	   		
-	         disableForMobile: true, 
-	         
-	         resetHeightOnDestroy: true, 
-	         
-	         handleWindowResize: true, 
-	         
-	         height: targetHeight
+	        disableForMobile: true, 
+	        
+	        resetHeightOnDestroy: true, 
+	        
+	        handleWindowResize: true, 
+	        
+	        height: targetHeight
 	    });
 	};
 	
