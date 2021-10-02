@@ -1036,7 +1036,7 @@ public class Req4100Controller {
 			}
 			
 			
-			String paramReqId = (String) paramMap.get("reqId");
+			String paramReqId = (String) paramMap.get("paramReqId");
 			
 			paramMap.put("prjGrpId", paramPrjGrpId);
 			paramMap.put("prjId", paramPrjId);
@@ -1047,6 +1047,8 @@ public class Req4100Controller {
 			
 			
 			List<Map> reqChgList = req6000Service.selectReq6001ReqChgList(paramMap); 
+			
+			
 			
 			model.addAttribute("reqInfo", reqInfo);
 			model.addAttribute("reqChgList", reqChgList);
