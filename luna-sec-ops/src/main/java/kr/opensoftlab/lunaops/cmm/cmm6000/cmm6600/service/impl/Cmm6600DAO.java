@@ -61,4 +61,10 @@ public class Cmm6600DAO extends ComOslitsAbstractDAO {
 		return (Integer) select("cmm6600DAO.selectCmm6600MaxOrd",paramMap);
 	}
 
+	
+	@SuppressWarnings("rawtypes")
+	public Map selectCmm6601SignInfo(Map<String, String> paramMap) throws Exception{
+		return (Map) select("cmm6600DAO.selectCmm6601SignInfo",paramMap);
+	}
+
 }

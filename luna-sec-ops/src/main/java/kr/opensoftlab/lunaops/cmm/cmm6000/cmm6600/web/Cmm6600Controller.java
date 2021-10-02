@@ -93,20 +93,28 @@ public class Cmm6600Controller {
 			paramMap.put("prjId", (String)ss.getAttribute("selPrjId"));
 			paramMap.put("targetCd", "02");
 			
+			/
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/cmm/cmm6000/cmm6600/selectCmm6601SignInfoAjax.do")
+    public ModelAndView selectCmm6600SignInfoAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+    	try{
 			
-			cmm6600Service.insertCmm6601SignInfo(paramMap);
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			Map signUsrInf = cmm6600Service.selectCmm6601SignInfo(paramMap);
 			
 			
 			model.addAttribute("errorYn", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+			model.addAttribute("signUsrInf", signUsrInf);
+			
 			return new ModelAndView("jsonView");
 		}
 		catch(Exception ex){
-			Log.error("insertCmm6601SignAprInfoAjax()", ex);
+			Log.error("selectCmm6600SignInfoAjax()", ex);
 			
 			
 			model.addAttribute("errorYn", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
 			throw new Exception(ex.getMessage());
 		}
     }
