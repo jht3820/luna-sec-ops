@@ -1734,9 +1734,17 @@ label.required:after {
     -webkit-box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
     box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
     background-color: #ffffff;
-	border: 1px solid transparent;
+	border: 2px solid transparent;
     border-radius: 4px;
     pointer-events: auto;
+}
+.ps > .ps__rail-x > .ps__thumb-x {
+    background: #1cac81;
+    opacity: 1;
+}
+.ps > .ps__rail-x > .ps__thumb-x:hover, .ps > .ps__rail-x > .ps__thumb-x:focus {
+    opacity: 1;
+    background: #1cac81;
 }
 
 .osl-dsh-kanban{
@@ -1891,18 +1899,19 @@ label.required:after {
     position: relative;
     max-width: 400px;
     margin-right: 50px;
+	cursor: pointer;
+}
+.osl-req__process-history .osl-flowchart__operator:hover {
+	border: 2px solid #1cac81;
 }
 .osl-req__process-history .flowchart-operator-title {
-    cursor: default;
+    cursor: pointer;
 }
 .osl-req__process-history .osl-flowchart__label {
     position: absolute;
     right: -35px;
     top: 40px;
     cursor: default;
-}
-.osl-req__process-history .osl-flowchart__operator:last-child .osl-flowchart__label {
-    display: none;
 }
 
 .osl-title--all-view-content {
