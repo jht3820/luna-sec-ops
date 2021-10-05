@@ -1,40 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 
 
 <div class="kt-portlet kt-portlet--mobile kt-margin-b-0 osl-portlet__body-style--none">
-	<div class="kt-portlet__head position-relative kt-padding-l-45 kt-padding-r-45 osl-overflow--hidden swiper-container">
-		
-		<ul class="nav nav-pills nav-pills-sm osl-flex-flow--row kt-margin-b-0 position-absolute osl-position-nav swiper-wrapper osl-width__fit-content" role="tablist">
-			<li class="nav-item swiper-slide">
-				<a class="nav-link osl-tab-fixed active text-center" data-toggle="tab" href="#osl_tabs_1_1" data-tab-id="reqInfo" role="tab">요구사항 정보</a>
-			</li>
-			<li class="nav-item swiper-slide">
-				<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_2" data-tab-id="flowChg" role="tab">작업흐름 변경이력</a>
-			</li>
-			<li class="nav-item swiper-slide">
-				<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_3" data-tab-id="reqHistory" role="tab">요구사항 수정이력</a>
-			</li>
-			<li class="nav-item swiper-slide">
-				<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_4" data-tab-id="prjAddOpt" role="tab">프로젝트 기본 항목</a>
-			</li>
-			<li class="nav-item swiper-slide">
-				<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_5" data-tab-id="proAddOpt" role="tab">프로세스 기본 항목</a>
-			</li>
-			<li class="nav-item swiper-slide">
-				<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_6" data-tab-id="reqAddOpt" role="tab">추가항목 정보</a>
-			</li>
-			<li class="nav-item swiper-slide">
-				<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_7" data-tab-id="reqwork" role="tab">작업 내용</a>
-			</li>
-			<li class="nav-item swiper-slide">
-				<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_8" data-tab-id="svnRevision" role="tab">리비전 정보</a>
-			</li>
-			<li class="nav-item swiper-slide">
-				<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_8" data-tab-id="reqDep" role="tab">배포 정보</a>
-			</li>
-		</ul>
+	<div class="kt-portlet__head osl-swiper-container">
+		<div class="swiper-container w-100 overflow-hidden">
+			
+			<ul class="nav nav-pills nav-pills-sm osl-flex-flow--row kt-margin-b-0 osl-position-nav swiper-wrapper osl-width__fit-content" role="tablist">
+				<li class="nav-item swiper-slide">
+					<a class="nav-link osl-tab-fixed active text-center" data-toggle="tab" href="#osl_tabs_1_1" data-tab-id="reqInfo" role="tab">요구사항 정보</a>
+				</li>
+				<li class="nav-item swiper-slide">
+					<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_2" data-tab-id="flowChg" role="tab">작업흐름 변경이력</a>
+				</li>
+				<li class="nav-item swiper-slide">
+					<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_3" data-tab-id="reqHistory" role="tab">요구사항 수정이력</a>
+				</li>
+				<li class="nav-item swiper-slide">
+					<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_4" data-tab-id="prjAddOpt" role="tab">프로젝트 기본 항목</a>
+				</li>
+				<li class="nav-item swiper-slide">
+					<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_5" data-tab-id="proAddOpt" role="tab">프로세스 기본 항목</a>
+				</li>
+				<li class="nav-item swiper-slide">
+					<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_6" data-tab-id="reqAddOpt" role="tab">추가항목 정보</a>
+				</li>
+				<li class="nav-item swiper-slide">
+					<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_7" data-tab-id="reqwork" role="tab">작업 내용</a>
+				</li>
+				<li class="nav-item swiper-slide">
+					<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_8" data-tab-id="svnRevision" role="tab">리비전 정보</a>
+				</li>
+				<li class="nav-item swiper-slide">
+					<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#osl_tabs_1_8" data-tab-id="reqDep" role="tab">배포 정보</a>
+				</li>
+			</ul>
+		</div>
 		
 		<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm osl-position-left-btn swiper-button-prev">
 			<i class="fas fa-angle-left"></i>
@@ -53,7 +55,7 @@
 		osl-tab-content-8 osl-min-h-px--550,osl-tab-content-4는 기본적으로 kt-padding-20, kt-bg-light를 무조건 가지고 있습니다.
 		여백과 배경색이 없는 예시) osl_tab_1_1 내부의 osl-tab-content-8 osl-min-h-px--550
 	 -->
-	<div class="kt-portlet__body kt-padding-10">
+	<div class="kt-portlet__body kt-padding-t-0 kt-padding-l-30 kt-padding-r-30 kt-padding-b-30">
 		<div class="tab-content">
 			
 			<div class="tab-pane active" id="osl_tabs_1_1" data-tab-content="reqInfo" role="tabpanel">
@@ -380,6 +382,28 @@ var OSLCmm6203Popup = function () {
     	new KTPortlet('req4101RequestUsrInfo', $.osl.lang("portlet"));
     	new KTPortlet('req4101ReqGrpInfo', $.osl.lang("portlet"));
     	new KTPortlet('req4101NewRequestOpt', $.osl.lang("portlet"));
+    	
+    	
+    	
+		$('.modal-body').scroll(function() {
+		    
+		    var scroll = $('.modal-body').scrollTop();
+		    
+		    if (scroll >= 10) {
+		        
+		        $('.osl-swiper-container').css({
+		            backgroundColor: '#eeeef4',
+		        	boxShadow: '0 1px 16px rgb(64 63 63 / 15%)'
+		        });
+		        
+		    } else {
+		        
+		        $('.osl-swiper-container').css({
+		            backgroundColor: 'transparent',
+		        	boxShadow: 'none'
+		        });
+		    }
+		});
     	
     	
     	$('.osl-tab-content__folding-btn').click(function(){
