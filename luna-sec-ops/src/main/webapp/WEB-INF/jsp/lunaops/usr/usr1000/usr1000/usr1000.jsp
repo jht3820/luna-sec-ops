@@ -111,7 +111,7 @@
 							<div class="col-xl-6">
 								<div class="form-group">
 									<label class="required"><i class="fa fa-phone-alt kt-margin-r-5"></i>연락처</label>
-									<input type="text" class="form-control" placeholder="연락처" name="telno" id="telno" minlength="3" maxlength="16" regexstr="^([0-9]).*$" regexalert="숫자만 입력가능" required>
+									<input type="text" class="form-control" placeholder="연락처" name="telno" id="telno" minlength="3" maxlength="11" regexstr="^([0-9]).*$" regexalert="숫자만 입력가능" required>
 								</div>
 							</div>
 							<div class="col-xl-6">
