@@ -48,7 +48,8 @@
 	<!-- 
 		**참고사항** 
 		하나의 tab-content에 여러개의 portlet이 들어갈 경우에는
-		osl-tab-content-8 osl-min-h-px--550,osl-tab-content-4에 있는 kt-padding-20, kt-bg-light 제거하시고 사용하시면 됩니다
+		osl-tab-content-8 osl-min-h-px--550,osl-tab-content-4에 있는 kt-padding-20, kt-bg-light 제거하시고 사용하시면 됩니다.
+		또한 위의 경우 여러개 portlet이 들어갈 때 마지막 portlet은 반드시 kt-padding-b-0을 적어 주셔야합니다.
 		osl-tab-content-8 osl-min-h-px--550,osl-tab-content-4는 기본적으로 kt-padding-20, kt-bg-light를 무조건 가지고 있습니다.
 		여백과 배경색이 없는 예시) osl_tab_1_1 내부의 osl-tab-content-8 osl-min-h-px--550
 	 -->
@@ -192,7 +193,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="kt-portlet kt-portlet--collapsed" data-ktportlet="true" id="req4101NewRequestOpt">
+							<div class="kt-portlet kt-portlet--collapsed kt-margin-b-0" data-ktportlet="true" id="req4101NewRequestOpt">
 								<div class="kt-portlet__head">
 									<div class="kt-portlet__head-label">
 										<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.requestDefaultOptNm">접수 기본항목 입력</span>
@@ -237,9 +238,15 @@
 								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">요청 제목</span></label>
 								<input type="text" class="form-control" placeholder="요청 제목" name="" id="" autocomplete="off" required>
 							</div>
-							<div class="form-group">
-								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDesc">요청 내용</span></label>
-								<textarea  class="kt-hide" name="" id="" autocomplete="off" required></textarea>
+							<!-- ** 
+									예시 : folding 접힐 때 숨겨지는 div
+							
+									  기본 class :: osl-tab-folding-hide kt-hide
+									 folding 펼쳐지면서 kt-hide removeClass addClass로 조절
+							** -->
+							<div class="form-group osl-tab-folding-hide kt-hide">
+								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDesc">요청 내용<span class="kt-font-danger">(folding 숨김 예시)</span></span></label>
+								<textarea  class="kt-hide" name="reqDesc2" id="reqDesc2" autocomplete="off" required></textarea>
 							</div>
 							<div class="kt-hide osl-bad_box" name="pwOption" id="pwOption">
 						 		<div class="input-group kt-margin-b-10">
@@ -359,6 +366,13 @@
 var OSLCmm6203Popup = function () {
 	
 	var swiper;	
+	
+	var formId = 'frCmm6203s';
+	
+	var formEditList = [];
+	
+	var formValidate = $.osl.validate(formId);
+	
     
     var documentSetting = function () {
 		
@@ -371,28 +385,28 @@ var OSLCmm6203Popup = function () {
     	$('.osl-tab-content__folding-btn').click(function(){
     		
     		var target = $(this).parents('.osl-tab-content--full');
-    		if(target.hasClass('folding-div')){
-    			target.removeClass('folding-div');
-    		}else{
-    			target.addClass('folding-div');
-    		}
     		
+    		if(target.hasClass('folding-div')){
+    			
+    			target.removeClass('folding-div');
+    			
+    			$('.osl-tab-folding-hide').addClass('kt-hide');
+    		}else{
+    			
+    			target.addClass('folding-div');
+    			
+    			$('.osl-tab-folding-hide').removeClass('kt-hide');
+    		}
     	});
 
     	
     	initSwiper(); 
     	
-
-    	var formId = 'frCmm6203s';
-	
-		
-		var formEditList = [];
-		
-		
-		var formValidate = $.osl.validate(formId);
-    	
 		
     	formEditList.push($.osl.editorSetting("reqDesc", {formValidate: formValidate}));
+		
+		
+    	formEditList.push($.osl.editorSetting("reqDesc2", {formValidate: formValidate}));
 		
     	
     	
@@ -412,8 +426,7 @@ var OSLCmm6203Popup = function () {
 			}
 		
 			
-			
-			
+			/
 			if(tabDiv=='reqInfo'){
 				
 				
