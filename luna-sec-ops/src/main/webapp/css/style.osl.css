@@ -592,11 +592,7 @@ select[id^=usrOpt_] {
     padding-top: 15px;
     padding-bottom: 15px;
 }
-.kt-portlet .kt-portlet__head{
-	flex-wrap: wrap;
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
-}
+
 
 .osl-datatable-search__btn-title--none .btn i{
 	padding:0;
@@ -706,6 +702,15 @@ select[id^=usrOpt_] {
 .osl-tab-content__folding-btn>.btn{
 	font-size: 1.6rem;
 	margin: 0 auto;
+}
+.osl-swiper-container{
+	position: sticky !important;
+	top:0;
+	left: 0;
+	z-index: 999;
+	height: 90px;
+	padding: 20px 65px !important;
+	border-bottom: none !important;
 }
 
 .osl-input-readonly-none {
@@ -1745,14 +1750,14 @@ label.required:after {
 }
 .osl-position-left-btn{
 	position: absolute;
-	left: 0;
+	left: 20px;
 	height: 48px;
 	z-index: 99;
 	background-color: #fff;
 }
 .osl-position-right-btn{
 	position: absolute;
-	right: 0;s
+	right: 20px;
 	height: 48px;
 	font-size: 1.5rem !important;
 	z-index: 99;
@@ -1850,6 +1855,15 @@ label.required:after {
 .ps > .ps__rail-x > .ps__thumb-x:hover, .ps > .ps__rail-x > .ps__thumb-x:focus {
     opacity: 1;
     background: #1cac81;
+}
+.flowchart-operator-function > li {
+    text-align: center;
+    background-color: #5867dd;
+    border-color: #5867dd;
+    color: #ffffff;
+    padding: 3px;
+    border-radius: 4px;
+    margin: 2px;
 }
 
 .osl-dsh-kanban{
