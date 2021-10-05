@@ -67,6 +67,18 @@ public class Dpl1000DAO extends ComOslitsAbstractDAO {
 	}
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectDpl1300DplJobPagingList(Map paramMap) throws Exception {
+		return (List<Map>) list("dpl1000DAO.selectDpl1300DplJobPagingList", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public int selectDpl1300DplJobPagingListCnt(Map paramMap) throws Exception {
+		return (Integer)select("dpl1000DAO.selectDpl1300DplJobPagingListCnt", paramMap);
+	} 
+	
+	
 	@SuppressWarnings({"rawtypes" })
 	public List selectDpl1400DplBldNumList(Map paramMap)  throws Exception{
 		return (List) list("dpl1000DAO.selectDpl1400DplBldNumList", paramMap);

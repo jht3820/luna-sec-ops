@@ -33,7 +33,7 @@
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head">
 				<div class="kt-portlet__head-label">
-					<!-- 받은 메시지 -->
+					
 					<span class="kt-font-boldest kt-font-lg" id="getAllCnt" name="getAllCnt">
 						<span class="d-inline-block">받은 메시지</span>
 						<div class="badge osl-badge-lightgray kt-margin-l-20">
@@ -41,14 +41,14 @@
 							<span id="getCnt" name="getCnt"></span>
 						</div>
 					</span>					
-					<!-- 보낸 메시지 -->
+					
 					<span class="kt-hide kt-font-boldest kt-font-lg" id="sendAllCnt" name="sendAllCnt">
 						<span class="d-inline-block">보낸 메시지</span>
 						<div class="badge osl-badge-lightgray kt-margin-l-20">
 							<span id="sendCnt" name="sendCnt"></span>
 						</div>
 					</span>
-					<!-- 나에게 보낸 메시지 -->
+					
 					<span class="kt-hide kt-font-boldest kt-font-lg" id="aloneAllCnt" name="aloneAllCnt">
 						<span class="d-inline-block">나에게 보낸 메시지</span>
 						<div class="badge osl-badge-lightgray kt-margin-l-20">
@@ -86,7 +86,7 @@
 		</div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLArm1000Popup = function () {
@@ -147,7 +147,7 @@ var OSLArm1000Popup = function () {
 				beforeTemplate : function(row, data, index){
 					if($.osl.datatable.list[datatableId].targetDt.getDataSourceParam("armMenuType") != "send"){
 						if(data.checkCd == '02'){
-							//안읽은 것
+							
 							$(row).css("font-weight", "bold");
 						}
 					}
@@ -171,7 +171,7 @@ var OSLArm1000Popup = function () {
 					var options = {
 							idKey: datatableId,
 							modalTitle: $.osl.lang("arm1000.actionBtn.insertTitle"),
-							closeConfirm: false,
+							closeConfirm: true,
 							autoHeight:false,
 						};
 					
@@ -182,7 +182,7 @@ var OSLArm1000Popup = function () {
 					var options;
 					
 					if(type == "list"){
-						//선택 항목이 리스트인 경우
+						
 						if(rowNum == 0){
 							$.osl.alert($.osl.lang("arm1000.alert.message.selectMessage"));
 							return false;
@@ -199,12 +199,12 @@ var OSLArm1000Popup = function () {
 									autoHeight:false,
 								};
 						}else{
-							//다중인 경우
+							
 							$.osl.alert($.osl.lang("arm1000.alert.message.selectOneMessage", rowNum));
 							return false;
 						}
 					}else{
-						//선택 항목이 row 단건인 경우
+						
 						data = {
 								type:"reInsert",
 								reSendUsrId : rowDatas.sendUsrId,
@@ -212,7 +212,7 @@ var OSLArm1000Popup = function () {
 						options = {
 								idKey: "reInsert_"+rowDatas.armId,
 								modalTitle: $.osl.lang("arm1000.actionBtn.reInsertTitle"),
-								closeConfirm: false,
+								closeConfirm: true,
 								autoHeight:false,
 							};
 					}
@@ -224,24 +224,24 @@ var OSLArm1000Popup = function () {
 							dataList : JSON.stringify(rowDatas)
 					};
 
-					//AJAX 설정
+					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/arm/arm1000/arm1000/deleteArm1000AlarmInfoAjax.do'/>", "async":"true"}
 							,data);
 					
-					//AJAX 전송 성공 함수
+					
 					ajaxObj.setFnSuccess(function(data){
 						if(data.errorYn == "Y"){
 							$.osl.alert(data.message,{type: 'error'});
 
-							//모달 창 닫기
+							
 							$.osl.layerPopupClose();
 						}else{
 							OSLArm1000Popup.reload();
 						}
 					});
 					
-					//AJAX 전송
+					
 					ajaxObj.send();
 					
 				},
@@ -252,7 +252,7 @@ var OSLArm1000Popup = function () {
 					var options = {
 							idKey: rowData.armId,
 							modalTitle: $.osl.lang("arm1000.actionBtn.dblClickTitle"),
-							closeConfirm: false,
+							closeConfirm: true,
 							autoHeight:false,
 					};
 					
@@ -263,24 +263,24 @@ var OSLArm1000Popup = function () {
 							dataList : JSON.stringify(rowDatas)
 					};
 					
-					//AJAX 설정
+					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/arm/arm1000/arm1000/updateArm1000AlarmInfoAjax.do'/>", "async":"true"}
 							,data);
 					
-					//AJAX 전송 성공 함수
+					
 					ajaxObj.setFnSuccess(function(data){
 						if(data.errorYn == "Y"){
 							$.osl.alert(data.message,{type: 'error'});
 
-							//모달 창 닫기
+							
 							$.osl.layerPopupClose();
 						}else{
 							OSLArm1000Popup.reload();
 						}
 					});
 					
-					//AJAX 전송
+					
 					ajaxObj.send();
 				}
 			},
@@ -296,7 +296,7 @@ var OSLArm1000Popup = function () {
 			},
 			callback:{
 				initComplete:function(evt, config){
-					//초기 선택 - 받은 메시지
+					
 					$("#menuTypeGet").click();
 				},
 	   			ajaxDone: function(evt, list, datatableInfo){
@@ -306,75 +306,73 @@ var OSLArm1000Popup = function () {
 		});
 		
 		$("#menuTypeGet").click(function(){
-			//검색바 초기화
+			
 			searchReset();
-			//데이터 테이블 검색 조건 변경 - 강제
+			
 			$.osl.datatable.list[datatableId].targetDt.setDataSourceParam("armMenuType","get");
-			//데이터 테이블 조회
+			
  			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 		});
 		
 		$("#menuTypeSend").click(function(){
-			//검색바 초기화
+			
 			searchReset();
-			//데이터 테이블 검색 조건 변경 - 강제
+			
 			$.osl.datatable.list[datatableId].targetDt.setDataSourceParam("armMenuType","send");
-			//데이터 테이블 조회
+			
 			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 		});
 		
 		$("#menuTypeAlone").click(function(){
-			//검색바 초기화
+			
 			searchReset();
-			//데이터 테이블 검색 조건 변경 - 강제
+			
 			$.osl.datatable.list[datatableId].targetDt.setDataSourceParam("armMenuType","alone");
-			//데이터 테이블 조회
+			
 			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 		});
 		
 		
-		//데이터 테이블 렌더링 업데이트 및 테이블 크기 조정 시 이벤트 발생
+		
 		$("#"+datatableId).on("kt-datatable--on-layout-updated", function(){
 			actionBtnHide();
        	});
 	};
 	
-	/**
-	 * 안읽은 메시지 개수 확인
-	 */
+	
 	var checkNotRead = function(){
-		//ajax 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
     			{"url":"<c:url value='/arm/arm1000/arm1000/selectArm1000AlarmNotReadCntAjax.do'/>"});
-		//ajax 전송 성공 함수
+		
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				var allMessage = data.allMessage;
 				var notRead = data.notRead;
-				//안읽은개수가 있는 경우 받은 메시지 표출
+				
 				if(notRead.get>0){
 					$("#notReadGetCntBadge").removeClass("kt-hide");
 					$("#notReadGetCntBadge, #notReadGetCnt").text(notRead.get);
 					$("#getCnt").text(" / " + allMessage.get);
 					
-				//안읽은 개수가 없는 경우 숫자 자체를 숨김
+				
 				}else{
 					$("#notReadGetCntBadge").addClass("kt-hide");
-					//$("#notReadGetCntBadge").text("0");
+					
 					$("#getCnt").text(" / " + allMessage.get);
 				}
-				//보낸 메시지 개수
+				
 				$("#sendCnt").text(allMessage.send);
-				//나에게 쓴 안읽은
+				
 				if(notRead.alone>0){
 					$("#notReadAloneCntBadge").removeClass("kt-hide");
 					$("#notReadAloneCntBadge, #notReadAloneCnt").text(notRead.alone);
 					$("#aloneCnt").text(" / " + allMessage.alone);
-				//나에쓴 다읽은
+				
 				}else{
 					$("#notReadAloneCntBadge").addClass("kt-hide");
 					$("#notReadAloneCnt").text("0");
@@ -382,121 +380,112 @@ var OSLArm1000Popup = function () {
 				}
 			}
     	});
-		//ajax 전송
+		
     	ajaxObj.send();
 	};
 	
-	/**
-	* 검색바 초기화
-	*/
+	
 	var searchReset = function(){
-		//드롭다운 메뉴 선택 활성화 취소 및 재선택
+		
 		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
 		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
 		
-		//검색 메뉴 명 가져오기
+		
 		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
 		
-		//검색 메뉴 버튼 변경
+		
 		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
 		
-		//select 감추기
+		
 		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
 		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
 		
-		//input 보이기
+		
 		$("#searchData_"+datatableId).removeAttr("readonly");
-		//그려진 캘린터 아이콘이 있는 경우 지우기
+		
 		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
 		
-		//input에 검색 값 비우기
+		
 		$("#searchData_"+datatableId).val("");
 
-		//전체 검색 막기
-		//input disabled
+		
+		
 		$("#searchData_"+datatableId).attr("disabled","disabled");
 	}
 	
-	/*
-	* function명 : actionBtnHide
-	* function설명 : 좌측 받은메시지, 보낸메시지, 나에게 보낸 메시지 구분에 따라 세팅
-	*				1.메뉴 활성화 
-	*				2.데이터테이블 내부 action '답장하기' 버튼 표출여부
-	*				3.우측상단 데이터테이블 '답장,읽음 처리' 버튼 표출여부 
-	*				4.데이터테이블 내부 '읽음 상태' column 표출 여부
-	*/
+	
 	var actionBtnHide = function(){
 		var datatableType = $.osl.datatable.list["arm1000ArmTable"].targetDt.getDataSourceParam('armMenuType');
-		//받은 메시지
+		
 		if(datatableType=="get"){
-			//선택 div 메뉴 활성화
+			
 			$(".kt-nav__item").find('.kt-nav__link-icon,.kt-nav__link-text').removeClass("kt-font-brand");
 			$("#menuTypeGet").find('.kt-nav__link-icon,.kt-nav__link-text').addClass("kt-font-brand");
-			//선택 외 div 메뉴 활성화 제거
+			
 			$("#sendAllCnt,#aloneAllCnt").addClass("kt-hide");
 			$("#getAllCnt").removeClass("kt-hide");
 
-			//datatable action읽음처리 버튼 표출
+			
 			$('.osl-table-option-hide').removeClass("kt-hide");
 			
-			//읽음,답장 버튼 hide
+			
 			$('.btn[data-auth-button=check]').show();
  			$('.btn[data-auth-button=reInsert]').show();
  			
- 			//읽음표시 컬럼 표출처리
+ 			
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('checkCd').visible=true;
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.columnHide();
  		
-		//보낸 메시지
+		
 		}else if(datatableType=="send"){
-			//선택 div 메뉴 활성화
+			
 			$(".kt-nav__item").find('.kt-nav__link-icon,.kt-nav__link-text').removeClass("kt-font-brand");
 			$("#menuTypeSend").find('.kt-nav__link-icon,.kt-nav__link-text').addClass("kt-font-brand");
-			//선택 외 div 메뉴 활성화 제거
+			
 			$("#getAllCnt,#aloneAllCnt").addClass("kt-hide");
 			$("#sendAllCnt").removeClass("kt-hide");
 
-			//datatable action읽음처리 버튼 숨김
+			
 			$('.osl-table-option-hide').addClass("kt-hide");
 			
-			//읽음,답장 버튼 hide
+			
 			$('.btn[data-auth-button=check]').hide();
  			$('.btn[data-auth-button=reInsert]').hide();
  		
- 			//읽음표시 컬럼 숨김처리
+ 			
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('checkCd').visible=false;
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.columnHide();
  		
- 		//나에게 보낸 메시지
+ 		
 		}else if(datatableType=="alone"){
 			
-			//선택 div 메뉴 활성화
+			
 			$(".kt-nav__item").find('.kt-nav__link-icon,.kt-nav__link-text').removeClass("kt-font-brand");
 			$("#menuTypeAlone").find('.kt-nav__link-icon,.kt-nav__link-text').addClass("kt-font-brand");
-			//선택 외 div 메뉴 활성화 제거
+			
 			$("#getAllCnt,#sendAllCnt").addClass("kt-hide");
 			$("#aloneAllCnt").removeClass("kt-hide");
 
-			//datatable action읽음처리 버튼 숨김
+			
 			$('.osl-table-option-hide').addClass("kt-hide");
 			
-			//읽음,답장 버튼 hide
+			
 			$('.btn[data-auth-button=check]').hide();
  			$('.btn[data-auth-button=reInsert]').hide();
  			
- 			//읽음표시 컬럼 숨김처리
+ 			
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('checkCd').visible=false;
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.columnHide();
 		}
 	}
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
         reload: function(){
-			//datatable 조회
+			
 			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			checkNotRead();
         }
@@ -507,4 +496,3 @@ $.osl.ready(function(){
 	OSLArm1000Popup.init();
 });
 </script>
-<!-- end script -->

@@ -67,7 +67,7 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-lg-6 col-md-12 col-sm-12 kt-hide">
+						<div class="col-lg-6 col-md-12 col-sm-12">
 							<div class="kt-checkbox-list">
 								<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
 									<input type="checkbox" name="flowEndCd" id="flowEndCd" opttype="-1"> 종료 분기
@@ -81,7 +81,7 @@
 									<input type="checkbox" name="flowDplCd" id="flowDplCd" opttype="-1"> 배포 계획
 									<span></span>
 								</label>
-								<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+								<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand  kt-hide">
 									<input type="checkbox" name="flowAuthCd" id="flowAuthCd" opttype="-1"> 허용 역할
 									<span></span>
 								</label>
@@ -111,24 +111,24 @@ var OSLPrj1102Popup = function () {
 	var formId = 'frPrj1102';
 	var previewFlowChart = $("#flowPreviewMain");
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
-	//type
+	
 	var type = $("#type").val();
 	
-	//수정인경우 대상 ID
+	
 	var paramPrjGrpId = $("#paramPrjGrpId").val();
 	var paramPrjId = $("#paramPrjId").val();
 	var paramProcessId = $("#paramProcessId").val();
 	var paramFlowId = $("#paramFlowId").val();
 	
-    // Private functions
+    
     var documentSetting = function () {
-    	//문구 세팅 
+    	
     	$("#prj1101SaveSubmit > span").text($.osl.lang("modal."+type+".saveBtnString"));
 		
-    	//작업흐름 미리보기 동작
+    	
     	var data = {
 			operators: {
 				previewOperator: {
@@ -152,7 +152,7 @@ var OSLPrj1102Popup = function () {
 			}
 		};
     	
-    	//flowchart 생성
+    	
 		previewFlowChart.flowchart({
 				canUserMoveOperators: false,
 				canUserEditLinks: false,
@@ -163,25 +163,25 @@ var OSLPrj1102Popup = function () {
 				data: data
 		});
     	
-    	//작업흐름명, 배경색상, 글씨색상 변경시 적용
+    	
     	$("#flowNm, #flowTitleBgColor, #flowTitleColor").blur(function(){
-    		//대상
+    		
     		var targetId = this.id;
     		
-    		//작업흐름 데이터
+    		
     		var previewOperator = previewFlowChart.flowchart("getOperatorData","previewOperator");
     		
-    		//대상이 작업흐름명
+    		
     		if(targetId == "flowNm"){
-    			//작업흐름 타이틀 수정
+    			
     			previewOperator.properties.title = this.value;
     		}
-    		//배경 색상
+    		
     		else if(targetId == "flowTitleBgColor"){
     			previewOperator.properties["flowTitleBgColor"] = this.value;
     			
     		}
-    		//글씨 색상
+    		
     		else if(targetId == "flowTitleColor"){
     			previewOperator.properties["flowTitleColor"] = this.value;
     		}
@@ -189,46 +189,46 @@ var OSLPrj1102Popup = function () {
     		previewFlowChart.flowchart("setOperatorData","previewOperator",previewOperator);
     	});
     	
-		//submit 동작
+		
     	$("#prj1101SaveSubmit").click(function(){
 			var form = $('#'+formId);    		
         	
-    		//폼 유효 값 체크
+    		
     		if (!form.valid()) {
     			return;
     		}
     		$.osl.confirm($.osl.lang("prj1102."+type+".saveString"),null,function(result) {
     	        if (result.value) {
-    	        	//프로세스 저장
+    	        	
     	        	saveFormAction();
     	        }
     		});
     	});
 		
-		//수정인경우 프로세스 정보 조회
+		
 		if(type == "update"){
 			fnFlowInfoSelect();
 		}
 		
     };
     
-    //작업흐름 저장 (생성&수정)
+    
     var saveFormAction = function() {
-    	//formData
+    	
    		var fd = $.osl.formDataToJsonArray(formId);
     	
     	var left = 0;
     	var top = 0;
     	
-   		//prj1100 flowChart있는지 체크
+   		
 		if($("#flowChartDiv").length > 0 && type == "insert"){
-			//현재 차트 0,0 구하기
+			
 			var flowChartTf = $("#flowChartDiv").css("transform");
 			var tfData = flowChartTf.match(/-?[\d\.]+/g);
 			top = parseInt(tfData[tfData.length-1])*(-1);
 			left = parseInt(tfData[tfData.length-2])*(-1);
 			
-			//0보다 작다면 0
+			
 			if(left < 0){
 				left = 0;
 			}
@@ -237,13 +237,13 @@ var OSLPrj1102Popup = function () {
 			}
 		}
    		
-		//prj1100 flowChart있는지 체크
+		
 		if($("#flowChartDiv").length > 0){
-			//임시 작업흐름 ID
+			
 			var newflowId = 'F'+new Date().format('yyMMddHHmmssms');
 			
 			if(type == "insert"){
-	  			//작업흐름 데이터
+	  			
 	  			var operatorData = {
 					top: (parseInt(top)+20),
 					left: (parseInt(left)+20),
@@ -287,30 +287,30 @@ var OSLPrj1102Popup = function () {
 			}
 		}
 		
-		//모달 창 닫기
+		
 		$.osl.layerPopupClose();
     };
 	
-	//작업흐름 정보 조회
+	
 	var fnFlowInfoSelect = function(){
 		var flowData = $("#flowChartDiv").flowchart("getOperatorData",paramFlowId);
 		
-		//form에 데이터 대입
+		
 		$.osl.setDataFormElem(flowData.properties, formId);
 		
-		//작업흐름 미리보기 title 수정
+		
 		$("#flowNm").val(flowData.properties.title);
 		previewFlowChart.flowchart('setOperatorTitle', "previewOperator", flowData.properties.title);
 	};
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLPrj1102Popup.init();
 });

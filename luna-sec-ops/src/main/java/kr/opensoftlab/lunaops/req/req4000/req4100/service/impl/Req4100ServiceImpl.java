@@ -603,6 +603,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	public void updateReq4100ReqRejectList(Map paramMap) throws Exception{
 		
 		String licGrpId = (String) paramMap.get("licGrpId");
+		String regUsrId = (String) paramMap.get("regUsrId");
 		
 		
 		String paramRejectContents = (String) paramMap.get("paramRejectContents");
@@ -628,6 +629,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			
 			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "04");
+			req6001Vo.setChgUsrId(regUsrId);
 			paramMap.put("req6001Vo", req6001Vo);
 			req6000Service.insertReq6001ReqChgInfo(paramMap);
 			
@@ -639,6 +641,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	public void updateReq4100ReqAcceptList(Map paramMap) throws Exception{
 		
 		String licGrpId = (String) paramMap.get("licGrpId");
+		String regUsrId = (String) paramMap.get("regUsrId");
 		
 		
 		String defaultSwitchCd = (String) paramMap.get("defaultSwitchCd");
@@ -696,6 +699,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			req6001Vo.setChgProcessId(processId);
 			req6001Vo.setChgFlowId(flowId);
 			req6001Vo.setChargerChgCd(defaultSwitchCd);
+			req6001Vo.setChgUsrId(regUsrId);
 			
 			
 			if("02".equals(defaultSwitchCd)) {

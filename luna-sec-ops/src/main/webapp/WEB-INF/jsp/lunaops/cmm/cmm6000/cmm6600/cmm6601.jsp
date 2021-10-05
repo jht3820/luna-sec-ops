@@ -3,7 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frCmm6601">
 	<input type="hidden" name="paramTargetId" id="paramTargetId" value="${param.targetId}">
+	<input type="hidden" name="paramTargetCd" id="paramTargetCd" value="${param.targetCd}">
+	<input type="hidden" name="paramOrd" id="paramOrd" value="${param.ord}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.prjId}">
+	<input type="hidden" name="paramSignType" id="paramSignType" value="${param.signType}">
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0" id="cmm6601DeptTreeInfo">
@@ -17,7 +20,24 @@
 				<div class="kt-margin-t-5 osl-align-center--imp" id="infomation">
 							결재 대기중인 파일이 존재할 경우 결재선을 수정할 수 없습니다.</div>
 				<div class="kt-portlet__body kt-padding-r-15">
-					<div class="kt-scroll kt-padding-r-10" data-height="525" id="signCardTable"></div>
+					<div class="kt-scroll kt-padding-r-10" data-height="275" id="signCardTable"></div>
+				</div>
+			</div>
+			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 kt-margin-t-20">
+				<div class="kt-portlet__head kt-portlet__head--lg">
+					<div class="kt-portlet__head-label">
+						<h5 class="kt-font-boldest kt-font-brand">
+							<i class="fa fa-th-large kt-margin-r-5" id="signRes"></i>결재 의견<br>
+						</h5>
+					</div>
+				</div>
+				<div class="kt-portlet__body kt-padding-r-15">
+					<div class="kt-scroll kt-padding-r-10" data-height="175" id="signResBox">
+						<div class="form-group">
+							<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj3000.label.docDesc">결재 의견</span></label>
+							<div class="form-control osl-min-height--9rem" id="signResDiv"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -41,9 +61,19 @@ var OSLCmm6601Popup = function () {
 	
 	var targetId = $('#paramTargetId').val();
 	
+	
+	var targetCd = $("#paramTargetCd").val();
+	
+	
+	var ord = $("#paramOrd").val();
+	
+	
+	var signType = $("#paramSignType").val();
+	
     
     var documentSetting = function () {
 	    
+    	
     	selectSignUsrInfList();
     	
 	    $('#infomation').text($.osl.lang("cmm6601.infomation.cannotUpdate"));
@@ -53,11 +83,63 @@ var OSLCmm6601Popup = function () {
 	           disableForMobile: true, 
 	           resetHeightOnDestroy: true, 
 	           handleWindowResize: true, 
-	           height: 525
-	       });
+	           height: 275
+	    });
 	   	
-		
-	
+	  	
+	   	KTUtil.scrollInit($("#signResBox")[0], {
+	           disableForMobile: true, 
+	           resetHeightOnDestroy: true, 
+	           handleWindowResize: true, 
+	           height: 170
+	    });
+	  	
+	  	
+	  	$(".osl-sign-card").click(function(){
+	  		
+	  		console.log("??")
+	  		
+	  		var signTypeNm = $(this).data("sign-type");
+	  		var thisOrd = $(this).data("ord");
+	  		
+	  		
+	  		if($.osl.isNull(signTypeNm)){
+	  			$("#signResDiv").text("");
+	  			return false;
+	  		}
+	  		
+	  		
+	  		if(signTypeNm == '결재 대기'){
+	  			$("#signResDiv").text("");
+	  			return false;
+	  		}
+	  		
+	  		
+	  		if(signTypeNm == '기안'){
+	  			$("#signResDiv").text("");
+	  			return false;
+	  		}
+	  		
+	  		
+			var ajaxObj = new $.osl.ajaxRequestAction(
+					{"url":"<c:url value='/cmm/cmm6000/cmm6600/selectCmm6601SignInfoAjax.do'/>"}
+				, {prjId : prjId, targetId : targetId, targetCd : targetCd, ord : thisOrd});
+
+			
+			ajaxObj.setFnSuccess(function(data){
+				if(data.errorYn == "Y"){
+					$.osl.alert(data.message,{type: 'error'});
+				}else{
+					
+					$("#signResDiv").text(data.signUsrInf.signRes);
+					
+				}
+			});
+			
+			
+			ajaxObj.send();
+	  		
+	  	});
 	};
    
 	
@@ -66,7 +148,7 @@ var OSLCmm6601Popup = function () {
     	
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do'/>"}
+				{"url":"<c:url value='/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do'/>", "async": false}
 			, {"prjId" : prjId, "targetId" : targetId});
 
 		
@@ -92,8 +174,23 @@ var OSLCmm6601Popup = function () {
     
   	
    	var userSetting = function(userInfo){
+  		var signTypeNm = '';
+  		
+  		
+  		if(userInfo.ord == 0){
+			signTypeNm = '기안';
+		}
+  		
+		else if(userInfo.ord < ord){
+			signTypeNm = '결재 승인';
+		}
+		
+		else if(userInfo.ord == ord){
+			signTypeNm = signType;
+		}
+		
 		usrStr += 
-			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'">'
+			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'" data-sign-type="'+signTypeNm+'" data-ord="'+userInfo.ord+'"> '
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
 				+'<div class="kt-margin-r-20 font-weight-bolder">'
 					+'<span class="cardNumber">No.</span><span class="signStartOrdCell" data-ord="0"></span>'
@@ -115,6 +212,7 @@ var OSLCmm6601Popup = function () {
 								+'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
 							+'</span>'
 						+'</div>'
+						+"<div class='sign-type'>"+signTypeNm+"</div>"
 					+'</div>'
 				+'</div>'
 			+'</div>';	

@@ -132,6 +132,20 @@
 					ON (A.PRJ_ID = D.PRJ_ID AND A.TARGET_ID = D.DPL_ID)
 				</isEqual>
 				WHERE	1 = 1
+				<isNotEmpty property="paramSortFieldId">
+					<isNotEmpty property="sortDirection">
+						ORDER BY $paramSortFieldId$
+						<isEqual property="sortDirection" compareValue="desc">
+							DESC
+						</isEqual>
+						<isEqual property="sortDirection" compareValue="asc">
+							ASC
+						</isEqual>
+					</isNotEmpty>
+				</isNotEmpty> 
+				<isEmpty property="paramSortFieldId">
+					ORDER BY A.REG_DTM DESC	
+				</isEmpty> 
 		) T
 		WHERE 1 = 1
 		<isNotEmpty property="searchTargetData">
@@ -160,20 +174,6 @@
 				</isNotEmpty>
 			</isEqual>
 		</isNotEmpty>
-		<isNotEmpty property="paramSortFieldId">
-			<isNotEmpty property="sortDirection">
-				ORDER BY $paramSortFieldId$
-				<isEqual property="sortDirection" compareValue="desc">
-					DESC
-				</isEqual>
-				<isEqual property="sortDirection" compareValue="asc">
-					ASC
-				</isEqual>
-			</isNotEmpty>
-		</isNotEmpty> 
-		<isEmpty property="paramSortFieldId">
-			ORDER BY T.REG_DTM DESC	
-		</isEmpty> 
 	</sql>
 	
 	
@@ -254,6 +254,20 @@
 			AND   	A.SIGN_TYPE_CD != '03'
 			AND   	A.SIGN_TYPE_CD != '04'
 			AND		B.SIGN_USR_ID = #usrId#
+			<isNotEmpty property="paramSortFieldId">
+				<isNotEmpty property="sortDirection">
+					ORDER BY $paramSortFieldId$
+					<isEqual property="sortDirection" compareValue="desc">
+						DESC
+					</isEqual>
+					<isEqual property="sortDirection" compareValue="asc">
+						ASC
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty> 
+			<isEmpty property="paramSortFieldId">
+				ORDER BY A.REG_DTM DESC	
+			</isEmpty>
 			) T
 			WHERE 1 = 1
 		<isEqual property="targetCd" compareValue = "02">
@@ -284,20 +298,6 @@
 				</isEqual>
 			</isNotEmpty>
 		</isEqual>
-		<isNotEmpty property="paramSortFieldId">
-			<isNotEmpty property="sortDirection">
-				ORDER BY $paramSortFieldId$
-				<isEqual property="sortDirection" compareValue="desc">
-					DESC
-				</isEqual>
-				<isEqual property="sortDirection" compareValue="asc">
-					ASC
-				</isEqual>
-			</isNotEmpty>
-		</isNotEmpty> 
-		<isEmpty property="paramSortFieldId">
-			ORDER BY T.REG_DTM DESC	
-		</isEmpty>
 	</sql>
 	
 	
@@ -386,6 +386,8 @@
 		AND		TARGET_CD = #targetCd#
 	</select>
 	
+	
+	
 	<insert id="cmm6600DAO.insertCmm6601SignInfo" parameterClass = "java.util.Map" >
 		<selectKey resultClass="java.lang.String" keyProperty="newSignId">
 		<![CDATA[
@@ -421,4 +423,48 @@
 		
 		)
 	</insert>
+	
+	<select id="cmm6600DAO.selectCmm6601SignInfo" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT 	A.LIC_GRP_ID
+			,	A.PRJ_ID
+			,	A.SIGN_ID
+			,	A.TARGET_CD
+			,	A.TARGET_ID
+			,	A.ORD
+			,	A.SIGN_USR_ID
+			,	A.SIGN_TYPE_CD
+			,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
+			,	A.SIGN_RES
+			,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH:MM:SS') AS SIGN_DTM
+			,	A.REG_DTM
+			,	A.REG_USR_ID
+			,	A.REG_USR_IP
+			,	A.MODIFY_DTM
+			,	A.MODIFY_USR_ID
+			,	A.MODIFY_USR_IP
+		FROM	CMM6601 A
+		INNER JOIN (
+					SELECT 	MAX(SIGN_DTM) AS MAX_SIGN_DTM
+						,	LIC_GRP_ID
+						,	PRJ_ID
+						,	TARGET_ID
+						,	TARGET_CD
+						,	ORD
+					FROM	CMM6601
+					GROUP BY	LIC_GRP_ID
+							,	PRJ_ID
+							,	TARGET_CD
+							,	TARGET_ID
+							,	ORD
+					) B
+		ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID = B.TARGET_ID AND A.TARGET_CD = B.TARGET_CD AND A.ORD=B.ORD)
+		WHERE 	1 = 1
+		AND		A.LIC_GRP_ID 	= #licGrpId#
+		AND		A.PRJ_ID		= #prjId#
+		AND		A.TARGET_ID	= #targetId#
+		AND		A.TARGET_CD	= #targetCd#
+		AND		A.ORD			= #ord#
+		
+	</select>
 </sqlMap>            
