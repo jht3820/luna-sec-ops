@@ -596,7 +596,6 @@ var OSLSpr1004Popup = function () {
  				
  				drawBurnUpChart(seriesData);
  				
- 				
  				drawBurnDownChart(seriesData);
  				
  				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
