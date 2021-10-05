@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <div class="row">
 	<div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
@@ -107,7 +107,20 @@ var OSLArm1000Popup = function () {
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 50, sortable: true},
-				{field: 'checkCd', title: '읽음 상태', textAlign: 'center', width: 80, sortable: true},
+				{field: 'checkCd', title: '읽음 상태', textAlign: 'center', width: 80, sortable: true,
+					template: function (row) {
+						var returnStr = "";
+						if(row.checkCd == "02"){
+							
+							returnStr += "<i class='fas fa-envelope kt-font-brand kt-font-lg'></i>";
+						}else{
+							
+							returnStr += "<i class='fas fa-envelope-open kt-font-metal kt-font-lg'></i>";
+						}
+							
+						return returnStr;
+					}
+				},
 				{field: 'sendUsrNm', title: '보낸 사람', textAlign: 'left', autoHide: false, width: 120, sortField: "sendUsrNm", search:true, sortable: true,
 					template: function (row) {
 						if($.osl.isNull(row.sendUsrNm)){
@@ -126,6 +139,24 @@ var OSLArm1000Popup = function () {
 						$.osl.user.usrInfoPopup(rowData.sendUsrId);
 					}
 				},
+				{field: 'usrNm', title: '받는 사람', textAlign: 'left', autoHide: false, width: 120, sortField: 'usrNm', search:true, sortable: true,
+					template: function (row) {
+						if($.osl.isNull(row.usrNm)){
+							row.sendUsrNm = "";
+						}
+						var usrData = {
+							html: row.usrNm,
+							imgSize: "sm",
+							class:{
+								cardBtn: "osl-width__fit-content"
+							}
+						};
+						return $.osl.user.usrImgSet(row.usrImgId, usrData);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.usrId);
+					}
+				},
 				{field: 'armTitle', title:'제목', textAlign: 'left', width: 400, autoHide: false, sortField: "armTitle", search: true},
 				{field: 'sendDtm', title: '날짜', textAlign: 'center', width: 120, sortField: "sendDtm", search: true, searchType:"daterange", sortable: true,
 					template: function (row) {
@@ -138,7 +169,7 @@ var OSLArm1000Popup = function () {
 			searchColumns:[
 				{field: 'sendUsrId', title: $.osl.lang("arm1000.field.sendUsrId"), searchOrd: 1},
 				{field: 'sendUsrEmail', title: $.osl.lang("arm1000.field.sendUsrEmail"), searchOrd: 2},
-				{field: 'usrNm', title: $.osl.lang("arm1000.field.usrNm"), searchOrd: 3},
+				
 				{field: 'usrId', title: $.osl.lang("arm1000.field.usrId"), searchOrd: 4},
 				{field: 'usrEmail', title: $.osl.lang("arm1000.field.usrEmail"), searchOrd: 5},
 				{field: 'armContent', title: $.osl.lang("arm1000.field.armContent"), searchOrd: 7}
@@ -434,8 +465,14 @@ var OSLArm1000Popup = function () {
  			
  			
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('checkCd').visible=true;
+ 			
+ 			
+ 			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('sendUsrNm').visible=true;
+ 			
+ 			
+ 			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('usrNm').visible=false;
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.columnHide();
- 		
+ 			
 		
 		}else if(datatableType=="send"){
 			
@@ -453,7 +490,13 @@ var OSLArm1000Popup = function () {
  			$('.btn[data-auth-button=reInsert]').hide();
  		
  			
- 			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('checkCd').visible=false;
+ 			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('checkCd').visible = false;
+ 			
+ 			
+ 			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('sendUsrNm').visible=false;
+ 			
+ 			
+ 			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('usrNm').visible = true;
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.columnHide();
  		
  		
@@ -475,6 +518,12 @@ var OSLArm1000Popup = function () {
  			
  			
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('checkCd').visible=false;
+ 			
+ 			
+ 			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('sendUsrNm').visible=false;
+ 			
+ 			
+ 			$.osl.datatable.list["arm1000ArmTable"].targetDt.getColumnByField('usrNm').visible=false;
  			$.osl.datatable.list["arm1000ArmTable"].targetDt.columnHide();
 		}
 	}

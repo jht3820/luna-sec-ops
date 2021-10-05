@@ -809,6 +809,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     background-color: #fff;
     margin-bottom: 5px;
     border-radius: 4px;
+    flex-direction: column;
 }
 .osl-req__process-history {
     display: flex;
@@ -817,7 +818,6 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     padding: 10px;
     background-color: #eeeef4;
     overflow-x: auto;
-	background: repeating-linear-gradient( 45deg, #eee, #eee 10px, #e5e5e5 10px, #e5e5e5 20px );
 }
 .osl-req__process-history::after {
     content: '';
@@ -858,7 +858,9 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .osl-req__process-next-flow:hover {
     background-color: #f3f6f9;
 }
-
+.osl-req__process-title{
+	padding: 10px 10px 0 10px;
+}
 
 .kt-datatable.osl-datatable-footer__divide.kt-datatable--default > .kt-datatable__pager{
 	background-color: #fff;
@@ -1864,6 +1866,9 @@ label.required:after {
     padding: 3px;
     border-radius: 4px;
     margin: 2px;
+}
+.osl-background-around {
+	background-color: #f3f6f9;
 }
 
 .osl-dsh-kanban{
