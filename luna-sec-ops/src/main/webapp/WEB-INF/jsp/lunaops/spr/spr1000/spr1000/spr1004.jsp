@@ -6,8 +6,9 @@
 	<input type="hidden" name="paramPrjGrpId" id="paramPrjGrpId" value="${param.paramPrjGrpId}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" name="paramSprId" id="paramSprId" value="${param.paramSprId}">
-	<input type="hidden" name="paramStartDt" id="paramStartDt" value="${param.paramStartDt}">
-	<input type="hidden" name="paramEndDt" id="paramEndDt" value="${param.paramEndDt}">
+	<input type="hidden" name="paramStDt" id="paramStDt" value="${param.paramStartDt}">
+	<input type="hidden" name="paramEdDt" id="paramEdDt" value="${param.paramEndDt}">
+	<input type="hidden" name="paramSprDesc" id="paramSprDesc" value="${param.paramSprDesc}">
 	<div class="kt-portlet__body">
 		<div class="osl-wizard" id="kt_wizard_v3" data-ktwizard-state="step-first">
 			
@@ -105,8 +106,8 @@
 					
 					
 					
-					<div class="col-12 text-right">2020-01-01 11:40</div>
-					<div class="col-12 text-right">관리자</div>
+					<div class="col-12 text-right">${param.paramStartDt} - ${param.paramEndDt}</div>
+					<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
 					<div class="col-12 text-right">${param.paramSprDesc}</div>
 					
 					
@@ -141,7 +142,7 @@
 				</div>
 				
 				
-				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
+				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
 					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
 						<div class="border osl-min-h-px--140" id="burnUpChart"></div>
 					</div>
@@ -149,8 +150,8 @@
 						<div class="border osl-min-h-px--140" id="burnDownChart"></div>
 					</div>
 				</div>
-				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20 ">
-					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
+				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 ">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
 						<div class="border osl-min-h-px--140" id="velocityChart"></div>
 					</div>
 				</div>
@@ -158,7 +159,7 @@
 				
 				
 				<div class="row kt-margin-t-20">
-					<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="col-lg-12 col-md-12 col-sm-12 kt-padding-20">
 						<div class="row">
 							
 							<div class="col-lg-6 col-md-6 col-sm-12">
@@ -215,9 +216,9 @@ var OSLSpr1004Popup = function () {
 	var formValidate = $.osl.validate(formId);
 	
 	
-	var paramSprStDt = $("#paramStartDt").val();
+	var paramSprStDt = $("#paramStDt").val();
 	
-	var paramSprEdDt = $("#paramEndDt").val();
+	var paramSprEdDt = $("#paramEdDt").val();
 	
 	
 	var wizardData = {
@@ -415,6 +416,12 @@ var OSLSpr1004Popup = function () {
     	 				if($.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.hasOwnProperty('data')){
     	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
     	 				}
+    	 				
+    	 				selectSprInfoStat();
+    	 				
+    	 				
+    	 				drawAllChart();
+    	 				
     				}
     			}
     		});
@@ -526,11 +533,6 @@ var OSLSpr1004Popup = function () {
 			$.osl.layerPopupOpen('/req/req1000/req1000/selectReq1001View.do',data,options);
 		});
 		
-		selectSprInfoStat();
-		
-		
-		drawAllChart();
-		
 	};
 	
 	var selectSprInfoStat = function(){
@@ -641,9 +643,12 @@ var OSLSpr1004Popup = function () {
 					stroke: {
 				          curve: 'straight'
 				    },
+				    animations:{
+						enabled:false
+					},
 				    markers: {
 				          size: 1
-				        },
+				    },
 				    grid: {
 				          borderColor: '#e7e7e7',
 				          row: {
@@ -723,6 +728,9 @@ var OSLSpr1004Popup = function () {
 					stroke: {
 				          curve: 'straight'
 				    },
+				    animations:{
+						enabled:false
+					},
 				    markers: {
 				          size: 1
 				        },
@@ -825,6 +833,9 @@ var OSLSpr1004Popup = function () {
 			        curve: 'straight',
 			        dashArray: [0, 0, 5, 5]
 			    },
+			    animations:{
+					enabled:false
+				},
 			},
 			callback:{
 				

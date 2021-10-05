@@ -28,6 +28,7 @@ import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.lunaops.req.req3000.req3000.service.Req3000Service;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.Req4100Service;
+import kr.opensoftlab.lunaops.req.req6000.req6000.service.Req6000Service;
 import kr.opensoftlab.lunaops.stm.stm3000.stm3000.service.Stm3000Service;
 import kr.opensoftlab.sdf.util.OslStringUtil;
 import kr.opensoftlab.sdf.util.PagingUtil;
@@ -52,6 +53,10 @@ public class Req4100Controller {
 	
 	@Resource(name = "req4100Service")
 	private Req4100Service req4100Service;
+	
+	
+	@Resource(name = "req6000Service")
+	private Req6000Service req6000Service;
 	
 	
 	@Resource(name = "stm3000Service")
@@ -1000,4 +1005,66 @@ public class Req4100Controller {
 			return new ModelAndView("jsonView");
 		}
 	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/req/req4000/req4100/selectReq4100RequestProcessData.do")
+	public ModelAndView selectReq4100RequestProcessData(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
+    	try{
+    		
+        	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+        	
+        	
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
+			
+			
+			String paramPrjGrpId = (String) paramMap.get("prjGrpId");
+			
+			
+			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
+				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
+			}
+			
+			
+			String paramPrjId = (String) paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			
+			String paramReqId = (String) paramMap.get("paramReqId");
+			
+			paramMap.put("prjGrpId", paramPrjGrpId);
+			paramMap.put("prjId", paramPrjId);
+			paramMap.put("reqId", paramReqId);
+
+			
+			Map reqInfo = req4100Service.selectReq4100ReqInfo(paramMap);
+			
+			
+			List<Map> reqChgList = req6000Service.selectReq6001ReqChgList(paramMap); 
+			
+			
+			
+			model.addAttribute("reqInfo", reqInfo);
+			model.addAttribute("reqChgList", reqChgList);
+			
+        	
+        	model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	return new ModelAndView("jsonView");
+        	
+    	}catch(Exception ex){
+    		Log.error("selectReq4100RequestProcessData()", ex);
+    		
+    		model.addAttribute("errorYn", "Y");
+        	model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		throw new Exception(ex.getMessage());
+    	}
+    }
 }

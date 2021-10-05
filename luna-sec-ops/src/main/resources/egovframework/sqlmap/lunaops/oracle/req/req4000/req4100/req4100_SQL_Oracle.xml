@@ -361,6 +361,7 @@
 			,	T1.PRJ_GRP_NM
 			,	T1.USR_SEL_PRJ_ORD
 			,	T1.REQ_ID
+			,	T1.REQ_ACCEPT_TXT
 			,	T1.REQ_ORD
 			,	T1.REQ_CLS_ID
 			,	T1.REQ_CLS_NM

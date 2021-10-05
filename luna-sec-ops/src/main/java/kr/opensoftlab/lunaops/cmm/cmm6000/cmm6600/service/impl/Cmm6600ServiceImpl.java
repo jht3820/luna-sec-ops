@@ -115,7 +115,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				JSONObject jsonObj = (JSONObject) jsonArray.get(i);
 				
 				
-				int ord = Integer.parseInt(jsonObj.getString("ord"));
+				int ord = Integer.parseInt(jsonObj.getString("ord")) +1;
 				
 				paramMap.put("ord", String.valueOf(ord));
 				paramMap.put("targetId", jsonObj.getString("dplId"));
@@ -144,6 +144,13 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				
 			}
 		}
+	}
+
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Map selectCmm6601SignInfo(Map<String, String> paramMap) throws Exception {
+		return cmm6600DAO.selectCmm6601SignInfo(paramMap);
 	}
 
 }
