@@ -18,7 +18,7 @@
 				
 				<div class="col-12 text-right">${param.paramSprStDt} - ${param.paramSprEdDt}</div>
 				<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
-				<div class="col-12 text-right osl-word__break">${param.paramSprDesc}</div>
+				<div class="col-12 text-right">${param.paramSprDesc}</div>
 				
 				
 				
@@ -54,10 +54,10 @@
 			
 			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
-					<div class="border osl-min-h-px--140" id="burnUpChart"></div>
+					<div class="border osl-card__data--empty osl-min-h-px--365" id="burnUpChart"></div>
 				</div>
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
-					<div class="border osl-min-h-px--140" id="burnDownChart"></div>
+					<div class="border osl-card__data--empty osl-min-h-px--365" id="burnDownChart"></div>
 				</div>
 			</div>
 			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 osl-user__active--block" id="velocityChartWrap">
@@ -294,14 +294,23 @@ var OSLSpr1001Popup = function () {
  				
  				
  				var seriesData = getDataRangeData(paramSprStDt, paramSprEdDt, "1", chartData);
+ 				if(chartData.length == 0){
+ 					$("#burnDownChart").text("데이터 없음")
+ 					$("#burnUpChart").text("데이터 없음")
+ 				}else{
+	 				
+	 				drawBurnUpChart(seriesData);
+	 				
+	 				
+	 				drawBurnDownChart(seriesData);
+ 				}
  				
- 				
- 				drawBurnUpChart(seriesData);
- 				
- 				
- 				drawBurnDownChart(seriesData);
- 				
- 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				if(chartData.length == 0){
+					endSprPoint = 0	 					
+ 				}else{
+	 				
+	 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				}
  				
  				if(paramSprTypeCd == "03"){
  					drawVelocityChart();
@@ -573,8 +582,9 @@ var OSLSpr1001Popup = function () {
  	
  	
  	var getDataRangeData = function(sttDt, endDT, type, data){
- 		
- 		
+ 		if(paramSprTypeCd == '01'){
+ 			return [];
+ 		}
  		
  		var sprPoint = [];
  		$.each(data, function(index, value){

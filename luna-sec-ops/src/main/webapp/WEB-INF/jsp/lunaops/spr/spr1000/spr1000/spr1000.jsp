@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -360,7 +360,7 @@ var OSLSpr1000Popup = function () {
 											+'</div>'
 										+'</div>'
 										+'<div class="row">'
-											+'<div class="col-6">'
+											+'<div class="col-6 osl-min-h-px--202">'
 												+'<div class="osl-widget osl-flex-row-fluid flex-wrap">'
 													+'<div class="osl-widget-info__item osl-flex-row-fluid">'
 														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqAll.png"></div>'
@@ -394,8 +394,8 @@ var OSLSpr1000Popup = function () {
 													+'</div>'
 												+'</div>'
 											+'</div>'
-											+'<div class="col-6">'
-												+'<div id="burnDownChart'+map.sprId+'">'
+											+'<div class="col-6 osl-min-h-px--202">'
+												+'<div class="osl-card__data--empty osl-min-h-px--202" id="burnDownChart'+map.sprId+'">'
 												+'</div>'
 											+'</div>'
 										+'</div>'
@@ -469,13 +469,12 @@ var OSLSpr1000Popup = function () {
  				var endDt  = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
  				
  				totalSprPoint = rowdata.sprPoint;
- 				debugger;
  				
  				var seriesData = getDataRangeData(rowdata.sprStDt, rowdata.sprEdDt, "1", chartData);
  				
  				
  				if(chartData.length == 0){
-	 				drawBurnDownChart([], rowdata.sprId); 					
+	 				$("#burnDownChart"+rowdata.sprId).text("데이터 없음")
  				}else{
 	 				drawBurnDownChart(seriesData, rowdata.sprId);
  				}
@@ -498,8 +497,8 @@ var OSLSpr1000Popup = function () {
 							 key2:"burnDownSprPoint"
 						 },
 						 keyNm:{
-							 keyNm1:"idealBurnDownLine",
-							 keyNm2:"Actual burnDownSprPoint"
+							 keyNm1:"이상적인 번다운라인",
+							 keyNm2:"실제 번다운라인"
 						 },
 						 
 						 chartType:"line",
@@ -510,6 +509,7 @@ var OSLSpr1000Popup = function () {
 					type:false
 				},
 				chart:{
+					height:180,
 					
 					colors: ["#ffb822","#840ad9"],
 					title: {
@@ -519,14 +519,24 @@ var OSLSpr1000Popup = function () {
 					stroke: {
 				          curve: 'straight'
 				    },
-				    animations:{
+			        animations:{
 						enabled:false
 					},
-				    markers: {
-				          size: 1
-				        },
 				    dataLabels:{
 				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
 				    },
 				    grid: {
 				          borderColor: '#e7e7e7',
@@ -545,7 +555,7 @@ var OSLSpr1000Popup = function () {
 				            }
 				        },
 				        
-				        tickAmount: '10',
+				        tickAmount: '5',
 				        
 				        tickPlacement: 'between',
 		        	},
@@ -610,6 +620,9 @@ var OSLSpr1000Popup = function () {
  		}else if(type=='2'){
  			
  		}
+ 		var length = resDay.length
+ 		
+ 		var step = totalSprPoint / length
  		
  		
  		var end = totalSprPoint;
@@ -653,6 +666,9 @@ var OSLSpr1000Popup = function () {
 		 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
 	 				}
 	 			}
+ 			}else{
+ 				resDay[dayIndex]['burnUpSprPoint'] = null;
+				resDay[dayIndex]['burnDownSprPoint'] = null;
  			}
  		}
  		return resDay;
