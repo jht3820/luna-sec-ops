@@ -289,7 +289,10 @@ var OSLReq4100Popup = function () {
 							
 							modalTitle: $.osl.lang("req4100.title.detailTitle"),
 							autoHeight: false,
-							modalSize: 'xl'
+							modalSize: 'xl',
+							'class': {
+					            "body": "kt-padding-0"
+					         }
 							
 						};
 					
