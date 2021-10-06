@@ -211,6 +211,12 @@ input:-webkit-autofill,
 .osl-min-h-px--140 {
   min-height: 140px; 
 }
+.osl-min-h-px--150{
+	min-height: 150px;
+}
+.osl-min-h-px--170 {
+  min-height: 170px; 
+}
 .osl-min-h-px--202 {
   min-height: 202px; 
 }
@@ -272,10 +278,6 @@ input:-webkit-autofill,
 .osl-max-height--260{
 	max-height: 260px;
 }
-.osl-min-height--150{
-	min-height: 150px;
-}
-
 
 .osl-min-height--9rem{
 	min-height:9rem;
