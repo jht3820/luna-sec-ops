@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <form class="kt-form" id="frCmm6201" autocomplete="off">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}"/>
 	<input type="hidden" name="paramReqId" id="paramReqId" value="${param.paramReqId}"/>
+	<input type="hidden" name="atchFileId" id="atchFileId"/>
 	<div class="osl-req__process-main d-flex">
 		<div class="osl-req__process-title"><i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">요구사항 변경 이력</span></div>
 		<div class="osl-req__process-history osl-mask-bg" id="osl-req__process-history" data-scroll-x="true">
@@ -17,7 +18,7 @@
 						<div class="wizard-number">1</div>
 						<div class="wizard-label">
 							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.mmtTitle">요구사항 정보</span></div>
-							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.mmtDesc">선택 요구사항 목록 확인</span></div>
+							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.mmtDesc">요구사항 정보 확인</span></div>
 						</div>
 					</div>
 				</div>
@@ -26,7 +27,7 @@
 						<div class="wizard-number">2</div>
 						<div class="wizard-label">
 							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.sprPtTitle">기본 항목 입력</span></div>
-							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">요구사항 기본 항목 입력</span></div>
+							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">담당자 및 요구사항 항목 입력</span></div>
 						</div>
 					</div>
 				</div>
@@ -41,7 +42,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="osl-wizard__content osl-min-h-px--575 w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content" data-ktwizard-state="current">
+		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content" data-ktwizard-state="current">
 			<div class="osl-background-around kt-padding-10">
 				<div class="row">
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
@@ -88,7 +89,7 @@
 								<div class="row">
 									<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
 										<div class="form-group">
-											<label for="exampleSelect1"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">프로세스명</span></label>
+											<label for="processNm"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">프로세스명</span></label>
 											<input type="text" class="form-control" name="processNm" id="processNm" readonly="readonly">
 										</div>
 									</div>
@@ -98,8 +99,20 @@
 											<input type="text" class="form-control" name="flowNm" id="flowNm" readonly="readonly">
 										</div>
 									</div>
+									<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+										<div class="form-group">
+											<label for="reqProTypeNm"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">처리 유형</span></label>
+											<input type="text" class="form-control" name="reqProTypeNm" id="reqProTypeNm" readonly="readonly">
+										</div>
+									</div>
+									<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+										<div class="form-group">
+											<label for="reqOrd"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">요구사항 순번</span></label>
+											<input type="text" class="form-control" name="reqOrd" id="reqOrd" readonly="readonly">
+										</div>
+									</div>
 								</div>
-								<div class="form-group kt-margin-t-25 form-group-last">
+								<div class="form-group kt-margin-b-20 form-group-last">
 									<label>
 										<i class="fa fa-file-upload kt-margin-r-5"></i>
 										<span data-lang-cd="req4101.label.attachments">파일 첨부</span> 
@@ -186,10 +199,22 @@
 								</div>
 							</div>
 							<div class="kt-portlet__body">
-								<div class="form-group">
-									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReq">그룹 요구사항</span></label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="reqGrpNm" id="reqGrpNm" readonly="readonly" placeholder="그룹 요구사항이 연결되어 있지 않습니다.">
+								<div class="row">
+									<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+										<div class="form-group">
+											<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReq">그룹 요구사항 번호</span></label>
+											<div class="input-group">
+												<input type="text" class="form-control" name="reqGrpNo" id="reqGrpNo" readonly="readonly" placeholder="그룹 요구사항이 연결되어 있지 않습니다.">
+											</div>
+										</div>
+									</div>
+									<div class="col-xl-9 col-lg-9 col-md-6 col-sm-12">
+										<div class="form-group">
+											<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReq">그룹 요구사항</span></label>
+											<div class="input-group">
+												<input type="text" class="form-control" name="reqGrpNm" id="reqGrpNm" readonly="readonly" placeholder="그룹 요구사항이 연결되어 있지 않습니다.">
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="form-group kt-margin-b-0">
@@ -202,11 +227,77 @@
 				</div>
 			</div>
 		</div>
-		<div class="osl-wizard__content osl-min-h-px--575 w-100 kt-bg-light" data-ktwizard-type="step-content">
-		
+		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10 osl-min-h-px--575" data-ktwizard-type="step-content">
+			<div class="osl-background-around kt-padding-10">
+				<div class="row">
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="kt-portlet" id="cmm6201ChargerUsrSel">
+							<div class="kt-portlet__head">
+								<div class="kt-portlet__head-label">
+									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">담당자 선택</span>
+								</div>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+									</div>
+								</div>
+							</div>
+							<div class="kt-portlet__body">
+								
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="kt-portlet" id="cmm6201ChargerUsrSel">
+							<div class="kt-portlet__head">
+								<div class="kt-portlet__head-label">
+									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">추가 항목 입력</span>
+								</div>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+									</div>
+								</div>
+							</div>
+							<div class="kt-portlet__body">
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+										<div class="form-group">
+											<label for="reqStDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 일시</span></label>
+											<input type="text" class="form-control" name="reqStDtm" id="reqStDtm">
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+										<div class="form-group">
+											<label for="reqEdDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 일시</span></label>
+											<input type="text" class="form-control" name="reqEdDtm" id="reqEdDtm">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+										<div class="form-group">
+											<label for="reqStDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 예정 일자</span></label>
+											<input type="text" class="form-control" name="reqStDuDtm" id="reqStDuDtm" required>
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+										<div class="form-group">
+											<label for="reqEdDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 예정 일자</span></label>
+											<input type="text" class="form-control" name="reqEdDuDtm" id="reqEdDuDtm" required>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="osl-wizard__content osl-min-h-px--575 w-100 kt-bg-light" data-ktwizard-type="step-content">
-		
+		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content">
+			<div class="osl-background-around kt-padding-10">
+			
+			</div>
 		</div>
 	</div>
 </form>
@@ -225,6 +316,8 @@ var OSLCmm6201Popup = function () {
 	
 	var formEditList = [];
 	
+	
+	var fileUploadObj;
 	
     
     var documentSetting = function () {
@@ -257,7 +350,7 @@ var OSLCmm6201Popup = function () {
 			startStep: 1, 
 			clickableSteps: true		
 		});
-    	
+		
     	
     	fnRequestProcessData();
     };
@@ -324,9 +417,9 @@ var OSLCmm6201Popup = function () {
 		 								+'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
 		 									+'<img src="'+$.osl.user.usrImgUrlVal(chgUsrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 		 								+'</div>'
-		 								+'<div class="kt-user-card-v2__details float-left">'
-		 									+'<span class="kt-user-card-v2__name float-left">'+chgUsrNm+'</span>'
-		 									+'<span class="kt-user-card-v2__email float-left kt-margin-l-10 osl-line-height-rem-1_5">'+chgUsrEmail+'</span>'
+		 								+'<div class="kt-user-card-v2__details kt-align-left">'
+		 									+'<span class="kt-user-card-v2__name text-truncate">'+chgUsrNm+'</span>'
+		 									+'<span class="kt-user-card-v2__email kt-margin-l-10 osl-line-height-rem-1_5">'+chgUsrEmail+'</span>'
 		 								+'</div>'
 		 							+'</div>'
 		 							+'<div class="flowchart-operator-chg__dtm"><i class="fa fa-clock kt-margin-r-5"></i>'+chgDtm+'</div>'
@@ -378,11 +471,35 @@ var OSLCmm6201Popup = function () {
 	    			height:100
 	    		}));
 		    	
+				
+		    	fileUploadObj = $.osl.file.uploadSet("fileListDiv",{
+		    		maxFileSize: "${requestScope.fileSumMaxSize}",
+		    		meta: {"atchFileId": $("#atchFileId").val(), "fileSn": 0},
+		    		height: 260,
+		    		isDraggingOver: false,
+		    		fileDownload: true,
+		    		fileReadonly: true
+		    	});
+				
+		    	
+				$.osl.date.daterangepicker($("#reqStDtm"), {singleDatePicker: true, timePicker: true, timePicker24Hour: true});
+				$.osl.date.daterangepicker($("#reqEdDtm"), {singleDatePicker: true, timePicker: true, timePicker24Hour: true});
+				
+				
+				$.osl.date.daterangepicker($("#reqStDuDtm"), {singleDatePicker: true},function(defaultConfig, start, end, label){
+					var stDtStr = new Date(start._d).format("yyyy-MM-dd");
+					debugger;
+					$("#reqEdDuDtm").data('daterangepicker').setStartDate(stDtStr);
+				});
+				$.osl.date.daterangepicker($("#reqEdDuDtm"), {singleDatePicker: true},function(defaultConfig, start, end, label){
+					
+				});
 		    	
 		    	
+		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
 		    	
-		    	
+		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
  			}
  		});
  		

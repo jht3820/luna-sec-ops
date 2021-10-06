@@ -383,7 +383,6 @@ var OSLReq4100Popup = function () {
 								paramSelReqInfoList: JSON.stringify(selReqInfoList)
 						};
 						var options = {
-							autoHeight: false,
 							modalSize: "xl",
 							idKey: datatableId,
 							modalTitle: $.osl.lang("prj1102.update.title"),
@@ -425,7 +424,6 @@ var OSLReq4100Popup = function () {
 							paramReqId: rowDatas[0].reqId
 					};
 					var options = {
-						autoHeight: false,
 						modalSize: "fs",
 						idKey: datatableId,
 						modalTitle: "["+rowDatas[0].reqNm+"] 요구사항 업무 처리",

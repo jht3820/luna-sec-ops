@@ -546,6 +546,9 @@ var OSLPrj1100Popup = function () {
 			   				$.osl.toastr(data.message);
 			   				
 			   				
+							fnSelectFlowList();
+			   			
+			   				
 			   				if(!$.osl.isNull($.osl.datatable.list[datatableId])){
 				   				$.osl.datatable.list[datatableId].targetDt.reload();
 			   				}
