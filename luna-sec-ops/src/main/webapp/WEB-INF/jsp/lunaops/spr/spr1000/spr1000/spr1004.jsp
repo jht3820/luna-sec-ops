@@ -107,6 +107,7 @@
 					
 					
 					<div class="col-12 text-right">${param.paramStartDt} - ${param.paramEndDt}</div>
+					<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
 					<div class="col-12 text-right">${param.paramSprDesc}</div>
 					
 					
@@ -594,7 +595,6 @@ var OSLSpr1004Popup = function () {
  				var seriesData = getDataRangeData(paramSprStDt, endDt, "1", chartData);
  				
  				drawBurnUpChart(seriesData);
- 				
  				
  				drawBurnDownChart(seriesData);
  				
