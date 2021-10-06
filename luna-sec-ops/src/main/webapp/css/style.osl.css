@@ -278,6 +278,10 @@ input:-webkit-autofill,
 .osl-max-height--260{
 	max-height: 260px;
 }
+.osl-min-height--150{
+	min-height: 150px;
+}
+
 
 .osl-min-height--9rem{
 	min-height:9rem;
@@ -870,11 +874,16 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .osl-req__process-title{
 	padding: 10px 10px 0 10px;
 }
-
-.osl-message__menu-width{
-	width: 33.3%;
+.kt-media.kt-media--sm img{
+	width:30px;
+}
+.kt-user-card-v2 .kt-user-card-v2__details .kt-user-card-v2__name{
+	max-width: 300px;
 }
 
+td.kt-datatable__cell--left.kt-datatable__cell > span {
+    white-space: nowrap;
+}
 .kt-datatable.osl-datatable-footer__divide.kt-datatable--default > .kt-datatable__pager{
 	background-color: #fff;
 	padding-bottom:25px;
@@ -1151,6 +1160,7 @@ label.required:after {
 .fileReadonly button.uppy-Dashboard-Item-action--remove,
 .fileReadonly .uppy-DashboardTabs,
 .fileReadonly .uppy-Dashboard-dropFilesHereHint,
+.fileReadonly .uppy-Dashboard-AddFiles-title,
 .fileReadonly button.uppy-DashboardItem-action--remove {
     display: none;
 }

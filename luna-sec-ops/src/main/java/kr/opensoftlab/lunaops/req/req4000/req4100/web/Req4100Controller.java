@@ -1058,8 +1058,29 @@ public class Req4100Controller {
 			
 			paramMap.put("prjId", paramPrjGrpId);
 			
+			
 			Map prjGrpInfo = prj1000Service.selectPrj1000GrpInfo(paramMap);
 			
+			List<FileVO> fileList = null;
+        	int fileCnt = 0;
+        	
+        	if(reqInfo != null){
+        		
+            	FileVO fileVO = new FileVO();
+	        	fileVO.setAtchFileId((String)reqInfo.get("atchFileId"));
+	        	
+	        	
+				fileList = fileMngService.fileDownList(fileVO);
+				
+				for(FileVO temp : fileList){
+					if(fileCnt < Integer.parseInt(temp.getFileSn())){
+						fileCnt = Integer.parseInt(temp.getFileSn());
+					}
+				}
+        	}
+        	
+			model.addAttribute("fileList",fileList);
+			model.addAttribute("fileListCnt",fileCnt);
 			
 			model.addAttribute("reqInfo", reqInfo);
 			model.addAttribute("prjInfo", prjInfo);

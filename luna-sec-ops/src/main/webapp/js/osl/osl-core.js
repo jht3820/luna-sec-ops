@@ -3636,7 +3636,7 @@
 							+'<img class=" '+usrImg+'" src="'+usrImgId+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 						+'</div>'
 						+'<div class="kt-user-card-v2__details '+cardDetail+'">'
-							+'<span class="kt-user-card-v2__name '+cardName+'">'+cardContent+'</span>'
+							+'<span class="kt-user-card-v2__name '+cardName+' text-truncate">'+cardContent+'</span>'
 						+'</div>'
 					+'</div>';
 				

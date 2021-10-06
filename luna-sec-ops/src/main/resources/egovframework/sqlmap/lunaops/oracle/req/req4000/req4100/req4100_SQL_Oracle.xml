@@ -104,6 +104,7 @@
  		<result property="reqKey"				column="REQ_KEY"/>
  		<result property="reqGrpId" 			column="REQ_GRP_ID"/>
  		<result property="reqGrpNm" 			column="REQ_GRP_NM"/>
+ 		<result property="reqGrpNo" 			column="REQ_GRP_NO"/>
  		<result property="reqGrpDesc"			column="REQ_GRP_DESC" jdbcType="CLOB" javaType="java.lang.String"/>
     </resultMap>
     
@@ -168,6 +169,7 @@
 			,	T1.USR_SEL_PRJ_ORD
 			,	T1.REQ_GRP_ID
 			,	T1.REQ_GRP_NM
+			,	T1.REQ_GRP_NO
 			,	T1.REQ_ID
 			,	T1.REQ_ORD
 			,	T1.REQ_CLS_ID
@@ -222,6 +224,7 @@
 					,	DECODE(A.PRJ_ID, #prjId#, '1', '2') AS USR_SEL_PRJ_ORD
 					,	C.REQ_GRP_ID
 					,	C.REQ_GRP_NM
+					,	C.REQ_GRP_NO
 					,	A.REQ_ID
 					,	A.REQ_ORD
 					,	A.REQ_CLS_ID
@@ -317,6 +320,9 @@
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="reqGrpNm">
 					AND	T1.REQ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="reqGrpNo">
+					AND	T1.REQ_GRP_NO LIKE '%'|| #searchTargetData# ||'%'
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="reqKey">
 					AND	T1.REQ_KEY LIKE '%'|| #searchTargetData# ||'%'
@@ -600,6 +606,7 @@
 					,	REGEXP_REPLACE(A.REQ_DESC, '<[^>]*>', ' ') AS REQ_DESC
 					,	C.REQ_GRP_ID
 			   		,	C.REQ_GRP_NM
+			   		,	C.REQ_GRP_NO
 			    	,	C.REQ_GRP_DESC
 			    FROM (SELECT * FROM REQ4100) A
 				LEFT JOIN REQ3001 B
@@ -751,6 +758,7 @@
 	    ,	A.MODIFY_USR_IP
 	    ,	C.REQ_GRP_ID
    		,	C.REQ_GRP_NM
+   		,	C.REQ_GRP_NO
     	,	C.REQ_GRP_DESC
 		FROM REQ4100 A
 		LEFT JOIN REQ3001 B
