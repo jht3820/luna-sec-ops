@@ -2350,6 +2350,13 @@ var OSLCoreLangSetting = function () {
 				allTitle: "All"
 			},
 			
+			arm1000ArmTable:{
+				checkCd : "Read",
+				sendUsrNm : "Send User",
+				usrNm : "Recive User",
+				armTitle : "Title",
+				sendDtm : "Date"
+			},
 			arm1000CmmTable:{
 				sendUsrNm : "From User Name",
 				armTitle : "Title",
