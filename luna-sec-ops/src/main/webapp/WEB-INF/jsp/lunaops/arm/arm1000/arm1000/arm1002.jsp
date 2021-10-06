@@ -193,6 +193,9 @@ var OSLArm1002Popup = function () {
 		    	
 		    	if(value.checkCd==='02'){
 			    	checkingAlarm();
+			    	
+			    	
+			    	mssArmLoad();
 		    	}
 			}
 		});

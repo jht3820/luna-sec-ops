@@ -281,17 +281,22 @@ var OSLReq4100Popup = function () {
 				"dblClick":function(rowData, datatableId, type, rowNum){
 					var data = {
 							
-							paramPrjId: rowData.prjId,
-							paramReqId: rowData.reqId,
-							paramReqUsrId: rowData.reqUsrId
+							
+							
+							
 						};
 					var options = {
-							idKey: rowData.reqId,
+							
 							modalTitle: $.osl.lang("req4100.title.detailTitle"),
-							closeConfirm: false
+							autoHeight: false,
+							modalSize: 'xl',
+							'class': {
+					            "body": "kt-padding-0"
+					         }
+							
 						};
 					
-					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6203View.do',data,options);
 				},
 				"copy" : function(rowDatas, datatableId, type, rowNum){
 					var data;

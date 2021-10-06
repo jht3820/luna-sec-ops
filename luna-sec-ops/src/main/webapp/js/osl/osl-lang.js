@@ -439,6 +439,67 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
+		dpl4000:{
+			dpl:{
+				title: "배포 계획 목록",
+				button:{
+					tooltip:{
+						selectTooltip: "배포 계획 조회",
+						detailTooltip : "배포 계획 상세"
+					},
+					detailBtn : "상세"
+				},
+				addSearch : {
+					"dplDesc" : "배포 설명",
+				},
+				actionBtn : {
+					title : "상세",
+					tooltip : {
+						detailTooltip : "배포 계획 상세 보기",
+					},
+					modalTitle : "[${1}] 상세 정보"
+				}
+			},
+			req:{
+				title: "요구사항 배정 목록",
+				button:{
+					tooltip:{
+						selectTooltip: "배정 요구사항 조회",
+						detailTooltip : "요구사항 상세"
+					},
+					detailBtn : "상세"
+				},
+				actionBtn : {
+					title : "상세",
+					tooltip : {
+						detailTooltip : "요구사항 상세 보기",
+					},
+					modalTitle : "[${1}] 요구사항 상세 정보"
+				}
+			},
+			job:{
+				title: "JOB 배정 목록",
+				button:{
+					tooltip:{
+						selectTooltip: "배정 JOB 조회",
+						detailTooltip : "JOB 상세"
+					},
+					detailBtn : "상세"
+				},
+				actionBtn : {
+					title : "상세",
+					tooltip : {
+						detailTooltip : "JOB 상세 보기",
+					},
+					modalTitle : "JOB 상세 정보"
+				}
+			},
+			message : {
+				selectOneDpl : "${1}건의 배포 계획이 선택되었습니다.<br/>1건의 배포 계획 정보를 선택하세요.",
+				selectOneReq : "${1}건의 요구사항이 선택되었습니다.<br/>1건의 요구사항 정보를 선택하세요.",
+				selectOneJob : "${1}건의 JOB이 선택되었습니다.<br/>1건의 JOB 정보를 선택하세요.",
+			}
+		},
 		cmm6000:{
 			title:{
 				mainPrjSetting:"메인프로젝트 설정",
@@ -2343,6 +2404,31 @@ var OSLCoreLangSetting = function () {
 				dplTypeNm:"Deploy Type",
 				dplDesc:"Deploy Description",
 			},
+			dpl4000DplTable:{
+				dplSignUseNm: "Approval Used Check",
+				nowSignTypeNm: "Approval Status",
+				lastSignUsrNm : "Approver",
+				dplStsNm: "Deploy Status",
+				dplVer: "Deploy Version",
+				dplNm: "Deploy Name",
+				dplTypeNm : "Deploy Type",
+				dplRevisionNum : "Deploy Revision Number",
+				dplDt : "Deploy Date",
+				dplUsrNm : "Deployer"
+			},
+			dpl4000AssReqTable:{
+				reqNm : "Request Title",
+				reqOrd : "Request Number",
+				reqProTypeNm : "Processing Status",
+				reqDtm : "Request Date",
+			},
+			dpl4000AssJobTable:{
+				jobTypeNm : "Job Type",
+				jobId : "JOB ID",
+				jobRestoreId : "Restore JOB ID",
+				bldResultMsg :"Build Result",
+				jobParameter :"Job Parameter"
+			},
 			req1000ReqTable:{
 				prjNm: "Project Name",
 				prjGrpNm: "Prject Group Name",
@@ -2855,6 +2941,67 @@ var OSLCoreLangSetting = function () {
 					signApr : "Would you like to approve?",
 					signRjt : "Would you like to return of approval?"
 				}
+			}
+		},
+		dpl4000:{
+			dpl:{
+				title: "Deployment Plan List",
+				button:{
+					tooltip:{
+						selectTooltip: "Select Deployment Plan",
+						detailTooltip : "Deployment Plan Info"
+					},
+					detailBtn : "Detail"
+				},
+				addSearch : {
+					dplDesc : "Deployment Description",
+				},
+				actionBtn : {
+					title : "Detail",
+					tooltip : {
+						detailTooltip : "Deployment Plan Info",
+					},
+					modalTitle : "[${1}] Detail Info"
+				}
+			},
+			req:{
+				title: "Request List",
+				button:{
+					tooltip:{
+						selectTooltip: "Select Request List",
+						detailTooltip : "Request Info"
+					},
+					detailBtn : "Detail"
+				},
+				actionBtn : {
+					title : "Detail",
+					tooltip : {
+						detailTooltip : "Request Info",
+					},
+					modalTitle : "[${1}] Request Detail Info"
+				}
+			},
+			job:{
+				title: "JOB List",
+				button:{
+					tooltip:{
+						selectTooltip: "Select JOB List ",
+						detailTooltip : "JOB Info"
+					},
+					detailBtn : "Detail"
+				},
+				actionBtn : {
+					title : "Detail",
+					tooltip : {
+						detailTooltip : "Job Info",
+					},
+					modalTitle : "Job Detail Info"
+				}
+			},
+			message : {
+				selectOneDpl : "Please, select only 1 deployment data.<br/>${1} deployment datas have been selected.",
+				selectOneReq : "Please, select only 1 request data.<br/>${1} request datas have been selected.",
+				selectOneJob : "Please, select only 1 job data.<br/>${1} job datas have been selected.",
 			}
 		},
 		prj1000:{

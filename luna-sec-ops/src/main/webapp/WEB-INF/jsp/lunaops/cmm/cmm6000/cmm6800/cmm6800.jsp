@@ -242,24 +242,22 @@ var OSLCmm6800Popup = function() {
 				},
 				actionFn:{
 					"click":function(rowData, datatableId, type, rowNum, elem){
-						var datatable = $.osl.datatable.list[datatableId].targetDt;
-						
-						datatable.setActiveAll(false);
+var datatable = $.osl.datatable.list[datatableId].targetDt;
 						
 						
 						var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
 						var target = targetCheckRow.find("label.kt-checkbox").children("input[type=checkbox]");
-						
 						if(target.length > 0){
 							if(target.is(":checked") == true){
-								target.prop("checked", false);
-								datatable.setInactive(target);
+								
+								datatable.setActiveAll(false);
+								
+								target.prop("checked", true);
+								datatable.setActive(target);
+							}else{
 								
 								targetCheckRow.removeClass("osl-datatable__row--selected");
 								targetCheckRow.addClass("kt-datatable__row--even");
-							}else{
-								target.prop("checked", true);
-								datatable.setActive(target);
 							}
 						}
 					},

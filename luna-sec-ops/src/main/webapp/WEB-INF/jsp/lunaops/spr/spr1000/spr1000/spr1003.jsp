@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <form class="kt-form" id="frSpr1003">
 	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}">
@@ -584,14 +584,12 @@ var OSLSpr1003Popup = function () {
 					var targetInput = row.find("input#sprPoint_"+data.reqId);
 					
 					targetInput.off("blur").on("blur", function(e){
-						
-						this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
-						
-						if(this.value < 0){
-							this.value = 0;
+						var inputVal = 0;
+						try{
+							inputVal = parseInt(this.value);
+						}catch(e){
+							inputVal = 0;
 						}
-						inputVal = this.value;
-						
 						if(!isNaN(inputVal)){
 							wizardData["reqSprPointList"][data.reqId] = inputVal;
 						}
@@ -599,7 +597,6 @@ var OSLSpr1003Popup = function () {
 							wizardData["reqSprPointList"][data.reqId] = null;
 						}
 					});
-					
 					
 					if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
 						this.value = wizardData["reqSprPointList"][data.reqId];

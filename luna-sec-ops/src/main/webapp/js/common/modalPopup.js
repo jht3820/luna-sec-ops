@@ -58,7 +58,7 @@ $(document).on('hidden.bs.modal', '.modal', function () {
 	
 	var mainModalCnt = $(".modal[id^=lpx]").length;
 	if(mainModalCnt == 0){
-		$(".modal:not([id])").remove();
+		$(".modal:not([id]), .note-popover").remove();
 	}
 	
 });

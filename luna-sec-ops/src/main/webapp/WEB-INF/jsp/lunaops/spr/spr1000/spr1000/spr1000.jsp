@@ -75,6 +75,7 @@
 <script>
 "use strict";
 var OSLSpr1000Popup = function () {
+	var totalSprPoint = 0;
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
@@ -102,9 +103,11 @@ var OSLSpr1000Popup = function () {
 				{field: 'sprDtm', title: '기간', searchOrd:4, searchType:"daterange"}
 			],
 			actionBtn:{
+				"title": "기능 버튼",
 				"dblClick": true
 			},
 			actionTooltip:{
+				"title": "기능 버튼",
 				"update": $.osl.lang("spr1000.datatable.action.update"),
 				"delete": $.osl.lang("spr1000.datatable.action.delete"),
 				"dblClick": $.osl.lang("spr1000.datatable.action.dblClick")
@@ -356,35 +359,43 @@ var OSLSpr1000Popup = function () {
 												+'</div>'
 											+'</div>'
 										+'</div>'
-										+'<div class="d-flex flex-wrap border-top kt-margin-t-20 kt-padding-t-10">'
-											+'<div class="osl-widget osl-flex-row-fluid flex-wrap">'
-												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
-													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqAll.png"></div>'
-													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+"전체"+'</a>'
-														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqAllCnt)+'</div>'
+										+'<div class="row">'
+											+'<div class="col-6 osl-min-h-px--202">'
+												+'<div class="osl-widget osl-flex-row-fluid flex-wrap">'
+													+'<div class="osl-widget-info__item osl-flex-row-fluid">'
+														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqAll.png"></div>'
+														+'<div class="osl-widget-info__item-info">'
+															+'<a href="#" class="osl-widget-info__item-title">'+"전체"+'</a>'
+															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqAllCnt)+'</div>'
+														+'</div>'
+													+'</div>'
+													+'<div class="osl-widget-info__item osl-flex-row-fluid">'
+														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqInProgress.png"></div>'
+														+'<div class="osl-widget-info__item-info">'
+															+'<a href="#" class="osl-widget-info__item-title">'+"진행 중"+'</a>'
+															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqProgressCnt)+'</div>'
+														+'</div>'
 													+'</div>'
 												+'</div>'
-												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
-													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqInProgress.png"></div>'
-													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+"진행 중"+'</a>'
-														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqProgressCnt)+'</div>'
+												+'<div class="osl-widget osl-flex-row-fluid flex-wrap">'
+													+'<div class="osl-widget-info__item osl-flex-row-fluid">'
+														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqDone.png"></div>'
+														+'<div class="osl-widget-info__item-info">'
+															+'<a href="#" class="osl-widget-info__item-title">'+"완료"+'</a>'
+															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqDoneCnt)+'</div>'
+														+'</div>'
+													+'</div>'
+													+'<div class="osl-widget-info__item osl-flex-row-fluid">'
+														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqPointer.png"></div>'
+														+'<div class="osl-widget-info__item-info">'
+															+'<a href="#" class="osl-widget-info__item-title">'+"평균 완료 시간"+'</a>'
+															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.avgTime.toFixed(1))+'</div>'
+														+'</div>'
 													+'</div>'
 												+'</div>'
-												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
-													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqDone.png"></div>'
-													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+"완료"+'</a>'
-														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqDoneCnt)+'</div>'
-													+'</div>'
-												+'</div>'
-												+'<div class="osl-widget-info__item osl-flex-row-fluid">'
-													+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqPointer.png"></div>'
-													+'<div class="osl-widget-info__item-info">'
-														+'<a href="#" class="osl-widget-info__item-title">'+"평균 완료 시간"+'</a>'
-														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.avgTime.toFixed(1))+'</div>'
-													+'</div>'
+											+'</div>'
+											+'<div class="col-6 osl-min-h-px--202">'
+												+'<div class="osl-card__data--empty osl-min-h-px--202" id="burnDownChart'+map.sprId+'">'
 												+'</div>'
 											+'</div>'
 										+'</div>'
@@ -404,6 +415,9 @@ var OSLSpr1000Popup = function () {
 					
 					$("#spr1000CardTable").html(sprintStr);
 					
+					$.each(list, function(idx, map){
+						drawChart(map);
+					})
 					
 					KTApp.initTooltips();
 				}
@@ -440,6 +454,225 @@ var OSLSpr1000Popup = function () {
 			}
 		}
 	};
+	
+ 	var drawChart = function(rowdata){
+ 		var ajaxObj = new $.osl.ajaxRequestAction(
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: rowdata.sprId});
+ 		
+ 		ajaxObj.setFnSuccess(function(data){
+ 			if(data.errorYn == "Y"){
+ 				$.osl.alert(data.message,{type: 'error'});
+ 			}else{
+ 				
+ 				var chartData = data.chartData;
+ 				var today = new Date();
+ 				var endDt  = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
+ 				
+ 				totalSprPoint = rowdata.sprPoint;
+ 				
+ 				var seriesData = getDataRangeData(rowdata.sprStDt, rowdata.sprEdDt, "1", chartData);
+ 				
+ 				
+ 				if(chartData.length == 0){
+	 				$("#burnDownChart"+rowdata.sprId).text("데이터 없음")
+ 				}else{
+	 				drawBurnDownChart(seriesData, rowdata.sprId);
+ 				}
+ 			}	
+ 		});
+ 		
+ 		ajaxObj.send();
+ 	}
+ 	
+ 	var drawBurnDownChart = function(dateRange, sprId){
+ 		 var chart = $.osl.chart.setting("apex","burnDownChart"+sprId,{
+ 			
+				data:{										
+					param:{
+						dataArr: dateRange,	
+						 
+						 xKey:"time",
+						 key:{
+							 key1:"idealBurnDownLine",
+							 key2:"burnDownSprPoint"
+						 },
+						 keyNm:{
+							 keyNm1:"이상적인 번다운라인",
+							 keyNm2:"실제 번다운라인"
+						 },
+						 
+						 chartType:"line",
+						 dataType: "local"
+					}
+				},
+				fill:{
+					type:false
+				},
+				chart:{
+					height:180,
+					
+					colors: ["#ffb822","#840ad9"],
+					title: {
+						text: "번다운차트",
+						align: "center",
+					},
+					stroke: {
+				          curve: 'straight'
+				    },
+			        animations:{
+						enabled:false
+					},
+				    dataLabels:{
+				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
+				    },
+				    grid: {
+				          borderColor: '#e7e7e7',
+				          row: {
+				            colors: ['#f3f3f3', 'transparent'], 
+				            opacity: 0.5
+				          },
+				    },
+					xaxis: {
+				        type: 'datetime',
+				        
+				        labels: {
+				        	hideOverlappingLabels :true,
+				            formatter: function(value){
+				            	return new Date(value).format("MM-dd");
+				            }
+				        },
+				        
+				        tickAmount: '5',
+				        
+				        tickPlacement: 'between',
+		        	},
+					yaxis: {
+						show:true
+		        	},
+		        	toolbar:{
+		        		tools:{
+		        			pan:false
+		        		}
+		        	},
+		        	grid:{
+		        		show:true
+		        	}
+				},
+				callback:{
+					
+					initComplete: function(chartContext, config){
+						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
+						$(".apexcharts-reset-icon").addClass("kt-margin-0");
+						$(".apexcharts-toolbar").addClass("kt-margin-10");
+						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
+						$(".apexcharts-toolbar").removeAttr("style[padding]");
+					}
+				}
+			});
+		 }
+ 	
+ 	var getDataRangeData = function(sttDt, endDT, type, data){
+ 		
+ 		
+ 		
+ 		var sprPoint = [];
+ 		$.each(data, function(index, value){
+ 			var _series = {};
+ 			_series[value.reqEdDtm] = value.cumSprPoint;
+ 			sprPoint.push(_series);
+ 		});
+ 		
+ 		
+ 		if(type=='1'){
+ 			var resDay = [];
+	 	 	var stDay = new Date(sttDt);
+	 	   	var edDay = new Date(endDT);    	
+	 	  	while(stDay.getTime() <= edDay.getTime()){
+	 	  			var ideal = 0;
+	 	  			var _mon = (stDay.getMonth()+1);
+	 	  			_mon = _mon < 10 ? '0'+_mon : _mon;
+	 	  			var _day = stDay.getDate();
+	 	  			_day = _day < 10 ? '0'+_day : _day;
+	 	  			var _time = stDay.getFullYear() + '-' + _mon + '-' +  _day;
+	 	  			if(_time == data.reqEdDtm){
+	 	  				resDay.push({"time":stDay.getFullYear() + '-' + _mon + '-' +  _day})
+	 	  			}else{  
+		 	   		resDay.push({"time":stDay.getFullYear() + '-' + _mon + '-' +  _day});
+	 	  			
+	 	  			}
+	 	   			stDay.setDate(stDay.getDate() + 1);
+	 	   			ideal = ideal + 10
+	 	   	}
+	 	
+ 		}else if(type=='2'){
+ 			
+ 		}
+ 		var length = resDay.length
+ 		
+ 		var step = totalSprPoint / length
+ 		
+ 		
+ 		var end = totalSprPoint;
+ 		$.each(resDay, function(index, value){
+ 			
+	 		if(length == 1){
+	 			value['idealBurnDownLine'] = totalSprPoint;
+	 		
+	 		}else if(length == 2){
+	 			value['idealBurnDownLine'] = end;
+	 			end -= totalSprPoint;
+	 		
+	 		}else{
+	 			value['idealBurnDownLine'] = end.toFixed(1);
+	 			end -= step	
+	 		}
+ 		})
+ 		
+ 		var today = new Date();
+ 		
+ 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
+ 			var match = false;
+ 			
+ 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
+ 			if(gap < 0){
+	 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
+	 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
+	 					match = true;
+	 					
+	 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
+	 					break;
+	 				}
+	 			}
+	 			
+	 			if(!match){
+	 				
+	 				if(dayIndex == 0){
+	 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
+	 				
+	 				}else{
+		 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
+	 				}
+	 			}
+ 			}else{
+ 				resDay[dayIndex]['burnUpSprPoint'] = null;
+				resDay[dayIndex]['burnDownSprPoint'] = null;
+ 			}
+ 		}
+ 		return resDay;
+ 	}
 	return {
         
         init: function() {

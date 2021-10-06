@@ -111,7 +111,7 @@
 							<div class="col-xl-6">
 								<div class="form-group">
 									<label class="required"><i class="fa fa-phone-alt kt-margin-r-5"></i>연락처</label>
-									<input type="text" class="form-control" placeholder="연락처" name="telno" id="telno" minlength="3" maxlength="16" regexstr="^([0-9]).*$" regexalert="숫자만 입력가능" required>
+									<input type="text" class="form-control" placeholder="연락처" name="telno" id="telno" minlength="3" maxlength="11" regexstr="^([0-9]).*$" regexalert="숫자만 입력가능" required>
 								</div>
 							</div>
 							<div class="col-xl-6">
@@ -818,27 +818,29 @@ var OSLUsr1000Popup = function () {
     			var str = "";
     			
 				data.shortcutInfo.forEach(function(value, index){
-					if(index == 6){
-						continue;	
-					}
-	    			str +=
-	    				'<div class="form-group form-group-last row kt-margin-b-20 kt-margin-b-25-mobile">'
-							+'<label class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><span class="font-weight-bolder" data-lang-cd="usr1100.title.shortcut'+$.osl.escapeHtml(value.actionCd)+'">'+$.osl.escapeHtml(value.subCdNm)+'</span></label>'
-							+'<span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--info col-xl-2 col-lg-2 col-md-12 col-sm-12" data-toggle="kt-tooltip" data-placement="bottom" title="팝업 시 동작 여부">'
-								+'<label>'
-									+'<input class="popupActionCd" actionCd='+$.osl.escapeHtml(value.actionCd)+' type="checkbox"  checked="checked">'
-									+'<span></span>'
-								+'</label>'
-							+'</span>'
-							+'<div class="col-xl-6 col-lg-7 col-md-12 col-sm-12">'
-								+'<div class="input-group">'
-									+'<input type="text" actionCd='+$.osl.escapeHtml(value.actionCd)+' class="form-control keyCode" readonly="readonly" placeholder="단축키 입력" value="'+$.osl.escapeHtml(value.shortcut)+'"">'
-									+'<div class="input-group-append">'
-										+'<button class="btn btn-outline-primary emptyBtn" id="'+$.osl.escapeHtml(value.actionCd)+'" type="button"><i class="fa fa-ban text-primary"></i><span data-lang-cd="usr1100.btn.dontuse">사용안함</span></button>'
+					
+					if(index == 5){
+						
+					}else{
+		    			str +=
+		    				'<div class="form-group form-group-last row kt-margin-b-20 kt-margin-b-25-mobile">'
+								+'<label class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-form-label osl-align-left--imp"><span class="font-weight-bolder" data-lang-cd="usr1100.title.shortcut'+$.osl.escapeHtml(value.actionCd)+'">'+$.osl.escapeHtml(value.subCdNm)+'</span></label>'
+								+'<span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--info col-xl-2 col-lg-2 col-md-12 col-sm-12" data-toggle="kt-tooltip" data-placement="bottom" title="팝업 시 동작 여부">'
+									+'<label>'
+										+'<input class="popupActionCd" actionCd='+$.osl.escapeHtml(value.actionCd)+' type="checkbox"  checked="checked">'
+										+'<span></span>'
+									+'</label>'
+								+'</span>'
+								+'<div class="col-xl-6 col-lg-7 col-md-12 col-sm-12">'
+									+'<div class="input-group">'
+										+'<input type="text" actionCd='+$.osl.escapeHtml(value.actionCd)+' class="form-control keyCode" readonly="readonly" placeholder="단축키 입력" value="'+$.osl.escapeHtml(value.shortcut)+'"">'
+										+'<div class="input-group-append">'
+											+'<button class="btn btn-outline-primary emptyBtn" id="'+$.osl.escapeHtml(value.actionCd)+'" type="button"><i class="fa fa-ban text-primary"></i><span data-lang-cd="usr1100.btn.dontuse">사용안함</span></button>'
+										+'</div>'
 									+'</div>'
 								+'</div>'
 							+'</div>'
-						+'</div>'
+					}
 				});
 				
 				
