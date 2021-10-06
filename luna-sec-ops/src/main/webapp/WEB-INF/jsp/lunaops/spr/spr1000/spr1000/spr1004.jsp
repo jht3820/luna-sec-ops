@@ -84,7 +84,7 @@
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="form-group">
 							<label class="required"><i class="fa fa-edit kt-margin-r-5"></i>회고록 제목</label>
-							<input type="text" name="mmrNm" id="mmrNm" class="form-control" required>
+							<input type="text" name="mmrNm" id="mmrNm" class="form-control" maxlength="99" required>
 						</div>
 					</div>
 				</div>
@@ -925,7 +925,7 @@ var OSLSpr1004Popup = function () {
  		
  		var length = resDay.length
  		
- 		var step = totalSprPoint / length
+ 		var step = totalSprPoint / (length-1)
  		
  		var start = 0;
  		$.each(resDay, function(index, value){

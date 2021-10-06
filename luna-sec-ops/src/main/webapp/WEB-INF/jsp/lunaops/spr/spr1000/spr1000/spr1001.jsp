@@ -294,16 +294,10 @@ var OSLSpr1001Popup = function () {
  				
  				
  				var seriesData = getDataRangeData(paramSprStDt, paramSprEdDt, "1", chartData);
- 				if(chartData.length == 0){
- 					$("#burnDownChart").text("데이터 없음")
- 					$("#burnUpChart").text("데이터 없음")
- 				}else{
-	 				
-	 				drawBurnUpChart(seriesData);
-	 				
-	 				
-	 				drawBurnDownChart(seriesData);
- 				}
+ 				
+ 				drawBurnUpChart(seriesData);
+ 				
+ 				drawBurnDownChart(seriesData);
  				
  				if(chartData.length == 0){
 					endSprPoint = 0	 					
@@ -582,16 +576,20 @@ var OSLSpr1001Popup = function () {
  	
  	
  	var getDataRangeData = function(sttDt, endDT, type, data){
+ 		
  		if(paramSprTypeCd == '01'){
  			return [];
  		}
  		
- 		var sprPoint = [];
- 		$.each(data, function(index, value){
- 			var _series = {};
- 			_series[value.reqEdDtm] = value.cumSprPoint;
- 			sprPoint.push(_series);
- 		});
+ 		if(data.length != 0){
+	 		
+	 		var sprPoint = [];
+	 		$.each(data, function(index, value){
+	 			var _series = {};
+	 			_series[value.reqEdDtm] = value.cumSprPoint;
+	 			sprPoint.push(_series);
+	 		});
+ 		}
  		
  		
  		if(type=='1'){
@@ -656,39 +654,41 @@ var OSLSpr1001Popup = function () {
 	 			end -= step	
 	 		}
  		})
- 		
- 		var today = new Date();
- 		
- 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
- 			var match = false;
- 			
- 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
- 			if(gap < 0){
-	 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
-	 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
-	 					match = true;
-	 					
-	 					resDay[dayIndex]['burnUpSprPoint'] = data[dataIndex].cumSprPoint
-	 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
-	 					break;
-	 				}
-	 			}
+ 		if(data.length != 0){
+	 		
+	 		var today = new Date();
+	 		
+	 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
+	 			var match = false;
 	 			
-	 			if(!match){
-	 				
-	 				if(dayIndex == 0){
-	 					resDay[dayIndex]['burnUpSprPoint'] = 0;
-	 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
-	 				
-	 				}else{
-		 				resDay[dayIndex]['burnUpSprPoint'] = resDay[dayIndex - 1]['burnUpSprPoint']; 
-		 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
-	 				}
+	 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
+	 			if(gap < 0){
+		 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
+		 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
+		 					match = true;
+		 					
+		 					resDay[dayIndex]['burnUpSprPoint'] = data[dataIndex].cumSprPoint
+		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
+		 					break;
+		 				}
+		 			}
+		 			
+		 			if(!match){
+		 				
+		 				if(dayIndex == 0){
+		 					resDay[dayIndex]['burnUpSprPoint'] = 0;
+		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
+		 				
+		 				}else{
+			 				resDay[dayIndex]['burnUpSprPoint'] = resDay[dayIndex - 1]['burnUpSprPoint']; 
+			 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
+		 				}
+		 			}
+	 			}else{
+	 				resDay[dayIndex]['burnUpSprPoint'] = null;
+					resDay[dayIndex]['burnDownSprPoint'] = null;
 	 			}
- 			}else{
- 				resDay[dayIndex]['burnUpSprPoint'] = null;
-				resDay[dayIndex]['burnDownSprPoint'] = null;
- 			}
+	 		}
  		}
  	   	return resDay;
  	}
