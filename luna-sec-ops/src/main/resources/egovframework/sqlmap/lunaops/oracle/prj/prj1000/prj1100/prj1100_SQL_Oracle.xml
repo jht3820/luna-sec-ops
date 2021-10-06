@@ -23,6 +23,7 @@
 				SUBT1.DEL_CD,
 				SUBT1.PROCESS_ORD,
 				SUBT1.REQ_CNT,
+				SUBT1.FLOW_CNT,
 				SUBT1.REG_DTM,
 				SUBT1.REG_USR_ID,
 				SUBT1.REG_USR_IP,
@@ -45,6 +46,7 @@
 					A.DEL_CD,
 					A.PROCESS_ORD,
 					(SELECT COUNT(*) FROM REQ4100 Z WHERE Z.PRJ_ID = A.PRJ_ID AND Z.PROCESS_ID = A.PROCESS_ID) AS REQ_CNT,
+					(SELECT COUNT(*) FROM PRJ1101 Z WHERE Z.PRJ_ID = A.PRJ_ID AND Z.PROCESS_ID = A.PROCESS_ID AND Z.USE_CD = '01') AS FLOW_CNT,
 					TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI') AS REG_DTM,
 					A.REG_USR_ID,
 					A.REG_USR_IP,
@@ -55,6 +57,16 @@
 				INNER JOIN PRJ1000 B ON (A.PRJ_ID = B.PRJ_ID AND B.LIC_GRP_ID = #licGrpId# AND B.USE_CD = '01' AND B.DEL_CD = '02')
 				WHERE 1=1
 				]]>
+				<isNotEmpty property="isFlowCnt">
+					AND EXISTS(
+			          	SELECT *
+			            FROM PRJ1101 Z
+			            WHERE 1=1
+			            AND Z.PRJ_ID = A.PRJ_ID
+			            AND Z.PROCESS_ID = A.PROCESS_ID
+			            AND Z.USE_CD = '01'
+			          )
+				</isNotEmpty>
 				<isNotEmpty property="prjId">
 					AND A.PRJ_ID = #prjId#
 				</isNotEmpty>
