@@ -1,25 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row">
-	<div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12">
+	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
-			<div class="kt-portlet__body">
-				<ul class="kt-nav kt-nav--bold kt-nav--md-space kt-nav--v3 nav nav-tabs" role="tablist">
-					<li class="kt-nav__item" id="menuTypeGet">
-						<a class="kt-nav__link kt-padding-l-0 kt-padding-r-0 active" data-toggle="tab" href="#kt_profile_tab_personal_information" role="tab">
+			<div class="kt-portlet__body kt-padding-10">
+				<ul class="kt-nav kt-nav--bold kt-nav--md-space nav nav-tabs osl-display__flex" role="tablist">
+					<li class="kt-nav__item osl-message__menu-width" id="menuTypeGet">
+						<a class="kt-nav__link kt-padding-l-20 kt-padding-r-20 active" data-toggle="tab" href="#kt_profile_tab_personal_information" role="tab">
 							<span class="kt-nav__link-icon"><i class="fas fa-inbox"></i></span>
 							<span class="kt-nav__link-text kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.get">받은 메시지</span>
 							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadGetCntBadge" name="notReadGetCntBadge">0</span>
 						</a>
 					</li>
-					<li class="kt-nav__item" id="menuTypeSend">
-						<a class="kt-nav__link kt-padding-l-0 kt-padding-r-0" data-toggle="tab" href="#kt_profile_tab_account_information" role="tab">
+					<li class="kt-nav__item osl-message__menu-width kt-padding-t-5" id="menuTypeSend">
+						<a class="kt-nav__link kt-padding-l-20 kt-padding-r-20" data-toggle="tab" href="#kt_profile_tab_account_information" role="tab">
 							<span class="kt-nav__link-icon"><i class="fas fa-paper-plane"></i></span>
 							<span class="kt-nav__link-text kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.send">보낸 메시지</span>
 						</a>
 					</li>
-					<li class="kt-nav__item" id="menuTypeAlone">
-						<a class="kt-nav__link kt-padding-l-0 kt-padding-r-0" data-toggle="tab" href="#kt_profile_change_password" role="tab">
+					<li class="kt-nav__item osl-message__menu-width" id="menuTypeAlone">
+						<a class="kt-nav__link kt-padding-l-20 kt-padding-r-20" data-toggle="tab" href="#kt_profile_change_password" role="tab">
 							<span class="kt-nav__link-icon"><i class="fas fa-envelope-square"></i></span>
 							<span class="kt-nav__link-text kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.alone">나에게 보낸 메시지</span>
 							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadAloneCntBadge" name="notReadAloneCntBadge">0</span>
@@ -29,13 +29,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
+	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head">
 				<div class="kt-portlet__head-label">
 					
 					<span class="kt-font-boldest kt-font-lg" id="getAllCnt" name="getAllCnt">
-						<span class="d-inline-block">받은 메시지</span>
+						<span class="d-inline-block" data-lang-cd="arm1000.label.get">받은 메시지</span>
 						<div class="badge osl-badge-lightgray kt-margin-l-20">
 							<span class='kt-font-brand' id="notReadGetCnt" name="notReadGetCnt">0</span>
 							<span id="getCnt" name="getCnt"></span>
@@ -43,14 +43,14 @@
 					</span>					
 					
 					<span class="kt-hide kt-font-boldest kt-font-lg" id="sendAllCnt" name="sendAllCnt">
-						<span class="d-inline-block">보낸 메시지</span>
+						<span class="d-inline-block" data-lang-cd="arm1000.label.send">보낸 메시지</span>
 						<div class="badge osl-badge-lightgray kt-margin-l-20">
 							<span id="sendCnt" name="sendCnt"></span>
 						</div>
 					</span>
 					
 					<span class="kt-hide kt-font-boldest kt-font-lg" id="aloneAllCnt" name="aloneAllCnt">
-						<span class="d-inline-block">나에게 보낸 메시지</span>
+						<span class="d-inline-block" data-lang-cd="arm1000.label.alone">나에게 보낸 메시지</span>
 						<div class="badge osl-badge-lightgray kt-margin-l-20">
 							<span class='kt-font-brand' id="notReadAloneCnt" name="notReadAloneCnt">0</span>
 							<span id="aloneCnt" name="aloneCnt"></span>
@@ -106,7 +106,7 @@ var OSLArm1000Popup = function () {
 			},
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
-				{field: 'rn', title: 'No.', textAlign: 'center', width: 50, sortable: true},
+				
 				{field: 'checkCd', title: '읽음 상태', textAlign: 'center', width: 80, sortable: true,
 					template: function (row) {
 						var returnStr = "";
@@ -121,7 +121,7 @@ var OSLArm1000Popup = function () {
 						return returnStr;
 					}
 				},
-				{field: 'sendUsrNm', title: '보낸 사람', textAlign: 'left', autoHide: false, width: 120, sortField: "sendUsrNm", search:true, sortable: true,
+				{field: 'sendUsrNm', title: '보낸 사람', textAlign: 'left', width: 120, sortField: "sendUsrNm", search:true, sortable: true,
 					template: function (row) {
 						if($.osl.isNull(row.sendUsrNm)){
 							row.sendUsrNm = "";
@@ -139,7 +139,7 @@ var OSLArm1000Popup = function () {
 						$.osl.user.usrInfoPopup(rowData.sendUsrId);
 					}
 				},
-				{field: 'usrNm', title: '받는 사람', textAlign: 'left', autoHide: false, width: 120, sortField: 'usrNm', search:true, sortable: true,
+				{field: 'usrNm', title: '받는 사람', textAlign: 'left', width: 120, sortField: 'usrNm', search:true, sortable: true,
 					template: function (row) {
 						if($.osl.isNull(row.usrNm)){
 							row.sendUsrNm = "";
@@ -158,7 +158,7 @@ var OSLArm1000Popup = function () {
 					}
 				},
 				{field: 'armTitle', title:'제목', textAlign: 'left', width: 400, autoHide: false, sortField: "armTitle", search: true},
-				{field: 'sendDtm', title: '날짜', textAlign: 'center', width: 120, sortField: "sendDtm", search: true, searchType:"daterange", sortable: true,
+				{field: 'sendDtm', title: '날짜', textAlign: 'center', width: 100, sortField: "sendDtm", autoHide: false, search: true, searchType:"daterange", sortable: true,
 					template: function (row) {
 						var paramDatetime = new Date(row.sendDtm);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
@@ -186,6 +186,7 @@ var OSLArm1000Popup = function () {
 				clickCheckbox: true,
 			},
 			actionBtn:{
+				"width": 120,
 				"reInsert" : true,
 				"update" : false,
 				"dblClick" : true,
@@ -268,6 +269,8 @@ var OSLArm1000Popup = function () {
 							
 							$.osl.layerPopupClose();
 						}else{
+							
+					    	mssArmLoad();
 							OSLArm1000Popup.reload();
 						}
 					});
@@ -307,6 +310,8 @@ var OSLArm1000Popup = function () {
 							
 							$.osl.layerPopupClose();
 						}else{
+							
+					    	mssArmLoad();
 							OSLArm1000Popup.reload();
 						}
 					});
@@ -367,6 +372,9 @@ var OSLArm1000Popup = function () {
 		
 		$("#"+datatableId).on("kt-datatable--on-layout-updated", function(){
 			actionBtnHide();
+			
+ 			
+ 			
        	});
 	};
 	
