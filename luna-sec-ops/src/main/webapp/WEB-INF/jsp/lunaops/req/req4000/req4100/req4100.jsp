@@ -118,19 +118,22 @@ var OSLReq4100Popup = function () {
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqChargerNm)){
-							row.reqChargerNm = "";
+							return row.reqChargerNm = "-";
+						}else{
+							var usrData = {
+								html: row.reqChargerNm,
+								imgSize: "sm",
+								class:{
+									cardBtn: "osl-width__fit-content"
+								}
+							};
+							return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
 						}
-						var usrData = {
-							html: row.reqChargerNm,
-							imgSize: "sm",
-							class:{
-								cardBtn: "osl-width__fit-content"
-							}
-						};
-						return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
 					},
 					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.reqChargerId);
+						if(row.reqChargerNm != "-"){
+							$.osl.user.usrInfoPopup(rowData.reqChargerId);
+						}
 					}
 				},
 				{field: 'reqUsrEmail', title:'요청자e-mail', textAlign: 'left', width: 180, search: true},
