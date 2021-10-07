@@ -92,7 +92,7 @@
 		</div>
 	</div>
 </div>
-
+<!-- begin page script -->
 <script>
  "use strict";
 
@@ -102,14 +102,14 @@
 	 var reqDatatableId = "dpl4000AssReqTable";
 	 var jobDatatableId = "dpl4000AssJobTable";
 	 
-	 
+	 //배포 계획 정보
 	 var dplId;
 	 var prjGrpId;
 	 var prjId;
 	 
 	 var documentSetting = function() {
 		 
-		 
+		 //배포 계획 목록 가져오기
 		 $.osl.datatable.setting(datatableId,{
 			 data: {
 				source: {
@@ -166,7 +166,7 @@
 				{field: 'dplRevisionNum', title: '배포 리비전 번호', textAlign: 'center', width: 100
 					,template: function(row){
 						var dplRevisionNum = row.dplRevisionNum;
-						
+						// 배포 리비전 없을 경우 문구 변경
 						if($.osl.isNull(dplRevisionNum)){
 							dplRevisionNum = "Last Revision";
 						}
@@ -189,7 +189,7 @@
 						return $.osl.user.usrImgSet(row.dplUsrImgId, usrData);
 					},
 					onclick: function(rowData){
-						if(row.dplUsrNm != "-"){
+						if(rowData.dplUsrNm != "-"){
 							$.osl.user.usrInfoPopup(rowData.dplUsrId);
 						}
 					}	
@@ -218,13 +218,13 @@
 				"click":function(rowData, datatableId, type, rowNum, elem){
 					var datatable = $.osl.datatable.list[datatableId].targetDt;
 					
-					
+					//현재 선택한 elem의 체크박스만 선택
 					var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
 					var target = targetCheckRow.find("label.kt-checkbox").children("input[type=checkbox]");
 					if(target.length > 0){
 						
 						if(target.is(":checked") == true){
-							
+							//checkBox 선택은 현재 클릭한 것만 적용하기 위해 전부 해제
 							datatable.setActiveAll(false);
 							
 							target.prop("checked", true);
@@ -233,7 +233,7 @@
 							prjGrpId = rowData.prjGrpId;
 							prjId = rowData.prjId;
 						}else{
-							
+							//선택된것처럼 row 컬러가 그대로 남아있으므로
 							targetCheckRow.removeClass("osl-datatable__row--selected");
 							targetCheckRow.addClass("kt-datatable__row--even");
 							dplId="";
@@ -241,7 +241,7 @@
 							prjId="";
 						}
 					}
-					
+					//요구사항 및 JOB 배정목록 재조회
 					reloadList();		
 				},
 				"dblClick":function(rowData){
@@ -298,7 +298,7 @@
 			 }
 		});
 		 
-		
+		//요구사항 배정 테이블 셋팅
 		$.osl.datatable.setting(reqDatatableId,{
 			data:{
 				source:{
@@ -321,7 +321,7 @@
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 240, autoHide: false, sortField: "reqNm", search:true,
 					template: function(row){
 						var resultStr = $.osl.escapeHtml(row.reqNm);
-						
+						//비밀번호가 있는 경우
 						if(row.reqPw == "Y"){
 							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
 						}
@@ -358,6 +358,8 @@
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId,
 						};
+					console.log(data);
+					debugger;
 					var options = {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("dpl4000.req.actionBtn.modalTitle", $.osl.escapeHtml(rowData.reqNm)),
@@ -404,7 +406,7 @@
 			}
 		});
 			
-		
+		//배정된 JOB 목록 조회
 		$.osl.datatable.setting(jobDatatableId,{
 			data:{
 				source:{
@@ -431,7 +433,7 @@
 				{field: 'jobRestoreId', title: '원복 JOB ID', textAlign: 'center', width: 130, autoHide: false, search: true, sortable: true, sortField: "jobRestoreId"
 					,template: function(row){
 						var jobRestoredId = row.jobRestoreId;
-						
+						// 원복 job id 없을 경우 - 으로 표시
 						if($.osl.isNull(jobRestoredId)){
 							jobRestoredId = "-";
 						}
@@ -442,7 +444,7 @@
 				{field: 'jobParameter', title: 'Job 매개변수', textAlign: 'center', width: 120
 					,template: function(row){
 						var jobParameter = row.jobParameter;
-						
+						// Job 매개변수 없을 경우 - 으로 표시
 						if($.osl.isNull(jobParameter)){
 							jobParameter = "-";
 						}
@@ -521,14 +523,14 @@
 	 
 	 var reloadList = function(){
 		 if(!$.osl.isNull(dplId)){
-			 
+			 //param 주입
 			 $.osl.datatable.list[reqDatatableId].targetDt.setDataSourceParam("dplId", dplId);
 			 
 			 $.osl.datatable.list[jobDatatableId].targetDt.setDataSourceParam("dplId", dplId);
 			 $.osl.datatable.list[jobDatatableId].targetDt.setDataSourceParam("prjGrpId", prjGrpId);
 			 $.osl.datatable.list[jobDatatableId].targetDt.setDataSourceParam("prjId", prjId);
 			 
-			 
+			 //목록 재조회
 			 $("button[data-datatable-id="+reqDatatableId+"][data-datatable-action=select]").click(); 
 			 $("button[data-datatable-id="+jobDatatableId+"][data-datatable-action=select]").click(); 
 		 }

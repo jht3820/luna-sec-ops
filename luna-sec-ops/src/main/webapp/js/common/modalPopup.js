@@ -97,9 +97,7 @@ $(document).on('hide.bs.modal', '.modal', function () {
 	//경고창 없는경우 바로 닫기
 	if(!$(that).data("closeconfirm")){
 		//backdrop이 true인 경우
-		if($(that).data("backdrop")==true && event.path.length == 5){
-			/*pass*/
-		}else{
+		if($(that).data("backdrop")==true && event.path.length != 5 || event.keyCode == 27){
 			modalCloseFlag = false;
 			return true;
 		}

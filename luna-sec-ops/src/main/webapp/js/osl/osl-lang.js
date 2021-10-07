@@ -1,8 +1,10 @@
-
+/**
+ * function 명 : OSLCoreLangSetting function 설명 : core에서 사용되는 언어 데이터를 세팅한다.
+ */
 var OSLCoreLangSetting = function () {
-	
+	// 언어 세팅 데이터
 	var lang = {};
-	
+	// 한국어
 	lang["ko"] = {
 		fromValidate:{
 			messages: {
@@ -182,8 +184,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  
-								
+		            doy : 4  // The week that contains Jan 4th is the first
+								// week of the year.
 		        }
 		    },
 		    agoTime:{
@@ -250,7 +252,7 @@ var OSLCoreLangSetting = function () {
 				closeAlert: "팝업 창을 닫으시겠습니까?"
 			}
 		},
-		
+		/* 페이지 언어 */
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -270,7 +272,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "답장",
 				checkBtn : "읽음",
 			},
-			
+			/* 검색 바 메뉴 추가한 경우 */
 			field: {
 				sendUsrId : "보낸 사람 ID",
 				sendUsrEmail : "보낸 사람 e-mail",
@@ -323,7 +325,7 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6401:{
 			field: {
-				
+				/* 외부 search bar 검색, 데이터테이블과 일치시키기 */
 				usrNm : "사용자명",
 			},
 			actionBtn : {
@@ -506,7 +508,7 @@ var OSLCoreLangSetting = function () {
 				searchPrj:"프로젝트 검색",
 			},
 			field: {
-				
+				/* 외부 search bar 검색, 데이터테이블과 일치시키기 */
 				prjNm : "프로젝트 명",
 				
 			},
@@ -1101,7 +1103,7 @@ var OSLCoreLangSetting = function () {
 				requestAccept: "접수"
 			},
 			field:{
-				
+				/* 외부 주입 search bar 인 경우 사용 */
 				prjGrpNm: "프로젝트 그룹명",
 				reqGrpNm: "그룹 요구사항 명",
 			},
@@ -1206,6 +1208,31 @@ var OSLCoreLangSetting = function () {
 			formCheck:{
 				passwordMessage : "비밀글에 사용할 비밀번호를 입력해주세요.",
 				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
+			},
+		},
+		req4102:{
+			label : {
+				reqUser : {
+					title : "요청자 정보", 
+					usrNm : "요청자 이름",
+					email : "요청자 e-mail",
+					deptNm : "요청자 소속",
+					telNo : "요청자 연락처",
+				},
+				group:{
+					groupReqInfo : "그룹 요구사항 정보",
+					groupReq : "그룹 요구 사항",
+					groupReqDesc : "그룹 요구사항 내용",
+				},
+				prjNm : "프로젝트",
+				reqDtm : "요청일",
+				reqNm : "요청 제목",
+				reqDesc : "요청 내용",
+				attachments : "파일 첨부",
+				requestDefaultOptNm : "접수 기본항목 입력"
+			},
+			pleaceholder:{
+				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
 			},
 		},
 		req4103:{
@@ -1424,7 +1451,7 @@ var OSLCoreLangSetting = function () {
 			notAuthority : {
 					basic : "해당 게시판에 대한 권한이 없습니다.",
 			},
-			
+			/* 카드형 그리기로 인해 선언, 데이터 테이블 필드명과 동일하게 지정 */
 			field:{
 				stmTypeNm: "유형",
 				stmNm: "게시판명",
@@ -2094,9 +2121,9 @@ var OSLCoreLangSetting = function () {
 				noticeBadge: "공지",
 			},
 			field:{
-				
+				/* 태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기 */
 				tagNm:"태그",
-				
+				/* 외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정 */
 				badContent: "내용",
 				badNtcCheck : "공지유무",
 				delCd:"삭제유무",
@@ -2237,7 +2264,7 @@ var OSLCoreLangSetting = function () {
 		}
 	};
 	
-	
+	// 영어
 	lang["en"] = {
 		fromValidate:{
 			messages: {
@@ -2349,7 +2376,7 @@ var OSLCoreLangSetting = function () {
 				placeholder: "After entering, please press enter key",
 				allTitle: "All"
 			},
-			
+			/* 추가된 datatable별로 언어 지정 */
 			arm1000ArmTable:{
 				checkCd : "Read",
 				sendUsrNm : "Send User",
@@ -2704,8 +2731,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  
-								
+		            doy : 4  // The week that contains Jan 4th is the first
+								// week of the year.
 		        }
 		    },
 		    agoTime:{
@@ -2760,7 +2787,7 @@ var OSLCoreLangSetting = function () {
 				cancel: "Cancel"
 			}
 		},
-		
+		/* 페이지 언어 */
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -2780,7 +2807,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "Reply",
 				checkBtn : "Read Check"
 			},
-			
+			/* 검색 바 메뉴 추가한 경우 */
 			field: {
 				sendUsrId : "From User Id",
 				sendUsrEmail : "From User E-mail",
@@ -2848,7 +2875,7 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6401:{
 			field: {
-				
+				/* 외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기 */
 				usrNm : "User Name",
 			},
 			actionBtn : {
@@ -3414,7 +3441,7 @@ var OSLCoreLangSetting = function () {
 				copyBtn : "Copy"
 			},
 			field:{
-				
+				/* 외부 주입 search bar에서 사용 */
 				prjGrpNm: "Project Group Name",
 				reqGrpNm: "Requirement Group Name",
 			},
@@ -3518,6 +3545,31 @@ var OSLCoreLangSetting = function () {
 			formCheck:{
 				passwordMessage : "You must write password for secret request.",
 				passwordMatching : "The entered passwords are different.",
+			},
+		},
+		req4102:{
+			label : {
+				reqUser : {
+					title : "Requester Information",
+					usrNm : "Name",
+					email : "E-mail",
+					deptNm : "Department",
+					telNo : "Contact",
+				},
+				group:{
+					groupReqInfo : "Group Request Information",
+					groupReq : "Group Request",
+					groupReqDesc : "Group Request Content",
+				},
+				prjNm : "Project",
+				reqDtm : "Request Date",
+				reqNm : "Title",
+				reqDesc : "Content",
+				attachments : "Attachments",
+				requestDefaultOptNm : "Enter basic items for application"
+			},
+			placeholder:{
+				notGroupReqInfo : "Group requirements are not linked.",
 			},
 		},
 		req4103:{
@@ -4129,9 +4181,9 @@ var OSLCoreLangSetting = function () {
 				deleteBadge: "Delete",
 				noticeBadge: "Notice",
 			},
-			field:{ 
+			field:{ /* 태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기 */
 				tagNm:"Tag",
-				
+				/* 외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정 */
 				badContent: "Content",
 				badNtcCheck : "Notice",
 				delCd:"Delete",
@@ -4272,12 +4324,12 @@ var OSLCoreLangSetting = function () {
 		}
 	};
     return {
-        
+        // public functions
         init: function() {
-        	
+        	// 언어팩 목록
     		var langList = ["ko","en"];
     		
-    		
+    		// 언어 데이터
     		var langData = {};
     		
     		$.each(langList, function(idx, map){
@@ -4286,7 +4338,7 @@ var OSLCoreLangSetting = function () {
     		
     		$.osl.langData = langData;
     		
-    		
+    		// datepicker 언어 처리
     		$.osl.date.init();
         }
     };
