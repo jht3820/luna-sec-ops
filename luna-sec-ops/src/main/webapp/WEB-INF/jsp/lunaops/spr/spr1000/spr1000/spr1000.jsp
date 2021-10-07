@@ -264,7 +264,9 @@ var OSLSpr1000Popup = function () {
 							autoHeight: false,
 							modalSize: "xl",
 							idKey: datatableId,
-							closeConfirm: false
+							backdrop: true,
+							closeConfirm: false,
+							
 						};
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1004View.do',data,options);
 				}

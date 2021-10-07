@@ -294,10 +294,15 @@ var OSLSpr1001Popup = function () {
  				
  				
  				var seriesData = getDataRangeData(paramSprStDt, paramSprEdDt, "1", chartData);
- 				
- 				drawBurnUpChart(seriesData);
- 				
- 				drawBurnDownChart(seriesData);
+ 				if(chartData.length == 0){
+ 					$("#burnDownChart").text("데이터 없음")
+ 					$("#burnUpChart").text("데이터 없음")
+ 				}else{
+	 				
+	 				drawBurnUpChart(seriesData);
+	 				
+	 				drawBurnDownChart(seriesData);
+ 				}
  				
  				if(chartData.length == 0){
 					endSprPoint = 0	 					
