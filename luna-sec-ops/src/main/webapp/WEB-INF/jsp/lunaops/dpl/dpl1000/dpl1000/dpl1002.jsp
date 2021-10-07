@@ -5,6 +5,7 @@
 <form class="kt-form" id="frDpl1002">
 	<input type="hidden" id="paramPrjId" name="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" id="paramDplId" name="paramDplId" value="${param.paramDplId}">
+	<input type="hidden" id="dplSignUseCd" name=""dplSignUseCd"" value="${dplInfo.dplSignUseCd}">
 	<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 osl-bg-none shadow-none" id="dplRecord">
 		<div class="kt-portlet__head kt-bg-light">
 			<div class="kt-portlet__head-label">
@@ -701,6 +702,13 @@ var OSLDpl1002Popup = function () {
 	var datatableSetting = {};
 	
 	var documentSetting = function(){
+
+		
+		var dplSignUseCd = $("#dplSignUseCd").val();
+		if(dplSignUseCd == "02"){
+			
+			$("a.nav-link[data-tab-id='dplInfoSign']").addClass("kt-hide");
+		}
 		
 		
 		fnSelectDplHistoryInfo();
@@ -723,8 +731,6 @@ var OSLDpl1002Popup = function () {
 					datatableInitFlag[tabDiv].reload();
 				}
 			}
-			
-			
 		});
 				
 		
@@ -1017,8 +1023,17 @@ var OSLDpl1002Popup = function () {
 				$.osl.layerPopupClose();
 			}else{
 				
-				console.log(data);
-				signHistorySetting(data.dplSignHistoryList);
+				var jobList = data.jobList;
+				
+				var bldHistoryList = data.dplAllBldHistoryList;
+				
+				var signHistoryList = data.dplSignHistoryList;
+				
+				
+				
+				
+				
+				fnSignHistorySetting(signHistoryList);
 			}
 		});
 		
@@ -1027,7 +1042,7 @@ var OSLDpl1002Popup = function () {
 	};
 	
 	
-	var signHistorySetting = function(dplSignHistoryList){
+	var fnSignHistorySetting = function(dplSignHistoryList){
 		
 		$.each(dplSignHistoryList,function(idx, signInfo){
 			

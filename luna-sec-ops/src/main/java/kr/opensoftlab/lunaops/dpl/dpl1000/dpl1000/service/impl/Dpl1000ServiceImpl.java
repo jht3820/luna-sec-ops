@@ -456,6 +456,12 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	}
 	
 	
+	@SuppressWarnings({"rawtypes" })
+	public List selectDpl1000DplAllBldHistoryList(Map paramMap)  throws Exception{
+		return dpl1000DAO.selectDpl1000DplAllBldHistoryList(paramMap);
+	}
+	
+	
 	@SuppressWarnings("rawtypes")
 	public List selectDpl1000DeployNmList(Map inputMap) throws Exception {
 		return dpl1000DAO.selectDpl1000DeployNmList(inputMap);
