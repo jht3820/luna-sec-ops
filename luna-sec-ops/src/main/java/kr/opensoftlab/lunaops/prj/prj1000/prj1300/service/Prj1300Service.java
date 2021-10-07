@@ -25,6 +25,9 @@ public interface Prj1300Service {
 	void deletePrj1300PrjTemplateAjax(Map<String, String> paramMap) throws Exception;
 	
 	
+	
+	@SuppressWarnings("rawtypes")
+	List selectPrj1302AllItemList(Map paramMap) throws Exception;
 
 	
 	@SuppressWarnings("rawtypes")

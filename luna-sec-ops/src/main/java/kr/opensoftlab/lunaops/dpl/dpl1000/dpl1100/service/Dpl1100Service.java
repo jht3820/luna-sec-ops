@@ -19,6 +19,14 @@ public interface Dpl1100Service {
 	
 	
 	@SuppressWarnings("rawtypes")
+	int selectDpl1100NotAssignReqListCnt(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	List<Map> selectDpl1100NotAssignReqList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
 	public void insertDpl1100ReqList(Map paramMap) throws Exception;
 	
 	

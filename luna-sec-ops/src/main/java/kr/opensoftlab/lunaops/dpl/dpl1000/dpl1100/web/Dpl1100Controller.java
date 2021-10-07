@@ -83,9 +83,6 @@ public class Dpl1100Controller {
 			String _pageSize_str = paramMap.get("pagination[perpage]");
 			
 			
-			paramMap.put("type", "ass");
-			
-			
 			int totCnt = 0;
 
 			
@@ -177,9 +174,6 @@ public class Dpl1100Controller {
 			String _pageSize_str = paramMap.get("pagination[perpage]");
 			
 			
-			paramMap.put("type", "non");
-			
-			
 			int totCnt = 0;
 
 			
@@ -195,7 +189,7 @@ public class Dpl1100Controller {
 				PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
 	
 				
-				totCnt = dpl1100Service.selectDpl1100ReqListCnt(paramMap);
+				totCnt = dpl1100Service.selectDpl1100NotAssignReqListCnt(paramMap);
 				
 				
 				paginationInfo.setTotalRecordCount(totCnt);
@@ -208,7 +202,7 @@ public class Dpl1100Controller {
 				metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 				
 				
-				dpl1100NonAssList = dpl1100Service.selectDpl1100ReqList(paramMap);
+				dpl1100NonAssList = dpl1100Service.selectDpl1100NotAssignReqList(paramMap);
 				
 				
 				metaMap.put("sort", sortDirection);

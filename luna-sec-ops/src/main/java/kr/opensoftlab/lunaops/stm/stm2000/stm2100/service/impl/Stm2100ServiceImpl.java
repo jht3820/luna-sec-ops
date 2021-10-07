@@ -210,7 +210,7 @@ public class Stm2100ServiceImpl extends EgovAbstractServiceImpl implements Stm21
 	}
 	
 	
-	@SuppressWarnings({"rawtypes" })
+	@SuppressWarnings( "rawtypes" )
 	public Map selectStm2100UserCheck(Map<String, String> paramMap) throws Exception {
 		Map<String, String> result = new HashMap<>();
 		result.put("resultManager", stm2100DAO.selectStm2100AdminCheck(paramMap));

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.EgovMessageSource;
-import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.cmm.cmm4000.cmm4000.service.Cmm4000Service;
@@ -99,9 +98,34 @@ public class Dpl1000Controller {
     }
     
     
+    @SuppressWarnings("rawtypes")
     @RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1002View.do")
     public String selectDpl1002View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		 return "/dpl/dpl1000/dpl1000/dpl1002";
+    	try {
+    		
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		
+			
+			String paramPrjId = (String) paramMap.get("prjId");
+			HttpSession ss = request.getSession();
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("prjId", paramPrjId);
+			paramMap.put("dplId", paramMap.get("paramDplId"));
+			
+			
+			Map dplInfo = dpl1000Service.selectDpl1000DplInfo(paramMap);
+			model.addAttribute("dplInfo", dplInfo);
+			
+    	}catch(Exception e) {
+			model.addAttribute("dplInfo", null);
+		}
+    	
+    	return "/dpl/dpl1000/dpl1000/dpl1002";
     }
 
     
@@ -176,9 +200,6 @@ public class Dpl1000Controller {
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
 			
-			paramMap.put("dplDelCd", "02"); 
-			
-			
 			/
 			/
 			
@@ -205,13 +226,171 @@ public class Dpl1000Controller {
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1000DplInfoAjax.do")
+	public ModelAndView selectDpl1000DplInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			
+			
+			String paramPrjId = paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("prjId", paramPrjId);
+			
+			
+			Map dplInfo = dpl1000Service.selectDpl1000DplInfo(paramMap);
+			
+			
+			List dplJobList = dpl1000Service.selectDpl1300DplJobList(paramMap);
+			
+			model.addAttribute("dplInfo", dplInfo);
+			model.addAttribute("dplJobList", dplJobList);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectDpl1000DplInfoAjax()", ex);
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
 	
-    
-     
-    
-     
-     
-    
+	
+	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/saveDpl1000DplInfoAjax.do")
+    public ModelAndView saveDpl1000DplInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+    	try{
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		HttpSession ss = request.getSession();
+    		
+    		
+			String prjId = paramMap.get("prjId");
+			if(prjId == null || "".equals(prjId)) {
+				prjId = (String) ss.getAttribute("selPrjId"); 
+			}
+			paramMap.put("prjId", prjId);
+			
+			String type = paramMap.get("type");
+			
+			if("insert".equals(type)){
+				
+	        	dpl1000Service.insertDpl1000DplInfo(paramMap);
+			}else if("update".equals(type)){
+				
+				dpl1000Service.updateDpl1000DplInfo(paramMap);
+			}
+			
+        	
+        	model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+        	return new ModelAndView("jsonView");
+    	}
+    	catch(Exception ex){
+    		Log.error("insertDpl1000DplInfoAjax()", ex);
+    		
+    		
+    		model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
+    		return new ModelAndView("jsonView");
+    	}
+	}
+	
+	
+	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/deleteDpl1000DplListAjax.do")
+    public ModelAndView deleteDpl1000DplListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+    	try{
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+        	
+        	
+    		dpl1000Service.deleteDpl1000DplList(paramMap);
+    		
+    		
+    		model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
+        	
+        	return new ModelAndView("jsonView");
+    	}
+    	catch(Exception ex){
+    		Log.error("deleteDpl1000DplListAjax()", ex);
+    		
+    		
+    		model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.delete"));
+    		return new ModelAndView("jsonView");
+    	}
+    }
+	
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/selectDpl1000DplHistoryListAjax.do")
+    public ModelAndView selectDpl1000DplHistoryListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+    	try{
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		HttpSession ss = request.getSession();
+
+        	
+			String prjId = paramMap.get("prjId");
+			if(prjId == null || "".equals(prjId)) {
+				prjId = (String) ss.getAttribute("selPrjId"); 
+			}
+			paramMap.put("prjId", prjId);
+        	
+        	
+        	List<Map> dplDplHistoryList = dpl1000Service.selectDpl1000DplHistoryList(paramMap);
+        	
+        	
+        	List<Map> dplModifyHistoryList = dpl1000Service.selectDpl1500ModifyHistoryList(paramMap);
+        	
+        	
+        	List<Map> jobList = dpl1000Service.selectDpl1300DplJobList(paramMap);
+        	
+        	
+			paramMap.put("targetId", paramMap.get("dplId"));
+        	paramMap.put("targetCd", "02");
+        	
+			
+			List<Map> dplSignHistoryList = dpl1000Service.selectCmm6601SignHistoryList(paramMap);
+			
+        	model.addAttribute("dplDplHistoryList", dplDplHistoryList);
+        	model.addAttribute("dplModifyHistoryList", dplModifyHistoryList);
+        	model.addAttribute("dplSignHistoryList",dplSignHistoryList);
+        	model.addAttribute("jobList", jobList);
+        	
+        	
+        	model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	return new ModelAndView("jsonView", model);
+    	}
+    	catch(Exception ex){
+    		Log.error("selectDpl1000DplHistoryListAjax()", ex);
+    		
+    		
+    		model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		return new ModelAndView("jsonView", model);
+    	}
+    }
+	
+	
+
      
      
     
@@ -397,40 +576,8 @@ public class Dpl1000Controller {
     		return new ModelAndView("jsonView", model);
     	}
     }
-	
-	
-	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/saveDpl1000DeployVerInfoAjax.do")
-    public ModelAndView saveDpl1000DeployVerInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-    	try{
+		
 
-    		
-    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-    		HttpSession ss = request.getSession();
-    		String prjId = (String) ss.getAttribute("selPrjId");
-			paramMap.put("prjId", prjId);
-			
-			if( paramMap.get("popupGb").toString().equals("insert") ){
-	        	
-	        	dpl1000Service.insertDpl1000DeployVerInfo(paramMap);
-			} else {
-				
-				dpl1000Service.updateDpl1000DeployVerInfo(paramMap);
-			}
-        	
-        	model.addAttribute("message", egovMessageSource.getMessage("success.common.save"));
-        	
-        	return new ModelAndView("jsonView", model);
-    	}
-    	catch(Exception ex){
-    		Log.error("saveDpl1000DeployVerInfoAjax()", ex);
-    		
-    		
-    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.save"));
-    		return new ModelAndView("jsonView", model);
-    	}
-	}
-	
-	
 	
 	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/insertDpl1000DplsignRequestAjax.do")
     public ModelAndView insertDpl1000DplsignRequestAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
@@ -460,31 +607,6 @@ public class Dpl1000Controller {
     		return new ModelAndView("jsonView", model);
     	}
 	}
-	
-	
-	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/deleteDpl1000DeployVerInfoListAjax.do")
-    public ModelAndView deleteDpl1000DeployVerInfoListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-    	try{
-    		
-			Map<String, Object> paramMap = RequestConvertor.requestParamToMapAddSelInfoList(request, true,"dplId");
-        	paramMap.put("prjId", request.getSession().getAttribute("selPrjId"));
-        	
-    		dpl1000Service.deleteDpl1000DeployVerInfo(paramMap);
-    		
-    		
-    		model.addAttribute("successYn", "Y");
-        	model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
-        	
-        	return new ModelAndView("jsonView", model);
-    	}
-    	catch(Exception ex){
-    		Log.error("deleteSpr1000SprintInfoListAjax()", ex);
-    		
-    		
-    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.delete"));
-    		return new ModelAndView("jsonView", model);
-    	}
-    }
 	
 	
 	@RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1000BuildInfoListAjax.do")
@@ -561,41 +683,6 @@ public class Dpl1000Controller {
     	}
     }
 
-     
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/selectDpl1000DplHistoryListAjax.do")
-    public ModelAndView selectDpl1000DplHistoryListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-    	try{
-
-    		
-        	Map paramMap = RequestConvertor.requestParamToMap(request, true);
-
-        	
-        	List<Map> dplDplHistoryList = dpl1000Service.selectDpl1000DplHistoryList(paramMap);
-        	
-        	
-        	List<Map> dplModifyHistoryList = dpl1000Service.selectDpl1500ModifyHistoryList(paramMap);
-        	
-        	
-			List<Map> jobList = dpl1000Service.selectDpl1300DeployJobList(paramMap);
-			
-        	model.addAttribute("dplDplHistoryList", dplDplHistoryList);
-        	model.addAttribute("dplModifyHistoryList", dplModifyHistoryList);
-        	model.addAttribute("jobList", jobList);
-        	
-        	
-        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-        	
-        	return new ModelAndView("jsonView", model);
-    	}
-    	catch(Exception ex){
-    		Log.error("selectDpl1000DplHistoryListAjax()", ex);
-    		
-    		
-    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
-    		return new ModelAndView("jsonView", model);
-    	}
-    }
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
