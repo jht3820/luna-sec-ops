@@ -361,7 +361,7 @@
 					var options = {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("dpl4000.req.actionBtn.modalTitle", $.osl.escapeHtml(rowData.reqNm)),
-							modalSize : "xl"
+							modalSize : "fs"
 						};
 					
 					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6203View.do',data,options);
@@ -386,6 +386,7 @@
 					var options = {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("dpl4000.req.actionBtn.modalTitle", $.osl.escapeHtml(rowData.reqNm)),
+							modalSize : "fs"
 						};
 					
 					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6203View.do',data,options);

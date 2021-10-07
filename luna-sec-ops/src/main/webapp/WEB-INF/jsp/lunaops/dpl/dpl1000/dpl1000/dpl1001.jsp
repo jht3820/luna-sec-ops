@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <form class="kt-form" id="frDpl1001">
 	<input type="hidden" id="type" name="type" value="${param.type}">
 	<input type="hidden" id="paramPrjId" name="paramPrjId" value="${param.paramPrjId}">
@@ -299,14 +298,20 @@ var OSLDpl1001Popup = function () {
 			
 			$.each(chkInfo, function(idx, map){
 				
-				var jobId = $(map).data("dpl-jenid");
-				var jenId = $(map).data("dpl-jobid");
+				var jenId = $(map).data("dpl-jenid");
+				var jobId = $(map).data("dpl-jobid");
 				
 				
 				var chkJobInfo = $("[data-dpl-job-info=jobinfo][data-dpl-jenid="+jenId+"][data-dpl-jobid="+jobId+"]");
 				
+				
 				chkJobInfo.remove();
+				
+				
+				fnAllJobListOrdSet();
 			});
+			
+			
 			
 		});
 		
@@ -372,6 +377,21 @@ var OSLDpl1001Popup = function () {
     		});
 		});
 	};
+	
+	
+	var fnAllJobListOrdSet = function(){
+		
+		var jobTarget = $("[data-dpl-job-info='jobinfo']");
+		if(jobTarget.length > 0){
+			
+			$.each(jobTarget, function(idx, map){
+				$(map).attr("data-job-ord",idx+1);
+				$(map).find("span[data-dpl-job-info='ord']").attr("data-job-ord", idx+1);
+				$(map).find("span[data-dpl-job-info='ord']").text(idx+1);
+			});
+		}
+	};
+	
 	
 	
 	 var selectDplInfo = function() {
@@ -460,7 +480,8 @@ var OSLDpl1001Popup = function () {
    			
    			var jenId = $(map).data("dpl-jenid");
    			var jobId = $(map).data("dpl-jobid");
-   			var jobOrd = $(map).data("job-ord");
+   			
+   			var jobOrd = $(map).attr("ord");
    			
    			jobList.push({jenId: jenId, jobId: jobId, jobStartOrd: jobOrd});
    		});
@@ -538,11 +559,11 @@ var OSLDpl1001Popup = function () {
     				jobRestoreStr = jobRestoreId
     			}
     			
-    			jobInfoHtmlStr += '<div class="kt-portlet border" data-dpl-job-info="jobinfo" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'" data-job-ord="'+ jobOrd +'" >'
+    			jobInfoHtmlStr += '<div class="kt-portlet border" data-dpl-job-info="jobinfo" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'" data-job-ord="'+ jobOrd +'" ord="'+ jobOrd +'" >'
 				    				+ '<div class="kt-portlet__head">'
 				    					+ '<div class="kt-portlet__head-label">'
 				    						+ '<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0"><input type="checkbox" data-dpl-job-info="checkbox" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'">&nbsp;<span></span></label>'
-				    						+ '<span class="osl-badge-brand osl-jenkins-card__num">No.<span data-dpl-job-info="ord"  data-job-ord="'+ jobOrd +'" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'" >' + jobOrd + '</span></span>'
+				    						+ '<span class="osl-badge-brand osl-jenkins-card__num">No.<span data-dpl-job-info="ord"  data-job-ord="'+ jobOrd +'" ord="'+ jobOrd +'" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'" >' + jobOrd + '</span></span>'
 				    						+ '<span class="osl-badge-brand osl-badge-brand-outline osl-cursor-pointer" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" title="JOB Type">'+ map.jobTypeNm +'</span>'
 				    						+ '<h5 class="kt-portlet__head-title kt-margin-l-10">'
 				    							+ '<p class="kt-margin-b-0 kt-font-dark kt-font-sm">'+ $.osl.escapeHtml(map.jenNm) +'</p>'+ $.osl.escapeHtml(map.jobId)
@@ -599,7 +620,7 @@ var OSLDpl1001Popup = function () {
 		
 		
 		var chkJobInfo = $("[data-dpl-job-info=jobinfo][data-dpl-jenid="+jenId+"][data-dpl-jobid="+jobId+"]");
-		var jobOrd = parseInt(chkJobInfo.data("job-ord"));
+		var jobOrd = parseInt(chkJobInfo.attr("data-job-ord"));
 		
 		
 		if(type == "up"){
@@ -664,7 +685,7 @@ var OSLDpl1001Popup = function () {
 		$.each($("[data-dpl-job-info=ord]"),function(idx, map){
 			
 			
-			var targetOrd = parseInt($(map).data("job-ord"));
+			var targetOrd = parseInt($(map).attr("data-job-ord"));
 						
 			
 			if(oldIndex > newIndex){
