@@ -822,6 +822,50 @@
 		ORDER BY SUB1.SIGN_DTM DESC
     </select>
     
+    
+     <select id="dpl1000DAO.selectDpl1000DplAllBldHistoryList" parameterClass="java.util.Map" resultClass="egovMap">
+     	
+     		SELECT
+            		ROWNUM AS RN
+                ,	SUB1.TYPE
+                , 	SUB1.PRJ_ID
+                , 	SUB1.DPL_ID
+                , 	SUB1.JEN_ID
+                , 	SUB1.JOB_ID
+                , 	SUB1.BLD_SEQ
+                , 	SUB1.BLD_NUM
+                , 	SUB1.BLD_RESULT
+                , 	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00002', SUB1.JOB_TYPE_CD, '1') AS JOB_TYPE_NM
+                , 	SUB1.REG_DTM
+                , 	SUB1.BLD_RESULT_MSG
+               	, 	SUB1.REG_USR_ID
+                , 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 1) AS REG_USR_NM
+				, 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 6) AS REG_USR_IMG
+            FROM
+            (
+ 				SELECT 
+						'BLD' AS TYPE
+					,	A.PRJ_ID
+                    , 	A.DPL_ID
+                    , 	A.JEN_ID
+                    , 	A.JOB_ID
+                    , 	A.BLD_SEQ
+                    , 	A.BLD_NUM
+                    , 	A.BLD_RESULT
+                    , 	B.JOB_TYPE_CD
+                    , 	A.REG_DTM
+                    , 	A.BLD_RESULT_MSG
+                    , 	A.REG_USR_ID
+                FROM DPL1400 A 
+                LEFT JOIN STM9001 B 
+                ON(B.LIC_GRP_ID = #licGrpId# AND B.JEN_ID = A.JEN_ID AND B.JOB_ID = A.JOB_ID)
+                WHERE 1=1
+                AND A.PRJ_ID = #prjId#
+                AND A.DPL_ID = #dplId#
+                ORDER BY A.REG_DTM DESC
+            ) SUB1
+     </select>
+    
 	
 	
    	<resultMap id="resultMapSelectDpl1000" class="dpl1000VO">
