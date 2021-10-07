@@ -58,8 +58,9 @@ $(document).on('hidden.bs.modal', '.modal', function () {
 	
 	var mainModalCnt = $(".modal[id^=lpx]").length;
 	if(mainModalCnt == 0){
-		$(".modal").remove();
+		$(".modal:not([id]), .note-popover").remove();
 	}
+	
 });
 
 
@@ -80,7 +81,6 @@ $(document).on('hide.bs.modal', '.modal', function () {
 	
 	var that = this;
 	
-	
 	if(modalCloseFlag){
 		modalCloseFlag = false;
 		return true;
@@ -88,8 +88,11 @@ $(document).on('hide.bs.modal', '.modal', function () {
 	
 	
 	if(!$(that).data("closeconfirm")){
-		modalCloseFlag = false;
-		return true;
+		
+		if($(that).data("backdrop")==true && event.path.length != 5 || event.keyCode == 27){
+			modalCloseFlag = false;
+			return true;
+		}
 	}
 	
 	

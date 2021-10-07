@@ -123,6 +123,9 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		String processId = (String) paramMap.get("processId");
 		
 		
+		String startFlowId = (String) paramMap.get("startFlowId");
+		
+		
 		String endFlowId = (String) paramMap.get("endFlowId");
 		
 		
@@ -170,13 +173,6 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    
 		    paramMap.put("flowId", key);
 		    
-		    
-		    if(endFlowId.equals(key)) {
-		    	paramMap.put("flowDoneCd", "01");
-		    }else {
-		    	paramMap.put("flowDoneCd", "02");
-		    }
-		    
 		    JSONObject flowInfo = jsonObj.getJSONObject(key);
 		    
 		    int left = flowInfo.getInt("left");
@@ -188,8 +184,23 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    JSONArray flowNextIdList = null;
 		    
 		    
-		    if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(key)) {
-		    	paramMap.put("flowId", newFlowIdList.get(key));
+		    if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(beforeKey)) {
+		    	key = (String) newFlowIdList.get(beforeKey);
+		    	paramMap.put("flowId", newFlowIdList.get(beforeKey));
+		    }
+		    
+		    
+		    if(startFlowId.equals(key)) {
+		    	paramMap.put("flowStartCd", "01");
+		    }else {
+		    	paramMap.put("flowStartCd", "02");
+		    }
+		    
+		    
+		    if(endFlowId.equals(key)) {
+		    	paramMap.put("flowDoneCd", "01");
+		    }else {
+		    	paramMap.put("flowDoneCd", "02");
 		    }
 		    
 		    
@@ -203,6 +214,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    			if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(flowNextId)) {
 		    				flowNextId = (String) newFlowIdList.get(flowNextId);
 		    			}
+		    			System.out.println(paramMap.get("flowId"));
 		    			paramMap.put("flowNextId", flowNextId);
 		    		
 		    			
@@ -212,7 +224,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    }
 		    
 		    
-		    if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(key)) {
+		    if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(beforeKey)) {
 		    	continue;
 		    }
 		    
@@ -223,6 +235,8 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    flowMapData.put("flowLeft", left);
 		    flowMapData.put("flowTop", top);
 		    flowMapData.put("flowNm", flowMapData.get("title"));
+		    flowMapData.put("flowStartCd", paramMap.get("flowStartCd"));
+		    flowMapData.put("flowDoneCd", paramMap.get("flowDoneCd"));
 		    flowMapData.put("modifyUsrId", paramMap.get("modifyUsrId"));
 		    flowMapData.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
 		    

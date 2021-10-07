@@ -190,7 +190,7 @@
 											
 										</div>
 
-										<div class="kt-portlet__body kt-padding-0 kt-scroll border osl-radius-bottom" data-height="350" id="confirmation-list">
+										<div class="kt-portlet__body kt-padding-10 kt-scroll border osl-radius-bottom" data-height="350" id="confirmation-list">
 										</div>
 										
 									</div>
@@ -212,7 +212,7 @@
 											</div>
 											
 										</div>
-										<div class="kt-portlet__body kt-padding-0 kt-scroll border osl-radius-bottom" data-height="350" id="wait-confirmation-list"></div>
+										<div class="kt-portlet__body kt-padding-10 kt-scroll border osl-radius-bottom" data-height="350" id="wait-confirmation-list"></div>
 									</div>
 								</div>
 							</div>
@@ -492,73 +492,6 @@ var OSLPrj3000Popup = function () {
 					selectFormFileList();
 				},
 				
-				"signLine" : function(obj){
-					
-					
-					var selectNodeIds = treeObj.jstree("get_selected");
-					if($.osl.isNull(selectNodeIds)){
-						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
-						return false;
-					}
-					
-					
-					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
-					var nodeData = selectNode.original;
-					
-					if(nodeData.signUseCd == '02'){
-						
-						$.osl.alert($.osl.lang("prj3000.message.alert."));
-						return false;
-					}
-					
-					var modalData = {
-							prjId :  nodeData.prjId,
-							targetId :  nodeData.docId,
-							targetCd : '03'
-					};
-					
-					
-					var ajaxObj = new $.osl.ajaxRequestAction(
-							{"url":"<c:url value='/prj/prj3000/prj3100/selectPrj3001WaitSignCntAjax.do'/>", "async": false}
-							,{"docId": nodeData.docId, "prjId":nodeData.prjId });
-					
-					
-					ajaxObj.setFnSuccess(function(data){
-						if(data.errorYn == "Y"){
-							$.osl.alert(data.message,{type: 'error'});
-							
-						}else{
-							
-							
-							if(data.waitSignCnt == 0){
-								var options = {
-										modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
-										autoHeight: false,
-										modalSize: "xl"
-								};
-								
-								$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',modalData,options);
-								
-							
-							}else{
-								
-								var options = {
-										modalTitle: $.osl.lang("prj3000.modal.title.selectSignLine"),  
-										autoHeight: false,
-										modalSize: "md"
-								};
-								
-								$.osl.layerPopupOpen('/cmm/cmm20000/cmm6600/selectCmm6601View.do',modalData,options);
-							}
-						}
-					});
-					
-					
-					ajaxObj.send();
-					
-					
-					
-				}
 			}
 		});
 		
@@ -1101,6 +1034,19 @@ var OSLPrj3000Popup = function () {
 		
 		
 		
+		var infoIcon ='<div class="osl-uppy__btn osl-uppy__left kt-margin-r-10">'
+							+'<i class="fas fa-info-circle"></i>'
+						+'</div>';
+		
+		var rightIcon = '<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__right-btn osl-uppy__left kt-margin-r-10"></div>';
+		
+		var leftIcon = '<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__left-btn osl-uppy__left kt-margin-r-10"></div>';
+		
+		var deleteIcon = '<div class="osl-uppy__btn osl-uppy__left kt-margin-r-10">'
+								+'<i class="fa fa-times-circle"></i>'
+							+'</div>';
+		
+		
 		$.each(atchFileList, function(idx, fileData){
 			var fileVolume = $.osl.byteCalc(fileData.fileMg)
 			var iconPath = '';
@@ -1129,9 +1075,17 @@ var OSLPrj3000Popup = function () {
 				iconPlace = '25';
 			}
 			
-			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--fullsize formAtchFile" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
-									+	'<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__right-btn osl-uppy__right kt-margin-r-10"></div>';
-									
+			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--btngroup border form-atch-file" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
+									+	'<div class="border-bottom osl-min-h-px--50 kt-padding-l-20 kt-padding-r-20">'
+									+		'<div class="float-left"></div>'
+									+		'<div class="float-left osl-line-height--50">'
+									+			deleteIcon
+									+		'</div>'
+									+		'<div class="float-right">'
+									+			rightIcon
+									+		'</div>'
+									+	'</div>'
+									+	'<div class="w-100 osl-min-h-px--70 kt-padding-l-20 kt-padding-r-20 kt-padding-t-10 kt-padding-b-10">';		
 			var fileDivCenter = '';
 			
 			
@@ -1158,12 +1112,9 @@ var OSLPrj3000Popup = function () {
 			}
 			var fileDivAfter = 			'</div>'
 									+	'<div class="osl-uppy-file-info-group kt-padding-t-0">'
-										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(fileData.orignlFileNm) +'</div>'
+										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">' + $.osl.escapeHtml(truncateString(fileData.orignlFileNm,'30')) +'</div>'
 										+	'<div class="osl-uppy-file-volume">'+fileVolume+'</div>'
 										+ 	'<div class="osl-uppy-file-name"> 업로드 일자 :'+fileData.creatDt+'</div>'
-									+	'</div>'
-									+	'<div class="osl-uppy__btn osl-uppy__right kt-margin-r-10">'
-										+	'<i class="fa fa-times-circle"></i>'
 									+	'</div>'
 									+	'<input type="hidden" name="fileSn" id="fileSn'+idx+'" value="'+fileData.fileSn +'">'
 								+	'</div>'; 
@@ -1204,9 +1155,17 @@ var OSLPrj3000Popup = function () {
 				iconPlace = '25';
 			}
 			
-			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--fullsize formFile" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
-									+	'<div class="osl-uppy__btn osl-uppy__arrow-btn osl-uppy__left-btn osl-uppy__left kt-margin-r-10"></div>';
-									
+			var fileDivbefore = 	'<div class="osl-uppy-file osl-uppy-file--btngroup form-file border" data-filesn="'+fileData.fileSn+'" data-ord="'+fileData.ord+'">'
+									+	'<div class="border-bottom osl-min-h-px--50 kt-padding-l-20 kt-padding-r-20">'
+									+		'<div class="float-left"></div>'
+									+		'<div class="float-left osl-line-height--50">'
+									+			leftIcon
+									+		'</div>'
+									+		'<div class="float-right">'
+									+			deleteIcon
+									+		'</div>'
+									+	'</div>'
+									+	'<div class="w-100 osl-min-h-px--70 kt-padding-l-20 kt-padding-r-20 kt-padding-t-10 kt-padding-b-10">';									
 			var fileDivCenter = '';
 			
 			
@@ -1233,12 +1192,9 @@ var OSLPrj3000Popup = function () {
 			}
 			var fileDivAfter = 			'</div>'
 									+	'<div class="osl-uppy-file-info-group kt-padding-t-0">'
-										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+$.osl.escapeHtml(fileData.orignlFileNm) +'</div>'
+										+	'<div class="osl-uppy-file-name" title="'+$.osl.escapeHtml(fileData.orignlFileNm)+ '">'+ $.osl.escapeHtml(truncateString(fileData.orignlFileNm,'30')) +'</div>'
 										+	'<div class="osl-uppy-file-volume">'+fileVolume+'</div>'
 										+ 	'<div class="osl-uppy-file-name"> 업로드 일자 :'+fileData.creatDt+'</div>'
-									+	'</div>'
-									+	'<div class="osl-uppy__btn osl-uppy__right kt-margin-r-10">'
-										+	'<i class="fa fa-times-circle"></i>'
 									+	'</div>'
 									+	'<input type="hidden" name="fileSn" id="fileSn'+idx+'" value="'+fileData.fileSn +'">'
 								+	'</div>'; 
@@ -1268,12 +1224,12 @@ var OSLPrj3000Popup = function () {
 			var fd = $.osl.formDataToJsonArray(formId);
 			
 			
-			if(type.hasClass('formAtchFile')){
+			if(type.hasClass('form-atch-file')){
 				
 				atchFileId = $('#docFormConfFileId').val();
 			
 			
-			}else if(type.hasClass('formFile')){
+			}else if(type.hasClass('form-file')){
 				
 				atchFileId = $('#docFormFileId').val();
 				
@@ -1288,14 +1244,13 @@ var OSLPrj3000Popup = function () {
 	 
 	var fileMoveBtnEvt = function(){
 		$('.osl-uppy__arrow-btn').click(function(){
-			debugger;
 			
 			var target = $(this).parents('.osl-uppy-file');
 			var fileSn = target.data('filesn');
 			var fileType = '';
 			
 			
-			if(target.hasClass('formFile')){
+			if(target.hasClass('form-file')){
 				
 				$('#confirmation-list').prepend(target);
 				
@@ -1332,11 +1287,11 @@ var OSLPrj3000Popup = function () {
 			var fileSn = targetType.data('filesn');
 			
 			
-			if(targetType.hasClass("formFile")){
+			if(targetType.hasClass("form-file")){
 				atchFileId = $('#docFormFileId').val();
 			
 			
-			}else if(targetType.hasClass("formAtchFile")){ 
+			}else if(targetType.hasClass("form-atch-file")){ 
 				atchFileId = $('#docFormConfFileId').val();	
 			}
 			
@@ -1432,6 +1387,16 @@ var OSLPrj3000Popup = function () {
 		return true;
 		
 	} 
+	
+	
+	 var truncateString = function (name, length) {
+          if (name.length <= length) return name;
+          if (length <= "...".length) return name.substr(0, length);
+          var showlength = length - "...".length,
+              startText = Math.ceil(showlength / 2),
+              endText = Math.floor(showlength / 2);
+          return name.substr(0, startText) + "..." + name.substr(name.length - endText);
+      }
 	
 	return {
 	       

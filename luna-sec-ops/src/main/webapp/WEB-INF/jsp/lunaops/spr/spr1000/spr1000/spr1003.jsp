@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- begin page DOM -->
+
 <form class="kt-form" id="frSpr1003">
 	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}">
 	<input type="hidden" name="paramPrjGrpId" id="paramPrjGrpId" value="${param.paramPrjGrpId}">
@@ -11,10 +11,10 @@
 
 	<div class="kt-portlet__body">
 		<div class="osl-wizard" id="kt_wizard_v3" data-ktwizard-state="step-first">
-			<!--begin: Form Wizard Nav -->
+			
 			<div class="osl-wizard__nav">
 				<div class="osl-wizard__nav-items">
-					<!--begin: 1.회의록 작성 -->
+					
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step" data-ktwizard-state="current">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">1</div>
@@ -24,8 +24,8 @@
 							</div>
 						</div>
 					</div>
-					<!--end: 1.회의록 작성 -->
-					<!--begin: 2.스토리 포인트 입력 -->
+					
+					
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">2</div>
@@ -35,8 +35,8 @@
 							</div>
 						</div>
 					</div>
-					<!--end: 2.스토리 포인트 입력 -->
-					<!--begin: 3.담당자 지정 -->
+					
+					
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">3</div>
@@ -46,8 +46,8 @@
 							</div>
 						</div>
 					</div>
-					<!--end: 3.담당자 지정 -->
-					<!--begin: 4.프로세스 배정-->
+					
+					
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step">
 						<div class="osl-wizard-wrapper">
 							<div class="wizard-number">4</div>
@@ -56,10 +56,10 @@
 							</div>
 						</div>
 					</div>
-					<!--end: 4.프로세스 배정-->
+					
 				</div>
 			</div>
-			<!--end: Form Wizard Nav -->
+			
 			<div class="osl-form__actions kt-padding-l-25" id="wizardStepBtnTmp">
 				<div>
 					<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15" data-ktwizard-type="step-info" data-ktwizard-state="current">
@@ -93,7 +93,7 @@
 					<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
 				</button>
 			</div>
-			<!-- begin:: 1. 회의록 작성 스프린트 회의록 작성 -->
+			
 			<div class="osl-wizard__content osl-min-h-px--575 w-100 kt-bg-light kt-padding-l-40 kt-padding-r-40" data-ktwizard-type="step-content" data-ktwizard-state="current">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -105,7 +105,7 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="form-group">
 							<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="spr1003.label.mmtTitle">회의록 제목</span></label>
-							<input type="text" class="form-control" name="mmtNm" id="mmtNm" value="" required>
+							<input type="text" class="form-control" name="mmtNm" id="mmtNm" value="" maxlength="99" required>
 						</div>
 					</div>
 				</div>
@@ -118,8 +118,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- end:: 1. 회의록 작성 스프린트 회의록 작성 -->
-			<!-- begin:: 2. 스토리 포인트 입력 요구사항 스토리 포인트 입력 -->
+			
+			
 			<div class="osl-wizard__content osl-min-h-px--575 w-100 kt-bg-light kt-padding-l-40 kt-padding-r-40" data-ktwizard-type="step-content">
 				<div class="row kt-margin-t-20">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -130,8 +130,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- end:: 2. 스토리 포인트 입력 요구사항 스토리 포인트 입력 -->
-			<!-- begin:: 3. 담당자 지정 요구사항 담당자 지정 -->
+			
+			
 			<div class="osl-wizard__content w-100 osl-min-h-px--575 kt-bg-light kt-padding-l-40 kt-padding-r-40" data-ktwizard-type="step-content">
 				<div class="row kt-margin-t-20">
 					<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
@@ -145,142 +145,142 @@
 					</div>
 				</div>
 			</div>
-			<!-- end:: 3. 담당자 지정 요구사항 담당자 지정  -->
-			<!-- begin:: 4. 프로세스 배정 -->
+			
+			
 			<div class="osl-wizard__content osl-min-h-px--575 w-100 kt-bg-light kt-padding-20 kt-padding-l-40 kt-padding-r-40" data-ktwizard-type="step-content">
 				<div class="row kt-margin-t-20">
-					<!-- begin:: 4-1. 배정 프로세스 데이터 테이블 -->
+					
 					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-20 kt-padding-r-20 osl-mobile-padding-lr-10">
 						<div class="osl-datatable-search" data-datatable-id="sprAssignProcessTable"></div>
 						<div class="kt_datatable" id="sprAssignProcessTable"></div>
 					</div>
-					<!-- end:: 4-1. 배정 프로세스 데이터 테이블 -->
-					<!-- begin:: 4-2. 미배정 프로세스 데이터 테이블 -->
+					
+					
 					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-20 kt-padding-r-20 osl-mobile-padding-lr-10 osl-mobile-margin-t-20">
 						<div class="osl-datatable-search" data-datatable-id="sprNotAssignProcessTable"></div>
 						<div class="kt_datatable" id="sprNotAssignProcessTable"></div>
 					</div>
-					<!-- end:: 4-2. 미배정 프로세스 데이터 테이블 -->
+					
 				</div>
 			</div>
-			<!-- end:: 4. 프로세스 배정 -->				
+							
 		</div>
 	</div>
 	
 </form>
-<!-- begin:: modal-footer -->	
+	
 <div class="modal-footer">
-	<!--end: Form Actions -->
+	
 	<button class="btn btn-outline-brand" data-dismiss="modal">
 		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
-<!-- end:: modal-footer -->	
+	
 
-<!-- end DOM -->
-<!-- begin page script -->
+
+
 <script>
 "use strict";
 var OSLSpr1003Popup = function () {
 	var mainFormId = 'frSpr1003';
 	
-	//datatableOpenFlag
+	
 	var datatableInitFlag = {2: false, 3:false, 4:false};
 	var datatableSetting = {};
 	
-	//edit 목록
+	
 	var formEditList = [];
 	
-	//스프린트 ID
+	
 	var paramSprId = $("#paramSprId").val();
 	
-	//조회된 사용자 목록
+	
 	var usrList = [];
 	
 
-	//배정 프로세스 중복 체크
+	
 	var sprProcessIdList = [];
 	
-	//단계별 데이터
+	
 	var wizardData = {
-		//회의록 제목
+		
 		mmtNm: "",
-		//회의록 내용
+		
 		mmtDesc: "",
-		//참여자 목록
+		
 		usrList: [],
-		//스토리 포인트 입력
+		
 		reqListCnt: 0,
 		reqSprPointList: {},
 		reqUsrList: {},
 		sprProcessList: []
 	};
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(mainFormId);
 	
 	var documentSetting = function(){
-		//edit 세팅 -- 
+		
     	formEditList.push($.osl.editorSetting("mmtDesc", {formValidate: formValidate, 'minHeight': 250, disableResizeEditor: false}));
 		
-		//modalId
+		
 		var modalId = $("#modalId").val();
 		
     	$('#sprConferenceUsr').select2({
-    		//select세팅
+    		
     		templateResult: optionFormatState,
-    		//tag세팅
+    		
     		templateSelection: tagFormatState,
-    		//검색
+    		
     		matcher: matchCustom
     	});
 		
-    	//사용자 리스트 세팅
+    	
     	selectUsrList();
 		
-		// begin :: 마법사
-		//마법사 세팅
+		
+		
 		var wizard = new KTWizard('kt_wizard_v3', {
 			startStep: 1, 
 			clickableSteps: false		
 		});
 		 
-		//스텝 변경 전 현재 단계에 데이터 저장
+		
 		wizard.on('beforeNext', function(wizardObj) {
-			//form valid check
+			
 			if($("#"+mainFormId).valid() !== true){
 				wizardObj.stop();
 			}else{
-				//step별 데이터 저장
+				
 				var rtnFlag = fnWizardDataSave(wizardObj);
 				
-				//저장 시 반환값이 false인경우 step 이동 중지
+				
 				if(rtnFlag === false){
 					wizardObj.stop();
 				}
 			}
 		});
 		 
-		//스텝 변경 전 현재 단계에 데이터 저장
+		
 		wizard.on('beforePrev', function(wizardObj) {
-			//form valid check
+			
 			if($("#"+mainFormId).valid() !== true){
 				wizardObj.stop();
 			}else{
-				//step별 데이터 저장
+				
 				var rtnFlag = fnWizardDataSave(wizardObj);
 				
-				//저장 시 반환값이 false인경우 step 이동 중지
+				
 				if(rtnFlag === false){
 					wizardObj.stop();
 				}
 			}
 		});
 		
-		//마법사 각 단계탭 클릭시 변경 이벤트
+		
 		wizard.on('change', function(wizardObj) {
 			if(datatableInitFlag.hasOwnProperty(wizardObj.currentStep)){
-				//마법사 단계 이동 시 버튼 표출 여부 , 데이터 테이블 세팅
+				
 				if(!datatableInitFlag[wizardObj.currentStep]){
 					datatableInitFlag[wizardObj.currentStep] = datatableSetting[wizardObj.currentStep]();
 				}else if(datatableInitFlag[wizardObj.currentStep].hasOwnProperty("targetDt")){
@@ -288,15 +288,14 @@ var OSLSpr1003Popup = function () {
 				}
 			}
 		});
-		//end :: 마법사
 		
-		//완료 버튼
+		
+		
 		$("#frSpr1003 [data-ktwizard-type=action-submit]").click(function(){
-	       	//formData
+	       	
 	   		var fd = $.osl.formDataToJsonArray(mainFormId);
 	       	
 	    	
-	    	//추가된 프로세스 목록
 	    	var processList = $.osl.datatable.list["sprAssignProcessTable"].targetDt.originalDataSet;
 	    	if(!$.osl.isNull(processList) && processList.length > 0){
 	    		var processIdList = [];
@@ -307,24 +306,24 @@ var OSLSpr1003Popup = function () {
 	    		wizardData["sprProcessList"] = processIdList;
 	    	}
 	       	
-	       	//입력 정보
+	       	
 	       	fd.append("wizardData",JSON.stringify(wizardData));
 	       	
-	   		//AJAX 설정
+	   		
 	   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/spr/spr1000/spr1000/updateSpr1003SprStart.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
-	   		//AJAX 전송 성공 함수
+	   		
 	   		ajaxObj.setFnSuccess(function(data){
 	   			if(data.errorYn == "Y"){
 	   				$.osl.alert(data.message,{type: 'error'});
 	   			}else{
-	   				//등록 성공
+	   				
 	   				$.osl.toastr(data.message);
 
-	   				//모달 창 닫기
+	   				
 	   				$.osl.layerPopupClose();
 	   				
-	   				//datatable 조회
+	   				
 	   				if($("button[data-datatable-id=spr1000Table][data-datatable-action=select]").length > 0){
 		   				$("button[data-datatable-id=spr1000Table][data-datatable-action=select]").click();
 	   				}
@@ -332,33 +331,33 @@ var OSLSpr1003Popup = function () {
 	   			}
 	   		});
 	   		
-	   		//AJAX 전송
+	   		
 	   		ajaxObj.send();
 		});
 	};
 	
-	//step별 데이터 저장
+	
 	var fnWizardDataSave = function(wizardObj){
-		//회의록
+		
 		if(wizardObj.currentStep == 1){
-			//회의록 제목
+			
 			wizardData["mmtNm"] = $("#mmtNm").val();
 			
-			//회의록 내용
+			
 			wizardData["mmtDesc"] = $("#mmtDesc").val();
 			
-			//담당자 목록
+			
 			wizardData["usrList"] = $("#sprConferenceUsr").val();
 		}
-		//스토리포인트
+		
 		else if(wizardObj.currentStep == 2){
-			//스토리 포인트 전체 작성했는지 체크
+			
 			var reqListCnt = wizardData["reqListCnt"];
 			var reqSprPointList = wizardData["reqSprPointList"];
 			var reqSprPointListCnt = 0;
 			
 			if(!$.osl.isNull(reqSprPointList)){
-				//입력된 값 체크
+				
 				$.each(reqSprPointList, function(idx, map){
 					if(!$.osl.isNull(map) && map >= 0){
 						reqSprPointListCnt++;
@@ -377,20 +376,18 @@ var OSLSpr1003Popup = function () {
 				return false;
 			}
 		}
-		//담당자
+		
 		else if(wizardObj.currentStep == 3){
 			
 		}
-		//프로세스
+		
 		else if(wizardObj.currentStep == 4){
 			
 		}
 		return true;
 	};
 	
-	/**
-    * kt-select2 옵션
-    */
+	
     var optionFormatState = function(state){
     	if (!state.id) {
     	    return state.text;
@@ -401,11 +398,11 @@ var OSLSpr1003Popup = function () {
     	var usrEmail = state.element.attributes.getNamedItem("data-usr-email").value;
 
     	var state = $(
-    			'<div class="kt-user-card-v2 btn" data-usr-id="'+ usrId +'">' 
+    			'<div class="kt-user-card-v2 btn osl-word__break" data-usr-id="'+ usrId +'">' 
 				+'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
 					+'<img src="'+$.osl.user.usrImgUrlVal(usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 				+'</div>'
-				+'<div class="kt-user-card-v2__details float-left">'
+				+'<div class="kt-user-card-v2__details float-left osl-word__break">'
 					+'<span class="kt-user-card-v2__name float-left">'+usrNm+'</span>'
 					+'<span class="kt-user-card-v2__email float-left kt-margin-l-10 osl-line-height-rem-1_5">'+usrEmail+'</span>'
 				+'</div>'
@@ -415,9 +412,7 @@ var OSLSpr1003Popup = function () {
     	return state;
     };
     
-    /**
-     * kt-select2 태그 옵션
-     */
+    
     var tagFormatState = function(state){
     	if (!state.id) {
     	    return state.id;
@@ -442,26 +437,23 @@ var OSLSpr1003Popup = function () {
    	    return state;
     };
     
-    /**
-     * kt-select2 사용자 세팅
-     * param : selectUsrList 이미 선택된 사용자 리스트
-     */
+    
  	var selectUsrList = function(){
- 		//AJAX 설정
+ 		
  		var ajaxObj = new $.osl.ajaxRequestAction(
  				{"url":"<c:url value='/spr/spr2000/spr2000/selectSpr2001MmtUsrListAjax.do'/>", "async":"true"});
  		
- 		//AJAX 전송 성공 함수
+ 		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
  				$.osl.alert(data.message,{type: 'error'});
 
- 				//모달 창 닫기
+ 				
  				$.osl.layerPopupClose();
  			}else{
- 				//사용자 목록 저장
+ 				
  				usrList = data.usrAllList;
- 				//사용자 선택 드롭박스 추가
+ 				
  				$.each(data.usrAllList, function(idx, value){
  					var str = '<option value="' + value.usrId + '" data-usr-nm="'+value.usrNm+'" data-usr-img-id="'+value.usrImgId+'" data-usr-email="'+value.email+'">' 
  									+ value.usrNm
@@ -471,39 +463,39 @@ var OSLSpr1003Popup = function () {
  				});
  			}
  		});
- 		//AJAX 전송
+ 		
  		ajaxObj.send();
  	};
  	
- 	//검색
+ 	
  	function matchCustom(params, data) {
- 		//검색 값이 빈 값인경우 전체 출력
+ 		
  	    if ($.trim(params.term) === '') {
  	      return data;
  	    }
  		
- 	    //기본 텍스트값이 없는 경우 빈 값 출력
+ 	    
  	    if (typeof data.text === 'undefined') {
  	      return null;
  	    }
  	    
- 	    //이메일 값 조회
+ 	    
  	    var usrEmail = $(data.element).data("usr-email");
 
- 	    //id문자열에 검색어 있으면 출력
+ 	    
  	    if (data.id.indexOf(params.term) > -1) {
  	      return data;
  	    }
- 	    //text문자열에 검색어 있으면 출력
+ 	    
  	    else if (data.text.indexOf(params.term) > -1) {
  	      return data;
  	    }
- 	    //email문자열에 검색어 있으면 출력
+ 	    
  	    else if (usrEmail.indexOf(params.term) > -1) {
  	      return data;
  	    }
 
- 	    //검색어에 해당안되는 데이터 출력 안함
+ 	    
  	    return null;
  	}
  	
@@ -514,7 +506,7 @@ var OSLSpr1003Popup = function () {
 	}
 	
 	datatableSetting["2"] = function(){
-		// begin:: 2. 스토리 포인트 입력 요구사항 스토리 포인트 입력 데이터테이블
+		
 		return $.osl.datatable.setting("sprAssignReqTable",{
 			data: {
 				source: {
@@ -566,7 +558,7 @@ var OSLSpr1003Popup = function () {
 				{field: 'sprPoint', title: '스토리 포인트', textAlign: 'center', width: 80, sortable: false, autoHide: false,
 					template:function(row){
 						var rtnVal = "";
-						//이미 입력된 값 있는 경우 채우기
+						
 						if(wizardData["reqSprPointList"].hasOwnProperty(row.reqId)){
 							rtnVal = wizardData["reqSprPointList"][row.reqId];
 						}
@@ -588,7 +580,7 @@ var OSLSpr1003Popup = function () {
 			},
 			rows:{
 				afterTemplate: function(row, data, index){
-					//스토리포인트 키 입력 시 데이터 실시간 저장 시키기
+					
 					var targetInput = row.find("input#sprPoint_"+data.reqId);
 					
 					targetInput.off("blur").on("blur", function(e){
@@ -598,7 +590,6 @@ var OSLSpr1003Popup = function () {
 						}catch(e){
 							inputVal = 0;
 						}
-						
 						if(!isNaN(inputVal)){
 							wizardData["reqSprPointList"][data.reqId] = inputVal;
 						}
@@ -607,7 +598,6 @@ var OSLSpr1003Popup = function () {
 						}
 					});
 					
-					//이미 입력된 값 있는 경우 채우기
 					if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
 						this.value = wizardData["reqSprPointList"][data.reqId];
 					}
@@ -615,16 +605,16 @@ var OSLSpr1003Popup = function () {
 			},
 			callback:{
 				initComplete: function(evt, list, datatableInfo){
-					//전체 요구사항 수 갱신
+					
 					wizardData["reqListCnt"] = datatableInfo.lastResponse.meta.total;
 				}
 			}
 		});
-		// end:: 2. 스토리 포인트 입력 요구사항 스토리 포인트 입력 데이터테이블
+		
 		
 	}
 	datatableSetting["3"] = function(){
-		// begin:: 3. 담당자 지정 요구사항 담당자 지정 데이터테이블
+		
 		var sprAssignReqUsrTable = $.osl.datatable.setting("sprAssignReqUsrTable",{
 			data: {
 				source: {
@@ -641,7 +631,7 @@ var OSLSpr1003Popup = function () {
 				 items:{
 					 pagination:{
 						 pageSizeSelect : [5, 10, 20, 30, 50, 100],
-						//페이지 그룹단위 변경
+						
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -660,7 +650,7 @@ var OSLSpr1003Popup = function () {
 				{field: 'reqNm', title: '요청 제목', textAlign: 'center', width: 100, search: true},
 				{field: 'sprPoint', title: '스토리 포인트', textAlign: 'center', width: 80,template:function(row){
 					var rtnVal = "";
-					//이미 입력된 값 있는 경우 채우기
+					
 					if(wizardData["reqSprPointList"].hasOwnProperty(row.reqId)){
 						rtnVal = wizardData["reqSprPointList"][row.reqId];
 					}
@@ -669,7 +659,7 @@ var OSLSpr1003Popup = function () {
 				}},
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 80, template:function(row){
 					var rtnVal = "";
-					//이미 입력된 값 있는 경우 채우기
+					
 					if(wizardData["reqUsrList"].hasOwnProperty(row.reqId)){
 						rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;
 					}
@@ -683,9 +673,9 @@ var OSLSpr1003Popup = function () {
 				"dblClick": false
 			}
 		});
-		// end:: 3. 담당자 지정 요구사항 담당자 지정 데이터테이블
 		
-		//담당자 목록 테이블
+		
+		
 		var sprUstListTable = $.osl.datatable.setting("sprUstListTable",{
 			cardUiTarget: $("#sprUstListCardTable"),
 			data: {
@@ -746,10 +736,10 @@ var OSLSpr1003Popup = function () {
 									+'</div>'
 									+'<div class="kt-widget__wrapper">'
 										+'<div class="kt-widget__label">'
-											+'<div class="kt-widget__title">'
+											+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
 												+$.osl.escapeHtml(map.usrNm)
-												+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											+'</div>'
+											+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											
 											+'<span class="kt-widget__desc">'
 												+'<span>'+$.osl.escapeHtml(map.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(map.usrPositionNm)+'</span>'
@@ -761,29 +751,29 @@ var OSLSpr1003Popup = function () {
 					});
 					$("#sprUstListCardTable").html(usrStr);
 					
-					//input 이벤트 (click만 mouseover 제외)
+					
 					$("#sprAssignReqUsrTable").on("click","input[name^=reqCharger_]", function(){
-						//active된 사용자가 있는 경우에만
+						
 						var targetElem = $(".osl-widget-draggable.active");
 						if(targetElem.length > 0){
-							//사용자 아이디, 사용자명
+							
 							var targetUsrId = targetElem.data("usr-id");
 						    var targetUsrNm = targetElem.data("usr-name");
 						    
-						    //요구사항 ID 얻기
+						    
 						    var targetReqId = $(this).data("req-id");
 						    
-						    //값 넣기
+						    
 						    this.value = targetUsrNm;
 						    
-						    //data 저장
+						    
 						    wizardData["reqUsrList"][targetReqId] = {usrId: targetUsrId, usrNm: targetUsrNm};
 						}
 					});
 					
-					//모바일 대응 클릭 이벤트
+					
 					$(".osl-widget-draggable").click(function(){
-						//unactive flag
+						
 						var unActive = false;
 						if($(this).hasClass("active")){
 							unActive = true;
@@ -809,7 +799,7 @@ var OSLSpr1003Popup = function () {
 	}
 	
 	datatableSetting["4"] = function(){
-		// begin:: 4-1. 배정 프로세스 데이터 테이블 
+		
 		var assignTable = $.osl.datatable.setting("sprAssignProcessTable",{
 			data: {
 				type:'local',
@@ -823,7 +813,7 @@ var OSLSpr1003Popup = function () {
 				 items:{
 					 pagination:{
 						 pageSizeSelect : [5, 10, 20, 30, 50, 100],
-						//페이지 그룹단위 변경
+						
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -866,34 +856,34 @@ var OSLSpr1003Popup = function () {
 							modalTitle: "프로세스 상세",
 							autoHeight: false
 						};
-					//$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1006View.do',data,options);
+					
 			
 					var rowDatas = [];
 					rowDatas.push(rowData);
-					//사용자 배정 처리
+					
 					fnAllProcessDelete(rowDatas);
 				},
-				//선택 사용자 배정 제외
+				
 				"selInUsrDelete": function(rowData, datatableId, type, rownum, elem){
-					//var rowDatas = rowData;
-					//선택 레코드 없는 경우
-					//if(rowDatas.length == 0){
-						//$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
-						//return true;
-					//}
 					
-					//$.osl.confirm($.osl.lang("common.user.auth.allUsrInDelete",rowDatas.length),{html:true}, function(result){
-						//if (result.value) {
-							//사용자 배정 제외 처리
-							//fnAllProcessDelete(rowDatas);
-						//}
-					//});
+					
+					
+						
+						
+					
+					
+					
+						
+							
+							
+						
+					
 				}
 			}
 		});
-		// end:: 4-1. 배정 프로세스 데이터 테이블
 		
-		// begin:: 4-2. 미배정 프로세스 데이터테이블 
+		
+		
 		var notAssignTable = $.osl.datatable.setting("sprNotAssignProcessTable",{
 			data: {
 				source: {
@@ -907,7 +897,7 @@ var OSLSpr1003Popup = function () {
 				 items:{
 					 pagination:{
 						 pageSizeSelect : [5, 10, 20, 30, 50, 100],
-						//페이지 그룹단위 변경
+						
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -939,7 +929,7 @@ var OSLSpr1003Popup = function () {
 			},
 			rows:{
 				beforeTemplate: function (row, data, index){
-					//이미 배정된 프로세스인 경우
+					
 					if(sprProcessIdList.indexOf(data.processId) > -1){
 						row.addClass("osl-datatable__row-assign--none");
 					}
@@ -958,17 +948,17 @@ var OSLSpr1003Popup = function () {
 							modalTitle: "프로세스 상세",
 							autoHeight: false
 						};
-					//$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1006View.do',data,options);
+					
 			
 					var rowDatas = [];
 					rowDatas.push(rowData);
-					//사용자 배정 처리
+					
 					fnAllProcessInsert(rowDatas);
 				},
-				//선택 사용자 배정 제외
+				
 				"selInUsrDelete": function(rowData, datatableId, type, rownum, elem){
 					var rowDatas = rowData;
-					//선택 레코드 없는 경우
+					
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
@@ -976,14 +966,14 @@ var OSLSpr1003Popup = function () {
 					
 					$.osl.confirm($.osl.lang("common.user.auth.allUsrInsert",rowDatas.length),{html:true}, function(result){
 						if (result.value) {
-							//사용자 배정 제외 처리
+							
 							fnAllProcessInsert(rowDatas);
 						}
 					});
 				}
 			}
 		});
-		// end:: 4-2. 미배정 프로세스 데이터테이블
+		
 		
 
 		
@@ -998,24 +988,24 @@ var OSLSpr1003Popup = function () {
 	}
 	
 
-	//담당자 배정 등록
+	
 	var fnAllProcessInsert = function(selDatas){
 		if(!$.osl.isNull(selDatas) && selDatas.length > 0){
-			//대상 데이터 테이블
+			
 			var datatable = $.osl.datatable.list["sprAssignProcessTable"].targetDt;
 			
-			//dataSet 비어있는 경우 초기화
+			
 			if($.osl.isNull(datatable.dataSet)){
 				datatable.dataSet = [];
 				datatable.originalDataSet = [];
 			}
 			
-			//이미 추가된 사용자 목록
+			
 			var processIdDupleList = 0;
 			
-			//데이터 테이블에 프로세스 배정 추가
+			
 			$.each(selDatas, function(idx, map){
-				//이미 추가된 사용자 목록 추가
+				
 				if(sprProcessIdList.indexOf(map.processId) != -1){
 					processIdDupleList++;
 					return true;
@@ -1024,25 +1014,25 @@ var OSLSpr1003Popup = function () {
 				datatable.dataSet.push(map);
 				datatable.originalDataSet.push(map);
 				
-				//중복체크 추가
+				
 				sprProcessIdList.push(map.processId);
 			});
 			
-			//출력 메시지 세팅
+			
 			var toastrMsg = "";
 			var toastrType = "success";
 			if(selDatas.length > processIdDupleList){
 				toastrMsg += $.osl.lang("spr1003.alert.saveProcessMsg",(selDatas.length-processIdDupleList));
 			}
 			if(processIdDupleList > 0){
-				//이미 추가된 메시지 있는 경우 </br>
+				
 				if(toastrMsg.length > 0){
 					toastrMsg += "</br>";
 				}
 				toastrMsg += $.osl.lang("spr1003.alert.saveProcessDupleMsg",processIdDupleList);
 				toastrType = "warning";
 			}
-			//모든 사용자가 배정되있는 경우
+			
 			if(processIdDupleList == selDatas.length){
 				toastrMsg = $.osl.lang("spr1003.alert.saveProcessAllDupleMsg",processIdDupleList);
 				toastrType = "error";
@@ -1052,44 +1042,44 @@ var OSLSpr1003Popup = function () {
 			
 			$.osl.toastr(toastrMsg,{type: toastrType});
 			
-			//데이터 추가
+			
 			datatable.insertData();
-			//데이터테이블 재 조회
+			
 			datatable.reload();
 			$.osl.datatable.list["sprNotAssignProcessTable"].targetDt.reload();
 			$("div.tooltip.show").remove();
 		 }
 	};
 	
-	//담당자 배정 제외
+	
 	var fnAllProcessDelete = function(selDatas){
 		if(!$.osl.isNull(selDatas) && selDatas.length > 0){
-			//대상 데이터 테이블
+			
 			var datatable = $.osl.datatable.list["sprAssignProcessTable"].targetDt;
 			
-			//dataSet에서 제거
+			
 			var dataSet = datatable.dataSet;
 			var originalDataSet = datatable.originalDataSet;
 			
 			if(!$.osl.isNull(dataSet)){
-				//선택 데이터
+				
 				$.each(selDatas, function(idx, map){
 					$.each(originalDataSet, function(dataIdx, dataMap){
 						if($.osl.isNull(dataMap)){
 							return true;
 						}
-						//해당 사용자 배정 제외
+						
 						else if(map.processId == dataMap.processId){
 							originalDataSet.splice(dataIdx, 1);
 							
-							//중복체크 목록 제외
+							
 							sprProcessIdList.splice(sprProcessIdList.indexOf(map.processId), 1);
 							return false;
 						}
 					});
 				});
 				
-				//데이터테이블 재 조회
+				
 				datatable.reload();
 				$.osl.datatable.list["sprNotAssignProcessTable"].targetDt.reload();
 				$("div.tooltip.show").remove();
@@ -1098,7 +1088,7 @@ var OSLSpr1003Popup = function () {
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -1110,4 +1100,4 @@ $.osl.ready(function(){
 	OSLSpr1003Popup.init();
 });
 </script>
-<!-- end script -->
+

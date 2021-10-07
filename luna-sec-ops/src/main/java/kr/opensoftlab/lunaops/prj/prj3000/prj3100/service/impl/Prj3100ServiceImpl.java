@@ -197,8 +197,6 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 					prj3100DAO.insertPrj3001CngInf(paramMap);
 					
 					
-					
-					
 					paramMap.put("ord", "1");
 				
 				}else if("02".equals(signUseCd)) {

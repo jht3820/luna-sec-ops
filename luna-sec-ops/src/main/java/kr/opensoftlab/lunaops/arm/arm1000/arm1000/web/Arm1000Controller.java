@@ -396,15 +396,21 @@ public class Arm1000Controller {
 			
 			
 			String paramUsrId = (String) paramMap.get("usrId");
+			String paramUsrNm = (String) paramMap.get("usrNm");
 			
 			
 			if(paramUsrId == null || "".equals(paramUsrId)) {
 				paramUsrId = ((LoginVO) ss.getAttribute("loginVO")).getUsrId();
 			}
 			
+			if(paramUsrNm == null || "".equals(paramUsrNm)) {
+				paramUsrNm = ((LoginVO) ss.getAttribute("loginVO")).getUsrNm();
+			}
+			
 			paramMap.put("prjGrpId", paramPrjGrpId);
 			paramMap.put("prjId", paramPrjId);
 			paramMap.put("usrId", paramUsrId);
+			paramMap.put("usrNm", paramUsrNm);
 			
 			
 			arm1000Service.insertArm1000AlarmInfo(paramMap);

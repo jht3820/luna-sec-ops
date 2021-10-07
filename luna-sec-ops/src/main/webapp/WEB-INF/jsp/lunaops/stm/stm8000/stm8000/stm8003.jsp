@@ -2,106 +2,231 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <input type="hidden" name="type" id="type" value="<c:out value='${param.type}'/>">
 <input type="hidden" name="strgRepId" id="strgRepId" value="<c:out value='${param.strgRepId}'/>">
-<input type="hidden" name="path" id="path" value="<c:out value='${param.path}'/>">
-<input type="hidden" name="revision" id="revision" value="<c:out value='${param.revision}'/>">
-<div class="kt-padding-15 osl-max-h-px--590 osl-contents-frame">
-	<div class="osl-code__line-frame" id="codeLineFrame"></div>
-	<pre id="preContent">
-		<code class="osl-code-bg" id="stm8003FileInfo">
-		</code>
-	</pre>
+<input type="hidden" name="filePath" id="filePath" value="<c:out value='${param.filePath}'/>">
+<input type="hidden" name="fileName" id="fileName" value="<c:out value='${param.fileName}'/>">
+<input type="hidden" name="diffRevision01" id="diffRevision01" value="<c:out value='${param.diffRevision01}'/>">
+<input type="hidden" name="diffRevision02" id="diffRevision02" value="<c:out value='${param.diffRevision02}'/>">
+<div class="row">
+	<div class="col-lg-6 col-md-6 col-sm-12 col-12 kt-padding-b-10">
+		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label kt-portlet__head--lg">
+					<h5 class="kt-font-boldest kt-font-brand">
+						<i class="fa fa-th-large kt-margin-r-5"></i>
+						<span id="beforeRevision"></span>
+					</h5>
+				</div>
+				<div class="kt-portlet__head-toolbar">
+					<div class="kt-portlet__head-group">
+					</div>
+				</div>
+			</div>
+			<div class="kt-portlet__body kt-padding-15 osl-min-h-px--575 osl-contents-frame">
+				<div class="osl-code__line-frame" id="codeLineFrameBefore"></div>
+				<pre id="preBefore">
+					<code class="osl-code-bg" id="stm8003BeforeFileInfo">
+					</code>
+				</pre>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6 col-md-6 col-sm-12 col-12 kt-padding-b-10">
+		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
+			<div class="kt-portlet__head">
+				<div class="kt-portlet__head-label kt-portlet__head--lg">
+					<h5 class="kt-font-boldest kt-font-brand">
+						<i class="fa fa-th-large kt-margin-r-5"></i>
+						<span id="afterRevision"></span>
+					</h5>
+				</div>
+				<div class="kt-portlet__head-toolbar">
+					<div class="kt-portlet__head-group">
+					</div>
+				</div>
+			</div>
+			<div class="kt-portlet__body kt-padding-15 osl-min-h-px--575 osl-contents-frame">
+				<div class="osl-code__line-frame" id="codeLineFrameAfter"></div>
+				<pre id="preAfter">
+					<code class="osl-code-bg" id="stm8003AfterFileInfo">
+					</code>
+				</pre>
+			</div>
+		</div>
+	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLStm8003Popup = function() {
 	var type = $("#type").val();
 	var strgRepId = $("#strgRepId").val();
-	var revision = $("#revision").val();
-	var path = $("#path").val();
-
-	//기본 설정
+	var filePath = $("#filePath").val();
+	var fileName = $("#fileName").val();
+	var diffRevision01 = $("#diffRevision01").val();
+	var diffRevision02 = $("#diffRevision02").val();
+	
+	
 	 var documentSetting = function() {
-		//파일 정보 가져오기
-		getFileInfo();
+		 getFileDiffInfo();
 	}
 	
-	/**
-	* function 명 	: getFileInfo
-	* function 설명	: 리비전 파일 상세 정보 가져오기
-	*/
-	var getFileInfo = function(){
+	
+	var getFileDiffInfo = function(){
+		
 		var data = {
 				type : type,
-				filePath: path,
-				revision : revision,
-				strgRepId : strgRepId
+				strgRepId : strgRepId,
+				filePath : filePath,
+				diffRevision01 :diffRevision01,
+				diffRevision02 :diffRevision02,
 			};
 
-		//AJAX 설정
+		
    		var ajaxObj = new $.osl.ajaxRequestAction(
-   				{"url":"<c:url value='/stm/stm8000/stm8000/selectStm8000RevisionFileInfoAjax.do'/>", "async":false}
+   				{"url":"<c:url value='/stm/stm8000/stm8000/selectStm8000FileDiffInfoAjax.do'/>", "async":false}
    				, data);
 		
-   		//AJAX 전송 성공 함수
+   		
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
-   				// 콘솔로그 표시 부분에 에러 메시지 표시
-				$("#stm8003FileInfo").html(data.message);
+   				
+				$("#stm8003BeforeFileInfo").html(data.message);
+				$("#stm8003AfterFileInfo").html(data.message);
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-	   			// 조회한 콘솔 로그를 표시
-				// 로그가 없을 경우
-				if($.osl.isNull(data.contentInfo)){
-					$("#stm8003FileInfo").html("<span class='kt-font-inverse-brand  kt-padding-l-10 osl-font-lg osl-font'>"+"로그가 없습니다."+"</span>");
+   				$("#beforeRevision").text("[Revision "+data.beforeRevision+"] "+ fileName);
+   				$("#afterRevision").text("[Revision "+data.afterRevision+"] " + fileName);
+   				
+   				var beforeContent = data.beforeContent;
+   				var afterContent = data.afterContent;
+   				
+	   			
+				
+				if($.osl.isNull(beforeContent)){
+					$("#stm8003BeforeFileInfo").html("<span class='kt-font-inverse-brand  kt-padding-l-10 osl-font-lg osl-font'>"+"로그가 없습니다."+"</span>");
 					return false;
-				}else{
-					//콘솔 로그 출력
-		   			$("#stm8003FileInfo").html($.osl.escapeHtml(data.contentInfo));
-		   			$("#stm8003FileInfo").each(function(i, block) {hljs.highlightBlock(block);});
-		   			
-		   			//코드 라인 수
-					var codeLineCnt = 0;
-					
-					if(!$.osl.isNull(data.contentInfo)){
-						//라인 자르기
-						var codeLine = data.contentInfo.split("\n");
-						codeLineCnt = codeLine.length;
-						
-						//코드 창 크기 높이
-						var codeWindowHeight = $("#preContent").height() - 50;
-						
-						//스크롤바 높이 제외
-						codeWindowHeight = codeWindowHeight;
-						
-						//라인 마다 스크롤 높이 구하기
-						var codeScrollLine = parseFloat((codeWindowHeight/codeLineCnt));
-						
-						//스크롤 색상변경 계산
-						$.each(codeLine, function(idx, map){
-							//osl-code__text-addl 있는지 체크
-							if(map.indexOf('osl-code__text-add') != -1){
-								
-								//해당 라인 스크롤 위치 구하기
-								var targetLineScrollTop = ((idx+1)*codeScrollLine);
-								targetLineScrollTop += 44;
-								
-								$("#stm8003FileInfo").append('<div class="osl-code__diff-line-scroll-defore" style="top:'+targetLineScrollTop+'px;"></div>');
-							}
-						});
-						
-						//코드 라인 부여
-						for(var i=0;i<codeLineCnt;i++){
-							$("#codeLineFrame").append('<div class="osl-code__line-div">'+(i+1)+'</div>');
-						}
-						
-						$("#stm8003FileInfo").prepend($("#codeLineFrame"));
-					}
 				}
 	   			
+				
+				if($.osl.isNull(afterContent)){
+					$("#stm8003AfterFileInfo").html("<span class='kt-font-inverse-brand  kt-padding-l-10 osl-font-lg osl-font'>"+"로그가 없습니다."+"</span>");
+					return false;
+				}
+				
+				$("#stm8003BeforeFileInfo").html($.osl.escapeHtml(beforeContent));
+				$("#stm8003BeforeFileInfo").each(function(i, block) {hljs.highlightBlock(block);});
+				$("#stm8003AfterFileInfo").html($.osl.escapeHtml(afterContent));
+				$("#stm8003AfterFileInfo").each(function(i, block) {hljs.highlightBlock(block);});
+	   			 
+				
+				var oldVal = "";
+				var newVal = "";
+				
+				var dmp = new diff_match_patch();
+				var diffs = dmp.diff_main($('#stm8003BeforeFileInfo').html(), $('#stm8003AfterFileInfo').html());
+				dmp.diff_cleanupEfficiency(diffs);
+				
+				
+				for (var i = 0, j = diffs.length; i < j; i++) {
+			        var arr = diffs[i];
+			        if (arr[0] == 0) {	
+			            oldVal += arr[1];
+			            newVal += arr[1];
+			        } else if (arr[0] == -1) { 
+			            oldVal += "<span class='osl-code__text-remove'>" + arr[1] + "</span>";
+			        } else { 
+			            newVal += "<span class='osl-code__text-add'>" + arr[1] + "</span>";
+			        }
+			    }
+				
+				$("#stm8003BeforeFileInfo").html(oldVal);
+				$("#stm8003AfterFileInfo").html(newVal);
+				
+				
+				var beforeCodeLineCnt = 0;
+				var afterCodeLineCnt = 0;
+				
+				
+				if(!$.osl.isNull(oldVal)){
+					
+					var beforeCodeLine = oldVal.split("\n");
+					beforeCodeLineCnt = beforeCodeLine.length;
+					
+					
+					var codeWindowHeight = $("#stm8003BeforeFileInfo").height() - 50;
+					
+					
+					codeWindowHeight = codeWindowHeight;
+					
+					
+					var codeScrollLine = parseFloat((codeWindowHeight/beforeCodeLineCnt));
+					
+					
+					$.each(beforeCodeLine, function(idx, map){
+						
+						if(map.indexOf('osl-code__text-add') != -1){
+							
+							
+							var targetLineScrollTop = ((idx+1)*codeScrollLine);
+							targetLineScrollTop += 44;
+							
+							$("#contentsFrameBefore").append('<div class="osl-code__diff-line-scroll-defore" style="top:'+targetLineScrollTop+'px;"></div>');
+						}
+					});
+				}
+				
+				if(!$.osl.isNull(newVal)){
+					
+					var afterCodeLine = newVal.split("\n");
+					afterCodeLineCnt = afterCodeLine.length;
+					
+					
+					var codeWindowHeight = $("#stm8003AfterFileInfo").height() - 50;
+					
+					
+					var codeScrollLine = parseFloat((codeWindowHeight/afterCodeLineCnt));
+					
+					
+					$.each(afterCodeLine, function(idx, map){
+						
+						if(map.indexOf('osl-code__text-remove') != -1){
+							
+							var targetLineScrollTop = ((idx+1)*codeScrollLine);
+							targetLineScrollTop += 44;
+							
+							$("#contentsFrameAfter").append('<div class="osl-code__diff-line-scroll-after" style="top:'+targetLineScrollTop+'px;"></div>');
+						}
+					});
+				}
+				
+				
+				for(var i=0;i<beforeCodeLineCnt;i++){
+					$("#codeLineFrameBefore").append('<div class="osl-code__line-div">'+(i+1)+'</div>');
+				}
+				for(var i=0;i<afterCodeLineCnt;i++){
+					$("#codeLineFrameAfter").append('<div class="osl-code__line-div">'+(i+1)+'</div>');
+				}
+				
+				$("#stm8003BeforeFileInfo").prepend($("#codeLineFrameBefore"));
+				$("#stm8003AfterFileInfo").prepend($("#codeLineFrameAfter"));
+				
+				
+				$("#stm8003BeforeFileInfo").scroll(function(){
+					
+					$('#stm8003AfterFileInfo').scrollTop($("#stm8003BeforeFileInfo").scrollTop());
+					$('#stm8003AfterFileInfo').scrollLeft($("#stm8003BeforeFileInfo").scrollLeft());
+					
+					
+					$('#codeLineFrameBefore').scrollTop($("#stm8003BeforeFileInfo").scrollTop());
+				});
+				$("#stm8003AfterFileInfo").scroll(function(){
+					
+					
+					$('#codeLineFrameAfter').scrollTop($("#stm8003AfterFileInfo").scrollTop());
+				});
    			}
    		});
-  	 	//AJAX 전송
+  	 	
    		ajaxObj.send();
 	};
 

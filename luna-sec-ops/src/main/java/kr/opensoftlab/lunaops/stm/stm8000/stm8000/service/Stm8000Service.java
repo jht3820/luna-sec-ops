@@ -1,5 +1,6 @@
 package kr.opensoftlab.lunaops.stm.stm8000.stm8000.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,10 @@ public interface Stm8000Service {
 	
 	@SuppressWarnings("rawtypes" )
 	public List<Map> selectStm8000ServerList(Map<String, String> paramMap) throws Exception;
+	
+	
+	@SuppressWarnings( "rawtypes" )
+	public Map selectStm8000AuthCheck(Map<String, String> paramMap) throws Exception;
 	
 	
 	public Map<String, String> selectStm8000ServerInfo(Map<String, String> paramMap) throws Exception;

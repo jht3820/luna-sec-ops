@@ -34,8 +34,11 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl.Prj1100DAO;
 import kr.opensoftlab.lunaops.req.req3000.req3000.service.impl.Req3000DAO;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.Req4100Service;
+import kr.opensoftlab.lunaops.req.req6000.req6000.service.Req6000Service;
+import kr.opensoftlab.lunaops.req.req6000.req6000.vo.Req6001VO;
 import kr.opensoftlab.sdf.util.CommonScrty;
 
 @Service("req4100Service")
@@ -48,7 +51,15 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
     
     @Resource(name="req3000DAO")
     private Req3000DAO req3000DAO;
+    
+    
+    @Resource(name="prj1100DAO")
+    private Prj1100DAO prj1100DAO;
 
+	
+	@Resource(name = "req6000Service")
+	private Req6000Service req6000Service;
+	
 	@Resource(name = "FileManageDAO")
 	private FileManageDAO fileMngDAO;
 	
@@ -584,6 +595,133 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 					Log.error(fileE);
 				}
 			}
+		}
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateReq4100ReqRejectList(Map paramMap) throws Exception{
+		
+		String licGrpId = (String) paramMap.get("licGrpId");
+		String regUsrId = (String) paramMap.get("regUsrId");
+		
+		
+		String paramRejectContents = (String) paramMap.get("paramRejectContents");
+		paramMap.put("reqAcceptTxt", paramRejectContents);
+		
+		
+		String paramRejectReqList = (String) paramMap.get("paramRejectReqList");
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONArray jsonArray = (JSONArray) jsonParser.parse(paramRejectReqList);
+		for(int i=0;i<jsonArray.size();i++) {
+			JSONObject reqInfo = (JSONObject) jsonArray.get(i);
+			
+			
+			String prjId = (String) reqInfo.get("prjId");
+			String reqId = (String) reqInfo.get("reqId");
+			
+			
+			paramMap.put("prjId", prjId);
+			paramMap.put("reqId", reqId);
+			req4100DAO.updateReq4100ReqRejectInfo(paramMap);
+			
+			
+			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "04");
+			req6001Vo.setChgUsrId(regUsrId);
+			paramMap.put("req6001Vo", req6001Vo);
+			req6000Service.insertReq6001ReqChgInfo(paramMap);
+			
+		}
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateReq4100ReqAcceptList(Map paramMap) throws Exception{
+		
+		String licGrpId = (String) paramMap.get("licGrpId");
+		String regUsrId = (String) paramMap.get("regUsrId");
+		
+		
+		String defaultSwitchCd = (String) paramMap.get("defaultSwitchCd");
+		
+		String selReqChargerId = (String) paramMap.get("selReqChargerId");
+		
+		
+		if("02".equals(defaultSwitchCd)) {
+			
+			if(selReqChargerId != null && !"".equals(selReqChargerId)) {
+				paramMap.put("reqChargerId", selReqChargerId);
+			}
+		}
+		
+		
+		String processId = (String) paramMap.get("selProcessId");
+		
+		
+		paramMap.put("processId", processId);
+		paramMap.put("flowStartCd", "01");
+		Map startFlowInfo = prj1100DAO.selectPrj1101FlowInfo(paramMap);
+		
+		
+		if(startFlowInfo == null || startFlowInfo.isEmpty()) {
+			throw new UserDefineException("프로세스 데이터 조회에 실패했습니다.");
+		}
+		
+		
+		String flowId = (String) startFlowInfo.get("flowId");
+		paramMap.put("flowId", flowId);
+		
+		
+		String reqAcceptTxt = (String) paramMap.get("reqAcceptTxt");
+		paramMap.put("reqAcceptTxt", reqAcceptTxt);
+		
+		
+		String paramSelReqInfoList = (String) paramMap.get("paramSelReqInfoList");
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONArray jsonArray = (JSONArray) jsonParser.parse(paramSelReqInfoList);
+		for(int i=0;i<jsonArray.size();i++) {
+			JSONObject reqInfo = (JSONObject) jsonArray.get(i);
+			
+			
+			String prjId = (String) reqInfo.get("prjId");
+			String reqId = (String) reqInfo.get("reqId");
+			
+			
+			paramMap.put("prjId", prjId);
+			paramMap.put("reqId", reqId);
+			
+			
+			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "03");
+			req6001Vo.setChgProcessId(processId);
+			req6001Vo.setChgFlowId(flowId);
+			req6001Vo.setChargerChgCd(defaultSwitchCd);
+			req6001Vo.setChgUsrId(regUsrId);
+			
+			
+			if("02".equals(defaultSwitchCd)) {
+				req6001Vo.setChgChargerId(selReqChargerId);
+			}
+			
+			else {
+				
+				Map selReqInfo = req4100DAO.selectReq4100ReqInfo(paramMap);
+				if(selReqInfo != null) {
+					String reqChargerId = (String) selReqInfo.get("reqChargerId");
+					req6001Vo.setChgChargerId(reqChargerId);
+					paramMap.put("reqChargerId", reqChargerId);
+				}
+			}
+			
+			
+			req4100DAO.updateReq4100ReqAcceptInfo(paramMap);
+			
+			paramMap.put("req6001Vo", req6001Vo);
+			req6000Service.insertReq6001ReqChgInfo(paramMap);
+			
 		}
 	}
 	

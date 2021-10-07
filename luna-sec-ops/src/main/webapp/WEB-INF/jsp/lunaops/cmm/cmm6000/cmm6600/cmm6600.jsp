@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0" id="cmm6600DeptTreeInfo">
+			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0" id="cmm6600SignUsrInfo">
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
@@ -46,7 +46,7 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="cmm6600SelDoc"><i class="fa fa-save"></i><span>결재 등록</span></button>
+	<button type="button" class="btn btn-brand" id="cmm6600SaveSignLine"><i class="fa fa-save"></i><span>결재 등록</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span>Close</span></button>
 </div>
 <script>
@@ -80,7 +80,7 @@ var OSLCmm6600Popup = function () {
     	selectSignUsrInfList();
     	
 	    
-	   	$("#cmm6600DeptTreeInfo").on("click",".osl-sign-card",function(){
+	   	$("#cmm6600SignUsrInfo").on("click",".osl-sign-card",function(){
 	   		if($(this).hasClass('selected')){
 	   			$(this).removeClass('selected');
 	   		}else{
@@ -125,12 +125,11 @@ var OSLCmm6600Popup = function () {
 	    
 	    
 	    
-	    $('#cmm6600SelDoc').click(function(){
+	    $('#cmm6600SaveSignLine').click(function(){
 	    	
 	    	
     		$.osl.confirm($.osl.lang("cmm6600.message.confirm.saveString"),null,function(result) {
     	        if (result.value) {
-    	        	
 					
    	        		
     	        	saveFormAction();
@@ -140,12 +139,7 @@ var OSLCmm6600Popup = function () {
 	    });
 	    
 	    
-	    
-	    
-	    
-	    
 	    var saveFormAction = function(){
-	    	
 			var signUsrInfs = [];
 	    	
 	    	var selSignUsrInfs = $('.osl-sign-card');
@@ -163,7 +157,7 @@ var OSLCmm6600Popup = function () {
 		    	var myInf = {};
 		    	myInf.usrId = $.osl.user.userInfo.usrId;
 		    	myInf.ord = 0;
-		    	signUsrInfs.push(signUsrInf);
+		    	signUsrInfs.push(myInf);
 	    	}
 	    	
 	    	
@@ -171,14 +165,14 @@ var OSLCmm6600Popup = function () {
 	    		
 	    		var signUsrInf = {};
 	    		signUsrInf.usrId = $(this).data("usr-id");
-	    		signUsrInf.ord = $(this).find(".dplStartOrdCell").data("ord");
+	    		signUsrInf.ord = $(this).find(".signStartOrdCell").data("ord");
 	    		signUsrInfs.push(signUsrInf);
 	    	})
 	    	
 	    	
     		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/prj/prj3000/prj3000/savePrj3003SignInfoAjax.do'/>"}
-				,{signUsrInfList: JSON.stringify(signUsrInfs), prjId : prjId, docId : targetId, type : type});
+				{"url":"<c:url value='/cmm/cmm6000/cmm6600/saveCmm6600SignLineAjax.do'/>"}
+				,{signUsrInfList: JSON.stringify(signUsrInfs) , prjId : prjId, targetId : targetId, targetCd:targetCd,type:type});
 
     		
     		ajaxObj.setFnSuccess(function(data){
@@ -296,10 +290,8 @@ var OSLCmm6600Popup = function () {
 	    	
 	   	
 	   	$('button[data-datatable-action="signRemove"]').click(function(){
-	   	  	
+	   		
 	   		var datatable = $.osl.datatable.list["stm3000UsrTable"].targetDt;
-			
-			var list = datatable.dataSet;
 			
 	   		var target = $('.osl-sign-card.selected');
 	   		
@@ -311,19 +303,14 @@ var OSLCmm6600Popup = function () {
 				$.osl.confirm('선택한 '+target.length+'개의 결재선을 삭제하시겠습니까?',{html:true}, function(){
 					
 					
-					$.each(list,function(idx, map){
+					$.each(target,function(idx, map){
 						
-						for(var num = 0; num < target.length; num++){
-							
-		    				targetId = target[num].getAttribute('data-usr-id');
-							
-		    				if(datatable.dataSet[idx].usrId==targetId){
-		    					
-								selectUsrArray.splice(selectUsrArray.indexOf(targetId), 1);
-								ord --;
-							}
-		    			}
-					});						
+						
+	    				targetId = map.getAttribute("data-usr-id");
+						
+	    				
+						selectUsrArray.splice(selectUsrArray.indexOf(targetId), 1);
+					});
 					
 					
 					$('.osl-sign-card.selected').remove();
@@ -333,7 +320,6 @@ var OSLCmm6600Popup = function () {
 					$("div.tooltip.show").remove();
 	
 					
-					
 					updateLastUsrCard();
 	   			});		
 	   		}else{
@@ -342,18 +328,15 @@ var OSLCmm6600Popup = function () {
 	   		}
 	   	});
 	   	
-	   	/*결재선 sortable 세팅*/
+	   	
 		new Sortable($('#signCardTable')[0], {
 			group:'shared',
 	        animation: 100,
 	        
 	        chosenClass: "chosen",
 	        onEnd:function(evt){
-	        	
-				var newIndex = evt.newIndex-2;
-				var oldIndex = evt.oldIndex-2;
-	        	
-				fnJobDivOrdModify(evt.item, newIndex, oldIndex);
+				
+				updateLastUsrCard();
 	        }
 	    });
 	
@@ -364,7 +347,7 @@ var OSLCmm6600Popup = function () {
     	
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
-			{"url":"<c:url value='/cmm/cmm3000/cmm3000/selectCmm6600SignUsrListAjax.do'/>"}
+			{"url":"<c:url value='/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do'/>"}
 			, {prjId : prjId, targetId : targetId});
 
 		
@@ -401,48 +384,15 @@ var OSLCmm6600Popup = function () {
     	
     	
     	
-		/* 
-		var ajaxObj = new $.osl.ajaxRequestAction(
-			{"url":"<c:url value='/prj/prj3000/prj3000/selectPrj3003SignUsrListAjax.do'/>"}
-			, {prjId : prjId, docId : targetId});
-
 		
-		ajaxObj.setFnSuccess(function(data){
-			if(data.errorYn == "Y"){
-				$.osl.alert(data.message,{type: 'error'});
-			}else{
-				
-				
-				$.each(data.signUsrInfList,function(idx,map){
-					
-					
-					if(selectUsrArray.indexOf(map.usrId) != -1){
-						return true;
-					}
-					
-		    		
-					userSetting(map);
-			    		
-				});
-				
-				
-				if(data.signUsrInfList.length == 0){
-					type = 'insert';
-				}else{
-					type = 'update';
-				}
-				
-			}
-		});
-		
-		
-		ajaxObj.send(); */
 	}
   	
     
     function fnAllUsrInsert(selDatas){
       	
     	var datatable = $.osl.datatable.list["stm3000UsrTable"].targetDt;
+      	
+      	usrIdDupleList = 0;
       	
     	$.each(selDatas,function(idx,map){
     		
@@ -499,7 +449,7 @@ var OSLCmm6600Popup = function () {
 			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'">'
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
 				+'<div class="kt-margin-r-20 font-weight-bolder">'
-					+'<span class="cardNumber">No.</span><span class="dplStartOrdCell" data-ord='+ord+'>'+ord+'</span>'
+					+'<span class="cardNumber">No.</span><span class="signStartOrdCell" data-ord='+ord+'>'+ord+'</span>'
 				+'</div>'
 				+'<div class="kt-widget__label kt-margin-r-10 osl-user__active--block">'
 						+'<i class="fa fa-arrow-alt-circle-left"></i>'
@@ -537,17 +487,17 @@ var OSLCmm6600Popup = function () {
   	
   	
     var updateLastUsrCard = function(){
-    	var usrCardList = $("#signCardTable .dplStartOrdCell").parent();
+    	var usrCardList = $("#signCardTable .signStartOrdCell").parent();
     	var usrCardCnt = usrCardList.length;
     	$.each(usrCardList,function(idx,map){
 			if((idx+1) == usrCardCnt){
 				$(this).children(".cardNumber").text("");
-				var ordCell = $(this).children(".dplStartOrdCell"); 
+				var ordCell = $(this).children(".signStartOrdCell"); 
 				ordCell.text("최종");
 				ordCell.data('ord', idx+1);
 			}else{
 				$(this).children(".cardNumber").text("No.");
-				var ordCell = $(this).children(".dplStartOrdCell"); 
+				var ordCell = $(this).children(".signStartOrdCell"); 
 				ordCell.text(idx+1);
 				ordCell.data('ord', idx+1);
 			}
@@ -556,45 +506,7 @@ var OSLCmm6600Popup = function () {
     }
   	
 	
-	function fnJobDivOrdModify(item, newIndex, oldIndex){
-		
-		
-		$.each($(".dplStartOrdCell"),function(idx, map){
-			
-			var targetOrd = parseInt($(map).attr("ord"));
-			
-			
-			
-			if(oldIndex > newIndex){
-				
-				if(idx < newIndex || idx > oldIndex){
-					return true;
-				}else{
-					targetOrd = targetOrd+1;
-				}
-			}
-			
-			else if(oldIndex < newIndex){
-				
-				if(idx > newIndex || idx < oldIndex){
-					return true;
-				}else{
-					targetOrd = targetOrd-1;
-				}
-			}
-			
-			
-			$(map).attr("ord",targetOrd);
-			$(map).text(targetOrd);
-			$(map).parent(".dpl_middle_row.dpl_job_row").attr("ord",targetOrd);
-			
-		});
-		
-		var $chgObj = $(item).find('.dplStartOrdCell');
-		$chgObj.attr("ord",newIndex+1);
-		$chgObj.parent(".dpl_middle_row.dpl_job_row").attr("ord",newIndex+1);
-		$chgObj.text(newIndex+1);
-		
+	var fnJobDivOrdModify = function(item, newIndex, oldIndex){
 		
 		updateLastUsrCard();
 	}
