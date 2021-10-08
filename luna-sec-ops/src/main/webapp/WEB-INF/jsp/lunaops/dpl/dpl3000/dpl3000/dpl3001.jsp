@@ -5,6 +5,7 @@
 <form class="kt-form" id="frDpl3001">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" name="paramDplId" id="paramDplId" value="${param.paramDplId}">
+	<input type="hidden" name="paramDplUsrId" id="paramDplUsrId" value="${param.paramDplUsrId}">
 	<div class="row">
 		
 		<div class="col-lg-6 col-md-12 col-sm-12">
@@ -20,14 +21,14 @@
 							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3001AssignJobTable" data-datatable-action="select" title="배정 JOB 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-auth-button="select" tabindex="1">
 								<i class="fa fa-list"></i><span>조회</span>
 							</button>
-							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3001AssignJobTable" data-datatable-action="jobExcute" title="선택 JOB 배포 실행" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-auth-button="insert" tabindex="2">
+							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3001AssignJobTable" data-datatable-action="jobExcute" title="선택 JOB 배포 실행" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-auth-button="insert" tabindex="2" id="jobDployExcute">
 								<i class="fas fa-play-circle"></i><span>배포 실행</span>
 							</button>
 						</div>
 					</div>
 				</div>
-				<div class="kt-portlet__body osl-min-h-px--415 kt-padding-10"">
-					<div class="osl-datatable-search" data-datatable-id="dpl3001AssignJobTable"></div>
+				<div class="kt-portlet__body osl-min-h-px--535 kt-padding-10"">
+					
 					<div class="kt_datatable" id="dpl3001AssignJobTable"></div>
 				</div>
 			</div>
@@ -56,7 +57,7 @@
 				<div class="kt-portlet__body">
 					<div class="osl-contents-frame osl-min-h-px-imp--415 osl-code-bg" id="contentsFrame">
 						<pre>
-							<code class="osl-code-bg" id="buildConsoleLog">좌측에서 JOB을 선택해주세요.</code>
+							<code class="osl-code-bg" id="buildConsoleLog">좌측에서 JOB을 선택해주세요</code>
 						</pre>
 					</div>	
 					<div class="kt-margin-t-20">
@@ -110,10 +111,20 @@ var OSLDpl3001Popup = function () {
 	
 	var jobBuildingConsoleLog = "";
 	
+	
 	var buildJobInfo = {};
 	
+	
+	var buildCompFlag = false;
+	
 	var documentSetting = function(){
+
 		
+		var loginUsrId = $.osl.user.userInfo.usrId;
+		
+		if($("#dplUsrId").val() != loginUsrId){
+			$("#jobDployExcute").addClass("kt-hide");
+		}
 		
 		
 		
@@ -131,12 +142,12 @@ var OSLDpl3001Popup = function () {
 						}
 					}
 				},
-				pageSize: 5
+				pageSize: 10
 			},
 			toolbar:{
 				items:{
 					pagination:{
-						pageSizeSelect : [5, 10, 20, 30, 50, 100]
+						pageSizeSelect : [10, 20, 30, 50, 100]
 					}
 				}
 			},
@@ -145,7 +156,15 @@ var OSLDpl3001Popup = function () {
 				
 				
 				{field: 'jobStartOrd', title: "실행 순번", textAlign: 'center', width: 60, autoHide: false, sortable: true, sortField: "jobStartOrd"},
-				{field: 'bldResultMsg', title: "실행 결과", textAlign: 'center', width: 130, search: false, sortable: true},
+				{field: 'bldResultMsg', title: "실행 결과", textAlign: 'center', width: 130, search: false, sortable: true
+					,template: function(row){
+						var bldResultMsg = row.bldResultMsg;
+						if($.osl.isNull(bldResultMsg)){
+							bldResultMsg = "-";
+						}
+						return bldResultMsg;
+					}
+				},
 				{field: 'jobTypeNm', title: "Job Type", textAlign: 'center', width: 60, search: true, sortable: true, searchType:"select", searchCd: "DPL00002", searchField:"jobTypeCd", sortField: "jobTypeCd"},
 				{field: 'bldNum', title: "빌드 번호", textAlign: 'center', width: 100, search: false, sortable: true
 					,template: function(row){
@@ -220,8 +239,6 @@ var OSLDpl3001Popup = function () {
 					
 					
 					
-					
-					
 					$("#btn_bldMainLog").removeClass("kt-hide");
 					$("#btn_bldMainLog").addClass("active");
 					$("#btn_bldMainLog").data("jobid", rowData.jobId);
@@ -241,6 +258,17 @@ var OSLDpl3001Popup = function () {
 					
 					
 					
+					if(!$.osl.isNull(buildJobInfo.jobData)){
+						
+						if(buildJobInfo.jobData.jobId != rowData.jobId){
+							
+							if(buildCompFlag){
+								$(".progress .progress-bar").animate({ "width": "0%", "aria-valuenow":0 }, { duration: 500, easing: 'linear' });
+								$("#bldProgressPer").text(0);
+							}
+						}
+					}
+					
 					
 					fnSelectJobConsoleLog(rowData);
 					
@@ -257,7 +285,6 @@ var OSLDpl3001Popup = function () {
 						$.osl.alert("실행(빌드)하려는 JOB을 선택해주세요.", {type: "warning"});
 						return false;
 					}
-					
 					
 					
 					
@@ -313,9 +340,7 @@ var OSLDpl3001Popup = function () {
 				$("button[data-logbtn-type=sub]").addClass("active");
 			}
 		});
-		
 	};
-	
 	
 	
 	var fnSelJobDeployExcute = function(selJobData, rowNum){
@@ -730,6 +755,9 @@ var OSLDpl3001Popup = function () {
 								
 								$(".progress .progress-bar").animate({ "width": "100%", "aria-valuenow":100 }, { duration: 500, easing: 'linear' });
 								$("#bldProgressPer").text("100");
+								
+								buildCompFlag = true;
+								
 								return false;
 							}
 							
@@ -753,6 +781,9 @@ var OSLDpl3001Popup = function () {
 								
 								$(".progress .progress-bar").animate({ "width": "100%",  "aria-valuenow":100 }, { duration: 500, easing: 'linear' });
 								$("#bldProgressPer").text("100");
+								
+								buildCompFlag = true;
+								
 								return false;
 							}
 						});
