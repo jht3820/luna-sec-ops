@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
-	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -71,7 +70,7 @@ var OSLDpl1000Popup = function () {
 						return nowSignTypeNm;
 					}	
 				},
-				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100
+				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100, search: true
 					,template: function(row){
 						var lastSignUsrNm = row.lastSignUsrNm
 						
