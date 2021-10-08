@@ -476,6 +476,10 @@ input:-webkit-autofill,
 }
 
 .daterangepicker select.yearselect{float:left;}
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
+    color: #d5d5d5 !important;
+    text-decoration: line-through;
+}
 
 .toast .toast-message {
     font-size: 1rem;
@@ -881,7 +885,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 	max-width: 300px;
 }
 
-td.kt-datatable__cell--left.kt-datatable__cell > span {
+.kt-datatable__body > .kt-datatable_row > td.kt-datatable__cell--left.kt-datatable__cell > span {
     white-space: nowrap;
 }
 .kt-datatable.osl-datatable-footer__divide.kt-datatable--default > .kt-datatable__pager{

@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frCmm6201" autocomplete="off">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}"/>
 	<input type="hidden" name="paramReqId" id="paramReqId" value="${param.paramReqId}"/>
+	<input type="hidden" name="processId" id="processId"/>
 	<input type="hidden" name="atchFileId" id="atchFileId"/>
+	<input type="hidden" name="reqChargerId" id="reqChargerId"/>
 	<div class="osl-req__process-main d-flex">
 		<div class="osl-req__process-title"><i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">요구사항 변경 이력</span></div>
 		<div class="osl-req__process-history osl-mask-bg" id="osl-req__process-history" data-scroll-x="true">
@@ -227,7 +229,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10 osl-min-h-px--575" data-ktwizard-type="step-content">
+		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content">
 			<div class="osl-background-around kt-padding-10">
 				<div class="row">
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
@@ -243,7 +245,23 @@
 								</div>
 							</div>
 							<div class="kt-portlet__body">
-								
+								<div class="row">
+									<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+										<div class="form-group">
+											<label class="required" for="prjNm"><i class="fa fa-edit kt-margin-r-5"></i><span>담당자명</span></label>
+											<div class="input-group">
+												<input type="text" class="form-control" placeholder="담당자명" name="reqChargerNm" id="reqChargerNm" opttype="-1" required>
+												<button type="button" class="btn btn-brand input-group-append" id="searchReqChargerBtn" name="searchReqChargerBtn"><i class="fa fa-search"></i><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
+											</div>
+											<span class="form-text text-muted">* 요구사항의 담당자를 선택해주세요.</span>
+										</div>
+									</div>
+									<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+										<label><i class="fa fa-edit kt-margin-r-5"></i><span>프로세스 기본 담당자</span></label>
+										<div class="osl-datatable-search" data-datatable-id="cmm6201ProcessAuthUsrTable"></div>
+										<div class="kt_datatable" id="cmm6201ProcessAuthUsrTable"></div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -319,6 +337,9 @@ var OSLCmm6201Popup = function () {
 	
 	var fileUploadObj;
 	
+	
+	var cmm6201ProcessAuthUsrTable;
+	
     
     var documentSetting = function () {
 
@@ -350,10 +371,153 @@ var OSLCmm6201Popup = function () {
 			startStep: 1, 
 			clickableSteps: true		
 		});
+    	
 		
+		wizard.on('change', function(wizardObj) {
+			if(wizardObj.currentStep == 2){
+				if($.osl.isNull(cmm6201ProcessAuthUsrTable)){
+					
+					fnDatatableSetting();
+				}else{
+					
+					cmm6201ProcessAuthUsrTable.targetDt.reload();
+				}
+			}
+		});
+		
+		
+		$("#"+formId+" #reqChargerNm").keydown(function(e){
+			if(e.keyCode == 13){
+				
+				$("#"+formId+" #searchReqChargerBtn").click();
+			}
+			$("#"+formId+" #reqChargerId").val("");
+		});
+    	
+    	
+    	$("#"+formId+" #searchReqChargerBtn").click(function(){
+    		var data = {
+    				usrNm : $("#"+formId+" #reqChargerNm").val()
+    		};
+    		var options = {
+    				idKey: "searchUsr",
+					modalTitle: $.osl.lang("req4101.modalTitle.userSearch"),
+					closeConfirm: true,
+					autoHeight:false,
+					modalSize: "xl",
+					callback:[{
+						targetId: "selectUsr",
+						actionFn: function(thisObj){
+							var selUsrInfo = OSLCmm6401Popup.getUsrInfo();
+							if(!$.osl.isNull(selUsrInfo)){
+								var selUsrInfo = JSON.parse(selUsrInfo);
+								$("#"+formId+" #reqChargerId").val(selUsrInfo.usrId);
+								$("#"+formId+" #reqChargerNm").val(selUsrInfo.usrNm);
+							}
+						}
+					}]
+    		};
+    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
+    	});
+    	
     	
     	fnRequestProcessData();
     };
+	var fnDatatableSetting = function(){
+		var paramProcessId = $("#frCmm6201 #processId").val();
+		
+		
+		cmm6201ProcessAuthUsrTable = $.osl.datatable.setting("cmm6201ProcessAuthUsrTable",{
+			data: {
+				source: {
+					read: {
+						url: "/prj/prj1000/prj1100/selectPrj1100ProcessAuthUsrListAjax.do",
+						params:{
+							type: "remote",
+							paramPrjId: paramPrjId,
+							paramReqId: paramReqId,
+							processId: paramProcessId
+						}
+					}
+				},
+				pageSize : 5,
+			},
+			toolbar:{
+				items:{
+					pagination:{
+						pageSizeSelect : [5, 10, 20, 30, 50, 100]
+					}
+				}
+			},
+			columns: [
+				{field: 'usrNm', title: '사용자명', textAlign: 'left', width: 150, search: true,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.usrImgId, row.usrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.usrId);
+					}
+				},
+				{field: 'usrPositionNm', title: '직책', textAlign: 'center', width: 100, search: true, searchType:"select", searchCd: "ADM00007", searchField:"usrPositionCd"},
+				{field: 'usrDutyNm', title: '직급', textAlign: 'center', width: 100, search: true, searchType:"select", searchCd: "ADM00008", searchField:"usrDutyCd"},
+				{field: 'email', title: '이메일', textAlign: 'left', width: 150, search: true},
+				{field: 'usrId', title: '사용자 ID', textAlign: 'left', width: 100, search: true},
+				{field: 'deptName', title: '부서', textAlign: 'left', width: 150, search: true},
+			],
+			searchColumns:[
+				{field: 'usrId', title: '사용자 ID', searchOrd: 1}
+			],
+			actionBtn:{
+				"title": "담당자 지정",
+				"update": false,
+				"delete": false,
+				"dblClick": true,
+				"lastPush": false
+			},
+			actionTooltip:{
+				"dblClick": "담당자 지정"
+			},
+			theme:{
+				actionBtnIcon:{
+					"dblClick": "fa fa-arrow-alt-circle-left",
+				}
+			},
+			actionFn:{
+				"dblClick":function(rowData){
+					
+					
+					fnSelChargerChg(rowData);
+				}
+			}
+		});
+	};
+	
+	var fnSelChargerChg = function(chargerInfo){
+		
+		function innerFnChargerChg(){
+			var usrId = chargerInfo.usrId;
+			var usrNm = chargerInfo.usrNm;
+			
+			
+			$("#reqChargerId").val(usrId);
+			$("#reqChargerNm").val(usrNm);
+		}
+		
+		
+		var reqChargerId = $("#reqChargerId").val();
+		
+		
+		if(!$.osl.isNull(reqChargerId)){
+			$.osl.confirm("기존에 설정된 담당자가 변경됩니다.</br>계속 하시겠습니까?",{html:true}, function(result){
+				if (result.value) {
+					innerFnChargerChg();
+				}
+			});
+		}else{
+			innerFnChargerChg();
+		}
+		
+	};
 	
 	
     var fnRequestProcessData = function(){
@@ -482,17 +646,60 @@ var OSLCmm6201Popup = function () {
 		    	});
 				
 		    	
-				$.osl.date.daterangepicker($("#reqStDtm"), {singleDatePicker: true, timePicker: true, timePicker24Hour: true});
-				$.osl.date.daterangepicker($("#reqEdDtm"), {singleDatePicker: true, timePicker: true, timePicker24Hour: true});
-				
-				
-				$.osl.date.daterangepicker($("#reqStDuDtm"), {singleDatePicker: true},function(defaultConfig, start, end, label){
-					var stDtStr = new Date(start._d).format("yyyy-MM-dd");
-					debugger;
-					$("#reqEdDuDtm").data('daterangepicker').setStartDate(stDtStr);
+				$.osl.date.daterangepicker($("#reqStDtm"), {
+						singleDatePicker: true, 
+						timePicker: true, 
+						timePicker24Hour: true,
+						maxDate: moment($("#reqEdDtm").val(), "YYYY-MM-DD HH:mm"),
+						locale: {
+							format: 'YYYY-MM-DD HH:mm'
+				        }
+					},function(defaultConfig, start, end, label){
+						var stDtStr = new Date(start._d).format("yyyy-MM-dd HH:mm");
+						
+						
+						if($("#reqEdDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
+							$("#reqEdDtm").data('daterangepicker').setStartDate(stDtStr);
+						}
+						$("#reqEdDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD HH:mm");
 				});
-				$.osl.date.daterangepicker($("#reqEdDuDtm"), {singleDatePicker: true},function(defaultConfig, start, end, label){
+				$.osl.date.daterangepicker($("#reqEdDtm"), {
+						singleDatePicker: true, 
+						timePicker: true, 
+						timePicker24Hour: true,
+						minDate: moment($("#reqStDtm").val(), "YYYY-MM-DD HH:mm"),
+						locale: {
+							format: 'YYYY-MM-DD HH:mm'
+				        }
 					
+					},function(defaultConfig, start, end, label){
+						var edDtStr = new Date(start._d).format("yyyy-MM-dd HH:mm");
+						
+						$("#reqStDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD HH:mm");
+				});
+				
+				
+				$.osl.date.daterangepicker($("#reqStDuDtm"), {
+						singleDatePicker: true,
+						maxDate: moment($("#reqEdDuDtm").val(), "YYYY-MM-DD")
+					
+					},function(defaultConfig, start, end, label){
+						var stDtStr = new Date(start._d).format("yyyy-MM-dd");
+						
+						
+						if($("#reqEdDuDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
+							$("#reqEdDuDtm").data('daterangepicker').setStartDate(stDtStr);
+						}
+						$("#reqEdDuDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD");
+				});
+				$.osl.date.daterangepicker($("#reqEdDuDtm"), {
+						singleDatePicker: true,
+						minDate: moment($("#reqStDuDtm").val(), "YYYY-MM-DD")
+					
+					},function(defaultConfig, start, end, label){
+						var edDtStr = new Date(start._d).format("yyyy-MM-dd");
+						
+						$("#reqStDuDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD");
 				});
 		    	
 		    	

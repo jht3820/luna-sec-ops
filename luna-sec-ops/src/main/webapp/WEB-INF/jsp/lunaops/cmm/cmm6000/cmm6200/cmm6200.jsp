@@ -430,8 +430,8 @@ var OSLCmm6200Popup = function () {
     		
     		
     		if(checked){
-    			$("#frCmm6200 #selReqChargerNm").val("");
-            	$("#frCmm6200 #selReqChargerId").val("");
+    			$("#"+formId+" #selReqChargerNm").val("");
+            	$("#"+formId+" #selReqChargerId").val("");
             	
     			$("#selReqChargerNm").attr("disabled","disabled");
     			$("#selReqChargerNm").addClass("rounded-lg");
@@ -457,6 +457,7 @@ var OSLCmm6200Popup = function () {
 				
 				$("#searchReqChargerBtn").click();
 			}
+			$("#"+formId+" #selReqChargerId").val("");
 		});
     	
     	
@@ -797,7 +798,7 @@ var OSLCmm6200Popup = function () {
 				$.osl.layerPopupClose();
 			}else{
 				
-		    	$.osl.setDataFormElem(data.reqInfoMap,"frCmm6200");
+		    	$.osl.setDataFormElem(data.reqInfoMap,formId);
 				
 		    	formEditList["reqDesc"].target.summernote('code', data.reqInfoMap.reqDesc);
 			}
@@ -965,8 +966,8 @@ var OSLCmm6200Popup = function () {
         setUsrChargerNm: function(usrInfo){
         	var selUsrInfo = JSON.parse(usrInfo);
         	
-        	$("#frCmm6200 #selReqChargerNm").val(selUsrInfo.usrNm);
-        	$("#frCmm6200 #selReqChargerId").val(selUsrInfo.usrId);
+        	$("#"+formId+" #selReqChargerNm").val(selUsrInfo.usrNm);
+        	$("#"+formId+" #selReqChargerId").val(selUsrInfo.usrId);
         	
         }
     };
