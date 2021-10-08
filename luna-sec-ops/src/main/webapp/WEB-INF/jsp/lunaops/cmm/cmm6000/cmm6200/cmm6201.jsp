@@ -5,11 +5,33 @@
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}"/>
 	<input type="hidden" name="paramReqId" id="paramReqId" value="${param.paramReqId}"/>
 	<input type="hidden" name="processId" id="processId"/>
+	<input type="hidden" name="flowId" id="flowId"/>
 	<input type="hidden" name="atchFileId" id="atchFileId"/>
 	<input type="hidden" name="reqChargerId" id="reqChargerId"/>
+	<div class="osl-req__process-title"><i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">요구사항 변경 이력</span></div>
 	<div class="osl-req__process-main d-flex">
-		<div class="osl-req__process-title"><i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">요구사항 변경 이력</span></div>
-		<div class="osl-req__process-history osl-mask-bg" id="osl-req__process-history" data-scroll-x="true">
+		<div class="osl-req__process-history osl-mask-bg" id="osl-req__process-history" data-scroll-x="true"></div>
+		<div class="osl-req__process-next__Flow osl-mask-bg">
+			<div class="osl-req__process-mask__flow">
+				<div class="flowchart-operator-process-title">
+					<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate"><span id="nextProcessNm">프로세스명</span></div>
+				</div>
+				<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">
+					<div class="flowchart-operator-title__lebel d-inline-block text-truncate"><span id="nextFlowNm">다음 단계명</span></div>
+				</div>
+				<div class="flowchart-operator-inputs-outputs">
+					<div class="kt-user-card-v2 btn" data-usr-id="'+ chgUsrId +'">
+						<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
+							<img src="/media/users/default.jpg" onerror="this.src='/media/users/default.jpg'" id="nextFlowChargerImg"/>
+						</div>
+						<div class="kt-user-card-v2__details kt-align-left">
+							<span class="kt-user-card-v2__name text-truncate" id="nextFlowChargerNm">담당자명</span>
+							<span class="kt-user-card-v2__email kt-margin-l-10 osl-line-height-rem-1_5" id="nextFlowEmail"></span>
+						</div>
+					</div>
+					
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="osl-wizard" id="requestProcessWizard" data-ktwizard-state="step-first">
@@ -37,8 +59,8 @@
 					<div class="osl-wizard-wrapper">
 						<div class="wizard-number">3</div>
 						<div class="wizard-label">
-							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.chargerTitle">프로세스 선택</span></div>
-							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.chargerDesc">이관 프로세스 선택</span></div>
+							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.chargerTitle">단계 선택</span></div>
+							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.chargerDesc">다음 단계 선택</span></div>
 						</div>
 					</div>
 				</div>
@@ -117,7 +139,7 @@
 								<div class="form-group kt-margin-b-20 form-group-last">
 									<label>
 										<i class="fa fa-file-upload kt-margin-r-5"></i>
-										<span data-lang-cd="req4101.label.attachments">파일 첨부</span> 
+										<span data-lang-cd="req4101.label.attachments">첨부 파일 목록</span> 
 									</label>
 									<div class="kt-uppy osl-max-h-px-260 fileReadonly" name="fileListDiv" id="fileListDiv">
 										<div class="kt-uppy__dashboard"></div>
@@ -314,7 +336,38 @@
 		</div>
 		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content">
 			<div class="osl-background-around kt-padding-10">
-			
+				<div class="kt-portlet kt-portlet--mobile">
+					<div class="kt-portlet__head kt-portlet__head--lg">
+						<div class="kt-portlet__head-label">
+							<h5 class="kt-font-boldest kt-font-brand">
+								<i class="fa fa-th-large kt-margin-r-5"></i><span>작업흐름 목록</span>
+							</h5>
+						</div>
+						<div class="kt-portlet__head-toolbar">
+							<div class="kt-portlet__head-wrapper">
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="reset" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+									<i class="fa fa-redo-alt"></i><span data-lang-cd="datatable.button.select">줌 리셋</span>
+								</button>
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="in" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+									<i class="fa fa-search-plus"></i><span data-lang-cd="datatable.button.select">확대</span>
+								</button>
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="out" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+									<i class="fa fa-search-minus"></i><span data-lang-cd="datatable.button.select">축소</span>
+								</button>
+							</div>
+							<div class="kt-portlet__head-group">
+								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="kt-portlet__body osl-min-h-px--470 osl-process__flow-main">
+						<div class="osl-process__flow-container">
+							<div class="osl-process__flow-chart d-inline-block" id="cmm6201FlowChartDiv">
+								
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -324,6 +377,8 @@
 </div>
 <script>
 "use strict";
+
+
 var OSLCmm6201Popup = function () {
 	var formId = 'frCmm6201';
 	
@@ -340,6 +395,17 @@ var OSLCmm6201Popup = function () {
 	
 	var cmm6201ProcessAuthUsrTable;
 	
+	
+	var flowChart = $("#"+formId+" #cmm6201FlowChartDiv");
+
+	
+	var zoomObj;
+	var currentZoom = 2;
+	
+	
+	var flowLinkList = [];
+	var flowList = [];
+	
     
     var documentSetting = function () {
 
@@ -348,6 +414,7 @@ var OSLCmm6201Popup = function () {
     	new KTPortlet('cmm6201ReqGroupInfo', $.osl.lang("portlet"));
     	new KTPortlet('cmm6201ReqInfo', $.osl.lang("portlet"));
     	new KTPortlet('cmm6201NewRequestOpt', $.osl.lang("portlet"));
+    	new KTPortlet('cmm6201ProcessSel', $.osl.lang("portlet"));
     	
     	
     	KTUtil.scrollInit($("#osl-req__process-history")[0], {
@@ -383,6 +450,14 @@ var OSLCmm6201Popup = function () {
 					cmm6201ProcessAuthUsrTable.targetDt.reload();
 				}
 			}
+			else if(wizardObj.currentStep == 3){
+				
+				fnSelectFlowList(flowList, flowLinkList);
+				
+				
+				fnFlowChartZoom("reset");
+			}
+			
 		});
 		
 		
@@ -411,8 +486,9 @@ var OSLCmm6201Popup = function () {
 							var selUsrInfo = OSLCmm6401Popup.getUsrInfo();
 							if(!$.osl.isNull(selUsrInfo)){
 								var selUsrInfo = JSON.parse(selUsrInfo);
-								$("#"+formId+" #reqChargerId").val(selUsrInfo.usrId);
-								$("#"+formId+" #reqChargerNm").val(selUsrInfo.usrNm);
+								
+								
+								fnUsrChargerChg(selUsrInfo);
 							}
 						}
 					}]
@@ -421,10 +497,49 @@ var OSLCmm6201Popup = function () {
     	});
     	
     	
+		flowChart.flowchart({
+			multipleLinksOnInput: true,
+			multipleLinksOnOutput: true,
+			canUserEditLinks: false,
+			canUserMoveOperators: false,
+			distanceFromArrow:1,
+			linkWidth:1,
+			defaultLinkColor: "#5867dd",
+			defaultOperatorClass: "osl-flowchart__operator",
+            onLinkSelect: function(linkId){
+            	
+            	return false;
+            }
+		});
+		
+		zoomObj = panzoom(flowChart[0],{
+			maxZoom: 2,
+			minZoom: 0.5,
+		});
+		
+		
+		zoomObj.on('zoom', function(e) {
+			flowChart.flowchart('setPositionRatio', e.getTransform().scale);
+		});
+		
+		
+    	$("form#"+formId+" button[data-flow-action=zommCtrl]").click(function(){
+    		var zoomAction = $(this).data("zoom");
+			
+			if($.osl.isNull(zoomAction)){
+				return true;
+			}else{
+				fnFlowChartZoom(zoomAction);
+			}
+    	});
+		
+    	
     	fnRequestProcessData();
     };
+    
+    
 	var fnDatatableSetting = function(){
-		var paramProcessId = $("#frCmm6201 #processId").val();
+		var paramProcessId = $("#"+formId+"  #processId").val();
 		
 		
 		cmm6201ProcessAuthUsrTable = $.osl.datatable.setting("cmm6201ProcessAuthUsrTable",{
@@ -492,29 +607,37 @@ var OSLCmm6201Popup = function () {
 		});
 	};
 	
+	
+	function fnUsrChargerChg(chargerInfo){
+		var usrId = chargerInfo.usrId;
+		var usrNm = chargerInfo.usrNm;
+		var email = chargerInfo.email;
+		var usrImgId = chargerInfo.usrImgId;
+		
+		
+		$("#"+formId+" #reqChargerId").val(usrId);
+		$("#"+formId+" #reqChargerNm").val(usrNm);
+
+		
+		$("#"+formId+" #nextFlowChargerNm").text(usrNm);
+		$("#"+formId+" #nextFlowEmail").text(email);
+		$("#"+formId+" #nextFlowChargerImg").attr("src",$.osl.user.usrImgUrlVal(usrImgId));
+	}
+	 
+	
 	var fnSelChargerChg = function(chargerInfo){
 		
-		function innerFnChargerChg(){
-			var usrId = chargerInfo.usrId;
-			var usrNm = chargerInfo.usrNm;
-			
-			
-			$("#reqChargerId").val(usrId);
-			$("#reqChargerNm").val(usrNm);
-		}
-		
-		
-		var reqChargerId = $("#reqChargerId").val();
+		var reqChargerId = $("#"+formId+" #reqChargerId").val();
 		
 		
 		if(!$.osl.isNull(reqChargerId)){
 			$.osl.confirm("기존에 설정된 담당자가 변경됩니다.</br>계속 하시겠습니까?",{html:true}, function(result){
 				if (result.value) {
-					innerFnChargerChg();
+					fnUsrChargerChg(chargerInfo);
 				}
 			});
 		}else{
-			innerFnChargerChg();
+			fnUsrChargerChg(chargerInfo);
 		}
 		
 	};
@@ -599,35 +722,44 @@ var OSLCmm6201Popup = function () {
  				
 		    	$.osl.setDataFormElem(reqInfo, formId);
 				
+ 				
+		    	fnUsrChargerChg({
+		    		usrId: reqInfo.reqChargerId,
+		    		usrNm: reqInfo.reqChargerNm,
+		    		usrImgId: reqInfo.reqChargerImgId,
+		    		email: reqInfo.reqChargerEmail
+		    	});
+ 				
 				
-		    	$("#reqUsrId").val(reqInfo.reqUsrId);
-				$("#reqGrpNm").val(reqInfo.reqGrpNm);
-		    	$("#usrNm").val(reqInfo.reqUsrNm);
-		    	$("#email").val(reqInfo.reqUsrEmail);
-		    	$("#telno").val(reqInfo.reqUsrNum);
-		    	$("#deptName").val(reqInfo.reqUsrDeptNm);
-		    	$("#deptId").val(reqInfo.reqUsrDeptId);
-		    	$("#usrImgId").attr("src",$.osl.user.usrImgUrlVal(reqInfo.reqUsrImgId));
+		    	$("#"+formId+" #reqUsrId").val(reqInfo.reqUsrId);
+				$("#"+formId+" #reqGrpNm").val(reqInfo.reqGrpNm);
+		    	$("#"+formId+" #usrNm").val(reqInfo.reqUsrNm);
+		    	$("#"+formId+" #email").val(reqInfo.reqUsrEmail);
+		    	$("#"+formId+" #telno").val(reqInfo.reqUsrNum);
+		    	$("#"+formId+" #deptName").val(reqInfo.reqUsrDeptNm);
+		    	$("#"+formId+" #deptId").val(reqInfo.reqUsrDeptId);
+		    	$("#"+formId+" #usrImgId").attr("src",$.osl.user.usrImgUrlVal(reqInfo.reqUsrImgId));
 		    	
-		    	$("#reqPrjSelect").val($.osl.escapeHtml(reqInfo.prjId)).trigger('change.select2');
-		    	$("#reqPrjSelect").prop("disabled", true);
+		    	$("#"+formId+" #nextProcessNm").text(reqInfo.processNm);
+		    	$("#"+formId+" #reqPrjSelect").val($.osl.escapeHtml(reqInfo.prjId)).trigger('change.select2');
+		    	$("#"+formId+" #reqPrjSelect").prop("disabled", true);
 		    	
 		    	
-		    	formEditList.push($.osl.editorSetting("reqDesc", {
+		    	formEditList.push($.osl.editorSetting(formId+" #reqDesc", {
 		    		toolbar: false,
 	    			disableResizeEditor: false,
 	    			disableDragAndDrop: true,
 	    			disabledEditor: true,
 	    			height:260
 		    	}));
-		    	formEditList.push($.osl.editorSetting("reqGrpDesc", {
+		    	formEditList.push($.osl.editorSetting(formId+" #reqGrpDesc", {
 		    		toolbar: false,
 	    			disableResizeEditor: false,
 	    			disableDragAndDrop: true,
 	    			disabledEditor: true,
 	    			height:180
 	    		}));
-		    	formEditList.push($.osl.editorSetting("reqAcceptTxt", {
+		    	formEditList.push($.osl.editorSetting(formId+" #reqAcceptTxt", {
 		    		toolbar: false,
 	    			disableResizeEditor: false,
 	    			disableDragAndDrop: true,
@@ -636,9 +768,9 @@ var OSLCmm6201Popup = function () {
 	    		}));
 		    	
 				
-		    	fileUploadObj = $.osl.file.uploadSet("fileListDiv",{
+		    	fileUploadObj = $.osl.file.uploadSet(formId+" #fileListDiv",{
 		    		maxFileSize: "${requestScope.fileSumMaxSize}",
-		    		meta: {"atchFileId": $("#atchFileId").val(), "fileSn": 0},
+		    		meta: {"atchFileId": $("#"+formId+" #atchFileId").val(), "fileSn": 0},
 		    		height: 260,
 		    		isDraggingOver: false,
 		    		fileDownload: true,
@@ -646,7 +778,7 @@ var OSLCmm6201Popup = function () {
 		    	});
 				
 		    	
-				$.osl.date.daterangepicker($("#reqStDtm"), {
+				$.osl.date.daterangepicker($("#"+formId+" #reqStDtm"), {
 						singleDatePicker: true, 
 						timePicker: true, 
 						timePicker24Hour: true,
@@ -658,16 +790,16 @@ var OSLCmm6201Popup = function () {
 						var stDtStr = new Date(start._d).format("yyyy-MM-dd HH:mm");
 						
 						
-						if($("#reqEdDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
-							$("#reqEdDtm").data('daterangepicker').setStartDate(stDtStr);
+						if($("#"+formId+" #reqEdDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
+							$("#"+formId+" #reqEdDtm").data('daterangepicker').setStartDate(stDtStr);
 						}
-						$("#reqEdDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD HH:mm");
+						$("#"+formId+" #reqEdDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD HH:mm");
 				});
-				$.osl.date.daterangepicker($("#reqEdDtm"), {
+				$.osl.date.daterangepicker($("#"+formId+" #reqEdDtm"), {
 						singleDatePicker: true, 
 						timePicker: true, 
 						timePicker24Hour: true,
-						minDate: moment($("#reqStDtm").val(), "YYYY-MM-DD HH:mm"),
+						minDate: moment($("#"+formId+" #reqStDtm").val(), "YYYY-MM-DD HH:mm"),
 						locale: {
 							format: 'YYYY-MM-DD HH:mm'
 				        }
@@ -675,31 +807,31 @@ var OSLCmm6201Popup = function () {
 					},function(defaultConfig, start, end, label){
 						var edDtStr = new Date(start._d).format("yyyy-MM-dd HH:mm");
 						
-						$("#reqStDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD HH:mm");
+						$("#"+formId+" #reqStDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD HH:mm");
 				});
 				
 				
-				$.osl.date.daterangepicker($("#reqStDuDtm"), {
+				$.osl.date.daterangepicker($("#"+formId+" #reqStDuDtm"), {
 						singleDatePicker: true,
-						maxDate: moment($("#reqEdDuDtm").val(), "YYYY-MM-DD")
+						maxDate: moment($("#"+formId+" #reqEdDuDtm").val(), "YYYY-MM-DD")
 					
 					},function(defaultConfig, start, end, label){
 						var stDtStr = new Date(start._d).format("yyyy-MM-dd");
 						
 						
-						if($("#reqEdDuDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
-							$("#reqEdDuDtm").data('daterangepicker').setStartDate(stDtStr);
+						if($("#"+formId+" #reqEdDuDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
+							$("#"+formId+" #reqEdDuDtm").data('daterangepicker').setStartDate(stDtStr);
 						}
-						$("#reqEdDuDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD");
+						$("#"+formId+" #reqEdDuDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD");
 				});
-				$.osl.date.daterangepicker($("#reqEdDuDtm"), {
+				$.osl.date.daterangepicker($("#"+formId+" #reqEdDuDtm"), {
 						singleDatePicker: true,
-						minDate: moment($("#reqStDuDtm").val(), "YYYY-MM-DD")
+						minDate: moment($("#"+formId+" #reqStDuDtm").val(), "YYYY-MM-DD")
 					
 					},function(defaultConfig, start, end, label){
 						var edDtStr = new Date(start._d).format("yyyy-MM-dd");
 						
-						$("#reqStDuDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD");
+						$("#"+formId+" #reqStDuDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD");
 				});
 		    	
 		    	
@@ -707,6 +839,10 @@ var OSLCmm6201Popup = function () {
 		    	
 		    	
 		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
+		    	
+		    	
+		    	flowLinkList = data.flowLinkList;
+		    	flowList = data.flowList;
  			}
  		});
  		
@@ -714,6 +850,114 @@ var OSLCmm6201Popup = function () {
  		ajaxObj.send();
     };
     
+	
+	var fnFlowChartZoom = function(type){
+		
+		if(type == "reset"){
+			
+			zoomObj.pause();
+			
+			
+			zoomObj.moveTo(0,0);
+			zoomObj.zoomAbs(0,0,1);
+			
+			
+			zoomObj.resume();
+			return true;
+		}
+		
+		var possibleZooms = [2,1.5,1,0.75,0.5];
+		
+		
+		if(type == "in"){
+			currentZoom--;
+			if(currentZoom < 0){
+				currentZoom = 0;
+			}
+		}
+		
+		else if(type == "out"){
+			currentZoom++;
+			if(currentZoom > (possibleZooms.length-1)){
+				currentZoom = (possibleZooms.length-1);
+			}
+		}
+		
+		zoomObj.zoomAbs(0,0,possibleZooms[currentZoom]);
+	};
+	
+	
+	var fnSelectFlowList = function(flowList, flowLinkList){
+		
+		flowChart.flowchart("setData",{});
+		
+		
+		if(!$.osl.isNull(flowList) && flowList.length > 0){
+			var flowNextIdList = {};
+			
+			
+			if(!$.osl.isNull(flowLinkList) && flowLinkList.length > 0){
+				$.each(flowLinkList, function(idx, map){
+					
+					if(!flowNextIdList.hasOwnProperty(map.flowId)){
+						flowNextIdList[map.flowId] = [];
+					}
+					flowNextIdList[map.flowId].push(map.flowNextId);
+				});
+			}
+		
+			$.each(flowList, function(idx, map){
+				var flowNextId = [];
+				if(flowNextIdList.hasOwnProperty(map.flowId)){
+					flowNextId = flowNextIdList[map.flowId];
+				}
+				
+   				var operatorData = {
+					top: map.flowTop,
+					left: map.flowLeft,
+					properties: {
+						id: map.flowId,
+						flowNextId: flowNextId,
+						title: $.osl.escapeHtml(map.flowNm),
+						editable: false,
+						inputs: {input_1: {label: '이전'}},
+						outputs: {output_1: {label: '다음'}},
+						flowTitleBgColor: map.flowTitleBgColor,
+						flowTitleColor: map.flowTitleColor,
+						flowEssentialCd: map.flowEssentialCd,
+						flowSignCd: map.flowSignCd,
+						flowSignStopCd: map.flowSignStopCd,
+						flowStartCd: map.flowStartCd,
+						flowEndCd: map.flowEndCd,
+						flowWorkCd: map.flowWorkCd,
+						flowRevisionCd: map.flowRevisionCd,
+						flowDplCd: map.flowDplCd,
+						flowAuthCd: map.flowAuthCd
+					}
+				};
+   				
+   				flowChart.flowchart('createOperator', map.flowId, operatorData);
+			});
+			
+			
+			if(!$.osl.isNull(flowLinkList) && flowLinkList.length > 0){
+				$.each(flowLinkList, function(idx, map){
+					
+					var linkData = {
+   							fromConnector: "output_1",
+   							fromOperator: map.flowId,
+   							fromSubConnector: 0,
+   							toConnector: "input_1",
+   							toOperator: map.flowNextId,
+   							toSubConnector: 0
+   						};
+					
+					flowChart.flowchart('createLink', idx, linkData);
+				});
+			}
+		}
+	};
+	
     return {
         
         init: function() {
