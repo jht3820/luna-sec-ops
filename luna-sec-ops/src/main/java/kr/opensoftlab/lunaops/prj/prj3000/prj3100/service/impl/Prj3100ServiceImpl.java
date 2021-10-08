@@ -307,4 +307,11 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 			}
 		}
 	}
+
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List selectPrj3100DocList(Map<String, String> paramMap) throws Exception {
+		return prj3100DAO.selectPrj3100Prj3100DocList(paramMap);
+	}
 }
