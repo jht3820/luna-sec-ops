@@ -41,7 +41,6 @@
 		            		AND 	A.PRJ_ID 		= 	B.PRJ_ID
 		            		AND		A.PRJ_ID		=	#prjId#
 		            		AND		B.LIC_GRP_ID 	= 	#licGrpId#
-		            		AND		A.USE_CD		=	'01'
 		       ) T        
       		START WITH T.DOC_ID = (SELECT DOC_ID FROM PRJ3000 WHERE UPPER_DOC_ID IS NULL AND PRJ_ID	= #prjId#)
 		  	CONNECT BY PRIOR T.DOC_ID = T.UPPER_DOC_ID

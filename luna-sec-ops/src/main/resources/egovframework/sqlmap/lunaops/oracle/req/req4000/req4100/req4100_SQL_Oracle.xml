@@ -12,6 +12,7 @@
 		<result property="prjId"				column="PRJ_ID"/>
 		<result property="reqId"				column="REQ_ID"/>
 		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
+		<result property="prjGrpNm"				column="PRJ_GRP_NM"/>
 		<result property="reqClsId"				column="REQ_CLS_ID"/>
 		<result property="reqClsNm"				column="REQ_CLS_NM"/>
 		<result property="reqNo"				column="REQ_NO"/>
@@ -63,6 +64,7 @@
 		<result property="prjNm"				column="PRJ_NM"/>
 		<result property="reqId"				column="REQ_ID"/>
 		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
+		<result property="prjGrpNm"				column="PRJ_GRP_NM"/>
 		<result property="reqClsId"				column="REQ_CLS_ID"/>
 		<result property="reqClsNm"				column="REQ_CLS_NM"/>
 		<result property="reqOrd"				column="REQ_ORD"/>
@@ -102,6 +104,7 @@
  		<result property="reqKey"				column="REQ_KEY"/>
  		<result property="reqGrpId" 			column="REQ_GRP_ID"/>
  		<result property="reqGrpNm" 			column="REQ_GRP_NM"/>
+ 		<result property="reqGrpNo" 			column="REQ_GRP_NO"/>
  		<result property="reqGrpDesc"			column="REQ_GRP_DESC" jdbcType="CLOB" javaType="java.lang.String"/>
     </resultMap>
     
@@ -111,6 +114,7 @@
 		<result property="prjNm"				column="PRJ_NM"/>
 		<result property="reqId"				column="REQ_ID"/>
 		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
+		<result property="prjGrpNm"				column="PRJ_GRP_NM"/>
 		<result property="reqClsId"				column="REQ_CLS_ID"/>
 		<result property="reqClsNm"				column="REQ_CLS_NM"/>
 		<result property="reqOrd"				column="REQ_ORD"/>
@@ -165,6 +169,7 @@
 			,	T1.USR_SEL_PRJ_ORD
 			,	T1.REQ_GRP_ID
 			,	T1.REQ_GRP_NM
+			,	T1.REQ_GRP_NO
 			,	T1.REQ_ID
 			,	T1.REQ_ORD
 			,	T1.REQ_CLS_ID
@@ -219,6 +224,7 @@
 					,	DECODE(A.PRJ_ID, #prjId#, '1', '2') AS USR_SEL_PRJ_ORD
 					,	C.REQ_GRP_ID
 					,	C.REQ_GRP_NM
+					,	C.REQ_GRP_NO
 					,	A.REQ_ID
 					,	A.REQ_ORD
 					,	A.REQ_CLS_ID
@@ -251,9 +257,9 @@
 					,	A.CB_ATCH_FILE_ID
 					,	A.MILESTONE_ID
 					,	A.PROCESS_ID
-					,	'' AS PROCESS_NM
+					,	D.PROCESS_NM
 					,	A.FLOW_ID
-					,	'' AS FLOW_NM
+					,	E.FLOW_NM
 					,	A.USE_CD
 					,	A.REQ_KEY
 					,	A.REQ_MIDDLE_DONE_TXT
@@ -269,6 +275,10 @@
 		   		ON (A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
 		    LEFT JOIN REQ3000 C
 				ON (B.PRJ_GRP_ID = C.PRJ_GRP_ID AND B.REQ_GRP_ID = C.REQ_GRP_ID AND C.USE_CD = '01')
+			LEFT JOIN PRJ1100 D
+				ON ( D.PRJ_ID = A.PRJ_ID AND D.PROCESS_ID = A.PROCESS_ID )
+			LEFT JOIN PRJ1101 E
+				ON ( E.PRJ_ID = A.PRJ_ID AND E.PROCESS_ID = A.PROCESS_ID AND E.FLOW_ID = A.FLOW_ID )
 		    WHERE 1=1
 			<isNotEmpty property="atchFileIdNotNull">
 				AND A.ATCH_FILE_ID IS NOT NULL
@@ -310,6 +320,9 @@
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="reqGrpNm">
 					AND	T1.REQ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="reqGrpNo">
+					AND	T1.REQ_GRP_NO LIKE '%'|| #searchTargetData# ||'%'
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="reqKey">
 					AND	T1.REQ_KEY LIKE '%'|| #searchTargetData# ||'%'
@@ -452,9 +465,9 @@
 					,	A.CB_ATCH_FILE_ID
 					,	A.MILESTONE_ID
 					,	A.PROCESS_ID
-					,	'' AS PROCESS_NM
+					,	D.PROCESS_NM
 					,	A.FLOW_ID
-					,	'' AS FLOW_NM
+					,	E.FLOW_NM
 					,	A.USE_CD
 					,	A.REQ_KEY
 					,	A.REQ_MIDDLE_DONE_TXT
@@ -470,6 +483,10 @@
 				    ,	CASE WHEN B.FVR_USE_CD = '01' THEN '1' ELSE '2' END FVR_ORD  
 		    FROM (SELECT * FROM REQ4100) A
 		    LEFT JOIN STM2002 B ON ( A.REQ_ID = B.FVR_DATA1 AND B.FVR_TYPE = '05')
+		    LEFT JOIN PRJ1100 D
+				ON ( D.PRJ_ID = A.PRJ_ID AND D.PROCESS_ID = A.PROCESS_ID )
+			LEFT JOIN PRJ1101 E
+				ON ( E.PRJ_ID = A.PRJ_ID AND E.PROCESS_ID = A.PROCESS_ID AND E.FLOW_ID = A.FLOW_ID )
 		    WHERE 1=1
 				AND A.REQ_CHARGER_ID = #usrId#
 		) T1 WHERE 1 = 1
@@ -573,9 +590,9 @@
 					,	A.CB_ATCH_FILE_ID
 					,	A.MILESTONE_ID
 					,	A.PROCESS_ID
-					,	'' AS PROCESS_NM
+					,	D.PROCESS_NM
 					,	A.FLOW_ID
-					,	'' AS FLOW_NM
+					,	E.FLOW_NM
 					,	A.USE_CD
 					,	A.REQ_KEY
 					,	A.REQ_MIDDLE_DONE_TXT
@@ -589,12 +606,17 @@
 					,	REGEXP_REPLACE(A.REQ_DESC, '<[^>]*>', ' ') AS REQ_DESC
 					,	C.REQ_GRP_ID
 			   		,	C.REQ_GRP_NM
+			   		,	C.REQ_GRP_NO
 			    	,	C.REQ_GRP_DESC
 			    FROM (SELECT * FROM REQ4100) A
 				LEFT JOIN REQ3001 B
 		   			ON (A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
 		    	LEFT JOIN REQ3000 C
 					ON (B.PRJ_GRP_ID = C.PRJ_GRP_ID AND B.REQ_GRP_ID = C.REQ_GRP_ID AND C.USE_CD = '01')
+				LEFT JOIN PRJ1100 D
+					ON ( D.PRJ_ID = A.PRJ_ID AND D.PROCESS_ID = A.PROCESS_ID )
+				LEFT JOIN PRJ1101 E
+					ON ( E.PRJ_ID = A.PRJ_ID AND E.PROCESS_ID = A.PROCESS_ID AND E.FLOW_ID = A.FLOW_ID )
 			    WHERE 1=1
 					AND A.PRJ_ID = #prjId#
 					
@@ -721,9 +743,9 @@
 		,	A.CB_ATCH_FILE_ID
 		,	A.MILESTONE_ID
 		,	A.PROCESS_ID
-		,	'' AS PROCESS_NM
+		,	D.PROCESS_NM
 		,	A.FLOW_ID
-		,	'' AS FLOW_NM
+		,	E.FLOW_NM
 		,	A.USE_CD
 		,	A.REQ_KEY
 		,	A.REQ_MIDDLE_DONE_TXT
@@ -736,12 +758,17 @@
 	    ,	A.MODIFY_USR_IP
 	    ,	C.REQ_GRP_ID
    		,	C.REQ_GRP_NM
+   		,	C.REQ_GRP_NO
     	,	C.REQ_GRP_DESC
 		FROM REQ4100 A
 		LEFT JOIN REQ3001 B
    			ON (A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
     	LEFT JOIN REQ3000 C
 			ON (B.PRJ_GRP_ID = C.PRJ_GRP_ID AND B.REQ_GRP_ID = C.REQ_GRP_ID AND C.USE_CD = '01')
+		LEFT JOIN PRJ1100 D
+			ON ( D.PRJ_ID = A.PRJ_ID AND D.PROCESS_ID = A.PROCESS_ID )
+		LEFT JOIN PRJ1101 E
+			ON ( E.PRJ_ID = A.PRJ_ID AND E.PROCESS_ID = A.PROCESS_ID AND E.FLOW_ID = A.FLOW_ID )
 		WHERE 1 = 1
 		AND A.PRJ_ID = #prjId#
 		AND A.REQ_ID = #reqId#

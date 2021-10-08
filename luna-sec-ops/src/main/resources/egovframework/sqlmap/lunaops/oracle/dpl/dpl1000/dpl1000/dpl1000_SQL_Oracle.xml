@@ -12,167 +12,6 @@
 	<typeAlias alias="ChangePathsVO"	type="kr.opensoftlab.sdf.jenkins.vo.ChangePathsVO"/>
 	
 	
-	<sql id="selectDpl1000DplListbase_tmp">
-			SELECT
-					ROWNUM AS RN
-				,	SUB1.PRJ_ID
-				,	SUB1.DPL_ID
-				,	SUB1.DPL_NM
-				,	SUB1.DPL_VER
-				,	SUB1.DPL_DT
-				,	SUB1.DPL_USR_ID
-				,	SF_STM3000_USR_INFO(SUB1.DPL_USR_ID, '1')  AS DPL_USR_NM
-				,	SF_STM3000_USR_INFO(SUB1.DPL_USR_ID, '6')  AS DPL_USR_IMG_ID
-				,	SUB1.DPL_DESC
-				,	SUB1.DPL_STS_CD
-				,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00001', SUB1.DPL_STS_CD, '1') AS DPL_STS_NM
-				,	SUB1.DPL_TYPE_CD
-				,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00003', SUB1.DPL_TYPE_CD, '1') AS DPL_TYPE_NM
-				,	SUB1.DPL_REVISION_NUM
-				,	SUB1.DPL_AUTO_AFTER_CD
-				,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00004', SUB1.DPL_AUTO_AFTER_CD, '1') AS DPL_AUTO_AFTER_NM
-				,	SUB1.DPL_AUTO_DTM
-				,	SUB1.DPL_ST_DTM
-				,	SUB1.DPL_RESTORE_CD
-				,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00005', SUB1.DPL_RESTORE_CD, '1') AS DPL_RESTORE_NM
-				,	SUB1.SIGN_ID
-				,	SUB1.SIGN_STS_CD
-				,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00004', SUB1.SIGN_STS_CD, '1') AS SIGN_STS_NM
-				,	SUB1.SIGN_USR_ID
-				,	SF_STM3000_USR_INFO(SUB1.SIGN_USR_ID, '1')  AS SIGN_USR_NM
-				,	SF_STM3000_USR_INFO(SUB1.SIGN_USR_ID, '6')  AS SIGN_USR_IMG_ID
-				,	SUB1.DPL_SIGN_USE_CD
-				,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', SUB1.DPL_SIGN_USE_CD, '1') AS DPL_SIGN_USE_NM
-				,	SUB1.DPL_SIGN_TXT
-				,	SUB1.SIGN_TXT
-				,	SUB1.SIGN_REJECT_TXT
-				,	SUB1.SIGN_DTM
-				,	SUB1.SIGN_REG_USR_ID
-				,	SF_STM3000_USR_INFO(SUB1.SIGN_REG_USR_ID, '1')  AS SIGN_REG_USR_NM
-				,	SF_STM3000_USR_INFO(SUB1.SIGN_REG_USR_ID, '6')  AS SIGN_REG_USR_IMG_ID
-				,	SUB1.DPL_DEL_CD
-				,	SUB1.REG_DTM
-				,	SUB1.REG_USR_ID
-				,	SUB1.REG_USR_IP
-				,	SUB1.MODIFY_DTM
-				,	SUB1.MODIFY_USR_ID
-				,	SUB1.MODIFY_USR_IP	
-		FROM
-		(
-			SELECT
-					A.PRJ_ID
-				,	A.DPL_ID
-				,	A.DPL_NM
-				,	A.DPL_VER
-				,	TO_CHAR(A.DPL_DT, 'YYYY-MM-DD') AS DPL_DT
-				,	A.DPL_USR_ID
-				,	A.DPL_DESC
-				,	A.DPL_STS_CD
-				,	A.DPL_TYPE_CD
-				,	A.DPL_REVISION_NUM
-				,	A.DPL_AUTO_AFTER_CD
-				,	A.DPL_AUTO_DTM
-				,	TO_DATE(TO_CHAR(A.DPL_DT,'YYYY-MM-DD') || ' ' || TO_CHAR(A.DPL_AUTO_DTM,'HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS') AS DPL_ST_DTM
-				,	A.DPL_RESTORE_CD
-				,	B.SIGN_ID
-				,	B.SIGN_STS_CD
-				,	B.SIGN_USR_ID
-				,	A.DPL_SIGN_USE_CD
-				,	A.DPL_SIGN_TXT
-				,	B.SIGN_TXT
-				,	B.SIGN_REJECT_TXT
-				,	B.SIGN_DTM
-				,	B.SIGN_REG_USR_ID
-				,	A.DPL_DEL_CD
-				,	A.REG_DTM
-				,	A.REG_USR_ID
-				,	A.REG_USR_IP
-				,	A.MODIFY_DTM
-				,	A.MODIFY_USR_ID
-				,	A.MODIFY_USR_IP	
-			FROM DPL1000 A
-			LEFT JOIN DPL1200 B
-			ON (A.PRJ_ID = B.PRJ_ID AND A.DPL_ID = B.DPL_ID)
-			WHERE 1=1
-			AND A.PRJ_ID = #prjId#
-			AND A.DPL_DEL_CD = '02'
-			AND B.SIGN_DTM = (
-		                	SELECT 
-								  SIGN_DTM 
-							FROM DPL1200 Z 
-							WHERE 1=1
-							AND Z.PRJ_ID = B.PRJ_ID
-							AND Z.DPL_ID = B.DPL_ID
-							AND ROWNUM = 1    
-		        	)
-		) SUB1
-		WHERE 1=1
-		<isNotEmpty property="searchTargetData">
-			<isNotEmpty property="searchTargetId">
-				<isEqual property="searchTargetId" compareValue="dplNm">
-					AND	SUB1.DPL_NM LIKE '%'|| #searchTargetData# ||'%'
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplVer">
-					AND	SUB1.DPL_VER LIKE '%'|| #searchTargetData# ||'%'
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplUsrNm">
-					AND	SUB1.DPL_USR_NM LIKE '%'|| #searchTargetData# ||'%'
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplDesc">
-				<![CDATA[
-					AND	SUB1.DPL_DESC LIKE '%'|| #searchTargetData# ||'%'
-				]]>
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplStsCd">
-					AND	SUB1.DPL_STS_CD = #searchTargetData#
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplTypeCd">
-					AND	SUB1.DPL_TYPE_CD = #searchTargetData#
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplAutoAfterCd">
-					AND	SUB1.DPL_AUTO_AFTER_CD = #searchTargetData#
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplRestoreCd">
-					AND	SUB1.DPL_RESTORE_CD = #searchTargetData#
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplSignUseCd">
-					AND	SUB1.DPL_SIGN_USE_CD = #searchTargetData#
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplDt">
-					<isNotEmpty property="searchStartDt">
-						AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &gt;= TO_CHAR(SUB1.DPL_DT, 'YYYY-MM-DD')  
-					</isNotEmpty>
-					<isNotEmpty property="searchEndDt">
-						AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &lt;= TO_CHAR(SUB1.DPL_DT, 'YYYY-MM-DD')   
-					</isNotEmpty>
-				</isEqual>
-				<isEqual property="searchTargetId" compareValue="dplAutoDtm">
-					<isNotEmpty property="searchStartDt">
-						AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &gt;= TO_CHAR(SUB1.DPL_AUTO_DTM, 'YYYY-MM-DD')  
-					</isNotEmpty>
-					<isNotEmpty property="searchEndDt">
-						AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &lt;= TO_CHAR(SUB1.DPL_AUTO_DTM, 'YYYY-MM-DD')   
-					</isNotEmpty>
-				</isEqual>
-			</isNotEmpty>
-		</isNotEmpty>
-		<isNotEmpty property="paramSortFieldId">
-			<isNotEmpty property="sortDirection">
-				ORDER BY $paramSortFieldId$
-				<isEqual property="sortDirection" compareValue="desc">
-					DESC
-				</isEqual>
-				<isEqual property="sortDirection" compareValue="asc">
-					ASC
-				</isEqual>
-			</isNotEmpty>
-		</isNotEmpty> 
-		<isEmpty property="paramSortFieldId">
-			ORDER BY SUB1.REG_DTM DESC	
-		</isEmpty> 
-	</sql>
-	
-	
 	<sql id="selectDpl1000DplListbase">
 			SELECT
 					ROWNUM AS RN
@@ -182,7 +21,7 @@
 				,	SUB1.DPL_VER
 				,	SUB1.DPL_DT
 				,	SUB1.DPL_USR_ID
-				,	SF_STM3000_USR_INFO(SUB1.DPL_USR_ID, '1')  AS DPL_USR_NM
+				,	SUB1.DPL_USR_NM
 				,	SF_STM3000_USR_INFO(SUB1.DPL_USR_ID, '6')  AS DPL_USR_IMG_ID
 				,	SUB1.DPL_DESC
 				,	SUB1.DPL_STS_CD
@@ -224,6 +63,7 @@
 				,	A.DPL_VER
 				,	TO_CHAR(A.DPL_DT, 'YYYY-MM-DD') AS DPL_DT
 				,	A.DPL_USR_ID
+				, 	(SELECT USR_NM FROM STM3000 X WHERE X.LIC_GRP_ID = #licGrpId# AND X.USR_ID = A.DPL_USR_ID ) AS DPL_USR_NM
 				,	A.DPL_DESC
 				,	A.DPL_STS_CD
 				,	A.DPL_TYPE_CD
@@ -246,8 +86,8 @@
 			    ,	C.ORD
 			    ,	CASE WHEN C.SIGN_TYPE_CD='01' OR C.SIGN_TYPE_CD='02' THEN D.ORD ELSE C.ORD END AS LAST_ORD
 			    , 	CASE WHEN C.SIGN_TYPE_CD='01' OR C.SIGN_TYPE_CD='02' THEN D.SIGN_USR_ID ELSE C.SIGN_USR_ID END AS LAST_SIGN_USR_ID
+			    , 	SF_STM3000_USR_INFO(CASE WHEN C.SIGN_TYPE_CD='01' OR C.SIGN_TYPE_CD='02' THEN D.SIGN_USR_ID ELSE C.SIGN_USR_ID END, '1') AS LAST_SIGN_USR_NM
 				, 	CASE WHEN C.SIGN_TYPE_CD='01' THEN  '02' ELSE C.SIGN_TYPE_CD END AS NOW_SIGN_TYPE_CD
-				
 			FROM DPL1000 A
 			LEFT JOIN	(
 							SELECT 	LIC_GRP_ID
@@ -301,6 +141,9 @@
 					AND	SUB1.DPL_DESC LIKE '%'|| #searchTargetData# ||'%'
 				]]>
 				</isEqual>
+				<isEqual property="searchTargetId" compareValue="lastSignUsrNm">
+					AND	SUB1.LAST_SIGN_USR_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
 				<isEqual property="searchTargetId" compareValue="dplStsCd">
 					AND	SUB1.DPL_STS_CD = #searchTargetData#
 				</isEqual>
@@ -315,6 +158,9 @@
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="dplSignUseCd">
 					AND	SUB1.DPL_SIGN_USE_CD = #searchTargetData#
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="nowSignTypeCd">
+					AND	SUB1.NOW_SIGN_TYPE_CD = #searchTargetData#
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="dplDt">
 					<isNotEmpty property="searchStartDt">
@@ -821,6 +667,50 @@
 		WHERE 1=1
 		ORDER BY SUB1.SIGN_DTM DESC
     </select>
+    
+    
+     <select id="dpl1000DAO.selectDpl1000DplAllBldHistoryList" parameterClass="java.util.Map" resultClass="egovMap">
+     	
+     		SELECT
+            		ROWNUM AS RN
+                ,	SUB1.TYPE
+                , 	SUB1.PRJ_ID
+                , 	SUB1.DPL_ID
+                , 	SUB1.JEN_ID
+                , 	SUB1.JOB_ID
+                , 	SUB1.BLD_SEQ
+                , 	SUB1.BLD_NUM
+                , 	SUB1.BLD_RESULT
+                , 	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00002', SUB1.JOB_TYPE_CD, '1') AS JOB_TYPE_NM
+                , 	SUB1.REG_DTM
+                , 	SUB1.BLD_RESULT_MSG
+               	, 	SUB1.REG_USR_ID
+                , 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 1) AS REG_USR_NM
+				, 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 6) AS REG_USR_IMG
+            FROM
+            (
+ 				SELECT 
+						'BLD' AS TYPE
+					,	A.PRJ_ID
+                    , 	A.DPL_ID
+                    , 	A.JEN_ID
+                    , 	A.JOB_ID
+                    , 	A.BLD_SEQ
+                    , 	A.BLD_NUM
+                    , 	A.BLD_RESULT
+                    , 	B.JOB_TYPE_CD
+                    , 	A.REG_DTM
+                    , 	A.BLD_RESULT_MSG
+                    , 	A.REG_USR_ID
+                FROM DPL1400 A 
+                LEFT JOIN STM9001 B 
+                ON(B.LIC_GRP_ID = #licGrpId# AND B.JEN_ID = A.JEN_ID AND B.JOB_ID = A.JOB_ID)
+                WHERE 1=1
+                AND A.PRJ_ID = #prjId#
+                AND A.DPL_ID = #dplId#
+                ORDER BY A.REG_DTM DESC
+            ) SUB1
+     </select>
     
 	
 	

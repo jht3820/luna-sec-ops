@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <form class="kt-form" id="frSpr1003">
 	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}">
@@ -105,7 +105,7 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="form-group">
 							<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="spr1003.label.mmtTitle">회의록 제목</span></label>
-							<input type="text" class="form-control" name="mmtNm" id="mmtNm" value="" required>
+							<input type="text" class="form-control" name="mmtNm" id="mmtNm" value="" maxlength="99" required>
 						</div>
 					</div>
 				</div>
@@ -398,11 +398,11 @@ var OSLSpr1003Popup = function () {
     	var usrEmail = state.element.attributes.getNamedItem("data-usr-email").value;
 
     	var state = $(
-    			'<div class="kt-user-card-v2 btn" data-usr-id="'+ usrId +'">' 
+    			'<div class="kt-user-card-v2 btn osl-word__break" data-usr-id="'+ usrId +'">' 
 				+'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
 					+'<img src="'+$.osl.user.usrImgUrlVal(usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 				+'</div>'
-				+'<div class="kt-user-card-v2__details float-left">'
+				+'<div class="kt-user-card-v2__details float-left osl-word__break">'
 					+'<span class="kt-user-card-v2__name float-left">'+usrNm+'</span>'
 					+'<span class="kt-user-card-v2__email float-left kt-margin-l-10 osl-line-height-rem-1_5">'+usrEmail+'</span>'
 				+'</div>'
@@ -584,14 +584,12 @@ var OSLSpr1003Popup = function () {
 					var targetInput = row.find("input#sprPoint_"+data.reqId);
 					
 					targetInput.off("blur").on("blur", function(e){
-						
-						this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
-						
-						if(this.value < 0){
-							this.value = 0;
+						var inputVal = 0;
+						try{
+							inputVal = parseInt(this.value);
+						}catch(e){
+							inputVal = 0;
 						}
-						inputVal = this.value;
-						
 						if(!isNaN(inputVal)){
 							wizardData["reqSprPointList"][data.reqId] = inputVal;
 						}
@@ -599,7 +597,6 @@ var OSLSpr1003Popup = function () {
 							wizardData["reqSprPointList"][data.reqId] = null;
 						}
 					});
-					
 					
 					if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
 						this.value = wizardData["reqSprPointList"][data.reqId];
@@ -739,10 +736,10 @@ var OSLSpr1003Popup = function () {
 									+'</div>'
 									+'<div class="kt-widget__wrapper">'
 										+'<div class="kt-widget__label">'
-											+'<div class="kt-widget__title">'
+											+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
 												+$.osl.escapeHtml(map.usrNm)
-												+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											+'</div>'
+											+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											
 											+'<span class="kt-widget__desc">'
 												+'<span>'+$.osl.escapeHtml(map.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(map.usrPositionNm)+'</span>'

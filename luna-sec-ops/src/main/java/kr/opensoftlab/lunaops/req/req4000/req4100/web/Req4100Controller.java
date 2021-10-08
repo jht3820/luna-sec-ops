@@ -26,6 +26,7 @@ import egovframework.com.cmm.service.FileVO;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1000.service.Prj1000Service;
 import kr.opensoftlab.lunaops.req.req3000.req3000.service.Req3000Service;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.Req4100Service;
 import kr.opensoftlab.lunaops.req.req6000.req6000.service.Req6000Service;
@@ -61,6 +62,10 @@ public class Req4100Controller {
 	
 	@Resource(name = "stm3000Service")
 	private Stm3000Service stm3000Service;
+	
+	
+	@Resource(name = "prj1000Service")
+	private Prj1000Service prj1000Service;
 	
 	
    	@Resource(name="fileMngService")
@@ -1049,8 +1054,37 @@ public class Req4100Controller {
 			List<Map> reqChgList = req6000Service.selectReq6001ReqChgList(paramMap); 
 			
 			
+			Map prjInfo = prj1000Service.selectPrj1000Info(paramMap);
+			
+			paramMap.put("prjId", paramPrjGrpId);
+			
+			
+			Map prjGrpInfo = prj1000Service.selectPrj1000GrpInfo(paramMap);
+			
+			List<FileVO> fileList = null;
+        	int fileCnt = 0;
+        	
+        	if(reqInfo != null){
+        		
+            	FileVO fileVO = new FileVO();
+	        	fileVO.setAtchFileId((String)reqInfo.get("atchFileId"));
+	        	
+	        	
+				fileList = fileMngService.fileDownList(fileVO);
+				
+				for(FileVO temp : fileList){
+					if(fileCnt < Integer.parseInt(temp.getFileSn())){
+						fileCnt = Integer.parseInt(temp.getFileSn());
+					}
+				}
+        	}
+        	
+			model.addAttribute("fileList",fileList);
+			model.addAttribute("fileListCnt",fileCnt);
 			
 			model.addAttribute("reqInfo", reqInfo);
+			model.addAttribute("prjInfo", prjInfo);
+			model.addAttribute("prjGrpInfo", prjGrpInfo);
 			model.addAttribute("reqChgList", reqChgList);
 			
         	

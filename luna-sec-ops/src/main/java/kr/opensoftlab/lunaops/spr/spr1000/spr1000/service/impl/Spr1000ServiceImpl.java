@@ -75,6 +75,8 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			
 			double avgEndTime = Double.parseDouble(String.valueOf(sprStat.get("avgEndTimeRequired")));
 			
+			param.put("sprPoint", sprStat.get("sprPoint"));
+			
 			param.put("avgTime", avgEndTime);
 			
 			if("01".equals(param.get("sprTypeCd"))) {

@@ -99,6 +99,9 @@ input:-webkit-autofill,
     flex-direction: column;
     height: 100%;
 }
+.osl-mask-bg{
+	background: repeating-linear-gradient( 45deg, #eee, #eee 10px, #e5e5e5 10px, #e5e5e5 20px );
+}
 
 .osl-notification-tooltip .tooltip-inner{
 	text-align:left !important;
@@ -207,6 +210,12 @@ input:-webkit-autofill,
 }
 .osl-min-h-px--140 {
   min-height: 140px; 
+}
+.osl-min-h-px--150{
+	min-height: 150px;
+}
+.osl-min-h-px--170 {
+  min-height: 170px; 
 }
 .osl-min-h-px--202 {
   min-height: 202px; 
@@ -329,6 +338,9 @@ input:-webkit-autofill,
 }
 
 
+.osl-width--33-p{
+	width: 33.3%;	
+}
 .osl-width--100-p{
 	width: 100% !important;
 }
@@ -388,6 +400,10 @@ input:-webkit-autofill,
 }
 .osl-bg-eee{
 	background-color: #eee !important;
+}
+
+.osl-border-radius-4{
+	border-radius: 4px;
 }
 
 .form-control[readonly] {
@@ -460,6 +476,10 @@ input:-webkit-autofill,
 }
 
 .daterangepicker select.yearselect{float:left;}
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
+    color: #d5d5d5 !important;
+    text-decoration: line-through;
+}
 
 .toast .toast-message {
     font-size: 1rem;
@@ -589,11 +609,7 @@ select[id^=usrOpt_] {
     padding-top: 15px;
     padding-bottom: 15px;
 }
-.kt-portlet .kt-portlet__head{
-	flex-wrap: wrap;
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
-}
+
 
 .osl-datatable-search__btn-title--none .btn i{
 	padding:0;
@@ -666,7 +682,7 @@ select[id^=usrOpt_] {
     flex: 0 0 70%;
     max-width: 70%; 
     width: 70%;
-    -webkit-box-shadow: 1px 1px 15px -3px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 1px 1px 15px -3px rgba(0, 0, 0, 0.15);
     box-shadow: 1px 1px 15px -3px rgba(0, 0, 0, 0.15);
 }
 .osl-tab-content--full>.osl-tab-content-8{
@@ -703,6 +719,15 @@ select[id^=usrOpt_] {
 .osl-tab-content__folding-btn>.btn{
 	font-size: 1.6rem;
 	margin: 0 auto;
+}
+.osl-swiper-container{
+	position: sticky !important;
+	top:0;
+	left: 0;
+	z-index: 999;
+	height: 90px;
+	padding: 20px 65px !important;
+	border-bottom: none !important;
 }
 
 .osl-input-readonly-none {
@@ -801,6 +826,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     background-color: #fff;
     margin-bottom: 5px;
     border-radius: 4px;
+    flex-direction: column;
 }
 .osl-req__process-history {
     display: flex;
@@ -809,7 +835,6 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     padding: 10px;
     background-color: #eeeef4;
     overflow-x: auto;
-	background: repeating-linear-gradient( 45deg, #eee, #eee 10px, #e5e5e5 10px, #e5e5e5 20px );
 }
 .osl-req__process-history::after {
     content: '';
@@ -850,8 +875,19 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .osl-req__process-next-flow:hover {
     background-color: #f3f6f9;
 }
+.osl-req__process-title{
+	padding: 10px 10px 0 10px;
+}
+.kt-media.kt-media--sm img{
+	width:30px;
+}
+.kt-user-card-v2 .kt-user-card-v2__details .kt-user-card-v2__name{
+	max-width: 300px;
+}
 
-
+.kt-datatable__body > .kt-datatable_row > td.kt-datatable__cell--left.kt-datatable__cell > span {
+    white-space: nowrap;
+}
 .kt-datatable.osl-datatable-footer__divide.kt-datatable--default > .kt-datatable__pager{
 	background-color: #fff;
 	padding-bottom:25px;
@@ -1128,6 +1164,7 @@ label.required:after {
 .fileReadonly button.uppy-Dashboard-Item-action--remove,
 .fileReadonly .uppy-DashboardTabs,
 .fileReadonly .uppy-Dashboard-dropFilesHereHint,
+.fileReadonly .uppy-Dashboard-AddFiles-title,
 .fileReadonly button.uppy-DashboardItem-action--remove {
     display: none;
 }
@@ -1742,14 +1779,14 @@ label.required:after {
 }
 .osl-position-left-btn{
 	position: absolute;
-	left: 0;
+	left: 20px;
 	height: 48px;
 	z-index: 99;
 	background-color: #fff;
 }
 .osl-position-right-btn{
 	position: absolute;
-	right: 0;s
+	right: 20px;
 	height: 48px;
 	font-size: 1.5rem !important;
 	z-index: 99;
@@ -1848,6 +1885,18 @@ label.required:after {
     opacity: 1;
     background: #1cac81;
 }
+.flowchart-operator-function > li {
+    text-align: center;
+    background-color: #5867dd;
+    border-color: #5867dd;
+    color: #ffffff;
+    padding: 3px;
+    border-radius: 4px;
+    margin: 2px;
+}
+.osl-background-around {
+	background-color: #f3f6f9;
+}
 
 .osl-dsh-kanban{
 	height: 590px;
@@ -1918,6 +1967,7 @@ label.required:after {
     box-sizing: border-box;
     height: 35px;
     padding: 5px;
+	padding-left: 10px;
     border-bottom: 1px solid #ebedf2;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -2015,7 +2065,12 @@ label.required:after {
     max-width: 90%;
 }
 .osl-req__process-history .flowchart-operator-inputs-outputs {
-    height: 50px;
+    min-height: 50px;
+    padding: 10px;
+}
+.flowchart-operator-chg__dtm {
+    padding-top: 5px;
+    text-align: right;
 }
 .osl-req__process-history .osl-flowchart__operator {
     position: relative;
@@ -2035,6 +2090,7 @@ label.required:after {
     top: 45px;
     cursor: default;
 }
+
 
 .osl-title--all-view-content {
     font-family: "Font Awesome 5 Free";
@@ -2433,6 +2489,9 @@ label.required:after {
 	.osl-margin-t-20-1400{
 		margin-top: 20px;
 	}
+	.osl-message__menu-width{
+		width: 33.3%;
+	}
 }
 
 @media (max-width: 1024px){
@@ -2448,6 +2507,10 @@ label.required:after {
 	
 	.kt-inbox .kt-inbox__icon.osl-inbox__aside-menu-bar{
 		display: flex;
+	}
+	
+	.osl-message__menu-width{
+		width: 100%;
 	}
 }
 @media (min-width: 1025px) {

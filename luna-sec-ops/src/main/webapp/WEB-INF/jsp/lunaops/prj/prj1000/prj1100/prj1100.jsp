@@ -447,7 +447,7 @@ var OSLPrj1100Popup = function () {
 			}
 		});
 		
-		zoomObj = panzoom($("#flowChartDiv")[0],{
+		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
 		});
@@ -546,6 +546,9 @@ var OSLPrj1100Popup = function () {
 			   				$.osl.toastr(data.message);
 			   				
 			   				
+							fnSelectFlowList();
+			   			
+			   				
 			   				if(!$.osl.isNull($.osl.datatable.list[datatableId])){
 				   				$.osl.datatable.list[datatableId].targetDt.reload();
 			   				}
@@ -574,7 +577,7 @@ var OSLPrj1100Popup = function () {
 						$("#flowMaskDiv").hide();
 						 
 						
-						$("#flowChartDiv").removeClass("kt-hidden");
+						flowChart.removeClass("kt-hidden");
 						
 						
 						fnFlowChartZoom("reset");
@@ -875,6 +878,8 @@ var OSLPrj1100Popup = function () {
 			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
+   				flowChart.flowchart("setData",{});
+   				
    				
    				var flowList = data.flowList;
    				var flowLinkList = data.flowLinkList;
@@ -925,7 +930,7 @@ var OSLPrj1100Popup = function () {
    							}
    						};
    		   				
-   		   				$("#flowChartDiv").flowchart('createOperator', map.flowId, operatorData);
+   		   			flowChart.flowchart('createOperator', map.flowId, operatorData);
    					});
    					
    					
@@ -941,7 +946,7 @@ var OSLPrj1100Popup = function () {
    		   							toSubConnector: 0
    		   						};
    							
-   							$("#flowChartDiv").flowchart('createLink', idx, linkData);
+   							flowChart.flowchart('createLink', idx, linkData);
    						});
    					}
    				}

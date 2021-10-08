@@ -84,7 +84,7 @@
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="form-group">
 							<label class="required"><i class="fa fa-edit kt-margin-r-5"></i>회고록 제목</label>
-							<input type="text" name="mmrNm" id="mmrNm" class="form-control" required>
+							<input type="text" name="mmrNm" id="mmrNm" class="form-control" maxlength="99" required>
 						</div>
 					</div>
 				</div>
@@ -144,10 +144,10 @@
 				
 				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
 					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
-						<div class="border osl-min-h-px--140" id="burnUpChart"></div>
+						<div class="border osl-min-h-px--140 osl-card__data--empty" id="burnUpChart"></div>
 					</div>
 					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
-						<div class="border osl-min-h-px--140" id="burnDownChart"></div>
+						<div class="border osl-min-h-px--140 osl-card__data--empty" id="burnDownChart"></div>
 					</div>
 				</div>
 				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 ">
@@ -593,18 +593,26 @@ var OSLSpr1004Popup = function () {
  				var endDt  = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
  				
  				var seriesData = getDataRangeData(paramSprStDt, endDt, "1", chartData);
+ 				if(chartData.length == 0){
+ 					$("#burnDownChart").text("데이터 없음")
+ 					$("#burnUpChart").text("데이터 없음")
+ 				}else{
+	 				
+	 				drawBurnUpChart(seriesData);
+	 				
+	 				drawBurnDownChart(seriesData);
+ 				}
  				
- 				drawBurnUpChart(seriesData);
- 				
- 				
- 				drawBurnDownChart(seriesData);
- 				
- 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				if(chartData.length == 0){
+					endSprPoint = 0	 					
+ 				}else{
+	 				
+	 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				}
  				
 				drawVelocityChart();
  			}	
  		});
- 		
  		ajaxObj.send();
  	}
  	
@@ -643,9 +651,6 @@ var OSLSpr1004Popup = function () {
 					stroke: {
 				          curve: 'straight'
 				    },
-				    animations:{
-						enabled:false
-					},
 				    markers: {
 				          size: 1
 				    },
@@ -656,8 +661,24 @@ var OSLSpr1004Popup = function () {
 				            opacity: 0.5
 				          },
 				    },
+				    animations:{
+						enabled:false
+					},
 				    dataLabels:{
 				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
 				    },
 					xaxis: {
 						type: 'datetime',
@@ -707,8 +728,8 @@ var OSLSpr1004Popup = function () {
 							 key2:"burnDownSprPoint"
 						 },
 						 keyNm:{
-							 keyNm1:"idealBurnDownLine",
-							 keyNm2:"Actual burnDownSprPoint"
+							 keyNm1:"이상적인 번다운라인",
+							 keyNm2:"실제 번다운라인"
 						 },
 						 
 						 chartType:"line",
@@ -728,14 +749,27 @@ var OSLSpr1004Popup = function () {
 					stroke: {
 				          curve: 'straight'
 				    },
-				    animations:{
-						enabled:false
-					},
 				    markers: {
 				          size: 1
-				        },
+			        },
+			        animations:{
+						enabled:false
+					},
 				    dataLabels:{
 				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
 				    },
 				    grid: {
 				          borderColor: '#e7e7e7',
@@ -891,7 +925,7 @@ var OSLSpr1004Popup = function () {
  		
  		var length = resDay.length
  		
- 		var step = totalSprPoint / length
+ 		var step = totalSprPoint / (length-1)
  		
  		var start = 0;
  		$.each(resDay, function(index, value){
