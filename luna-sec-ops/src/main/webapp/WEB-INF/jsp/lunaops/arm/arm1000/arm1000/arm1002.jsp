@@ -193,6 +193,9 @@ var OSLArm1002Popup = function () {
 		    	
 		    	if(value.checkCd==='02'){
 			    	checkingAlarm();
+			    	
+			    	
+			    	mssArmLoad();
 		    	}
 			}
 		});
@@ -229,10 +232,14 @@ var OSLArm1002Popup = function () {
 				$.osl.layerPopupClose();
 			}else{
 				
+		    	mssArmLoad();
+				
+				
 				if(!$.osl.isNull(notModal) && notModal){
 					
 					$.osl.layerPopupClose();
 				}else{
+					
 					OSLArm1000Popup.reload();
 				}
 			}

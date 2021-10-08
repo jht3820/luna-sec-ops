@@ -122,6 +122,10 @@
 						<script type="text/javascript">
 							
 							$("#kt_header_pc_topbar_toggler").click(function(){
+								mssArmLoad();
+							});
+							
+							var mssArmLoad = function(){
 								
 								
 								var ajaxObj = new $.osl.ajaxRequestAction(
@@ -149,7 +153,7 @@
 						    	});
 								
 						    	ajaxObj.send();
-							})
+							};
 						</script>
 						
 						
@@ -175,7 +179,7 @@
 							
 							
 							<div class="kt-header__topbar-item">
-								<div class="kt-header__topbar-wrapper pulse pulse-success" id="kt_offcanvas_toolbar_message_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="메시지" onclick="$.osl.layerPopupOpen('/arm/arm1000/arm1000/selectArm1000View.do',null,{idKey:'message', modalSize:'xl', modalTitle:'MESSAGE'})">
+								<div class="kt-header__topbar-wrapper pulse pulse-success" id="kt_offcanvas_toolbar_message_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="메시지" onclick="$.osl.layerPopupOpen('/arm/arm1000/arm1000/selectArm1000View.do',null,{idKey:'message', modalSize:'fs', modalTitle:'MESSAGE'})">
 									<span class="kt-header__topbar-icon"><i class="flaticon-email-black-circular-button"></i></span>
 									<span class="pulse-ring"></span>
 									<span class="kt-badge kt-badge--brand"></span>

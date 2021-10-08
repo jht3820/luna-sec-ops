@@ -399,6 +399,9 @@ var OSLArm1001Popup = function () {
 					
 					$.osl.layerPopupClose();
 				}else{
+					
+			    	mssArmLoad();
+					
 					OSLArm1000Popup.reload();
 					
 	   				$.osl.layerPopupClose();
