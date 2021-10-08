@@ -26,10 +26,11 @@
 		<result property="reqUsrImgId"			column="REQ_USR_IMG_ID"/>
 		<result property="reqNm"				column="REQ_NM"/>
 		<result property="reqDesc"				column="REQ_DESC" jdbcType="CLOB" javaType="java.lang.String"/>
-		<result property="reqPw"					column="REQ_PW"/>
+		<result property="reqPw"				column="REQ_PW"/>
 		<result property="reqChargerId"			column="REQ_CHARGER_ID"/>
 		<result property="reqChargerNm"			column="REQ_CHARGER_NM"/>
-		<result property="reqChargerImgId"			column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqChargerImgId"		column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqChargerEmail"		column="REQ_CHARGER_EMAIL"/>
 		<result property="reqCompleteRatio"		column="REQ_COMPLETE_RATIO"/>
 		<result property="reqFp"				column="REQ_FP"/>
 		<result property="reqExFp"				column="REQ_EX_FP"/>
@@ -82,6 +83,7 @@
 		<result property="reqChargerId"			column="REQ_CHARGER_ID"/>
 		<result property="reqChargerNm"			column="REQ_CHARGER_NM"/>
 		<result property="reqChargerImgId"			column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqChargerEmail"		column="REQ_CHARGER_EMAIL"/>
 		<result property="reqStDtm"				column="REQ_ST_DTM"/>
 		<result property="reqEdDtm"				column="REQ_ED_DTM"/>
 		<result property="reqStDuDtm"			column="REQ_ST_DU_DTM"/>
@@ -132,6 +134,7 @@
 		<result property="reqChargerId"			column="REQ_CHARGER_ID"/>
 		<result property="reqChargerNm"			column="REQ_CHARGER_NM"/>
 		<result property="reqChargerImgId"			column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqChargerEmail"		column="REQ_CHARGER_EMAIL"/>
 		<result property="reqStDtm"				column="REQ_ST_DTM"/>
 		<result property="reqEdDtm"				column="REQ_ED_DTM"/>
 		<result property="reqStDuDtm"			column="REQ_ST_DU_DTM"/>
@@ -187,6 +190,7 @@
 			,	T1.REQ_CHARGER_ID
 			,	T1.REQ_CHARGER_NM
 			,	T1.REQ_CHARGER_IMG_ID
+			,	T1.REQ_CHARGER_EMAIL
 			, 	T1.REQ_ST_DTM
   		   	, 	T1.REQ_ED_DTM
 			, 	T1.REQ_ST_DU_DTM
@@ -243,6 +247,7 @@
 					,	A.REQ_CHARGER_ID
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
 					, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
     		   		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
 					, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
@@ -392,6 +397,7 @@
 			,	T1.REQ_CHARGER_ID
 			,	T1.REQ_CHARGER_NM
 			,	T1.REQ_CHARGER_IMG_ID
+			,	T1.REQ_CHARGER_EMAIL
 			, 	T1.REQ_ST_DTM
   		   	, 	T1.REQ_ED_DTM
 			, 	T1.REQ_ST_DU_DTM
@@ -450,6 +456,7 @@
 					,	A.REQ_CHARGER_ID
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
 					, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
     		   		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
 					, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
@@ -575,6 +582,7 @@
 					,	A.REQ_CHARGER_ID
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
 					, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') AS REQ_ST_DTM
     		   		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') AS REQ_ED_DTM
 					, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') AS  REQ_ST_DU_DTM
@@ -728,6 +736,7 @@
 		,	A.REQ_CHARGER_ID
 		,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
 		,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+		,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
 		, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
  		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
 		, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
