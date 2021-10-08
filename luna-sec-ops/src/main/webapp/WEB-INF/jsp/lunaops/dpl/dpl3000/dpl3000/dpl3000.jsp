@@ -382,6 +382,9 @@ var OSLDpl3000Popup = function () {
 					}
 				},
 			],
+			rows:{
+				clickCheckbox: true
+			},
 			actionBtn:{
 				"title":"기능 버튼",
 				"width" : 120,
@@ -415,7 +418,6 @@ var OSLDpl3000Popup = function () {
 				},
 				
 				"execute":function(rowDatas, datatableId, type, rowNum, elem){
-					console.log("execute : ", rowDatas);
 					
 					if($.osl.isNull(rowDatas) || rowDatas.length == 0){
 						$.osl.alert("실행할 배포 계획을 선택하세요.", {type: "warning"});
@@ -446,16 +448,19 @@ var OSLDpl3000Popup = function () {
 					
 					var prjId = rowDatas[0].prjId;
 					var dplId = rowDatas[0].dplId;
+					var dplUsrId = rowDatas[0].dplUsrId;
+					var dplNm = rowDatas[0].dplNm;
 					
 					
 					var data = {
 							paramPrjId: prjId,
-							paramDplId: dplId
+							paramDplId: dplId,
+							paramDplUsrId: dplUsrId
 					};
 						
 					var options = {
 						idKey: prjId+"_"+dplId,
-						modalTitle: '배포 계획 실행',
+						modalTitle: "["+ dplNm +"] "+'배포 계획 실행',
 						modalSize: 'xl',
 						autoHeight: false,
 						closeConfirm: false
