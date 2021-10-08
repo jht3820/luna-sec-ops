@@ -224,7 +224,7 @@ var OSLCmm6800Popup = function() {
 					{field: 'name', title: '파일명', textAlign: 'left', width: 150, autoHide: false, search: true},
 				],
 				rows:{
-					clickCheckbox: true
+					clickCheckbox: true,
 				},
 				actionBtn:{
 					"title": $.osl.lang("cmm6800.revisionFile.actionTitle"),
@@ -242,7 +242,7 @@ var OSLCmm6800Popup = function() {
 				},
 				actionFn:{
 					"click":function(rowData, datatableId, type, rowNum, elem){
-var datatable = $.osl.datatable.list[datatableId].targetDt;
+						var datatable = $.osl.datatable.list[datatableId].targetDt;
 						
 						
 						var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
@@ -444,7 +444,8 @@ var datatable = $.osl.datatable.list[datatableId].targetDt;
 					},
 				],
 				rows:{
-					clickCheckbox: true
+					clickCheckbox: true,
+					minHeight: 50
 				},
 				actionBtn:{
 					"title": $.osl.lang("cmm6800.title.actionTitle.repository"),

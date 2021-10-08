@@ -35,7 +35,7 @@
 					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnDshWidgetSort(this);" data-flag="false">
 						<i class="fa fa-times kt-padding-r-0"></i>
 					</button>
-					<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md" id="allPortletClose"><i class="fas fa-chevron-down"></i></a>
+					<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-dash--all-folding" id="allPortletClose"><i class="la la-angle-down"></i></a>
 				</div>
 			</div>
 		</div>
@@ -54,7 +54,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fas fa-chevron-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -86,7 +86,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="req4100ReqTable" data-datatable-action="select" title="접수 대기 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fas fa-chevron-down"></i></a>
+                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -112,7 +112,7 @@
 							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="reqChargeSignTable" data-datatable-action="select" title="담당 요구사항 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
-		                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fas fa-chevron-down"></i></a>
+		                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
 			            </div>
 			         </div>
 				</div>
@@ -136,7 +136,7 @@
 							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
-		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fas fa-chevron-down"></i></a>
+		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
 			            </div>
 			         </div>
 				</div>
@@ -150,7 +150,7 @@
 	
 	
 	
-	<div class="kt-portlet kt-portlet--mobile" data-target-div="process1">
+	<div class="kt-portlet kt-portlet--mobile" data-target-div="process1" id="processPortlet1">
 		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
 			<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">
 				<h4 class="kt-font-boldest kt-font-brand">
@@ -179,7 +179,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
 						<i class="fas fa-expand"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fas fa-chevron-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -551,7 +551,7 @@
 	
 	
 	
-	<div class="kt-portlet kt-portlet--mobile" data-target-div="process2">
+	<div class="kt-portlet kt-portlet--mobile" data-target-div="process2" id="processPortlet2">
 		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
 			<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">
 				<h4 class="kt-font-boldest kt-font-brand kt-margin-r-10">
@@ -580,7 +580,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
 						<i class="fas fa-expand"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fas fa-chevron-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -786,7 +786,7 @@
 	
 	
 	
-	<div class="kt-portlet kt-portlet--mobile">
+	<div class="kt-portlet kt-portlet--mobile" id="sprPortlet1">
 		<div class="kt-portlet__head kt-portlet__head--lg">
 			
 			<div class="kt-portlet__head-label">
@@ -823,7 +823,9 @@
 						<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>스프린트 상세정보</div>
 					</div>
 				</div>
+				<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
 			</div>
+			
 			
 		</div>
 		
@@ -920,15 +922,37 @@ var OSLDsh2000Popup = function () {
 	var reqAuth = false;
 	var datatableId = "req4100ReqTable";
 	var prjRequestAcceptCd = "02";
+	var portletAll=[];
 	var documentSetting = function(){
 		
-		new KTPortlet('prjTopInfo', $.osl.lang("portlet"));
-		new KTPortlet('newReq', $.osl.lang("portlet"));
-		new KTPortlet('reqChargeList', $.osl.lang("portlet"));
-		new KTPortlet('reqChargeSign', $.osl.lang("portlet"));
-		new KTPortlet('reqChargeDpl', $.osl.lang("portlet"));	
+		portletAll.push(new KTPortlet('prjTopInfo', $.osl.lang("portlet")));
+		portletAll.push(new KTPortlet('newReq', $.osl.lang("portlet")));
+		portletAll.push(new KTPortlet('reqChargeSign', $.osl.lang("portlet")));
+		portletAll.push(new KTPortlet('reqChargeDpl', $.osl.lang("portlet")));
+		portletAll.push(new KTPortlet('processPortlet1', $.osl.lang("portlet")));	
+		portletAll.push(new KTPortlet('processPortlet2', $.osl.lang("portlet")));	
+		portletAll.push(new KTPortlet('sprPortlet1', $.osl.lang("portlet")));	
+		
 		
 		$('#allPortletClose').click(function(){
+			
+			var parentPortlet = $(this).parents('.kt-portlet');
+			
+				
+				if(parentPortlet.hasClass('kt-portlet--collapse')){
+					$.each(portletAll,function(idx,map){
+						
+						map.expand();
+						parentPortlet.removeClass('kt-portlet--collapse');
+					});
+				}else{
+					$.each(portletAll,function(idx,map){
+						
+						map.collapse();
+						parentPortlet.addClass('kt-portlet--collapse');
+					});
+				}
+				
 			
 		});
 		
