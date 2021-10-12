@@ -329,7 +329,7 @@ var OSLDpl3000Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
 				{field: 'dplSignUseNm', title: '결재 사용 유무', textAlign: 'center', width: 120, search: true, searchType:"select", searchCd: "CMM00001", searchField:"dplSignUseCd", sortField: "dplSignUseCd"},
-				{field: 'nowSignTypeNm', title: '결재 상태', textAlign: 'center', width: 100, search: true, searchType:"select", searchCd: "REQ00004", searchField:"signStsCd", sortField: "signStsCd"
+				{field: 'nowSignTypeNm', title: '결재 상태', textAlign: 'center', width: 90, search: true, searchType:"select", searchCd: "REQ00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"
 					,template: function(row){
 						var nowSignTypeNm = row.nowSignTypeNm
 						if($.osl.isNull(nowSignTypeNm)){
@@ -338,14 +338,25 @@ var OSLDpl3000Popup = function () {
 						return nowSignTypeNm;
 					}
 				},
-				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100
+				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100, search: true
 					,template: function(row){
 						var lastSignUsrNm = row.lastSignUsrNm
+						
 						if($.osl.isNull(lastSignUsrNm)){
 							lastSignUsrNm = "-";
+						}else{
+							
+							lastSignUsrNm = $.osl.user.usrImgSet(row.lastSignUsrId, row.lastSignUsrNm);
 						}
 						return lastSignUsrNm;
-					}	
+					},
+					onclick: function(rowData){
+						
+						if(!$.osl.isNull(rowData.lastSignUsrId)){
+							
+							$.osl.user.usrInfoPopup(rowData.lastSignUsrId);
+						}
+					}
 				},
 				{field: 'dplStsNm', title: '배포 상태', textAlign: 'center', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "DPL00001", searchField:"dplStsCd", sortField: "dplStsCd"},
 				{field: 'dplVer', title: '배포 버전', textAlign: 'center', width: 100, search: true},
@@ -362,8 +373,18 @@ var OSLDpl3000Popup = function () {
 					}
 				},
 				{field: 'dplDt', title: '배포 일자', textAlign: 'center', width: 100, search: true, searchType:"daterange"},
-				{field: 'dplUsrNm', title: '배포자', textAlign: 'center', width: 100, search: true},
+				{field: 'dplUsrNm', title: '배포자', textAlign: 'center', width: 100, search: true
+					,template: function (row) {
+						return $.osl.user.usrImgSet(row.dplUsrImgId, row.dplUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.dplUsrId);
+					}
+				},
 			],
+			rows:{
+				clickCheckbox: true
+			},
 			actionBtn:{
 				"title":"기능 버튼",
 				"width" : 120,
@@ -397,7 +418,6 @@ var OSLDpl3000Popup = function () {
 				},
 				
 				"execute":function(rowDatas, datatableId, type, rowNum, elem){
-					console.log("execute : ", rowDatas);
 					
 					if($.osl.isNull(rowDatas) || rowDatas.length == 0){
 						$.osl.alert("실행할 배포 계획을 선택하세요.", {type: "warning"});
@@ -428,16 +448,19 @@ var OSLDpl3000Popup = function () {
 					
 					var prjId = rowDatas[0].prjId;
 					var dplId = rowDatas[0].dplId;
+					var dplUsrId = rowDatas[0].dplUsrId;
+					var dplNm = rowDatas[0].dplNm;
 					
 					
 					var data = {
 							paramPrjId: prjId,
-							paramDplId: dplId
+							paramDplId: dplId,
+							paramDplUsrId: dplUsrId
 					};
 						
 					var options = {
 						idKey: prjId+"_"+dplId,
-						modalTitle: '배포 계획 실행',
+						modalTitle: "["+ dplNm +"] "+'배포 계획 실행',
 						modalSize: 'xl',
 						autoHeight: false,
 						closeConfirm: false

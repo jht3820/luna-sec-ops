@@ -118,19 +118,22 @@ var OSLReq4100Popup = function () {
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqChargerNm)){
-							row.reqChargerNm = "";
+							return row.reqChargerNm = "-";
+						}else{
+							var usrData = {
+								html: row.reqChargerNm,
+								imgSize: "sm",
+								class:{
+									cardBtn: "osl-width__fit-content"
+								}
+							};
+							return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
 						}
-						var usrData = {
-							html: row.reqChargerNm,
-							imgSize: "sm",
-							class:{
-								cardBtn: "osl-width__fit-content"
-							}
-						};
-						return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
 					},
 					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.reqChargerId);
+						if(rowData.reqChargerNm != "-"){
+							$.osl.user.usrInfoPopup(rowData.reqChargerId);
+						}
 					}
 				},
 				{field: 'reqUsrEmail', title:'요청자e-mail', textAlign: 'left', width: 180, search: true},
@@ -281,17 +284,21 @@ var OSLReq4100Popup = function () {
 				"dblClick":function(rowData, datatableId, type, rowNum){
 					var data = {
 							
-							
-							
-							
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId,
+							paramReqUsrId: rowData.reqUsrId
 						};
 					var options = {
 							
 							modalTitle: $.osl.lang("req4100.title.detailTitle"),
 							autoHeight: false,
-							modalSize: 'xl'
+							modalSize: 'xl',
+							'class': {
+					            "body": "kt-padding-0"
+					         }
 							
 						};
+					
 					
 					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6203View.do',data,options);
 				},
@@ -377,7 +384,6 @@ var OSLReq4100Popup = function () {
 								paramSelReqInfoList: JSON.stringify(selReqInfoList)
 						};
 						var options = {
-							autoHeight: false,
 							modalSize: "xl",
 							idKey: datatableId,
 							modalTitle: $.osl.lang("prj1102.update.title"),
@@ -419,7 +425,6 @@ var OSLReq4100Popup = function () {
 							paramReqId: rowDatas[0].reqId
 					};
 					var options = {
-						autoHeight: false,
 						modalSize: "fs",
 						idKey: datatableId,
 						modalTitle: "["+rowDatas[0].reqNm+"] 요구사항 업무 처리",

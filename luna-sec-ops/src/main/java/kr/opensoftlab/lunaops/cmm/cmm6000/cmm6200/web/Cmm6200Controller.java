@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.property.EgovPropertyService;
 
@@ -39,6 +40,10 @@ public class Cmm6200Controller {
     
     @RequestMapping(value="/cmm/cmm6000/cmm6200/selectCmm6201View.do")
     public String selectCmm6201View(Model model) throws Exception {
+    	
+		String fileSumMaxSize = EgovProperties.getProperty("Globals.lunaops.fileSumMaxSize");
+		model.addAttribute("fileSumMaxSize",fileSumMaxSize);
+		
     	return "/cmm/cmm6000/cmm6200/cmm6201";
     }
     
