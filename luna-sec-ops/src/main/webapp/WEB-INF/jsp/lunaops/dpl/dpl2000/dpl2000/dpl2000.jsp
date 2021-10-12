@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
+	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -114,7 +115,10 @@ var OSLDpl2000Popup = function () {
 							idKey: datatableId +"_"+ rowData.dplId,
 							modalTitle: "["+rowData.dplNm+"] 상세 정보",
 							autoHeight: false,
-							modalSize: 'xl'
+							modalSize: 'xl',
+								closeConfirm: true,
+								keyboard:true,
+								backdrop:true
 						};
 					
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);

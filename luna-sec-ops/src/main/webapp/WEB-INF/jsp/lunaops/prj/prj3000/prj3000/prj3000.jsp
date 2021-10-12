@@ -318,7 +318,15 @@ var OSLPrj3000Popup = function () {
 					selectFormFileList();
 				},
 				init: function(treeObj,data){
+					console.log(data.instance._cnt)
 					
+					setTimeout(function() {
+						  console.log('Works!');
+						  console.log(treeObj)
+						  console.log(data)
+						 	
+					debugger;					
+						}, 3000);
 				}
 			},
 			contextmenu: {
@@ -359,7 +367,9 @@ var OSLPrj3000Popup = function () {
 					}
 					
 					
+					
 					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
+					console.log(selectNode)
 					var nodeData = selectNode.original;
 					
 					
@@ -520,8 +530,6 @@ var OSLPrj3000Popup = function () {
 			fnFileAjaxUpload($('#confFileBtn')[0].files , fileType);
 			$('#confFileBtn').val('');
 		});
-		
-		
 		
 		
 		
@@ -813,7 +821,6 @@ var OSLPrj3000Popup = function () {
 	
 	
 	var selectDocInfo = function(nodeData) {
-    	
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj3000/prj3000/selectPrj3000DocInfoAjax.do'/>", "async": false}

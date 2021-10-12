@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -326,7 +326,7 @@ var OSLPrj3000Popup = function () {
 		
 		treeObj = $.osl.tree.setting("prj3100DocTree",{
 			data:{
-				url:"<c:url value='/prj/prj3000/prj3000/selectPrj3000DocListAjax.do'/>",
+				url:"<c:url value='/prj/prj3000/prj3100/selectPrj3100DocListAjax.do'/>",
 				key: "docId",
 				pKey: "upperDocId",
 				labelKey: "docNm"
@@ -873,7 +873,9 @@ var OSLPrj3000Popup = function () {
 					var options = {
 							idKey: datatableId,
 							modalTitle: $.osl.lang("prj3100.modal.title.insertDocCon"),
-							closeConfirm: false,
+							closeConfirm: true,
+							keyboard:true,
+							backdrop:true,
 							modalSize: "xl"
 						};
 					

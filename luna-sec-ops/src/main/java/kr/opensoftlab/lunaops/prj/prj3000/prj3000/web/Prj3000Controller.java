@@ -176,10 +176,19 @@ public class Prj3000Controller {
         	Map<String, String> docInfoMap = (Map) prj3000Service.selectPrj3000MenuInfo(paramMap);
         	
         	
+        	int docConCnt = prj3000Service.selectPrj3002DocConListCnt(paramMap);
+        	paramMap.put("firstIndex", "0");
+        	paramMap.put("lastIndex", String.valueOf(docConCnt));
+        	
+        	
+        	List<Map> docConList = prj3000Service.selectPrj3002DocConList(paramMap);
+        	
+        	
         	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
         	
         	
         	model.addAttribute("docInfoMap",docInfoMap);
+        	model.addAttribute("docConList",docConList);
         	
         	return new ModelAndView("jsonView");
     	}
@@ -573,21 +582,8 @@ public class Prj3000Controller {
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
 			
-			
-			int totCnt = prj3000Service.selectPrj3002DocConListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			List<Map> prj3002List = prj3000Service.selectPrj3002DocConList(paramMap);
-			
-			
+			/
+			/
 			
 			Map<String, Object> metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -665,26 +661,8 @@ public class Prj3000Controller {
     		
     		
     		
-    		
-    		int totCnt = 0;
-    		List<Map> dataList = null;
-    		Map<String, Object> metaMap = null;
-    		
-			
-			totCnt = prj3000Service.selectPrj3002ConTargetCnt(paramMap);
-			
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-			
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-			
-			
-			
-			dataList = (List) prj3000Service.selectPrj3002ConTargetList(paramMap);
-			
-			
+    		/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
