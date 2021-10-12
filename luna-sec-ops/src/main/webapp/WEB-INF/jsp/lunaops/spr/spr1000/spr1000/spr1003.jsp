@@ -736,11 +736,10 @@ var OSLSpr1003Popup = function () {
 									+'</div>'
 									+'<div class="kt-widget__wrapper">'
 										+'<div class="kt-widget__label">'
-											+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
+											+'<div class="kt-widget__title osl-word__break osl-word__break--w200" title='+map.usrNm+'>'
 												+$.osl.escapeHtml(map.usrNm)
 											+'</div>'
 											+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
-											
 											+'<span class="kt-widget__desc">'
 												+'<span>'+$.osl.escapeHtml(map.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(map.usrPositionNm)+'</span>'
 											+'</span>'
