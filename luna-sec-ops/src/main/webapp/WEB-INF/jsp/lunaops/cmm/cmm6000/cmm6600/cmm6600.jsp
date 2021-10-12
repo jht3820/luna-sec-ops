@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <form class="kt-form" id="frCmm6600">
 	<input type="hidden" name="paramTargetId" id="paramTargetId" value="${param.targetId}">
 	<input type="hidden" name="paramTargetCd" id="paramTargetCd" value="${param.targetCd}">
@@ -46,7 +46,7 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="cmm6600SaveSignLine"><i class="fa fa-save"></i><span>결재 등록</span></button>
+	<button type="button" class="btn btn-brand" id="cmm6600SaveSignLine"><i class="fa fa-save"></i><span>결재 요청</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span>Close</span></button>
 </div>
 <script>
@@ -184,6 +184,13 @@ var OSLCmm6600Popup = function () {
     				
     				
     				$.osl.layerPopupClose();
+    				
+    				
+    				if(targetCd == '02'){
+
+			        	
+			        	$("button[data-datatable-id=dpl1000Table][data-datatable-action=select]").click();
+    				}
     				
     			}
     		});
