@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frCmm6500">
 	<input type="hidden" name="paramDeptNm" id="paramDeptNm" value="${param.deptName}">
@@ -86,13 +85,13 @@
 "use strict";
 var OSLCmm6500Popup = function () {
 	var formId = 'frCmm6500';
-	// 선택한 조직 정보
+	
 	var selDeptInfo;
 	
-    // Private functions
+    
     var documentSetting = function () {
     
-    	// Portlet 생성
+    	
     	new KTPortlet('cmm6500DeptTreeList', $.osl.lang("portlet"));
     	new KTPortlet('cmm6500DeptTreeInfo', $.osl.lang("portlet"));
     	
@@ -104,34 +103,34 @@ var OSLCmm6500Popup = function () {
 				labelKey: "deptName"
 			},
 			search:{
-				//대소문자 구분
+				
 				case_insensitive : true,
-				//검색 결과 노드만 표시
+				
 				show_only_matches: true,
-				//show_only_matches: true 일때 하위 노드도 같이 표시 할건지
+				
 				show_only_matches_children: true,
 			},
 			callback:{
 				onclick: function(treeObj,selNode){
 					
 					selDeptInfo = selNode.original;
-					// 클릭한 조직 정보 조회
+					
 					selectDeptInfo(selNode.original.deptId);
-					// 상위조직명을 문자열 생성
+					
 					var upperDeptNm = getUpperDeptNm(treeObj, selNode);
 					
-					// 조직선택 버튼에 조직ID, 상위조직명을 data로 세팅
+					
 					$("#cmm6500SelDept").attr("data-dept-id", selDeptInfo.deptId);
    	    			$("#cmm6500SelDept").attr("data-dept-nm", upperDeptNm);
 				},
 				init: function(treeObj, data){
 					
-					// 검색어 있을 경우
+					
 					var searchDeptNm = $.trim($("#paramDeptNm").val());
 					if(!$.osl.isNull(searchDeptNm)){
-						// 검색어 세팅
+						
 						$('.osl-tree-search input[data-tree-id="cmm6500DeptTree"]').val(searchDeptNm);
-						// 검색버튼 클릭
+						
 						$('.osl-tree-search__button[data-tree-id="cmm6500DeptTree"]').click();
 					}
 					
@@ -139,7 +138,7 @@ var OSLCmm6500Popup = function () {
 			}
 		});
     	
-    	// 조직선택 버튼 클릭
+    	
     	$("#cmm6500SelDept").click(function(){
     		if($.osl.isNull(selDeptInfo)){
     			$.osl.alert("왼쪽 트리에서 조직을 선택하세요.");
@@ -151,20 +150,14 @@ var OSLCmm6500Popup = function () {
     };
 
     
-    /**
-	 * function 명 	: getUpperDeptNm
-	 * function 설명	: 선택한 조직의 상위조직명을 포함하는 조직명 문자열을 만든다.
-	 * @param treeObj : jstree object
-	 * @param treeNode : 트리에서 선택한 조직 노드
-	 * @return : 상위조직명을 포함한 조직명 문자열 (ex. 전체 > 오픈소프트랩 > 부설연구소)
-	 */
+    
     var getUpperDeptNm = function(treeObj, treeNode){
     	
     	var deptNmStr = "";
-    	// 선택한 노드를 포함한 상위조직 명 배열
+    	
     	var upperDeptNmList = treeObj.jstree().get_path(treeNode.id);
 		
-    	// 배열 loop 하여  선택한 조직의 상위조직명 문자열을 만든다. (ex. 전체 > 오픈소프트랩 > 부설연구소)
+    	
     	$.each(upperDeptNmList, function(idx, deptNm){
     		deptNmStr += deptNm;
     		if(idx != upperDeptNmList.length-1){
@@ -176,60 +169,56 @@ var OSLCmm6500Popup = function () {
     };
     
     
-    /**
-	 * function 명 	: selectDeptInfo
-	 * function 설명	: 선택한 조직의 상세정보를 조회하여 화면에 세팅한다.
-	 * @param deptId : 선택한 조직 ID
-	 */
+    
 	var selectDeptInfo = function(deptId) {
     	
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/stm/stm6000/stm6000/selectStm6000DeptInfoAjax.do'/>", "async": false}
 				,{"deptId": deptId, "view":"cmm1200"});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				
-				// 조직 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.deptInfoMap,"frCmm6500", ["deptId", "upperDeptId", "upperDeptNm", "deptName", "useNm", "ord"]);
 				
-		    	// 상위조직 Id 없을경우
+		    	
 				if($.osl.isNull(data.deptInfoMap.upperDeptId)){
 					$("#upperDeptId").val("-");
 				}
 				
-				// 상위조직 명 없을경우
+				
 				if($.osl.isNull(data.deptInfoMap.upperDeptNm)){
 					$("#upperDeptNm").val("-");
 				}
-			
+				var deptEtc = data.deptInfoMap.deptEtc;
 				if(!$.osl.isNull(deptEtc)){
 					deptEtc =  $.osl.escapeHtml(deptEtc);
-			    	// 비고 값 div영역에 세팅
+			    	
 					$("#deptEtc").html(deptEtc.replace(/\n/g, '<br/>'));
 				}
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
     	
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLCmm6500Popup.init();
 });

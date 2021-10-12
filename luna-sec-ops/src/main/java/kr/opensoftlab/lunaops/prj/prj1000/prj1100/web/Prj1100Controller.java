@@ -455,15 +455,25 @@ public class Prj1100Controller {
     		String paramPrjId = (String) paramMap.get("paramPrjId");
     		String paramProcessId = (String) paramMap.get("paramProcessId");
     		String paramFlowId = (String) paramMap.get("paramFlowId");
+
+    		String paramLicGrpId = (String) paramMap.get("paramLicGrpId");
     		
     		HttpSession ss = request.getSession();
+    		LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
     		
     		
     		if(paramPrjId == null || "".equals(paramPrjId)) {
     			paramPrjId = (String) ss.getAttribute("selPrjId");
     		}
+
+    		
+    		if(paramLicGrpId == null || "".equals(paramLicGrpId)){
+    			paramLicGrpId = (String)loginVO.getLicGrpId();
+    		}
+    		
     		paramMap.put("prjId", paramPrjId);
     		paramMap.put("processId", paramProcessId);
+    		paramMap.put("licGrpId", paramLicGrpId);
 			
 			
     		if("insert".equals(type)) {
