@@ -24,7 +24,7 @@ var OSLCoreCustomOptionSetting = function () {
 		var readonlyFileIdList = [];
 
 		
-		var essentialCdFileIdList = [];
+		var fileIdList = [];
 		
 		
 		var commonPopup_charger = [];
@@ -168,6 +168,7 @@ var OSLCoreCustomOptionSetting = function () {
 				
 				
 				var itemValue = '';
+				var itemValueNm = '';
 				
 				
 				var optTarget = config.optTarget;
@@ -188,21 +189,8 @@ var OSLCoreCustomOptionSetting = function () {
 				
 
 				
-				if(map.itemCode == "01"){
-					if(map.itemType == "02"){ 
-						
-						optionTitleClass = optionWidthSize = config.classNm.option_desc;
-					}
-				}
-				else if(map.itemCode == "03"){ 
-					
-					optionTitleClass = optionWidthSize = config.classNm.option_file;
-				}
-				
-				
 				if(config.optInitReadonly){
 					optReadOnlyChk = true;
-				
 				}
 				
 				
@@ -216,6 +204,14 @@ var OSLCoreCustomOptionSetting = function () {
 					
 					
 					itemValue = $.osl.escapeHtml(itemValue);
+				}
+				
+				
+				if(!$.osl.isNull(map.itemValueNm)){
+					itemValueNm = map.itemValueNm;
+					
+					
+					itemValueNm = $.osl.escapeHtml(itemValueNm);
 				}
 				
 				
@@ -280,23 +276,23 @@ var OSLCoreCustomOptionSetting = function () {
 						optAddClass = '';
 					}
 					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
-					optContentData = '<select class="form-control kt-select2" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" opttype="-1" '+optReadOnly+' '+requiredTxt+'></select>';
+					optContentData = '<select class="form-control kt-select2" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" opttype="-1" data-osl-value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'></select>';
 					
 					
 					selectObjList.push({targetId:map.itemId, commCode : map.itemCommonCode});
 				}else if(map.itemCode == "03"){ 
 					
-					
-					
-					
-					
-					if(optReadOnlyChk){
-						optFileReadOnlyCss = " fileReadOnly";
+					if(!optReadOnlyChk){
+						fileIdList.push(map.itemId);
 					}
 					
-					
-					
-					
+					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-file-upload kt-margin-r-5"></i>'+itemNm+'<button type="button" class="btn btn-sm btn-danger d-none kt-margin-l-10" id="fileRemoveResetBtn">삭제 초기화</button></label>'
+					optContentData = 
+						 '<div class="kt-uppy osl-max-h-px-260 fileReadonly" name="'+map.itemId+'FileDiv" id="'+map.itemId+'FileDiv" '+requiredTxt+'>'
+						+	'<input type="hidden" id="'+map.itemId+'" name="'+map.itemId+'">'
+						+	'<div class="kt-uppy__dashboard"></div>'
+						+	'<div class="kt-uppy__progress"></div>'
+						+'</div>';
 				}else if(map.itemCode == "04"){ 
 					var popupBtnStr = '';
 					if(!optReadOnlyChk){
@@ -308,8 +304,8 @@ var OSLCoreCustomOptionSetting = function () {
 					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 					optContentData = 
 						'<div class="input-group">'
-						+'		<input type="text" class="form-control kt-hide" placeholder="'+itemNm+'" name="'+map.itemId+'" id="'+map.itemId+'" opttype="-1" '+optReadOnly+'>'
-						+'		<input type="text" class="form-control" placeholder="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" opttype="-1" '+optReadOnly+'>'
+						+'		<input type="text" class="form-control kt-hide" placeholder="'+itemNm+'" name="'+map.itemId+'" id="'+map.itemId+'" value="'+itemValue+'" opttype="-1" '+optReadOnly+'>'
+						+'		<input type="text" class="form-control" placeholder="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" value="'+itemValueNm+'" opttype="-1" '+optReadOnly+'>'
 						+'		<button type="button" class="btn btn-brand input-group-append" id="'+map.itemId+'Btn" name="'+map.itemId+'Btn"><i class="fa fa-search"></i><span>검색</span></button>'
 						+'</div>' ;
 				}else if(map.itemCode == "05"){ 
@@ -340,8 +336,8 @@ var OSLCoreCustomOptionSetting = function () {
 
 					optContentData = 
 						'<div class="input-group">'
-						+'		<input type="text" class="form-control kt-hide" placeholder="'+itemNm+'" name="'+map.itemId+'" id="'+map.itemId+'" opttype="-1" '+optReadOnly+'>'
-						+'		<input type="text" class="form-control" placeholder="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" opttype="-1" '+optReadOnly+'>'
+						+'		<input type="text" class="form-control kt-hide" placeholder="'+itemNm+'" name="'+map.itemId+'" id="'+map.itemId+'" value="'+itemValue+'" opttype="-1" '+optReadOnly+'>'
+						+'		<input type="text" class="form-control" placeholder="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" value="'+itemValueNm+'" opttype="-1" '+optReadOnly+'>'
 						+'		<button type="button" class="btn btn-brand input-group-append" id="'+map.itemId+'Btn" name="'+map.itemId+'Btn"><i class="fa fa-search"></i><span>부서검색</span></button>'
 						+'</div>' ;
 					
@@ -363,83 +359,18 @@ var OSLCoreCustomOptionSetting = function () {
 			if(rtnStrArr.length > 0){
 				
 				$("#"+htmlTargetObj).html(rtnStrValue);
-				
-				
-				if(!$.osl.isNull(config.optEmptyAppend) && config.optEmptyAppend){
-					
-					var targetElem = $("#"+htmlTargetObj).children("div."+config.classNm.option_title);
-					
-					
-					$.each(targetElem,function(idx, map){
-						
-						
-						var $nextDiv = $(map).next("div");
-						
-						var $nextNextDiv  = $nextDiv.next("div").next("div");
-		
-						
-						var optionAll = $nextDiv.hasClass(config.classNm.option_all);
-						var optionDesc = $(map).hasClass(config.classNm.option_desc);
-		
-						
-						var nextOptionAll = $nextNextDiv.hasClass(config.classNm.option_all);
-						
-						var nextDesc = $nextDiv.next("div").hasClass(config.classNm.option_desc);
-		
-						
-						if(!optionAll){
-							
-							
-							if(optionDesc){
-								
-								if(halfCnt%2 == 1){
-									
-									if( nextOptionAll || (!nextOptionAll && !nextDesc) ){
-										
-										$nextDiv.after('<div class="'+config.classNm.option_title+' '+config.classNm.option_desc+'" optflowid="'+hlafFlowId+'"></div>'
-												+'<div class="'+config.classNm.option_half+' '+config.classNm.option_desc+'" optflowid="'+hlafFlowId+'"></div>');
-										
-									}
-								}
-								
-							
-							}else{
-								
-								if(halfCnt%2 == 1){
-									
-									if( nextOptionAll || (!nextOptionAll && nextDesc) ){
-										
-										$nextDiv.after('<div class="'+config.classNm.option_title+'" optflowid="'+hlafFlowId+'"></div>'
-												+'<div class="'+config.classNm.option_half+'" optflowid="'+hlafFlowId+'"></div>');
-										
-									}
-								}
-							}
-						}
-		
-						
-						if(targetElem.length == (idx+1)){
-							
-							
-							if(halfCnt%2 == 1){	
-								
-								if(optionDesc){
-									
-									$nextDiv.after('<div class="'+config.classNm.option_title+' '+config.classNm.option_desc+'" optflowid="'+hlafFlowId+'"></div>'
-											+'<div class="'+config.classNm.option_half+' '+config.classNm.option_desc+'" optflowid="'+hlafFlowId+'"></div>');
-								
-								
-								}else{
-									
-									$nextDiv.after('<div class="'+config.classNm.option_title+'" optflowid="'+hlafFlowId+'"></div>'
-											+'<div class="'+config.classNm.option_half+'" optflowid="'+hlafFlowId+'"></div>');
-								}
-							}
-							return false;
-						}
-					});
-				}
 			}
+			
+			
+			if(!$.osl.isNull(fileIdList)){
+				
+				$.each(fileIdList,function(idx, map){
+					
+					
+					
+				});
+			};
+			
 			
 			if(optAtchFileChk && dragAndDropListTmp.length > 0){
 				
@@ -457,19 +388,6 @@ var OSLCoreCustomOptionSetting = function () {
 					
 				}
 			}
-			
-			
-			var removeArr = removeEventArr.slice();
-			
-			removeArr.push("click");
-			
-			$.each(readonlyFileIdList,function(idx, fileId){
-				
-				$.each(removeArr,function(arrIdx, delEvent){
-					
-					$(".opt_drop_file[fileid="+fileId+"]").off(delEvent);
-				});
-			});
 			
 			
 			if(!$.osl.isNull(dateObjList)){
@@ -497,8 +415,6 @@ var OSLCoreCustomOptionSetting = function () {
 			
 			
 			if(!$.osl.isNull(selectObjList)){
-				var arrObj = [];
-				
 				
 				$.each(selectObjList,function(idx, map){
 					var commonCodeArr = [
@@ -506,7 +422,10 @@ var OSLCoreCustomOptionSetting = function () {
 					];
 		   	
 					
-					$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
+					$.osl.getMulticommonCodeDataForm(commonCodeArr , false);
+
+					
+					$('#'+map.targetId).select2();
 				});
 			}
 			
@@ -517,7 +436,7 @@ var OSLCoreCustomOptionSetting = function () {
 				$.each(commonPopup_charger,function(idx, map){
 					$("#"+map+"Btn").click(function(){
 			    		var data = {
-			    				usrNm : $("#"+map).val()
+			    				usrNm : $("#"+map+"Nm").val()
 			    		};
 			    		var options = {
 			    				idKey: "searchUsr",
@@ -545,46 +464,82 @@ var OSLCoreCustomOptionSetting = function () {
 				});
 			}
 
-			if(!$.osl.isNull(commonPopup_cls)){
+			
+			
+			
+			
+			var selectDeptInfo = function(targetItem, searchDeptNm){
+		    	
+			   var ajaxObj = new $.osl.ajaxRequestAction({"url":"/stm/stm6000/stm6000/selectStm6000BeforeCmmDeptList.do", 
+					"loadingShow": false}, {"searchDeptNm":$.trim(searchDeptNm)});
 				
-				$.each(commonPopup_cls,function(idx, map){
-					$("#btn_cls_select_"+map).click(function() {
-						gfnCommonClsPopup(function(reqClsId,reqClsNm){
-							$('#'+map).val(reqClsId);
-							$('#'+map+'Nm').val(reqClsNm);
-						}, {prjId: config.prjId});
-					});
+				ajaxObj.setFnSuccess(function(data){
+					if(data.errorYn == "Y"){
+						$.osl.alert(data.message,{type: 'error'});
+					}else{
+						var deptList = data.deptList;
+						if(deptList.length == 1){
+							
+							var deptId = deptList[0].deptId;
+							var deptNm = deptList[0].deptName;
+							
+							if(!$.osl.isNull(deptId) && !$.osl.isNull(deptNm)){
+	                    		$("#"+targetItem).val(deptId);
+	                    		$("#"+targetItem+"Nm").val(deptNm);
+	                    	}
+						}else{
+							
+							callCommonDeptPopup(targetItem, searchDeptNm);
+						}
+					}
 				});
-			}
+				
+				
+				ajaxObj.send();
+		    	
+		   	};
+		   	
+		   	
+			var callCommonDeptPopup = function(targetItem, searchDeptNm){
+				var data = {deptName:searchDeptNm};
+    			var options = {
+    					idKey: "cmm6500",
+    					modalSize: 'xl',
+    					modalTitle: "조직 검색",
+    					closeConfirm: false,
+    					callback:[{
+    	                    targetId: "cmm6500SelDept",
+    	                    actionFn: function(thisObj){
+    	                		var deptId = $(thisObj).data("dept-id");
+    	                		var deptNm = $(thisObj).data("dept-nm");
+
+    	                		if(!$.osl.isNull(deptId) && !$.osl.isNull(deptNm)){
+    	                    		$("#"+targetItem).val(deptId);
+    	                    		$("#"+targetItem+"Nm").val(deptNm);
+    	                    	}
+    	                    }
+    	                 }]
+    				};
+    			
+    			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6500/selectCmm6500View.do',data,options);
+			};
 			
 			if(!$.osl.isNull(commonPopup_dept)){
 				
 				$.each(commonPopup_dept,function(idx, map){
 					$("#"+map+"Btn").click(function(){
 			    		var searchDeptNm = $.trim($("#"+map+"Nm").val());
-		    			if(searchDeptNm.lastIndexOf(">") > 0){
-		    				
-		    				searchDeptNm = searchDeptNm.substring(searchDeptNm.lastIndexOf(">")+1);
-		    			}
-		    			var data = {deptName:searchDeptNm};
-		    			var options = {
-		    					idKey: "cmm6500",
-		    					modalSize: 'xl',
-		    					modalTitle: "조직 검색",
-		    					closeConfirm: false,
-		    					callback:[{
-		    	                    targetId: "cmm6500SelDept",
-		    	                    actionFn: function(thisObj){
-							        	var deptInfo = JSON.parse(thisObj);
-							        	
-							        	$("#"+map).val(deptInfo.deptId);
-							        	$("#"+map+"Nm").val(deptInfo.deptNm);
-		    	                    }
-		    	                 }]
-		    				};
-		    			
-		    			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6500/selectCmm6500View.do',data,options);
-			    		
+			    		if($.osl.isNull(searchDeptNm)){
+			    			
+			    			callCommonDeptPopup(map);  			
+			    		}else{
+			    			if(searchDeptNm.lastIndexOf(">") > 0){
+			    				
+			    				searchDeptNm = searchDeptNm.substring(searchDeptNm.lastIndexOf(">")+1);
+			    			}
+				    		
+				    		selectDeptInfo(map, searchDeptNm);
+			    		}
 			    	});
 				});
 			}
