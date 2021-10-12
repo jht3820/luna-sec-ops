@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="spr1100DAO">
 
@@ -23,7 +23,6 @@
 		<result property="modifyUsrIp"			column="MODIFY_USR_IP"/>
 		<result property="reqResultDesc"			column="REQ_RESULT_DESC" jdbcType="CLOB" javaType="java.lang.String"/>
     </resultMap>
-    
    
 	
 	
