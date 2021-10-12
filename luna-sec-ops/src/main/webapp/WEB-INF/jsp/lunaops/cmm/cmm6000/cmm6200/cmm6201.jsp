@@ -509,7 +509,14 @@ var OSLCmm6201Popup = function () {
             onLinkSelect: function(linkId){
             	
             	return false;
-            }
+            },
+            onOperatorSelect: function(operatorId){
+				
+				var selFlow = flowChart.flowchart("getOperatorData", operatorId);
+            	
+            	$("#"+formId+" #nextFlowNm").text(selFlow.properties.title);
+				return true;
+			}
 		});
 		
 		zoomObj = panzoom(flowChart[0],{
