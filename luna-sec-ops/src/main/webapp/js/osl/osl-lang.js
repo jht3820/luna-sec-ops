@@ -1061,6 +1061,36 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
 			},
 		},
+		req1002:{
+			label : {
+				reqUser : {
+					title : "요청자 정보", 
+					usrNm : "요청자 이름",
+					email : "요청자 e-mail",
+					deptNm : "요청자 소속",
+					telNo : "요청자 연락처",
+				},
+				group:{
+					groupReqInfo : "그룹 요구사항 정보",
+					groupReq : "그룹 요구 사항",
+					groupReqDesc : "그룹 요구사항 내용",
+				},
+				prjNm : "프로젝트",
+				reqDtm : "요청일",
+				reqId: "요구사항 ID",
+				reqOrd : "요구사항 순번",
+				reqProTypeNm : "처리 유형",
+				processNm : "프로세스명",
+				flowNm:"단계명",
+				reqNm : "요청 제목",
+				reqDesc : "요청 내용",
+				attachments : "파일 첨부",
+				requestDefaultOptNm : "접수 기본항목 입력"
+			},
+			pleaceholder:{
+				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
+			},
+		},
 		req3000:{
 			insert:{
 				saveMsg:"연결에 성공했습니다.",
@@ -1206,6 +1236,36 @@ var OSLCoreLangSetting = function () {
 			formCheck:{
 				passwordMessage : "비밀글에 사용할 비밀번호를 입력해주세요.",
 				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
+			},
+		},
+		req4102:{
+			label : {
+				reqUser : {
+					title : "요청자 정보", 
+					usrNm : "요청자 이름",
+					email : "요청자 e-mail",
+					deptNm : "요청자 소속",
+					telNo : "요청자 연락처",
+				},
+				group:{
+					groupReqInfo : "그룹 요구사항 정보",
+					groupReq : "그룹 요구 사항",
+					groupReqDesc : "그룹 요구사항 내용",
+				},
+				prjNm : "프로젝트",
+				reqDtm : "요청일",
+				reqId: "요구사항 ID",
+				reqOrd : "요구사항 순번",
+				reqProTypeNm : "처리 유형",
+				processNm : "프로세스명",
+				flowNm:"단계명",
+				reqNm : "요청 제목",
+				reqDesc : "요청 내용",
+				attachments : "파일 첨부",
+				requestDefaultOptNm : "접수 기본항목 입력"
+			},
+			pleaceholder:{
+				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
 			},
 		},
 		req4103:{
@@ -3332,6 +3392,36 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "The entered passwords are different.",
 			},
 		},
+		req1002:{
+			label : {
+				reqUser : {
+					title : "Requester Information",
+					usrNm : "Name",
+					email : "E-mail",
+					deptNm : "Department",
+					telNo : "Contact",
+				},
+				group:{
+					groupReqInfo : "Group Request Information",
+					groupReq : "Group Request",
+					groupReqDesc : "Group Request Content",
+				},
+				prjNm : "Project",
+				reqDtm : "Request Date",
+				reqId: "Request ID",
+				reqOrd : "Request Ord.",
+				reqProTypeNm : "Process Type Name",
+				processNm : "Process",
+				flowNm:"Step",
+				reqNm : "Title",
+				reqDesc : "Content",
+				attachments : "Attachments",
+				requestDefaultOptNm : "Enter basic items for application"
+			},
+			placeholder:{
+				notGroupReqInfo : "Group requirements are not linked.",
+			},
+		},
 		req3000:{
 			insert:{
 				saveMsg:"Connection success",
@@ -3518,6 +3608,36 @@ var OSLCoreLangSetting = function () {
 			formCheck:{
 				passwordMessage : "You must write password for secret request.",
 				passwordMatching : "The entered passwords are different.",
+			},
+		},
+		req4102:{
+			label : {
+				reqUser : {
+					title : "Requester Information",
+					usrNm : "Name",
+					email : "E-mail",
+					deptNm : "Department",
+					telNo : "Contact",
+				},
+				group:{
+					groupReqInfo : "Group Request Information",
+					groupReq : "Group Request",
+					groupReqDesc : "Group Request Content",
+				},
+				prjNm : "Project",
+				reqDtm : "Request Date",
+				reqId: "Request ID",
+				reqOrd : "Request Ord.",
+				reqProTypeNm : "Process Type Name",
+				processNm : "Process",
+				flowNm:"Step",
+				reqNm : "Title",
+				reqDesc : "Content",
+				attachments : "Attachments",
+				requestDefaultOptNm : "Enter basic items for application"
+			},
+			placeholder:{
+				notGroupReqInfo : "Group requirements are not linked.",
 			},
 		},
 		req4103:{

@@ -14,12 +14,13 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
-import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.Prj1100Service;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.Prj1300Service;
 
 @Service("prj1100Service")
 public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj1100Service {
@@ -27,6 +28,10 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 	
     @Resource(name="prj1100DAO")
     private Prj1100DAO prj1100DAO; 
+
+	
+    @Resource(name = "prj1300Service")
+    private Prj1300Service prj1300Service;
     
     
    	@Resource(name="fileMngService")
@@ -178,7 +183,6 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    int left = flowInfo.getInt("left");
 		    int top = flowInfo.getInt("top");
 		    
-		    
 		    JSONObject properties = flowInfo.getJSONObject("properties");
 		    
 		    JSONArray flowNextIdList = null;
@@ -242,6 +246,23 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    
 		    
 		    prj1100DAO.updatePrj1101FlowInfo(flowMapData);
+		    
+		    
+		    JSONArray itemList = null;
+		    
+		    if(properties.has("basicItemList")) {
+		    	itemList = properties.getJSONArray("basicItemList");
+	    		if(itemList.length() > 0) {
+		    		for(int i=0;i<itemList.length();i++) {
+		    			JSONObject obj = itemList.getJSONObject(i);
+		    			Map itemMap = new Gson().fromJson(obj.toString(), HashMap.class);
+		    			itemMap.put("processId", processId);
+		    			itemMap.put("flowId", key);
+		    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+		    			prj1300Service.savePrj1102ItemAjax(itemMap);
+		    		}
+		    	}
+		    }
 		}
 		
 		
@@ -255,6 +276,8 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 			newMap.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
 		    
 			prj1100DAO.deletePrj1101FlowInfo(newMap);
+			
+			prj1300Service.deletePrj1102ItemAjax(newMap);
 		}
 	}
 	

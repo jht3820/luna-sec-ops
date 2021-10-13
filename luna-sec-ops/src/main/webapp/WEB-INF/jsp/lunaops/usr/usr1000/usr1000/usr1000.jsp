@@ -12,12 +12,12 @@
 					</div>
 					<div class="kt-widget__wrapper">
 						<div class="kt-widget__label">
-							<span class="kt-widget__title kt-margin-b-5" id="profileUsrNm">사용자명</span>
+							<span class="kt-widget__titlekt-margin-b-5 osl-charge-requirements__body" id="profileUsrNm">사용자명</span>
 							<span class="kt-widget__desc">
-								직급 : <span class="kt-margin-l-5" id="profileUsrPositionNm"></span>
+								직급 : <span class="kt-margin-l-5 osl-charge-requirements__body" id="profileUsrPositionNm"></span>
 							</span>
-							<span class="kt-widget__desc"data-toggle="kt-tooltip" title="">
-								부서 : <span class="kt-margin-l-5" id="profileUsrDeptNm"></span>
+							<span class="kt-widget__desc">
+								부서 : <span class="kt-margin-l-5 osl-charge-requirements__body" id="profileUsrDeptNm"></span>
 							</span>
 						</div>
 					</div>
@@ -671,9 +671,11 @@ var OSLUsr1000Popup = function () {
 				
 				
 				$("#profileUsrNm").text(usrNm);
+				$("#profileUsrNm").attr("title", usrNm);
 				$("#profileUsrPositionNm").text(usrPositionNm);
+				$("#profileUsrPositionNm").attr("title", usrPositionNm);
 				$("#profileUsrDeptNm").text(currentDeptNm);
-				$("#profileUsrDeptNm").parent("span.kt-widget__desc").attr("title", deptNm);
+				$("#profileUsrDeptNm").attr("title", deptNm);
 				$("#profileUsrImg").attr("src", usrImgUrl+"&"+new Date().getTime());
 				
 				

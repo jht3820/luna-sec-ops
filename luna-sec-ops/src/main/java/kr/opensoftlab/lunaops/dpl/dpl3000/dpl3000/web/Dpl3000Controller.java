@@ -2,7 +2,6 @@ package kr.opensoftlab.lunaops.dpl.dpl3000.dpl3000.web;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -134,8 +133,26 @@ public class Dpl3000Controller {
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
 			
-			/
-			/
+			
+			int totCnt = 0;
+			List<Map> dataList = null;
+			Map<String, Object> metaMap = null;
+			
+			
+			totCnt = dpl1000Service.selectDpl1300DplJobPagingListCnt(paramMap);
+
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+
+			
+			
+			dataList = dpl1000Service.selectDpl1300DplJobPagingList(paramMap);
+			
+        	
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -299,6 +316,7 @@ public class Dpl3000Controller {
 			paramMap.put("dplTypeCd", (String)dplMap.get("dplTypeCd"));
 			paramMap.put("dplAutoAfterCd", (String)dplMap.get("dplAutoAfterCd"));
 			paramMap.put("dplRestoreCd", (String)dplMap.get("dplRestoreCd"));
+			paramMap.put("dplRevisionNum", (String)dplMap.get("dplRevisionNum"));
 			paramMap.put("regUsrId", loginVO.getUsrId());
 			paramMap.put("regUsrIp", request.getRemoteAddr());
 			
@@ -477,42 +495,42 @@ public class Dpl3000Controller {
 		 			List<Map> dplRunAuthGrp = null;
 		 			
 		 			
-	 				boolean authGrpChk = false;
+	 				boolean authGrpChk = true;
 	 				
 		 			
-		 			if(dplRunAuthGrp != null){
-		 				
-		 				Map dpl1000DplInfo = dpl1000Service.selectDpl1000DeployVerInfo(paramMap);
-		 				
-		 				
-		 				String usrId = (String)loginVO.getUsrId();
-		 				
-		 				
-		 				String dplUsrId = (String) dpl1000DplInfo.get("dplUsrId");
-		 				
-		 				
-		 				if(usrId.equals(dplUsrId)){
-		 					authGrpChk = true;
-		 				}
-		 				
-		 				
-		 				String selAuthGrpId = (String)ss.getAttribute("selAuthGrpId");
-		 				
-		 				
-		 				if(dplRunAuthGrp.size() == 0){
-		 					authGrpChk = true;
-		 				}else{
-			 				for(Map authGrp : dplRunAuthGrp){
-			 					String authGrpId = (String) authGrp.get("authGrpId");
-			 					
-			 					
-			 					if(selAuthGrpId.equals(authGrpId)){
-			 						authGrpChk = true;
-			 						break;
-			 					}
-			 				}
-		 				}
-		 			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		 			
 		 			
 	 				if(!authGrpChk){

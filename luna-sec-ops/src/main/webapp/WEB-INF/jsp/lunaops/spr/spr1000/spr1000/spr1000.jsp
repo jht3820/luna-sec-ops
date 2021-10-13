@@ -93,7 +93,7 @@ var OSLSpr1000Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false},
 				{field: 'sprTypeNm', title: '상태 ', textAlign: 'center', width: 100, searchType:"select", searchCd: "SPR00001", searchField:"sprTypeNm", sortField: "sprTypeNm"},
-				{field: 'sprNm', title: '스프린트 이름', textAlign: 'center', width: 300, search:true},
+				{field: 'sprNm', title: '스프린트 이름', textAlign: 'center', width: 300, search:true, autoHide: false},
 				{field: 'sprDesc', title: '스프린트 설명', textAlign: 'center', width: 150, search:true},
 				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 150, search: true, searchType:"date"},
 				{field: 'sprEdDt', title: '종료일', textAlign: 'center', width: 150, search: true, searchType:"date"},
@@ -264,7 +264,9 @@ var OSLSpr1000Popup = function () {
 							autoHeight: false,
 							modalSize: "xl",
 							idKey: datatableId,
-							closeConfirm: false
+							backdrop: true,
+							closeConfirm: false,
+							
 						};
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1004View.do',data,options);
 				}
@@ -509,6 +511,9 @@ var OSLSpr1000Popup = function () {
 					type:false
 				},
 				chart:{
+					toolbar: {
+						show:false
+					},
 					height:180,
 					
 					colors: ["#ffb822","#840ad9"],

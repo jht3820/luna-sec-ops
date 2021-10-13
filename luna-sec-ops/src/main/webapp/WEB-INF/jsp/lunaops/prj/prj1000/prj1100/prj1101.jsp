@@ -560,7 +560,7 @@ var OSLPrj1101Popup = function () {
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100ProcessInfoAjax.do'/>"}
-				,{paramPrjGrpId: paramPrjGrpId, paramPrjId: paramPrjId, paramProcessId: paramProcessId});
+				,{paramPrjGrpId: paramPrjGrpId, paramPrjId: paramPrjId, paramProcessId: paramProcessId, type: "local"});
 		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){

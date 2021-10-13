@@ -97,7 +97,6 @@ var OSLCmm6601Popup = function () {
 	  	
 	  	$(".osl-sign-card").click(function(){
 	  		
-	  		console.log("??")
 	  		
 	  		var signTypeNm = $(this).data("sign-type");
 	  		var thisOrd = $(this).data("ord");
@@ -189,6 +188,12 @@ var OSLCmm6601Popup = function () {
 			signTypeNm = signType;
 		}
 		
+  		
+  		var usrNm = $.osl.escapeHtml(userInfo.usrNm);
+  		if(usrNm.length > 10){
+  			usrNm = usrNm.substr(0,10) + '...';
+  		}
+  		
 		usrStr += 
 			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'" data-sign-type="'+signTypeNm+'" data-ord="'+userInfo.ord+'"> '
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
@@ -201,19 +206,19 @@ var OSLCmm6601Popup = function () {
 					+'<div class="kt-media kt-media--circle kt-media--md">'
 						+'<img src="'+$.osl.user.usrImgUrlVal(userInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 					+'</div>'
-					+'<div class="kt-widget__wrapper">'
+					+'<div class="kt-widget__wrapper text-truncate">'
 						+'<div class="kt-widget__label">'
-							+'<div class="kt-widget__title">'
-								+$.osl.escapeHtml(userInfo.usrNm)
-								+'<small>'+$.osl.escapeHtml(userInfo.email)+'</small>'
+							+'<div class="kt-widget__title"> <span>'
+								+usrNm
+								+'</span><small>'+$.osl.escapeHtml(userInfo.email)+'</small>'
 							+'</div>'
 							
 							+'<span class="kt-widget__desc">'
 								+'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
 							+'</span>'
 						+'</div>'
-						+"<div class='sign-type'>"+signTypeNm+"</div>"
 					+'</div>'
+						+"<div class='sign-type'>"+signTypeNm+"</div>"
 				+'</div>'
 			+'</div>';	
 
@@ -248,7 +253,7 @@ var OSLCmm6601Popup = function () {
 			
 			}
 			else{
-				$(this).children(".cardNumber").text("No.");
+				$(this).children(".cardNumber").text("검토 ");
 				var ordCell = $(this).children(".signStartOrdCell"); 
 				ordCell.text(idx);
 				ordCell.data('ord', idx);
