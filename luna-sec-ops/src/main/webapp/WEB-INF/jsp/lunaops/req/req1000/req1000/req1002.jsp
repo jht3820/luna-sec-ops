@@ -82,15 +82,15 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="required"><i class="fa fa-edit kt-margin-r-5"></i>요청 제목</label>
+				<label><i class="fa fa-edit kt-margin-r-5"></i>요청 제목</label>
 				<input type="text" class="form-control" placeholder="요청 제목" name="reqNm" id="reqNm" readonly="readonly">
 			</div>
 			<div class="form-group">
-				<label class="required"><i class="fa fa-edit kt-margin-r-5"></i>요청 내용</label>
+				<labe><i class="fa fa-edit kt-margin-r-5"></i>요청 내용</label>
 				<textarea name="reqDesc" id="reqDesc" readonly="readonly"></textarea>
 			</div>
 			<div class="form-group form-group-last">
-				<label><i class="fa fa-file-upload kt-margin-r-5"></i>파일 첨부 <button type="button" class="btn btn-sm btn-danger d-none kt-margin-l-10" id="fileRemoveResetBtn">삭제 초기화</button></label>
+				<label><i class="fa fa-file-upload kt-margin-r-5"></i>파일 첨부 </label>
 				<div class="kt-uppy fileReadonly" id="req1002FileUpload" >
 					<div class="kt-uppy__dashboard"></div>
 					<div class="kt-uppy__progress"></div>
@@ -123,27 +123,26 @@
 "use strict";
 	
 
-//파일 업로드 세팅
+
 var fileUploadObj;
 var OSLReq1002Popup = function () {
 	var formId = 'frReq1002';
 	
-	
-    // Private functions
+    
     var documentSetting = function () {
 
-    	//type
+    	
     	var type = $("#type").val();
     	
-    	//atchfileId
+    	
     	var atchFileId = $("#atchFileId").val();
     	
-    	//Portlet 세팅
+    	
     	new KTPortlet('req1002RequestUsrInfo', $.osl.lang("portlet"));
     	new KTPortlet('req1002RequestDetail', $.osl.lang("portlet"));
     	new KTPortlet('req1002NewRequestOpt', $.osl.lang("portlet"));
     	
-    	//파일 업로드 세팅
+    	
     	fileUploadObj = $.osl.file.uploadSet("req1002FileUpload",{
     		maxFileSize: "${requestScope.fileSumMaxSize}",
     		meta: {"atchFileId": atchFileId, "fileSn": 0},
@@ -153,40 +152,37 @@ var OSLReq1002Popup = function () {
     		fileReadonly: true
     	});
     	
-    	//요구사항 정보 조회
-		selectReqInfo();
     	
+		selectReqInfo();
     };
     
     
-    /**
-	 * 	요구사항 정보 조회
-	 */
+    
 	 var selectReqInfo = function() {
     	var paramPrjId = $("#prjId").val();
     	var paramReqId = $("#reqId").val();
     	var paramReqUsrId = $("#reqUsrId").val();
     	
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req1000/req1000/selectReq1000ReqInfoAjax.do'/>", "async": false}
 				,{"prjId": paramPrjId, "reqId" : paramReqId, "reqUsrId": paramReqUsrId });
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
-				//요구사항 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.reqInfoMap,"frReq1002");
 				
-				//요청자 정보 세팅
+				
 		    	$("#reqDtm").val(data.reqInfoMap.reqDtm);
 		    	$("#usrImgId").attr("src",$.osl.user.usrImgUrlVal(data.reqInfoMap.reqUsrImgId));
 		    	
-		    	//읽기 전용 에디터
+		    	
 		    	var reqDescEditor = $.osl.editorSetting("reqDesc",{
 		    			toolbar: false,
 		    			disableResizeEditor: false,
@@ -195,34 +191,27 @@ var OSLReq1002Popup = function () {
 		    			height:250
 		    		});
 		    	
-		    	//파일Sn넣기
+		    	
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
-		    	//파일 목록 세팅
+		    	
 		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
 		    	
 			}
 		});
 		
-		//AJAX 전송 오류 함수
-		ajaxObj.setFnError(function(xhr, status, err){
-			data = JSON.parse(data);
-			jAlert(data.message, "알림창");
-		});
-		
-		//AJAX 전송
 		ajaxObj.send();
 	};
     
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLReq1002Popup.init();
 });

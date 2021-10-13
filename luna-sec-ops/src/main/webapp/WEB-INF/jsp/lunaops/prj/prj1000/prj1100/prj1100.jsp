@@ -370,7 +370,7 @@ var OSLPrj1100Popup = function () {
 				};
 				var options = {
 					autoHeight: false,
-					modalSize: "md",
+					modalSize: "xl",
 					idKey: selProcessId,
 					modalTitle: $.osl.lang("prj1102.update.title"),
 					closeConfirm: false,
@@ -418,7 +418,7 @@ var OSLPrj1100Popup = function () {
 				};
 				var options = {
 					autoHeight: false,
-					modalSize: "md",
+					modalSize: "xl",
 					idKey: selProcessId,
 					modalTitle: $.osl.lang("prj1102.insert.title"),
 					closeConfirm: false,
@@ -545,6 +545,9 @@ var OSLPrj1100Popup = function () {
 			   				
 			   				$.osl.toastr(data.message);
 			   				
+			   				
+							fnSelectFlowList();
+			   			
 			   				
 			   				if(!$.osl.isNull($.osl.datatable.list[datatableId])){
 				   				$.osl.datatable.list[datatableId].targetDt.reload();

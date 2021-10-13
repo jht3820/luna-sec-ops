@@ -36,7 +36,7 @@
 		<div class="kt_datatable" id="req1000ReqTable"></div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLReq1000Popup = function () {
@@ -58,7 +58,7 @@ var OSLReq1000Popup = function () {
 				{field: 'reqNm', title: '요청 제목', textAlign: 'left', width: 500, search: true,
 					template: function(row){
 						var resultStr = $.osl.escapeHtml(row.reqNm);
-						//비밀번호가 있는 경우
+						
 						if(row.reqPw == "Y"){
 							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
 						}
@@ -89,11 +89,12 @@ var OSLReq1000Popup = function () {
 			},
 			actionBtn:{
 				"dblClick": true 
-				/* ,"click": true */
+				
 			},
 			actionTooltip:{
 				"update": "요구사항 수정",
-				"delete": "요구사항 삭제"
+				"delete": "요구사항 삭제",
+				"dblClick" : "요구사항 상세"
 			},
 			actionFn:{
 				"insert":function(datatableId, type, rowNum){
@@ -127,24 +128,24 @@ var OSLReq1000Popup = function () {
 					$.osl.layerPopupOpen('/req/req1000/req1000/selectReq1001View.do',data,options);
 				},
 				"delete":function(rowDatas, datatableId, type, rowNum, elem){
-					//AJAX 설정
+					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/req/req1000/req1000/deleteReq1001ReqListAjax.do'/>"}
 							,{deleteDataList: JSON.stringify(rowDatas)});
-					//AJAX 전송 성공 함수
+					
 					ajaxObj.setFnSuccess(function(data){
 						if(data.errorYn == "Y"){
 			   				$.osl.alert(data.message,{type: 'error'});
 			   			}else{
-			   				//삭제 성공
+			   				
 			   				$.osl.toastr(data.message);
 			   				
-			   				//datatable 조회
+			   				
 			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			   			}
 					});
 					
-					//AJAX 전송
+					
 					ajaxObj.send();
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
@@ -154,6 +155,7 @@ var OSLReq1000Popup = function () {
 							paramReqId: rowData.reqId,
 							paramReqUsrId: rowData.reqUsrId
 						};
+					console.log(data);
 					var options = {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("req1001.title"),
@@ -167,7 +169,7 @@ var OSLReq1000Popup = function () {
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -179,5 +181,5 @@ $.osl.ready(function(){
 	OSLReq1000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

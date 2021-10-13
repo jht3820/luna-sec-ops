@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 <form class="kt-form" id="frReq3001">
@@ -20,15 +20,15 @@
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 							<div class="form-group">
 								<label><i class="fas fa-sort-amount-down kt-margin-r-5"></i><span data-lang-cd="req3000.label.reqGrpNo">그룹 요구사항 번호</span></label>
-								<input type="text" class="form-control" id="reqGrpNo" name="reqGrpNo">
+								<input type="text" class="form-control" id="reqGrpNo" maxlength="99" name="reqGrpNo">
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 							<div class="form-group">
 								<label class="required"><i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req3000.label.reqGrpUsr">요청자</span></label>
 								<div class="input-group">
-									<input type="text" class="form-control" id="reqGrpUsrNm" name="reqGrpUsrNm" required="required">
-									<button type="button" class="btn btn-brand input-group-append" id="searchUsrNmBtn" name="searchUsrNmBtn"><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
+									<input type="text" class="form-control" id="reqGrpUsrNm" name="reqGrpUsrNm" maxlength="10" required="required">
+									<button type="button" class="btn btn-brand input-group-append" id="searchUsrNmBtn" name="searchUsrNmBtn" ><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
 								</div>
 							</div>
 						</div>
@@ -38,7 +38,7 @@
 							<div class="form-group">
 								<label class="required"><i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req3000.label.reqGrpCharger">그룹 요구사항 담당자</span></label>
 								<div class="input-group">
-									<input type="text" class="form-control" id="reqGrpChargerNm" name="reqGrpChargerNm" required="required">
+									<input type="text" class="form-control" id="reqGrpChargerNm" name="reqGrpChargerNm" maxlength="10" required="required">
 									<button type="button" class="btn btn-brand input-group-append" id="searchChargerNmBtn" name="searchChargerNmBtn"><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
 								</div>
 							</div>
@@ -48,7 +48,7 @@
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="form-group">
 								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req3000.label.reqGrpNm">그룹 요구사항 명</span></label>
-								<input type="text" class="form-control" id="reqGrpNm" name="reqGrpNm" required="required" placeholder="연결된 그룹요구사항이 없습니다.">
+								<input type="text" class="form-control" id="reqGrpNm" name="reqGrpNm" required="required" maxlength="99" placeholder="연결된 그룹요구사항이 없습니다.">
 							</div>
 						</div>
 					</div>

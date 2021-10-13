@@ -141,17 +141,16 @@ public class Req1000Controller {
 
     
     @SuppressWarnings({ "rawtypes" })
-	@RequestMapping(value="/req/req1000/req1000/selectReq1000ReqInfoAjax.do")
+    @RequestMapping(value="/req/req1000/req1000/selectReq1000ReqInfoAjax.do")
 	public ModelAndView selectReq1000ReqInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
-    	
     	try{
     		
         	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
         	
 			HttpSession ss = request.getSession();
         	
-			String paramPrjId = (String) paramMap.get("paramPrjId");
-			String paramReqId = (String) paramMap.get("paramReqId");
+			String paramPrjId = (String) paramMap.get("prjId");
+			String paramReqId = (String) paramMap.get("reqId");
 			
 			
 			if(paramPrjId == null || "".equals(paramPrjId)) {

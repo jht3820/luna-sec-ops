@@ -72,7 +72,12 @@ public interface Dpl1000Service {
 	
 	
 	@SuppressWarnings("rawtypes")
-	public List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception;
+	List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	List selectDpl1000DplAllBldHistoryList(Map paramMap)  throws Exception;
+	
 	
 	
 	

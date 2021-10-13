@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
-	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -61,12 +60,39 @@ var OSLDpl1000Popup = function () {
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
-				{field: 'dplSignUseNm', title: '결재 사용 유무', textAlign: 'center', width: 120, search: true, searchType:"select", searchCd: "CMM00001", searchField:"dplSignUseCd", sortField: "dplSignUseCd"},
-				{field: 'nowSignTypeNm', title: '결재 상태', textAlign: 'center', width: 100, search: true, searchType:"select", searchCd: "REQ00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"},
-				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100},
-				{field: 'dplStsNm', title: '배포 상태', textAlign: 'center', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "DPL00001", searchField:"dplStsCd", sortField: "dplStsCd"},
+				{field: 'dplSignUseNm', title: '결재 사용 유무', textAlign: 'center', width: 110, search: true, searchType:"select", searchCd: "CMM00001", searchField:"dplSignUseCd", sortField: "dplSignUseCd"},
+				{field: 'nowSignTypeNm', title: '결재 상태', textAlign: 'center', width: 90, search: true, searchType:"select", searchCd: "CMM00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"
+					,template: function(row){
+						var nowSignTypeNm = row.nowSignTypeNm
+						if($.osl.isNull(nowSignTypeNm)){
+							nowSignTypeNm = "-";
+						}
+						return nowSignTypeNm;
+					}	
+				},
+				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100, search: true
+					,template: function(row){
+						var lastSignUsrNm = row.lastSignUsrNm
+						
+						if($.osl.isNull(lastSignUsrNm)){
+							lastSignUsrNm = "-";
+						}else{
+							
+							lastSignUsrNm = $.osl.user.usrImgSet(row.lastSignUsrId, row.lastSignUsrNm);
+						}
+						return lastSignUsrNm;
+					},
+					onclick: function(rowData){
+						
+						if(!$.osl.isNull(rowData.lastSignUsrId)){
+							
+							$.osl.user.usrInfoPopup(rowData.lastSignUsrId);
+						}
+					}
+				},
+				{field: 'dplStsNm', title: '배포 상태', textAlign: 'center', width: 90, autoHide: false, search: true, searchType:"select", searchCd: "DPL00001", searchField:"dplStsCd", sortField: "dplStsCd"},
 				{field: 'dplVer', title: '배포 버전', textAlign: 'center', width: 100, search: true},
-				{field: 'dplNm', title: '배포 명', textAlign: 'left', width: 300, autoHide: false, search: true},
+				{field: 'dplNm', title: '배포 명', textAlign: 'left', width: 280, autoHide: false, search: true},
 				{field: 'dplTypeNm', title: '배포 방법', textAlign: 'center', width: 70, autoHide: false, search: true, searchType:"select", searchCd: "DPL00003", searchField:"dplTypeCd", sortField: "dplTypeCd"},
 				{field: 'dplRevisionNum', title: '배포 리비전 번호', textAlign: 'center', width: 100
 					,template: function(row){
@@ -79,7 +105,14 @@ var OSLDpl1000Popup = function () {
 					}
 				},
 				{field: 'dplDt', title: '배포 일자', textAlign: 'center', width: 100, search: true, searchType:"daterange"},
-				{field: 'dplUsrNm', title: '배포자', textAlign: 'center', width: 100, search: true},
+				{field: 'dplUsrNm', title: '배포자', textAlign: 'center', width: 100, search: true
+					,template: function (row) {
+						return $.osl.user.usrImgSet(row.dplUsrImgId, row.dplUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.dplUsrId);
+					}
+				},
 			],
 			rows:{
 				clickCheckbox: true

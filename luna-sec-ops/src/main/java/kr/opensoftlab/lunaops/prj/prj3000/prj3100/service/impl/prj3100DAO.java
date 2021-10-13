@@ -50,4 +50,10 @@ public class Prj3100DAO extends ComOslitsAbstractDAO {
 		
 	}
 
+	
+	@SuppressWarnings("rawtypes")
+	public List selectPrj3100Prj3100DocList(Map<String, String> paramMap) throws Exception{
+		return (List) list("prj3100DAO.selectPrj3100DocList",paramMap);
+	}
+
 }
