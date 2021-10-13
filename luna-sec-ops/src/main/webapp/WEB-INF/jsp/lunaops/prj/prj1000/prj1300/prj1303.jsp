@@ -55,7 +55,7 @@ var OSLPrj1302Popup = function () {
     	$.osl.customOpt.setting(paramDataList,  "optionPreview",
     			
     			{
-    		
+    				viewType: "preview"
     			},
     			
     			function(){

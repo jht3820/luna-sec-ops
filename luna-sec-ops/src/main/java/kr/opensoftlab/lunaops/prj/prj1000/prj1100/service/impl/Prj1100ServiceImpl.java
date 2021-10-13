@@ -14,7 +14,6 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
@@ -165,6 +164,21 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 				
 				String newFlowId = prj1100DAO.insertPrj1101FlowInfo(newMap);
 				
+				if(newFlowProp.has("basicItemList")) {
+			    	JSONArray itemList = newFlowProp.getJSONArray("basicItemList");
+		    		if(itemList.length() > 0) {
+			    		for(int idx=0;idx<itemList.length();idx++) {
+			    			JSONObject obj = itemList.getJSONObject(idx);
+			    			Map itemMap = new Gson().fromJson(obj.toString(), HashMap.class);
+			    			itemMap.put("processId", processId);
+			    			itemMap.put("flowId", newFlowId);
+			    			itemMap.put("prjId", prjId);
+			    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			    			prj1300Service.savePrj1102ItemAjax(itemMap);
+			    		}
+			    	}
+			    }
+				
 				
 				newFlowIdList.put(beforeFlowId, newFlowId);
 			}
@@ -248,18 +262,32 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    prj1100DAO.updatePrj1101FlowInfo(flowMapData);
 		    
 		    
-		    JSONArray itemList = null;
-		    
 		    if(properties.has("basicItemList")) {
-		    	itemList = properties.getJSONArray("basicItemList");
+		    	JSONArray itemList = properties.getJSONArray("basicItemList");
 	    		if(itemList.length() > 0) {
 		    		for(int i=0;i<itemList.length();i++) {
 		    			JSONObject obj = itemList.getJSONObject(i);
 		    			Map itemMap = new Gson().fromJson(obj.toString(), HashMap.class);
 		    			itemMap.put("processId", processId);
 		    			itemMap.put("flowId", key);
+		    			itemMap.put("prjId", prjId);
 		    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
 		    			prj1300Service.savePrj1102ItemAjax(itemMap);
+		    		}
+		    	}
+		    }
+		    
+		    
+		    if(properties.has("basicItemDelList")) {
+		    	JSONArray itemList = properties.getJSONArray("basicItemDelList");
+	    		if(itemList.length() > 0) {
+		    		for(int i=0;i<itemList.length();i++) {
+		    			JSONObject obj = itemList.getJSONObject(i);
+		    			Map itemMap = new Gson().fromJson(obj.toString(), HashMap.class);
+		    			itemMap.put("processId", processId);
+		    			itemMap.put("flowId", key);
+		    			itemMap.put("prjId", prjId);
+		    			prj1300Service.deletePrj1102ItemInfoAjax(itemMap);
 		    		}
 		    	}
 		    }
@@ -279,6 +307,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 			
 			prj1300Service.deletePrj1102ItemAjax(newMap);
 		}
+		
 	}
 	
 	
@@ -347,9 +376,21 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 	}
 	
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List selectPrj1101FlowList(Map paramMap) throws Exception {
-		return prj1100DAO.selectPrj1101FlowList(paramMap);
+		List flowList = prj1100DAO.selectPrj1101FlowList(paramMap);
+		for(int i=0;i<flowList.size();i++) {
+			Map<String, Object> map =  (Map<String, Object>) flowList.get(i);
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("licGrpId", paramMap.get("licGrpId"));
+			param.put("processId", map.get("processId"));
+			param.put("prjId", map.get("prjId"));
+			param.put("flowId", map.get("flowId"));
+			
+			map.put("basicItemList", prj1300Service.selectPrj1102AllItemList(param));
+			flowList.set(i, map);
+		}
+		return flowList;
 	}
 
 	
