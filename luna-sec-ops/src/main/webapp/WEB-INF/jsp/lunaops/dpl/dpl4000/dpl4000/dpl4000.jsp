@@ -203,7 +203,7 @@
 			],
 			actionBtn:{
 				"title": $.osl.lang("dpl4000.dpl.actionBtn.title"),
-				"width" : 50,
+				"width" : 120,
 				"update": false,
 				"delete": false,
 				"click" : true,
@@ -292,8 +292,8 @@
 					"detail" : " kt-hide",
 				 },
 				 actionBtnIcon:{
-					 "dblClick": " fas fa-external-link-alt",
-					 "detail": " fas fa-external-link-alt"
+					 "dblClick": " fa fa-info-circle",
+					 "detail": "fa fa-info-circle"
 				 }
 			 }
 		});
@@ -400,8 +400,8 @@
 					"detail" : "",
 				},
 				actionBtnIcon:{
-					"dblClick": "fas fa-external-link-alt",
-					"detail": "fas fa-external-link-alt",
+					"dblClick": "fa fa-info-circle",
+					"detail": "fa fa-info-circle",
 				}
 			}
 		});
@@ -514,8 +514,8 @@
 					"detail" : "",
 				},
 				actionBtnIcon:{
-					"dblClick": "fas fa-external-link-alt",
-					"detail": "fas fa-external-link-alt",
+					"dblClick": "fa fa-info-circle",
+					"detail": "fa fa-info-circle",
 				}
 			}
 		});
