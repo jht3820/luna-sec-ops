@@ -10,8 +10,8 @@
 	<input type="hidden" name="reqChargerId" id="reqChargerId"/>
 	<div class="osl-req__process-title"><i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">요구사항 변경 이력</span></div>
 	<div class="osl-req__process-main d-flex">
-		<div class="osl-req__process-history osl-mask-bg" id="osl-req__process-history" data-scroll-x="true"></div>
-		<div class="osl-req__process-next__Flow osl-mask-bg">
+		<div class="osl-req__process-history" id="osl-req__process-history" data-scroll-x="true"></div>
+		<div class="osl-req__process-next__Flow">
 			<div class="osl-req__process-mask__flow">
 				<div class="flowchart-operator-process-title">
 					<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate"><span id="nextProcessNm">프로세스명</span></div>
@@ -261,6 +261,9 @@
 									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">담당자 선택</span>
 								</div>
 								<div class="kt-portlet__head-toolbar">
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6201ProcessAuthUsrTable" data-datatable-action="select" title="프로세스 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+										<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">기본 담당자 조회</span>
+									</button>
 									<div class="kt-portlet__head-group">
 										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
 									</div>
@@ -522,6 +525,9 @@ var OSLCmm6201Popup = function () {
 		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
+			beforeWheel: function(e) {
+		    	return true;
+			}
 		});
 		
 		
