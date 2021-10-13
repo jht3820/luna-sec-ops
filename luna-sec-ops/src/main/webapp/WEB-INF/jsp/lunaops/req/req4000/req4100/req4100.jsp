@@ -38,7 +38,7 @@
 	</div>
 	<div class="kt-portlet__body">
 		<div class="row">
-			<div class="col-lg-3 col-md-6 col-sm-12">
+			<div class="col-lg-5 col-md-6 col-sm-12">
 				<div class="osl-datatable-search" data-datatable-id="req4100ReqTable"></div>
 			</div>
 		</div>
@@ -80,7 +80,16 @@ var OSLReq4100Popup = function () {
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
-					
+					/* 
+					template: function(row){
+						var resultStr = $.osl.escapeHtml(row.reqNm);
+						
+						if(row.reqPw == "Y"){
+							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
+						}
+						return resultStr;
+					}
+					 */
 				},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
 				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"date",
@@ -137,7 +146,8 @@ var OSLReq4100Popup = function () {
 			],
 			searchColumns:[
 				{field: 'prjGrpNm', title: $.osl.lang("req4100.field.prjGrpNm"), searchOrd: 0},
-				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2}
+				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2},
+				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
 			],
 			rows:{
 				clickCheckbox: true
@@ -191,11 +201,93 @@ var OSLReq4100Popup = function () {
 							autoHeight:false,
 							modalSize: "sm",
 						};
-					
+					/* 
+					if(rowData.reqPw == "Y"){
+						
+						checkAuth($.osl.user.userInfo.usrId , rowData.reqId);
+						if(reqAuth){
+							
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
+						}else{
+							
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
+						}
+					}else{
+						
+						$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
+					}
+					 */
 					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
 				},
 				"delete":function(rowDatas, datatableId, type){
+					/* 
+					reqAuth = false;
+					var pwCount = 0;
+					var data = {
+							type:"delete",
+							paramRowData : JSON.stringify(rowDatas),
+							datatableId: datatableId,
+						};
 					
+					var pwOptions = {
+							idKey: "req4100pw_"+datatableId,
+							modalTitle: $.osl.lang("req4100.title.passowrdCheckTitle"),
+							closeConfirm: false,
+							autoHeight:false,
+							modalSize: "sm",
+						};
+					
+					
+					$.each(rowDatas, function(idx, value){
+						if(value.reqPw == "Y"){
+							reqAuth = true;
+							pwCount++;
+						}
+					});
+
+					
+					var rowCnt = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords().length;
+					
+					
+					if(reqAuth){
+						
+						if(rowCnt == 1 || type=="info"){
+							
+							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
+						}else if(rowCnt >1){
+							
+							
+							if(pwCount == 1){
+								
+								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
+							}else{
+								
+								$.osl.alert($.osl.lang("req4100.alert.multiPwMsg", pwCnt));
+								return false;
+							}
+						}
+					}else{
+						
+						var ajaxObj = new $.osl.ajaxRequestAction(
+								{"url":"<c:url value='/req/req4000/req4100/deleteReq4100ReqListAjax.do'/>"}
+								,{deleteDataList: JSON.stringify(rowDatas)});
+						
+						ajaxObj.setFnSuccess(function(data){
+							if(data.errorYn == "Y"){
+				   				$.osl.alert(data.message,{type: 'error'});
+				   			}else{
+				   				
+				   				$.osl.toastr(data.message);
+				   				
+				   				
+				   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+				   			}
+						});
+						
+						
+						ajaxObj.send();
+					}
+					 */
 					 
 					
 					var ajaxObj = new $.osl.ajaxRequestAction(
@@ -227,7 +319,12 @@ var OSLReq4100Popup = function () {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("req4100.title.detailTitle"),
 							autoHeight: false,
-					
+					/* 		
+							modalSize: 'xl',
+							'class': {
+					            "body": "kt-padding-0"
+					         }
+					 */
 							
 						};
 					
@@ -241,7 +338,12 @@ var OSLReq4100Popup = function () {
 						if(rowNum == 0){
 							$.osl.alert($.osl.lang("req4100.alert.selectData"));
 						}else if(rowNum == 1){
+							/* 
 							
+							if(rowDatas[0].reqPw == "Y"){
+								$.osl.alert($.osl.lang("req4100.alert.LockData"));
+							}else{
+							 */
 								
 								data ={
 									type:"copy",
@@ -265,7 +367,12 @@ var OSLReq4100Popup = function () {
 						}
 					}else{
 						
-							
+						/* 
+						
+						if(rowDatas.reqPw == "Y"){
+							$.osl.alert($.osl.lang("req4100.alert.LockData"));
+						}else{
+						 */	
 							data ={
 								type:"copy",
 								rowDatas : "["+JSON.stringify(rowDatas)+"]",
@@ -371,7 +478,11 @@ var OSLReq4100Popup = function () {
 		});
 	};
 	
-	
+	/**
+	 * 비밀글인 경우 접근 권한있는지 확인
+	 * param : usrId : 권한 체크하려는 회원 id
+	 * param : reqId : 권한 체크하려는 요구사항 id
+	 */
 	var checkAuth = function(usrId, reqId){
 		var data = {
 				usrId : usrId,

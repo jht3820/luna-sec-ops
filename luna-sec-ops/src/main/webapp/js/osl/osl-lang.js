@@ -1072,6 +1072,7 @@ var OSLCoreLangSetting = function () {
 				},
 				group:{
 					groupReqInfo : "그룹 요구사항 정보",
+					groupReqId : "그룹 요구사항 번호",
 					groupReq : "그룹 요구 사항",
 					groupReqDesc : "그룹 요구사항 내용",
 				},
@@ -1087,8 +1088,11 @@ var OSLCoreLangSetting = function () {
 				attachments : "파일 첨부",
 				requestDefaultOptNm : "접수 기본항목 입력"
 			},
-			pleaceholder:{
+			message:{
+				notGroupReqNo : "없음",
 				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
+				notProcess : "배정된 프로세스 없음",
+				notStep : "없음"
 			},
 		},
 		req3000:{
@@ -1134,6 +1138,7 @@ var OSLCoreLangSetting = function () {
 				
 				prjGrpNm: "프로젝트 그룹명",
 				reqGrpNm: "그룹 요구사항 명",
+				reqGrpNo : "그룹 요구사항 번호",
 			},
 			actionBtn:{
 				title : "수정 / 삭제 / 상세 / 복사",
@@ -1250,6 +1255,7 @@ var OSLCoreLangSetting = function () {
 				},
 				group:{
 					groupReqInfo : "그룹 요구사항 정보",
+					groupReqId : "그룹 요구사항 번호",
 					groupReq : "그룹 요구 사항",
 					groupReqDesc : "그룹 요구사항 내용",
 				},
@@ -1265,8 +1271,11 @@ var OSLCoreLangSetting = function () {
 				attachments : "파일 첨부",
 				requestDefaultOptNm : "접수 기본항목 입력"
 			},
-			pleaceholder:{
+			message:{
+				notGroupReqNo : "없음",
 				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
+				notProcess : "배정된 프로세스 없음",
+				notStep : "없음"
 			},
 		},
 		req4103:{
@@ -3404,6 +3413,7 @@ var OSLCoreLangSetting = function () {
 				},
 				group:{
 					groupReqInfo : "Group Request Information",
+					groupReqId : "Group Request Num",
 					groupReq : "Group Request",
 					groupReqDesc : "Group Request Content",
 				},
@@ -3419,8 +3429,11 @@ var OSLCoreLangSetting = function () {
 				attachments : "Attachments",
 				requestDefaultOptNm : "Enter basic items for application"
 			},
-			placeholder:{
+			message:{
+				notGroupReqNo : "Noting",
 				notGroupReqInfo : "Group requirements are not linked.",
+				notProcess : "No process assigned.",
+				notStep : "Nothing"
 			},
 		},
 		req3000:{
@@ -3508,6 +3521,7 @@ var OSLCoreLangSetting = function () {
 				
 				prjGrpNm: "Project Group Name",
 				reqGrpNm: "Requirement Group Name",
+				reqGrpNo : "Group Request Number",
 			},
 			actionBtn:{
 				title : "Udp / Del / Det / Cop",
@@ -3623,6 +3637,7 @@ var OSLCoreLangSetting = function () {
 				},
 				group:{
 					groupReqInfo : "Group Request Information",
+					groupReqId : "Group Request Num",
 					groupReq : "Group Request",
 					groupReqDesc : "Group Request Content",
 				},
@@ -3638,8 +3653,11 @@ var OSLCoreLangSetting = function () {
 				attachments : "Attachments",
 				requestDefaultOptNm : "Enter basic items for application"
 			},
-			placeholder:{
+			message:{
+				notGroupReqNo : "Noting",
 				notGroupReqInfo : "Group requirements are not linked.",
+				notProcess : "No process assigned.",
+				notStep : "Nothing"
 			},
 		},
 		req4103:{
