@@ -453,8 +453,7 @@ var OSLReq3001Popup = function () {
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
 					}
-					
-					$.osl.confirm($.osl.lang("prj2100.allUsrInDelete",rowDatas.length),null, function(result){
+					$.osl.confirm($.osl.lang("req3000.allReqInDelete", rowDatas.length), null, function(result){
 						if (result.value) {
 							
 							fnAllReqDelete(rowDatas);
@@ -631,19 +630,23 @@ var OSLReq3001Popup = function () {
 		
 		var toastrMsg = "";
 		var toastrType = "success";
-		
 		if(selDatas.length > reqDupleList){
 			toastrMsg += $.osl.lang("req3000.insert.saveMsg",(selDatas.length-reqDupleList));
 		}
-		
-		
-		
+		if(reqDupleList > 0){
+			
+			if(toastrMsg.length > 0){
+				toastrMsg += "</br>";
+			}
+			toastrMsg += $.osl.lang("req3000.insert.saveDupleMsg",reqDupleList);
+			toastrType = "warning";
+		}
 		
 		if(reqDupleList == selDatas.length){
-			
-			toastrMsg = $.osl.lang("req3000.insert.saveDupleMsg",reqDupleList);
+			toastrMsg = $.osl.lang("req3000.insert.saveAllDupleMsg",reqDupleList);
 			toastrType = "error";
-			
+			$.osl.toastr(toastrMsg,{type: toastrType});
+			return false;
 		}
 		
 		$.osl.toastr(toastrMsg,{type: toastrType});
@@ -838,7 +841,6 @@ var OSLReq3001Popup = function () {
 		
    		
    		ajaxObj.setFnSuccess(function(data){
-   			
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{

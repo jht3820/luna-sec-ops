@@ -1096,10 +1096,11 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		req3000:{
+			allReqInDelete:"${1}건의 요구사항을 연결 해제하시겠습니까?",
 			insert:{
-				saveMsg:"연결에 성공했습니다.",
-				saveDupleMsg:"이미 연결된 요구사항입니다.",
-				saveAllDupleMsg:"모든 요구사항이 연결되었습니다.",
+				saveMsg: "${1}개의 요구사항이 연결되었습니다.",
+				saveDupleMsg: "이미 연결된 ${1}개의 요구사항 제외",
+				saveAllDupleMsg: "이미 연결중인 요구사항입니다. (${1}개)"
 			},
 			alert:{
 				checkUsrId:"요청자 명을 검색하여 입력해주세요. \n 해당 요청자의 소속을 알아야합니다.",
@@ -3437,6 +3438,7 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		req3000:{
+			allReqInDelete:"Are you sure you want to exclude ${1} requests?",
 			insert:{
 				saveMsg:"Connection success",
 				saveDupleMsg:"That connection is already connected",
