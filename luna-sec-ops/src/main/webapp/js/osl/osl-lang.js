@@ -1167,6 +1167,7 @@ var OSLCoreLangSetting = function () {
 			saveString :{
 				insertStr : "요구사항을 등록하시겠습니까?",
 				updateStr : "요구사항 수정을 완료하시겠습니까?",
+				copyStr : "요구사항 복사를 완료하시겠습니까?",
 			},
 			label : {
 				reqUser : {
@@ -3539,6 +3540,7 @@ var OSLCoreLangSetting = function () {
 			saveString :{
 				insertStr : "Would you like to register your requirements?",
 				updateStr : "Would you like to modify your requirements?",
+				copyStr : "Would you like to copy your requirements?",
 			},
 			label : {
 				reqUser : {
