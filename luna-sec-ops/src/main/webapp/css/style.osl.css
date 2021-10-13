@@ -729,7 +729,7 @@ select[id^=usrOpt_] {
 	left: 0;
 	z-index: 999;
 	height: 90px;
-	padding: 20px 65px !important;
+	padding: 20px 58px !important;
 	border-bottom: none !important;
 }
 
@@ -2989,6 +2989,15 @@ label.required:after {
 	  -webkit-box-direction: normal;
 	  -ms-flex-direction: column;
 	  flex-direction: column; 
+	}
+	.osl-dash-btn-mobile{
+		display: block;
+	}
+	.osl-text-left-mobile-576{
+		text-align: left !important;
+	}
+	.osl-margin-t-20-mobile-576{
+		margin-top: 20px;
 	}
 }
 @media (max-width: 500px) {
