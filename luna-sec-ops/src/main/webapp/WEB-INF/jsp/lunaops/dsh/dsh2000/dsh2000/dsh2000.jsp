@@ -5,17 +5,17 @@
 <div class="kt-portlet kt-portlet--mobile">
 	<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
 		<div class="col-lg-5 col-md-5 col-sm-12 col-12 kt-padding-l-0">
-			<h3 class="kt-font-boldest kt-font-brand">
-				대시보드 (프로젝트 그룹)
-			</h3>
+			<h4 class="kt-font-boldest kt-font-brand">
+				<i class="fa fa-th-large kt-margin-r-5"></i>대시보드 (프로젝트 그룹)
+			</h4>
 		</div>
 		<div class="col-lg-7 col-md-12 col-sm-12 col-12 text-right osl-text-left-mobile-576 kt-padding-r-0">
 			<div class="kt-portlet__head-wrapper">
-				<div class="kt-margin-t-20" id="dataAutoRefreshDiv" guide="autoRefresh">
-					<i class="fa fa-clock kt-font-brand"></i>
-					<span id="autoRefreshSpan">00분 00초</span> 후 자동 갱신&nbsp;-
-					<i class="fa fa-cogs autoRefresh_timeIcon"></i>&nbsp;
-					<select class="osl-h-px-34 kt-margin-r-10" id="timerVarSel" onchange="fnDashBoardSetting()">
+				<div class="kt-margin-t-20-tablet kt-margin-t-20-mobile osl-font-lg" id="dataAutoRefreshDiv" guide="autoRefresh">
+					<i class="fa fa-clock kt-font-brand kt-font-lg"></i>
+					<span class="kt-font-boldest kt-margin-r-5" id="autoRefreshSpan">00분 00초</span>후 자동 갱신
+					<i class="fas fa-cogs kt-font-brand kt-font-lg kt-margin-l-10 kt-margin-r-10"></i>
+					<select class="form-control osl-w-px-70 kt-block-inline" id="timerVarSel" onchange="fnDashBoardSetting()">
 						<option value="0.5">30초</option>
 						<option value="1">1분</option>
 						<option value="5" selected>5분</option>
@@ -24,19 +24,19 @@
 						<option value="60">1시간</option>
 					</select>
 					<span class="osl-dash-btn-mobile osl-margin-t-20-mobile-576">
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" id="dshWidgetSortCancel" data-flag="false">
+						<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-l-5  kt-margin-r-5 btn-elevate btn-elevate-air" id="dshWidgetSortCancel" data-flag="false">
 							<i class="fa fa-history kt-padding-r-0"></i>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnAutoRefreshEnd();">
+						<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-l-5  kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnAutoRefreshEnd();">
 							<i class="fas fa-expand-arrows-alt kt-padding-r-0"></i>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" id="dashBoardSetting">
+						<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-l-5  kt-margin-r-5 btn-elevate btn-elevate-air" id="dashBoardSetting">
 							<i class="fa fa-redo kt-padding-r-0"></i>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnDshWidgetSort(this);" data-flag="false">
+						<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnDshWidgetSort(this);" data-flag="false">
 							<i class="fa fa-times kt-padding-r-0"></i>
 						</button>
-						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-dash--all-folding" id="allPortletClose"><i class="fa fa-chevron-down"></i></a>
+						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air osl-dash--all-folding" id="allPortletClose"><i class="fa fa-chevron-down"></i></a>
 					</span>
 				</div>
 			</div>
@@ -48,15 +48,15 @@
 		<div class="kt-portlet__head kt-portlet__head--lg">
 			<div class="kt-portlet__head-label">
 				<h4 class="kt-font-boldest kt-font-brand">
-					프로젝트 그룹
+					<i class="fa fa-th-large kt-margin-r-5"></i>프로젝트 그룹
 				</h4>
 			</div>
 			<div class="kt-portlet__head-toolbar">
 	            <div class="kt-portlet__head-group">
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -80,15 +80,15 @@
 		<div class="kt-portlet__head kt-portlet__head--lg">
 			<div class="kt-portlet__head-label">
 				<h4 class="kt-font-boldest kt-font-brand">
-					접수대기 [총 <span>11</span>건]
+					<i class="fa fa-th-large kt-margin-r-5"></i>접수대기 [총 <span>11</span>건]
 				</h4>
 			</div>
 			<div class="kt-portlet__head-toolbar">
 	            <div class="kt-portlet__head-group">
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="req4100ReqTable" data-datatable-action="select" title="접수 대기 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="req4100ReqTable" data-datatable-action="select" title="접수 대기 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -106,15 +106,15 @@
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h4 class="kt-font-boldest kt-font-brand">
-							담당 요구사항 결재 목록
+							<i class="fa fa-th-large kt-margin-r-5"></i>담당 요구사항 결재 목록
 						</h4>
 					</div>
 					<div class="kt-portlet__head-toolbar">
 			            <div class="kt-portlet__head-group">
-							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="reqChargeSignTable" data-datatable-action="select" title="담당 요구사항 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="reqChargeSignTable" data-datatable-action="select" title="담당 요구사항 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
-		                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+		                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
 			            </div>
 			         </div>
 				</div>
@@ -130,15 +130,15 @@
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h4 class="kt-font-boldest kt-font-brand">
-							담당 배포계획 결재 목록
+							<i class="fa fa-th-large kt-margin-r-5"></i>담당 배포계획 결재 목록
 						</h4>
 					</div>
 					<div class="kt-portlet__head-toolbar">
 			            <div class="kt-portlet__head-group">
-							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
-		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air" data-skin="brand"><i class="fa fa-chevron-down"></i></a>
 			            </div>
 			         </div>
 				</div>
@@ -170,18 +170,18 @@
 			</div>
 			<div class="col-lg-5 col-md-12 col-sm-12 col-12 text-right kt-padding-r-0">
 	            <div class="kt-portlet__head-group">
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process1">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process1" title="칸반 그리드 전환" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
 						<i class="fas fa-columns"></i>
 					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 osl-title--all-view-content on">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
 					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 전체화면" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
 						<i class="fas fa-expand"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -360,7 +360,7 @@
 				
 				<div class="osl-dsh-kanban kt-margin-20 kt-hide">
 					
-					<div class="kt-portlet osl-width-300 border kt-margin-b-0">
+					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
 						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
 							<div class="col-12 kt-hide">
 							</div>
@@ -499,7 +499,7 @@
 					<i class="fas fa-arrow-circle-right"></i>
 					
 					
-					<div class="kt-portlet osl-width-300 border kt-margin-b-0">
+					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
 						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
 							<div class="col-12 kt-hide">
 								
@@ -571,18 +571,18 @@
 			</div>
 			<div class="col-lg-5 col-md-12 col-sm-12 col-12 text-right kt-padding-r-0">
 	            <div class="kt-portlet__head-group">
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process2">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process2" title="칸반 그리드 전환" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
 						<i class="fas fa-columns"></i>
 					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 osl-title--all-view-content on">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
 					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 전체화면" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
 						<i class="fas fa-expand"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -590,7 +590,6 @@
 			<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">
 				
 				<div class="osl-dsh-flowchart kt-margin-20">
-					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function hide"></div>
@@ -672,7 +671,7 @@
 				
 				<div class="osl-dsh-kanban kt-margin-20 kt-hide">
 					
-					<div class="kt-portlet osl-width-300 border kt-margin-b-0">
+					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
 						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
 							<div class="col-12 kt-hide">
 							</div>
@@ -826,7 +825,7 @@
 						<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>스프린트 상세정보</div>
 					</div>
 				</div>
-				<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+				<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
 			</div>
 			
 			

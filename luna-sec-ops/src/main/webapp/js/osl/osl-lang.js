@@ -453,7 +453,7 @@ var OSLCoreLangSetting = function () {
 					"dplDesc" : "배포 설명",
 				},
 				actionBtn : {
-					title : "상세",
+					title : "기능 버튼",
 					tooltip : {
 						detailTooltip : "배포 계획 상세 보기",
 					},
@@ -470,7 +470,7 @@ var OSLCoreLangSetting = function () {
 					detailBtn : "상세"
 				},
 				actionBtn : {
-					title : "상세",
+					title : "기능 버튼",
 					tooltip : {
 						detailTooltip : "요구사항 상세 보기",
 					},
@@ -487,7 +487,7 @@ var OSLCoreLangSetting = function () {
 					detailBtn : "상세"
 				},
 				actionBtn : {
-					title : "상세",
+					title : "기능 버튼",
 					tooltip : {
 						detailTooltip : "JOB 상세 보기",
 					},
