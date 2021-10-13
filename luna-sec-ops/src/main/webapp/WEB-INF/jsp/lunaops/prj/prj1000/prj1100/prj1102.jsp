@@ -9,7 +9,7 @@
 	<input type="hidden" name="paramFlowId" id="paramFlowId" value="${param.paramFlowId}">
 	<div class="row">
 		<div class="col-lg-6 col-md-12 col-sm-12">
-			<div class="kt-portlet">
+			<div class="kt-portlet" id="flowLeftDiv">
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
@@ -100,7 +100,7 @@
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-12 col-sm-12">
-			<div class="kt-portlet"  id="itemInfo">
+			<div class="kt-portlet" id="flowRightDiv">
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
@@ -156,6 +156,8 @@ var OSLPrj1102Popup = function () {
 	
     
     var documentSetting = function () {
+    	
+    	$("#flowRightDiv").css("min-height",$("#flowLeftDiv").height());
     	
     	$("#prj1101SaveSubmit > span").text($.osl.lang("modal."+type+".saveBtnString"));
 		
@@ -274,7 +276,7 @@ var OSLPrj1102Popup = function () {
 
 		$("#insertBasicItemBtn").click(function(){
 			var data = {
-					
+					type:"insert"
 				};
 			var options = {
 					idKey: "prj1305",
