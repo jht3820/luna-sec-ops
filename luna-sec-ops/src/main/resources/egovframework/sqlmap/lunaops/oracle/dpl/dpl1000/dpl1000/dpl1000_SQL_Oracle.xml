@@ -284,7 +284,33 @@
 		    AND B.USE_CD = '01'
 		    AND C.USE_CD = '01'
 		) SUB1
-		ORDER BY SUB1.JOB_START_ORD
+		<isNotEmpty property="searchTargetData">
+			<isNotEmpty property="searchTargetId">
+				<isEqual property="searchTargetId" compareValue="jenNm">
+					AND	SUB1.JEN_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="jobId">
+					AND	SUB1.JOB_ID LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="bldResultMsg">
+					AND	SUB1.BLD_RESULT_MSG LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="jobTypeCd">
+					AND	SUB1.JOB_TYPE_CD = #searchTargetData#
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="paramSortFieldId">
+			<isNotEmpty property="sortDirection">
+				ORDER BY $paramSortFieldId$
+				<isEqual property="sortDirection" compareValue="desc">
+					DESC
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty>
+		<isEmpty property="paramSortFieldId">
+			ORDER BY SUB1.JOB_START_ORD
+		</isEmpty>
 	</sql>
 	
 	
@@ -341,6 +367,18 @@
 			AND A.BLD_NUM > 0
 			AND A.JEN_ID = #jenId#
 			AND A.JOB_ID = #jobId#
+			<isNotEmpty property="paramSortFieldId">
+				ORDER BY $paramSortFieldId$
+				<isEqual property="sortDirection" compareValue="asc">
+					ASC
+				</isEqual>
+				<isEqual property="sortDirection" compareValue="desc">
+					DESC
+				</isEqual>
+			</isNotEmpty>
+			<isEmpty property="paramSortFieldId">
+				ORDER BY A.BLD_NUM DESC
+			</isEmpty>
 		) SUB1
 		WHERE 1=1
 		<isNotEmpty property="searchTargetData">
@@ -364,18 +402,6 @@
 				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
-		<isNotEmpty property="paramSortFieldId">
-			ORDER BY $paramSortFieldId$
-			<isEqual property="sortDirection" compareValue="asc">
-				ASC
-			</isEqual>
-			<isEqual property="sortDirection" compareValue="desc">
-				DESC
-			</isEqual>
-		</isNotEmpty>
-		<isEmpty property="paramSortFieldId">
-			ORDER BY SUB1.BLD_NUM DESC
-		</isEmpty>
 	</sql>
 	
   	

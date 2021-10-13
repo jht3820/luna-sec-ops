@@ -272,6 +272,9 @@ input:-webkit-autofill,
 .osl-min-h-px--580 {
   min-height: 580px; 
 }
+.osl-min-h-px--630 {
+  min-height: 630px; 
+}
 .osl-max-h-px--590 {
   min-height: 590px !important; 
 }

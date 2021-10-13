@@ -352,10 +352,12 @@ var OSLDpl3000Popup = function () {
 				"insert":false,
 				"update":false,
 				"delete":false,
+				"execute":true,
 				"dblClick": true,
 				"buildHistory": true
 			},
 			actionTooltip:{
+				"execute":"배포 실행",
 				"dblClick": "배포 계획 상세 보기",
 				"buildHistory": "실행 이력 보기"
 			},
@@ -363,20 +365,6 @@ var OSLDpl3000Popup = function () {
 				{field: 'dplDesc', title:"배포 설명", searchOrd: 8}
 			],
 			actionFn:{
-				"dblClick":function(rowData, datatableId, type, rowNum, elem){
-					var data = {
-							paramPrjId : rowData.prjId,
-							paramDplId : rowData.dplId
-						};
-					var options = {
-							idKey: datatableId +"_"+ rowData.dplId,
-							modalTitle: "["+rowData.dplNm +"] "+ "상세 정보",
-							autoHeight: false,
-							modalSize: 'xl'
-						};
-					
-					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
-				},
 				
 				"execute":function(rowDatas, datatableId, type, rowNum, elem){
 					
@@ -432,6 +420,20 @@ var OSLDpl3000Popup = function () {
 						
 					$.osl.layerPopupOpen('/dpl/dpl3000/dpl3000/selectDpl3001View.do',data,options);
 				},
+				"dblClick":function(rowData, datatableId, type, rowNum, elem){
+					var data = {
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
+						};
+					var options = {
+							idKey: datatableId +"_"+ rowData.dplId,
+							modalTitle: "["+rowData.dplNm +"] "+ "상세 정보",
+							autoHeight: false,
+							modalSize: 'xl'
+						};
+					
+					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
+				},
 				
 				"stop":function(rowDatas, datatableId, type, rowNum, elem){
 					
@@ -466,6 +468,7 @@ var OSLDpl3000Popup = function () {
 			},
 			theme: {
 				 actionBtnIcon:{
+					 "execute" : "fa fa-location-arrow",
 					 "dblClick": "fa fa-info-circle",
 					 "buildHistory": "fas fa-external-link-alt"
 				 }
