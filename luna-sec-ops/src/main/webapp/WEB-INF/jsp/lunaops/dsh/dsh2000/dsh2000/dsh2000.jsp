@@ -36,7 +36,7 @@
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnDshWidgetSort(this);" data-flag="false">
 							<i class="fa fa-times kt-padding-r-0"></i>
 						</button>
-						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-dash--all-folding" id="allPortletClose"><i class="la la-angle-down"></i></a>
+						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-dash--all-folding" id="allPortletClose"><i class="fa fa-chevron-down"></i></a>
 					</span>
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -88,7 +88,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="req4100ReqTable" data-datatable-action="select" title="접수 대기 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -114,7 +114,7 @@
 							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="reqChargeSignTable" data-datatable-action="select" title="담당 요구사항 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
-		                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+		                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 			            </div>
 			         </div>
 				</div>
@@ -138,7 +138,7 @@
 							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
-		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 			            </div>
 			         </div>
 				</div>
@@ -181,7 +181,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
 						<i class="fas fa-expand"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -582,7 +582,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
 						<i class="fas fa-expand"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -826,7 +826,7 @@
 						<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>스프린트 상세정보</div>
 					</div>
 				</div>
-				<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+				<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 			</div>
 			
 			

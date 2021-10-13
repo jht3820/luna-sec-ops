@@ -37,7 +37,7 @@
 							<div class="kt-portlet__head-group">
 								<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="prj3000DocTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a> 
 								<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="prj3000DocTree" data-tree-action="allNodeClose"> <i class="fa fa-minus"></i> </a> 
-								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 							</div>
 						</div>
 						

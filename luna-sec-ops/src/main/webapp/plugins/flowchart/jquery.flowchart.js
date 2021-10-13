@@ -522,20 +522,18 @@ jQuery(function ($) {
             var flowTitleColor = operatorData.properties.flowTitleColor;
             
             
-            var flowEssentialCd = operatorData.properties.flowEssentialCd;
             var flowSignCd = operatorData.properties.flowSignCd;
             var flowSignStopCd = operatorData.properties.flowSignStopCd;
             var flowEndCd= operatorData.properties.flowEndCd;
             var flowRevisionCd = operatorData.properties.flowRevisionCd;
             var flowDplCd = operatorData.properties.flowDplCd;
             
+            
+            var flowStatus = operatorData.properties.flowStatus;
+            
             var flowIconStr = '';
             var flowHideClass = '';
             
-            
-            if(flowEssentialCd == "01"){
-            	flowIconStr += '<li class="fa fa-key" title="필수"></li>';
-            }
             
             if(flowSignCd == "01"){
             	flowIconStr += "<li class='fa fa-file-signature' title='결재'></li>";
@@ -561,6 +559,19 @@ jQuery(function ($) {
             	flowHideClass = 'kt-hide';
             }
             
+            
+            if(flowStatus == "02" || flowStatus == "03"){
+            	var $operator_mask = $('<div class="flowchart-operator-mask status'+flowStatus+'"></div>');
+            	var operator_mask_html = '';
+            	
+            	
+            	if(flowStatus == "03"){
+            		operator_mask_html = '<i class="fa fa-hand-point-down"></i>';
+            	}
+            	
+            	$operator_mask.html(operator_mask_html);
+            	$operator_mask.appendTo($operator);
+            }
             
             var $operator_function = $('<div class="flowchart-operator-function '+flowHideClass+'"></div>');
             $operator_function.html(flowIconStr);
