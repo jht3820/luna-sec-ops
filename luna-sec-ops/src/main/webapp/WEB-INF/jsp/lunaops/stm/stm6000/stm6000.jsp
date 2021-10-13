@@ -22,7 +22,7 @@
 							<i class="fa fa-minus"></i>
 						</a>
 						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md">
-							<i class="la la-angle-down"></i>
+							<i class="fa fa-chevron-down"></i>
 						</a>
 					</div>
 				</div>
@@ -51,7 +51,7 @@
 					</h4>
 				</div>
 				<div class="kt-portlet__head-toolbar">
-					<!-- begin::조직 버튼 영역 -->
+					
 					<div class="kt-portlet__head-wrapper kt-margin-r-10">
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm6000DeptTree" data-tree-action="select" title="조직 조회" data-title-lang-cd="stm6000.button.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
@@ -66,7 +66,7 @@
 							<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
 						</button>
 					</div>
-					<!-- end::조직 버튼 영역 -->
+					
 				</div>
 			</div>
 			<div class="kt-portlet__body">
@@ -122,7 +122,7 @@
 		</div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLStm6000Popup = function () {
@@ -132,20 +132,24 @@ var OSLStm6000Popup = function () {
 	
 	var documentSetting = function(){
   		
-		// 조직 tree 세팅
+		
 		treeObj = $.osl.tree.setting("stm6000DeptTree",{
 			data:{
 				url:"<c:url value='/stm/stm6000/stm6000/selectStm6000DeptListAjax.do'/>",
 				key: "deptId",
 				pKey: "upperDeptId",
-				labelKey: "deptName"
+				labelKey: "deptName",
+				type: "useCd"
 			},
+			types : {
+                "02" : {"icon" : " fa fa-eye-slash"}
+            },
 			search:{
-				//대소문자 구분
+				
 				case_insensitive : true,
-				//검색 결과 노드만 표시
+				
 				show_only_matches: true,
-				//show_only_matches: true 일때 하위 노드도 같이 표시 할건지
+				
 				show_only_matches_children: true,
 			},
 			actionFn:{
@@ -155,13 +159,13 @@ var OSLStm6000Popup = function () {
 						return false;
 					}
 					
-					// 선택한 조직이 미사용일경우
+					
 					if(nodeData.useCd == "02"){
 						$.osl.alert($.osl.lang("stm6000.message.alert.notUsedDept"));
 						return false;
 					}
 					
-					// 등록 팝업 호출
+					
 					var data = {
 							type:"insert",
 							upperDeptId : nodeData.deptId,
@@ -183,7 +187,7 @@ var OSLStm6000Popup = function () {
 						return false;
 					}
 					
-					// 수정 팝업 호출
+					
 					var data = {
 							type:"update",
 							deptId : nodeData.deptId
@@ -202,27 +206,27 @@ var OSLStm6000Popup = function () {
 						return false;
 					}
 
-					// root 삭제불가
+					
 					if(nodeData.lvl == 0 || $.osl.isNull(nodeData.upperDeptId)){
 						$.osl.alert($.osl.lang("stm6000.message.alert.notRootDelete"));
 					}else{
-						// 조직 삭제
+						
 						deleteDeptList(nodeData, selectNode.children_d);
 					}
 				}
 			},
 			callback:{
 				onclick: function(treeObj,selNode){
-					// 조직 단건 조회
+					
 					selectDeptInfo(selNode.original.deptId);
 				},
 				init: function(treeObj,data){
-					//console.log(treeObj,data);
+					
 				}
 			}
 		});
 		
-		//퍼펙트 스크롤 적용
+		
 		KTUtil.scrollInit($("#stm6000DeptTree")[0], {
 	        disableForMobile: true, 
 	        resetHeightOnDestroy: true, 
@@ -231,18 +235,14 @@ var OSLStm6000Popup = function () {
 	    });
 	};
 	
-    /**
-	 * function 명 	: selectDeptInfo
-	 * function 설명	: 선택한 조직의 상세정보를 조회하여 화면에 세팅한다.
-	 * @param deptId : 선택한 조직 ID
-	 */
+    
 	var selectDeptInfo = function(deptId) {
     	
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/stm/stm6000/stm6000/selectStm6000DeptInfoAjax.do'/>", "async": false}
 				,{"deptId": deptId});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
@@ -250,51 +250,46 @@ var OSLStm6000Popup = function () {
 			}else{
 				$("#"+formId)[0].reset();
 				
-				// 조직 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.deptInfoMap,"frStm6000", ["deptId", "upperDeptId", "upperDeptNm", "deptName", "useNm", "ord"]);
 			
 		    	var deptEtc = data.deptInfoMap.deptEtc;
 				
-				// 상위조직 Id 없을경우
+				
 				if($.osl.isNull(data.deptInfoMap.upperDeptId)){
 					$("#upperDeptId").val("-");
 				}
 				
-				// 상위조직 명 없을경우
+				
 				if($.osl.isNull(data.deptInfoMap.upperDeptNm)){
 					$("#upperDeptNm").val("-");
 				}
 				
 				if(!$.osl.isNull(deptEtc)){
 					deptEtc =  $.osl.escapeHtml(deptEtc);
-			    	// 비고 값 div영역에 세팅
+			    	
 					$("#deptEtc").html(deptEtc.replace(/\n/g, '<br/>'));
 				}
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
 
 
-    /**
-	 * function 명 	: deleteDeptList
-	 * function 설명	: 선택한 조직 및 하위 조직을 모두 삭제한다.
-	 * @param selectNodeData : 선택한 조직 노드 데이터
-	 * @param childrenIds : 선택한 조직 노드의 자식 노드 id 배열
-	 */
+    
 	var deleteDeptList = function(selectNodeData, childrenIds){
 		
-		// 삭제할 조직 목록
+		
 		var delDeptList = [];
 		
-		// 선택한 조직 정보 추가
+		
 		delDeptList.push({"deptId":selectNodeData.deptId, "upperDeptId":selectNodeData.upperDeptId, "deptName":selectNodeData.deptName});
 
-		// 자식 노드 loop
+		
 		$.each(childrenIds, function(idx, treeNodeId){
-			// 삭제시 필요한 정보 세팅
+			
 			var childNodeData = treeObj.jstree().get_node(treeNodeId).original;
 			delDeptList.push({"deptId":childNodeData.deptId, "upperDeptId":childNodeData.upperDeptId, "deptName":childNodeData.deptName});
 		});
@@ -302,19 +297,19 @@ var OSLStm6000Popup = function () {
 		$.osl.confirm($.osl.lang("stm6000.message.confirm.deleteDept"),null,function(result) {
 	        if (result.value) {
 	        	
-	    		//AJAX 설정
+	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction(
 					{"url":"<c:url value='/stm/stm6000/stm6000/deleteStm6000DeptInfoAjax.do'/>"}
 					,{deleteDataList: JSON.stringify(delDeptList)});
 
-	    		//AJAX 전송 성공 함수
+	    		
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    			// 사용자 배정된 조직 있을경우	
+	    			
 	    			}else if(data.checkYn == "Y"){
 
-	    				// 사용자가 배정된 조직 목록을 문자열로 만든다.
+	    				
 	    				var deptNmStr = "";
 	    				
 	    				if(!$.osl.isNull(data.result.resultData)){
@@ -325,27 +320,27 @@ var OSLStm6000Popup = function () {
 		    				deptNmStr = deptNmStr.substring(0, deptNmStr.lastIndexOf(","));
 	    				}
 	    				
-	    				// 메시지 출력
+	    				
 	    				$.osl.alert(data.result.message, {text:deptNmStr, type:"warning"});
 	    			}else{
-	    				//삭제 성공
+	    				
 	    				$.osl.toastr(data.message);
 	    				
-	    				// 삭제 후 우측 상세정보 초기화
+	    				
 	    				$("#"+formId)[0].reset();
 	    				
-	    				// 트리 재조회 추가
+	    				
 	    			}
 	    		});
 	    		
-	    		//AJAX 전송
+	    		
 	    		ajaxObj.send();
 	        }
 	    });
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -356,5 +351,5 @@ $.osl.ready(function(){
 	OSLStm6000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

@@ -52,7 +52,7 @@
 					
 					
 					<div class="kt-portlet__head-group">
-						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md on" id="authFoldingBtn"><i class="la la-angle-down"></i></a>
+						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md on" id="authFoldingBtn"><i class="fa fa-chevron-down"></i></a>
 					</div>
 					
 				</div>

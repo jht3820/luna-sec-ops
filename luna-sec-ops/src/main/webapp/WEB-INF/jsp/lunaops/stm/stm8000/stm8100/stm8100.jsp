@@ -35,7 +35,7 @@
 							<i class="fa fa-minus"></i>
 						</a>
 						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md">
-							<i class="la la-angle-down"></i>
+							<i class="fa fa-chevron-down"></i>
 						</a>
 					</div>
 				</div>

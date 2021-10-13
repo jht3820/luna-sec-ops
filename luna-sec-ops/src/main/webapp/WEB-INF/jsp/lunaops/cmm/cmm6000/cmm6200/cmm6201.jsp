@@ -10,8 +10,8 @@
 	<input type="hidden" name="reqChargerId" id="reqChargerId"/>
 	<div class="osl-req__process-title"><i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">요구사항 변경 이력</span></div>
 	<div class="osl-req__process-main d-flex">
-		<div class="osl-req__process-history osl-mask-bg" id="osl-req__process-history" data-scroll-x="true"></div>
-		<div class="osl-req__process-next__Flow osl-mask-bg">
+		<div class="osl-req__process-history" id="osl-req__process-history" data-scroll-x="true"></div>
+		<div class="osl-req__process-next__Flow">
 			<div class="osl-req__process-mask__flow">
 				<div class="flowchart-operator-process-title">
 					<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate"><span id="nextProcessNm">프로세스명</span></div>
@@ -78,7 +78,7 @@
 								<div class="kt-portlet__head-toolbar">
 									<div class="kt-portlet__head-group">
 										<div class="kt-portlet__head-group">
-											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 										</div>
 									</div>
 								</div>
@@ -169,7 +169,7 @@
 								</div>
 								<div class="kt-portlet__head-toolbar">
 									<div class="kt-portlet__head-group">
-										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 									</div>
 								</div>
 							</div>
@@ -217,7 +217,7 @@
 								<div class="kt-portlet__head-toolbar">
 									<div class="kt-portlet__head-group">
 										<div class="kt-portlet__head-group">
-											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 										</div>
 									</div>
 								</div>
@@ -261,8 +261,11 @@
 									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">담당자 선택</span>
 								</div>
 								<div class="kt-portlet__head-toolbar">
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6201ProcessAuthUsrTable" data-datatable-action="select" title="프로세스 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+										<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">기본 담당자 조회</span>
+									</button>
 									<div class="kt-portlet__head-group">
-										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 									</div>
 								</div>
 							</div>
@@ -295,7 +298,7 @@
 								</div>
 								<div class="kt-portlet__head-toolbar">
 									<div class="kt-portlet__head-group">
-										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 									</div>
 								</div>
 							</div>
@@ -356,7 +359,7 @@
 								</button>
 							</div>
 							<div class="kt-portlet__head-group">
-								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 							</div>
 						</div>
 					</div>
@@ -383,8 +386,10 @@ var OSLCmm6201Popup = function () {
 	var formId = 'frCmm6201';
 	
 	
-	var paramPrjId = $("#paramPrjId").val();
-	var paramReqId = $("#paramReqId").val();
+	var paramPrjId = $("#"+formId+" #paramPrjId").val();
+	var paramReqId = $("#"+formId+" #paramReqId").val();
+	var paramProId;
+	var paramFlowId;
 
 	
 	var formEditList = [];
@@ -405,6 +410,9 @@ var OSLCmm6201Popup = function () {
 	
 	var flowLinkList = [];
 	var flowList = [];
+	
+	
+	var flowChgLogData = {};
 	
     
     var documentSetting = function () {
@@ -509,12 +517,22 @@ var OSLCmm6201Popup = function () {
             onLinkSelect: function(linkId){
             	
             	return false;
-            }
+            },
+            onOperatorSelect: function(operatorId){
+				
+				var selFlow = flowChart.flowchart("getOperatorData", operatorId);
+            	
+            	$("#"+formId+" #nextFlowNm").text(selFlow.properties.title);
+				return true;
+			}
 		});
 		
 		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
+			beforeWheel: function(e) {
+		    	return true;
+			}
 		});
 		
 		
@@ -691,6 +709,16 @@ var OSLCmm6201Popup = function () {
 		                chgUsrNm = map.chgUsrNm;
 		                chgUsrEmail = map.chgUsrEmail;
 		                
+		                
+		                if(!flowChgLogData.hasOwnProperty(map.chgProcessId)){
+		                	flowChgLogData[map.chgProcessId] = {};
+		                }
+		                if(!flowChgLogData[map.chgProcessId].hasOwnProperty(map.chgFlowId)){
+		                	flowChgLogData[map.chgProcessId][map.chgFlowId] = {};
+		                }
+		                
+		                flowChgLogData[map.chgProcessId][map.chgFlowId] = map;
+		                
  						reqChgStr += 
  							'<div class="osl-flowchart__operator">'
 	 							+'<div class="flowchart-operator-process-title">'
@@ -716,8 +744,10 @@ var OSLCmm6201Popup = function () {
  					});
  				}
  				$("#osl-req__process-history").html(reqChgStr);
- 				
  				var reqInfo = data.reqInfo;
+ 				
+ 				paramProId = reqInfo.processId;
+ 				paramFlowId = reqInfo.flowId;
  				
  				
 		    	$.osl.setDataFormElem(reqInfo, formId);
@@ -843,6 +873,7 @@ var OSLCmm6201Popup = function () {
 		    	
 		    	flowLinkList = data.flowLinkList;
 		    	flowList = data.flowList;
+		    	
  			}
  		});
  		
@@ -906,11 +937,25 @@ var OSLCmm6201Popup = function () {
 				});
 			}
 		
+			
 			$.each(flowList, function(idx, map){
 				var flowNextId = [];
 				if(flowNextIdList.hasOwnProperty(map.flowId)){
 					flowNextId = flowNextIdList[map.flowId];
 				}
+				
+				
+				var flowStatus = "01";
+				
+				
+				if(paramFlowId == map.flowId){
+					flowStatus = "03";
+				}
+				
+				else if(flowChgLogData.hasOwnProperty(paramProId) && flowChgLogData[paramProId].hasOwnProperty(map.flowId)){
+					flowStatus = "02";
+				}
+				
 				
    				var operatorData = {
 					top: map.flowTop,
@@ -920,11 +965,11 @@ var OSLCmm6201Popup = function () {
 						flowNextId: flowNextId,
 						title: $.osl.escapeHtml(map.flowNm),
 						editable: false,
+						flowStatus: flowStatus,
 						inputs: {input_1: {label: '이전'}},
 						outputs: {output_1: {label: '다음'}},
 						flowTitleBgColor: map.flowTitleBgColor,
 						flowTitleColor: map.flowTitleColor,
-						flowEssentialCd: map.flowEssentialCd,
 						flowSignCd: map.flowSignCd,
 						flowSignStopCd: map.flowSignStopCd,
 						flowStartCd: map.flowStartCd,

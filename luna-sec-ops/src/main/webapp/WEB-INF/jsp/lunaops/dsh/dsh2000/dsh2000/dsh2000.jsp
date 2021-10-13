@@ -9,13 +9,13 @@
 				대시보드 (프로젝트 그룹)
 			</h3>
 		</div>
-		<div class="col-lg-7 col-md-12 col-sm-12 col-12 text-right kt-padding-r-0">
+		<div class="col-lg-7 col-md-12 col-sm-12 col-12 text-right osl-text-left-mobile-576 kt-padding-r-0">
 			<div class="kt-portlet__head-wrapper">
-				<div class="dataAutoRefreshDiv" id="dataAutoRefreshDiv" guide="autoRefresh">
+				<div class="kt-margin-t-20" id="dataAutoRefreshDiv" guide="autoRefresh">
 					<i class="fa fa-clock kt-font-brand"></i>
 					<span id="autoRefreshSpan">00분 00초</span> 후 자동 갱신&nbsp;-
 					<i class="fa fa-cogs autoRefresh_timeIcon"></i>&nbsp;
-					<select class="autoRefresh_select osl-h-px-34 kt-margin-r-10" id="timerVarSel" onchange="fnDashBoardSetting()">
+					<select class="osl-h-px-34 kt-margin-r-10" id="timerVarSel" onchange="fnDashBoardSetting()">
 						<option value="0.5">30초</option>
 						<option value="1">1분</option>
 						<option value="5" selected>5분</option>
@@ -23,19 +23,21 @@
 						<option value="30">30분</option>
 						<option value="60">1시간</option>
 					</select>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" id="dshWidgetSortCancel" data-flag="false">
-						<i class="fa fa-history kt-padding-r-0"></i>
-					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnAutoRefreshEnd();">
-						<i class="fas fa-expand-arrows-alt kt-padding-r-0"></i>
-					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" id="dashBoardSetting">
-						<i class="fa fa-redo kt-padding-r-0"></i>
-					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnDshWidgetSort(this);" data-flag="false">
-						<i class="fa fa-times kt-padding-r-0"></i>
-					</button>
-					<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-dash--all-folding" id="allPortletClose"><i class="la la-angle-down"></i></a>
+					<span class="osl-dash-btn-mobile osl-margin-t-20-mobile-576">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" id="dshWidgetSortCancel" data-flag="false">
+							<i class="fa fa-history kt-padding-r-0"></i>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnAutoRefreshEnd();">
+							<i class="fas fa-expand-arrows-alt kt-padding-r-0"></i>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" id="dashBoardSetting">
+							<i class="fa fa-redo kt-padding-r-0"></i>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" onclick="fnDshWidgetSort(this);" data-flag="false">
+							<i class="fa fa-times kt-padding-r-0"></i>
+						</button>
+						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-dash--all-folding" id="allPortletClose"><i class="fa fa-chevron-down"></i></a>
+					</span>
 				</div>
 			</div>
 		</div>
@@ -54,19 +56,19 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
 		<div class="kt-portlet__body">
 			<div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-3 col-3 kt-padding-20">
+				<div class="col-lg-3 col-md-3 col-sm-12 col-12 kt-padding-20">
 					<div class="border osl-min-h-px--250">차트1</div>
 				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-6 kt-padding-20">
+				<div class="col-lg-6 col-md-6 col-sm-12 col-12 kt-padding-20">
 					<div class="border osl-min-h-px--250">차트2</div>
 				</div>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-3 kt-padding-20">
+				<div class="col-lg-3 col-md-3 col-sm-12 col-12 kt-padding-20">
 					<div class="border osl-min-h-px--250">차트3</div>
 				</div>
 			</div>
@@ -86,7 +88,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="req4100ReqTable" data-datatable-action="select" title="접수 대기 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 						<i class="fas fa-redo-alt"></i>
 					</button>
-                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -99,7 +101,7 @@
 	
 	<div class="row">
 		
-		<div class="col-lg-6 col-md-6 col-sm-12 col-12">
+		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeSign">
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
@@ -112,7 +114,7 @@
 							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="reqChargeSignTable" data-datatable-action="select" title="담당 요구사항 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
-		                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+		                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 			            </div>
 			         </div>
 				</div>
@@ -123,7 +125,7 @@
 		</div>
 		
 		
-		<div class="col-lg-6 col-md-6 col-sm-12 col-12">
+		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeDpl">
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
@@ -136,7 +138,7 @@
 							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
-		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 			            </div>
 			         </div>
 				</div>
@@ -161,8 +163,8 @@
 						(생성일: <span>2020-11-06 14:31</span>)
 					</span>
 					<span class="kt-margin-l-20">
-						담당<span class="badge badge-success kt-margin-l-5">7</span>
-						전체<span class="badge badge-success kt-margin-l-5">7</span>
+						담당<span class="badge osl-badge-brand kt-margin-l-5">7</span>
+						전체<span class="badge osl-badge-brand kt-margin-l-5">7</span>
 					</span>
 				</h5>
 			</div>
@@ -179,7 +181,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
 						<i class="fas fa-expand"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -555,15 +557,15 @@
 		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
 			<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">
 				<h4 class="kt-font-boldest kt-font-brand kt-margin-r-10">
-					<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 명2
+					<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 명 2
 				</h4>
 				<h5 class="kt-font-bolder kt-font-brand osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile-430">
 					<span class="kt-margin-r-20">
 						(생성일: <span>2020-11-06 14:31</span>)
 					</span>
 					<span>
-						담당<span class="badge badge-success kt-margin-l-5 kt-margin-r-10">7</span>
-						전체<span class="badge badge-success kt-margin-l-5">7</span>
+						담당<span class="badge osl-badge-brand kt-margin-l-5 kt-margin-r-10">7</span>
+						전체<span class="badge osl-badge-brand kt-margin-l-5">7</span>
 					</span>
 				</h5>
 			</div>
@@ -580,7 +582,7 @@
 					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10">
 						<i class="fas fa-expand"></i>
 					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 	            </div>
 	         </div>
 		</div>
@@ -794,14 +796,15 @@
 					<input type="checkbox" value="0" data-datatable-id="spr1000Table">&nbsp;
 					<span></span>
 				</label>
-				<h5 class="kt-font-boldest">
+				<!-- <h5 class="kt-font-boldest">
 					<span class="badge badge-primary kt-margin-r-10">No. 1</span>
 				</h5>
 				<h5>
 					<span class="badge badge-primary" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="스프린트 기간">
 						<i class="far fa-calendar-alt kt-margin-r-10"></i>2020-10-16 ~ 2020-10-16
 					</span>
-				</h5>
+				</h5> -->
+				<h4 class="kt-font-boldest text-truncate kt-font-brand" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번쨰 프로젝트 - 9월 2주차 스프린트"> 두번쨰 프로젝트 - 9월 2주차 스프린트</h4>
 			</div>
 			
 			
@@ -823,7 +826,7 @@
 						<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>스프린트 상세정보</div>
 					</div>
 				</div>
-				<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+				<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 			</div>
 			
 			
@@ -831,12 +834,12 @@
 		
 		<div class="kt-portlet__body">
 			<div class="row">
-				<div class="col-4">
+				<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
 					
 					<div class="d-flex kt-padding-l-15 align-items-center">
 						<div class="kt-media kt-media--xl kt-media--circle kt-media--primary osl-margin-r-2rm"><span>대기</span></div>
 						<div class="d-flex flex-column osl-margin-r-auto osl-word__break">
-							<h5 class="kt-font-boldest text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번쨰 프로젝트 - 9월 2주차 스프린트"> 두번쨰 프로젝트 - 9월 2주차 스프린트</h5><span class="text-muted text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번쨰 프로젝트 - 9월 2주차 스프린트</br>ㅁ</br>입니다.">두번쨰 프로젝트 - 9월 2주차 스프린트<br>ㅁ<br>입니다.</span>
+							<span class="text-muted text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번쨰 프로젝트 - 9월 2주차 스프린트</br>ㅁ</br>입니다.">두번쨰 프로젝트 - 9월 2주차 스프린트<br>ㅁ<br>입니다.</span>
 						</div>
 					</div>
 					
@@ -844,7 +847,7 @@
 						<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column"><span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>시작일</span>
 							<h5><span class="badge badge-primary">2020-10-16</span></h5>
 						</div>
-						<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column"><span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>종료일</span>
+						<div class="osl-margin-r-3rm kt-margin-0-mobile osl-margin-b-175rm d-flex flex-column"><span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>종료일</span>
 							<h5><span class="badge badge-danger">2020-10-16</span></h5>
 						</div>
 						<div class="osl-flex-row-fluid osl-margin-b-175rm">
@@ -858,10 +861,10 @@
 					</div>
 				</div>
 				
-				<div class="col-4">
+				<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
 					<div class="osl-widget osl-flex-row-fluid flex-wrap">
 						<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer">
-							<div class="osl-widget-info__item-icon">
+							<div class="osl-widget-info__item-icon d-block">
 								<img src="/media/osl/icon/reqAll.png">
 							</div>
 							<div class="osl-widget-info__item-info">
@@ -870,7 +873,7 @@
 							</div>
 						</div>
 						<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer">
-							<div class="osl-widget-info__item-icon">
+							<div class="osl-widget-info__item-icon d-block">
 								<img src="/media/osl/icon/reqInProgress.png">
 							</div>
 							<div class="osl-widget-info__item-info">
@@ -881,7 +884,7 @@
 					</div>
 					<div class="osl-widget osl-flex-row-fluid flex-wrap">
 						<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer">
-							<div class="osl-widget-info__item-icon">
+							<div class="osl-widget-info__item-icon d-block">
 								<img src="/media/osl/icon/reqDone.png">
 							</div>
 							<div class="osl-widget-info__item-info">
@@ -890,7 +893,7 @@
 							</div>
 						</div>
 						<div class="osl-widget-info__item osl-flex-row-fluid">
-							<div class="osl-widget-info__item-icon">
+							<div class="osl-widget-info__item-icon d-block">
 								<img src="/media/osl/icon/reqPointer.png">
 							</div>
 							<div class="osl-widget-info__item-info">
@@ -902,7 +905,7 @@
 				</div>
 				
 				
-				<div class="col-4">
+				<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 kt-margin-t-20-tablet kt-margin-t-20-mobile">
 					<div class="border osl-min-h-px--170">차트</div>
                 </div>
 				
@@ -1458,13 +1461,16 @@ var OSLDsh2000Popup = function () {
 			var targetType = $(this).data('view-type');
 			var targetObj = $(this).data('target-process');
 			var targetDiv = $('div[data-target-div='+targetObj+']');
-			
+			var targetParent = $(this).parents('.kt-portlet');
 			
 			if(targetType=='grid'){
 				
 				targetDiv.find(".osl-dsh-flowchart").addClass('kt-hide');
 				targetDiv.find(".osl-dsh-kanban").removeClass('kt-hide');
 				$(this).data('view-type','kaban');
+				
+				
+				$(targetParent).find('.kt_datatable').addClass('kt-hide');
 				return false;
 			}else if(targetType=='kaban'){
 				

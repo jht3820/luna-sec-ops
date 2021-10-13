@@ -34,7 +34,7 @@
 							<div class="kt-portlet__head-group">
 								<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="prj3100DocTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a> 
 								<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="prj3100DocTree" data-tree-action="allNodeClose"><i class="fa fa-minus"></i></a> 
-								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 							</div>
 						</div>
 						
@@ -827,10 +827,10 @@ var OSLPrj3000Popup = function () {
 			},
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
-				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
-				{field: 'targetTypeNm', title: '구분', textAlign: 'left', width: 80, search: false},
-				{field: 'targetNm', title: '대상 명', textAlign: 'left', width: 180, search: true, autoHide: false},
-				{field: 'regUsrNm', title: '등록자', textAlign: 'center', width: 80, search: true,
+				{field: 'rn', title: 'No.', textAlign: 'center', width: 50, autoHide: false, sortable: false},
+				{field: 'targetTypeNm', title: '구분', textAlign: 'left', width: 100, search: false},
+				{field: 'targetNm', title: '대상 명', textAlign: 'left', width: 200, search: true, autoHide: false},
+				{field: 'regUsrNm', title: '연결자', textAlign: 'center', width: 150, search: true,
 					template: function (row) {
 						return $.osl.user.usrImgSet(row.regUsrId, row.regUsrNm);
 					},
@@ -838,7 +838,7 @@ var OSLPrj3000Popup = function () {
 						$.osl.user.usrInfoPopup(rowData.regUsrId);
 					}
 				},
-				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 80, search: true, searchType:"date"}
+				{field: 'regDtm', title: '연결일', textAlign: 'center', width: 100, search: true, searchType:"date"}
 				
 			],
 			searchColumns:[

@@ -1,6 +1,7 @@
 package kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.impl;
 
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
 
@@ -131,4 +132,84 @@ public class Prj1300ServiceImpl extends EgovAbstractServiceImpl implements Prj13
 	public List selectPrj1302CommonCodeList(Map paramMap) throws Exception {
 		return prj1300DAO.selectPrj1302CommonCodeList(paramMap);
 	}
+
+	
+	@Override
+	public List selectPrj1102AllItemList(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1102AllItemList(paramMap);
+	}
+	
+	
+	@Override
+	public List selectPrj1102ItemList(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1102ItemList(paramMap);
+	}
+
+	
+	@Override
+	public int selectPrj1102ItemListCnt(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1102ItemListCnt(paramMap);
+	}
+
+	
+	@Override
+	public Map selectPrj1102ItemInfo(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1102ItemInfo(paramMap);
+	}
+	
+	
+	@Override
+	public void savePrj1102ItemAjax(Map<String, String> paramMap) throws Exception {
+		
+		
+		
+		
+		
+		
+		int cnt = prj1300DAO.selectPrj1102ItemListCnt(paramMap);
+		if(cnt>0) {
+			prj1300DAO.updatePrj1102ItemAjax(paramMap);
+		}else {
+			prj1300DAO.insertPrj1102ItemAjax(paramMap);
+		}
+	}
+	
+	
+	@Override
+	public void savePrj1103ItemAjax(Map<String, String> paramMap) throws Exception {
+		
+		
+		
+		
+		
+		
+		int cnt = prj1300DAO.selectPrj1102ItemListCnt(paramMap);
+		if(cnt>0) {
+			prj1300DAO.updatePrj1103ItemAjax(paramMap);
+		}else {
+			prj1300DAO.insertPrj1103ItemAjax(paramMap);
+		}
+	}
+
+	
+	@Override
+	public void deletePrj1102ItemAjax(Map<String, String> paramMap) throws Exception {
+		
+		prj1300DAO.deletePrj1102ItemAjax(paramMap);
+	}
+
+	
+	@Override
+	public void deletePrj1102ItemInfoAjax(Map<String, String> paramMap) throws Exception {
+		
+		prj1300DAO.deletePrj1102ItemInfoAjax(paramMap);
+	}
+	
+	
+	@Override
+	public void deletePrj1103ItemAjax(Map<String, String> paramMap) throws Exception {
+		
+		prj1300DAO.deletePrj1103ItemAjax(paramMap);
+	}
+	
 }
