@@ -22,7 +22,7 @@
 	</div>
 </div>
 <div class="row">
-	<!-- begin:: 프로젝트 목록 트리 영역 -->
+	
 	<div class="col-lg-4 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head kt-portlet__head--lg">
@@ -40,7 +40,7 @@
 							<i class="fa fa-minus"></i>
 						</a>
 						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md">
-							<i class="la la-angle-down"></i>
+							<i class="fa fa-chevron-down"></i>
 						</a>
 					</div>
 				</div>
@@ -60,11 +60,11 @@
 			</div>
 		</div>
 	</div> 
-	<!-- end:: 프로젝트 목록 트리 영역 -->
 	
-	<!-- begin::우측 배정/미배정 job 목록 영역 -->
+	
+	
 	<div class="col-lg-8 col-md-12 col-sm-12 col-12">
-		<!-- begin:: 배정 job 목록-->
+		
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
@@ -88,8 +88,8 @@
 				<div class="kt_datatable" id="stm9200AssignJobTable"></div>
 			</div>
 		</div>
-		<!-- end:: 배정 job 목록-->
-		<!-- begin:: 미배정 job 목록-->
+		
+		
 		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
@@ -113,31 +113,31 @@
 				<div class="kt_datatable" id="stm9200NotAssignJobTable"></div>
 			</div>
 		</div>
-		<!-- begin:: 미배정 job 목록-->
+		
 	</div> 
-	<!-- end::우측 배정/미배정 job 목록 영역 -->
+	
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLStm9200 = function () {
 	
-	// job 배정 목록 테이블
+	
 	var assignJobDatatableId = "stm9200AssignJobTable";
-	//job 미배정 목록 테이블
+	
 	var notAssignJobDatatableId = "stm9200NotAssignJobTable";
 	
-	// 프로젝트 트리
+	
 	var prjTreeObj;
 	
-	//현재 선택 프로젝트 Id
+	
 	var selPrjId;
-	// 현재 선택 프로젝트의 그룹 Id
+	
 	var selPrjGrpId;
 	
 	var documentSetting = function(){
 		
-		// 프로젝트 tree 세팅
+		
 		prjTreeObj = $.osl.tree.setting("stm9200LicPrjTree",{
 			data:{
 				url:"<c:url value='/stm/stm1000/stm1000/selectStm1000LicencePrjAllListAjax.do'/>",
@@ -146,11 +146,11 @@ var OSLStm9200 = function () {
 				labelKey: "prjNm"
 			},
 			search:{
-				//대소문자 구분
+				
 				case_insensitive : true,
-				//검색 결과 노드만 표시
+				
 				show_only_matches: true,
-				//show_only_matches: true 일때 하위 노드도 같이 표시 할건지
+				
 				show_only_matches_children: true,
 			},
 			callback:{
@@ -161,30 +161,30 @@ var OSLStm9200 = function () {
 						return false;
 					}
 					
-					// 프로젝트 그룹 코드
+					
 					var prjGrpCd = selNode.original.prjGrpCd;
 
-					// 프로젝트 그룹 선택 시 알림
+					
 					if(prjGrpCd == "01"){
 						$.osl.toastr($.osl.lang("stm9200.message.toastr.projectSelect"));
 						return false;
 					}
 					
-					// 선택한 노드에서 프로젝트 그룹 ID, 프로젝트 Id를 가져온다.
+					
 					selPrjId = selNode.original.prjId;
 					selPrjGrpId = selNode.original.prjGrpId;
 					
-					// 배정 job 데이터 테이블
+					
 					var assJobDataTableTarget = $.osl.datatable.list[assignJobDatatableId].targetDt;
-					// 미 배정 job 데이터 테이블
+					
 					var notAssJobDataTableTarget = $.osl.datatable.list[notAssignJobDatatableId].targetDt;
 					
-					// 배정 Job 조회
+					
 					assJobDataTableTarget.setDataSourceParam("prjGrpId", selPrjGrpId);
 					assJobDataTableTarget.setDataSourceParam("prjId", selPrjId);
 					$("button[data-datatable-id="+assignJobDatatableId+"][data-datatable-action=select]").click();
 					
-					// 미 배정 Job 조회
+					
 					notAssJobDataTableTarget.setDataSourceParam("prjGrpId", selPrjGrpId);
 					notAssJobDataTableTarget.setDataSourceParam("prjId", selPrjId);
 					$("button[data-datatable-id="+notAssignJobDatatableId+"][data-datatable-action=select]").click();
@@ -195,7 +195,7 @@ var OSLStm9200 = function () {
 			}
 		});
 		
-		//퍼펙트 스크롤 적용
+		
 		KTUtil.scrollInit($("#stm9200LicPrjTree")[0], {
 	        disableForMobile: true, 
 	        resetHeightOnDestroy: true, 
@@ -204,9 +204,9 @@ var OSLStm9200 = function () {
 	    });
 		
 		
-		// datatable 세팅 -----------------------
 		
-		// job 배정 테이블 셋팅
+		
+		
 		$.osl.datatable.setting(assignJobDatatableId,{
 			data:{
 				source:{
@@ -233,7 +233,7 @@ var OSLStm9200 = function () {
 				{field: 'jobRestoreId', title: "원복 Job Id", textAlign: 'center', width: 130, search: true, sortable: true, sortField: "jobRestoreId"
 					,template: function(row){
 						var jobRestoredId = row.jobRestoreId;
-						// 원복 job id 없을 경우 - 으로 표시
+						
 						if($.osl.isNull(jobRestoredId)){
 							jobRestoredId = "-";
 						}
@@ -243,7 +243,7 @@ var OSLStm9200 = function () {
 				{field: 'jobParameter', title: "Job 매개변수", textAlign: 'center', width: 120
 					,template: function(row){
 						var jobParameter = row.jobParameter;
-						// Job 매개변수 없을 경우 - 으로 표시
+						
 						if($.osl.isNull(jobParameter)){
 							jobParameter = "-";
 						}
@@ -267,12 +267,12 @@ var OSLStm9200 = function () {
 					
 					var rowDatas = [];
 					rowDatas.push(rowData);
-					// Job 배정제외
+					
 					fnJobDelete(rowDatas);
 				},
 				"removeJob":function(rowDatas, datatableId, type, rowNum, elem){
 					
-					//선택 레코드 없는 경우 알림
+					
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
@@ -280,7 +280,7 @@ var OSLStm9200 = function () {
 					
 					$.osl.confirm($.osl.lang("stm9200.message.confirm.selJobNotAssign"), {html:false}, function(result){
 						if (result.value) {
-							// JOB 배정제외
+							
 							fnJobDelete(rowDatas);
 						}
 					});
@@ -296,7 +296,7 @@ var OSLStm9200 = function () {
 			},
 		});
 		
-		//Job 미배정 테이블 셋팅
+		
 		$.osl.datatable.setting(notAssignJobDatatableId,{
 			data:{
 				source:{
@@ -322,7 +322,7 @@ var OSLStm9200 = function () {
 				{field: 'jobRestoreId', title: "원복 Job Id", textAlign: 'center', width: 130, search: true, sortable: true, sortField: "jobRestoreId"
 					,template: function(row){
 						var jobRestoredId = row.jobRestoreId;
-						// 원복 job id 없을 경우 - 으로 표시
+						
 						if($.osl.isNull(jobRestoredId)){
 							jobRestoredId = "-";
 						}
@@ -332,7 +332,7 @@ var OSLStm9200 = function () {
 				{field: 'jobParameter', title: "Job 매개변수", textAlign: 'center', width: 120
 					,template: function(row){
 						var jobParameter = row.jobParameter;
-						// Job 매개변수 없을 경우 - 으로 표시
+						
 						if($.osl.isNull(jobParameter)){
 							jobParameter = "-";
 						}
@@ -356,12 +356,12 @@ var OSLStm9200 = function () {
 					
 					var rowDatas = [];
 					rowDatas.push(rowData);
-					// Job 배정
+					
 					fnJobInsert(rowDatas);
 				},
 				"addJob":function(rowDatas, datatableId, type, rowNum, elem){
 					
-					//선택 레코드 없는 경우 알림
+					
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
@@ -369,7 +369,7 @@ var OSLStm9200 = function () {
 					
 					$.osl.confirm($.osl.lang("stm9200.message.confirm.selJobAssign"), {html:false}, function(result){
 						if (result.value) {
-							// JOB 배정
+							
 							fnJobInsert(rowDatas);
 						}
 					});
@@ -387,20 +387,20 @@ var OSLStm9200 = function () {
 		});
 					
 		
-		// 배포 실행 권한 설정 버튼 클릭
+		
 		$("#stm9200DplAuthSetting").click(function(){
 			
-			// 배정된 JOB 데이터 테이블에서 선택한 row
+			
 			var targetTableElmt = $.osl.datatable.list[assignJobDatatableId].targetDt;
 			var selectRows = targetTableElmt.getSelectedRecords();
 			
-			// 프로젝트에 배정된 JOB을 선택하지 않았을 경우
+			
 			if($.osl.isNull(selectRows)){
 				$.osl.alert($.osl.lang("stm9200.message.alert.assignJobSelect"));
 				return false;
 			}
 			
-			// 배정된 JOB을 여러개 선택 시
+			
 			if(selectRows.length > 1){
 				$.osl.alert($.osl.lang("stm9200.message.alert.selectOneJob"));
 				return false;
@@ -409,85 +409,73 @@ var OSLStm9200 = function () {
 			var selRowIndex = $(selectRows[0]).data("row");
 			var selRowData = targetTableElmt.getDataSet()[selRowIndex];
 			
-			// 배포 권한 설정 팝업오픈
+			
 			fnDplAuthSettingPopupOpen(selRowData);
 			
 		});
 	};
 	
 	
-	/**
-	 * function 명 	: fnJobInsert
-	 * function 설명	: 프로젝트에 Job 배정한다.
-	 * @param rowDatas : 미배정 데이터 테이블에서 선택한 row 데이터 목록
-	 */
+	
 	var fnJobInsert = function(rowDatas){
 		
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/stm/stm9000/stm9200/insertStm9200JenkinsJobListAjax.do'/>"}
 				,{paramPrjGrpId:selPrjGrpId, paramPrjId:selPrjId, dataList: JSON.stringify(rowDatas)});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				// 배정 등록 메시지 출력
+   				
    				$.osl.toastr(data.message);
    				
-   				//datatable
+   				
 				var assignJobDataTable = $.osl.datatable.list[assignJobDatatableId].targetDt;
 				var notAssignJobDataTable = $.osl.datatable.list[notAssignJobDatatableId].targetDt;
 				
-				//테이블 재조회
+				
 				assignJobDataTable.reload();
 				notAssignJobDataTable.reload();
    			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
 	
 
-	/**
-	 * function 명 	: fnJobDelete
-	 * function 설명	: 프로젝트에 배정된 Job을 제외한다.
-	 * @param rowDatas : 미배정 데이터 테이블에서 선택한 row 데이터 목록
-	 */
+	
 	var fnJobDelete = function(rowDatas){
 		
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/stm/stm9000/stm9200/deleteStm9200JenkinsJobListAjax.do'/>"}
 				,{paramPrjGrpId:selPrjGrpId, paramPrjId:selPrjId, dataList: JSON.stringify(rowDatas)});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				// 배정 등록 메시지 출력
+   				
    				$.osl.toastr(data.message);
    				
-   				//datatable
+   				
 				var assignJobDataTable = $.osl.datatable.list[assignJobDatatableId].targetDt;
 				var notAssignJobDataTable = $.osl.datatable.list[notAssignJobDatatableId].targetDt;
 				
-				//테이블 재조회
+				
 				assignJobDataTable.reload();
 				notAssignJobDataTable.reload();
    			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
 	
-	/**
-	 * function 명 	: fnDplAuthSetting
-	 * function 설명	: 배포 권한 설정 팝업을 오픈한다.
-	 * @param selRowData : 배정된 JOB 목록 데이터 테이블에서 선택한 row의 데이터
-	 */
+	
 	var fnDplAuthSettingPopupOpen = function(selRowData){
 		
 		var paramPrjId = selRowData.prjId;
@@ -511,7 +499,7 @@ var OSLStm9200 = function () {
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -523,5 +511,5 @@ $.osl.ready(function(){
 	OSLStm9200.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

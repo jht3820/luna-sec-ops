@@ -80,6 +80,10 @@ input:-webkit-autofill,
      -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
+.kt-portlet.kt-portlet--collapsed .kt-portlet__head .kt-portlet__head-toolbar .fa-chevron-down:before, .kt-portlet.kt-portlet--collapse .kt-portlet__head .kt-portlet__head-toolbar .fa-chevron-down:before {
+  content: "\f077"; }
+  
+
 .osl-mask{
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -606,11 +610,14 @@ select[id^=usrOpt_] {
     white-space: nowrap;
     overflow: hidden;
 }
-.tooltip-inner{max-width: 300px;}
+.tooltip-inner{
+	max-width: 300px;
+}
 .kt-portlet__head.osl-portlet__head__block{
 	flex-wrap: wrap;
     padding-top: 15px;
     padding-bottom: 15px;
+    align-items: center;
 }
 
 
