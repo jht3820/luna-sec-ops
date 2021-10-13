@@ -56,14 +56,7 @@ var OSLReq1000Popup = function () {
 				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortField: "reqProTypeCd"},
 				{field: 'reqNm', title: '요청 제목', textAlign: 'left', width: 500, search: true,
-					template: function(row){
-						var resultStr = $.osl.escapeHtml(row.reqNm);
-						
-						if(row.reqPw == "Y"){
-							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
-						}
-						return resultStr;
-					}
+									
 				},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
 				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 150, search: true,
