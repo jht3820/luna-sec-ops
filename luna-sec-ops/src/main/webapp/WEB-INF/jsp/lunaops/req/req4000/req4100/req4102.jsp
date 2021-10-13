@@ -67,9 +67,15 @@
 		</div>
 		<div class="kt-portlet__body">
 			<div class="form-group">
+				<label><i class="fa fa-pen-square kt-margin-r-5"></i><span data-lang-cd="req4102.label.group.groupReqNo">그룹 요구사항 번호</span></label>
+				<div class="input-group">
+					<input type="text" class="form-control" name="reqGrpNo" id="reqGrpNo" readonly="readonly">
+				</div>
+			</div>
+			<div class="form-group">
 				<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4102.label.group.groupReq">그룹 요구사항</span></label>
 				<div class="input-group">
-					<input type="text" class="form-control" name="reqGrpNm" id="reqGrpNm" readonly="readonly" placeholder="그룹 요구사항이 연결되어 있지 않습니다.">
+					<input type="text" class="form-control" name="reqGrpNm" id="reqGrpNm" readonly="readonly">
 				</div>
 			</div>
 			<div class="form-group kt-margin-b-0"  id="groupReqDescDiv">
@@ -83,9 +89,8 @@
 			<div class="row">
 				<div class="col-xl-6">
 					<div class="form-group">
-						<label for="exampleSelect1"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4102.label.prjNm">프로젝트</span></label>
-						<select class="form-control kt-select2" name="prjId" id="reqPrjSelect">
-						</select>
+						<labe><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4102.label.prjNm">프로젝트</span></label>
+						<input type="text" class="form-control" name="prjNm" id="prjNm" readonly="readonly">
 					</div>
 				</div>
 				<div class="col-xl-6">
@@ -186,9 +191,6 @@ var OSLReq4102Popup = function () {
     var documentSetting = function () {
 
     	
-    	$("#reqPrjSelect").html($.osl.prjGrpAuthSelSetting(2,true));
-    	
-    	
     	new KTPortlet('req4102RequestUsrInfo', $.osl.lang("portlet"));
     	new KTPortlet('req4102ReqGroupInfo', $.osl.lang("portlet"));
     	new KTPortlet('req4102NewRequestOpt', $.osl.lang("portlet"));
@@ -239,14 +241,11 @@ var OSLReq4102Popup = function () {
 		    	$("#deptId").val(data.reqInfoMap.reqUsrDeptId);
 		    	$("#usrImgId").attr("src",$.osl.user.usrImgUrlVal(data.reqInfoMap.reqUsrImgId));
 		    	
-		    	$("#reqPrjSelect").val($.osl.escapeHtml(data.reqInfoMap.prjId)).trigger('change.select2');
-		    	$("#reqPrjSelect").prop("disabled", true);
-		    	
 		    	
 		    	if(data.reqInfoMap.reqProType=='01'){
-					
-					$("#processNm").val('-');
-					$("#flowNm").val('-');
+		    		
+					$("#processNm").val($.osl.lang("req4102.message.notProcess"));
+					$("#flowNm").val($.osl.lang("req4102.message.notStep"));
 				}
 		    	
 		    	
@@ -261,13 +260,15 @@ var OSLReq4102Popup = function () {
 		    	$("#reqDesc").removeClass("kt-hide");
 		    	
 		    	
+		    	$("#reqGrpNo").val(data.reqInfoMap.reqGrpNo);
 		    	$("#reqGrpNm").val(data.reqInfoMap.reqGrpNm);
 		    	
 		    	
 				if($.osl.isNull(data.reqInfoMap.reqGrpId)){
 					
 					
-					$("#reqGrpNm").val($.osl.lang("req4102.placeholder.notGroupReqInfo"));
+					$("#reqGrpNo").val($.osl.lang("req4102.message.notGroupReqNo"));
+					$("#reqGrpNm").val($.osl.lang("req4102.message.notGroupReqInfo"));
 					
 					$("#groupReqDescDiv").addClass("kt-hide");
 				}else{
