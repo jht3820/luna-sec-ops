@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
+	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -200,7 +201,6 @@ var OSLDpl1000Popup = function () {
 					
 					$.each(rowDatas, function(idx, map){
 						
-						
 						if(map.nowSignTypeCd == "03"){
 							
 							$.osl.alert('결재 승인된 배포 계획은 삭제가 불가능합니다.');
@@ -221,7 +221,6 @@ var OSLDpl1000Popup = function () {
 						return false;
 					}
 					
-					return;
 					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/dpl/dpl1000/dpl1000/deleteDpl1000DplListAjax.do'/>"}

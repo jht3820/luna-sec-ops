@@ -396,6 +396,7 @@ var OSLDpl3001Popup = function () {
 					
 					
 					$(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar2({display_text: 'center'});
+					$("#bldProgressPer").text(0);
 					
 					
 					var ajaxObj = new $.osl.ajaxRequestAction(
