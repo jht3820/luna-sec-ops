@@ -29,6 +29,7 @@
 		<link href="<c:url value='/plugins/dragula/dragula.css'/>" rel="stylesheet" type="text/css" />
 		<link href="<c:url value='/plugins/highlight/styles/ir-black.css'/>" rel="stylesheet" type="text/css" />
 		<link href="<c:url value='/plugins/flowchart/jquery.flowchart.css'/>" rel="stylesheet" type="text/css" />
+		<link href="<c:url value='/plugins/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css'/>" rel="stylesheet" type="text/css" />
 		
 		
 
