@@ -81,7 +81,8 @@ var OSLDpl1003Popup = function () {
 							row.addClass("osl-datatable__row-assign--none");
 						}
 					});
-				}
+				},
+				minHeight: 50
 			},
 			columns:[
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},

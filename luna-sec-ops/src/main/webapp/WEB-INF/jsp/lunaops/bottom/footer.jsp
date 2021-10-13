@@ -93,6 +93,7 @@
 		<script src="<c:url value='/plugins/flowchart/jquery.flowchart.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/panzoom/panzoom.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/swiper/swiper.min.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/plugins/bootstrap-progressbar/bootstrap-progressbar.js'/>" type="text/javascript"></script>
 		
 
 		<iframe id="fileDownFrame" name="fileDownFrame" src="/com/fms/FileDown.do" style="width:0;height:0;display:none;"></iframe>

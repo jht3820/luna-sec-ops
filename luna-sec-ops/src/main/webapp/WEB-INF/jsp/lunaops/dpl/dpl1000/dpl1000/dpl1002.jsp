@@ -1030,10 +1030,10 @@ var OSLDpl1002Popup = function () {
 				var signHistoryList = data.dplSignHistoryList;
 				
 				
-				
-				
-				
-				fnSignHistorySetting(signHistoryList);
+				if($("#dplSignUseCd").val() == "01"){
+					
+					fnSignHistorySetting(signHistoryList);
+				}
 			}
 		});
 		

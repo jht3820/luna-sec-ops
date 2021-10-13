@@ -80,6 +80,7 @@
 				<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req1001.reqDesc">요청 내용</span></label>
 				<textarea  name="reqDesc" id="reqDesc" required></textarea>
 			</div>
+			<!-- 
 			<div class="form-group kt-margin-b-10">
 				<label class="kt-checkbox kt-checkbox--bold kt-checkbox--success align-text-top">
 					<input type="checkbox" name="reqPwCheckbox" id="reqPwCheckbox">
@@ -97,6 +98,7 @@
 		 			<input type="password" class="form-control" name="reqPwCheck" id="reqPwCheck" autocomplete="new-password" regexstr="^[a-z0-9]{4,12}$" maxlength="12" regexerrorstr="알파벳과 숫자 조합 4-12자 이내"  placeholder="알파벳과 숫자 조합 4-12자 이내" equalTo="#reqPw"/>
 	 			</div>
 		 	</div>
+		 	 -->
 			<div class="form-group kt-margin-t-25  form-group-last">
 				<label><i class="fa fa-file-upload kt-margin-r-5"></i><span data-lang-cd="req1001.attachments">파일 첨부</span> <button type="button" class="btn btn-sm btn-danger d-none kt-margin-l-10" id="fileRemoveResetBtn">삭제 초기화</button></label>
 				<div class="kt-uppy" id="req1001FileUpload">
@@ -130,58 +132,58 @@
 "use strict";
 	
 
-//파일 업로드 세팅
+
 var fileUploadObj;
 var OSLReq1001Popup = function () {
 	var formId = 'frReq1001';
 	
-	//edit 목록
+	
 	var formEditList = [];
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
-	//수정 중 삭제한 파일Sn 목록
+	
 	var uploadRemoveFiles = [];
 	
-	//비밀번호 기존 존재 여부
-	var pw;
 	
-    // Private functions
+	
+	
+    
     var documentSetting = function () {
-    	//프로젝트 목록 세팅
+    	
     	$("#reqPrjSelect").html($.osl.prjGrpAuthSelSetting(2,true));
 
-    	//type
+    	
     	var type = $("#type").val();
     	
-    	//문구 세팅 
+    	
     	$("#req1001SaveSubmit > span").text($.osl.lang("req1001."+type+".saveBtnString"));
     	
-    	//atchfileId
+    	
     	var atchFileId = $("#atchFileId").val();
     	
-    	//Portlet 세팅
+    	
     	new KTPortlet('req1001RequestUsrInfo', $.osl.lang("portlet"));
     	new KTPortlet('req1001NewRequestOpt', $.osl.lang("portlet"));
     	
-    	//palceholder 세팅
-    	$("#reqPw").attr("placeholder",$.osl.lang("req1001.reqPw.placeholder.password"));
-		$("#reqPwCheck").attr("placeholder",$.osl.lang("req1001.reqPw.placeholder.password"));
     	
-    	//파일 업로드 세팅
+    	
+		
+    	
+    	
     	fileUploadObj = $.osl.file.uploadSet("req1001FileUpload",{
     		url: '/req/req1000/req1000/insertReq1001ReqAtchFileInfo.do',
     		maxFileSize: "${requestScope.fileSumMaxSize}",
     		meta: {"atchFileId": atchFileId, "fileSn": 0},
     		maxNumberOfFiles:20,
-    		//파일 업로드 전 실행 함수
+    		
     		onBeforeUpload: function(files){
     			var rtnValue = files;
     			var uploadFiles = {};
     			
     			if(type == "insert"){
-    				//atchFileId 생성
+    				
     				$.osl.file.makeAtchfileId(function(data){
     					if(data.errorYn == "Y"){
 	   						$.osl.toastr(data.message);
@@ -190,7 +192,7 @@ var OSLReq1001Popup = function () {
 	   						$("#atchFileId").val(data.atchFileIdString);
 	   					 	fileUploadObj.setMeta({atchFileId: data.atchFileIdString});
 	   					 
-	   						//파일명 뒤에 ms 붙이기
+	   						
 	   	    				$.each(files, function(idx, map){
 	   	    					map.meta.atchFileId = data.atchFileIdString;
 	   	    					
@@ -201,12 +203,12 @@ var OSLReq1001Popup = function () {
 	   						
 	   	    				rtnValue = uploadFiles;
 	   	    				
-	   						//요구사항 등록
+	   						
 	   						submitInsertAction();
 	   					}
     				});
     			}else{
-    				//database 파일 제외하기
+    				
     				$.each(files, function(idx, map){
     					if(map.source != "database"){
     						map.meta.atchFileId = $("#atchFileId").val();
@@ -218,49 +220,49 @@ var OSLReq1001Popup = function () {
     					}
     				});
 
-					//요구사항 수정
+					
 					submitUpdateAction();
 					
     				rtnValue = uploadFiles;
     			}
    				return rtnValue;
     		},
-    		//파일 업로드 시 건당 발생 함수
+    		
     		onBeforeFileAdded: function(currentFile, files){
     			if(currentFile.source != "database" && currentFile.source != "remove"){
     				var newNm = new Date().format("ssms")+"_"+currentFile.name;
     				currentFile.name = newNm;
     				currentFile.meta.name = newNm;
-    				//currentFile.meta.atchFileId = $("#atchFileId").val();
     				
-	    			//fileSn default
-	    			//var fileSn = fileUploadObj.getState().meta.fileSn;
+    				
 	    			
-	    			//currentFile.meta.fileSn = fileSn;
-	    			//fileUploadObj.setMeta({fileSn: (fileSn+1)});
+	    			
+	    			
+	    			
+	    			
     			}
     		}
     	});
     	
-    	//수정인경우
+    	
     	if(type == "update"){
-    		//요구사항 정보 조회
+    		
     		selectReqInfo();
     		
-			//fileUploadObj.setMeta({atchFileId: atchFileId});
+			
 			 	
-	    	//수정인경우 파일 삭제 기록하기
+	    	
 	    	fileUploadObj.on('file-removed', function(file) {
 	    		file["fileSn"] = file.meta.fileSn;
 	    		file.source = "remove";
 	    		uploadRemoveFiles.push(file);
 	    		
-	    		//삭제 취소 버튼 활성화
-	    		//$(".uppy-DashboardContent-bar > div:eq(0)").append($("#fileRemoveResetBtn"));
+	    		
+	    		
 	    		$("#fileRemoveResetBtn").removeClass("d-none");
 			});
 	    	
-	    	//삭제 초기화 버튼 클릭 시 삭제한 파일 다시 추가
+	    	
 	    	$("#fileRemoveResetBtn").click(function(){
 	    		$("#fileRemoveResetBtn").addClass("d-none");
 	    		
@@ -278,9 +280,9 @@ var OSLReq1001Popup = function () {
 	    		});
 
 	    		setTimeout(function(){
-	    			//파일 preview에 click 이벤트 걸기
+	    			
 	    			$.each(fileUploadObj.getFiles(), function(idx, map){
-	    				//database에 등록된 파일만 다운로드 가능
+	    				
 	    				if(map.source == "database"){
 	    					var target = $("#uppy_"+$.escapeSelector(map.id)+" > .uppy-DashboardItem-preview");
 	    					target.addClass("osl-cursor-pointer");
@@ -295,51 +297,27 @@ var OSLReq1001Popup = function () {
 	    		uploadRemoveFiles = [];
 	    	});
     	}else{
-    		//요청자 정보 세팅
+    		
         	$.osl.setDataFormElem($.osl.user.userInfo,"frReq1001", ["usrNm","email","telno","deptName","deptId","usrImgId"]);
 			
-	    	//현재 날짜 지정
+	    	
 	    	$("#reqDtm").val(new Date().format("yyyy-MM-dd"));
     	}
 
-    	//edit 세팅
+    	
     	formEditList.push($.osl.editorSetting("reqDesc", {formValidate: formValidate}));
     	
-    	//datepicker 세팅
+    	
 		$.osl.date.datepicker($("#reqDtm"), {});
     	
-		//요구사항 잠금 기능
-    	$("#reqPwCheckbox").click(function(){
-    		if($("#reqPwCheckbox").is(":checked")==true){
-    			//세부 속성 보이기
-    			$("#pwOption").removeClass("kt-hide");
-    		}else{
-    			//세부 속성 숨기기
-    			$("#pwOption").addClass("kt-hide");
-    		}
-    	});
-		
-    	//submit 동작
+    	
     	$("#req1001SaveSubmit").click(function(){
 			var form = $('#'+formId);    		
         	
-    		//폼 유효 값 체크
+    		
     		if (!form.valid()) {
     			return;
     		}
-    		
-    		//요구사항 잠금 사용 시 패스워드 확인
-    		if($("#reqPwCheckbox").is(":checked")==true){
-    			if(pw!="Y"){
-    				//기존에 비밀번호가 있던 경우가 아니라면
-    				//잠금 사용했으나 비밀번호 미 입력 시
-    				if($("#reqPw").val()==""){
-    					$.osl.alert($.osl.lang("req1001.formCheck.passwordMessage"));
-    					$("#reqPw").focus();
-   						return false;
-    				}
-    			}
-        	}
     		
     		$.osl.confirm($.osl.lang("req1001."+type+".saveString"),null,function(result) {
     	        if (result.value) {
@@ -350,30 +328,28 @@ var OSLReq1001Popup = function () {
     };
     
     
-    /**
-	 * 	요구사항 정보 조회
-	 */
+    
 	 var selectReqInfo = function() {
     	var paramPrjId = $("#paramPrjId").val();
     	var paramReqId = $("#paramReqId").val();
     	var paramReqUsrId = $("#reqUsrId").val();
     	
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req1000/req1000/selectReq1000ReqInfoAjax.do'/>", "async": false}
 				,{"paramPrjId": paramPrjId, "paramReqId" : paramReqId, "reqUsrId": paramReqUsrId });
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
-				//요구사항 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.reqInfoMap,"frReq1001");
 				
-				//요청자 정보 세팅
+				
 		    	$("#usrNm").val(data.reqInfoMap.reqUsrNm);
 		    	$("#email").val(data.reqInfoMap.reqUsrEmail);
 		    	$("#telno").val(data.reqInfoMap.reqUsrNum);
@@ -384,98 +360,88 @@ var OSLReq1001Popup = function () {
 		    	$("#reqPrjSelect").val(data.reqInfoMap.prjId).trigger('change.select2');
 		    	$("#reqPrjSelect").prop("disabled", true);
 		    	
-		    	//파일Sn넣기
+		    	
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
-		    	//파일 목록 세팅
+		    	
 		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
 		    	
-		    	//요구사항 잠금 설정한 경우
-		    	if(!$.osl.isNull(data.reqInfoMap.reqPw)){
-		    		$("#reqPwCheckbox").attr("checked", true);
-		    		$("#pwOption").removeClass("kt-hide");
-		    		pw = "Y";
-		    		//비밀번호는 비우기
-					$("#reqPw").val("");
-					$("#reqPw").attr("placeholder",$.osl.lang("req1001.reqPw.placeholder.nullPassword"));
-					$("#reqPwCheck").attr("placeholder",$.osl.lang("req1001.reqPw.placeholder.nullPassword"));
-		    	}
 			}
 		});
 		
-		//AJAX 전송 오류 함수
+		
 		ajaxObj.setFnError(function(xhr, status, err){
 			data = JSON.parse(data);
 			jAlert(data.message, "알림창");
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
     
-    //atchFileId 생성 완료 시 요구사항 등록 시작
+    
     var submitInsertAction = function(paramActhFileId){
     	var form = $('#'+formId);    		
     	
-		//폼 유효 값 체크
+		
 		if (!form.valid()) {
 			return;
 		}
 		
-       	//formData
+       	
    		var fd = $.osl.formDataToJsonArray(formId);
 
-       	//파일 목록 추가하기 (수정이력 관리)
+       	
        	fd.append("fileHistory",JSON.stringify(fileUploadObj.getFiles()));
        	
-      	//파일명 뒤에 ms 붙이기
+      	
 		$.each(fileUploadObj.getFiles(), function(idx, map){
 			map.meta.atchFileId = paramActhFileId;
 			
 			fd.append("file",map);
 		});
       
-      	//프로젝트 그룹 ID
+      	
 		var prjGrpId = $("#reqPrjSelect option[value="+$("#reqPrjSelect").val()+"]").data("prj-grp-id");
 		fd.append("prjGrpId",prjGrpId);
 		
-   		//AJAX 설정
+   		
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/req/req1000/req1000/insertReq1001ReqInfoAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
-   		//AJAX 전송 성공 함수
+   		
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				//등록 성공
+   				
    				$.osl.toastr(data.message);
 
-   				//모달 창 닫기
+   				
    				$.osl.layerPopupClose();
    				
-   				//datatable 조회
+   				
    				$("button[data-datatable-id=req1000ReqTable][data-datatable-action=select]").click();
    			}
    		});
    		
-   		//AJAX 전송
+   		
    		ajaxObj.send();
 		
     };
     
-    //요구사항 수정 시작
+    
     var submitUpdateAction = function(){
 		var form = $('#'+formId);    		
     	
-		//폼 유효 값 체크
+		
 		if (!form.valid()) {
 			return;
 		}
 
-       	//formData
+       	
    		var fd = $.osl.formDataToJsonArray(formId);
        	
-       	//파일 목록 추가하기 (수정이력 관리)
+       	
        	var uploadFileList = [];
        	$.each(fileUploadObj.getFiles(), function(idx, map){
        		if(!map.hasOwnProperty("source") || map.source == "database"){
@@ -485,40 +451,40 @@ var OSLReq1001Popup = function () {
        	});
        	uploadFileList = uploadFileList.concat(uploadRemoveFiles);
 
-       	//파일 정보
+       	
        	fd.append("fileHistory",JSON.stringify(uploadFileList));
        	
-   		//AJAX 설정
+   		
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/req/req1000/req1000/updateReq1001ReqInfoAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
-   		//AJAX 전송 성공 함수
+   		
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				//등록 성공
+   				
    				$.osl.toastr(data.message);
 
-   				//모달 창 닫기
+   				
    				$.osl.layerPopupClose();
    				
-   				//datatable 조회
+   				
    				$("button[data-datatable-id=req1000ReqTable][data-datatable-action=select]").click();
    			}
    		});
    		
-   		//AJAX 전송
+   		
    		ajaxObj.send();
     };
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLReq1001Popup.init();
 });

@@ -27,6 +27,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1000.service.Prj1000Service;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.Prj1100Service;
 import kr.opensoftlab.lunaops.req.req3000.req3000.service.Req3000Service;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.Req4100Service;
 import kr.opensoftlab.lunaops.req.req6000.req6000.service.Req6000Service;
@@ -66,7 +67,11 @@ public class Req4100Controller {
 	
 	@Resource(name = "prj1000Service")
 	private Prj1000Service prj1000Service;
+
 	
+    @Resource(name = "prj1100Service")
+    private Prj1100Service prj1100Service;
+    
 	
    	@Resource(name="fileMngService")
    	private FileMngService fileMngService;
@@ -759,6 +764,10 @@ public class Req4100Controller {
 			paramMap.put("prjGrpId", paramPrjGrpId);
 			paramMap.put("prjId", paramPrjId);
 			
+			
+			List<Map> reqChgList = req6000Service.selectReq6001ReqChgList(paramMap); 
+			model.addAttribute("reqChgList", reqChgList);
+			
         	
         	Map reqInfoMap = (Map) req4100Service.selectReq4100ReqInfo(paramMap);        	
         	model.addAttribute("reqInfoMap", reqInfoMap);
@@ -1012,7 +1021,7 @@ public class Req4100Controller {
 	}
 	
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/req/req4000/req4100/selectReq4100RequestProcessData.do")
 	public ModelAndView selectReq4100RequestProcessData(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
     	try{
@@ -1049,35 +1058,51 @@ public class Req4100Controller {
 
 			
 			Map reqInfo = req4100Service.selectReq4100ReqInfo(paramMap);
+			if(reqInfo == null){
+				model.addAttribute("errorYn", "Y");
+	        	model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+	        	return new ModelAndView("jsonView");
+			}
 			
 			
 			List<Map> reqChgList = req6000Service.selectReq6001ReqChgList(paramMap); 
 			
 			
 			Map prjInfo = prj1000Service.selectPrj1000Info(paramMap);
+
+			List<FileVO> fileList = null;
+        	int fileCnt = 0;
+        	
+    		
+        	FileVO fileVO = new FileVO();
+        	fileVO.setAtchFileId((String)reqInfo.get("atchFileId"));
+        	
+        	
+			fileList = fileMngService.fileDownList(fileVO);
 			
+			for(FileVO temp : fileList){
+				if(fileCnt < Integer.parseInt(temp.getFileSn())){
+					fileCnt = Integer.parseInt(temp.getFileSn());
+				}
+			}
+        	
+        	
+        	String processId = (String)reqInfo.get("processId");
+        	paramMap.put("processId", processId);
+        	
+        	
+    		List<Map> flowList = prj1100Service.selectPrj1101FlowList(paramMap);
+    		
+    		
+    		List<Map> flowLinkList = prj1100Service.selectPrj1107FlowLinkList(paramMap);
+    		
 			paramMap.put("prjId", paramPrjGrpId);
 			
 			
 			Map prjGrpInfo = prj1000Service.selectPrj1000GrpInfo(paramMap);
-			
-			List<FileVO> fileList = null;
-        	int fileCnt = 0;
-        	
-        	if(reqInfo != null){
-        		
-            	FileVO fileVO = new FileVO();
-	        	fileVO.setAtchFileId((String)reqInfo.get("atchFileId"));
-	        	
-	        	
-				fileList = fileMngService.fileDownList(fileVO);
-				
-				for(FileVO temp : fileList){
-					if(fileCnt < Integer.parseInt(temp.getFileSn())){
-						fileCnt = Integer.parseInt(temp.getFileSn());
-					}
-				}
-        	}
+    		
+    		model.addAttribute("flowList", flowList);
+    		model.addAttribute("flowLinkList", flowLinkList);
         	
 			model.addAttribute("fileList",fileList);
 			model.addAttribute("fileListCnt",fileCnt);

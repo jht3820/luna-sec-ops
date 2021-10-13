@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frPrj3002">
-	<input type="hidden" name="type" id="type" value="${param.type}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 		<div class="kt-portlet">
 			<div class="kt-portlet__head kt-portlet__head--lg">
@@ -96,6 +95,9 @@
 						</div>
 						<div class="kt-portlet__head-toolbar">
 							<div class="kt-portlet__head-wrapper">
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj3002PrjConTable" data-datatable-action="reset" title="초기화" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="reset" tabindex="1" id="prj3002PrjConReset">
+									<span>연결 해제</span><i class="fa fa-arrow-alt-circle-right osl-padding-r0 osl-padding-l05"></i>
+								</button>
 								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj3002PrjConTable" data-datatable-action="selConTargetDelete" title="선택 연결 대상 해제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="1" id="prj3002PrjConDelete">
 									<span>연결 해제</span><i class="fa fa-arrow-alt-circle-right osl-padding-r0 osl-padding-l05"></i>
 								</button>
@@ -152,7 +154,7 @@ var OSLPrj1004Popup = function () {
 	var docId = $('#docId').val();
 	
 	
-	var type = $("#type").val();
+	var type = 'insert';
 	
 	
 	var prjConDocIdList = [];
@@ -197,7 +199,12 @@ var OSLPrj1004Popup = function () {
     var saveFormAction = function() {
     	
    		var fd = $.osl.formDataToJsonArray(formId);
+
+    	var docId = $("#docId").val();
     	
+    	fd.append("nowDocId",docId);
+		fd.append("type",type);
+		
     	
     	var DocConList = $.osl.datatable.list["prj3002PrjConTable"].targetDt.originalDataSet;
     	if(!$.osl.isNull(DocConList) && DocConList.length > 0){
@@ -208,6 +215,8 @@ var OSLPrj1004Popup = function () {
     		fd.append("targetIdList",JSON.stringify(targetIdList));
     	}
 		
+    	
+    	
     	
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/prj/prj3000/prj3000/insertPrj3002DocConInfo.do'/>", "async": true,"contentType":false,"processData":false ,"cache":false, "loadingShow": false},fd);
     	 $.osl.showLoadingBar(true,{target: "#frPrj3002", message: "산출물 정보를 연결중입니다.</br>잠시만 기다려주세요."});
@@ -279,19 +288,18 @@ var OSLPrj1004Popup = function () {
 				
 				
 				if(data.docConList.length > 0){
+					
+					type = 'update';
+					
    					
 					prjDocConOriginalData = data.docConList;
-   						 
 	   				
 	   				var datatable = $.osl.datatable.list["prj3002PrjConTable"].targetDt;
 	   			
-	   				
-	   				datatable.eq(0).removeClass("kt-datatable--error");
-	   			
 	   				$.each(data.docConList, function(idx, map){
 		   				
+						
 						datatable.originalDataSet.push(map);
-		   				
 						
 						
 						prjConDocIdList.push(map.targetId);
@@ -299,6 +307,7 @@ var OSLPrj1004Popup = function () {
 					
 					
 					datatable.insertData();
+					
 					
 					datatable.reload();
 					$.osl.datatable.list["prj3002PrjConTargetTable"].targetDt.reload();
@@ -404,6 +413,31 @@ var OSLPrj1004Popup = function () {
 							fnAllUsrDelete(rowDatas);
 						}
 					});
+				},
+				"reset": function(rowData, datatableId, type, rownum, elem){
+					var datatable = $.osl.datatable.list[datatableId].targetDt;
+					
+					
+					datatable.dataSet = [];
+					datatable.originalDataSet = [];
+					prjConDocIdList = [];
+					
+					
+					if(prjDocConOriginalData.length > 0){
+						$.each(prjDocConOriginalData, function(idx, map){
+			   				
+			   				datatable.dataSet.push(map);
+							datatable.originalDataSet.push(map);
+							
+							
+							prjConDocIdList.push(map.targetId);
+		   				});
+					}
+					
+					datatable.insertData();
+					
+					datatable.reload();
+					$.osl.datatable.list["prj3002PrjConTargetTable"].targetDt.reload();
 				}
 			}
 		});

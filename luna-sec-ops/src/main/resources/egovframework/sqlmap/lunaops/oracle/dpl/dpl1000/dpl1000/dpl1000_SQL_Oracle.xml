@@ -164,10 +164,10 @@
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="dplDt">
 					<isNotEmpty property="searchStartDt">
-						AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &gt;= TO_CHAR(SUB1.DPL_DT, 'YYYY-MM-DD')  
+						AND TO_DATE(SUB1.DPL_DT, 'YYYY-MM-DD HH24:MI:SS') &gt;= TO_DATE(#searchStartDt#, 'YYYY-MM-DD HH24:MI:SS')
 					</isNotEmpty>
 					<isNotEmpty property="searchEndDt">
-						AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &lt;= TO_CHAR(SUB1.DPL_DT, 'YYYY-MM-DD')   
+						 AND TO_DATE(SUB1.DPL_DT, 'YYYY-MM-DD HH24:MI:SS') &lt;= TO_DATE(#searchEndDt#, 'YYYY-MM-DD HH24:MI:SS')  
 					</isNotEmpty>
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="dplAutoDtm">

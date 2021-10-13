@@ -256,6 +256,9 @@ input:-webkit-autofill,
 .osl-min-h-px--520 {
   min-height: 520px; 
 }
+.osl-min-h-px--535 {
+  min-height: 535px; 
+}
 .osl-min-h-px--550 {
   min-height: 550px; 
 }
@@ -825,8 +828,8 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     height: auto;
     background-color: #fff;
     margin-bottom: 5px;
-    border-radius: 4px;
-    flex-direction: column;
+    border-radius: 0 0 4px 4px;
+    flex:1 1 auto;
 }
 .osl-req__process-history {
     display: flex;
@@ -835,6 +838,24 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     padding: 10px;
     background-color: #eeeef4;
     overflow-x: auto;
+}
+.osl-req__process-next__Flow {
+    flex-basis: 250px;
+    display: flex;
+    margin: 10px;
+    margin-left: 0;
+    padding: 10px;
+    background-color: #eeeef4;
+}
+.osl-req__process-mask__flow {
+    width: 200px;
+    height: 160px;
+    background: #FAFAFA;
+    -webkit-box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
+    box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
+    background-color: #ffffff;
+    border: 1px dashed #9fa1ae;
+    border-radius: 4px;
 }
 .osl-req__process-history::after {
     content: '';
@@ -877,6 +898,8 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 }
 .osl-req__process-title{
 	padding: 10px 10px 0 10px;
+	background-color: #fff;
+	border-radius:4px 4px 0 0;
 }
 .kt-media.kt-media--sm img{
 	width:30px;
@@ -1937,6 +1960,7 @@ label.required:after {
     border-bottom: 1px solid #ebedf2;
 }
 .flowchart-operator .flowchart-operator-title,
+.osl-req__process-mask__flow .flowchart-operator-title,
 .osl-req__process-history .flowchart-operator-title {
     width: 100%;
     font-weight: bold;
@@ -1961,6 +1985,7 @@ label.required:after {
     -ms-flex-pack: justify;
     justify-content: space-between;
 }
+.osl-req__process-mask__flow .flowchart-operator-process-title,
 .osl-req__process-history .flowchart-operator-process-title {
     width: 100%;
     font-weight: bold;
@@ -2064,6 +2089,7 @@ label.required:after {
 .osl-flowchart-preview .flowchart-operator.osl-flowchart__operator {
     max-width: 90%;
 }
+.osl-req__process-mask__flow .flowchart-operator-inputs-outputs,
 .osl-req__process-history .flowchart-operator-inputs-outputs {
     min-height: 50px;
     padding: 10px;

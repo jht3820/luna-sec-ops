@@ -247,7 +247,7 @@
 		</div>
 		<div class="osl-wizard__content w-100" data-ktwizard-type="step-content">
 			<div class="row">
-				<div class="col-xl-3 col-lg-12 col-md-12 col-sm-12">
+				<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
 					<div class="kt-portlet kt-portlet--mobile">
 						<div class="kt-portlet__head kt-portlet__head--lg">
 							<div class="kt-portlet__head-label">
@@ -272,7 +272,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
+				<div class="col-xl-9 col-lg-6 col-md-12 col-sm-12">
 					<div class="kt-portlet kt-portlet--mobile">
 						<div class="kt-portlet__head kt-portlet__head--lg">
 							<div class="kt-portlet__head-label">
