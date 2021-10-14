@@ -6,6 +6,7 @@
 	<input type="hidden" id="sprId" name="sprId" value="${param.paramSprId}">
 	<input type="hidden" id="sprStDt" name="sprStDt" value="${param.paramSprStDt}">
 	<input type="hidden" id="sprEdDt" name="sprEdDt" value="${param.paramSprEdDt}">
+	<input type="hidden" id="sprTypeCd" name="sprTypeCd" value="${param.paramSprTypeCd}">
 	<div class="kt-portlet kt-portlet--mobile">
 		<div class="kt-portlet__body">
 			<div class="row kt-padding-l-20 kt-padding-r-20">
@@ -16,12 +17,12 @@
 				
 				<!-- begin :: 스프린트 시간, 관리자, 설명 -->
 				<div class="col-12 text-right">${param.paramSprStDt} - ${param.paramSprEdDt}</div>
-				<div class="col-12 text-right">관리자</div>
+				<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
 				<div class="col-12 text-right">${param.paramSprDesc}</div>
 				<!-- end :: 스프린트 시간, 관리자, 설명 -->
 				
 				<!-- begin :: 스프린트 내용 table -->
-				<div class="table border kt-margin-t-20">
+				<div class="table border kt-margin-t-20 kt-margin-b-0">
 					<div class="row kt-margin-0">
 						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">전체 배정 백로그</div>
 						<div class="col-6 text-center kt-padding-15" id="sprStat01"></div>
@@ -43,7 +44,7 @@
 						<div class="col-6 text-center kt-padding-15" id="sprStat05"></div>
 					</div>
 					<div class="row kt-margin-0 border-top">
-						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">스토리 포인트 공수</div>
+						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">완료 스토리 포인트 공수</div>
 						<div class="col-6 text-center kt-padding-15" id="sprStat06"></div>
 					</div>
 				</div>
@@ -51,19 +52,24 @@
 			</div>
 			
 			<!-- begin :: 스프린트 차트 -->
-			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
+			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
-					<div class="border osl-min-h-px--140" id="burnUpChart"></div>
+					<div class="border osl-card__data--empty osl-min-h-px--365" id="burnUpChart"></div>
 				</div>
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
-					<div class="border osl-min-h-px--140" id="burnDownChart"></div>
+					<div class="border osl-card__data--empty osl-min-h-px--365" id="burnDownChart"></div>
+				</div>
+			</div>
+			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 osl-user__active--block" id="velocityChartWrap">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
+					<div class="border osl-min-h-px--140" id="velocityChart"></div>
 				</div>
 			</div>
 			<!-- end :: 스프린트 차트 -->
 			
 			<!-- begin :: 스프린트 데이터테이블 전체영역-->
 			<div class="row kt-margin-t-20">
-				<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="col-lg-12 col-md-12 col-sm-12 kt-padding-20">
 					<div class="row">
 						<!-- begin :: 스프린트 데이터테이블 검색영역 -->
 						<div class="col-lg-6 col-md-6 col-sm-12">
@@ -107,6 +113,12 @@ var OSLSpr1001Popup = function () {
 	var paramSprStDt = $("#sprStDt").val();
 	//종료일
 	var paramSprEdDt = $("#sprEdDt").val();
+	//스프린트 상태
+	var paramSprTypeCd = $("#sprTypeCd").val();
+	//전체 스토리포인트
+	var totalSprPoint = 0;
+	//완료된 스토리포인트
+	var endSprPoint = 0;
 	//배정된 요구사항 데이터
 	var chartDataMap = [];
 	
@@ -168,12 +180,28 @@ var OSLSpr1001Popup = function () {
 				},
 				{field: 'timeRequired', title: '실 소요시간', textAlign: 'center', width: 100,
 					template: function (row) {
-						if(row.reqProType == '01'){
-							return '-';
-						}else if(row.reqProType == '04'){
-							return $.osl.escapeHtml(String(row.endTimeRequired)); 
+						//요구사항이 시작했는지 판단.
+						var gap = new Date() - new Date(row.reqStDtm);
+						if(row.reqProType =='01'){
+							return "-";
+							//오늘보다 이전일 경우 0
+						}else if(gap < 0){
+							return '0 시간';
+						//스프린트가 종료했을 경우
+						}else if(paramSprTypeCd == '03'){
+							if(row.reqProType == '04'){
+								return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
+							}
+							//스프린트 종료시간 - 요구사항 시작시간 계산
+							var timeRequired = new Date(paramSprEdDt) - new Date(row.reqStDtm);
+							timeRequired = (timeRequired % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+							return Math.trunc(timeRequired) +" 시간";
 						}
-						return $.osl.escapeHtml(String(row.notEndTimeRequired));
+						//요구사항이 종료되었을 경우
+						else if(row.reqProType == '04'){
+							return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
+						}
+						return $.osl.escapeHtml(String(Math.trunc(row.notEndTimeRequired))) +" 시간";
 					},
 				},
 				{field: 'sprPoint', title: '스토리포인트', textAlign: 'center', width: 80,
@@ -198,24 +226,22 @@ var OSLSpr1001Popup = function () {
 	 				if($.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.hasOwnProperty('data')){
 	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
 	 				}
+	 				//스프린트 정보 출력
+	 				selectSprInfoStat();
+	 				
+	 				//차트 출력
+	 				drawAllChart();
 				}
 			}
 		});
 		// end:: 스프린트 상세정보 데이터테이블 
-		
-		//스프린트 정보 출력
-		selectSprInfoStat();
-		
-				
-		//차트 출력
-		drawAllChart();
 		
 	};
 	
 	var selectSprInfoStat = function(){
  		//AJAX 설정
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"true"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"false"},{sprId: paramSprId});
  		//AJAX 전송 성공 함수
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -233,19 +259,21 @@ var OSLSpr1001Popup = function () {
  				if($.osl.escapeHtml(sprStat.avgTime)=='NaN'){
 	 				$("#sprStat04").html("0");
  				}else{
- 					$("#sprStat04").html($.osl.escapeHtml(sprStat.avgTime));
+ 					$("#sprStat04").html($.osl.escapeHtml(sprStat.avgTime.toFixed(2)));
  				}
  				//진척률
  				if($.osl.escapeHtml(sprStat.sprEndPercent)=='NaN'){
 	 				$("#sprStat05").html($.osl.escapeHtml("0 %"));
  				}else{
- 					$("#sprStat05").html($.osl.escapeHtml(sprStat.sprEndPercent)+" %");
+ 					$("#sprStat05").html($.osl.escapeHtml(sprStat.sprEndPercent.toFixed(2))+" %");
  				}
  				if($.osl.escapeHtml(sprStat.sprPerTime)=='NaN'){
 	 				$("#sprStat06").html("0 시간   /  1 스토리 포인트");
  				}else{
  					$("#sprStat06").html($.osl.escapeHtml(sprStat.sprPerTime.toFixed(2)) + "시간 /  1 스토리 포인트");
  				}
+ 				//스토리포인트 총합
+ 				totalSprPoint = sprStat.sprPoint;
  			}
  		});
  		//AJAX 전송
@@ -255,7 +283,7 @@ var OSLSpr1001Popup = function () {
  	//차트그리기
  	var drawAllChart = function(){
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"true"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: paramSprId});
  		//AJAX 전송 성공 함수
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -266,13 +294,27 @@ var OSLSpr1001Popup = function () {
  				
  				//차트데이터 가공
  				var seriesData = getDataRangeData(paramSprStDt, paramSprEdDt, "1", chartData);
- 				
- 				//번업차트 출력
- 				drawBurnUpChart(seriesData);
- 				
- 				//번다운차트 출력
- 				drawBurnDownChart(seriesData);
- 				
+ 				if(chartData.length == 0){
+ 					$("#burnDownChart").text("데이터 없음")
+ 					$("#burnUpChart").text("데이터 없음")
+ 				}else{
+	 				//번업차트 출력
+	 				drawBurnUpChart(seriesData);
+	 				//번다운차트 출력
+	 				drawBurnDownChart(seriesData);
+ 				}
+ 				//데이터 없는 경우
+ 				if(chartData.length == 0){
+					endSprPoint = 0	 					
+ 				}else{
+	 				//진행된 스토리포인트 저장
+	 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				}
+ 				//상태가 종료일 경우 velocity차트그리기
+ 				if(paramSprTypeCd == "03"){
+ 					drawVelocityChart();
+ 					$("#velocityChartWrap").removeClass("osl-user__active--block");
+ 				}
  			}	
  		});
  		
@@ -289,12 +331,12 @@ var OSLSpr1001Popup = function () {
 						 //x축 키값
 						 xKey:"time",
 						 key:{
-							 key1:"idealLine",
-							 key2:"sprPoint"
+							 key1:"idealBurnUPLine",
+							 key2:"burnUpSprPoint"
 						 },
 						 keyNm:{
-							 keyNm1:"idealLine",
-							 keyNm2:"sprPoint"
+							 keyNm1:"이상적인 번업 라인",
+							 keyNm2:"실제 번업 라인"
 						 },
 						 //차트 타입
 						 chartType:"line",
@@ -312,20 +354,43 @@ var OSLSpr1001Popup = function () {
 						align: "center",
 					},
 					stroke: {
-				          curve: 'smooth'
+				          curve: 'straight'
 				    },
 				    grid: {
 				          borderColor: '#e7e7e7',
 				          row: {
-				            colors: ['#f3f3f3', 'transparent'], 
+				            colors: ['#ffb822', 'transparent'], 
 				            opacity: 0.5
 				          },
 				    },
+					animations:{
+						enabled:false
+					},
+				    dataLabels:{
+				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map(x => new Date(x).format("MM-dd"));
+				    		//해당 데이터가 x라벨에 존재할 경우 표출 아니면 미표출
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
+				    },
 					xaxis: {
-				        type: 'category',
+						type: 'datetime',
 				        labels: {
-				            format: 'dd/MM',
-				        }
+				        	hideOverlappingLabels :true,
+				            formatter: function(value){
+				            	return new Date(value).format("MM-dd");
+				            }
+				        },
+				        tickAmount: '15',
 		        	},
 					yaxis: {
 						show:true
@@ -354,28 +419,31 @@ var OSLSpr1001Popup = function () {
  	//번다운 차트 그리기
  	var drawBurnDownChart = function(dateRange){
  		 var chart = $.osl.chart.setting("apex","burnDownChart",{
-				//차트 데이터 설정
+ 			//차트 데이터 설정
 				data:{										
 					param:{
 						dataArr: dateRange,	
 						 //x축 키값
 						 xKey:"time",
 						 key:{
-							 key1:"idealLine",
-							 key2:"sprPoint"
+							 key1:"idealBurnDownLine",
+							 key2:"burnDownSprPoint"
 						 },
 						 keyNm:{
-							 keyNm1:"idealLine",
-							 keyNm2:"sprPoint"
+							 keyNm1:"이상적인 번다운 라인",
+							 keyNm2:"실제 번다운 라인"
 						 },
 						 //차트 타입
 						 chartType:"line",
 						 dataType: "local"
 					}
 				},
+				fill:{
+					type:false
+				},
 				chart:{
 					//라인 색상
-					colors: ["#586272", "#1cac81"],
+					colors: ["#ffb822", "#840ad9"],
 					title: {
 						text: "번다운차트",
 						align: "center",
@@ -383,14 +451,48 @@ var OSLSpr1001Popup = function () {
 					stroke: {
 				          curve: 'straight'
 				    },
+				    animations:{
+						enabled:false
+					},
+				    dataLabels:{
+				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map(x => new Date(x).format("MM-dd"));
+				    		//해당 데이터가 x라벨에 존재할 경우 표출 아니면 미표출
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
+				    },
+				    grid: {
+				          borderColor: '#e7e7e7',
+				          row: {
+				            colors: ['#f3f3f3', 'transparent'], 
+				            opacity: 0.5
+				          },
+				    },
 					xaxis: {
-				        type: 'category',
+				        type: 'datetime',
+				        //출력 형태
 				        labels: {
-				            format: 'dd/MM',
-				        }
+				        	hideOverlappingLabels :true,
+				            formatter: function(value){
+				            	return new Date(value).format("MM-dd");
+				            }
+				        },
+				        //x축 몇개를 표시할 것인지
+				        tickAmount: '15',
+				        //중간에 점찍기
+				        tickPlacement: 'between',
 		        	},
 					yaxis: {
-						show:true
+						show:true,
 		        	},
 		        	toolbar:{
 		        		tools:{
@@ -413,19 +515,86 @@ var OSLSpr1001Popup = function () {
 				}
 			});
 		 }
- 	
+ 	//벨로시티 차트 그리기
+ 	var drawVelocityChart = function(){
+ 		var chart = $.osl.chart.setting("apex","velocityChart",{
+ 			data:{
+				//ajax 조회 url
+				url: "<c:url value='/spr/spr1000/spr1000/selectSpr1000VelocityChartInfoAjax.do'/>",
+				//파라미터
+				param:{
+					 data: paramSprId,
+					 totalSprPoint: totalSprPoint,
+					 endSprPoint: endSprPoint,
+					 //차트 데이터 키값
+					 key: {
+						 key1: "sprPoint",
+						 key2: "commitSprPoint",
+						 key3: "actualVelocity",
+						 key4: "commitVelocity"
+					 },
+					 //차트 데이터 키 명칭
+					 keyNm:{
+						 keyNm1: "실제 완료 스토리포인트",
+						 keyNm2: "약속된 완료 스토리포인트",
+						 keyNm3: "실제 진행 속도",
+						 keyNm4: "약속된 진행 속도",
+					 },
+					 keyType:{
+						 keyType1:"bar",
+						 keyType2:"bar",
+						 keyType3:"line",
+						 keyType4:"line"
+					 },
+					 //x축 키값
+					 xKey:"term",
+					 //차트 타입
+					 chartType:"mix"
+				 },
+				 type: "remote"
+			},
+			chart:{
+				//색상
+				colors: ["#840ad9", "#ffb822","#840ad9", "#ffb822"],
+			 	stroke: {
+		        	width: [5, 5, 5, 5],
+		          	curve: 'straight',
+		          	dashArray: [0, 0, 5, 5]
+		       },
+		       yaxis: {
+		    	   show:true,
+		    	   min:0,
+	    	   },
+			},
+			callback:{
+				//차트가 작성 후 실행
+				initComplete: function(chartContext, config){
+					$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
+					$(".apexcharts-reset-icon").addClass("kt-margin-0");
+					$(".apexcharts-toolbar").addClass("kt-margin-10");
+					$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
+					$(".apexcharts-toolbar").removeAttr("style[padding]");
+				}
+			}
+		});
+	}
  	
  	//차트 데이터 정제
  	var getDataRangeData = function(sttDt, endDT, type, data){
- 		//이상적인 번업라인 데이터 만들기
  		
- 		//누적 스토리포인트 날짜:스토리포인트 형태로 변환
- 		var sprPoint = [];
- 		$.each(data, function(index, value){
- 			var _series = {};
- 			_series[value.reqEdDtm] = value.cumSprPoint;
- 			sprPoint.push(_series);
- 		});
+ 		if(paramSprTypeCd == '01'){
+ 			return [];
+ 		}
+ 		
+ 		if(data.length != 0){
+	 		//누적 스토리포인트 날짜:스토리포인트 형태로 변환
+	 		var sprPoint = [];
+	 		$.each(data, function(index, value){
+	 			var _series = {};
+	 			_series[value.reqEdDtm] = value.cumSprPoint;
+	 			sprPoint.push(_series);
+	 		});
+ 		}
  		
  		//시작일자와 종료일자 사이의 날짜를 일별로 자르기.
  		if(type=='1'){
@@ -455,35 +624,76 @@ var OSLSpr1001Popup = function () {
  		//이상적인 번업라인 데이터 작성
  		//일수
  		var length = resDay.length
- 		//총 완료된 스토리포인트 최댓값 가져와서 / 일수로 나누기
- 		var step = Object.values(sprPoint[sprPoint.length-1]) / length
- 		
+ 		//전체 스토리포인트 총합 가져와서 / 일수로 나누기
+ 		var step = totalSprPoint / (length-1)
+ 		//총 길이가 2보다 작을 때
  		var start = 0;
  		$.each(resDay, function(index, value){
- 			start += step	
- 			value['idealLine'] = start.toFixed(1);
+ 			//바로종료할경우
+	 		if(length == 1){
+	 			value['idealBurnUPLine'] = totalSprPoint;
+	 		//2일만에 종료할경우
+	 		}else if(length == 2){
+	 			value['idealBurnUPLine'] = start;
+	 			start += totalSprPoint;
+	 		//나머지
+	 		}else{
+	 			value['idealBurnUPLine'] = start.toFixed(1);
+	 			start += step;
+	 		}
  		})
- 		//스토리포인트 데이터 작성
- 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
- 			var match = false;
- 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
- 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
- 					match = true;
- 					//매치할 경우 가져온 데이터에서 할당한다.
- 					resDay[dayIndex]['sprPoint'] = data[dataIndex].cumSprPoint
- 					break;
- 				}
- 			}
- 			//매치하지 않을 경우
- 			if(!match){
- 				//처음 시작은 0으로
- 				if(dayIndex == 0){
- 					resDay[dayIndex]['sprPoint'] = 0;
- 				//매치하지 않을 경우 전의 sprPoint를 가져와서 할당한다.
- 				}else{
-	 				resDay[dayIndex]['sprPoint'] = resDay[dayIndex - 1]['sprPoint']; 
- 				}
- 			}
+ 		//이상적인 다운라인 데이터 작성
+ 		//일수
+ 		var end = totalSprPoint;
+ 		$.each(resDay, function(index, value){
+ 			//바로종료할경우
+	 		if(length == 1){
+	 			value['idealBurnDownLine'] = totalSprPoint;
+	 		//2일만에 종료할경우
+	 		}else if(length == 2){
+	 			value['idealBurnDownLine'] = end;
+	 			end -= totalSprPoint;
+	 		//나머지
+	 		}else{
+	 			value['idealBurnDownLine'] = end.toFixed(1);
+	 			end -= step	
+	 		}
+ 		})
+ 		if(data.length != 0){
+	 		//오늘 날짜
+	 		var today = new Date();
+	 		//스토리포인트 데이터 작성
+	 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
+	 			var match = false;
+	 			//오늘 날짜보다 이후의 날짜는  추가하지않음.
+	 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
+	 			if(gap < 0){
+		 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
+		 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
+		 					match = true;
+		 					//매치할 경우 가져온 데이터에서 할당한다.
+		 					resDay[dayIndex]['burnUpSprPoint'] = data[dataIndex].cumSprPoint
+		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
+		 					break;
+		 				}
+		 			}
+		 			//매치하지 않을 경우
+		 			if(!match){
+		 				//처음 시작은 0으로
+		 				if(dayIndex == 0){
+		 					resDay[dayIndex]['burnUpSprPoint'] = 0;
+		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
+		 				//매치하지 않을 경우 전의 sprPoint를 가져와서 할당한다.
+		 				}else{
+			 				resDay[dayIndex]['burnUpSprPoint'] = resDay[dayIndex - 1]['burnUpSprPoint']; 
+			 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
+		 				}
+		 			}
+	 			}else{
+	 				resDay[dayIndex]['burnUpSprPoint'] = null;
+					resDay[dayIndex]['burnDownSprPoint'] = null;
+	 			}
+	 		}
  		}
  	   	return resDay;
  	}

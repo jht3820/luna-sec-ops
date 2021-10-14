@@ -3,7 +3,39 @@
 <sqlMap namespace="prj1300DAO">
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
-   	<resultMap id="resultMapSelectPrj1302" class="egovMap">
+   	<resultMap id="resultMapSelectPrj1102" class="egovMap">
+		<result property="rn"  					column="RN"/>
+		<result property="prjId"				column="PRJ_ID"/>
+		<result property="processId"				column="PROCESS_ID"/>
+		<result property="flowId"				column="FLOW_ID"/>
+		<result property="itemId"				column="ITEM_ID"/>
+		<result property="itemNm"				column="ITEM_NM"/>
+		<result property="itemCode"				column="ITEM_CODE"/>
+		<result property="itemCodeNm"			column="ITEM_CODE_NM"/>
+		<result property="itemCommonCode"		column="ITEM_COMMON_CODE"/>
+		<result property="itemCommonCodeNm"		column="ITEM_COMMON_CODE_NM"/>
+		<result property="itemPcRowNum"			column="ITEM_PC_ROW_NUM"/>
+		<result property="itemTabletRowNum"		column="ITEM_TABLET_ROW_NUM"/>
+		<result property="itemMobileRowNum"		column="ITEM_MOBILE_ROW_NUM"/>
+		<result property="itemType"				column="ITEM_TYPE"/>
+		<result property="itemTypeNm"			column="ITEM_TYPE_NM"/>
+		<result property="itemLength"			column="ITEM_LENGTH"/>
+		<result property="itemEssentialCd"		column="ITEM_ESSENTIAL_CD"/>
+		<result property="itemEssentialNm"		column="ITEM_ESSENTIAL_NM"/>
+		<result property="itemEcceptCd"			column="ITEM_ACCEPT_CD"/>
+		<result property="itemEcceptNm"			column="ITEM_ACCEPT_NM"/>
+		<result property="itemOrd"				column="ITEM_ORD"/>
+		<result property="useCd"				column="USE_CD"/>
+		<result property="useNm"				column="USE_NM"/>
+		<result property="regDtm"				column="REG_DTM"/>
+		<result property="regUsrId"				column="REG_USR_ID"/>
+		<result property="regUsrIp"				column="REG_USR_IP"/>
+		<result property="modifyDtm"			column="MODIFY_DTM"/>
+		<result property="modifyusrid"			column="MODIFY_USR_ID"/>
+		<result property="modifyusrip"			column="MODIFY_USR_IP"/>
+    </resultMap>
+    
+    <resultMap id="resultMapSelectPrj1302" class="egovMap">
 		<result property="rn"  					column="RN"/>
 		<result property="prjId"				column="PRJ_ID"/>
 		<result property="templateId"			column="TEMPLATE_ID"/>
@@ -13,8 +45,9 @@
 		<result property="itemCodeNm"			column="ITEM_CODE_NM"/>
 		<result property="itemCommonCode"		column="ITEM_COMMON_CODE"/>
 		<result property="itemCommonCodeNm"		column="ITEM_COMMON_CODE_NM"/>
-		<result property="itemRowNum"			column="ITEM_ROW_NUM"/>
-		<result property="itemRowNumNm"			column="ITEM_ROW_NUM_NM"/>
+		<result property="itemPcRowNum"			column="ITEM_PC_ROW_NUM"/>
+		<result property="itemTabletRowNum"		column="ITEM_TABLET_ROW_NUM"/>
+		<result property="itemMobileRowNum"		column="ITEM_MOBILE_ROW_NUM"/>
 		<result property="itemType"				column="ITEM_TYPE"/>
 		<result property="itemTypeNm"			column="ITEM_TYPE_NM"/>
 		<result property="itemLength"			column="ITEM_LENGTH"/>
@@ -45,8 +78,9 @@
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00001', A.ITEM_CODE, '1') AS ITEM_CODE_NM
 			       , A.ITEM_COMMON_CODE
 			       , SF_STM4000_MST_CD_NM(#licGrpId#, A.ITEM_COMMON_CODE) AS ITEM_COMMON_CODE_NM
-			       , A.ITEM_ROW_NUM
-			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00002', A.ITEM_ROW_NUM, '1') AS ITEM_ROW_NUM_NM
+			       , A.ITEM_PC_ROW_NUM
+			       , A.ITEM_TABLET_ROW_NUM
+			       , A.ITEM_MOBILE_ROW_NUM
 			       , A.ITEM_TYPE
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00003', A.ITEM_TYPE, '1') AS ITEM_TYPE_NM
 			       , A.ITEM_LENGTH
@@ -72,14 +106,81 @@
 					<isEqual property="searchTargetId" compareValue="itemNm">
 						AND	A.ITEM_NM LIKE '%'||  #searchTargetData# ||'%'
 					</isEqual>
-					<isEqual property="searchTargetId" compareValue="itemRowNumNm">
-						AND	A.ITEM_ROW_NUM = #searchTargetData#
-					</isEqual>
-					<isEqual property="searchTargetId" compareValue="itemCodeNm">
+					<isEqual property="searchTargetId" compareValue="itemCode">
 						AND	A.ITEM_CODE = #searchTargetData#
 					</isEqual>
-					<isEqual property="searchTargetId" compareValue="itemTypeNm">
-						AND	A.ITEM_Type = #searchTargetData#
+					<isEqual property="searchTargetId" compareValue="itemType">
+						AND	A.ITEM_TYPE = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="itemEssentialCd">
+						AND	A.ITEM_ESSENTIAL_CD = #searchTargetData#
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isNotEmpty property="paramSortFieldId">
+				<isNotEmpty property="sortDirection">
+					ORDER BY $paramSortFieldId$
+					<isEqual property="sortDirection" compareValue="desc">
+						DESC
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty property="paramSortFieldId">
+				ORDER BY A.ITEM_ORD
+			</isEmpty>
+		) T1 WHERE 1 = 1
+    </sql>
+    
+    <sql id = "selectPrj1102ItemList">
+    	SELECT T1.*, ROWNUM RN
+		FROM
+		(
+			SELECT	 A.PRJ_ID
+			       , A.PROCESS_ID
+			       , A.FLOW_ID
+			       , A.ITEM_ID
+			       , A.ITEM_NM
+			       , A.ITEM_CODE
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00001', A.ITEM_CODE, '1') AS ITEM_CODE_NM
+			       , A.ITEM_COMMON_CODE
+			       , SF_STM4000_MST_CD_NM(#licGrpId#, A.ITEM_COMMON_CODE) AS ITEM_COMMON_CODE_NM
+			       , A.ITEM_PC_ROW_NUM
+			       , A.ITEM_TABLET_ROW_NUM
+			       , A.ITEM_MOBILE_ROW_NUM
+			       , A.ITEM_TYPE
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00003', A.ITEM_TYPE, '1') AS ITEM_TYPE_NM
+			       , A.ITEM_LENGTH
+			       , A.ITEM_ESSENTIAL_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ESSENTIAL_CD, '1') AS ITEM_ESSENTIAL_NM
+			       , A.ITEM_ACCEPT_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ACCEPT_CD, '1') AS ITEM_ACCEPT_NM
+			       , A.ITEM_ORD
+			       , A.USE_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.USE_CD, '1') AS USE_NM
+			       , A.REG_DTM
+			       , A.REG_USR_ID
+			       , A.REG_USR_IP
+			       , A.MODIFY_DTM
+			       , A.MODIFY_USR_ID
+			       , A.MODIFY_USR_IP
+           	FROM	PRJ1102 A
+           	WHERE	1=1
+           		AND A.PRJ_ID		=	#prjId#
+           		AND	A.PROCESS_ID	=	#processId#
+           		AND	A.FLOW_ID		=	#flowId#
+           		<isNotEmpty property="itemId">
+           			AND	A.ITEM_ID		=	#itemId#
+           		</isNotEmpty>
+		    <isNotEmpty property="searchTargetData">
+				<isNotEmpty property="searchTargetId">
+					<isEqual property="searchTargetId" compareValue="itemNm">
+						AND	A.ITEM_NM LIKE '%'||  #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="itemCode">
+						AND	A.ITEM_CODE = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="itemType">
+						AND	A.ITEM_TYPE = #searchTargetData#
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="itemEssentialCd">
 						AND	A.ITEM_ESSENTIAL_CD = #searchTargetData#
@@ -209,6 +310,17 @@
 	
 	
 	
+    <select id="prj1300DAO.selectPrj1302AllItemList" parameterClass="java.util.Map" resultMap="resultMapSelectPrj1302">
+	    
+		SELECT *
+		FROM
+			(
+					<include refid="selectPrj1302ItemList"/>
+	    	) Z
+    	WHERE 1=1 
+    </select>
+    
+	
     <select id="prj1300DAO.selectPrj1302ItemList" parameterClass="java.util.Map" resultMap="resultMapSelectPrj1302">
 	    
 		SELECT *
@@ -216,8 +328,8 @@
 			(
 					<include refid="selectPrj1302ItemList"/>
 	    	) Z
-	    	WHERE 1=1 
-	    	AND 	Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+    	WHERE 1=1 
+    	AND 	Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
     </select>
     
     
@@ -233,41 +345,13 @@
 	
 	<select id="prj1300DAO.selectPrj1302ItemInfo" parameterClass="java.util.Map" resultClass="egovMap">
 		
-		<![CDATA[ 
-	 		SELECT T.* FROM (
-				SELECT	 A.PRJ_ID
-				       , A.TEMPLATE_ID
-				       , A.ITEM_ID
-				       , A.ITEM_NM
-				       , A.ITEM_CODE
-				       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00001', A.ITEM_CODE, '1') AS ITEM_CODE_NM
-				       , A.ITEM_COMMON_CODE
-				       , SF_STM4000_MST_CD_NM(#licGrpId#, A.ITEM_COMMON_CODE) AS ITEM_COMMON_CODE_NM
-				       , A.ITEM_ROW_NUM
-				       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00002', A.ITEM_ROW_NUM, '1') AS ITEM_ROW_NUM_NM
-				       , A.ITEM_TYPE
-				       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00003', A.ITEM_TYPE, '1') AS ITEM_TYPE_NM
-				       , A.ITEM_LENGTH
-				       , A.ITEM_ESSENTIAL_CD
-				       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ESSENTIAL_CD, '1') AS ITEM_ESSENTIAL_NM
-				       , A.ITEM_ACCEPT_CD
-				       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ACCEPT_CD, '1') AS ITEM_ACCEPT_NM
-				       , A.ITEM_ORD
-				       , A.USE_CD
-				       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.USE_CD, '1') AS USE_NM
-				       , A.REG_DTM
-				       , A.REG_USR_ID
-				       , A.REG_USR_IP
-				       , A.MODIFY_DTM
-				       , A.MODIFY_USR_ID
-				       , A.MODIFY_USR_IP
-	           	FROM	PRJ1301 A 
-	           	WHERE	1=1
-	           		AND A.PRJ_ID		=	#prjId#
-	           		AND	A.TEMPLATE_ID	=	#templateId#
-	           		AND	A.ITEM_ID		=	#itemId#
-	       ) T        
- 		]]> 
+		SELECT *
+		FROM
+			(
+				<include refid="selectPrj1302ItemList"/>
+	    	) Z
+    	WHERE 	1=1 
+          		AND	Z.ITEM_ID		=	#itemId#
 	</select>
 	
 	
@@ -293,14 +377,16 @@
 			INSERT INTO PRJ1301
 			(
                 TEMPLATE_ID			,	PRJ_ID				,	ITEM_ID		
-            , 	ITEM_NM				,	ITEM_CODE			,	ITEM_COMMON_CODE	,	ITEM_ROW_NUM
+            , 	ITEM_NM				,	ITEM_CODE			,	ITEM_COMMON_CODE	
+            ,	ITEM_PC_ROW_NUM		,	ITEM_TABLET_ROW_NUM	,	ITEM_MOBILE_ROW_NUM
             ,	ITEM_TYPE			,	ITEM_LENGTH			,	ITEM_ESSENTIAL_CD
             ,	ITEM_ACCEPT_CD		,	ITEM_ORD			,	USE_CD
             ,	REG_DTM				,	REG_USR_ID  		,	REG_USR_IP
             ,	MODIFY_DTM			,	MODIFY_USR_ID		,	MODIFY_USR_IP
         )VALUES(
                 #templateId#		,	#prjId#					,	#newItemId#
-            ,	#itemNm# 			,	#itemCode#				,	#itemcommonCode#	,	#itemRowNum#
+            ,	#itemNm# 			,	#itemCode#				,	#itemCommonCode#	
+            ,	#itemPcRowNum#		,	#itemTabletRowNum#		,	#itemMobileRowNum#
             ,	#itemType#	 		,	NVL(#itemLength#,255)	,	#itemEssentialCd#
             ,	#itemAcceptCd# 		,	NVL(#itemOrd#,0)		,	'01'
             ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
@@ -319,7 +405,9 @@
              	ITEM_NM				= #itemNm#
             ,	ITEM_CODE   		= #itemCode#
             ,	ITEM_COMMON_CODE	= #itemCommonCode#
-            ,	ITEM_ROW_NUM   		= #itemRowNum#
+            ,	ITEM_PC_ROW_NUM   	= #itemPcRowNum#
+            ,	ITEM_TABLET_ROW_NUM	= #itemTabletRowNum#
+            ,	ITEM_MOBILE_ROW_NUM	= #itemMobileRowNum#
             ,	ITEM_TYPE   		= #itemType#
             ,	ITEM_LENGTH   		= #itemLength#
             ,	ITEM_ESSENTIAL_CD   = #itemEssentialCd#
@@ -379,4 +467,189 @@
 	       ) T        
  		]]> 
 	</select>
+	
+	
+	
+	
+    <select id="prj1300DAO.selectPrj1102AllItemList" parameterClass="java.util.Map" resultMap="resultMapSelectPrj1102">
+	    
+		SELECT *
+		FROM
+			(
+				<include refid="selectPrj1102ItemList"/>
+	    	) Z
+    	WHERE 1=1 
+    </select>
+    
+	
+    <select id="prj1300DAO.selectPrj1102ItemList" parameterClass="java.util.Map" resultMap="resultMapSelectPrj1102">
+	    
+		SELECT *
+		FROM
+			(
+					<include refid="selectPrj1102ItemList"/>
+	    	) Z
+    	WHERE 1=1 
+    	AND 	Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+    </select>
+    
+    
+    <select id="prj1300DAO.selectPrj1102ItemListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
+	    
+	    SELECT
+			COUNT(*)
+		FROM	(
+			<include refid="selectPrj1102ItemList"/>
+						) A
+    </select>
+    
+	
+	<select id="prj1300DAO.selectPrj1102ItemInfo" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT *
+		FROM
+			(
+				<include refid="selectPrj1102ItemList"/>
+	    	) Z
+    	WHERE 	1=1 
+		        AND	Z.PROCESS_ID	= 	#processId#
+		        AND	Z.PRJ_ID		=	#prjId#
+		        AND	Z.FLOW_ID		=	#flowId#
+		        AND	Z.ITEM_ID		=	#itemId#
+	</select>
+	
+	
+	<insert id="prj1300DAO.insertPrj1102ItemAjax" parameterClass="java.util.Map">
+		
+		<![CDATA[
+			INSERT INTO PRJ1102
+			(
+                PROCESS_ID			,	PRJ_ID					,	ITEM_ID					,	FLOW_ID
+            , 	ITEM_NM				,	ITEM_CODE				,	ITEM_COMMON_CODE	
+            ,	ITEM_PC_ROW_NUM		,	ITEM_TABLET_ROW_NUM		,	ITEM_MOBILE_ROW_NUM
+            ,	ITEM_TYPE			,	ITEM_LENGTH				,	ITEM_ESSENTIAL_CD
+            ,	ITEM_ACCEPT_CD		,	ITEM_ORD				,	USE_CD
+            ,	REG_DTM				,	REG_USR_ID  			,	REG_USR_IP
+            ,	MODIFY_DTM			,	MODIFY_USR_ID			,	MODIFY_USR_IP
+        )VALUES(
+                #processId#			,	#prjId#					,	#itemId#				,	#flowId#
+            ,	#itemNm# 			,	#itemCode#				,	#itemCommonCode#	
+            ,	#itemPcRowNum#		,	#itemTabletRowNum#		,	#itemMobileRowNum#
+            ,	#itemType#	 		,	NVL(#itemLength#,255)	,	#itemEssentialCd#
+            ,	#itemAcceptCd# 		,	NVL(#itemOrd#,0)		,	'01'
+            ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
+            ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
+        )		
+		
+		]]>
+	</insert>
+	
+	
+	<insert id="prj1300DAO.insertPrj1103ItemAjax" parameterClass="java.util.Map">
+		
+		<![CDATA[
+			INSERT INTO PRJ1103
+			(
+                PROCESS_ID			,	PRJ_ID				,	ITEM_ID		
+            , 	FLOW_ID				,	ITEM_VALUE			,	ITEM_VALUE_NM	
+            ,	REG_DTM				,	REG_USR_ID  		,	REG_USR_IP
+            ,	MODIFY_DTM			,	MODIFY_USR_ID		,	MODIFY_USR_IP
+        )VALUES(
+                #processId#			,	#prjId#				,	#itemId#
+            ,	#flowId# 			,	#itemValue#			,	#itemValueNm#	
+            ,	SYSDATE				,	#regUsrId#			,	#regUsrIp#
+            ,	SYSDATE				,	#regUsrId#			,	#regUsrIp#
+        )		
+		
+		]]>
+	</insert>
+	
+	
+	<update id="prj1300DAO.updatePrj1102ItemAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		UPDATE	PRJ1102 A
+        SET		
+             	ITEM_NM				= #itemNm#
+            ,	ITEM_CODE   		= #itemCode#
+            ,	ITEM_COMMON_CODE	= #itemCommonCode#
+            ,	ITEM_PC_ROW_NUM   	= #itemPcRowNum#
+            ,	ITEM_TABLET_ROW_NUM	= #itemTabletRowNum#
+            ,	ITEM_MOBILE_ROW_NUM	= #itemMobileRowNum#
+            ,	ITEM_TYPE   		= #itemType#
+            ,	ITEM_LENGTH   		= #itemLength#
+            ,	ITEM_ESSENTIAL_CD   = #itemEssentialCd#
+            ,	ITEM_ACCEPT_CD 	 	= #itemAcceptCd#
+            ,	ITEM_ORD   			= #itemOrd#
+            ,	MODIFY_DTM      	= sysdate
+            ,	MODIFY_USR_ID   	= #modifyusrid#
+            ,	MODIFY_USR_IP   	= #modifyusrip#
+        WHERE	1=1
+	        AND	A.PROCESS_ID	= 	#processId#
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.FLOW_ID		=	#flowId#
+	        AND	A.ITEM_ID		=	#itemId#
+	]]>
+	</update>
+	
+	
+	
+	<update id="prj1300DAO.updatePrj1103ItemAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		UPDATE	PRJ1103 A
+        SET		
+             	ITEM_VALUE			= #itemValue#
+            ,	ITEM_VALUE_NM  		= #itemValueNm#
+            ,	MODIFY_DTM      	= sysdate
+            ,	MODIFY_USR_ID   	= #modifyusrid#
+            ,	MODIFY_USR_IP   	= #modifyusrip#
+        WHERE	1=1
+	        AND	A.PROCESS_ID	= 	#processId#
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.FLOW_ID		=	#flowId#
+	        AND	A.ITEM_ID		=	#itemId#
+	]]>
+	</update>
+	
+	
+	<delete id="prj1300DAO.deletePrj1102ItemAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		DELETE	
+		FROM	PRJ1102 A
+        WHERE	1=1
+	        AND	A.PROCESS_ID	= 	#processId#
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.FLOW_ID		=	#flowId#
+	]]>
+	</delete>
+	
+	
+	
+	<delete id="prj1300DAO.deletePrj1102ItemInfoAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		DELETE	
+		FROM	PRJ1102 A
+        WHERE	1=1
+	        AND	A.PROCESS_ID	= 	#processId#
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.FLOW_ID		=	#flowId#
+	        AND	A.ITEM_ID		=	#itemId#
+	]]>
+	</delete>
+	
+	
+	<delete id="prj1300DAO.deletePrj1103ItemAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		DELETE	
+		FROM	PRJ1103 A
+        WHERE	1=1
+	        AND	A.PROCESS_ID	= 	#processId#
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.FLOW_ID		=	#flowId#
+	]]>
+	</delete>
 </sqlMap>

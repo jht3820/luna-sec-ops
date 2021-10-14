@@ -48,6 +48,13 @@ public interface Req4100Service {
 	public void deleteReq4100ReqList(Map<String, String> paramMap)  throws Exception;
 	
 	
+	@SuppressWarnings({ "rawtypes" })
+	void updateReq4100ReqRejectList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings({ "rawtypes" })
+	void updateReq4100ReqAcceptList(Map paramMap) throws Exception;
+	
 	
 	@SuppressWarnings("rawtypes")
 	public Map selectReq4100ReqUserInfo(Map paramMap) throws Exception;

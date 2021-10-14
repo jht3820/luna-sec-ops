@@ -78,6 +78,9 @@
 			OSLCoreChartSetting.init();
 			
 			
+			OSLCoreCustomOptionSetting.init();
+			
+			
 			$.validator.addMethod("email", function(value, element) {
 			    if (/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value)) {
 			        return true;
@@ -176,6 +179,10 @@
 				switch (actionCd){
 				
 				case "01":
+					event.preventDefault();
+					if($(document).find("#menuNAuthShortCut").length != 0){
+						return;
+					}
 					var data = {};
 					var options = {
 						modalTitle: "단축키 설정 정보",
@@ -628,6 +635,7 @@
 										var key = config.data.key;
 										var pKey = config.data.pKey;
 										var labelKey = config.data.labelKey;
+										var type = config.data.type;
 										
 										
 										$.each(treeDataList, function(idx, map){
@@ -637,6 +645,11 @@
 										
 										
 										$.each(treeDataList, function(idx, map){
+											
+											if(!$.osl.isNull(type) && map.hasOwnProperty(type)){
+												map["type"] = map[type];
+											}
+											
 											
 											if(tmpMap[map[pKey]] && map[key] != map[pKey]){
 												
@@ -748,7 +761,8 @@
 								
 								pKey:"",
 								
-								labelKey: ""
+								labelKey: "",
+								type:""
 							},
 				            'plugins': ["contextmenu", "types", "search"],
 				            'core': {
@@ -2095,6 +2109,7 @@
 	        		$.osl.prjGrpAuthList = prjOrdList;
 	        		$.osl.showLoadingBar(false,{target: "#kt_header"});
 	        		
+	        		$("#searchPrjNmBtn").off("click");
 	        		
 	        		$("#searchPrjNmBtn").click(function(){
 	        			var data = {
@@ -2118,6 +2133,7 @@
 	        		});
 	        		
 	        		
+	        		$("#mainPrjNm").off("keydown");
 	        		$("#mainPrjNm").keydown(function(e){
 	        			if(e.keyCode=='13'){
 	        				
@@ -2126,7 +2142,6 @@
 	        		});
 	        		
 	        		$("#mainPrjNm").val(data.mainPrjInfo[0].popPrjNm);
-	        		
 	        	}else{
 	        		$.osl.toastr(data.message);
 	        	}
@@ -2139,6 +2154,11 @@
 			
 			
 			ajaxObj.send();
+		}
+		
+		,customOpt:{
+			
+			setting: $.noop
 		}
 		
 		,chart:{
@@ -3470,6 +3490,7 @@
 					var maxYear = moment().subtract(-10, 'year').format('YYYY');
 					
 					var defaultConfig = {
+							parentEl: 'body',
 				            buttonClasses: 'btn btn-sm',
 				            applyClass: "btn-primary",
 				            cancelClass: "btn-secondary",
@@ -3478,6 +3499,15 @@
 							todayHighlight: false,
 							minYear : parseInt(minYear),
 							maxYear : parseInt(maxYear),
+							singleDatePicker: false,
+							timePicker: false,
+					        timePicker24Hour: false,
+					        timePickerIncrement: 1,
+					        timePickerSeconds: false,
+					        locale:{
+					        	applyLabel: '적용',
+					            cancelLabel: '취소',
+					        }
 				        };
 					
 					
@@ -3659,7 +3689,7 @@
 							+'<img class=" '+usrImg+'" src="'+usrImgId+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 						+'</div>'
 						+'<div class="kt-user-card-v2__details '+cardDetail+'">'
-							+'<span class="kt-user-card-v2__name '+cardName+'">'+cardContent+'</span>'
+							+'<span class="kt-user-card-v2__name '+cardName+' text-truncate">'+cardContent+'</span>'
 						+'</div>'
 					+'</div>';
 				
@@ -3993,24 +4023,29 @@
 	
 	$.osl.isNull = function(sValue)
 	{
-		if( typeof sValue == "undefined") {
-	        return true;
-	    }
-	    if( String(sValue).valueOf() == "undefined") {
-	        return true;
-	    }
-	    if( sValue == null ){
-	        return true;
-	    }
-	    if( ("x"+sValue == "xNaN") && ( new String(sValue.length).valueOf() == "undefined" ) ){
-	        return true;
-	    }
-	    if( sValue.length == 0 ){
-	        return true;
-	    }
-	    if( sValue == "NaN"){
-	        return true;
-	    }
+		
+		try{
+			if( typeof sValue == "undefined") {
+		        return true;
+		    }
+		    if( String(sValue).valueOf() == "undefined") {
+		        return true;
+		    }
+		    if( sValue == null ){
+		        return true;
+		    }
+		    if( ("x"+sValue == "xNaN") && ( new String(sValue.length).valueOf() == "undefined" ) ){
+		        return true;
+		    }
+		    if( sValue.length == 0 ){
+		        return true;
+		    }
+		    if( sValue == "NaN"){
+		        return true;
+		    }
+		}catch(e){
+			return false;
+		}
 	    return false;
 	};
 	
@@ -4778,7 +4813,7 @@
 			}
 			
 			var defaultConfig = {
-				container: container,
+				
 	    		lang: 'ko-KR',
 	    		height: null,
 				maxHeight: null,

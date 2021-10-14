@@ -35,8 +35,24 @@
 				
 				<div class="col-lg-6 col-md-12 col-sm-12">
 					<div class="form-group">
-						<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemRowNum">열 넓이</span></label>
-						<select class="form-control kt-select2" id="itemRowNum" name="itemRowNum" opttype="-1" required>
+						<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemPcRowNum">데스크탑 열 넓이</span></label>
+						<select class="form-control kt-select2 rowNumSelectBox" id="itemPcRowNum" name="itemPcRowNum" opttype="-1" required>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemTabletRowNum">테블릿 열 넓이</span></label>
+						<select class="form-control kt-select2 rowNumSelectBox" id="itemTabletRowNum" name="itemTabletRowNum" opttype="-1" required>
+						</select>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemMobileRowNum">모바일 열 넓이</span></label>
+						<select class="form-control kt-select2 rowNumSelectBox" id="itemMobileRowNum" name="itemMobileRowNum" opttype="-1" required>
 						</select>
 					</div>
 				</div>
@@ -52,11 +68,7 @@
 				<div class="col-lg-6 col-md-12 col-sm-12">
 					<div class="form-group">
 						<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemCommonCode">공통코드</span></label>
-						<select class="form-control kt-select2" id="itemCommonCode" name="itemCommonCode" opttype="-1" required disabled>
-							<option>test</option>
-							<option>test</option>
-							<option>test</option>
-							<option>test</option>
+						<select class="form-control kt-select2" id="itemCommonCode" name="itemCommonCode" data-select2-id="itemCommonCode"  opttype="-1" required disabled>
 						</select>
 					</div>
 				</div>
@@ -65,7 +77,7 @@
 				<div class="col-lg-6 col-md-12 col-sm-12">
 					<div class="form-group">
 						<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemLength">길이 제한</span></label>
-						<input type="number" class="form-control" placeholder="길이 제한" name="itemLength" id="itemLength" value="1" opttype="-1" min="0" max="999" maxlength="3" required>
+						<input type="number" class="form-control" placeholder="길이 제한" name="itemLength" id="itemLength" opttype="-1" min="1" max="4000" value="255" maxlength="4" required>
 					</div>
 				</div>
 				
@@ -97,69 +109,69 @@ var OSLPrj1302Popup = function () {
 	var formId = 'frPrj1302';
 	var type = $("#type").val();
 	
-	//산출물 아이디
+	
 	var templateId = $("#templateId").val();
 	
-	//프로젝트 아이디
+	
 	var paramPrjId = $("#paramPrjId").val();
 	
-	//기본항목 아이디
+	
 	var itemId = $("#itemId").val();
 	
-	// 버튼 문구 세팅
+	
 	$("#prj1302SaveSubmit > span").text($.osl.lang("prj1302.button."+type));
 	$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
-    // Private functions
+    
     var documentSetting = function () {
     	
-    	//수정인경우
+    	
+    	$("#itemCode").change(function(){
+    		itemCodeChange();
+    	});
+
+    	$("#itemType").change(function(){
+    		itemTypeChange();
+    	});
+    	
+    	
+    	var rowNumList = "";
+    	for(var i=1;i<=12;i++){
+    		if(i==6){
+    			rowNumList += "<option value='"+i+"' selected>"+i+"</option>";
+    		}else{
+    			rowNumList += "<option value='"+i+"'>"+i+"</option>";
+    		}
+    	}
+		$(".rowNumSelectBox").append(rowNumList);
+		
+    	
     	if(type == "update"){
-    		// 조직 단건 조회
+    		
     		selectTemplateInfo();
     	}else{
     		var commonCodeArr = [
-	 			{mstCd: "FLW00001", useYn: "Y",targetObj: "#itemCode", comboType:"OS"}, // 항목분류
-	 			{mstCd: "FLW00002", useYn: "Y",targetObj: "#itemRowNum", comboType:"OS"}, // 열넓이
-	 			{mstCd: "FLW00003", useYn: "Y",targetObj: "#itemType", comboType:"OS"}, // 항목타입
-	 			//{mstCd: "PRJ00017", useYn: "Y",targetObj: "#itemCommonCode", comboType:"OS"}, // 공통코드
-	 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#itemEssentialCd", comboType:"OS"} // 필수유무
+	 			{mstCd: "FLW00001", useYn: "Y",targetObj: "#itemCode", comboType:"OS"}, 
+	 			{mstCd: "FLW00003", useYn: "Y",targetObj: "#itemType", comboType:"OS"}, 
+	 			
+	 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#itemEssentialCd", comboType:"OS"} 
 			];
    	
-			//공통코드 채우기
+			
 			$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
+			
+	    	commonCodeDataSelect();
     	}
     	
-    	//항목 분류에 따른 disabled 처리
-    	$("#itemCode").change(function(){
-    		var selCode = $(this).val();
-    		if(selCode=='01'){
-    			//공통코드
-    			$("#itemCommonCode").prop("disabled",true);
-    			$("#itemType").prop("disabled",false);
-    			$("#itemRowNum").prop("disabled",false);
-    		}else if(selCode=='02'){
-    			//기본항목 타입, 길이제한
-    			$("#itemCommonCode").prop("disabled",false);
-    			$("#itemType").prop("disabled",true);
-    			$("#itemRowNum").prop("disabled",true);
-    		}else{
-    			//공통코드, 기본항목 타입, 길이제한
-    			$("#itemCommonCode").prop("disabled",true);
-    			$("#itemType").prop("disabled",true);
-    			$("#itemRowNum").prop("disabled",true);
-    		}
-    	});
     	
-    	// 등록 버튼 클릭
     	$("#prj1302SaveSubmit").click(function(){
     		
     		var form = $('#'+formId);
     		
-    		//폼 유효 값 체크
+    		
     		if (!form.valid()) {
     			return;
     		}
@@ -168,95 +180,160 @@ var OSLPrj1302Popup = function () {
     	});
     };
 
-  	
-    /**
-	 * function 명 	: selectTemplateInfo
-	 * function 설명	: 선택한 템플릿의 상세정보를 조회하여 화면에 세팅한다.
-	 * @param templateId : 선택한 템플릿 ID
-	 */
+    var itemCodeChange = function(){
+    	var selCode = $("#itemCode").val();
+		if(selCode=='01'){
+			
+			$("#itemCommonCode").prop("disabled",true);
+			$("#itemType").prop("disabled",false);
+		}else if(selCode=='02'){
+			
+			$("#itemCommonCode").prop("disabled",false);
+			$("#itemType").prop("disabled",true);
+		}else{
+			
+			$("#itemCommonCode").prop("disabled",true);
+			$("#itemType").prop("disabled",true);
+		}
+    }
+    
+    var itemTypeChange = function(){
+    	var selType = $("#itemType").val();
+		if(selType=='01'){
+			$("#itemLength").prop("disabled",false);
+			$("#itemLength").val("255");
+		}else if(selType=='02'){
+			$("#itemLength").prop("disabled",false);
+			$("#itemLength").val("4000");
+		}else{
+			$("#itemLength").prop("disabled",true);
+			$("#itemLength").val("");
+		}
+    }
+    
+  	var commonCodeDataSelect = function(selData){
+  		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/prj/prj1000/prj1300/selectPrj1302CommonCodeListAjax.do'/>", "async": false},{});
+		
+		ajaxObj.setFnSuccess(function(data){
+			if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+			}else{
+				var codeList = data.commonCodeList;
+				var codeHtml ="";
+				$.each(codeList, function(idx, code){
+					if(selData==code.mstCd){
+						codeHtml="<option value='"+code.mstCd+"' selected='selected'>"+code.mstCdNm+"</option>"
+					}else{
+						codeHtml="<option value='"+code.mstCd+"'>"+code.mstCdNm+"</option>"
+					}
+					$("#itemCommonCode").append(codeHtml);
+				});
+				
+				
+				
+			}
+		});
+		
+		
+		ajaxObj.send();
+  	}
+    
 	var selectTemplateInfo = function() {
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj1000/prj1300/selectPrj1302ItemInfoAjax.do'/>", "async": false}
 				,{"templateId": templateId, "itemId": itemId});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 			}else{
-				// 조직 정보 세팅
-		    	$.osl.setDataFormElem(data.templateInfoMap,"frPrj1302", ["itemNm", "itemCode", "itemType", "itemRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemEssentialCd"]);
+				var itemInfo=data.templateInfoMap
 				
+		    	$.osl.setDataFormElem(itemInfo,"frPrj1302", ["itemNm", "itemCode", "itemType", "itemPcRowNum", "itemTabletRowNum", "itemMobileRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemEssentialCd"]);
+				
+				
+		    	$("#itemCode").attr("data-osl-value", itemInfo.itemCode);
+		    	$("#itemType").attr("data-osl-value", itemInfo.itemType);
+		    	$("#itemEssentialCd").attr("data-osl-value", itemInfo.itemEssentialCd);
 		    	
 				var commonCodeArr = [
-		 			{mstCd: "FLW00001", useYn: "Y",targetObj: "#itemCode", comboType:"OS"}, // 항목분류
-		 			{mstCd: "FLW00002", useYn: "Y",targetObj: "#itemRowNum", comboType:"OS"}, // 열넓이
-		 			{mstCd: "FLW00003", useYn: "Y",targetObj: "#itemType", comboType:"OS"}, // 항목타입
-		 			//{mstCd: "PRJ00017", useYn: "Y",targetObj: "#prjSetTarget", comboType:"OS"}, // 공통코드
-		 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#itemEssentialCd", comboType:"OS"} // 필수유무
+		 			{mstCd: "FLW00001", useYn: "Y",targetObj: "#itemCode", comboType:"OS"}, 
+		 			{mstCd: "FLW00003", useYn: "Y",targetObj: "#itemType", comboType:"OS"}, 
+		 			
+		 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#itemEssentialCd", comboType:"OS"} 
 				];
 		   	
-				//공통코드 채우기
-				$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
-		    	
+				
+				$.osl.getMulticommonCodeDataForm(commonCodeArr , false);
+
+				itemCodeChange();
+				itemTypeChange();
+				
+				
+		    	commonCodeDataSelect(itemInfo.itemCommonCode);
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
     
     
-   /**
- 	* function 명 	: submitInsertAction
-	* function 설명	: 신규 템플릿을 등록한다.
-	*/
+   
     var submitSaveAction = function(){
     	
     	var form = $('#'+formId);
     	
-		//폼 유효 값 체크
+		
 		if (!form.valid()) {
 			return;
 		}
+		var msg = "";
+		if(type=="insert"){
+			msg = $.osl.lang("prj1302.message.confirm.insert")
+		}else if(type=="update"){
+			msg = $.osl.lang("prj1302.message.confirm.update")
+		}
 		
-		$.osl.confirm($.osl.lang("prj1302.message.confirm.insert"),null,function(result) {
+		$.osl.confirm(msg ,null,function(result) {
 	        if (result.value) {
 	        	
 	        	var formData = form.serializeArray();
-	    		//AJAX 설정
+	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/prj/prj1000/prj1300/savePrj1302ItemInfo.do'/>", "loadingShow": false}, formData);
 
-	    		//AJAX 전송 성공 함수
+	    		
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    				//모달 창 닫기
+	    				
 						$.osl.layerPopupClose();
 	    			}else{
-	    				// 등록 성공
+	    				
 	    				$.osl.toastr(data.message);
 
-	    				//모달 창 닫기
+	    				
 	    				$.osl.layerPopupClose();
 
-	    				//트리 노드 정보 재조회
-	    				//$("button[data-tree-id=prj1300TemplateTree][data-tree-action=selectTemplateInfo]").click();
 	    				
-	    				//테이블 재조회
+	    				
+	    				
+	    				
 	    				$("button[data-datatable-id=prj1301PrjTable][data-datatable-action=select]").click();
 	    			}
 	    		});
 	    		
-	    		//AJAX 전송
+	    		
 	    		ajaxObj.send();
 	        }
 	    });
     };
     
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -264,7 +341,7 @@ var OSLPrj1302Popup = function () {
     };
 }();
 
-//Initialization
+
 $.osl.ready(function(){
 	OSLPrj1302Popup.init();
 });

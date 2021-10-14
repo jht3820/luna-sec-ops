@@ -15,13 +15,41 @@ import kr.opensoftlab.sdf.jenkins.vo.ChangeVO;
 public interface Dpl1000Service {
 
 	
-	@SuppressWarnings("rawtypes")
-	public int selectDpl1000ListCnt(Map paramMap) throws Exception;
-	
-	
 	@SuppressWarnings({ "rawtypes" })
-	public List<Map> selectDpl1000List(Map paramMap) throws Exception;
-
+	public List<Map> selectDpl1000DplList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	public int selectDpl1000DplListCnt(Map paramMap) throws Exception;
+	
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	Map selectDpl1000DplInfo(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	void insertDpl1000DplInfo(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	void updateDpl1000DplInfo(Map paramMap) throws Exception;
+	
+	
+	void deleteDpl1000DplList(Map<String, String> paramMap) throws Exception;
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	List selectDpl1300DplJobList(Map paramMap)  throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	List<Map> selectDpl1300DplJobPagingList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	int selectDpl1300DplJobPagingListCnt(Map paramMap) throws Exception;
+	
 	
 	@SuppressWarnings({"rawtypes" })
 	List selectDpl1400DplBldNumList(Map paramMap) throws Exception;
@@ -29,6 +57,26 @@ public interface Dpl1000Service {
 	
 	@SuppressWarnings({"rawtypes" })
 	int selectDpl1400DplBldNumListCnt(Map paramMap)  throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	void deleteDpl1300DplJobList(Map paramMap)  throws Exception;
+	
+		
+	@SuppressWarnings("rawtypes")
+	String selectDpl1500NewChgId(Map paramMap) throws Exception;
+	
+		
+	@SuppressWarnings("rawtypes")
+	String insertDpl1500ModifyHistoryInfo(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	List selectDpl1000DplAllBldHistoryList(Map paramMap)  throws Exception;
 	
 	
 	
@@ -51,9 +99,6 @@ public interface Dpl1000Service {
 	@SuppressWarnings("rawtypes")
 	List selectDpl1000ReqCount(Map inputMap) throws Exception;
 	
-	@SuppressWarnings({"rawtypes" })
-	List selectDpl1300DeployJobList(Map inputMap)  throws Exception;
-	
 	
 	List<Dpl1300VO> selectDpl1300dplJobGridList(Dpl1300VO dpl1300VO)  throws Exception;
 	
@@ -62,20 +107,7 @@ public interface Dpl1000Service {
 	
 	
 	@SuppressWarnings("rawtypes")
-	void insertDpl1000DeployVerInfo(Map paramMap) throws Exception;
-	
-	
-	
-	@SuppressWarnings("rawtypes")
-	void updateDpl1000DeployVerInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
 	void updateDpl1000DplStsCdInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void deleteDpl1000DeployVerInfo(Map paramMap) throws Exception;
 	
 	
 	int selectDpl1000ListCnt(Dpl1000VO dpl1000VO) throws Exception;
@@ -98,11 +130,6 @@ public interface Dpl1000Service {
 	Map selectDpl1400DplSelBuildInfoAjax(Map map)  throws Exception;
 	
 	
-	@SuppressWarnings("rawtypes")
-	void deleteDpl1300DplJobList(Map paramMap)  throws Exception;
-	
-	
-	
 	int insertDpl1400DeployJobBuildLogInfo(BuildVO buildVo) throws Exception;
 	
 	
@@ -118,14 +145,6 @@ public interface Dpl1000Service {
 	
 	@SuppressWarnings({"rawtypes" })
 	void insertDpl1000DplSignRequestList(Map paramMap)  throws Exception;
-	
-		
-	@SuppressWarnings("rawtypes")
-	String selectDpl1500NewChgId(Map paramMap) throws Exception;
-	
-		
-	@SuppressWarnings("rawtypes")
-	String insertDpl1500ModifyHistoryInfo(Map paramMap) throws Exception;
 	
 		
 	@SuppressWarnings("rawtypes")

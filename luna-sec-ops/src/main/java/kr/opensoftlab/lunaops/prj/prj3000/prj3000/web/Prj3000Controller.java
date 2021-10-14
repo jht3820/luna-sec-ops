@@ -176,10 +176,19 @@ public class Prj3000Controller {
         	Map<String, String> docInfoMap = (Map) prj3000Service.selectPrj3000MenuInfo(paramMap);
         	
         	
+        	int docConCnt = prj3000Service.selectPrj3002DocConListCnt(paramMap);
+        	paramMap.put("firstIndex", "0");
+        	paramMap.put("lastIndex", String.valueOf(docConCnt));
+        	
+        	
+        	List<Map> docConList = prj3000Service.selectPrj3002DocConList(paramMap);
+        	
+        	
         	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
         	
         	
         	model.addAttribute("docInfoMap",docInfoMap);
+        	model.addAttribute("docConList",docConList);
         	
         	return new ModelAndView("jsonView");
     	}
@@ -735,6 +744,8 @@ public class Prj3000Controller {
     		}
     		paramMap.put("prjId", paramPrjId);
 			
+    		paramMap.put("docId", (String)paramMap.get("nowDocId"));
+    		
 			
 			prj3000Service.insertPrj3002DocConInfo(paramMap);
 			
