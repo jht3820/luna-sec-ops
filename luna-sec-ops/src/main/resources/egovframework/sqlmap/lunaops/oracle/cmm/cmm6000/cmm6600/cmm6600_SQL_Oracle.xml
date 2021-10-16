@@ -359,7 +359,7 @@
 		(
 				#licGrpId#		,	#prjId#		,	#targetCd#		,	#targetId#
 			,	#ord#			,	#signUsrId#	,	SYSDATE			,	#regUsrId#
-			,	SYSDATE			,	#modifyDtm#	,	#modifyUsrId#	,	#modifyUsrIp#
+			,	#regUsrIp#		,	SYSDATE		,	#modifyUsrId#	,	#modifyUsrIp#
 		)
 	</insert>
 	

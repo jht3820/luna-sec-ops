@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<!-- begin page DOM -->
 <form class="kt-form" id="frDpl1002">
 	<input type="hidden" id="paramPrjId" name="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" id="paramDplId" name="paramDplId" value="${param.paramDplId}">
@@ -11,7 +11,7 @@
 		<div class="kt-portlet__head kt-bg-light">
 			<div class="kt-portlet__head-label">
 			</div>
-			
+			<!-- begin :: tab button 영역 -->
 			<div class="kt-portlet__head-toolbar">
 				<ul class="nav nav-pills nav-pills-sm flex-flow--inherit" role="tablist">
 					<li class="nav-item">
@@ -37,12 +37,12 @@
 					</li>
 				</ul>
 			</div>
-			
+			<!-- end :: tab button 영역 -->
 		</div>
-		
+		<!-- begin :: tab content -->
 		<div class="kt-portlet__body kt-padding-0 kt-padding-t-10">
 			<div class="tab-content">
-				
+				<!-- begin :: tab 1 - 배포 정보 -->
 				<div class="tab-pane kt-scroll active" id="dplInfoTab" data-tab-id="dplInfo" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0" id="dplInfo">
 						<div class="kt-portlet__head">
@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						<div class="kt-portlet__body">
-							
+							<!-- begin :: 내용 영역 -->
 							<div class="row">
 								<div class="col-6 kt-padding-r-20">
 									<div class="form-group row">
@@ -211,8 +211,8 @@
 						</div>
 					</div>
 				</div>
-				
-				
+				<!-- end :: tab 1 - 배포 정보 -->
+				<!-- begin :: tab 2 - 전체 이력 -->
 				<div class="tab-pane kt-scroll" id="allHistoryTab" data-tab-id="dplInfoAll" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 						<div class="kt-portlet__head">
@@ -229,8 +229,8 @@
 						</div>
 					</div>
 				</div>
-				
-				
+				<!-- end :: tab 2 - 전체 이력 -->
+				<!-- begin :: tab 3 - 빌드 이력 -->
 				<div class="tab-pane  kt-scroll" id="bldHistoryTab" data-tab-id="dplInfoBuild" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 						<div class="kt-portlet__head">
@@ -247,8 +247,8 @@
 						</div>
 					</div>
 				</div>
-				
-				
+				<!-- end :: tab 3 - 빌드 이력 -->
+				<!-- begin :: tab 4 - 결재 이력 -->
 				<div class="tab-pane kt-scroll" id="dplSignHistoryTab" data-tab-id="dplInfoSign" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 						<div class="kt-portlet__head">
@@ -266,8 +266,8 @@
 						</div>
 					</div>
 				</div>
-				
-				
+				<!-- end :: tab 4 - 결재 이력 -->
+				<!-- begin :: tab 5 - 수정 이력 -->
 				<div class="tab-pane kt-scroll" id="dplChgHistoryTab" data-tab-id="dplInfoModify" role="tabpanel">
 					<div class="row">
 						<div class="col-lg-8 col-md-12 col-sm-12 col-12">
@@ -280,7 +280,7 @@
 									</div>
 								</div>
 								<div class="kt-portlet__body osl-min-h-px--490" id="dplPopModifyHisFrame">
-									
+									<!-- 수정 카드 이력 1 -->
 									<div class="kt-portlet osl-div__border-lightgray osl-max-h-px--100">
 										<div class="kt-portlet__head kt-padding-t-10 kt-padding-b-10 osl-min-h-px--30">
 											<div class="kt-portlet__head-label">
@@ -304,7 +304,7 @@
 											</span>
 										</div>
 									</div>
-									
+									<!-- 수정 카드 이력 2 -->
 									<div class="kt-portlet osl-div__border-lightgray osl-max-h-px--100">
 										<div class="kt-portlet__head kt-padding-t-10 kt-padding-b-10 osl-min-h-px--30">
 											<div class="kt-portlet__head-label">
@@ -332,7 +332,7 @@
 							</div>	
 						</div>
 						<div class="col-lg-4 col-md-12 col-sm-12 col-12 kt-margin-t-20-tablet kt-margin-t-mobile">
-							
+							<!-- 변경 전 내용 -->
 							<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 border">
 								<div class="kt-portlet__head">
 									<div class="kt-portlet__head-label">
@@ -344,7 +344,7 @@
 								<div class="kt-portlet__body osl-min-h-px--202">
 								</div>
 							</div>
-							
+							<!-- 변경 후 내용 -->
 							<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 border kt-margin-t-20">
 								<div class="kt-portlet__head">
 									<div class="kt-portlet__head-label">
@@ -359,8 +359,8 @@
 						</div>
 					</div>	
 				</div>
-				
-				
+				<!-- end :: tab 5 - 수정 이력 -->
+				<!-- begin :: tab 6 - 배정 리비전 -->
 				<div class="tab-pane kt-scroll" id="dplReqRevisionTab" data-tab-id="dplRevision" role="tabpanel">
 					<div class="kt-portlet">
 						<div class="kt-portlet__head">
@@ -373,17 +373,17 @@
 						<div class="kt-portlet__body kt-padding-b-0">
 							<div class="row">
 								<div class="col-7">
-								
+								<!-- 배정된 요구사항 검색 -->
 									<div class="osl-datatable-search" data-datatable-id="dplAssignReqTable"></div>
 								</div>
-								
+								<!-- 배정된 요구사항 조회 -->
 								<div class="col-5 text-right">
 									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="select" title="배포 계획 생성 관리 관리 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 										<i class="fa fa-list"></i><span>조회</span>
 									</button>
 								</div>
 							</div>
-							
+							<!-- 배정된 요구사항 데이터 테이블 -->
 							<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="dplAssignReqTable"></div>
 						</div>
 					</div>
@@ -404,7 +404,7 @@
 								<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-10 kt-scroll">
 									<div class="osl-div-cover"></div>
 									<div class="osl-tree-search osl-div__border-lightgray kt-rounded kt-padding-10" id="dplPopRevisionFileTreeDiv"></div>
-								</div>
+								<!-- dplPopRevisionFileTreeDiv --></div>
 								<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-10">
 									<div class="osl-div-cover"></div>
 									<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 osl-div__border-lightgray kt-rounded" id="dplPopRevisionFileGridTable"></div>
@@ -413,8 +413,8 @@
 						</div>
 					</div>
 				</div>
-				
-				
+				<!-- end :: tab 6 - 배정 리비전 -->
+				<!-- begin :: tab 7 - 배정 요구사항 목록 -->
 				<div class="tab-pane kt-scroll" id="dplReqTab" data-tab-id="dplAssignReq" role="tabpanel">
 					<div class="kt-portlet kt-margin-b-0">
 						<div class="kt-portlet__head">
@@ -439,66 +439,66 @@
 						</div>
 					</div>
 				</div>
-				
+				<!-- end :: tab 7 - 배정 요구사항 목록 -->
 			</div>
 		</div>
-		
+		<!-- end :: tab content -->
 	</div>
 </form>
-
+<!-- begin :: modal-footer -->
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand"
 		data-dismiss="modal">
 		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
-
-
-
+<!-- end :: modal-footer -->
+<!-- end DOM -->
+<!-- begin page script -->
 <script>
 "use strict";
 var OSLDpl1002Popup = function () {
 
 	var formId = 'frDpl1002';
 	
-	
+	//데이터 테이블 세팅  flag 기본값 false
 	var datatableInitFlag = {dplRevision: false, dplAssignReq:false};
-	
+	//데이터 테이블 세팅 여부를 확인해줄 setting 함수
 	var datatableSetting = {};
 	
 	var documentSetting = function(){
 
-		
+		// 결재 사용 유무(01:사용, 02:미사용)
 		var dplSignUseCd = $("#dplSignUseCd").val();
 		if(dplSignUseCd == "02"){
-			
+			// 결재 미사용시 결재이력 탭 hide
 			$("a.nav-link[data-tab-id='dplInfoSign']").addClass("kt-hide");
 		}
 		
-		
+		// 배포 계획 단건 정보 및 전체 이력정보 조회
 		fnSelectDplHistoryInfo();
 		
-		
+		// 탭 클릭
 		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-			
+			//tabTarget : 선택된 tab target
 			var tabTarget = e.currentTarget;
 			
-			
+			//tabDiv : 선택된 탭의 data-tab-id
 			var tabDiv = $(tabTarget).attr('data-tab-id');
 			
-			
+			//tabDiv 프로퍼티 존재여부
 			if(datatableInitFlag.hasOwnProperty(tabDiv)){
-				
+				//세팅이 안된 경우
 				if(!datatableInitFlag[tabDiv]){
 					datatableInitFlag[tabDiv] = datatableSetting[tabDiv]();
-				
+				//이미 세팅이 된 경우
 				}else if(datatableInitFlag.hasOwnProperty(tabDiv)){
 					datatableInitFlag[tabDiv].reload();
 				}
 			}
 		});
 				
-		
+		// 배정 요구사항 리비전 tree 세팅
 		var treeObj = $.osl.tree.setting("dplPopRevisionFileTreeDiv",{
 			data:{
 				url:"<c:url value='/stm/stm6000/stm6000/selectStm6000DeptListAjax.do'/>",
@@ -507,25 +507,25 @@ var OSLDpl1002Popup = function () {
 				labelKey: "deptName"
 			},
 			search:{
-				
+				//대소문자 구분
 				case_insensitive : true,
-				
+				//검색 결과 노드만 표시
 				show_only_matches: true,
-				
+				//show_only_matches: true 일때 하위 노드도 같이 표시 할건지
 				show_only_matches_children: true,
 			},
 			callback:{
 				onclick: function(treeObj,selNode){
-					
+					// 조직 단건 조회
 					selectDeptInfo(selNode.original.deptId);
 				},
 				init: function(treeObj,data){
-					
+					//console.log(treeObj,data);
 				}
 			}
 		});
 		
-		
+		// 탭, 트리 스크롤 세팅
 		fnKtScrollInit("#dplPopRevisionFileTreeDiv", "312.5");
 		fnKtScrollInit("#dplInfoTab", "550");
 		fnKtScrollInit("#allHistoryTab", "550");
@@ -536,9 +536,9 @@ var OSLDpl1002Popup = function () {
 		fnKtScrollInit("#dplReqTab", "550");
 	};
 	
-	
+	//배정 리비전 탭
 	datatableSetting["dplRevision"] = function(){
-		
+		//배정된 요구사항 목록 데이터테이블
 		var dplAssignReqTable = $.osl.datatable.setting("dplAssignReqTable",{
 			data: {
 				source: {
@@ -557,7 +557,7 @@ var OSLDpl1002Popup = function () {
 				 items:{
 					 pagination:{
 						 pageSizeSelect : [3, 10, 20, 30, 50, 100],
-						
+						//페이지 그룹단위 변경
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -601,7 +601,7 @@ var OSLDpl1002Popup = function () {
 			}
 		});
 		
-		
+		//리비전 리스트 데이터테이블
 		var dplReivisionListTable = $.osl.datatable.setting("dplReivisionListTable",{
 			data: {
 				source: {
@@ -615,7 +615,7 @@ var OSLDpl1002Popup = function () {
 				 items:{
 					 pagination:{
 						 pageSizeSelect : [3, 10, 20, 30, 50, 100],
-						
+						//페이지 그룹단위 변경
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -654,7 +654,7 @@ var OSLDpl1002Popup = function () {
 			}
 		});
 		
-		
+		//리비전 파일 데이터테이블
 		var dplPopRevisionFileGridTable = $.osl.datatable.setting("dplPopRevisionFileGridTable",{
 			data: {
 				source: {
@@ -668,7 +668,7 @@ var OSLDpl1002Popup = function () {
 				 items:{
 					 pagination:{
 						 pageSizeSelect : [3, 10, 20, 30, 50, 100],
-						
+						//페이지 그룹단위 변경
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -702,7 +702,7 @@ var OSLDpl1002Popup = function () {
 		};
 	};
 	
-	
+	//배정된 요구사항 목록
 	datatableSetting["dplAssignReq"] = function(){
 		$.osl.datatable.setting("dpl1002DplReqTable",{
 			data: {
@@ -722,7 +722,7 @@ var OSLDpl1002Popup = function () {
 				 items:{
 					 pagination:{
 						 pageSizeSelect : [5, 10, 20, 30, 50, 100],
-						
+						//페이지 그룹단위 변경
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -760,7 +760,7 @@ var OSLDpl1002Popup = function () {
 			},
 			actionFn:{
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
-					
+					// TODO 요구사항 상세보기 팝업 호출
 				}
 			},
 			theme: {
@@ -781,47 +781,47 @@ var OSLDpl1002Popup = function () {
     	var paramPrjId = $("#paramPrjId").val();
     	var paramDplId = $("#paramDplId").val();
     	
-		
+		//AJAX 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/dpl/dpl1000/dpl1000/selectDpl1000DplHistoryListAjax.do'/>"}
 				,{"prjId": paramPrjId, "dplId" : paramDplId});
-		
+		//AJAX 전송 성공 함수
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				
+				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
-				
+				// 배포 계획 배정된 JOB 목록
 				var jobList = data.jobList;
-				
+				// 전체 빌드 이력
 				var bldHistoryList = data.dplAllBldHistoryList;
-				
+				// 결재이력
 				var signHistoryList = data.dplSignHistoryList;
 				
 				var allHistiryList = bldHistoryList.concat(signHistoryList)
-				
-				allHistiryList.sort(function(a, b) { 
+				//console.log(arr)
+				allHistiryList.sort(function(a, b) { // 내림차순
 				    return b["regDtm"] - a["regDtm"];
-				    
+				    // 44, 25, 21, 13
 				});
 				console.log(allHistiryList)
 				
-				
+				// 전체 이력 그리기
 				fnAllHistorySetting(allHistiryList, jobList);
 				
-				
+				// 빌드 이력 그리기
 				fnBldHistorySetting(bldHistoryList, jobList);
 				
-				
+				// 결재 사용유무가 예(01)일 경우에만 결재이력 그리기
 				if($("#dplSignUseCd").val() == "01"){
-					
+					// 결재 이력 세팅
 					fnSignHistorySetting(signHistoryList);
 				}
 			}
 		});
 		
-		
+		//AJAX 전송
 		ajaxObj.send();
 	};
 	
@@ -842,47 +842,47 @@ var OSLDpl1002Popup = function () {
 				var bldTimelineDiv ='';
 				
 				var bldResult = map.bldResult;
-				
+				//카드 왼쪽 오른쪽
 				var itemPosition = '';
-				
+				//카드 색상		
 				var itemColor = '';
-				
+				//아이콘 위치
 				var itemIconPosition = '';
-				
+				//아이콘 모양
 				var iconImg = '';
-				
+				//뱃지 색상
 				var badgeColor = '';
-				
+				//결재 타입
 				var bldBadge = '';
-				
+				//결재 타이틀
 				var bldTitle = '';
-				
+				//결재 사유
 				var signRes = '';
-				
+				//사용자 이름
 				var signUsrNm = $.osl.escapeHtml(map.regUsrNm);
-				
-				
-				
+				//사용자 이메일
+				//var signUsrEmail = $.osl.escapeHtml(bldInfo.regUsrEmail);
+				//사용자 이미지 아이디
 				var signUsrImgId = $.osl.escapeHtml(map.regUsrImgId);
-				
+				//왼쪽 오른쪽에 따른 마진 방향
 				var dtmMargin = 'kt-margin-r-10';
-				
+				//bldResultMsg
 				var bldResultMsg = '';
-				
+				//카드 타입(한쪽칸만인지 한줄인지)
 				var cardType = '';
 				
-				
+				// 빌드 중일 때
 				if(bldResult == "PROGRESS"){
 					iconImg = "fa-sync-alt kt-font-brand";
 					bldTitle = "["+$.osl.escapeHtml(map.jobTypeNm)+"-"+map.bldNum+"] "+$.osl.escapeHtml(map.jobId);
 					bldResultMsg = $.osl.escapeHtml(map.bldResultMsg);
 					cardType = '2';
 					
-				
+				// 빌드 준비 중일 때
 				}else if(bldResult == "START"){
 					return;
 					
-				
+				// 빌드 실패일 때
 				}else if(bldResult == "FAILURE"){
 					itemPosition = "osl-timeline-item-right";
 					itemColor = "kt-timeline__item--danger ";
@@ -894,7 +894,7 @@ var OSLDpl1002Popup = function () {
 					bldResultMsg = $.osl.escapeHtml(map.bldResultMsg);
 					cardType = '1';
 					
-				
+				// 빌드 성공일 때
 				}else if(bldResult == "SUCCESS"){
 					itemPosition = "osl-timeline-item-left";
 					itemColor = "kt-timeline__item--success ";
@@ -909,7 +909,7 @@ var OSLDpl1002Popup = function () {
 				
 				if(cardType == '1'){
 					
-					
+					//카드 생성
 					bldTimelineDiv 		+=	'<div class="kt-timeline__item '+itemColor+itemPosition+'">'
 										+		'<div class="kt-timeline__item-section '+itemIconPosition+'">'
 										+			'<div class="kt-timeline__item-section-border">'
@@ -952,7 +952,7 @@ var OSLDpl1002Popup = function () {
 				}
 				else if(cardType == '2'){
 					
-					
+					//카드 생성
 					bldTimelineDiv 		+=	'<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">'
 										+		'<div class="kt-timeline__item-section">'
 										+			'<div class="kt-timeline__item-section-border">'
@@ -972,36 +972,36 @@ var OSLDpl1002Popup = function () {
 										
 				}
 				
-				
+				//타임라인에 카드 추가
 				$("#allHistoryTab .kt-timeline").append(bldTimelineDiv);
 				
 			}else if(map.type == "SIG"){
 				
 				var signTypeCd = map.signTypeCd;
 				
-				
+				//결재 타입이 기안 경우
 				if(signTypeCd == '01' ){
 					
-					
+					//결재 대기 카드 생성
 					drawSignInfoCard(map, 2, "#allHistoryTab");
-					
+					//기안 카드 생성
 					drawSignInfoCard(map, 1, "#allHistoryTab");
-				
+				//결재 대기인 경우
 				}else if(signTypeCd == '02'){
 					
-					
+					//결재 대기 카드  생성
 					drawSignInfoCard(map, 2, "#allHistoryTab");
-					
+					//승인 카드 생성
 					drawSignInfoCard(map, 3, "#allHistoryTab");
-				
+				//결재 최종 승인인 경우
 				}else if(signTypeCd == '03'){
 					
-					
+					//최종 결재 승인 카드 생성			
 					drawSignInfoCard(map, 4, "#allHistoryTab");
-				
+				//결재 반려인 경우
 				}else if(signTypeCd == '04'){
 					
-					
+					//결재 반려 카드 생성
 					drawSignInfoCard(map, 5, "#allHistoryTab");
 				}
 			}	
@@ -1050,7 +1050,7 @@ var OSLDpl1002Popup = function () {
 						+	'</div>'
 		
 		
-		
+		//타임라인에 카드 추가
 		$("#allHistoryTab .kt-timeline").append(dplTimelineDiv);
 	}
 	
@@ -1067,47 +1067,47 @@ var OSLDpl1002Popup = function () {
 		$.each(bldHistoryList,function(idx, bldInfo){
 			var bldResult = bldInfo.bldResult;
 			
-			
+			//카드 왼쪽 오른쪽
 			var itemPosition = '';
-			
+			//카드 색상		
 			var itemColor = '';
-			
+			//아이콘 위치
 			var itemIconPosition = '';
-			
+			//아이콘 모양
 			var iconImg = '';
-			
+			//뱃지 색상
 			var badgeColor = '';
-			
+			//결재 타입
 			var bldBadge = '';
-			
+			//결재 타이틀
 			var bldTitle = '';
-			
+			//결재 사유
 			var signRes = '';
-			
+			//사용자 이름
 			var signUsrNm = $.osl.escapeHtml(bldInfo.regUsrNm);
-			
-			
-			
+			//사용자 이메일
+			//var signUsrEmail = $.osl.escapeHtml(bldInfo.regUsrEmail);
+			//사용자 이미지 아이디
 			var signUsrImgId = $.osl.escapeHtml(bldInfo.regUsrImgId);
-			
+			//왼쪽 오른쪽에 따른 마진 방향
 			var dtmMargin = 'kt-margin-r-10';
-			
+			//bldResultMsg
 			var bldResultMsg = '';
-			
+			//카드 타입(한쪽칸만인지 한줄인지)
 			var cardType = '';
 			
-			
+			// 빌드 중일 때
 			if(bldResult == "PROGRESS"){
 				iconImg = "fa-sync-alt kt-font-brand";
 				bldTitle = "["+$.osl.escapeHtml(bldInfo.jobTypeNm)+"-"+bldInfo.bldNum+"] "+$.osl.escapeHtml(bldInfo.jobId);
 				bldResultMsg = $.osl.escapeHtml(bldInfo.bldResultMsg);
 				cardType = '2';
 				
-			
+			// 빌드 준비 중일 때
 			}else if(bldResult == "START"){
 				return;
 				
-			
+			// 빌드 실패일 때
 			}else if(bldResult == "FAILURE"){
 				itemPosition = "osl-timeline-item-right";
 				itemColor = "kt-timeline__item--danger ";
@@ -1119,7 +1119,7 @@ var OSLDpl1002Popup = function () {
 				bldResultMsg = $.osl.escapeHtml(bldInfo.bldResultMsg);
 				cardType = '1';
 				
-			
+			// 빌드 성공일 때
 			}else if(bldResult == "SUCCESS"){
 				itemPosition = "osl-timeline-item-left";
 				itemColor = "kt-timeline__item--success ";
@@ -1135,7 +1135,7 @@ var OSLDpl1002Popup = function () {
 			
 			if(cardType == '1'){
 				
-				
+				//카드 생성
 				bldTimelineDiv 		+=	'<div class="kt-timeline__item '+itemColor+itemPosition+'">'
 									+		'<div class="kt-timeline__item-section '+itemIconPosition+'">'
 									+			'<div class="kt-timeline__item-section-border">'
@@ -1178,7 +1178,7 @@ var OSLDpl1002Popup = function () {
 			}
 			else if(cardType == '2'){
 				
-				
+				//카드 생성
 				bldTimelineDiv 		+=	'<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">'
 									+		'<div class="kt-timeline__item-section">'
 									+			'<div class="kt-timeline__item-section-border">'
@@ -1243,7 +1243,7 @@ var OSLDpl1002Popup = function () {
 						+	'</div>'
 		
 		
-		
+		//타임라인에 카드 추가
 		$("#bldHistoryTab .kt-timeline").html(bldTimelineDiv);
 	}
 	
@@ -1261,7 +1261,7 @@ var OSLDpl1002Popup = function () {
 		  return s;
 	}
 	
-	function leadingZeros(n, digits) {
+	var leadingZeros = function(n, digits) {
 		  var zero = '';
 		  n = n.toString();
 
@@ -1283,29 +1283,29 @@ var OSLDpl1002Popup = function () {
 			
 			var signTypeCd = signInfo.signTypeCd;
 			
-			
+			//결재 타입이 기안 경우
 			if(signTypeCd == '01' ){
 				
-				
+				//결재 대기 카드 생성
 				drawSignInfoCard(signInfo, 2, "#dplSignHistoryTab");
-				
+				//기안 카드 생성
 				drawSignInfoCard(signInfo, 1, "#dplSignHistoryTab");
-			
+			//결재 대기인 경우
 			}else if(signTypeCd == '02'){
 				
-				
+				//결재 대기 카드  생성
 				drawSignInfoCard(signInfo, 2, "#dplSignHistoryTab");
-				
+				//승인 카드 생성
 				drawSignInfoCard(signInfo, 3, "#dplSignHistoryTab");
-			
+			//결재 최종 승인인 경우
 			}else if(signTypeCd == '03'){
 				
-				
+				//최종 결재 승인 카드 생성			
 				drawSignInfoCard(signInfo, 4, "#dplSignHistoryTab");
-			
+			//결재 반려인 경우
 			}else if(signTypeCd == '04'){
 				
-				
+				//결재 반려 카드 생성
 				drawSignInfoCard(signInfo, 5, "#dplSignHistoryTab");
 			}
 			
@@ -1322,33 +1322,33 @@ var OSLDpl1002Popup = function () {
 	 */
 	var drawSignInfoCard = function(signInfo, type, targetTab){
 		
-		
+		//카드 왼쪽 오른쪽
 		var itemPosition = '';
-		
+		//카드 색상		
 		var itemColor = '';
-		
+		//아이콘 위치
 		var itemIconPosition = '';
-		
+		//아이콘 모양
 		var iconImg = '';
-		
+		//뱃지 색상
 		var badgeColor = '';
-		
+		//결재 타입
 		var signType = '';
-		
+		//결재 타이틀
 		var signTitle = '';
-		
+		//결재 사유
 		var signRes = '';
-		
+		//사용자 이름
 		var signUsrNm = $.osl.escapeHtml(signInfo.signUsrNm);
-		
+		//사용자 이메일
 		var signUsrEmail = $.osl.escapeHtml(signInfo.signUsrEmail);
-		
+		//사용자 이미지 아이디
 		var signUsrImgId = $.osl.escapeHtml(signInfo.signUsrImgId);
-		
+		//왼쪽 오른쪽에 따른 마진 방향
 		var dtmMargin = 'kt-margin-r-10';
 		
-		
-		
+		//카드 타입에 따라 필요 클래스 변경
+		//기안의 경우
 		if(type == 1){
 			itemPosition = "osl-timeline-item-left";
 			itemColor = "kt-timeline__item--dark ";
@@ -1358,7 +1358,7 @@ var OSLDpl1002Popup = function () {
 			signTitle = "[기안] 기안서 작성";
 			badgeColor = "badge-success";
 		
-		
+		//결재 대기의 경우
 		}else if(type == 2){
 			itemPosition = "osl-timeline-item-left";
 			itemColor = "kt-timeline__item--dark ";
@@ -1371,7 +1371,7 @@ var OSLDpl1002Popup = function () {
 			signUsrImgId = $.osl.escapeHtml(signInfo.nextUsrImgId);
 			badgeColor = "badge-dark";
 			
-		
+		//결재 승인의 경우
 		}else if(type == 3){
 			itemPosition = "osl-timeline-item-left";
 			itemColor = "kt-timeline__item--success ";
@@ -1382,7 +1382,7 @@ var OSLDpl1002Popup = function () {
 			signTitle = "[승인] 결재 승인";
 			badgeColor = "badge-success";
 		
-		
+		//최종 승인의 경우
 		}else if(type == 4){
 			itemPosition = "osl-timeline-item-left";
 			itemColor = "kt-timeline__item--success ";
@@ -1393,7 +1393,7 @@ var OSLDpl1002Popup = function () {
 			signTitle = "[최종 승인] 결재 최종 승인";
 			badgeColor = "badge-success";
 		
-		
+		//결재 반려의 경우
 		}else if(type ==5){
 			itemPosition = "osl-timeline-item-right";
 			itemColor = "kt-timeline__item--danger ";
@@ -1405,12 +1405,12 @@ var OSLDpl1002Popup = function () {
 			dtmMargin = 'kt-margin-l-10';
 		}
 		
-		
+		//결재 사유 널일 경우 안들어가게
 		if($.osl.isNull(signRes)){
 			signRes ='';
 		}
 		
-		
+		//카드 생성
 		var timelineItemDiv =	'<div class="kt-timeline__item '+itemColor+itemPosition+'">'
 							+		'<div class="kt-timeline__item-section '+itemIconPosition+'">'
 							+			'<div class="kt-timeline__item-section-border">'
@@ -1442,7 +1442,7 @@ var OSLDpl1002Popup = function () {
 							+		'</div>'
 							+	'</div>'
 		
-		
+		//타임라인에 카드 추가
 		$(targetTab+" .kt-timeline").append(timelineItemDiv);
 	}
 	
@@ -1454,19 +1454,19 @@ var OSLDpl1002Popup = function () {
 	 */
 	var fnKtScrollInit = function(targetName, targetHeight) {
 		KTUtil.scrollInit($(targetName)[0], {
-	   		
+	   		//모바일 스크롤 바 마우스 제어 비활성화
 	        disableForMobile: true, 
-	        
+	        //반응형 시 스크롤 유지 여부
 	        resetHeightOnDestroy: true, 
-	        
+	        //브라우저 창의 크기를 조정할 때 크기를 자동으로 조절 여부
 	        handleWindowResize: true, 
-	        
+	        //세로 사이즈
 	        height: targetHeight
 	    });
 	};
 	
 	return {
-        
+        // public functions
         init: function() {
         	documentSetting();
         }
@@ -1478,4 +1478,4 @@ $.osl.ready(function(){
 	OSLDpl1002Popup.init();
 });
 </script>
-
+<!-- end script -->
