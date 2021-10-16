@@ -36,4 +36,8 @@ public interface Prj3100Service {
 	
 	void updatePrj3001SignRjt(Map<String, String> paramMap) throws Exception;
 
+	
+	@SuppressWarnings("rawtypes")
+	List selectPrj3100DocList(Map<String, String> paramMap) throws Exception;
+
 }

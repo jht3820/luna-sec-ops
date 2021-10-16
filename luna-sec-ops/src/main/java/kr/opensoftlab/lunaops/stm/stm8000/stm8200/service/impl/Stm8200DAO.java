@@ -12,26 +12,14 @@ import kr.opensoftlab.lunaops.com.dao.ComOslitsAbstractDAO;
 public class Stm8200DAO extends ComOslitsAbstractDAO {
 
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Map> selectStm8200RevisionAuthList(Map paramMap) throws Exception {
-		return  (List<Map>) list("stm8200DAO.selectStm8200RevisionAuthList", paramMap);
+	@SuppressWarnings("rawtypes" )
+	public int selectStm8200AssRepAllListCnt(Map paramMap) throws Exception {
+		return  (int) select("stm8200DAO.selectStm8200AssRepAllListCnt", paramMap);
 	}
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Map> selectStm8200PrjAllAuthAndUserList(Map paramMap) throws Exception {
-		return  (List<Map>) list("stm8200DAO.selectStm8200PrjAllAuthAndUserList", paramMap);
-	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	public void insertStm8200RevisionAuthInfo(Map paramMap) throws Exception {
-		insert("stm8200DAO.insertStm8200RevisionAuthInfo", paramMap);
-	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	public void deleteStm8200RevisionAuthInfo(Map paramMap) throws Exception {
-		delete("stm8200DAO.deleteStm8200RevisionAuthInfo", paramMap);
+	public List<Map> selectStm8200AssRepAllList(Map paramMap) throws Exception {
+		return  (List<Map>) list("stm8200DAO.selectStm8200AssRepAllList", paramMap);
 	}
 }

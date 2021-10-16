@@ -392,5 +392,5 @@ public class Req1000ServiceImpl extends EgovAbstractServiceImpl implements Req10
 	@SuppressWarnings("rawtypes")
 	public int selectReq1000IntegratedDshAcceptReqListCnt(Map paramMap) throws Exception {
 		 return req1000DAO.selectReq1000IntegratedDshAcceptReqListCnt(paramMap);
-	} 
+	}  
 }

@@ -61,6 +61,12 @@ public class Stm9200DAO extends ComOslitsAbstractDAO {
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectStm9200PrjAssignDplAuthNormalList(Map paramMap) throws Exception{
+		return (List<Map>) list("stm9200DAO.selectStm9003PrjAssignDplAuthNormalList", paramMap);
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Map> selectStm9200PrjNotAssignDplAuthList(Map paramMap) throws Exception{
 		return (List<Map>) list("stm9200DAO.selectStm9003PrjNotAssignDplAuthList", paramMap);
 	}

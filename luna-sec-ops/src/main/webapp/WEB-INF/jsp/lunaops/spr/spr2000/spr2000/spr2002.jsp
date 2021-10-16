@@ -23,7 +23,7 @@
 						</div>
 						<div class="kt-portlet__head-toolbar">
 							<div class="kt-portlet__head-group">
-								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+								<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 							</div>
 						</div>
 					</div>
@@ -56,55 +56,53 @@
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">Close</span></button>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var k;
 var OSLSpr2002Popup = function () {
 	var formId = 'frSpr2002';
 	
-	//edit 목록
+	
 	var formEditList = [];
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 
-	// Private functions
+	
     var documentSetting = function () {
     	
-    	//Portlet 세팅
+    	
     	new KTPortlet('spr2002MeetingMemberList', $.osl.lang("portlet"));
     	
-		//회의록 정보 가져오기 및 세팅
+		
     	selectSprMmtInfo();
     	
 	};
 	
-    /**
-	 * 	스프린트 회의록 정보 조회
-	 */
+    
 	 var selectSprMmtInfo = function() {
     	var data = {
     			mmtId :  $("#mmtId").val(),
     			sprId :  $("#sprId").val(),
     	};
 
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/spr/spr2000/spr2000/selectSpr2000MmtInfoAjax.do'/>", "async":"true"}
 				,data);
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
-				//수정할때 호출
+				
 		    	$.osl.setDataFormElem(data.mmtInfo,"frSpr2002");
 		
-				//참여 인원 정보 넣기
+				
 				var mmtMemList = data.mmtMemList;
 				
 				var str = "";
@@ -113,7 +111,7 @@ var OSLSpr2002Popup = function () {
 					$("#memCnt").text(lastCount);
 				}
 				
-				//참여인원 태그 형으로 넣기mmtMemInfo
+				
 				if(!$.osl.isNull(mmtMemList)){
 					$.each(mmtMemList, function(idx, value){
 						str += '<div class="kt-user-card-v2 d-inline-block mmtMemInfo osl-outline--secondary kt-padding-5 kt-margin-l-5 kt-margin-r-5" data-user="'+ value.usrId +'">'
@@ -130,15 +128,15 @@ var OSLSpr2002Popup = function () {
 				
 				$("#mmtMemSelect").append(str);
 				
-				//툴팁 적용
-				//KTApp.initTooltips();
 				
-				//참여인원 아이콘 클릭 시
+				
+				
+				
 				$(".mmtMemInfo").click(function(){
 					$.osl.user.usrInfoPopup($(this).data("user"));
 				});
 				
-				//edit 세팅
+				
 	    		formEditList.push($.osl.editorSetting("mmtDesc", {
 		    		toolbar: false,
 	    			disableResizeEditor: false,
@@ -147,24 +145,24 @@ var OSLSpr2002Popup = function () {
 	    			height:190
 	    		}));
 	    		
-		    	//edit 세팅하고 나서 textarea 보이기
+		    	
 		    	$("#mmtDesc").removeClass("kt-hide");
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
 	
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLSpr2002Popup.init();
 });

@@ -37,6 +37,10 @@ var OSLCoreChartSetting = function () {
 						
 						
 					},
+					keyType:{
+						
+						
+					},
 					chartType: "",
 					
 					dataArr:[],
@@ -223,16 +227,16 @@ var OSLCoreChartSetting = function () {
 					offsetX: 0,
 					offsetY: 0,
 				},
-				fill:{
-					type : "gradient",
-					gradient : {
-						shadeIntensity: 1,
-						opacityFrom: 0.7,
-						opacityTo: 0.9,
-						stops: [0, 90, 100]
-					}
-				},
+				
+				toolbar:targetConfig.chart.toolbar,
+				
+				dataLabels:targetConfig.chart.dataLabels,
+				
+				markers:targetConfig.chart.markers,
+				stroke: targetConfig.chart.stroke,
 				xaxis: targetConfig.chart.xaxis,
+				
+				grid: targetConfig.chart.grid,
 				yaxis: targetConfig.chart.yaxis,
 				
 				title: targetConfig.chart.title,
@@ -491,6 +495,52 @@ var OSLCoreChartSetting = function () {
 						targetConfig.series[idx]={name:config.data.param.keyNm["keyNm"+(idx+1)]};
 						if(!$.osl.isNull(chartArrays[config.data.param.key["key"+(idx+1)] ])){
 							targetConfig.series[idx].data=chartArrays[config.data.param.key["key"+(idx+1)] ];
+						}else{
+							targetConfig.series[idx].data=[];
+						}
+					}
+					
+					
+					if(!$.osl.isNull(config.data.param.xKey)){
+						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}
+					
+					if(!$.osl.isNull(config.data.param.yKey)){
+						targetConfig.yaxis.categories = chartArrays[config.data.param.yKey ];
+					}
+				},
+				"mix": function(array){
+					targetConfig.chart.type="line";
+					
+					$.each(array, function(idx, value){
+						
+						for(var idx = 1; idx <= Object.keys(config.data.param.key).length ;idx++){
+							if(!chartArrays.hasOwnProperty(config.data.param.key["key"+idx])){
+								chartArrays[config.data.param.key["key"+idx]]=[]
+							}
+							chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+						}
+						
+						if(!$.osl.isNull(config.data.param.xKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+								chartArrays[config.data.param.xKey]=[];
+							}
+							chartArrays[config.data.param.xKey].push( value[config.data.param.xKey] );
+						}
+						if(!$.osl.isNull(config.data.param.yKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+								chartArrays[config.data.param.yKey]=[];
+							}
+							chartArrays[config.data.param.yKey].push( value[config.data.param.yKey] );
+						}
+					});
+					
+					
+					for(var idx = 0; idx < Object.keys(config.data.param.key).length ;idx++){
+						targetConfig.series[idx]={name:config.data.param.keyNm["keyNm"+(idx+1)]};
+						if(!$.osl.isNull(chartArrays[config.data.param.key["key"+(idx+1)] ])){
+							targetConfig.series[idx].data=chartArrays[config.data.param.key["key"+(idx+1)] ];
+							targetConfig.series[idx].type=config.data.param.keyType["keyType"+(idx+1)];
 						}else{
 							targetConfig.series[idx].data=[];
 						}
