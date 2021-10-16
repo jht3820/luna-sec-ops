@@ -70,6 +70,12 @@ public class Prj1300ServiceImpl extends EgovAbstractServiceImpl implements Prj13
 
 	
 	@Override
+	public List selectPrj1302AllItemList(Map paramMap) throws Exception {
+		return prj1300DAO.selectPrj1302AllItemList(paramMap);
+	}
+	
+	
+	@Override
 	public List selectPrj1302ItemList(Map paramMap) throws Exception {
 		return prj1300DAO.selectPrj1302ItemList(paramMap);
 	}

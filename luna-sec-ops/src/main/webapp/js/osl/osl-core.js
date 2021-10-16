@@ -78,6 +78,9 @@
 			OSLCoreChartSetting.init();
 			
 			
+			OSLCoreCustomOptionSetting.init();
+			
+			
 			$.validator.addMethod("email", function(value, element) {
 			    if (/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value)) {
 			        return true;
@@ -176,6 +179,10 @@
 				switch (actionCd){
 				
 				case "01":
+					event.preventDefault();
+					if($(document).find("#menuNAuthShortCut").length != 0){
+						return;
+					}
 					var data = {};
 					var options = {
 						modalTitle: "단축키 설정 정보",
@@ -2049,6 +2056,7 @@
 	        		$.osl.prjGrpAuthList = prjOrdList;
 	        		$.osl.showLoadingBar(false,{target: "#kt_header"});
 	        		
+	        		$("#searchPrjNmBtn").off("click");
 	        		
 	        		$("#searchPrjNmBtn").click(function(){
 	        			var data = {
@@ -2056,22 +2064,23 @@
 	        					paramPrjNm : $("#mainPrjNm").val(),
 	        			};
 	        			var options = {
-	        					modalTitle: $.osl.lang("cmm17000.title.searchPrj"),
+	        					modalTitle: $.osl.lang("cmm6000.title.searchPrj"),
 	        					closeConfirm: false,
 	        					modalSize:"xl",
 	        					callback:[{
 	        						targetId: "selectPrj",
 	        						actionFn: function(thisObj){
-	        							var prjNm = OSLCmm17000Popup.getPrjInfo();
+	        							var prjNm = OSLCmm6000Popup.getPrjInfo();
 	        							$("#mainPrjNm").val(prjNm);
 	        						}
 	        					}]
 	        			};
-	        			$.osl.layerPopupOpen('/cmm/cmm10000/cmm17000/selectCmm17000View.do', data, options);
+	        			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6000/selectCmm6000View.do', data, options);
 	        			
 	        		});
 	        		
 	        		
+	        		$("#mainPrjNm").off("keydown");
 	        		$("#mainPrjNm").keydown(function(e){
 	        			if(e.keyCode=='13'){
 	        				
@@ -2080,7 +2089,6 @@
 	        		});
 	        		
 	        		$("#mainPrjNm").val(data.mainPrjInfo[0].popPrjNm);
-	        		
 	        	}else{
 	        		$.osl.toastr(data.message);
 	        	}
@@ -2093,6 +2101,11 @@
 			
 			
 			ajaxObj.send();
+		}
+		
+		,customOpt:{
+			
+			setting: $.noop
 		}
 		
 		,chart:{
@@ -3424,6 +3437,7 @@
 					var maxYear = moment().subtract(-10, 'year').format('YYYY');
 					
 					var defaultConfig = {
+							parentEl: 'body',
 				            buttonClasses: 'btn btn-sm',
 				            applyClass: "btn-primary",
 				            cancelClass: "btn-secondary",
@@ -3432,6 +3446,15 @@
 							todayHighlight: false,
 							minYear : parseInt(minYear),
 							maxYear : parseInt(maxYear),
+							singleDatePicker: false,
+							timePicker: false,
+					        timePicker24Hour: false,
+					        timePickerIncrement: 1,
+					        timePickerSeconds: false,
+					        locale:{
+					        	applyLabel: '적용',
+					            cancelLabel: '취소',
+					        }
 				        };
 					
 					
@@ -3947,24 +3970,29 @@
 	
 	$.osl.isNull = function(sValue)
 	{
-		if( typeof sValue == "undefined") {
-	        return true;
-	    }
-	    if( String(sValue).valueOf() == "undefined") {
-	        return true;
-	    }
-	    if( sValue == null ){
-	        return true;
-	    }
-	    if( ("x"+sValue == "xNaN") && ( new String(sValue.length).valueOf() == "undefined" ) ){
-	        return true;
-	    }
-	    if( sValue.length == 0 ){
-	        return true;
-	    }
-	    if( sValue == "NaN"){
-	        return true;
-	    }
+		
+		try{
+			if( typeof sValue == "undefined") {
+		        return true;
+		    }
+		    if( String(sValue).valueOf() == "undefined") {
+		        return true;
+		    }
+		    if( sValue == null ){
+		        return true;
+		    }
+		    if( ("x"+sValue == "xNaN") && ( new String(sValue.length).valueOf() == "undefined" ) ){
+		        return true;
+		    }
+		    if( sValue.length == 0 ){
+		        return true;
+		    }
+		    if( sValue == "NaN"){
+		        return true;
+		    }
+		}catch(e){
+			return false;
+		}
 	    return false;
 	};
 	
@@ -4732,7 +4760,7 @@
 			}
 			
 			var defaultConfig = {
-				container: container,
+				
 	    		lang: 'ko-KR',
 	    		height: null,
 				maxHeight: null,

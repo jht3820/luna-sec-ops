@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <input type="hidden" name="type" id="type" value="<c:out value='${param.type}'/>">
 <input type="hidden" name="strgRepId" id="strgRepId" value="<c:out value='${param.strgRepId}'/>">
+<input type="hidden" name="revision" id="revision" value="<c:out value='${param.revision}'/>">
 <input type="hidden" name="filePath" id="filePath" value="<c:out value='${param.path}'/>">
 <input type="hidden" name="fileName" id="fileName" value="<c:out value='${param.name}'/>">
 <div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
@@ -39,7 +40,7 @@
 		<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="stm8004FileTable"></div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLStm8004Popup = function() {
@@ -49,17 +50,18 @@ var OSLStm8004Popup = function() {
 	var fileName = $("#fileName").val();
 	var searchStNum = $("#searchStNum").val();
 	var searchEdNum = $("#searchEdNum").val();
+	var revision = $("#revision").val();
 	
 	var datatableId = "stm8004FileTable";
 
-	//기본 설정
+	
 	 var documentSetting = function() {
 		
-		//placeholder 세팅
+		
 		$("#searchStNum").attr("placeholder",$.osl.lang("stm8004.placeholder.revision.start"));
 		$("#searchEdNum").attr("placeholder",$.osl.lang("stm8004.placeholder.revision.end"));
 		
-		//해당하는 파일의 버전별 리비전 정보 가져오기
+		
 		 $.osl.datatable.setting(datatableId,{
 				data: {
 					source: {
@@ -97,39 +99,41 @@ var OSLStm8004Popup = function() {
 					"insert" : false,
 					"update" : false,
 					"delete" : false,
+					"dblClick" : true,
 					"diff" : true,
 				},
 				actionTooltip:{
+					"dblClick" : $.osl.lang("stm8004.actionBtn.diffTooltip"),
 					"diff" : $.osl.lang("stm8004.actionBtn.diffTooltip")
 				},
 				actionFn:{
 					"select": function(datatableId, elem, datatable){
-						//검색 대상 가져오기
+						
 						var searchTypeTarget = $(".osl-datatable-search__dropdown[data-datatable-id="+datatableId+"] > .dropdown-item.active");
 						
-						//검색 값
+						
 						var searchData = $("#searchData_"+datatableId);
 
-						//대상 정보 가져오기
+						
 						var searchFieldId = searchTypeTarget.data("field-id");
 						var searchType = searchTypeTarget.data("opt-type");
 						var searchCd = $(this).data("opt-mst-cd");
 						
-						//입력된 검색값 초기화
+						
 						datatable.setDataSourceQuery({});
 						
-						//시작, 종료 리비전 넣기
+						
 						searchStNum = $("#searchStNum").val();
 						searchEdNum = $("#searchEdNum").val();
 						
 						datatable.setDataSourceParam("searchStNum", searchStNum);
 						datatable.setDataSourceParam("searchEdNum", searchEdNum);						
 
-						//전체가 아닌경우 해당 타입으로 검색
+						
 						if(searchType != "all"){
 							var searchDataValue = searchData.val();
 							
-							//공통코드인경우 select값 가져오기
+							
 							if(searchType == "select"){
 								searchDataValue = $("#searchSelect_"+datatableId).val();
 							}
@@ -139,57 +143,70 @@ var OSLStm8004Popup = function() {
 							datatable.search();
 						}
 						
-						//데이터 테이블 재호출
+						
  						datatable.reload();
 					},
-					"diff": function(rowDatas, datatableId, type, rowNum, elem){
-						//리스트인 경우
+					"dblClick": function(rowData){
+						var data = {
+								type : type,
+								strgRepId : strgRepId,
+								filePath : filePath,
+								fileName : fileName,
+								diffRevision01 : revision, 
+								diffRevision02 : rowData.revision,
+							};
+							var options = {
+								idKey:"stm8004_diff",
+								modalTitle: "["+fileName+"] DIFF",
+								modalSize: "xl",
+								autoHeight: false,
+								ftScrollUse: false
+							};
+							
+						$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8005View.do',data,options);
+					},
+					"diff": function(rowDatas, datatableId, type, rowNum){
+						var rowData;
+						
 						if(type == "list"){
-							if(rowNum < 2){
+							if(rowNum != 1){
 								$.osl.alert($.osl.lang("stm8004.message.selectFile", rowNum), {"type":"warning"});
-							}else if(rowNum >2){
-								$.osl.alert($.osl.lang("stm8004.message.selectFiles", rowNum), {"type":"warning"});
+								return false;
 							}else{
-								var data = {
-									type : type,
-									strgRepId : strgRepId,
-									filePath : filePath,
-									fileName : fileName,
-									diffRevision01 : rowDatas[0].revision,
-									diffRevision02 : rowDatas[1].revision,
-								};
-								var options = {
-									idKey:"stm8004_diff",
-									modalTitle: "["+fileName+"] DIFF",
-									modalSize: "xl",
-									autoHeight: false	
-								};
-								
-								$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8005View.do',data,options);
+								rowData = rowDatas[0];
 							}
 						}else{
-							//클릭한 row(tr)에서 label 태그 kt-checkbox 클래스를 찾고
-							//그 안에 있는 체크박스를 체크
-							var targetElem = $(elem).closest("tr").find("label.kt-checkbox").children("input[type=checkbox]");
-							if(targetElem.is(":checked")==true){
-								targetElem.prop("checked", false);
-								$.osl.datatable.list[datatableId].targetDt.setInactive(targetElem);
-								//선택된것처럼 row 컬러가 그대로 남아있으므로
-								$(elem).closest("tr").removeClass("osl-datatable__row--selected");
-								$(elem).closest("tr").addClass("kt-datatable__row--even");
-							}else{
-								targetElem.prop("checked", true);
-								$.osl.datatable.list[datatableId].targetDt.setActive(targetElem);
-							}
+							
+							rowData = rowDatas;
 						}
+						
+						var data = {
+								type : type,
+								strgRepId : strgRepId,
+								filePath : filePath,
+								fileName : fileName,
+								diffRevision01 : revision, 
+								diffRevision02 : rowData.revision,
+							};
+							var options = {
+								idKey:"stm8004_diff",
+								modalTitle: "["+fileName+"] DIFF",
+								modalSize: "xl",
+								autoHeight: false,
+								ftScrollUse: false
+							};
+							
+						$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8005View.do',data,options);
 					}
 				},
 				theme:{
 					 actionBtn:{
-						 "diff": ""
+						 "dblClick": "",
+						 "diff": " kt-hide"
 					 },
 					 actionBtnIcon:{
-						 "diff" : "fa flaticon2-check-mark"
+						 "dblClick" : "fa flaticon2-check-mark",
+						 "diff" : "fa flaticon2-check-mark",
 	    			}
 				},
 				callback:{
