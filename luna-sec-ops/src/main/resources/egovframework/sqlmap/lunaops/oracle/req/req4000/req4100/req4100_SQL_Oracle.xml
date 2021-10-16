@@ -285,10 +285,14 @@
 			LEFT JOIN PRJ1101 E
 				ON ( E.PRJ_ID = A.PRJ_ID AND E.PROCESS_ID = A.PROCESS_ID AND E.FLOW_ID = A.FLOW_ID )
 		    WHERE 1=1
+		    <isNotEmpty property="dshReqProTypeCd">
+				AND	A.REQ_PRO_TYPE = #dshReqProTypeCd#
+			</isNotEmpty>
 			<isNotEmpty property="atchFileIdNotNull">
 				AND A.ATCH_FILE_ID IS NOT NULL
 			</isNotEmpty>
 			<isEmpty property="selReqInfoList">
+				AND A.PRJ_GRP_ID = #prjGrpId#
 				AND A.PRJ_ID = #prjId#
 			</isEmpty>
 			<isNotEmpty property="selReqInfoList">
@@ -364,6 +368,12 @@
 					<isNotEmpty property="searchEndDt">
 						AND	T1.REQ_DTM &lt;=   TO_DATE(#searchEndDt#, 'YYYY-MM-DD HH24:MI:SS')
 					</isNotEmpty>
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="reqChargerNm">
+					AND	T1.REQ_CHARGER_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="reqOrd">
+					AND	T1.REQ_ORD LIKE '%'|| #searchTargetData# ||'%'
 				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
