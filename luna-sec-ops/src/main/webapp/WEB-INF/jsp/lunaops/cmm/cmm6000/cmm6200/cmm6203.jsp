@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<input type="hidden" name="reqId" id="reqId" value="<c:out value='${param.paramReqId}'/>">
+<input type="hidden" name="reqUsrId" id="reqUsrId" value="<c:out value='${param.paramReqUsrId}'/>">
+<input type="hidden" name="reqPrjId" id="reqPrjId" value="<c:out value='${param.paramPrjId}'/>">
+<input type="hidden" name="atchFileId" id="atchFileId">
+
 
 
 <div class="kt-portlet kt-portlet--mobile kt-margin-b-0 osl-portlet__body-style--none">
@@ -62,14 +68,14 @@
 				<form class="kt-form" id="reqInfo" autocomplete="off">
 					<div class="row">
 						<div class="osl-tab-content-8 osl-min-h-px--550">
-							<div class="kt-portlet kt-portlet--collapsed" id="req4101RequestUsrInfo">
+							<div class="kt-portlet kt-portlet--collapsed" id="req4102RequestUsrInfo">
 								<div class="kt-portlet__head">
 									<div class="kt-portlet__head-label">
-										<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">요청자 정보</span>
+										<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqUser.title">요청자 정보</span>
 									</div>
 									<div class="kt-portlet__head-toolbar">
 										<div class="kt-portlet__head-group">
-											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 										</div>
 									</div>
 								</div>
@@ -82,58 +88,55 @@
 										</div>
 										<div class="col-xl-5">
 											<div class="form-group">
-												<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.usrNm">요청자 이름</span></label>
+												<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqUser.usrNm">요청자 이름</span></label>
 												<div class="input-group">
-													<input type="text" class="form-control" placeholder="요청자 이름" name="reqUsrNm" id="usrNm" autocomplete="off">
-													<button type="button" class="btn btn-brand input-group-append" id="searchUsrNmBtn" name="searchUsrNmBtn"><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
+													<input type="text" class="form-control"  name="reqUsrNm" id="usrNm" readonly="readonly">
 												</div>
 											</div>
 										</div>
 										<div class="col-xl-5">
 											<div class="form-group">
-												<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
-												<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="email" autocomplete="off">
+												<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqUser.email">요청자 e-mail</span></label>
+												<input type="text" class="form-control" name="reqUsrEmail" id="email" readonly="readonly">
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-xl-7">
 											<div class="form-group">
-												<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
-												<input type="text" class="form-control" name="reqUsrDeptNm"placeholder="요청자 소속"  id="deptName" autocomplete="off">
-												<input type="hidden" name="reqUsrDeptId" id="deptId" autocomplete="off">
+												<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqUser.deptNm">요청자 소속</span></label>
+												<input type="text" class="form-control" name="reqUsrDeptNm" id="deptName" readonly="readonly">
 											</div>
 										</div>
 										<div class="col-xl-5">
 											<div class="form-group">
-												<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.tel">요청자 연락처</span></label>
-												<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="telno" autocomplete="off">
+												<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqUser.tel">요청자 연락처</span></label>
+												<input type="text" class="form-control" name="reqUsrNum" id="telno" readonly="readonly">
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="kt-portlet kt-portlet--collapsed" id="req4101ReqGrpInfo">
+							<div class="kt-portlet kt-portlet--collapsed" id="req4102ReqGrpInfo">
 								<div class="kt-portlet__head">
 									<div class="kt-portlet__head-label">
-										<i class="fa flaticon2-layers-1 kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">그룹 요구사항 정보</span>
+										<i class="fa flaticon2-layers-1 kt-margin-r-5"></i><span data-lang-cd="req4102.label.group.groupReqInfo">그룹 요구사항 정보</span>
 									</div>
 									<div class="kt-portlet__head-toolbar">
 										<div class="kt-portlet__head-group">
-											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 										</div>
 									</div>
 								</div>
 								<div class="kt-portlet__body">
 									<div class="form-group">
-										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReq">그룹 요구사항</span></label>
+										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4102.label.group.groupReq">그룹 요구사항</span></label>
 										<div class="input-group">
-											<input type="text" class="form-control" placeholder="그룹 요구사항을 선택하세요" name="reqGrpNm" id="reqGrpNm">
-											<button type="button" class="btn btn-brand input-group-append" id="searchReqGrpBtn" name="searchReqGrpBtn"><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
+											<input type="text" class="form-control" name="reqGrpNm" id="reqGrpNm" readonly="readonly" placeholder="그룹 요구사항이 연결되어 있지 않습니다.">
 										</div>
 									</div>
-									<div class="form-group kt-margin-b-0">
-										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqDesc">그룹 요구사항 내용</span></label>
+									<div class="form-group kt-margin-b-0" id="groupReqDescDiv">
+										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4102.label.group.groupReqDesc">그룹 요구사항 내용</span></label>
 										<textarea class="kt-hide" name="reqGrpDesc" id="reqGrpDesc"></textarea>
 									</div>
 								</div>
@@ -143,75 +146,55 @@
 									<div class="row">
 										<div class="col-xl-6">
 											<div class="form-group">
-												<label for="exampleSelect1"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">프로젝트</span></label>
+												<label for="exampleSelect1"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4102.label.prjNm">프로젝트</span></label>
 												<select class="form-control kt-select2" name="prjId" id="reqPrjSelect">
 												</select>
 											</div>
 										</div>
 										<div class="col-xl-6">
 											<div class="form-group">
-												<label><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDtm">요청 일자</span></label>
-												<input type="date" class="form-control" placeholder="요청일" name="reqDtm" id="reqDtm" readonly="readonly">
+												<label><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqDtm">요청 일자</span></label>
+												<input type="date" class="form-control" name="reqDtm" id="reqDtm" readonly="readonly">
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">요청 제목</span></label>
-										<input type="text" class="form-control" placeholder="요청 제목" name="reqNm" id="reqNm" autocomplete="off" required>
+										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqNm">요청 제목</span></label>
+										<input type="text" class="form-control" name="reqNm" id="reqNm"  readonly="readonly">
 									</div>
 									<div class="form-group">
-										<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDesc">요청 내용</span></label>
-										<textarea  class="kt-hide" name="reqDesc" id="reqDesc" autocomplete="off" required></textarea>
+										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqDesc">요청 내용</span></label>
+										<textarea  class="kt-hide" name="reqDesc" id="reqDesc" required></textarea>
 									</div>
-									<div class="form-group kt-margin-b-10">
-										<label class="kt-checkbox kt-checkbox--bold kt-checkbox--success align-text-top">
-											<input type="checkbox" name="reqPwCheckbox" id="reqPwCheckbox">
-											<span></span>
-										</label>
-										<span data-lang-cd="req4101.label.reqPw">요구사항 잠금</span>
-									</div>
-									<div class="kt-hide osl-bad_box" name="pwOption" id="pwOption">
-								 		<div class="input-group kt-margin-b-10">
-									 		<label class='input-group-addon mt-auto mb-auto osl-min-width-80 required'><span data-lang-cd="req4101.label.password">PW</span></label>
-								 			<input type="password" class="form-control" name="reqPw" id="reqPw" autocomplete="new-password" regexstr="^[a-z0-9]{4,12}$" maxlength="12" regexerrorstr="알파벳과 숫자 조합 4-12자 이내"  placeholder="알파벳과 숫자 조합 4-12자 이내"/> 
-								 		</div>
-								 		<div class="input-group">
-									 		<label class='input-group-addon mt-auto mb-auto osl-min-width-80 required'><span data-lang-cd="req4101.label.passwordCheck">PW 확인</span></label>
-								 			<input type="password" class="form-control" name="reqPwCheck" id="reqPwCheck"autocomplete="new-password" regexstr="^[a-z0-9]{4,12}$" maxlength="12" regexerrorstr="알파벳과 숫자 조합 4-12자 이내"  placeholder="알파벳과 숫자 조합 4-12자 이내" equalTo="#reqPw"/>
-							 			</div>
-								 	</div>
-									<div class="form-group kt-margin-t-25 form-group-last">
+									<div class="form-group kt-margin-t-25 form-group-last" id="reqFileListDiv">
 										<label>
 											<i class="fa fa-file-upload kt-margin-r-5"></i>
-											<span data-lang-cd="req4101.label.attachments">파일 첨부</span> 
-											<button type="button" class="btn btn-sm btn-danger d-none kt-margin-l-10" id="">
-												<span data-lang-cd="req4101.button.deleteResetBtn">삭제 초기화</span>
-											</button>
+											<span data-lang-cd="req4102.label.attachments">파일 첨부</span> 
 										</label>
-										<div class="kt-uppy osl-max-h-px-260" id="req4101FileUpload">
+										<div class="kt-uppy osl-max-h-px-260 fileReadonly" id="req4102FileUpload">
 											<div class="kt-uppy__dashboard"></div>
 											<div class="kt-uppy__progress"></div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="kt-portlet kt-portlet--collapsed kt-margin-b-0" data-ktportlet="true" id="req4101NewRequestOpt">
+							<div class="kt-portlet kt-portlet--collapsed kt-margin-b-0" data-ktportlet="true" id="req4102NewRequestOpt">
 								<div class="kt-portlet__head">
 									<div class="kt-portlet__head-label">
-										<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.requestDefaultOptNm">접수 기본항목 입력</span>
+										<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4102.label.requestDefaultOptNm">접수 기본항목 입력</span>
 									</div>
 									<div class="kt-portlet__head-toolbar">
 										<div class="kt-portlet__head-group">
-											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 										</div>
 									</div>
 								</div>
 								<div class="kt-portlet__body">
-								
+									
 								</div>
 							</div>
 						</div>
-						<div class="osl-tab-content-4 kt-bg-light kt-padding-20 osl-content-left-margin"></div>
+						<div class="osl-tab-content-4 kt-bg-light kt-padding-20 osl-content-left-margin" id="osl-req__process-history"></div>
 					</div>
 				</form>
 			</div>
@@ -224,21 +207,21 @@
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
-										<label for="exampleSelect1"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">프로젝트</span></label>
-										<select class="form-control kt-select2" name="" id="">
+										<label for="exampleSelect1"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4102.label.prjNm">프로젝트</span></label>
+										<select class="form-control kt-select2" name="prjId" id="reqPrjSelect2">
 										</select>
 									</div>
 								</div>
 								<div class="col-xl-6">
 									<div class="form-group">
-										<label><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDtm">요청 일자</span></label>
-										<input type="date" class="form-control" placeholder="요청일" name="" id="" readonly="readonly">
+										<label><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqDtm">요청 일자</span></label>
+										<input type="date" class="form-control" placeholder="요청일" name="reqDtm2" id="reqDtm2" readonly="readonly">
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">요청 제목</span></label>
-								<input type="text" class="form-control" placeholder="요청 제목" name="" id="" autocomplete="off" required>
+								<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqNm">요청 제목</span></label>
+								<input type="text" class="form-control" placeholder="요청 제목" name="reqNm2" id="reqNm2" autocomplete="off" required>
 							</div>
 							<!-- ** 
 									예시 : folding 접힐 때 숨겨지는 div
@@ -247,28 +230,15 @@
 									 folding 펼쳐지면서 kt-hide removeClass addClass로 조절
 							** -->
 							<div class="form-group osl-tab-folding-hide kt-hide">
-								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDesc">요청 내용<span class="kt-font-danger">(folding 숨김 예시)</span></span></label>
+								<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4102.label.reqDesc">요청 내용<span class="kt-font-danger">(folding 숨김 예시)</span></span></label>
 								<textarea  class="kt-hide" name="reqDesc2" id="reqDesc2" autocomplete="off" required></textarea>
 							</div>
-							<div class="kt-hide osl-bad_box" name="pwOption" id="pwOption">
-						 		<div class="input-group kt-margin-b-10">
-							 		<label class='input-group-addon mt-auto mb-auto osl-min-width-80 required'><span data-lang-cd="req4101.label.password">PW</span></label>
-						 			<input type="password" class="form-control" name="" id="" autocomplete="new-password" regexstr="^[a-z0-9]{4,12}$" maxlength="12" regexerrorstr="알파벳과 숫자 조합 4-12자 이내"  placeholder="알파벳과 숫자 조합 4-12자 이내"/> 
-						 		</div>
-						 		<div class="input-group">
-							 		<label class='input-group-addon mt-auto mb-auto osl-min-width-80 required'><span data-lang-cd="req4101.label.passwordCheck">PW 확인</span></label>
-						 			<input type="password" class="form-control" name="" id=""autocomplete="new-password" regexstr="^[a-z0-9]{4,12}$" maxlength="12" regexerrorstr="알파벳과 숫자 조합 4-12자 이내"  placeholder="알파벳과 숫자 조합 4-12자 이내" equalTo="#reqPw"/>
-					 			</div>
-						 	</div>
-							<div class="form-group kt-margin-t-25 form-group-last">
+							<div class="form-group kt-margin-t-25 form-group-last"  id="reqFileListDiv2">
 								<label>
 									<i class="fa fa-file-upload kt-margin-r-5"></i>
-									<span data-lang-cd="req4101.label.attachments">파일 첨부</span> 
-									<button type="button" class="btn btn-sm btn-danger d-none kt-margin-l-10" id="">
-										<span data-lang-cd="req4101.button.deleteResetBtn">삭제 초기화</span>
-									</button>
+									<span data-lang-cd="req4102.label.attachments">파일 첨부</span> 
 								</label>
-								<div class="kt-uppy osl-max-h-px-260" id="">
+								<div class="kt-uppy osl-max-h-px-260 fileReadonly" id="req4102FileUpload2">
 									<div class="kt-uppy__dashboard"></div>
 									<div class="kt-uppy__progress"></div>
 								</div>
@@ -375,14 +345,26 @@ var OSLCmm6203Popup = function () {
 	
 	var formValidate = $.osl.validate(formId);
 	
+	
+	var reqId = $("#reqId").val();
+	var reqUsrId = $("#reqUsrId").val();
+	var reqPrjId = $("#reqPrjId").val();
+	
+	
+	var reqFileViewObj;
+	var reqFileViewObjTab;
+	
     
     var documentSetting = function () {
-		
-		
-    	new KTPortlet('req4101RequestUsrInfo', $.osl.lang("portlet"));
-    	new KTPortlet('req4101ReqGrpInfo', $.osl.lang("portlet"));
-    	new KTPortlet('req4101NewRequestOpt', $.osl.lang("portlet"));
     	
+		
+    	new KTPortlet('req4102RequestUsrInfo', $.osl.lang("portlet"));
+    	new KTPortlet('req4102ReqGrpInfo', $.osl.lang("portlet"));
+    	new KTPortlet('req4102NewRequestOpt', $.osl.lang("portlet"));
+    	
+    	
+    	settingReqOneTap();
+    	settingReqTwoTap();
     	
     	
 		$('.modal-body').scroll(function() {
@@ -427,10 +409,10 @@ var OSLCmm6203Popup = function () {
     	initSwiper(); 
     	
 		
-    	formEditList.push($.osl.editorSetting("reqDesc", {formValidate: formValidate}));
+    	
 		
 		
-    	formEditList.push($.osl.editorSetting("reqDesc2", {formValidate: formValidate}));
+    	
 		
     	
     	
@@ -450,9 +432,12 @@ var OSLCmm6203Popup = function () {
 			}
 		
 			
-			/
+			
+			
+			
 			if(tabDiv=='reqInfo'){
-				
+		    	
+		    	settingReqOneTap();
 				
 	    	
 	    	
@@ -526,6 +511,254 @@ var OSLCmm6203Popup = function () {
 	   		}
 	    });
 	}
+
+	
+	var settingReqOneTap = function(){
+		
+    	reqFileViewObj = $.osl.file.uploadSet("req4102FileUpload",{
+    		maxFileSize: "${requestScope.fileSumMaxSize}",
+    		meta: {"atchFileId": $("#atchFileId").val(), "fileSn": 0},
+    		height: 260,
+    		isDraggingOver: false,
+    		fileDownload: true,
+    		fileReadonly: true
+    	});
+		
+		
+    	defaultSettingReqinfo();
+	};
+	
+	
+	var settingReqTwoTap = function(){
+		
+    	reqFileViewObjTab = $.osl.file.uploadSet("req4102FileUpload2",{
+    		maxFileSize: "${requestScope.fileSumMaxSize}",
+    		meta: {"atchFileId": $("#atchFileId").val(), "fileSn": 0},
+    		height: 260,
+    		isDraggingOver: false,
+    		fileDownload: true,
+    		fileReadonly: true
+    	});
+		
+		
+    	settingReqInfo();
+	};
+	
+	
+	var defaultSettingReqinfo = function(){
+		var data = {
+    			prjId :  reqPrjId,
+    			reqId :  reqId,
+    	};
+		
+		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/req/req4000/req4100/selectReq4100ReqInfoAjax.do'/>", "async": false}
+				,data);
+		
+		
+		ajaxObj.setFnSuccess(function(data){
+			if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+
+				
+				$.osl.layerPopupClose();
+			}else{
+				
+				
+ 				var reqChgList = data.reqChgList;
+ 				var reqChgStr = '';
+ 				if(!$.osl.isNull(reqChgList) && reqChgList.length > 0){
+ 					$.each(reqChgList, function(idx, map){
+ 						var processNextLabel = '<div class="osl-flowchart__label"><i class="fa fa-arrow-right"></i></div>';
+ 						
+ 						
+ 						if((idx+1) == reqChgList.length){
+ 							processNextLabel = '';
+ 						}
+ 						
+ 						
+ 						var processNm, bgColor, color, flowNm, chgDtm, chgUsrId, chgUsrImgId, chgUsrNm, chgUsrEmail;
+ 						
+ 						
+ 						if(map.reqChgTypeCd == "03") {
+ 							processNm = $.osl.escapeHtml(map.chgProcessNm);
+ 							bgColor = map.chgFlowTitleBgColor;
+ 							color = map.chgFlowTitleColor;
+ 							flowNm = map.chgFlowNm;
+ 						}
+ 						
+ 						
+ 						var paramDatetime = new Date(map.chgDtm);
+		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd HH:mm:ss"});
+		                chgDtm = agoTimeStr.agoString;
+		                
+		                
+		                chgUsrId = map.chgUsrId;
+		                chgUsrImgId = map.chgUsrImgId;
+		                chgUsrNm = map.chgUsrNm;
+		                chgUsrEmail = map.chgUsrEmail;
+		                
+ 						reqChgStr += 
+ 							'<div class="osl-flowchart__operator">'
+	 							+'<div class="flowchart-operator-process-title">'
+	 								+'<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate">'+processNm+'</div>'
+	 							+'</div>'
+	 							+'<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">'
+	 								+'<div class="flowchart-operator-title__lebel d-inline-block text-truncate">'+flowNm+'</div>'
+	 							+'</div>'
+	 							+'<div class="flowchart-operator-inputs-outputs">'
+	 								+'<div class="kt-user-card-v2 btn" data-usr-id="'+ chgUsrId +'">' 
+		 								+'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
+		 									+'<img src="'+$.osl.user.usrImgUrlVal(chgUsrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
+		 								+'</div>'
+		 								+'<div class="kt-user-card-v2__details kt-align-left">'
+		 									+'<span class="kt-user-card-v2__name text-truncate">'+chgUsrNm+'</span>'
+		 									+'<span class="kt-user-card-v2__email kt-margin-l-10 osl-line-height-rem-1_5">'+chgUsrEmail+'</span>'
+		 								+'</div>'
+		 							+'</div>'
+		 							+'<div class="flowchart-operator-chg__dtm"><i class="fa fa-clock kt-margin-r-5"></i>'+chgDtm+'</div>'
+	 							+'</div>'
+	 							+processNextLabel
+	 						+'</div>';
+ 					});
+ 				}
+ 				
+ 				$("#osl-req__process-history").html(reqChgStr);
+ 				
+		    	
+				var info = data.reqInfoMap;
+				$.osl.setDataFormElem(info,"reqInfo");
+ 				
+ 				
+		    	
+		    	$("#reqPrjSelect").html($.osl.prjGrpAuthSelSetting(2,true));
+		    	
+		    	$("#reqPrjSelect").val($.osl.escapeHtml(info.prjId)).trigger('change.select2');
+		    	$("#reqPrjSelect").prop("disabled", true);
+		    	
+				
+				
+				$("#reqUsrId").val(info.reqUsrId);
+		    	$("#usrNm").val(info.reqUsrNm);
+		    	$("#email").val(info.reqUsrEmail);
+		    	$("#telno").val(info.reqUsrNum);
+		    	$("#deptName").val(info.reqUsrDeptNm);
+		    	$("#deptId").val(info.reqUsrDeptId);
+		    	$("#usrImgId").attr("src",$.osl.user.usrImgUrlVal(info.reqUsrImgId));
+		    	
+		    	
+		    	formEditList.push($.osl.editorSetting("reqDesc", {
+		    		toolbar: false,
+	    			disableResizeEditor: false,
+	    			disableDragAndDrop: true,
+	    			disabledEditor: true,
+	    			height:260
+		    	}));
+		    	
+		    	$("#reqDesc").removeClass("kt-hide");
+		    	
+		    	
+		    	$("#reqGrpNm").val(info.reqGrpNm);
+		    	
+		    	
+				if($.osl.isNull(info.reqGrpId)){
+					
+					
+					$("#reqGrpNm").val($.osl.lang("req4102.placeholder.notGroupReqInfo"));
+					
+					$("#groupReqDescDiv").addClass("kt-hide");
+				}else{
+					
+			    	formEditList.push($.osl.editorSetting("reqGrpDesc", {
+			    		toolbar: false,
+		    			disableResizeEditor: false,
+		    			disableDragAndDrop: true,
+		    			disabledEditor: true,
+		    			height:180
+		    		}));
+					
+			    	$("#reqGrpDesc").removeClass("kt-hide");
+				}
+		    	
+				if($.osl.isNull(data.fileList)){
+		    		
+		    		
+		    	}else{
+		    		
+		    		
+			    	
+			    	$.osl.file.fileListSetting(data.fileList, reqFileViewObj);
+		    	}
+ 				
+			}
+		});
+		
+		ajaxObj.send();
+	 };
+	 
+	
+	var settingReqInfo = function(){
+		var data = {
+    			prjId :  reqPrjId,
+    			reqId :  reqId,
+    	};
+		
+		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/req/req4000/req4100/selectReq4100ReqInfoAjax.do'/>", "async": false}
+				,data);
+		
+		
+		ajaxObj.setFnSuccess(function(data){
+			if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+
+				
+				$.osl.layerPopupClose();
+			}else{
+				
+				var info = data.reqInfoMap;
+				$.osl.setDataFormElem(info,"reqInfo");
+ 				
+ 				
+		    	
+		    	$("#reqPrjSelect2").html($.osl.prjGrpAuthSelSetting(2,true));
+		    	
+		    	$("#reqPrjSelect2").val($.osl.escapeHtml(info.prjId)).trigger('change.select2');
+		    	$("#reqPrjSelect2").prop("disabled", true);
+				
+		    	
+		    	$("#reqDtm2").val(info.reqDtm);
+		    	$("#reqNm2").val(info.reqNm);
+		    	$("#reqDesc2").val(info.reqDesc);
+		    	
+		    	
+		    	formEditList.push($.osl.editorSetting("reqDesc2", {
+		    		toolbar: false,
+	    			disableResizeEditor: false,
+	    			disableDragAndDrop: true,
+	    			disabledEditor: true,
+	    			height:260
+		    	}));
+		    	
+		    	
+		    	$("#reqDesc2").removeClass("kt-hide");
+		    	
+		    	if($.osl.isNull(data.fileList)){
+		    		
+		    		
+		    	}else{
+		    		
+		    		
+			    	
+			    	$.osl.file.fileListSetting(data.fileList, reqFileViewObjTab);
+		    	}
+		    	
+				
+			}
+		});
+		
+		ajaxObj.send();
+	};
 	
     return {
         

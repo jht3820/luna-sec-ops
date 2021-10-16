@@ -227,10 +227,15 @@ var OSLCoreChartSetting = function () {
 					offsetX: 0,
 					offsetY: 0,
 				},
+				
+				toolbar:targetConfig.chart.toolbar,
+				
 				dataLabels:targetConfig.chart.dataLabels,
+				
 				markers:targetConfig.chart.markers,
 				stroke: targetConfig.chart.stroke,
 				xaxis: targetConfig.chart.xaxis,
+				
 				grid: targetConfig.chart.grid,
 				yaxis: targetConfig.chart.yaxis,
 				

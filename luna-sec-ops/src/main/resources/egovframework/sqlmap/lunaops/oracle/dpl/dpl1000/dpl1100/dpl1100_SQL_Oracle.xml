@@ -240,6 +240,9 @@
 		    AND A.PRJ_GRP_ID = #prjGrpId#
 			AND A.PRJ_ID = #prjId#
 			AND A.REQ_PRO_TYPE != '01'
+	      	AND A.REQ_PRO_TYPE != '03'
+		    AND A.REQ_PRO_TYPE != '05'
+		    AND A.REQ_PRO_TYPE != '06'
 			AND NOT EXISTS (
 				SELECT 
 					B.REQ_ID AS REQ_ID
@@ -780,6 +783,15 @@
 			AND A.FLOW_ID = #flowId#
 		]]>
 	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<update id="dpl1100DAO.updateDpl1100Dpl" parameterClass="java.util.Map">
 		<![CDATA[ 
 			

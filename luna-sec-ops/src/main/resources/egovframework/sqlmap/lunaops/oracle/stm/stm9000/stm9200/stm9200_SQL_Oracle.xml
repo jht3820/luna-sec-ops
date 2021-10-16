@@ -589,6 +589,16 @@
 			<include refid="selectStm9003PrjAssignDplAuthListBase"/>
 		) Z
     </select>
+    
+    
+	<select id="stm9200DAO.selectStm9003PrjAssignDplAuthNormalList" parameterClass="java.util.Map" resultClass="egovMap">
+    	
+	 	SELECT Z.*
+		FROM
+		(
+			<include refid="selectStm9003PrjAssignDplAuthListBase"/>
+    	) Z
+    </select>
 	
 	
 	<select id="stm9200DAO.selectStm9003PrjNotAssignDplAuthList" parameterClass="java.util.Map" resultClass="egovMap">

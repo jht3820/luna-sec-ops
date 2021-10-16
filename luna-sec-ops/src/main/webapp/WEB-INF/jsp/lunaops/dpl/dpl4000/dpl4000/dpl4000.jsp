@@ -154,7 +154,7 @@
 						return $.osl.user.usrImgSet(row.lastSignUsrImgId, usrData);
 					},
 					onclick: function(rowData){
-						if(row.lastSignUsrNm != "-"){
+						if(rowData.lastSignUsrNm != "-"){
 							$.osl.user.usrInfoPopup(rowData.lastSignUsrId);
 						}
 					}
@@ -189,7 +189,7 @@
 						return $.osl.user.usrImgSet(row.dplUsrImgId, usrData);
 					},
 					onclick: function(rowData){
-						if(row.dplUsrNm != "-"){
+						if(rowData.dplUsrNm != "-"){
 							$.osl.user.usrInfoPopup(rowData.dplUsrId);
 						}
 					}	
@@ -203,7 +203,7 @@
 			],
 			actionBtn:{
 				"title": $.osl.lang("dpl4000.dpl.actionBtn.title"),
-				"width" : 50,
+				"width" : 120,
 				"update": false,
 				"delete": false,
 				"click" : true,
@@ -292,8 +292,8 @@
 					"detail" : " kt-hide",
 				 },
 				 actionBtnIcon:{
-					 "dblClick": " fas fa-external-link-alt",
-					 "detail": " fas fa-external-link-alt"
+					 "dblClick": " fa fa-info-circle",
+					 "detail": "fa fa-info-circle"
 				 }
 			 }
 		});
@@ -358,10 +358,12 @@
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId,
 						};
+					console.log(data);
+					debugger;
 					var options = {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("dpl4000.req.actionBtn.modalTitle", $.osl.escapeHtml(rowData.reqNm)),
-							modalSize : "xl"
+							modalSize : "fs"
 						};
 					
 					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6203View.do',data,options);
@@ -386,6 +388,7 @@
 					var options = {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("dpl4000.req.actionBtn.modalTitle", $.osl.escapeHtml(rowData.reqNm)),
+							modalSize : "fs"
 						};
 					
 					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6203View.do',data,options);
@@ -397,8 +400,8 @@
 					"detail" : "",
 				},
 				actionBtnIcon:{
-					"dblClick": "fas fa-external-link-alt",
-					"detail": "fas fa-external-link-alt",
+					"dblClick": "fa fa-info-circle",
+					"detail": "fa fa-info-circle",
 				}
 			}
 		});
@@ -511,8 +514,8 @@
 					"detail" : "",
 				},
 				actionBtnIcon:{
-					"dblClick": "fas fa-external-link-alt",
-					"detail": "fas fa-external-link-alt",
+					"dblClick": "fa fa-info-circle",
+					"detail": "fa fa-info-circle",
 				}
 			}
 		});

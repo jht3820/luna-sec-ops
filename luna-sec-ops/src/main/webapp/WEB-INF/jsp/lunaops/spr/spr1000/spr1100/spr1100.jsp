@@ -205,12 +205,12 @@ var OSLSpr1100Popup = function () {
 						url: "/spr/spr1000/spr1100/selectSpr1100AssReqListAjax.do"
 					}
 				},
-				pageSize: 4
+				pageSize: 5
 			},
 			toolbar:{
 				items:{
 					pagination:{
-						pageSizeSelect : [4, 10, 20, 30, 50, 100]
+						pageSizeSelect : [5, 10, 20, 30, 50, 100]
 					}
 				}
 			},
@@ -254,12 +254,12 @@ var OSLSpr1100Popup = function () {
 						url: "/spr/spr1000/spr1100/selectSpr1100NonAssReqListAjax.do"
 					}
 				},
-				pageSize: 4
+				pageSize: 5
 			},
 			toolbar:{
 				items:{
 					pagination:{
-						pageSizeSelect : [4, 10, 20, 30, 50, 100]
+						pageSizeSelect : [5, 10, 20, 30, 50, 100]
 					}
 				}
 			},

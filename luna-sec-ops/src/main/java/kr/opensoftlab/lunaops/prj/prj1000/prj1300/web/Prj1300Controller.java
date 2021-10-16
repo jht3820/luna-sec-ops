@@ -94,6 +94,18 @@ public class Prj1300Controller {
     public String selectPrj1303View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		return "/prj/prj1000/prj1300/prj1303";
     }
+	
+	
+	@RequestMapping(value="/prj/prj1000/prj1300/selectPrj1304View.do")
+    public String selectPrj1304View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/prj/prj1000/prj1300/prj1304";
+    }
+	
+	
+	@RequestMapping(value="/prj/prj1000/prj1300/selectPrj1305View.do")
+    public String selectPrj1305View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/prj/prj1000/prj1300/prj1305";
+    }
 
     
     @SuppressWarnings({ "rawtypes", "unchecked" })

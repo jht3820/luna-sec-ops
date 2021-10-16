@@ -1,41 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="row">
-	<div class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12">
+	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
-			<div class="kt-portlet__body">
-				<ul class="kt-nav kt-nav--bold kt-nav--md-space kt-nav--v3 nav nav-tabs" role="tablist">
-					<li class="kt-nav__item" id="menuTypeGet">
-						<a class="kt-nav__link kt-padding-l-0 kt-padding-r-0 active" data-toggle="tab" href="#kt_profile_tab_personal_information" role="tab">
+			<div class="kt-portlet__body kt-padding-10">
+				<ul class="kt-nav kt-nav--bold kt-nav--md-space nav nav-tabs osl-display__flex osl-flex-flow--column-mobile" role="tablist">
+					<li class="kt-nav__item osl-display__flex osl-flex-row-fluid" id="menuTypeGet">
+						<a class="kt-nav__link kt-padding-l-20 kt-padding-r-20 active" data-toggle="tab" href="#kt_profile_tab_personal_information" role="tab">
 							<span class="kt-nav__link-icon"><i class="fas fa-inbox"></i></span>
-							<span class="kt-nav__link-text kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.get">받은 메시지</span>
-							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadGetCntBadge" name="notReadGetCntBadge">0</span>
+							<span class="kt-nav__link-text flex-grow-0 kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.get">받은 메시지</span>
+							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-margin-l-20 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadGetCntBadge" name="notReadGetCntBadge">0</span>
 						</a>
 					</li>
-					<li class="kt-nav__item" id="menuTypeSend">
-						<a class="kt-nav__link kt-padding-l-0 kt-padding-r-0" data-toggle="tab" href="#kt_profile_tab_account_information" role="tab">
+					<li class="kt-nav__item osl-display__flex osl-flex-row-fluid kt-padding-t-5" id="menuTypeSend">
+						<a class="kt-nav__link kt-padding-l-20 kt-padding-r-20" data-toggle="tab" href="#kt_profile_tab_account_information" role="tab">
 							<span class="kt-nav__link-icon"><i class="fas fa-paper-plane"></i></span>
-							<span class="kt-nav__link-text kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.send">보낸 메시지</span>
+							<span class="kt-nav__link-text flex-grow-0 kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.send">보낸 메시지</span>
 						</a>
 					</li>
-					<li class="kt-nav__item" id="menuTypeAlone">
-						<a class="kt-nav__link kt-padding-l-0 kt-padding-r-0" data-toggle="tab" href="#kt_profile_change_password" role="tab">
+					<li class="kt-nav__item osl-display__flex osl-flex-row-fluid" id="menuTypeAlone">
+						<a class="kt-nav__link kt-padding-l-20 kt-padding-r-20" data-toggle="tab" href="#kt_profile_change_password" role="tab">
 							<span class="kt-nav__link-icon"><i class="fas fa-envelope-square"></i></span>
-							<span class="kt-nav__link-text kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.alone">나에게 보낸 메시지</span>
-							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadAloneCntBadge" name="notReadAloneCntBadge">0</span>
+							<span class="kt-nav__link-text flex-grow-0 kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.alone">나에게 보낸 메시지</span>
+							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-margin-l-20 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadAloneCntBadge" name="notReadAloneCntBadge">0</span>
 						</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
+	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head">
 				<div class="kt-portlet__head-label">
 					
 					<span class="kt-font-boldest kt-font-lg" id="getAllCnt" name="getAllCnt">
-						<span class="d-inline-block">받은 메시지</span>
+						<span class="d-inline-block" data-lang-cd="arm1000.label.get">받은 메시지</span>
 						<div class="badge osl-badge-lightgray kt-margin-l-20">
 							<span class='kt-font-brand' id="notReadGetCnt" name="notReadGetCnt">0</span>
 							<span id="getCnt" name="getCnt"></span>
@@ -43,14 +43,14 @@
 					</span>					
 					
 					<span class="kt-hide kt-font-boldest kt-font-lg" id="sendAllCnt" name="sendAllCnt">
-						<span class="d-inline-block">보낸 메시지</span>
+						<span class="d-inline-block" data-lang-cd="arm1000.label.send">보낸 메시지</span>
 						<div class="badge osl-badge-lightgray kt-margin-l-20">
 							<span id="sendCnt" name="sendCnt"></span>
 						</div>
 					</span>
 					
 					<span class="kt-hide kt-font-boldest kt-font-lg" id="aloneAllCnt" name="aloneAllCnt">
-						<span class="d-inline-block">나에게 보낸 메시지</span>
+						<span class="d-inline-block" data-lang-cd="arm1000.label.alone">나에게 보낸 메시지</span>
 						<div class="badge osl-badge-lightgray kt-margin-l-20">
 							<span class='kt-font-brand' id="notReadAloneCnt" name="notReadAloneCnt">0</span>
 							<span id="aloneCnt" name="aloneCnt"></span>
@@ -106,8 +106,8 @@ var OSLArm1000Popup = function () {
 			},
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
-				{field: 'rn', title: 'No.', textAlign: 'center', width: 50, sortable: true},
-				{field: 'checkCd', title: '읽음 상태', textAlign: 'center', width: 80, sortable: true,
+				
+				{field: 'checkCd', title: '읽음 상태', textAlign: 'center', width: 60, sortable: true,
 					template: function (row) {
 						var returnStr = "";
 						if(row.checkCd == "02"){
@@ -121,25 +121,7 @@ var OSLArm1000Popup = function () {
 						return returnStr;
 					}
 				},
-				{field: 'sendUsrNm', title: '보낸 사람', textAlign: 'left', autoHide: false, width: 120, sortField: "sendUsrNm", search:true, sortable: true,
-					template: function (row) {
-						if($.osl.isNull(row.sendUsrNm)){
-							row.sendUsrNm = "";
-						}
-						var usrData = {
-							html: row.sendUsrNm,
-							imgSize: "sm",
-							class:{
-								cardBtn: "osl-width__fit-content"
-							}
-						};
-						return $.osl.user.usrImgSet(row.sendUsrImgId, usrData);
-					},
-					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.sendUsrId);
-					}
-				},
-				{field: 'usrNm', title: '받는 사람', textAlign: 'left', autoHide: false, width: 120, sortField: 'usrNm', search:true, sortable: true,
+				{field: 'usrNm', title: '받는 사람', textAlign: 'left', width: 120, sortField: 'usrNm', search:true, sortable: true,
 					template: function (row) {
 						if($.osl.isNull(row.usrNm)){
 							row.sendUsrNm = "";
@@ -157,14 +139,32 @@ var OSLArm1000Popup = function () {
 						$.osl.user.usrInfoPopup(rowData.usrId);
 					}
 				},
-				{field: 'armTitle', title:'제목', textAlign: 'left', width: 400, autoHide: false, sortField: "armTitle", search: true},
-				{field: 'sendDtm', title: '날짜', textAlign: 'center', width: 120, sortField: "sendDtm", search: true, searchType:"daterange", sortable: true,
+				{field: 'sendDtm', title: '날짜', textAlign: 'center', width: 100, sortField: "sendDtm", search: true, searchType:"daterange", autoHide:false, sortable: true,
 					template: function (row) {
 						var paramDatetime = new Date(row.sendDtm);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
 		                return agoTimeStr.agoString;
 					}
 				},
+				{field: 'sendUsrNm', title: '보낸 사람', textAlign: 'left', width: 120, sortField: "sendUsrNm", search:true, sortable: true,
+					template: function (row) {
+						if($.osl.isNull(row.sendUsrNm)){
+							row.sendUsrNm = "";
+						}
+						var usrData = {
+							html: row.sendUsrNm,
+							imgSize: "sm",
+							class:{
+								cardBtn: "osl-width__fit-content"
+							}
+						};
+						return $.osl.user.usrImgSet(row.sendUsrImgId, usrData);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.sendUsrId);
+					}
+				},
+				{field: 'armTitle', title:'제목', textAlign: 'left', width: 300, sortField: "armTitle", search: true},
 			],
 			searchColumns:[
 				{field: 'sendUsrId', title: $.osl.lang("arm1000.field.sendUsrId"), searchOrd: 1},
@@ -186,10 +186,12 @@ var OSLArm1000Popup = function () {
 				clickCheckbox: true,
 			},
 			actionBtn:{
+				"width": 120,
 				"reInsert" : true,
 				"update" : false,
 				"dblClick" : true,
 				"check" : true,
+				
 			}, 
 			actionTooltip:{
 				"reInsert" : $.osl.lang("arm1000.button.tooltip.reInsertBtn"),
@@ -204,6 +206,7 @@ var OSLArm1000Popup = function () {
 							modalTitle: $.osl.lang("arm1000.actionBtn.insertTitle"),
 							closeConfirm: true,
 							autoHeight:false,
+							ftScrollUse: false,
 						};
 					
 					$.osl.layerPopupOpen('/arm/arm1000/arm1000/insertArm1001View.do',data,options);
@@ -221,13 +224,14 @@ var OSLArm1000Popup = function () {
 							data = {
 									type:"reInsert",
 									reSendUsrId : rowDatas[0].sendUsrId,
-									atchfileId : rowDatas[0].atchFileId
+									atchfileId : rowDatas[0].atchFileId,
 								};
 							options = {
 									idKey: "reInsert_"+rowDatas[0].armId,
 									modalTitle: $.osl.lang("arm1000.actionBtn.reInsertTitle"),
 									closeConfirm: false,
 									autoHeight:false,
+									ftScrollUse: false,
 								};
 						}else{
 							
@@ -245,6 +249,7 @@ var OSLArm1000Popup = function () {
 								modalTitle: $.osl.lang("arm1000.actionBtn.reInsertTitle"),
 								closeConfirm: true,
 								autoHeight:false,
+								ftScrollUse: false,
 							};
 					}
 					
@@ -268,6 +273,8 @@ var OSLArm1000Popup = function () {
 							
 							$.osl.layerPopupClose();
 						}else{
+							
+					    	mssArmLoad();
 							OSLArm1000Popup.reload();
 						}
 					});
@@ -285,6 +292,7 @@ var OSLArm1000Popup = function () {
 							modalTitle: $.osl.lang("arm1000.actionBtn.dblClickTitle"),
 							closeConfirm: true,
 							autoHeight:false,
+							ftScrollUse: false,
 					};
 					
 					$.osl.layerPopupOpen('/arm/arm1000/arm1000/selectArm1002View.do',data,options);
@@ -307,6 +315,8 @@ var OSLArm1000Popup = function () {
 							
 							$.osl.layerPopupClose();
 						}else{
+							
+					    	mssArmLoad();
 							OSLArm1000Popup.reload();
 						}
 					});
@@ -367,6 +377,9 @@ var OSLArm1000Popup = function () {
 		
 		$("#"+datatableId).on("kt-datatable--on-layout-updated", function(){
 			actionBtnHide();
+			
+ 			
+ 			
        	});
 	};
 	
