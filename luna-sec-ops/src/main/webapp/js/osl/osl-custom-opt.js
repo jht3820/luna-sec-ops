@@ -35,6 +35,10 @@ var OSLCoreCustomOptionSetting = function () {
 		
 		var defaultConfig = {
 				
+				"viewType": "default",
+				
+				"actionFn":{},	
+				
 				"classNm":{
 					
 					"option_half": "option_half",
@@ -155,9 +159,16 @@ var OSLCoreCustomOptionSetting = function () {
 				
 				var optContentLabel = '';
 				
+				var requiredLabelTxt = "";
 				var requiredTxt = "";
 				if(map.itemEssentialCd=='01'){
-					requiredTxt = "required";
+					requiredLabelTxt = "required";
+					if(config.viewType=="preview"){
+						requiredTxt = "";
+					}else{
+						requiredTxt = "required";
+					}
+					
 				}
 				
 				
@@ -221,7 +232,8 @@ var OSLCoreCustomOptionSetting = function () {
 							
 							optReadOnly = optAddClass = '';
 						}
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 						optContentData = '<input type="text" class="form-control" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" maxlength="'+map.itemLength+'" value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
 					}else if(map.itemType == "02"){ 
 						if(!optReadOnlyChk){
@@ -231,7 +243,7 @@ var OSLCoreCustomOptionSetting = function () {
 					
 						
 						itemValue = itemValue.replace(/<br>/gi,"\n").replace(/<\/br>/gi,"\n");
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 						optContentData = '<textarea class="form-control osl-min-h-px--220 osl-textarea__resize--none '+config.classNm.option_textarea+' '+optAddClass+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" '+optReadOnly+' '+requiredTxt+'>'+itemValue+'</textarea>';
 					}else if(map.itemType == "03"){ 
 						if(!optReadOnlyChk){
@@ -243,7 +255,7 @@ var OSLCoreCustomOptionSetting = function () {
 							optChkVal = " checked";
 						}
 						
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 						optContentData = 
 							 '<div class="form-group kt-margin-b-10"><label class="kt-checkbox kt-checkbox--bold kt-checkbox--success"><input type="checkbox" id="'+map.itemId+'" name="'+map.itemId+'" '+optChkVal+' '+optReadOnly+' '+requiredTxt+'/>'
 							+'<span></span></label></div>';
@@ -255,8 +267,8 @@ var OSLCoreCustomOptionSetting = function () {
 							
 							dateObjList.push(map.itemId);
 						}
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
-						optContentData = '<input type="text" class="form-control" placeholder="'+itemNm+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentData = '<input type="text" class="form-control osl-input-readonly-none" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
 					}else if(map.itemType == "05"){ 
 						if(optReadOnlyChk){
 							optReadOnly = 'disabled="disabled"';
@@ -266,8 +278,8 @@ var OSLCoreCustomOptionSetting = function () {
 							dateTimeObjList.push(map.itemId);
 						}
 						
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
-						optContentData = '<input type="text" class="form-control" placeholder="'+itemNm+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentData = '<input type="text" class="form-control osl-input-readonly-none" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
 					}
 				}else if(map.itemCode == "02"){ 
 					if(optReadOnlyChk){
@@ -275,7 +287,7 @@ var OSLCoreCustomOptionSetting = function () {
 					}else{
 						optAddClass = '';
 					}
-					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+					optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 					optContentData = '<select class="form-control kt-select2" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" opttype="-1" data-osl-value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'></select>';
 					
 					
@@ -286,7 +298,7 @@ var OSLCoreCustomOptionSetting = function () {
 						fileIdList.push(map.itemId);
 					}
 					
-					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-file-upload kt-margin-r-5"></i>'+itemNm+'<button type="button" class="btn btn-sm btn-danger d-none kt-margin-l-10" id="fileRemoveResetBtn">삭제 초기화</button></label>'
+					optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-file-upload kt-margin-r-5"></i>'+itemNm+'<button type="button" class="btn btn-sm btn-danger d-none kt-margin-l-10" id="fileRemoveResetBtn">삭제 초기화</button></label>'
 					optContentData = 
 						 '<div class="kt-uppy osl-max-h-px-260 fileReadonly" name="'+map.itemId+'FileDiv" id="'+map.itemId+'FileDiv" '+requiredTxt+'>'
 						+	'<input type="hidden" id="'+map.itemId+'" name="'+map.itemId+'">'
@@ -301,7 +313,7 @@ var OSLCoreCustomOptionSetting = function () {
 						
 						commonPopup_charger.push(map.itemId);
 					}
-					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+					optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 					optContentData = 
 						'<div class="input-group">'
 						+'		<input type="text" class="form-control kt-hide" placeholder="'+itemNm+'" name="'+map.itemId+'" id="'+map.itemId+'" value="'+itemValue+'" opttype="-1" '+optReadOnly+'>'
@@ -332,7 +344,7 @@ var OSLCoreCustomOptionSetting = function () {
 					
 					
 					
-					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-id-card kt-margin-r-5"></i><span>'+itemNm+'</span></label>';
+					optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-id-card kt-margin-r-5"></i><span>'+itemNm+'</span></label>';
 
 					optContentData = 
 						'<div class="input-group">'
@@ -342,11 +354,18 @@ var OSLCoreCustomOptionSetting = function () {
 						+'</div>' ;
 					
 				}
+				var delBtn = "";
+				
+				
+				if(config.viewType=='preview'){
+					delBtn = "<button type='button' class='osl-uppy__right close itemDelete' data-item-id='"+map.itemId+"'><i class='fa fa-window-close'></i></button>";
+				}
 				
 				var optCompleData =
-							'<div class="'+optionPcWidthSize+' '+optionTabletWidthSize+' '+optionMobileWidthSize+'">'
+							'<div class="'+optionPcWidthSize+' '+optionTabletWidthSize+' '+optionMobileWidthSize+' basicItemDiv">'
 							+'	<div class="form-group">'
 							+		optContentLabel
+							+		delBtn
 							+		optContentData
 							+'	</div>'
 							+'</div>';
@@ -361,6 +380,17 @@ var OSLCoreCustomOptionSetting = function () {
 				$("#"+htmlTargetObj).html(rtnStrValue);
 			}
 			
+			
+			if(config.viewType=='preview'){
+				$(".itemDelete").off();
+				$(".itemDelete").click(function(){
+					if(config.actionFn.hasOwnProperty("delete")){
+						config.actionFn.delete($(this));
+					}else{
+						$(this).parents(".basicItemDiv:first").remove();
+					}
+				});
+			}
 			
 			if(!$.osl.isNull(fileIdList)){
 				

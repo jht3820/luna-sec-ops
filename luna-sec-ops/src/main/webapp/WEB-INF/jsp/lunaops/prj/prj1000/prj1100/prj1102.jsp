@@ -9,7 +9,7 @@
 	<input type="hidden" name="paramFlowId" id="paramFlowId" value="${param.paramFlowId}">
 	<div class="row">
 		<div class="col-lg-6 col-md-12 col-sm-12">
-			<div class="kt-portlet">
+			<div class="kt-portlet" id="flowLeftDiv">
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
@@ -51,10 +51,6 @@
 							<div class="row">
 								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="kt-checkbox-list">
-										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-											<input type="checkbox" name="flowEssentialCd" id="flowEssentialCd" opttype="-1"> 필수 단계
-											<span></span>
-										</label>
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
 											<input type="checkbox" name="flowSignStopCd" id="flowSignStopCd" opttype="-1"> 결재 반려 시 종료
 											<span></span>
@@ -104,11 +100,11 @@
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-12 col-sm-12">
-			<div class="kt-portlet"  id="itemInfo">
+			<div class="kt-portlet" id="flowRightDiv">
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
-							<i class="fa fa-th-large kt-margin-r-5"></i>기본항목
+							<i class="fa fa-th-large kt-margin-r-5"></i>기본항목 미리보기
 						</h5>
 					</div>
 					<div class="kt-portlet__head-toolbar">
@@ -118,7 +114,7 @@
 								<div class="dropdown-item" id="insertBasicItemBtn"><i class="fa fa-plus kt-font-brand"></i>신규 항목 추가</div>
 								<div class="dropdown-item" id="selectBasicItemBtn"><i class="fa fa-list-alt kt-font-brand"></i>기본항목 불러오기</div>
 							</div>
-							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 						</div>
 					</div>
 				</div>
@@ -150,6 +146,8 @@ var OSLPrj1102Popup = function () {
 	
 	var basicItemList = new Array();
 	
+	var basicItemDelList = new Array();
+	
 	
 	var paramPrjGrpId = $("#paramPrjGrpId").val();
 	var paramPrjId = $("#paramPrjId").val();
@@ -158,6 +156,8 @@ var OSLPrj1102Popup = function () {
 	
     
     var documentSetting = function () {
+    	
+    	$("#flowRightDiv").css("min-height",$("#flowLeftDiv").height());
     	
     	$("#prj1101SaveSubmit > span").text($.osl.lang("modal."+type+".saveBtnString"));
 		
@@ -276,7 +276,7 @@ var OSLPrj1102Popup = function () {
 
 		$("#insertBasicItemBtn").click(function(){
 			var data = {
-					
+					type:"insert"
 				};
 			var options = {
 					idKey: "prj1305",
@@ -314,22 +314,11 @@ var OSLPrj1102Popup = function () {
 				top = 0;
 			}
 		}
-   		
+
    		
 		$.each(basicItemList, function(idx, map){
-			if(map.itemCode == "01"){ 
-				map.itemValue = $("#"+map.itemId).val();
-			}else if(map.itemCode == "02"){ 
-				map.itemValue = $("#"+map.itemId).val();
-			}else if(map.itemCode == "03"){ 
-			}else if(map.itemCode == "04"){ 
-				map.itemValue = $("#"+map.itemId).val();
-				map.itemValueNm = $("#"+map.itemId+"Nm").val();
-			}else if(map.itemCode == "05"){ 
-			}else if(map.itemCode == "06"){ 
-				map.itemValue = $("#"+map.itemId).val();
-				map.itemValueNm = $("#"+map.itemId+"Nm").val();
-			}
+			map.itemOrd = idx+1;
+			basicItemList[idx] = map;
 		});
    		
 		
@@ -350,7 +339,6 @@ var OSLPrj1102Popup = function () {
 						outputs: {output_1: {label: '다음'}},
 						flowTitleBgColor: $("#flowTitleBgColor").val(),
 						flowTitleColor: $("#flowTitleColor").val(),
-						flowEssentialCd: $("#flowEssentialCd").is(":checked")? "01": "02",
 						flowSignCd: $("#flowSignCd").is(":checked")? "01": "02",
 						flowSignStopCd: $("#flowSignStopCd").is(":checked")? "01": "02",
 						flowEndCd: $("#flowEndCd").is(":checked")? "01": "02",
@@ -358,7 +346,8 @@ var OSLPrj1102Popup = function () {
 						flowRevisionCd: $("#flowRevisionCd").is(":checked")? "01": "02",
 						flowDplCd: $("#flowDplCd").is(":checked")? "01": "02",
 						flowAuthCd: $("#flowAuthCd").is(":checked")? "01": "02",
-						basicItemList: basicItemList
+						basicItemList: basicItemList,
+						basicItemDelList: basicItemDelList,
 					}
 				};
 	  			
@@ -370,7 +359,6 @@ var OSLPrj1102Popup = function () {
 				flowInfo.properties.title = $("#flowNm").val();
 				flowInfo.properties.flowTitleBgColor = $("#flowTitleBgColor").val();
 				flowInfo.properties.flowTitleColor = $("#flowTitleColor").val();
-				flowInfo.properties.flowEssentialCd = $("#flowEssentialCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowSignCd = $("#flowSignCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowSignStopCd = $("#flowSignStopCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowEndCd = $("#flowEndCd").is(":checked")? "01": "02";
@@ -380,6 +368,7 @@ var OSLPrj1102Popup = function () {
 				flowInfo.properties.flowAuthCd = $("#flowAuthCd").is(":checked")? "01": "02";
 
 				flowInfo.properties.basicItemList = basicItemList;
+				flowInfo.properties.basicItemDelList = basicItemDelList;
 				
 				$("#flowChartDiv").flowchart("setOperatorData",paramFlowId, flowInfo);
 			}
@@ -403,12 +392,30 @@ var OSLPrj1102Popup = function () {
 			$.osl.customOpt.setting(basicItemList,  "basicItemList",
 	    			
 	    			{
-	    		
-	    			},
-	    			
-	    			function(){
-	    				
-	    			}
+						viewType: "preview",
+						actionFn:{
+							delete:function($this){
+								var targetId = $this.data("itemId");
+								$this.parents(".basicItemDiv:first").remove();
+								basicItemDelList.push({"itemId":targetId});
+								
+								var delIdx = ""
+								$.each(basicItemList,function(idx, map){
+									if(map.itemId == targetId){
+											delIdx = idx;						
+									}
+								});
+								if(delIdx!==""){
+									basicItemList.splice(delIdx,1);
+								}
+		
+							}
+						}
+					},
+					
+					function(){
+						
+					}
     		); 
 		}
 		
@@ -429,12 +436,29 @@ var OSLPrj1102Popup = function () {
 	    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
 	    			
 	    			{
-	    		
-	    			},
-	    			
-	    			function(){
-	    				
-	    			}
+						viewType: "preview",
+						actionFn:{
+							delete:function($this){
+								var targetId = $this.data("itemId");
+								$this.parents(".basicItemDiv:first").remove();
+								basicItemDelList.push({"itemId":targetId});
+		
+								var delIdx = ""
+								$.each(basicItemList,function(idx, map){
+									if(map.itemId == targetId){
+											delIdx = idx;						
+									}
+								});
+								if(delIdx!==""){
+									basicItemList.splice(delIdx,1);
+								}
+							}
+						}
+					},
+					
+					function(){
+						
+					}
     		); 
     	}
     };

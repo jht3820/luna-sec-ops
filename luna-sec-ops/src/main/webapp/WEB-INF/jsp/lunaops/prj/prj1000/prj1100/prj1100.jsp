@@ -18,34 +18,6 @@
 			<ul class="kt-nav" id="prj1100CardTable">
 			</ul>
 			<div class="kt_datatable osl-datatable-footer__divide" id="prj1100PrjTable"></div>
-			<!-- 
-			<ul class="kt-nav">
-				<li class="kt-nav__item">
-					<a href="#" class="kt-nav__link">
-						<i class="kt-nav__link-icon fa fa-genderless kt-font-warning"></i>
-						<span class="kt-nav__link-text">전체 프로세스</span>
-					</a>
-				</li>
-				<li class="kt-nav__item">
-					<a href="#" class="kt-nav__link">
-						<i class="kt-nav__link-icon fa fa-genderless kt-font-success"></i>
-						<span class="kt-nav__link-text">확정 프로세스</span>
-					</a>
-				</li>
-				<li class="kt-nav__item">
-					<a href="#" class="kt-nav__link">
-						<i class="kt-nav__link-icon fa fa-genderless kt-font-info"></i>
-						<span class="kt-nav__link-text">폐기 프로세스</span>
-					</a>
-				</li>
-				<li class="kt-nav__item">
-					<a href="#" class="kt-nav__link">
-						<i class="kt-nav__link-icon fa flaticon2-plus"></i>
-						<span class="kt-nav__link-text">프로세스 분류 생성</span>
-					</a>
-				</li>
-			</ul>
-			 -->
 		</div>
 	</div>
 	<div class="kt-grid__item kt-grid__item--fluid kt-portlet kt-inbox__list kt-inbox__list--shown" id="processFlowLayerMain">
@@ -918,7 +890,6 @@ var OSLPrj1100Popup = function () {
    								outputs: {output_1: {label: '다음'}},
    								flowTitleBgColor: map.flowTitleBgColor,
    								flowTitleColor: map.flowTitleColor,
-   								flowEssentialCd: map.flowEssentialCd,
    								flowSignCd: map.flowSignCd,
    								flowSignStopCd: map.flowSignStopCd,
    								flowStartCd: map.flowStartCd,
@@ -926,7 +897,8 @@ var OSLPrj1100Popup = function () {
    								flowWorkCd: map.flowWorkCd,
    								flowRevisionCd: map.flowRevisionCd,
    								flowDplCd: map.flowDplCd,
-   								flowAuthCd: map.flowAuthCd
+   								flowAuthCd: map.flowAuthCd,
+   								basicItemList: map.basicItemList
    							}
    						};
    		   				

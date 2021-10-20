@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frCmm6500">
 	<input type="hidden" name="paramDeptNm" id="paramDeptNm" value="${param.deptName}">
@@ -15,7 +16,7 @@
 						<div class="kt-portlet__head-group">
 							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="cmm6500DeptTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a>
 							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="cmm6500DeptTree" data-tree-action="allNodeClose"><i class="fa fa-minus"></i></a>
-							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 						</div>
 					</div>
 				</div>
