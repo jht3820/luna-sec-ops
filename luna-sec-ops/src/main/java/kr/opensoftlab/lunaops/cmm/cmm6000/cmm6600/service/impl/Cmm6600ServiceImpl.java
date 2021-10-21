@@ -216,7 +216,10 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 					
 					}else {
 						paramMap.put("signTypeCd", "02");
-
+						
+						
+						Map nextSignUsrInfo = cmm6600DAO.selectCmm6600NextOrdInfo(paramMap);
+						
 						
 						Map<String, Object> ntfParamApr = new HashMap<String, Object>();
 						
