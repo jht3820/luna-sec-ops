@@ -3,6 +3,7 @@ package kr.opensoftlab.lunaops.dpl.dpl3000.dpl3000.web;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1100.service.Dpl1100Service;
 import kr.opensoftlab.lunaops.dpl.dpl3000.dpl3000.service.Dpl3000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9000.service.Stm9000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9100.service.Stm9100Service;
+import kr.opensoftlab.lunaops.stm.stm9000.stm9200.service.Stm9200Service;
 import kr.opensoftlab.sdf.jenkins.JenkinsClient;
 import kr.opensoftlab.sdf.jenkins.service.BuildService;
 import kr.opensoftlab.sdf.jenkins.vo.BuildVO;
@@ -64,8 +66,12 @@ public class Dpl3000Controller {
     private Dpl3000Service dpl3000Service;
 
     
-	@Resource(name = "stm9000Service")
-	private Stm9000Service stm9000Service;
+    @Resource(name = "stm9000Service")
+    private Stm9000Service stm9000Service;
+    
+    
+	@Resource(name = "stm9200Service")
+	private Stm9200Service stm9200Service;
 	
 	
 	@Resource(name = "stm9100Service")
@@ -133,26 +139,8 @@ public class Dpl3000Controller {
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
 			
-			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
-			
-			
-			totCnt = dpl1000Service.selectDpl1300DplJobPagingListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			dataList = dpl1000Service.selectDpl1300DplJobPagingList(paramMap);
-			
-        	
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -242,6 +230,12 @@ public class Dpl3000Controller {
     			paramPrjId = (String) ss.getAttribute("selPrjId");
     		}
     		
+    		String paramAuthGrpId = paramMap.get("authGrpId");
+    		if(paramAuthGrpId == null || "".equals(paramAuthGrpId)) {
+    			
+    			paramAuthGrpId = (String) ss.getAttribute("selAuthGrpId");
+    		}
+    		
     		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
     		
     		
@@ -252,6 +246,42 @@ public class Dpl3000Controller {
     		
     		
 			String dplUsrId = (String) dplMap.get("dplUsrId");
+    		
+			
+			boolean buildFlag = false;
+			
+    		
+    		List<Map> bldAuthList = stm9200Service.selectStm9200PrjAssignDplAuthNormalList(paramMap);
+    		
+    		if(bldAuthList != null && bldAuthList.size() > 0) {
+    			
+    			for(int i=0 ;i<bldAuthList.size(); i++) {
+    				Map bldAuthInfo = bldAuthList.get(i);
+    				
+    				String dplAuthTargetId = (String)bldAuthInfo.get("dplAuthTargetId");
+    				
+    				
+    				if(dplAuthTargetId.equals(dplUsrId)){
+    					buildFlag = true;
+    					break;
+    				
+    				}else if(dplAuthTargetId.equals(paramAuthGrpId)){
+    					buildFlag = true;
+    					break;
+    				}
+    			}
+    		
+    		}else{
+    			buildFlag = true;
+    		}
+    		
+    		
+    		if(!buildFlag){
+    			
+    			model.addAttribute("errorYn", "Y");
+				model.addAttribute("message", "해당 JOB의 배포 실행 권한이 없습니다. 관리자에게 문의하세요.");
+				return new ModelAndView("jsonView");
+    		}
 			
     		
     		if(!loginVO.getUsrId().equals(dplUsrId)){

@@ -4,6 +4,7 @@
 <form class="kt-form" id="frCmm6600">
 	<input type="hidden" name="paramTargetId" id="paramTargetId" value="${param.targetId}">
 	<input type="hidden" name="paramTargetCd" id="paramTargetCd" value="${param.targetCd}">
+	<input type="hidden" name="paramTargetNm" id="paramTargetNm" value="${param.targetNm}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.prjId}">
 	<div class="row">
 		<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
@@ -46,8 +47,8 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="cmm6600SaveSignLine"><i class="fa fa-save"></i><span>결재 요청</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span>Close</span></button>
+	<button type="button" class="btn btn-brand" id="cmm6600SaveSignLine"><i class="fa fa-save"></i><span class="osl-resize__display--show">결재 요청</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
 "use strict";
@@ -70,6 +71,9 @@ var OSLCmm6600Popup = function () {
 	
 	
 	var targetCd = $('#paramTargetCd').val();
+	
+	
+	var targetNm = $('#paramTargetNm').val();
 	
 	
 	var type = '';
@@ -172,7 +176,7 @@ var OSLCmm6600Popup = function () {
 	    	
     		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/cmm/cmm6000/cmm6600/saveCmm6600SignLineAjax.do'/>"}
-				,{signUsrInfList: JSON.stringify(signUsrInfs) , prjId : prjId, targetId : targetId, targetCd:targetCd,type:type});
+				,{signUsrInfList: JSON.stringify(signUsrInfs) , prjId : prjId, targetId : targetId, targetCd:targetCd,type:type,targetNm:targetNm});
 
     		
     		ajaxObj.setFnSuccess(function(data){

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="prj1300DAO">
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
    	<resultMap id="resultMapSelectPrj1102" class="egovMap">
 		<result property="rn"  					column="RN"/>
 		<result property="prjId"				column="PRJ_ID"/>
-		<result property="templateId"			column="TEMPLATE_ID"/>
+		<result property="processId"				column="PROCESS_ID"/>
+		<result property="flowId"				column="FLOW_ID"/>
 		<result property="itemId"				column="ITEM_ID"/>
 		<result property="itemNm"				column="ITEM_NM"/>
 		<result property="itemCode"				column="ITEM_CODE"/>
@@ -139,8 +140,6 @@
 			       , A.FLOW_ID
 			       , A.ITEM_ID
 			       , A.ITEM_NM
-			       , B.ITEM_VALUE
-			       , B.ITEM_VALUE_NM
 			       , A.ITEM_CODE
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00001', A.ITEM_CODE, '1') AS ITEM_CODE_NM
 			       , A.ITEM_COMMON_CODE
@@ -165,7 +164,6 @@
 			       , A.MODIFY_USR_ID
 			       , A.MODIFY_USR_IP
            	FROM	PRJ1102 A
-            LEFT JOIN PRJ1103 B ON (A.PRJ_ID=B.PRJ_ID AND A.PROCESS_ID=B.PROCESS_ID AND A.FLOW_ID=B.FLOW_ID AND A.ITEM_ID=B.ITEM_ID)
            	WHERE	1=1
            		AND A.PRJ_ID		=	#prjId#
            		AND	A.PROCESS_ID	=	#processId#
@@ -472,6 +470,18 @@
 	
 	
 	
+	
+    <select id="prj1300DAO.selectPrj1102AllItemList" parameterClass="java.util.Map" resultMap="resultMapSelectPrj1102">
+	    
+		SELECT *
+		FROM
+			(
+				<include refid="selectPrj1102ItemList"/>
+	    	) Z
+    	WHERE 1=1 
+    </select>
+    
+	
     <select id="prj1300DAO.selectPrj1102ItemList" parameterClass="java.util.Map" resultMap="resultMapSelectPrj1102">
 	    
 		SELECT *
@@ -612,6 +622,21 @@
 	        AND	A.PROCESS_ID	= 	#processId#
 	        AND	A.PRJ_ID		=	#prjId#
 	        AND	A.FLOW_ID		=	#flowId#
+	]]>
+	</delete>
+	
+	
+	
+	<delete id="prj1300DAO.deletePrj1102ItemInfoAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		DELETE	
+		FROM	PRJ1102 A
+        WHERE	1=1
+	        AND	A.PROCESS_ID	= 	#processId#
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.FLOW_ID		=	#flowId#
+	        AND	A.ITEM_ID		=	#itemId#
 	]]>
 	</delete>
 	

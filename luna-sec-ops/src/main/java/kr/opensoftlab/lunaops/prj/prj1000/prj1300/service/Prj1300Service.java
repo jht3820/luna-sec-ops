@@ -75,9 +75,19 @@ public interface Prj1300Service {
 
 	
 	void savePrj1102ItemAjax(Map<String, String> paramMap) throws Exception;
+	
+	
+	void savePrj1103ItemAjax(Map<String, String> paramMap) throws Exception;
 
 
 	
 	void deletePrj1102ItemAjax(Map<String, String> paramMap) throws Exception;
+
+
+	
+	void deletePrj1102ItemInfoAjax(Map<String, String> paramMap) throws Exception;
+	
+	
+	void deletePrj1103ItemAjax(Map<String, String> paramMap) throws Exception;
 	
 }

@@ -284,7 +284,33 @@
 		    AND B.USE_CD = '01'
 		    AND C.USE_CD = '01'
 		) SUB1
-		ORDER BY SUB1.JOB_START_ORD
+		<isNotEmpty property="searchTargetData">
+			<isNotEmpty property="searchTargetId">
+				<isEqual property="searchTargetId" compareValue="jenNm">
+					AND	SUB1.JEN_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="jobId">
+					AND	SUB1.JOB_ID LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="bldResultMsg">
+					AND	SUB1.BLD_RESULT_MSG LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="jobTypeCd">
+					AND	SUB1.JOB_TYPE_CD = #searchTargetData#
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="paramSortFieldId">
+			<isNotEmpty property="sortDirection">
+				ORDER BY $paramSortFieldId$
+				<isEqual property="sortDirection" compareValue="desc">
+					DESC
+				</isEqual>
+			</isNotEmpty>
+		</isNotEmpty>
+		<isEmpty property="paramSortFieldId">
+			ORDER BY SUB1.JOB_START_ORD
+		</isEmpty>
 	</sql>
 	
 	
@@ -341,6 +367,18 @@
 			AND A.BLD_NUM > 0
 			AND A.JEN_ID = #jenId#
 			AND A.JOB_ID = #jobId#
+			<isNotEmpty property="paramSortFieldId">
+				ORDER BY $paramSortFieldId$
+				<isEqual property="sortDirection" compareValue="asc">
+					ASC
+				</isEqual>
+				<isEqual property="sortDirection" compareValue="desc">
+					DESC
+				</isEqual>
+			</isNotEmpty>
+			<isEmpty property="paramSortFieldId">
+				ORDER BY A.BLD_NUM DESC
+			</isEmpty>
 		) SUB1
 		WHERE 1=1
 		<isNotEmpty property="searchTargetData">
@@ -364,18 +402,6 @@
 				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
-		<isNotEmpty property="paramSortFieldId">
-			ORDER BY $paramSortFieldId$
-			<isEqual property="sortDirection" compareValue="asc">
-				ASC
-			</isEqual>
-			<isEqual property="sortDirection" compareValue="desc">
-				DESC
-			</isEqual>
-		</isNotEmpty>
-		<isEmpty property="paramSortFieldId">
-			ORDER BY SUB1.BLD_NUM DESC
-		</isEmpty>
 	</sql>
 	
   	
@@ -635,6 +661,7 @@
 			,	SUB1.MODIFY_DTM
 			,	SUB1.MODIFY_USR_ID
 			,	SUB1.MODIFY_USR_IP
+			,	SUB1.TYPE
 		FROM
 		(
 			SELECT	
@@ -647,7 +674,7 @@
 		    		,	A.SIGN_USR_ID
 		    		,	A.SIGN_TYPE_CD
 		    		,	NVL(A.SIGN_RES,'') AS SIGN_RES
-		    		,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH:MM:SS') AS SIGN_DTM
+		    		,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH24:MI:SS') AS SIGN_DTM
 		    		,	A.REG_DTM
 		    		,	A.REG_USR_ID
 		    		,	A.REG_USR_IP
@@ -655,6 +682,7 @@
 		    		,	A.MODIFY_USR_ID
 		    		,	A.MODIFY_USR_IP
 		    		,	B.SIGN_USR_ID AS NEXT_USR_ID
+		    		,	'SIG' AS TYPE
 		    	FROM	CMM6601 A
 		    	LEFT JOIN CMM6600 B
 		    	ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID =B.TARGET_ID AND A.TARGET_CD =B.TARGET_CD AND (A.ORD+1) = B.ORD)

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -346,7 +346,7 @@ var OSLPrj1300Popup = function () {
 					
 					var options = {
 							idKey: rowData.reqId,
-							modalTitle: $.osl.lang("prj1300.modal.title.previewItem"),
+							modalTitle: "기본항목 미리보기",
 							closeConfirm: false,
 							autoHeight: false
 						};

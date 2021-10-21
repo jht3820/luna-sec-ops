@@ -127,6 +127,12 @@ public class Prj1300DAO  extends ComOslitsAbstractDAO {
 	public void deletePrj1102ItemAjax(Map infoMap) throws Exception{
 		delete("prj1300DAO.deletePrj1102ItemAjax", infoMap);
 	}
+
+	
+	@SuppressWarnings("rawtypes")
+	public void deletePrj1102ItemInfoAjax(Map infoMap) throws Exception{
+		delete("prj1300DAO.deletePrj1102ItemInfoAjax", infoMap);
+	}
 	
 
 	

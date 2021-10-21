@@ -18,7 +18,7 @@
 				</h4>
 			</div>
 			<div class="kt-portlet__head-toolbar">
-	         	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+	         	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 			</div>
 		</div>
 		<div class="kt-portlet__body osl-min-h-px--415">

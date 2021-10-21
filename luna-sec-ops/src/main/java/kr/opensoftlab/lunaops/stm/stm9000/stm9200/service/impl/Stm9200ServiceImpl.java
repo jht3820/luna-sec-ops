@@ -127,6 +127,12 @@ public class Stm9200ServiceImpl extends EgovAbstractServiceImpl implements Stm92
 	
 	
 	@SuppressWarnings("rawtypes")
+	public List<Map> selectStm9200PrjAssignDplAuthNormalList(Map paramMap) throws Exception{
+		return stm9200DAO.selectStm9200PrjAssignDplAuthNormalList(paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
 	public List<Map> selectStm9200PrjNotAssignDplAuthList(Map paramMap) throws Exception{
 		return stm9200DAO.selectStm9200PrjNotAssignDplAuthList(paramMap);
 	}
@@ -138,7 +144,7 @@ public class Stm9200ServiceImpl extends EgovAbstractServiceImpl implements Stm92
 	}
 	
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void insertStm9200DplAuthInfo(Map paramMap) throws Exception {
 		
 		
@@ -166,7 +172,7 @@ public class Stm9200ServiceImpl extends EgovAbstractServiceImpl implements Stm92
 	} 
 	
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void deleteStm9200DplAuthInfo(Map paramMap) throws Exception {
 		
     	JSONArray selJobList = new JSONArray(paramMap.get("dataList").toString());
