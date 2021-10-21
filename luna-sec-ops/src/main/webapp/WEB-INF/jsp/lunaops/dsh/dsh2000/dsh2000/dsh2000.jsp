@@ -879,134 +879,8 @@
 	
 	
 	
-	<div class="kt-portlet kt-portlet--mobile" id="sprPortlet1">
-		<div class="kt-portlet__head kt-portlet__head--lg">
-			
-			<div class="kt-portlet__head-label">
-				<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid">
-					<input type="checkbox" value="0" data-datatable-id="spr1000Table">&nbsp;
-					<span></span>
-				</label>
-				<!-- <h5 class="kt-font-boldest">
-					<span class="badge badge-primary kt-margin-r-10">No. 1</span>
-				</h5>
-				<h5>
-					<span class="badge badge-primary" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="스프린트 기간">
-						<i class="far fa-calendar-alt kt-margin-r-10"></i>2020-10-16 ~ 2020-10-16
-					</span>
-				</h5> -->
-				<h4 class="kt-font-boldest text-truncate kt-font-brand" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번쨰 프로젝트 - 9월 2주차 스프린트"> 두번쨰 프로젝트 - 9월 2주차 스프린트</h4>
-			</div>
-			
-			
-			<div class="kt-portlet__head-toolbar">
-				<div class="dropdown dropdown-inline">
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars osl-padding-r0"></i></button>
-					<div class="dropdown-menu dropdown-menu-right" data-datatable-rownum="0">
-						<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="update">
-							<i class="fa fa-edit kt-font-brand"></i>
-							스프린트 수정
-						</div>
-						<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="delete">
-							<i class="fa fa-trash kt-font-brand"></i>스프린트 삭제
-						</div>
-						<div class="dropdown-divider"></div>
-						<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprStart"><i class="fas fa-play-circle kt-font-brand"></i>스프린트 시작</div>
-						<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprEnd"><i class="fas fa-stop-circle kt-font-brand"></i>스프린트 종료</div>
-						<div class="dropdown-divider"></div>
-						<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>스프린트 상세정보</div>
-					</div>
-				</div>
-				<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
-			</div>
-			
-			
-		</div>
-		
-		<div class="kt-portlet__body">
-			<div class="row">
-				<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
-					
-					<div class="d-flex kt-padding-l-15 align-items-center">
-						<div class="kt-media kt-media--xl kt-media--circle kt-media--primary osl-margin-r-2rm"><span>대기</span></div>
-						<div class="d-flex flex-column osl-margin-r-auto osl-word__break">
-							<span class="text-muted text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번쨰 프로젝트 - 9월 2주차 스프린트</br>ㅁ</br>입니다.">두번쨰 프로젝트 - 9월 2주차 스프린트<br>ㅁ<br>입니다.</span>
-						</div>
-					</div>
-					
-					<div class="d-flex flex-wrap osl-margin-t-2rm kt-padding-l-20">
-						<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column"><span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>시작일</span>
-							<h5><span class="badge badge-primary">2020-10-16</span></h5>
-						</div>
-						<div class="osl-margin-r-3rm kt-margin-0-mobile osl-margin-b-175rm d-flex flex-column"><span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>종료일</span>
-							<h5><span class="badge badge-danger">2020-10-16</span></h5>
-						</div>
-						<div class="osl-flex-row-fluid osl-margin-b-175rm">
-							<div class="osl-progress">
-								<div class="osl-margin-b-1rm"><i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i><span>진척률</span></div>
-								<div class="progress osl-prj-group-md">
-									<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
-					<div class="osl-widget osl-flex-row-fluid flex-wrap">
-						<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer">
-							<div class="osl-widget-info__item-icon d-block">
-								<img src="/media/osl/icon/reqAll.png">
-							</div>
-							<div class="osl-widget-info__item-info">
-								<a href="#" class="osl-widget-info__item-title">전체</a>
-								<div class="osl-widget-info__item-desc">0</div>
-							</div>
-						</div>
-						<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer">
-							<div class="osl-widget-info__item-icon d-block">
-								<img src="/media/osl/icon/reqInProgress.png">
-							</div>
-							<div class="osl-widget-info__item-info">
-								<a href="#" class="osl-widget-info__item-title">진행 중</a>
-								<div class="osl-widget-info__item-desc">0</div>
-							</div>
-						</div>
-					</div>
-					<div class="osl-widget osl-flex-row-fluid flex-wrap">
-						<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer">
-							<div class="osl-widget-info__item-icon d-block">
-								<img src="/media/osl/icon/reqDone.png">
-							</div>
-							<div class="osl-widget-info__item-info">
-								<a href="#" class="osl-widget-info__item-title">완료</a>
-								<div class="osl-widget-info__item-desc">0</div>
-							</div>
-						</div>
-						<div class="osl-widget-info__item osl-flex-row-fluid">
-							<div class="osl-widget-info__item-icon d-block">
-								<img src="/media/osl/icon/reqPointer.png">
-							</div>
-							<div class="osl-widget-info__item-info">
-								<a href="#" class="osl-widget-info__item-title">평균 완료 시간</a>
-								<div class="osl-widget-info__item-desc">0.0</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				
-				<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 kt-margin-t-20-tablet kt-margin-t-20-mobile">
-					<div class="border osl-min-h-px--170">차트</div>
-                </div>
-				
-            </div>
-            
-			<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 kt-hide" id="processReqTable_3"></div>
-			
-        </div>
-		
-    </div>
+	<div id="spr1000CardTable">
+	<div class="kt_datatable osl-datatable-footer__divide" id="spr1000Table"></div>
     
     
  <script>
@@ -1018,6 +892,8 @@ var OSLDsh2000Popup = function () {
 	var prjRequestAcceptCd = "02";
 	
 	var portletAll=[];
+	
+	var totalSprPoint = 0;
 	
 	var scrollArray = $('.osl-kaban--card__body.kt-scroll');
 	
@@ -1415,7 +1291,378 @@ var OSLDsh2000Popup = function () {
 				}
 			}
 		});
-		
+		$.osl.datatable.setting("spr1000Table",{
+			cardUiTarget: $("#spr1000CardTable"),
+			data: {
+				source: {
+					read: {
+						url: "/spr/spr1000/spr1000/selectSpr1000SprListAjax.do"
+					}
+				},
+			},
+			columns: [
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false},
+				{field: 'sprTypeNm', title: '상태 ', textAlign: 'center', width: 100, searchType:"select", searchCd: "SPR00001", searchField:"sprTypeNm", sortField: "sprTypeNm"},
+				{field: 'sprNm', title: '스프린트 이름', textAlign: 'center', width: 300, search:true},
+				{field: 'sprDesc', title: '스프린트 설명', textAlign: 'center', width: 150, search:true},
+				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 150, search: true, searchType:"date"},
+				{field: 'sprEdDt', title: '종료일', textAlign: 'center', width: 150, search: true, searchType:"date"},
+				{field: 'useNm', title: '사용 유무', textAlign: 'center', width: 100, search: true, searchType:"select", searchCd: "CMM00001", searchField:"useCd", sortField: "useCd"},
+			],
+			searchColumns:[
+				{field: 'sprDtm', title: '기간', searchOrd:4, searchType:"daterange"}
+			],
+			actionBtn:{
+				"title": "기능 버튼",
+				"dblClick": true
+			},
+			actionTooltip:{
+				"title": "기능 버튼",
+				"update": $.osl.lang("spr1000.datatable.action.update"),
+				"delete": $.osl.lang("spr1000.datatable.action.delete"),
+				"dblClick": $.osl.lang("spr1000.datatable.action.dblClick")
+			},
+			actionFn:{
+				"insert":function(datatableId){
+					var data = {type:"insert"};
+					var options = {
+						autoHeight: false,
+						modalSize: "md",
+						idKey: datatableId,
+						closeConfirm: false,
+						modalTitle: $.osl.lang("spr1002.insert.title"),
+					};
+					
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1002View.do',data,options);
+				},
+				"update":function(rowData, datatableId, type, rowNum, elem){
+					var data = {
+							type:"update"
+							,paramPrjGrpId: rowData.prjGrpId
+							,paramPrjId: rowData.prjId
+							,paramSprId: rowData.sprId
+						};
+					var options = {
+							autoHeight: false,
+							modalSize: "md",
+							idKey: datatableId,
+							closeConfirm: false,
+							modalTitle: $.osl.lang("spr1002.update.title"),
+					};
+					
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1002View.do',data,options);
+				},
+				
+				"delete":function(rowDatas, datatableId, type, rowNum, elem){
+					
+					var ajaxObj = new $.osl.ajaxRequestAction(
+							{"url":"<c:url value='/spr/spr1000/spr1000/deleteSpr1000SprList.do'/>"}
+							,{deleteDataList: JSON.stringify(rowDatas)});
+					
+					ajaxObj.setFnSuccess(function(data){
+						if(data.errorYn == "Y"){
+			   				$.osl.alert(data.message,{type: 'error'});
+			   			}else{
+			   				
+			   				$.osl.toastr(data.message);
+			   				
+			   				
+			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+			   			}
+					});
+					
+					
+					ajaxObj.send();
+				},
+				"dblClick": function(rowData, datatableId, type, rowNum, elem){
+					var data = {
+							paramSprId:rowData.sprId,
+							paramSprStDt:rowData.sprStDt,
+							paramSprEdDt:rowData.sprEdDt,
+							paramSprDesc:rowData.sprDesc,
+							paramSprTypeCd:rowData.sprTypeCd
+						};
+					
+					var options = {
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							closeConfirm: false,
+							modalTitle: "스프린트 상세정보",
+						};
+					
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1001View.do',data,options);
+				},
+				
+				"sprStart": function(rowData, datatableId, type){
+					var rowDatas = rowData;
+					
+					
+					if(rowDatas.length == 0){
+						$.osl.alert($.osl.lang("spr1000.nonSelect"));
+						return true;
+					}
+					
+					else if(rowDatas.length > 1){
+						$.osl.alert($.osl.lang("spr1000.manySelect"));
+						return true;
+					}
+					
+					
+					var sprInfo = rowData[0];
+					
+					
+					if(sprInfo.sprTypeCd != "01" || sprInfo.useCd != "01"){
+						$.osl.alert($.osl.lang("spr1000.sprTypeWaitMsg"));
+						return true;
+					}
+					
+					var data = {
+							paramPrjGrpId: sprInfo.prjGrpId
+							,paramPrjId: sprInfo.prjId
+							,paramSprId: sprInfo.sprId
+							,paramStartDt: sprInfo.sprStDt
+							,paramEndDt: sprInfo.sprEdDt
+						};
+					var options = {
+							modalTitle: "스프린트 시작",
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							closeConfirm: false,
+							ftScrollUse: false
+						};
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
+					
+					
+				},
+				
+				"sprEnd": function(rowData, datatableId, type){
+					var rowDatas = rowData;
+					
+					
+					if(rowDatas.length == 0){
+						$.osl.alert($.osl.lang("spr1000.nonSelect"));
+						return true;
+					}
+					
+					else if(rowDatas.length > 1){
+						$.osl.alert($.osl.lang("spr1000.manySelect"));
+						return true;
+					}
+					
+					
+					var sprInfo = rowData[0];
+					
+					
+					if(sprInfo.sprTypeCd != "02"){
+						$.osl.alert($.osl.lang("spr1000.sprTypeStartMsg"));
+						return true;
+					}
+					
+					var data = {
+							paramPrjGrpId: sprInfo.prjGrpId
+							,paramPrjId: sprInfo.prjId
+							,paramSprId: sprInfo.sprId
+							,paramSprNm: sprInfo.sprNm
+							,paramSprDesc: sprInfo.sprDesc
+							,paramStartDt: sprInfo.sprStDt
+							,paramEndDt: sprInfo.sprEdDt
+						};
+					var options = {
+							modalTitle: "스프린트 종료",
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							backdrop: true,
+							closeConfirm: false,
+							
+						};
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1004View.do',data,options);
+				}
+			},
+			callback:{
+				ajaxDone: function(evt, list){
+					var sprintStr = '';
+					var rowCnt = 0;
+					$.each(list, function(idx, map){
+						
+						var sprTypeClass = "kt-media--primary";
+						var sprTypeNm = map.sprTypeNm;
+						
+						if(map.sprTypeCd == "02"){
+							sprTypeClass = "kt-media--danger";
+						}else if(map.sprTypeCd == "03"){
+							sprTypeClass = "kt-media--warning";
+						}
+						
+						else if(map.useCd == "02"){
+							sprTypeClass = "kt-media--dark";
+							sprTypeNm = "미 사용";
+						}
+						
+						
+						sprintStr +=
+								
+								'<div class="kt-portlet kt-portlet--mobile">'
+									
+									+'<div class="kt-portlet__head kt-portlet__head--lg">'
+										
+										+'<div class="kt-portlet__head-label">'
+											+'<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"><input type="checkbox" value="'+idx+'" data-datatable-id="spr1000Table">&nbsp;<span></span></label>'
+											+'<h5 class="kt-font-boldest"><span class="badge badge-primary kt-margin-r-10">No. '+map.rn+'</span></h5>'
+											+'<h5><span class="badge badge-primary" title="스프린트 기간" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><i class="far fa-calendar-alt kt-margin-r-10"></i>'+$.osl.escapeHtml(map.sprNm)+'</span></h5>'
+										+'</div>'
+										+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 invisible" data-datatable-id="sprReqTable_'+map.sprId+'" data-datatable-action="select" title="조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">'
+											+ '<i class="fas fa-redo-alt"></i>'
+										+ '</button>'
+										
+										
+										+'<div class="kt-portlet__head-toolbar">'
+											+'<div class="dropdown dropdown-inline">'
+												+'<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+													+'<i class="fa fa-bars osl-padding-r0"></i>'
+												+'</button>'
+												+'<div class="dropdown-menu dropdown-menu-right" data-datatable-rownum="'+idx+'">'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprStart"><i class="fas fa-play-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintStart")+'</div>'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprEnd"><i class="fas fa-stop-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintEnd")+'</div>'
+													+'<div class="dropdown-divider"></div>'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
+												+'</div>'
+											+'</div>'
+										+'</div>'
+										
+									+'</div>'
+									+'<div class="kt-portlet__body">'
+										+'<div class="row">'
+											+ '<div class="col-4">'
+												+'<div class="d-flex kt-padding-l-15 align-items-center">'
+													+'<div class="kt-media kt-media--xl kt-media--circle '+sprTypeClass+' osl-margin-r-2rm">'
+														+'<span>'+sprTypeNm+'</span>'
+													+'</div>'
+													+'<div class="d-flex flex-column osl-margin-r-auto osl-word__break">'
+														+'<h5 class="kt-font-boldest text-truncate" title="'+$.osl.escapeHtml(map.sprNm)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"> '+$.osl.escapeHtml(map.sprNm)+'</h5>'
+														+'<span class="text-muted text-truncate" title="'+$.osl.escapeHtml(map.sprDesc)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'+$.osl.escapeHtml(map.sprDesc)+'</span>'
+													+'</div>'
+												+'</div>'
+												+'<div class="d-flex flex-wrap osl-margin-t-2rm kt-padding-l-20">'
+													+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
+														+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1000.startDate")+'</span>'
+														+'<h5><span class="badge badge-primary">'+$.osl.escapeHtml(map.sprStDt)+'</span></h5>'
+													+'</div>'
+													+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
+														+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1000.endDate")+'</span>'
+														+'<h5><span class="badge badge-danger">'+$.osl.escapeHtml(map.sprEdDt)+'</span></h5>'
+													+'</div>'
+													+'<div class="osl-flex-row-fluid osl-margin-b-175rm">'
+														+'<div class="osl-progress">'
+															+'<div class="osl-margin-b-1rm"><i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i><span>'+$.osl.lang("prj1000.completedRatio")+'</span></div>'
+															+'<div class="progress osl-prj-group-md">'
+																+'<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:'+Math.trunc(map.sprEndPercent)+'%" aria-valuenow="'+Math.trunc(map.sprEndPercent)+'" aria-valuemin="0" aria-valuemax="100">'+Math.trunc(map.sprEndPercent)+'%</div>'
+															+'</div>'
+														+'</div>'
+													+'</div>'
+												+'</div>'
+											+'</div>'
+											+ '<div class="col-4">'
+												+ '<div class="osl-widget osl-flex-row-fluid flex-wrap">'
+													+ '<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer" data-spr-id="'+map.sprId+'" data-type="total">'
+														+ '<div class="osl-widget-info__item-icon">'
+															+ '<img src="/media/osl/icon/reqAll.png">'
+														+ '</div>'
+													+ '<div class="osl-widget-info__item-info">'
+														+ '<a href="#" class="osl-widget-info__item-title">전체</a>'
+														+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqAllCnt)+'</div>'
+														+ '</div>'
+													+ '</div>'
+													+ '<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer" data-spr-id="'+map.sprId+'" data-type="ongoing">'
+														+ '<div class="osl-widget-info__item-icon">'
+															+ '<img src="/media/osl/icon/reqInProgress.png">'
+														+ '</div>'
+														+ '<div class="osl-widget-info__item-info">'
+															+ '<a href="#" class="osl-widget-info__item-title">진행 중</a>'
+															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqProgressCnt)+'</div>'
+														+ '</div>'
+													+ '</div>'
+												+ '</div>'
+												+ '<div class="osl-widget osl-flex-row-fluid flex-wrap">'
+													+ '<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer" data-spr-id="'+map.sprId+'" data-type="end">'
+														+ '<div class="osl-widget-info__item-icon">'
+															+ '<img src="/media/osl/icon/reqDone.png">'
+														+ '</div>'
+														+ '<div class="osl-widget-info__item-info">'
+															+ '<a href="#" class="osl-widget-info__item-title">완료</a>'
+															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqDoneCnt)+'</div>'
+														+ '</div>'
+													+ '</div>'
+													+ '<div class="osl-widget-info__item osl-flex-row-fluid">'
+														+ '<div class="osl-widget-info__item-icon">'
+															+ '<img src="/media/osl/icon/reqPointer.png">'
+														+ '</div>'
+														+ '<div class="osl-widget-info__item-info">'
+															+ '<a href="#" class="osl-widget-info__item-title">평균 완료 시간</a>'
+															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.avgTime.toFixed(1))+'</div>'
+														+ '</div>'
+													+ '</div>'
+												+ '</div>'
+											+ '</div>'
+											+ '<div class="col-4">'
+												+'<div class="osl-card__data--empty osl-min-h-px--202" id="burnDownChart'+map.sprId+'">'
+												+'</div>'
+											+ '</div>'
+										+'</div>'
+										+ '<div class="kt-hide" id="sprReqTable_'+map.sprId+'Wrap">'
+											+ '<div class="row">'
+												+ '<div class="col-lg-5 col-md-6 col-sm-12">'
+													+ '<div class="osl-datatable-search" data-datatable-id="sprReqTable_'+map.sprId+'"></div>'
+												+ '</div>'
+											+ '</div>'
+											+ '<div id="sprReqTable_'+map.sprId+'"></div>'
+										+ '</div>'
+									+'</div>'
+									
+								+'</div>';
+								
+						rowCnt++;
+						if(rowCnt == 2){
+							sprintStr += '</div>';
+							rowCnt = 0;
+						}
+					});
+					
+					$("#spr1000CardTable").html(sprintStr);
+					
+					$.each(list, function(idx, map){
+						drawChart(map);
+					})
+					
+					KTApp.initTooltips();
+					$("#spr1000Table .kt-datatable__table").css({visibility: "hidden", height: 0});
+					
+					
+					$('.osl-spr-btn').click(function(){
+						
+						var sprId = $(this).data("spr-id");
+						
+						var cate = $(this).data("type");
+						
+						$("#sprReqTable_"+sprId+"Wrap").removeClass('kt-hide');
+						
+						if($.osl.isNull($.osl.datatable.list["sprReqTable_"+sprId])){
+							sprReqTable(sprId, cate);
+						}else{
+							
+							$.osl.datatable.list["sprReqTable_"+sprId].targetDt.setDataSourceParam("sprId", sprId);
+							$.osl.datatable.list["sprReqTable_"+sprId].targetDt.setDataSourceParam("type", 'ass');
+							$.osl.datatable.list["sprReqTable_"+sprId].targetDt.setDataSourceParam("cate", cate);
+							$("button[data-datatable-id=sprReqTable_"+sprId+"][data-datatable-action=select]").click();
+							
+						}
+					});
+				}
+			}
+		});
 		
 		$('.osl-view-type').click(function(){
 			var targetType = $(this).data('view-type');
@@ -1477,16 +1724,7 @@ var OSLDsh2000Popup = function () {
 				processTableSetting('2');
 			}
 		});
-		
-		
-		$('.osl-spr-btn').click(function(){
-			
-			var target = $(this).parents('.kt-portlet__body');
-			$(target).children('.kt_datatable').removeClass('kt-hide');
-			
-			processTableSetting('3');
-		});
-		
+				
 		
 		
 		new Sortable($('.osl-kaban--card__body[processid="1"]')[0], {
@@ -1553,7 +1791,141 @@ var OSLDsh2000Popup = function () {
 			}
 	    });
 	};
-	
+	var sprReqTable = function(sprId, cate){
+		
+		$.osl.datatable.setting("sprReqTable_"+sprId,{
+			
+			data:{
+				source:{
+					read:{
+						url: "/spr/spr1000/spr1100/selectSpr1100AssReqListAjax.do",
+						params:{
+							sprId:sprId,
+							cate:cate,
+							type:"ass"
+						}
+					}
+				},
+				pageSize: 5
+			},
+			toolbar:{
+				items:{
+					pagination:{
+						pageSizeSelect : [5, 10, 20, 30, 50, 100]
+					}
+				}
+			},
+			columns: [
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
+				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, autoHide: false, search: true},
+				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
+				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
+				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
+					
+				},
+				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
+				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"date",
+					template: function (row) {
+						var paramDatetime = new Date(row.regDtm);
+		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
+		                return agoTimeStr.agoString;
+					}
+				},
+				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 120, search: true,
+					template: function (row) {
+						if($.osl.isNull(row.reqUsrNm)){
+							row.reqUsrNm = "";
+						}
+						var usrData = {
+							html: row.reqUsrNm,
+							imgSize: "sm",
+							class:{
+								cardBtn: "osl-width__fit-content"
+							}
+						};
+						return $.osl.user.usrImgSet(row.reqUsrImgId, usrData);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.reqUsrId);
+					}
+				},
+				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
+					template: function (row) {
+						if($.osl.isNull(row.reqChargerNm)){
+							return row.reqChargerNm = "-";
+						}else{
+							var usrData = {
+								html: row.reqChargerNm,
+								imgSize: "sm",
+								class:{
+									cardBtn: "osl-width__fit-content"
+								}
+							};
+							return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
+						}
+					},
+					onclick: function(rowData){
+						if(rowData.reqChargerNm != "-"){
+							$.osl.user.usrInfoPopup(rowData.reqChargerId);
+						}
+					}
+				},
+				{field: 'reqUsrEmail', title:'요청자e-mail', textAlign: 'left', width: 180, search: true},
+			],
+			searchColumns:[
+				{field: 'prjGrpNm', title: $.osl.lang("req4100.field.prjGrpNm"), searchOrd: 0},
+			],
+			rows:{
+				minHeight:50,
+			}, 
+			actionBtn:{
+				"title":"기능 버튼",
+				"delete":false,
+				"update":false,
+				"dblClick":true,
+				"refresh" : true,
+			},
+			actionFn:{
+				"refresh": function(rowData, datatableId, type, rowNum){
+					
+					searchReset(datatableId);
+					
+					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+				},
+				"dblClick": function(rowData, datatableId, type, rowNum){
+					
+					if(rowData.reqProType != "02"){
+						$.osl.alert("처리중인 요구사항만 업무 처리가 가능합니다.");
+						return false;
+					}
+					
+					var data = {
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId
+					};
+					var options = {
+						modalSize: "fs",
+						idKey: datatableId,
+						modalTitle: "["+rowData.reqNm+"] 요구사항 업무 처리",
+						closeConfirm: false
+					};
+					
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6201View.do',data,options);
+				}
+			},
+			theme:{
+				actionBtn:{
+					"dblClick" : "",
+					"refresh" : " kt-hide",
+				},
+				actionBtnIcon:{
+					"dblClick" : "fas fa-external-link-alt",
+				}
+			},
+		});
+
+	}
 	
 	var checkAuth = function(usrId, reqId){
 		var data = {
@@ -1653,7 +2025,217 @@ var OSLDsh2000Popup = function () {
 			}
 		});
 	}
+	
+ 	var drawChart = function(rowdata){
+ 		var ajaxObj = new $.osl.ajaxRequestAction(
+ 				{"url":"/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do"},{sprId: rowdata.sprId});
+ 		
+ 		ajaxObj.setFnSuccess(function(data){
+ 			if(data.errorYn == "Y"){
+ 				$.osl.alert(data.message,{type: 'error'});
+ 			}else{
+ 				
+ 				var chartData = data.chartData;
+ 				var today = new Date();
+ 				var endDt  = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
+ 				
+ 				totalSprPoint = rowdata.sprPoint;
+ 				
+ 				var seriesData = getDataRangeData(rowdata.sprStDt, rowdata.sprEdDt, "1", chartData);
+ 				
+ 				
+ 				if(rowdata.sprTypeCd == '01'){
+	 				$("#burnDownChart"+rowdata.sprId).text("데이터 없음")
+ 				}else{
+	 				drawBurnDownChart(seriesData, rowdata.sprId);
+ 				}
+ 			}	
+ 		});
+ 		
+ 		ajaxObj.send();
+ 	}
+ 	
+ 	var drawBurnDownChart = function(dateRange, sprId){
+ 		 var chart = $.osl.chart.setting("apex","burnDownChart"+sprId,{
+ 			
+				data:{										
+					param:{
+						dataArr: dateRange,	
+						 
+						 xKey:"time",
+						 key:{
+							 key1:"idealBurnDownLine",
+							 key2:"burnDownSprPoint"
+						 },
+						 keyNm:{
+							 keyNm1:"이상적인 번다운라인",
+							 keyNm2:"실제 번다운라인"
+						 },
+						 
+						 chartType:"line",
+						 dataType: "local"
+					}
+				},
+				fill:{
+					type:false
+				},
+				chart:{
+					toolbar: {
+						show:false
+					},
+					height:180,
+					
+					colors: ["#ffb822","#840ad9"],
+					title: {
+						text: "번다운차트",
+						align: "center",
+					},
+					stroke: {
+				          curve: 'straight'
+				    },
+			        animations:{
+						enabled:false
+					},
+				    dataLabels:{
+				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
+				    },
+				    grid: {
+				          borderColor: '#e7e7e7',
+				          row: {
+				            colors: ['#f3f3f3', 'transparent'], 
+				            opacity: 0.5
+				          },
+				    },
+					xaxis: {
+				        type: 'datetime',
+				        
+				        labels: {
+				        	hideOverlappingLabels :true,
+				            formatter: function(value){
+				            	return new Date(value).format("MM-dd");
+				            }
+				        },
+				        
+				        tickAmount: '5',
+				        
+				        tickPlacement: 'between',
+		        	},
+					yaxis: {
+						show:true
+		        	},
+		        	grid:{
+		        		show:true
+		        	}
+				}
+			});
+		 }
+ 	
+ 	var getDataRangeData = function(sttDt, endDT, type, data){
+ 		
 
+ 		if(data.length!=0){
+	 		
+	 		var sprPoint = [];
+	 		$.each(data, function(index, value){
+	 			var _series = {};
+	 			_series[value.reqEdDtm] = value.cumSprPoint;
+	 			sprPoint.push(_series);
+	 		});
+ 		}
+ 		
+ 		
+ 		if(type=='1'){
+ 			var resDay = [];
+	 	 	var stDay = new Date(sttDt);
+	 	   	var edDay = new Date(endDT);    	
+	 	  	while(stDay.getTime() <= edDay.getTime()){
+	 	  			var ideal = 0;
+	 	  			var _mon = (stDay.getMonth()+1);
+	 	  			_mon = _mon < 10 ? '0'+_mon : _mon;
+	 	  			var _day = stDay.getDate();
+	 	  			_day = _day < 10 ? '0'+_day : _day;
+	 	  			var _time = stDay.getFullYear() + '-' + _mon + '-' +  _day;
+	 	  			if(_time == data.reqEdDtm){
+	 	  				resDay.push({"time":stDay.getFullYear() + '-' + _mon + '-' +  _day})
+	 	  			}else{  
+		 	   		resDay.push({"time":stDay.getFullYear() + '-' + _mon + '-' +  _day});
+	 	  			
+	 	  			}
+	 	   			stDay.setDate(stDay.getDate() + 1);
+	 	   			ideal = ideal + 10
+	 	   	}
+	 	
+ 		}else if(type=='2'){
+ 			
+ 		}
+ 		var length = resDay.length
+ 		
+ 		var step = totalSprPoint / (length-1)
+ 		
+ 		
+ 		var end = totalSprPoint;
+ 		$.each(resDay, function(index, value){
+ 			
+	 		if(length == 1){
+	 			value['idealBurnDownLine'] = totalSprPoint;
+	 		
+	 		}else if(length == 2){
+	 			value['idealBurnDownLine'] = end;
+	 			end -= totalSprPoint;
+	 		
+	 		}else{
+	 			value['idealBurnDownLine'] = end.toFixed(1);
+	 			end -= step	
+	 		}
+ 		})
+ 		if(data.length!=0){
+	 		
+	 		var today = new Date();
+	 		
+	 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
+	 			var match = false;
+	 			
+	 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
+	 			if(gap < 0){
+		 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
+		 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
+		 					match = true;
+		 					
+		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
+		 					break;
+		 				}
+		 			}
+		 			
+		 			if(!match){
+		 				
+		 				if(dayIndex == 0){
+		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
+		 				
+		 				}else{
+			 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
+		 				}
+		 			}
+	 			}else{
+	 				resDay[dayIndex]['burnUpSprPoint'] = null;
+					resDay[dayIndex]['burnDownSprPoint'] = null;
+	 			}
+	 		}
+ 		}
+ 		return resDay;
+ 	}		
 	var fnDashBoardSetting = function(){
 		
 		timerVarSel = $('#timerVarSel').val();

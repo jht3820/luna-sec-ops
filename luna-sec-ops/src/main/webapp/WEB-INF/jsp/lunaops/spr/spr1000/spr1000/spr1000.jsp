@@ -93,7 +93,7 @@ var OSLSpr1000Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false},
 				{field: 'sprTypeNm', title: '상태 ', textAlign: 'center', width: 100, searchType:"select", searchCd: "SPR00001", searchField:"sprTypeNm", sortField: "sprTypeNm"},
-				{field: 'sprNm', title: '스프린트 이름', textAlign: 'center', width: 300, search:true, autoHide: false},
+				{field: 'sprNm', title: '스프린트 이름', textAlign: 'center', width: 300, search:true},
 				{field: 'sprDesc', title: '스프린트 설명', textAlign: 'center', width: 150, search:true},
 				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 150, search: true, searchType:"date"},
 				{field: 'sprEdDt', title: '종료일', textAlign: 'center', width: 150, search: true, searchType:"date"},
@@ -570,23 +570,12 @@ var OSLSpr1000Popup = function () {
 		        	grid:{
 		        		show:true
 		        	}
-				},
-				callback:{
-					
-					initComplete: function(chartContext, config){
-						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
-						$(".apexcharts-reset-icon").addClass("kt-margin-0");
-						$(".apexcharts-toolbar").addClass("kt-margin-10");
-						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
-						$(".apexcharts-toolbar").removeAttr("style[padding]");
-					}
 				}
 			});
 		 }
  	
  	var getDataRangeData = function(sttDt, endDT, type, data){
  		
-
  		if(data.length!=0){
 	 		
 	 		var sprPoint = [];
@@ -596,7 +585,6 @@ var OSLSpr1000Popup = function () {
 	 			sprPoint.push(_series);
 	 		});
  		}
- 		
  		
  		if(type=='1'){
  			var resDay = [];
