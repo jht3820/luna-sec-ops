@@ -180,6 +180,16 @@ var OSLStm9200 = function () {
 					var notAssJobDataTableTarget = $.osl.datatable.list[notAssignJobDatatableId].targetDt;
 					
 					
+					
+					searchReset(assignJobDatatableId);
+					
+					$("button[data-datatable-id="+assignJobDatatableId+"][data-datatable-action=select]").click();
+					
+					searchReset(notAssignJobDatatableId);
+					
+					$("button[data-datatable-id="+notAssignJobDatatableId+"][data-datatable-action=select]").click();
+					
+					
 					assJobDataTableTarget.setDataSourceParam("prjGrpId", selPrjGrpId);
 					assJobDataTableTarget.setDataSourceParam("prjId", selPrjId);
 					$("button[data-datatable-id="+assignJobDatatableId+"][data-datatable-action=select]").click();
@@ -496,6 +506,35 @@ var OSLStm9200 = function () {
 			};
 		
 		$.osl.layerPopupOpen('/stm/stm9000/stm9200/selectStm9201View.do',data,options);
+	};
+	
+	
+	var searchReset = function(datatableId){
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
+		
+		
+		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
+		
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
+		
+		
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
+		
+		
+		$("#searchData_"+datatableId).removeAttr("readonly");
+		
+		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
+		
+		
+		$("#searchData_"+datatableId).val("");
+
+		
+		
+		$("#searchData_"+datatableId).attr("disabled","disabled");
 	};
 	
 	return {

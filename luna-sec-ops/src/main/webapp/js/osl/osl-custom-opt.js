@@ -34,7 +34,10 @@ var OSLCoreCustomOptionSetting = function () {
 		
 		
 		var defaultConfig = {
+				
 				"viewType": "default",
+				
+				"actionFn":{},	
 				
 				"classNm":{
 					

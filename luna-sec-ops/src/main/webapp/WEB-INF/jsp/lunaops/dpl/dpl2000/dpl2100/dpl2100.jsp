@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
+	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -54,7 +55,7 @@ var OSLDpl2100Popup = function () {
 					read: {
 						url: "/dpl/dpl2000/dpl2100/selectDpl2100SignListAjax.do",
 						params:{
-							targetCd : '02'
+							targetCd : '02',
 						}
 					}
 				}
@@ -207,7 +208,7 @@ var OSLDpl2100Popup = function () {
 					var data = {
 							type : "signRjt"
 					};
-					
+					console.log(rowDatas)
 					var options = {
 						modalTitle: $.osl.lang("dpl2100.modal.title.signRjtRes"),
 						autoHeight: false,

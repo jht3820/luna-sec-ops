@@ -180,6 +180,10 @@ var OSLPrj1302Popup = function () {
 			},
 			actionFn:{
 				"itemSelect":function(rowDatas, datatableId, type, rowNum, elem){
+					if($.osl.isNull(rowDatas)){
+						$.osl.alert($.osl.lang("prj1302.message.confirm.itemNotSelect"));
+						return;
+					}
 		        	var itemList = [];
 		        	if(Array.isArray(rowDatas)){
 		        		itemList = rowDatas;
@@ -188,7 +192,13 @@ var OSLPrj1302Popup = function () {
 		        	}
 		        	
 		        	$.each(itemList, function(idx, map){
-	        			map.itemId = 'itm'+new Date().format('yyMMddHHmmssms')+idx;
+		        		var separator = "";
+		        		if(idx<10){
+		        			separator = "0"+idx
+		        		}else{
+		        			separator = idx
+		        		}
+	        			map.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+separator;
 		        	});
 		        	OSLPrj1102Popup.addItemList(itemList);
 		        	

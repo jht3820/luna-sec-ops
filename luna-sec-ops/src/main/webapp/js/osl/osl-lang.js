@@ -453,7 +453,7 @@ var OSLCoreLangSetting = function () {
 					"dplDesc" : "배포 설명",
 				},
 				actionBtn : {
-					title : "상세",
+					title : "기능 버튼",
 					tooltip : {
 						detailTooltip : "배포 계획 상세 보기",
 					},
@@ -470,7 +470,7 @@ var OSLCoreLangSetting = function () {
 					detailBtn : "상세"
 				},
 				actionBtn : {
-					title : "상세",
+					title : "기능 버튼",
 					tooltip : {
 						detailTooltip : "요구사항 상세 보기",
 					},
@@ -487,7 +487,7 @@ var OSLCoreLangSetting = function () {
 					detailBtn : "상세"
 				},
 				actionBtn : {
-					title : "상세",
+					title : "기능 버튼",
 					tooltip : {
 						detailTooltip : "JOB 상세 보기",
 					},
@@ -772,9 +772,6 @@ var OSLCoreLangSetting = function () {
 					treeSelect : "왼쪽 트리에서 템플릿을 선택해주세요.",
 					notUsedTemplate : "미사용 템플릿에는 하위 템플릿을 추가할 수 없습니다.",
 					notRootDelete : "최상위 템플릿(ROOT)은 삭제할 수 없습니다.",
-					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
-					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
-					notSignUseCd : "결재를 사용하지 않는 템플릿 입니다."
 				},
 				confirm:{
 					deleteTemplate:"템플릿 정보 삭제 시 선택한 템플릿 정보 및 하위 템플릿 정보가 모두 삭제됩니다. 선택한 템플릿 정보를 삭제 하시겠습니까?",
@@ -811,6 +808,32 @@ var OSLCoreLangSetting = function () {
 				confirm : {
 					insert : "템플릿 정보를 추가 하시겠습니까?",
 					update : "템플릿 정보를 수정 하시겠습니까?"
+				}
+			}
+		},
+		prj1302 : {
+			label : {
+				itemNm : "항목 명",
+				itemCode : "항목 분류",
+				itemType : "항목 타입",
+				itemPcRowNum : "데스크탑 열 넓이",
+				itemTabletRowNum : "테블릿 열 넓이",
+				itemMobileRowNum : "모바일 열 넓이",
+				itemOrd : "순서",
+				itemCommonCode : "공통코드",
+				itemLength : "길이제한",
+				itemEssentialCd : "필수 유무",
+				
+			},
+			button : {
+				insert : "작성 완료",
+				update : "수정 완료"
+			},
+			message : {
+				confirm : {
+					insert : "기본항목을 추가 하시겠습니까?",
+					update : "기본항목을 수정 하시겠습니까?",
+					itemNotSelect : "기본항목을 1개 이상 선택해주세요.",
 				}
 			}
 		},
@@ -1140,6 +1163,7 @@ var OSLCoreLangSetting = function () {
 				prjGrpNm: "프로젝트 그룹명",
 				reqGrpNm: "그룹 요구사항 명",
 				reqGrpNo : "그룹 요구사항 번호",
+				reqDesc : "요구사항 내용"
 			},
 			actionBtn:{
 				title : "수정 / 삭제 / 상세 / 복사",
@@ -1166,6 +1190,9 @@ var OSLCoreLangSetting = function () {
 				selectData : "요구사항을 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
 				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
+			},
+			message : {
+				nothing : "없음",
 			}
 		},
 		req4101:{
@@ -3522,8 +3549,9 @@ var OSLCoreLangSetting = function () {
 			field:{
 				
 				prjGrpNm: "Project Group Name",
-				reqGrpNm: "Requirement Group Name",
+				reqGrpNm: "Request Group Name",
 				reqGrpNo : "Group Request Number",
+				reqDesc : "Request Description"
 			},
 			actionBtn:{
 				title : "Udp / Del / Det / Cop",
@@ -3549,6 +3577,9 @@ var OSLCoreLangSetting = function () {
 				selectData : "Choose your data.",
 				LockData : "Locked requirements cannot be copied.",
 				selectCopyData : "Copying is only possible for 1 copy. Currently ${1} are selected.",
+			},
+			message : {
+				nothing : "Nothing",
 			}
 		},
 		req4101:{

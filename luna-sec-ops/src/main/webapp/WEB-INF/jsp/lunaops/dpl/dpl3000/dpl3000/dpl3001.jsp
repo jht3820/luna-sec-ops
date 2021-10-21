@@ -80,7 +80,7 @@
 
 
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 
 
@@ -396,6 +396,7 @@ var OSLDpl3001Popup = function () {
 					
 					
 					$(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar2({display_text: 'center'});
+					$("#bldProgressPer").text(0);
 					
 					
 					var ajaxObj = new $.osl.ajaxRequestAction(

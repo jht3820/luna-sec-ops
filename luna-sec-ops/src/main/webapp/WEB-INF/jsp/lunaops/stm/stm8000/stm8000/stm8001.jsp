@@ -51,26 +51,26 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="stm8000SaveSubmit"><i class="fa fa-check-square"></i><span data-lang-cd="stm8001.complete">완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">Close</span></button>
+	<button type="button" class="btn btn-brand" id="stm8000SaveSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="stm8001.complete">완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
-<!-- begin page script -->
+
 <script>
  "use strict";
 
  var OSLStm8001Popup = function() {
 	var formId = 'frStm8001';
 	
-	 //form validate 주입
+	 
 	var formValidate = $.osl.validate(formId);
 	
-	//type
+	
 	var type;
 	
-	//문구 세팅 
+	
 	$("#stm8000SaveSubmit > span").text($.osl.lang("stm8001.complete"));
 	
-	//placeholder 세팅
+	
 	$("#strgRepTitle").attr("placeholder",$.osl.lang("stm8001.placeholder.strgRepTitle"));
 	$("#strgRepUrl").attr("placeholder",$.osl.lang("stm8001.placeholder.strgRepUrl"));
 	$("#strgUsrId").attr("placeholder",$.osl.lang("stm8001.placeholder.strgUsrId"));
@@ -78,15 +78,15 @@
 	$("#strgRepNm").attr("placeholder",$.osl.lang("stm8001.placeholder.strgRepNm"));
 	$("#strgKey").attr("placeholder",$.osl.lang("stm8001.placeholder.strgKey"));
 	
-	//기본 설정
+	
 	 var documentSetting = function() {
 		type = $("#type").val();
 		 
-		//초기 유형 git -> token 입력 숨기기
+		
 		$("#optRep").addClass("kt-hide");
 		$("#optKey").addClass("kt-hide");
 		 
-		//kt-select2 설정
+		
     	$('#strgTypeCd').select2({
 			ftScrollUse: false,
 		});
@@ -94,162 +94,159 @@
 			ftScrollUse: false,
 		});
     	
-    	//type에 따라 세팅하기
+    	
     	if(type=="insert"){
-    		// adm2001 팝업 공통코드 select 세팅
+    		
 			var commonCodeArr = [
 				{mstCd: "STM00004", useYn: "Y", targetObj: "#strgTypeCd", comboType:""},
 				{mstCd: "CMM00001", useYn: "Y", targetObj: "#useCd", comboType:""},
 			];
-	  		//공통코드 채우기
+	  		
 			$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
     	}else{
     		selectStrgRepInfo();
     	}
 	    
-    	// 유형 선택될 때 이벤트 발생
+    	
 		$("#strgTypeCd").change(function(){
-			// 유형에 따라
+			
 			var typeCd = $("#strgTypeCd").val();
-			// 1. password, token 보이기
-			// 2. git인경우 자동 url 넣기
+			
+			
 			if(typeCd == "01"){
-				//선택이 SVN인 경우
+				
 				$("#optPw").removeClass("kt-hide");
 				$("#optRep").addClass("kt-hide");
 				$("#optKey").addClass("kt-hide");
 				$("#strgRepUrl").val("");
 				$("#strgRepUrl").prop("readonly", false);
 			}else{
-				//선택이 GIT인 경우
+				
 				$("#optPw").addClass("kt-hide");
 				$("#optRep").removeClass("kt-hide");
 				$("#optKey").removeClass("kt-hide");
-				$("#strgRepUrl").val("https://api.github.com");
+				$("#strgRepUrl").val("https:
 				$("#strgRepUrl").prop("readonly", true);
 			}
 		});
     	
-    	//완료 버튼 클릭 시
+    	
     	$("#stm8000SaveSubmit").click(function(){
     		var form = $('#'+formId);    		
         	
-    		//폼 유효 값 체크
+    		
     		if (!form.valid()) {
     			return;
     		}
     		
-    		//formData
+    		
        		var fd = $.osl.formDataToJsonArray(formId);
     		
-    		//유형에 따라 전송
+    		
     		if(type == "insert"){
-    			//등록인 경우
-    			//AJAX 설정
+    			
+    			
     	   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/stm/stm8000/stm8000/insertStm8000ServerInfoAjax.do'/>"
     	   			,"loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
-    	   		//AJAX 전송 성공 함수
+    	   		
     	   		ajaxObj.setFnSuccess(function(data){
     	   			if(data.errorYn == "Y"){
     	   				$.osl.alert(data.message,{type: 'error'});
     	   			}else{
-    	   				//등록 성공
+    	   				
     	   				$.osl.toastr(data.message);
 
-    	   				//모달 창 닫기
+    	   				
     	   				$.osl.layerPopupClose();
     	   				
-    	   				//datatable 조회
+    	   				
     	   				$("button[data-datatable-id=stm8000RepTable][data-datatable-action=select]").click();
     	   			}
     	   		});
     		}else{
-    			//수정인 경우
-    			//AJAX 설정
+    			
+    			
     	   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/stm/stm8000/stm8000/updateStm8000ServerInfoAjax.do'/>"
     	   			,"loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
-    	   		//AJAX 전송 성공 함수
+    	   		
     	   		ajaxObj.setFnSuccess(function(data){
     	   			if(data.errorYn == "Y"){
     	   				$.osl.alert(data.message,{type: 'error'});
     	   			}else{
-    	   				//수정 성공
+    	   				
     	   				$.osl.toastr(data.message);
 
-    	   				//모달 창 닫기
+    	   				
     	   				$.osl.layerPopupClose();
     	   				
-    	   				//datatable 조회
+    	   				
     	   				$("button[data-datatable-id=stm8000RepTable][data-datatable-action=select]").click();
     	   			}
     	   		});
     		}
-   	   		//AJAX 전송
+   	   		
    	   		ajaxObj.send();
     	});
 	}
 	
-	 /**
-	* function 명 	: selectStrgRepInfo
-	* function 설명	: 저장소 정보 불러와 form에 세팅
-	*/
+	 
 	var selectStrgRepInfo = function(){
 		var data = {
 				strgRepId : $("#strgRepId").val()
 		};
 
-		//AJAX 설정
+		
    		var ajaxObj = new $.osl.ajaxRequestAction(
    				{"url":"<c:url value='/stm/stm8000/stm8000/selectStm8000ServerInfoAjax.do'/>"}, data);
 		
-   		//AJAX 전송 성공 함수
+   		
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				// 공통코드 해당 데이터 선택으로 세팅
+   				
    				$("#strgTypeCd").attr("data-osl-value", data.repInfo.strgTypeCd);
    				$("#useCd").attr("data-osl-value", data.repInfo.useCd);
    				
-   		    	// adm2001 팝업 공통코드 select 세팅
+   		    	
    				var commonCodeArr = [
    					{mstCd: "STM00004", useYn: "Y", targetObj: "#strgTypeCd", comboType:"OS"},
    					{mstCd: "CMM00001", useYn: "Y", targetObj: "#useCd", comboType:"OS"},
    				];
    		    	
-   		  		//공통코드 채우기
+   		  		
    				$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
    		  		
-   		  		//저장소 유형에 따라 password, token 보이기
+   		  		
    		  		if(data.repInfo.strgTypeCd == "01"){
-   		  			//svn인 경우
+   		  			
 	   		  		$("#optPw").removeClass("kt-hide");
 					$("#optRep").addClass("kt-hide");
 					$("#optKey").addClass("kt-hide");
 					$("#strgRepUrl").val("");
 					$("#strgRepUrl").prop("readonly", false);
    		  		}else{
-   		  			//git인 경우
+   		  			
 					$("#optPw").addClass("kt-hide");
 					$("#optRep").removeClass("kt-hide");
 					$("#optKey").removeClass("kt-hide");
-					$("#strgRepUrl").val("https://api.github.com");
+					$("#strgRepUrl").val("https:
 					$("#strgRepUrl").prop("readonly", true);
    		  		}
    		  		
-   		  		//form 채우기
+   		  		
 		    	$.osl.setDataFormElem(data.repInfo,"frStm8001");
    		  		
-   		  		//user id, pw, token은 form-group이 아니기 때문에 직접 채우기
+   		  		
    		  		$("#strgUsrId").val(data.repInfo.strgUsrId);
    		  		$("#strgUsrPw").val(data.repInfo.strgUsrPw);
    		  		$("#strgKey").val(data.repInfo.strgKey);
    		  		
    			}
    		});
-  	 	//AJAX 전송
+  	 	
    		ajaxObj.send();
 	};
 	 

@@ -9,7 +9,7 @@
 	<input type="hidden" name="paramFlowId" id="paramFlowId" value="${param.paramFlowId}">
 	<div class="row">
 		<div class="col-lg-6 col-md-12 col-sm-12">
-			<div class="kt-portlet">
+			<div class="kt-portlet" id="flowLeftDiv">
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
@@ -100,7 +100,7 @@
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-12 col-sm-12">
-			<div class="kt-portlet"  id="itemInfo">
+			<div class="kt-portlet" id="flowRightDiv">
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
@@ -128,8 +128,8 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="prj1101SaveSubmit"><i class="fa fa-save"></i><span>완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-brand" id="prj1101SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 <script>
 "use strict";
@@ -156,6 +156,8 @@ var OSLPrj1102Popup = function () {
 	
     
     var documentSetting = function () {
+    	
+    	$("#flowRightDiv").css("min-height",$("#flowLeftDiv").height());
     	
     	$("#prj1101SaveSubmit > span").text($.osl.lang("modal."+type+".saveBtnString"));
 		
@@ -274,7 +276,7 @@ var OSLPrj1102Popup = function () {
 
 		$("#insertBasicItemBtn").click(function(){
 			var data = {
-					
+					type:"insert"
 				};
 			var options = {
 					idKey: "prj1305",
