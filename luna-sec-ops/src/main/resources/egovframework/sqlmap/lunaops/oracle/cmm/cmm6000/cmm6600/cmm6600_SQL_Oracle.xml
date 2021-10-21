@@ -253,7 +253,11 @@
 			AND		A.TARGET_CD = #targetCd#
 			AND   	A.SIGN_TYPE_CD != '03'
 			AND   	A.SIGN_TYPE_CD != '04'
-			AND		B.SIGN_USR_ID = #usrId#
+			<isEmpty property="dashBoard">
+				<isNotEmpty property="usrId">
+					AND		B.SIGN_USR_ID = #usrId#
+				</isNotEmpty>
+			</isEmpty>
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">
 					ORDER BY $paramSortFieldId$
@@ -386,7 +390,7 @@
 		AND		TARGET_CD = #targetCd#
 	</select>
 	
-	
+
 	
 	<insert id="cmm6600DAO.insertCmm6601SignInfo" parameterClass = "java.util.Map" >
 		<selectKey resultClass="java.lang.String" keyProperty="newSignId">
