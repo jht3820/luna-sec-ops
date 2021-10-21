@@ -19,30 +19,30 @@
 			<div class="input-group kt-margin-t-10">
 				<input type="password" class="form-control" name="badPwInput" id="badPwInput" autocomplete="new-password" regexstr="^[a-z0-9]{4,12}$" required>
 				<div class="input-group-append">
-					<button class="btn btn-brand" name="pwCheckBtn" id="pwCheckBtn"><span data-lang-cd="bad1004.button.submit">확인</span></button>
+					<button class="btn btn-brand" name="pwCheckBtn" id="pwCheckBtn"><i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="bad1004.button.submit">확인</span></button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 
 var OSLBad1004Popup = function () {
-	//목록에서 받아온 row data
+	
 	var rowData = JSON.parse($("#paramRow").val());
     var documentSetting = function () {
     	
-    	//placeholder
+    	
 		$("#badPwInput").attr("placeholder", $.osl.lang("bad1002.placeholder.password"));
     	
 		$("#badPwInput").focus();
-    	//비밀번호 확인 버튼 클릭 했을 때
+    	
     	$("#pwCheckBtn").click(function(){
     		selectPwInfo();
     	});
-    	//비밀번호 입력 후 엔터 쳤을 때
+    	
     	$("#badPwInput").on("keypress", function(e){
     		if(e.key == "Enter"){
     			$("#pwCheckBtn").click();		
@@ -63,15 +63,15 @@ var OSLBad1004Popup = function () {
     			{"url":"<c:url value='/bad/bad1000/bad1000/selectBad1004PwInfoAjax.do'/>"}
 				, data);
     	
-    	//ajax 전송 성공 함수
+    	
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				var pwCheck = data.resultPwCheck;
-				//비밀번호가 일치하는 경우
+				
 				if(pwCheck == "Y"){
 					var data = {
 							paramRow : $("#paramRow").val(),
@@ -84,15 +84,15 @@ var OSLBad1004Popup = function () {
 						};
 					var backPageYn = $("#backPageYn").val();
 
-					//현재 비밀번호 창 닫기
+					
 					$.osl.layerPopupClose();
 					
-					//fileUploadObj.reset();
 					
-					//미리 열려진 게시글 팝업이 없을 경우
+					
+					
 					if(backPageYn == "N"){
 						var stmTypeCd = $("#stmTypeCd").val();
-						//해당 게시글 팝업 열기
+						
 						if(stmTypeCd == "01" || stmTypeCd == "02"){
 							$.osl.layerPopupOpen('/bad/bad1000/bad1000/selectBad1001View.do',data,options);
 						}else{
@@ -106,7 +106,7 @@ var OSLBad1004Popup = function () {
 				}
 			}
     	});
-    	//AJAX 전송
+    	
 		ajaxObj.send();
     }
     
