@@ -135,9 +135,10 @@
 	
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="req3000SaveSubmit"><span data-lang-cd="req3000.button.done">완료</span></button>
+	<button type="button" class="btn btn-brand" id="req3000SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="req3000.button.done">완료</span></button>
 	<button type="button" class="btn btn-outline-brand"	data-dismiss="modal">
-		<span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i>
+		<span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 

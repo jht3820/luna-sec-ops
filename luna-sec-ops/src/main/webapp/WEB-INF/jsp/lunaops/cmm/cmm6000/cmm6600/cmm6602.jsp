@@ -14,10 +14,10 @@
 </form>
 <div class="modal-footer">
 	<button type="button" class="btn btn-brand" id="cmm6602SaveSubmit"> 
-		<i class="fa fa-save"></i><span data-lang-cd="cmm6602.button.save">작성 완료</span>
+		<i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="cmm6602.button.save">작성 완료</span>
 	</button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span>Close</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span>
 	</button>
 </div>
 
