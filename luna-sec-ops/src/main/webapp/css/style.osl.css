@@ -1014,6 +1014,9 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 	50% { top: -80px; }
 	100% { top: -60px; }
 }
+.osl-block--imp{
+	display: block !important;
+}
 
 .kt-datatable__body > .kt-datatable_row > td.kt-datatable__cell--left.kt-datatable__cell > span {
     white-space: nowrap;

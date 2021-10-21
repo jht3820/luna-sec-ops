@@ -557,6 +557,25 @@ var OSLCmm6201Popup = function () {
     	
     	$("#cmm6201SaveSubmit").click(function(){
     		
+    		if($.osl.isNull(selFlowId)){
+    			$.osl.alert("단계를 선택해주세요.");
+    			return false;
+    		}
+    		
+    		
+    		$(".osl-wizard__content[data-ktwizard-type=step-content]").addClass("osl-block--imp");
+    		
+    		
+    		if(!$("#"+formId).valid()){
+    			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
+    			$("form#"+formId).parent(".modal-body").scrollTop(0); 
+    			$.osl.alert("입력되지 않은 필수 항목이 있습니다.");
+    			return false;
+    		}else{
+    			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
+    		}
+    		
+    		
     		fnReqProcessAction();
     	});
     	
