@@ -567,11 +567,6 @@ var OSLSpr1000Popup = function () {
 					yaxis: {
 						show:true
 		        	},
-		        	toolbar:{
-		        		tools:{
-		        			pan:false
-		        		}
-		        	},
 		        	grid:{
 		        		show:true
 		        	}
