@@ -68,6 +68,18 @@
 			WHERE 1=1
 			AND A.LIC_GRP_ID = #licGrpId#
 			AND C.DEL_CD = '02'
+			<isNotEmpty property="paramSortFieldId">
+				ORDER BY $paramSortFieldId$
+				<isEqual property="sortDirection" compareValue="asc">
+					ASC
+				</isEqual>
+				<isEqual property="sortDirection" compareValue="desc">
+					DESC
+				</isEqual>
+			</isNotEmpty>
+			<isEmpty property="paramSortFieldId">
+				ORDER BY PRJ_NM ASC, A.JOB_ID ASC
+			</isEmpty>
 		) SUB1
 		WHERE 1=1
 		<isNotEmpty property="searchTargetData">
@@ -107,18 +119,6 @@
 				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
-		<isNotEmpty property="paramSortFieldId">
-			ORDER BY $paramSortFieldId$
-			<isEqual property="sortDirection" compareValue="asc">
-				ASC
-			</isEqual>
-			<isEqual property="sortDirection" compareValue="desc">
-				DESC
-			</isEqual>
-		</isNotEmpty>
-		<isEmpty property="paramSortFieldId">
-			ORDER BY PRJ_NM ASC, JOB_ID ASC
-		</isEmpty>
     </sql>
     
     

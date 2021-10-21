@@ -57,9 +57,20 @@
 				WHERE 1=1
 				AND A.LIC_GRP_ID = #licGrpId#
 				AND B.DEL_CD = '02'
+		]]>
+				<isNotEmpty property="paramSortFieldId">
+					<isNotEmpty property="sortDirection">
+						ORDER BY $paramSortFieldId$
+						<isEqual property="sortDirection" compareValue="desc">
+							DESC
+						</isEqual>
+					</isNotEmpty>
+				</isNotEmpty>
+				<isEmpty property="paramSortFieldId">
+					ORDER BY A.REG_DTM DESC
+				</isEmpty>
 			) SUB1
 	    	WHERE 1=1
-		]]>
 		<isNotEmpty property="projectJenkinsCheck">
 			<isEqual property="projectJenkinsCheck" compareValue="Y">
 				AND	EXISTS (
@@ -101,17 +112,6 @@
 				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
-		<isNotEmpty property="paramSortFieldId">
-			<isNotEmpty property="sortDirection">
-				ORDER BY $paramSortFieldId$
-				<isEqual property="sortDirection" compareValue="desc">
-					DESC
-				</isEqual>
-			</isNotEmpty>
-		</isNotEmpty>
-		<isEmpty property="paramSortFieldId">
-			ORDER BY SUB1.REG_DTM DESC
-		</isEmpty>
     </sql>
     
     
