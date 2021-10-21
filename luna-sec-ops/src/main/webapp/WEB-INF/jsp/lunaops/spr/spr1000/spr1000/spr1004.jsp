@@ -186,8 +186,8 @@
 	</div>
 
 	<div class="modal-footer">
-		<button class="btn btn-outline-brand"	data-dismiss="modal">
-			<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<button class="btn btn-outline-brand" data-dismiss="modal">
+			<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 		</button>
 	</div>
 </form>
