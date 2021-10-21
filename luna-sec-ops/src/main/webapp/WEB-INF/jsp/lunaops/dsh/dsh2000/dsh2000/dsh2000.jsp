@@ -153,7 +153,10 @@
 					</div>
 					<div class="kt-portlet__head-toolbar">
 			            <div class="kt-portlet__head-group">
-							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 invisible" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+								<i class="fas fa-redo-alt"></i>
+							</button>
+							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="refresh" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="refresh" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
 		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air" data-skin="brand"><i class="fa fa-chevron-down"></i></a>
@@ -161,6 +164,11 @@
 			         </div>
 				</div>
 				<div class="kt-portlet__body">
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-9 col-9">
+							<div class="osl-datatable-search" data-datatable-id="reqChargeDplTable"></div>
+						</div>
+					</div>
 					<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="reqChargeDplTable"></div>
 				</div>
 			</div>
@@ -888,8 +896,14 @@
 var OSLDsh2000Popup = function () {
 	
 	
+	
 	var reqDatatableId = "req4100ReqTable";
 	var prjRequestAcceptCd = "02";
+	
+	var dplDatatableId = "reqChargeDplTable";
+	
+	var dshDatatableIdList = ["req4100ReqTable", "reqChargeDplTable"];
+	
 	
 	var portletAll=[];
 	
@@ -917,7 +931,7 @@ var OSLDsh2000Popup = function () {
 		$("#dshWidgetSortBtn").click(function(){
 			fnDshWidgetSort(this);
 		});
-		
+
 		
 		$.each(scrollArray,function(idx,map){
 			fnKtScrollInit(map,"500");
@@ -1159,12 +1173,6 @@ var OSLDsh2000Popup = function () {
 					"dblClick" : "fas fa-external-link-alt",
 				}
 			},
-			callback :{
-				ajaxDone: function(evt, list){
-					var reqListCnt = $.osl.datatable.list.req4100ReqTable.targetDt.lastResponse.meta.total;
-					$("#reqListCnt").text(reqListCnt);
-				}
-			}
 		});
 		
 
@@ -1231,11 +1239,14 @@ var OSLDsh2000Popup = function () {
 		
 		
 		
-		$.osl.datatable.setting("reqChargeDplTable",{
+		$.osl.datatable.setting(dplDatatableId,{
 			data: {
 				source: {
 					read: {
-						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do"
+						url: "/dpl/dpl2000/dpl2100/selectDpl2100SignListAjax.do",
+						params:{
+							targetCd : '02',
+						}
 					}
 				},
 				pageSize : 5,
@@ -1259,37 +1270,89 @@ var OSLDsh2000Popup = function () {
 					 }
 				 }
 		 	},
-			columns: [
-				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false},
-				{field: '', title: '프로젝트 명', textAlign: 'center', width: 150},
-				{field: '', title: '결재 상태', textAlign: 'center', width: 70},
-				{field: '', title: '요청자', textAlign: 'center', width: 70},
-				{field: '', title: '결재자', textAlign: 'center', width: 70},
-				{field: '', title: '결재 요청 일자', textAlign: 'center', width: 100},
-				{field: '', title: '배포계획명', textAlign: 'center', width: 150},
-				{field: '', title: '결재 의견', textAlign: 'center', width: 150},
-				{field: '', title: '반려내용', textAlign: 'center', width: 150}
+		 	columns: [
+				{field: 'rn', title: 'no.', textalign: 'center', width: 30, autohide: false, sortable: false},
+				{field: '', title: '프로젝트 명', textalign: 'center', width: 150},
+				{field: 'nowSigntypenm', title: '결재 상태', textalign: 'center', width: 70, autohide: false, sortable: true, sortfield: "nowSignTypeCd", search:true, searchtype: "select", searchcd: "CMM00008", searchfield:"nowSignTypeCd"},
+				{field: 'signReqUsrId', title: '요청자', textalign: 'center', width: 100, sortable: true, search:true,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.signDrfUsrImgId, row.signDrfUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.signDrfUsrId);
+					}	
+				},
+				{field: 'lastSignUsrNm', title: '결재자', textalign: 'center', width: 100, sortable: true, autohide: false,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.signUsrImgId, row.signUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.signUsrId);
+					}	
+				},
+				{field: 'signDtm', title: '결재 요청 일자', textalign: 'center', width: 100, sortable: true,
+					template: function (row) {
+						var paramDateTime = new Date(row.signDtm);
+		                var agoTimeStr = $.osl.datetimeAgo(paramDateTime, {fullTime: "d", returnFormat: "yyyy-mm-dd"});
+		                return agoTimeStr.agoString;
+					}
+				},
+				{field: 'dplNm', title: '배포계획명', textalign: 'center', width: 150, autohide:false, sortable: true, search: true},
+				{field: 'signRes', title: '결재 의견', textalign: 'center', width: 200, sortable: false},
+				{field: 'dplUsrNm', title: '배포자', textalign: 'center', width: 150, sortable: true, search:true,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.dplUsrImgId, row.dplUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.dplUsrId);
+					}
+				}
 			],
+			rows:{
+				clickcheckbox: true
+			},
 			actionBtn:{
-				"dblClick": false
+				"dblClick": false,
+				"refresh" : true,
+				"update": false,
+				"delete": false,
 			},
 			actionTooltip:{
-				"update": "수정",
-				"delete": "삭제",
-				"dblClick": "상세보기"
+				"title" : "상세",
+				"dblClick": "상세보기",
+				"refresh": "상세보기",
 			},
 			actionFn:{
-				"insert":function(datatableId){
+				"refresh": function(rowData, datatableId, type, rowNum){
 					
+					searchReset(datatableId);
+					
+					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 				},
-				"update":function(rowData){
+				"dblClick":function(rowData, datatableId, type, rowNum){
+					var data = {
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
+						};
+					var options = {
+							idKey: datatableId +"_"+ rowData.dplId,
+							modalTitle: "["+rowData.dplNm+"] 상세 정보",
+							autoHeight: false,
+							modalSize: 'xl'
+						};
 					
+					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
 				},
-				"delete":function(rowDataList){
-					
-					
+			},
+			theme:{
+				actionBtn:{
+					"dblClick" : "",
+					"refresh" : " kt-hide",
+				},
+				actionBtnIcon:{
+					"dblClick" : "fas fa-external-link-alt",
 				}
-			}
+			},
 		});
 		$.osl.datatable.setting("spr1000Table",{
 			cardUiTarget: $("#spr1000CardTable"),
@@ -2236,12 +2299,18 @@ var OSLDsh2000Popup = function () {
  		}
  		return resDay;
  	}		
+ 	
 	var fnDashBoardSetting = function(){
 		
 		timerVarSel = $('#timerVarSel').val();
 		secondTime = (timerVarSel*60);
 		clearInterval(timer);
 		timer = setInterval(printTime,1000);
+		
+		
+		$.each(dshDatatableIdList, function(idx, value){
+			fsRefresh(value);
+		});
 	};
 
 	
@@ -2395,6 +2464,14 @@ var OSLDsh2000Popup = function () {
 		
 		$("#searchData_"+datatableId).attr("disabled","disabled");
 	};
+	
+	
+	var fsRefresh = function(datatableId){
+		
+		searchReset(datatableId);
+		
+		$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+	 };
 	
 	
 	var fnKtScrollInit = function(targetName, targetHeight) {
