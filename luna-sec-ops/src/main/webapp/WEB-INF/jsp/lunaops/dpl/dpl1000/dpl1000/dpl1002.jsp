@@ -182,7 +182,7 @@
 												<div class="form-group row">
 													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>결재 요청 의견</label>
 													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
+														<textarea class="form-control osl-textarea__resize--none osl-min-h-px--100" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
 													</div>
 												</div>
 											</div>
@@ -190,7 +190,7 @@
 												<div class="form-group row">
 													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
 													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
+														<textarea class="form-control osl-textarea__resize--none osl-min-h-px--100" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
 													</div>
 												</div>		
 											</div>
@@ -449,7 +449,7 @@
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand"
 		data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 
@@ -576,8 +576,7 @@ var OSLDpl1002Popup = function () {
 				{field: 'reqOrd', title: '요구사항 순번', textAlign: 'center', width: 80, autoHide: false},
 				{field: 'reqProTypeNm', title: '처리 상태', textAlign: 'center', width: 70, autoHide: false, search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortField: "reqProTypeCd"},
 				{field: 'reqNm', title: '요구사항 명', textAlign: 'left', width: 250, autoHide: false, search: true},
-				/* {field: '', title: '프로세스명', textAlign: 'center', width: 70, search: true},
-				{field: '', title: '작업흐름 명', textAlign: 'center', width: 100, search: true}, */
+				
 				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 70, search: true},
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 70, search: true}
 			],
@@ -741,8 +740,7 @@ var OSLDpl1002Popup = function () {
 					{field: 'reqOrd', title: '요구사항 순번', textAlign: 'center', width: 80, autoHide: false},
 					{field: 'reqProTypeNm', title: '처리 상태', textAlign: 'center', width: 70, autoHide: false, search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortField: "reqProTypeCd"},
 					{field: 'reqNm', title: '요구사항 명', textAlign: 'left', width: 250, autoHide: false, search: true},
-					/* {field: '', title: '프로세스명', textAlign: 'center', width: 70, search: true},
-					{field: '', title: '작업흐름 명', textAlign: 'center', width: 100, search: true}, */
+					
 					{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 70, search: true},
 					{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 70, search: true}
 			],
@@ -772,10 +770,7 @@ var OSLDpl1002Popup = function () {
 	};
 	
 	
-	/**
-	 * function 명 	: fnSelectDplHistoryInfo
-	 * function 설명	: 배포 계획 전체 이력정보 조회
-	 */
+	
 	 var fnSelectDplHistoryInfo = function() {
 		 
     	var paramPrjId = $("#paramPrjId").val();
@@ -826,12 +821,7 @@ var OSLDpl1002Popup = function () {
 	};
 	
 	
-	/*
-	 * function명 : fnAllHistorySetting
-	 * function설명 : 전체 이력을 그린다
-	 * @param allHistiryList : 전체 리스트
-	 * @param jobList : 잡 리스트
-	 */
+	
 	var fnAllHistorySetting = function(allHistiryList, jobList){
 		
 		
@@ -1055,12 +1045,7 @@ var OSLDpl1002Popup = function () {
 	}
 	
 	
-	/*
-	 * function명 : fnBldHistorySetting
-	 * function설명 : 빌드 이력을 그린다
-	 * @param bldHistoryList : 빌드 리스트
-	 * @param jobList : 잡 리스트
-	 */
+	
 	var fnBldHistorySetting = function(bldHistoryList,jobList){
 		var bldTimelineDiv = '';
 		
@@ -1261,7 +1246,7 @@ var OSLDpl1002Popup = function () {
 		  return s;
 	}
 	
-	function leadingZeros(n, digits) {
+	var leadingZeros = function(n, digits) {
 		  var zero = '';
 		  n = n.toString();
 
@@ -1272,11 +1257,7 @@ var OSLDpl1002Popup = function () {
 		  return zero + n;
 	}
 	
-	/*
-	 * function명 : fnSignHistorySetting
-	 * function설명 : 결재 히스토리를 셋팅한다.
-	 * @param dplSignHistoryList : 해당 배포 계획의 결재 내역
-	 */
+	
 	var fnSignHistorySetting = function(dplSignHistoryList){
 		
 		$.each(dplSignHistoryList,function(idx, signInfo){
@@ -1313,13 +1294,7 @@ var OSLDpl1002Popup = function () {
 		
 	};
 	
-	/*
-	 * function명 : drawSignInfoCard
-	 * function설명 : 셋팅할 결재 정보 카드를 만든다.
-	 * @param signInfo : 결재 정보
-	 * @param type : 카드 타입(1 : 기안 카드, 2: 결재 대기 카드, 3: 결재 승인 카드, 4:결재 최종 승인 카드, 5: 결재 반려 카드)
-	 * @param targetTab : 만든 div를 넣을 탭
-	 */
+	
 	var drawSignInfoCard = function(signInfo, type, targetTab){
 		
 		
@@ -1446,12 +1421,7 @@ var OSLDpl1002Popup = function () {
 		$(targetTab+" .kt-timeline").append(timelineItemDiv);
 	}
 	
-	/*
-	 * function명 : ktScrollInit
-	 * function설명 : 스크롤 세팅 및 반응형 될 때 세로크기값을 계산해준다
-	 * @param targetName : 스크롤 세팅할 대상 class, id
-	 * @param targetHeight : 스크롤의 세로 사이즈
-	 */
+	
 	var fnKtScrollInit = function(targetName, targetHeight) {
 		KTUtil.scrollInit($(targetName)[0], {
 	   		

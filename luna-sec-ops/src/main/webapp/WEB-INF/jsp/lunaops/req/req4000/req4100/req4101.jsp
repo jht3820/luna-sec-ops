@@ -18,7 +18,7 @@
 						<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">요청자 정보</span>
 					</div>
 					<div class="kt-portlet__head-toolbar">
-						<div class="kt-portlet__head-group">
+						<div class="kt-portlet__head-group"> 
 							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 						</div>
 					</div>
@@ -197,8 +197,8 @@
 	</div> 
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="req4101SaveSubmit"><i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">Close</span></button>
+	<button type="button" class="btn btn-brand" id="req4101SaveSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
 "use strict";

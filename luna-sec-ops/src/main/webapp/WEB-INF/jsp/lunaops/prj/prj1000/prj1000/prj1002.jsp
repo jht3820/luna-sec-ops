@@ -153,44 +153,44 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 <script>
 "use strict";
 var OSLPrj1002Popup = function () {
 	var formId = 'frPrj1002';
 	
-	//배정 담당자 중복 체크
+	
 	var prjAuthUsrIdList = [];
 	
-	//수정시 배정담당자 원본 데이터
+	
 	var prjAuthOriginalData = [];
 	
-	//수정인경우 대상 프로젝트ID
+	
 	var paramPrjGrpId = $("#paramPrjGrpId").val();
 	var paramPrjId = $("#paramPrjId").val();
 	
-    // Private functions
+    
     var documentSetting = function () {
-    	// 팝업 공통코드 select 세팅
+    	
 		var commonCodeArr = [
-			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"}, // 사용유무
-			{mstCd: "PRJ00013", useYn: "Y",targetObj: "#prjTypeCd", comboType:"OS"}, // 프로젝트 유형
-			{mstCd: "PRJ00014", useYn: "Y",targetObj: "#prjDevTypeCd", comboType:"OS"} // 개발 방법론
+			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"}, 
+			{mstCd: "PRJ00013", useYn: "Y",targetObj: "#prjTypeCd", comboType:"OS"}, 
+			{mstCd: "PRJ00014", useYn: "Y",targetObj: "#prjDevTypeCd", comboType:"OS"} 
 		];
-		//공통코드 채우기
+		
 		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
 		
-		//그룹 정보 조회
+		
 		fnPrjInfoSelect();
 		
-		//데이터 테이블 세팅
+		
     	datatableSetting();
     };
     
-    //담당자 배정, 배정 프로젝트 목록
+    
     var datatableSetting = function(){
-    	//사용자 배정 정보 datatable 세팅
+    	
 		$.osl.datatable.setting("prj1003PrjAuthUsrTable",{
 			data: {
 				source: {
@@ -240,7 +240,7 @@ var OSLPrj1002Popup = function () {
 			},
 		});
     	
-		//데이터 테이블 세팅
+		
 		$.osl.datatable.setting("prj1002ReqTable", {
 			data: {
 				source: {
@@ -296,20 +296,20 @@ var OSLPrj1002Popup = function () {
 		});
 	};
 	
-	//프로젝트 정보 조회
+	
 	var fnPrjInfoSelect = function(){
-		//프로젝트 정보 조회
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj1000/prj1000/selectPrj1000PrjInfoAjax.do'/>"}
 				,{prjGrpId: paramPrjGrpId, prjId: paramPrjId});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
    				var prjInfo = data.prjInfo;
    				
-   				//프로젝트 그룹 정보
+   				
 				var prjGrpInfo = $.osl.prjGrpAuthList[paramPrjGrpId]["prjGrpInfo"];
    				
    				$("#prjGrpNm").val(prjGrpInfo.prjNm);
@@ -319,39 +319,39 @@ var OSLPrj1002Popup = function () {
    				$("#prjTypeCd").val(prjInfo.prjTypeCd).trigger('change.select2');
    				$("#prjDevTypeCd").val(prjInfo.prjDevTypeCd).trigger('change.select2');
    				
-   				//프로젝트 유형이 "운영"인경우 개발방법론 숨기기
+   				
    				if(prjInfo.prjTypeCd == "02"){
    					$('#prjDevTypeCd').parent("div.form-group").attr("hidden","hidden");
    				}else{
    					$('#prjDevTypeCd').parent("div.form-group").removeAttr("hidden");
    				}
    			
-   				//약어 배경색, 글씨색 입히기
+   				
    				$("#prjAcrm").css({
 	   				"background-color": prjInfo.prjBgColor,
 	   				"color": prjInfo.prjColor
    				});
    				
-   				//시작일 - 종료일 입력
+   				
    				$("#prjRange").val(prjInfo.startDt+" ~ "+prjInfo.endDt);
    				
-   				//프로젝트 전체 배정 개수
+   				
    				$("#prjChildListCnt").text(prjInfo.prjChildCnt);
    			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLPrj1002Popup.init();
 });
