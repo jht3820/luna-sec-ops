@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frStm6001">
 	<input type="hidden" name="type" id="type" value="${requestScope.type}">
-	<input type="hidden" id="lvl" name="lvl" value="${param.lvl}"//>
+	<input type="hidden" id="lvl" name="lvl" value="${param.lvl}"
 	<div class="kt-portlet">
 		<div class="kt-portlet__body">
 			<div class="form-group">
@@ -43,8 +43,10 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="stm6001SaveSubmit"><span data-lang-cd="stm6001.button.insert">작성 완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">Close</button>
+	<button type="button" class="btn btn-brand" id="stm6001SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="stm6001.button.insert">작성 완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i>
+	<span class="osl-resize__display--show" data-lang-cd="modal.close"
+	>Close</span></button>
 </div>
 
 <script>
@@ -54,41 +56,41 @@ var OSLStm6001Popup = function () {
 	var formId = 'frStm6001';
 	var type = $("#type").val();
 	
-	// 버튼 문구 세팅
+	
 	$("#stm6001SaveSubmit > span").text($.osl.lang("stm6001.button."+type));
 	$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
-    // Private functions
+    
     var documentSetting = function () {
     	
-    	// textarea 자동 사이즈 조절 설정
+    	
     	autosize($("#deptEtc"));
     	
-    	//수정인경우
+    	
     	if(type == "update"){
     		
-        	// stm6001 팝업 공통코드 select 세팅
+        	
     		var commonCodeArr = [
-    			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"} // 사용유무
+    			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"} 
     		];
 
-      		//공통코드 채우기
+      		
     		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
     		
-    		// 조직 단건 조회
+    		
     		selectDeptInfo();
     	}
     	
     	
-    	// 등록 버튼 클릭
+    	
     	$("#stm6001SaveSubmit").click(function(){
     		
     		var form = $('#'+formId);
     		
-    		//폼 유효 값 체크
+    		
     		if (!form.valid()) {
     			return;
     		}
@@ -103,29 +105,25 @@ var OSLStm6001Popup = function () {
     };
 
     
-    /**
-	 * function 명 	: selectDeptInfo
-	 * function 설명	: 선택한 조직의 상세정보를 조회하여 화면에 세팅한다.
-	 * @param deptId : 선택한 조직 ID
-	 */
+    
 	var selectDeptInfo = function() {
     	
 		var deptId = $("#deptId").val();
 		 
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/stm/stm6000/stm6000/selectStm6000DeptInfoAjax.do'/>", "async": false}
 				,{"deptId": deptId});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 			}else{
-				// 조직 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.deptInfoMap,"frStm6001", ["deptId", "upperDeptId", "upperDeptNm", "deptName", "lvl", "ord", "deptEtc"]);
 			
-		    	// 상위조직 Id 없을경우
+		    	
 				if($.osl.isNull(data.deptInfoMap.upperDeptId)){
 					$("#upperDeptId").val("-");
 				}
@@ -134,26 +132,23 @@ var OSLStm6001Popup = function () {
 		    		$("#useCd").attr("data-osl-value", data.deptInfoMap.useCd);
 		    	}
 		    	
-		    	// textarea 입력된 내용에 따라 size 조정
+		    	
 				autosize.update($("#deptEtc"));
 		    	
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
     
     
-   /**
- 	* function 명 	: submitInsertAction
-	* function 설명	: 신규 조직을 등록한다.
-	*/
+   
     var submitInsertAction = function(){
     	
     	var form = $('#'+formId);
     	
-		//폼 유효 값 체크
+		
 		if (!form.valid()) {
 			return;
 		}
@@ -163,42 +158,39 @@ var OSLStm6001Popup = function () {
 	        	
 	        	var formData = form.serializeArray();
 	        	
-	    		//AJAX 설정
+	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/stm/stm6000/stm6000/insertStm6000DeptInfoAjax.do'/>", "loadingShow": false}, formData);
 
-	    		//AJAX 전송 성공 함수
+	    		
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    				//모달 창 닫기
+	    				
 						$.osl.layerPopupClose();
 	    			}else{
-	    				// 등록 성공
+	    				
 	    				$.osl.toastr(data.message);
 
-	    				//모달 창 닫기
+	    				
 	    				$.osl.layerPopupClose();
 	    				
-	    				// 트리 재조회 추가
+	    				
 	    			}
 	    		});
 	    		
-	    		//AJAX 전송
+	    		
 	    		ajaxObj.send();
 	        }
 	    });
     };
     
     
-   /**
- 	* function 명 	: submitUpdateAction
-	* function 설명	: 조직 정보를 수정한다.
-	*/
+   
     var submitUpdateAction = function(){
     	
     	var form = $('#'+formId);
   		
-		//폼 유효 값 체크
+		
 		if (!form.valid()) {
 			return;
 		}
@@ -208,27 +200,27 @@ var OSLStm6001Popup = function () {
 	        	
 	        	var formData = form.serializeArray();
 	        	
-	    		//AJAX 설정
+	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/stm/stm6000/stm6000/updateStm6000DeptInfoAjax.do'/>", "loadingShow": false}, formData);
 
-	    		//AJAX 전송 성공 함수
+	    		
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    				//모달 창 닫기
+	    				
 						$.osl.layerPopupClose();
 	    			}else{
-	    				//수정 성공
+	    				
 	    				$.osl.toastr(data.message);
 
-	    				//모달 창 닫기
+	    				
 	    				$.osl.layerPopupClose();
 
-	    				// 트리 재조회 추가
+	    				
 	    			}
 	    		});
 	    		
-	    		//AJAX 전송
+	    		
 	    		ajaxObj.send();
 	        }
 	    });
@@ -237,7 +229,7 @@ var OSLStm6001Popup = function () {
     
 	
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -245,7 +237,7 @@ var OSLStm6001Popup = function () {
     };
 }();
 
-//Initialization
+
 $.osl.ready(function(){
 	OSLStm6001Popup.init();
 });
