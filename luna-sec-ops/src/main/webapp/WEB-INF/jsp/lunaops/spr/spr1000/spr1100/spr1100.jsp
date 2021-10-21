@@ -188,11 +188,32 @@ var OSLSpr1100Popup = function () {
 						
 						$("#sprId").val("");
 						selectBtnClick();
+						
+						
+						
+						searchReset(reqAssDatatableId);
+						
+						$("button[data-datatable-id="+reqAssDatatableId+"][data-datatable-action=select]").click();
+						
+						searchReset(reqNonDatatableId);
+						
+						$("button[data-datatable-id="+reqNonDatatableId+"][data-datatable-action=select]").click();
 					}
 				},
 				"click": function(rowData){
 					$("#sprId").val(rowData.sprId);
 					selectBtnClick();
+					
+					
+					
+					searchReset(reqAssDatatableId);
+					
+					$("button[data-datatable-id="+reqAssDatatableId+"][data-datatable-action=select]").click();
+					
+					searchReset(reqNonDatatableId);
+					
+					$("button[data-datatable-id="+reqNonDatatableId+"][data-datatable-action=select]").click();
+					
 				}
 			}
 		});
@@ -410,6 +431,35 @@ var OSLSpr1100Popup = function () {
 		
     	ajaxObj.send();
 	}
+	
+	
+	var searchReset = function(datatableId){
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
+		
+		
+		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
+		
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
+		
+		
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
+		
+		
+		$("#searchData_"+datatableId).removeAttr("readonly");
+		
+		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
+		
+		
+		$("#searchData_"+datatableId).val("");
+
+		
+		
+		$("#searchData_"+datatableId).attr("disabled","disabled");
+	};
 	
 	return {
         
