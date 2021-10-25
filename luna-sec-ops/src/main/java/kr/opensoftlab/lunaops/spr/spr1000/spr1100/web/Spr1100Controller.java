@@ -126,11 +126,11 @@ public class Spr1100Controller {
 				
 				
 				spr1100AssList = spr1100Service.selectSpr1100ReqList(paramMap);
+
 				
+				metaMap.put("sort", sortDirection);
+				metaMap.put("field",sortFieldId);
 			}
-			
-			metaMap.put("sort", sortDirection);
-			metaMap.put("field",sortFieldId);
 		
 			
 			model.addAttribute("data", spr1100AssList);
@@ -230,11 +230,11 @@ public class Spr1100Controller {
 				
 				
 				spr1100NonAssList = spr1100Service.selectSpr1100ReqList(paramMap);
+				
+				metaMap.put("sort", sortDirection);
+				metaMap.put("field",sortFieldId);
 			}
 			
-			
-			metaMap.put("sort", sortDirection);
-			metaMap.put("field",sortFieldId);
 		
 			
 			model.addAttribute("data", spr1100NonAssList);
@@ -301,26 +301,8 @@ public class Spr1100Controller {
 			
 			
 			
-			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
-			
-			
-			totCnt = spr1100Service.selectSpr1101SprReqListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			dataList = (List) spr1100Service.selectSpr1101SprReqList(paramMap);
-			
-        	
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!-- begin page DOM -->
+
 <form class="kt-form" id="frReq3002">
 	<input type="hidden" name="type" id="type" value="${param.type}">
 	<input type="hidden" name="prjId" id="prjId" value="${param.paramPrjId}">
@@ -209,32 +209,33 @@
 </form>
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand"	data-dismiss="modal">
-		<span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i>
+		<span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
-<!-- end DOM -->
-<!-- begin page script -->
+
+
 <script>
 "use strict";
 
-//파일업로드 셋팅
+
 var fileUploadObj;
 var OSLReq3002Popup = function () {
 	var formId = 'frReq3002'
 	
-	//edit 목록
+	
 	var formEditList = [];
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
 	var documentSetting = function(){
 		
-		//포틀릿셋팅
+		
 		var portlet = new KTPortlet('req3000ReqGrpInfo', $.osl.lang("portlet"));
 		portlet.expand();
 		
-		//edit 세팅
+		
     	formEditList.push($.osl.editorSetting("reqGrpDesc", {
     		toolbar: false,
 			disableResizeEditor: false,
@@ -243,7 +244,7 @@ var OSLReq3002Popup = function () {
 			height:260
     	}));
     	
-    	//파일 업로드 세팅
+    	
     	fileUploadObj = $.osl.file.uploadSet("fileListDiv",{
     		maxFileSize: "${requestScope.fileSumMaxSize}",
     		meta: {"atchFileId": $("#atchFileId").val(), "fileSn": 0},
@@ -254,14 +255,12 @@ var OSLReq3002Popup = function () {
     		
     	});
     	fileUploadObj.reset();
-    	//그룹 요구사항 정보 조회
+    	
     	selectReqGrpInfo();
     	
 	}
 	
-	/**
-	 * 	그룹 요구사항 정보 조회
-	*/
+	
     var selectReqGrpInfo = function(){
 		
     	var data = {
@@ -269,36 +268,33 @@ var OSLReq3002Popup = function () {
     			prjId: $("#prjId").val(),
     			reqGrpId: $("#reqGrpId").val()
     	}
-    	//Ajax 설정
+    	
     	var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req3000/req3000/selectReq3000ReqInfoAjax.do'/>", "async":"true"}
 				,data);
-    	//Ajax 전송 성공 함수
+    	
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 				
 			}else{
-				//요구사항 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.reqInfoMap,"frReq3000");
 				
 		    	$("#reqGrpChargerNm").val(data.reqInfoMap.reqGrpChargerNm);
 		    	$("#reqGrpUsrNm").val(data.reqInfoMap.reqGrpUsrNm);
 		    	$("#reqGrpNo").val(data.reqInfoMap.reqGrpNo);
 		    	$("#reqGrpDesc").summernote("code",data.reqInfoMap.reqGrpDesc);
-		    	//$("#reqGrpDesc").val(data.reqInfoMap.reqGrpDesc);
+		    	
 		    	$("#reqGrpNm").val(data.reqInfoMap.reqGrpNm);
 		    	$("#reqGrpLinkCnt").text(data.reqInfoMap.reqGrpLinkCnt);
 				
-		    	/* var _oriText = $("#reqGrpDesc").val();
-		    	var newText = _oriText.replace(/<br>/gi,"");
-		    	console.log(newText);
-		    	$("#reqGrpDesc").val(newText); */
 		    	
-		    	//완료된 프로젝트 수 세기
+		    	
+		    	
 		    	var endReqCnt = 0;
 		    	$.each(data.reqGrpConList, function(index, item){
 		    		if(item.reqProType == "4"){
@@ -308,7 +304,7 @@ var OSLReq3002Popup = function () {
 		    	$("#reqOngoing").text(data.reqInfoMap.reqGrpLinkCnt - endReqCnt);
 		    	$("#reqEnd").text(endReqCnt);
 		    	
-		    	//edit 세팅
+		    	
 		    	formEditList.push($.osl.editorSetting("reqGrpDesc", {
 		    		toolbar: false,
 	    			disableResizeEditor: false,
@@ -317,16 +313,16 @@ var OSLReq3002Popup = function () {
 	    			height:260
 		    	}));
 		    	
-		    	//파일Sn넣기
+		    	
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
-		    	//파일 목록 세팅
+		    	
 		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
 		    	
 			}
     	});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
     };
     
@@ -357,7 +353,7 @@ var OSLReq3002Popup = function () {
    	});
     
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -369,4 +365,4 @@ $.osl.ready(function(){
 	OSLReq3002Popup.init();
 });
 </script>
-<!-- end script -->
+

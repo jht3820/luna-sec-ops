@@ -33,50 +33,48 @@
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLSpr2102Popup = function () {
 	var formId = 'frSpr2102';
 	
-	//edit 목록
+	
 	var formEditList = [];
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 
-	// Private functions
+	
     var documentSetting = function () {
     	
-		//회의록 정보 가져오기 및 세팅
+		
     	selectSprRptInfo();
 	};
 	
-    /**
-	 * 	스프린트 회의록 정보 조회
-	 */
+    
 	 var selectSprRptInfo = function() {
     	var data = {
     			mmrId :  $("#mmrId").val(),
     			sprId :  $("#sprId").val(),
     	};
 
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/spr/spr2000/spr2100/selectSpr2100MmrInfoAjax.do'/>", "async":"true"}
 				,data);
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
-				//수정할때 호출
+				
 		    	$.osl.setDataFormElem(data.mmrInfo,"frSpr2102");
 
-				//edit 세팅
+				
 	    		formEditList.push($.osl.editorSetting("mmrDesc", {
 		    		toolbar: false,
 	    			disableResizeEditor: false,
@@ -85,24 +83,24 @@ var OSLSpr2102Popup = function () {
 	    			height:190
 	    		}));
 	    		
-		    	//edit 세팅하고 나서 textarea 보이기
+		    	
 		    	$("#mmrDesc").removeClass("kt-hide");
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
 	
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLSpr2102Popup.init();
 });

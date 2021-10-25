@@ -197,8 +197,6 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 					prj3100DAO.insertPrj3001CngInf(paramMap);
 					
 					
-					
-					
 					paramMap.put("ord", "1");
 				
 				}else if("02".equals(signUseCd)) {
@@ -308,5 +306,12 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 				prj3100DAO.insertPrj3001CngInf(fileMap);
 			}
 		}
+	}
+
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List selectPrj3100DocList(Map<String, String> paramMap) throws Exception {
+		return prj3100DAO.selectPrj3100Prj3100DocList(paramMap);
 	}
 }

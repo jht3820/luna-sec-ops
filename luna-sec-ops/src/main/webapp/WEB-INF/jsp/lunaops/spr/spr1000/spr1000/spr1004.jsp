@@ -6,8 +6,9 @@
 	<input type="hidden" name="paramPrjGrpId" id="paramPrjGrpId" value="${param.paramPrjGrpId}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" name="paramSprId" id="paramSprId" value="${param.paramSprId}">
-	<input type="hidden" name="paramStartDt" id="paramStartDt" value="${param.paramStartDt}">
-	<input type="hidden" name="paramEndDt" id="paramEndDt" value="${param.paramEndDt}">
+	<input type="hidden" name="paramStDt" id="paramStDt" value="${param.paramStartDt}">
+	<input type="hidden" name="paramEdDt" id="paramEdDt" value="${param.paramEndDt}">
+	<input type="hidden" name="paramSprDesc" id="paramSprDesc" value="${param.paramSprDesc}">
 	<div class="kt-portlet__body">
 		<div class="osl-wizard" id="kt_wizard_v3" data-ktwizard-state="step-first">
 			
@@ -83,7 +84,7 @@
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="form-group">
 							<label class="required"><i class="fa fa-edit kt-margin-r-5"></i>회고록 제목</label>
-							<input type="text" name="mmrNm" id="mmrNm" class="form-control" required>
+							<input type="text" name="mmrNm" id="mmrNm" class="form-control" maxlength="99" required>
 						</div>
 					</div>
 				</div>
@@ -105,8 +106,8 @@
 					
 					
 					
-					<div class="col-12 text-right">2020-01-01 11:40</div>
-					<div class="col-12 text-right">관리자</div>
+					<div class="col-12 text-right">${param.paramStartDt} - ${param.paramEndDt}</div>
+					<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
 					<div class="col-12 text-right">${param.paramSprDesc}</div>
 					
 					
@@ -141,16 +142,16 @@
 				</div>
 				
 				
-				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
+				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
 					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
-						<div class="border osl-min-h-px--140" id="burnUpChart"></div>
+						<div class="border osl-min-h-px--140 osl-card__data--empty" id="burnUpChart"></div>
 					</div>
 					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
-						<div class="border osl-min-h-px--140" id="burnDownChart"></div>
+						<div class="border osl-min-h-px--140 osl-card__data--empty" id="burnDownChart"></div>
 					</div>
 				</div>
-				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
-					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
+				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 ">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
 						<div class="border osl-min-h-px--140" id="velocityChart"></div>
 					</div>
 				</div>
@@ -158,7 +159,7 @@
 				
 				
 				<div class="row kt-margin-t-20">
-					<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="col-lg-12 col-md-12 col-sm-12 kt-padding-20">
 						<div class="row">
 							
 							<div class="col-lg-6 col-md-6 col-sm-12">
@@ -185,8 +186,8 @@
 	</div>
 
 	<div class="modal-footer">
-		<button class="btn btn-outline-brand"	data-dismiss="modal">
-			<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<button class="btn btn-outline-brand" data-dismiss="modal">
+			<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 		</button>
 	</div>
 </form>
@@ -215,9 +216,9 @@ var OSLSpr1004Popup = function () {
 	var formValidate = $.osl.validate(formId);
 	
 	
-	var paramSprStDt = $("#paramStartDt").val();
+	var paramSprStDt = $("#paramStDt").val();
 	
-	var paramSprEdDt = $("#paramEndDt").val();
+	var paramSprEdDt = $("#paramEdDt").val();
 	
 	
 	var wizardData = {
@@ -415,6 +416,12 @@ var OSLSpr1004Popup = function () {
     	 				if($.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.hasOwnProperty('data')){
     	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
     	 				}
+    	 				
+    	 				selectSprInfoStat();
+    	 				
+    	 				
+    	 				drawAllChart();
+    	 				
     				}
     			}
     		});
@@ -448,6 +455,7 @@ var OSLSpr1004Popup = function () {
 				
 				if(!datatableInitFlag[wizardObj.currentStep]){
 					datatableInitFlag[wizardObj.currentStep] = datatableSetting[wizardObj.currentStep]();
+					
 				}else if(datatableInitFlag[wizardObj.currentStep].hasOwnProperty("targetDt")){
 					datatableInitFlag[wizardObj.currentStep].targetDt.reload();
 				}
@@ -525,17 +533,12 @@ var OSLSpr1004Popup = function () {
 			$.osl.layerPopupOpen('/req/req1000/req1000/selectReq1001View.do',data,options);
 		});
 		
-		selectSprInfoStat();
-		
-		
-		drawAllChart();
-		
 	};
 	
 	var selectSprInfoStat = function(){
  		
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"true"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"false"},{sprId: paramSprId});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -553,7 +556,7 @@ var OSLSpr1004Popup = function () {
  				if($.osl.escapeHtml(sprStat.avgTime)=='NaN'){
 	 				$("#sprStat04").html("0");
  				}else{
- 					$("#sprStat04").html($.osl.escapeHtml(sprStat.avgTime.toFixed(2)));
+ 					$("#sprStat04").html($.osl.escapeHtml(sprStat.avgTime.toFixed(2)+" 시간"));
  				}
  				
  				if($.osl.escapeHtml(sprStat.sprEndPercent)=='NaN'){
@@ -577,7 +580,7 @@ var OSLSpr1004Popup = function () {
  	
  	var drawAllChart = function(){
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"true"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: paramSprId});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -590,18 +593,26 @@ var OSLSpr1004Popup = function () {
  				var endDt  = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
  				
  				var seriesData = getDataRangeData(paramSprStDt, endDt, "1", chartData);
+ 				if(chartData.length == 0){
+ 					$("#burnDownChart").text("데이터 없음")
+ 					$("#burnUpChart").text("데이터 없음")
+ 				}else{
+	 				
+	 				drawBurnUpChart(seriesData);
+	 				
+	 				drawBurnDownChart(seriesData);
+ 				}
  				
- 				drawBurnUpChart(seriesData);
- 				
- 				
- 				drawBurnDownChart(seriesData);
- 				
- 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				if(chartData.length == 0){
+					endSprPoint = 0	 					
+ 				}else{
+	 				
+	 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				}
  				
 				drawVelocityChart();
  			}	
  		});
- 		
  		ajaxObj.send();
  	}
  	
@@ -638,7 +649,10 @@ var OSLSpr1004Popup = function () {
 						align: "center",
 					},
 					stroke: {
-				          curve: 'smooth'
+				          curve: 'straight'
+				    },
+				    markers: {
+				          size: 1
 				    },
 				    grid: {
 				          borderColor: '#e7e7e7',
@@ -646,6 +660,25 @@ var OSLSpr1004Popup = function () {
 				            colors: ['#f3f3f3', 'transparent'], 
 				            opacity: 0.5
 				          },
+				    },
+				    animations:{
+						enabled:false
+					},
+				    dataLabels:{
+				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
+				    		
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
 				    },
 					xaxis: {
 						type: 'datetime',
@@ -695,8 +728,8 @@ var OSLSpr1004Popup = function () {
 							 key2:"burnDownSprPoint"
 						 },
 						 keyNm:{
-							 keyNm1:"idealBurnDownLine",
-							 keyNm2:"Actual burnDownSprPoint"
+							 keyNm1:"이상적인 번다운라인",
+							 keyNm2:"실제 번다운라인"
 						 },
 						 
 						 chartType:"line",
@@ -708,13 +741,35 @@ var OSLSpr1004Popup = function () {
 				},
 				chart:{
 					
-					colors: ["#586272", "#1cac81"],
+					colors: ["#ffb822","#840ad9"],
 					title: {
 						text: "번다운차트",
 						align: "center",
 					},
 					stroke: {
-				          curve: 'smooth'
+				          curve: 'straight'
+				    },
+				    markers: {
+				          size: 1
+			        },
+			        animations:{
+						enabled:false
+					},
+				    dataLabels:{
+				    	enabled:true,
+				    	formatter:function(val, opts){
+				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
+				    		
+				    		if(xlabelList.includes(valIndex)){
+				    			if($.osl.isNull(val)){
+				    				return "";
+				    			}
+				    			return val;
+				    		}else{
+					    		return "";
+				    		} 
+				    	}
 				    },
 				    grid: {
 				          borderColor: '#e7e7e7',
@@ -776,15 +831,15 @@ var OSLSpr1004Popup = function () {
 					 key: {
 						 key1: "sprPoint",
 						 key2: "commitSprPoint",
-						 key3: "commitVelocity",
-						 key4: "actualVelocity"
+						 key3: "actualVelocity",
+						 key4: "commitVelocity",
 					 },
 					 
 					 keyNm:{
-						 keyNm1: "Actual StoryPoint",
-						 keyNm2: "Commitment StoryPoint",
-						 keyNm3: "Commitment Velocity",
-						 keyNm4: "Actual Velocity",
+						 keyNm1: "실제 완료 스토리포인트",
+						 keyNm2: "약속된 완료 스토리포인트",
+						 keyNm3: "실제 진행 속도",
+						 keyNm4: "약속된 진행 속도",
 					 },
 					 keyType:{
 						 keyType1:"bar",
@@ -802,12 +857,19 @@ var OSLSpr1004Popup = function () {
 			},
 			chart:{
 				
-				colors: ["#586272", "#1cac81","#03070D", "#D0D3D9"],
-				 stroke: {
-			          width: [5, 5, 5, 5],
-			          curve: 'straight',
-			          dashArray: [0, 0, 5, 5]
-			       },
+				colors: ["#ffb822","#840ad9", "#ffb822","#840ad9"],
+			    yaxis: {
+					show:true,
+					min:0
+	        	},
+				stroke: {
+			    	width: [1, 1, 1, 1],
+			        curve: 'straight',
+			        dashArray: [0, 0, 5, 5]
+			    },
+			    animations:{
+					enabled:false
+				},
 			},
 			callback:{
 				
@@ -863,7 +925,7 @@ var OSLSpr1004Popup = function () {
  		
  		var length = resDay.length
  		
- 		var step = totalSprPoint / length
+ 		var step = totalSprPoint / (length-1)
  		
  		var start = 0;
  		$.each(resDay, function(index, value){

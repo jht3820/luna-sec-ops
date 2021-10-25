@@ -439,6 +439,67 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
+		dpl4000:{
+			dpl:{
+				title: "배포 계획 목록",
+				button:{
+					tooltip:{
+						selectTooltip: "배포 계획 조회",
+						detailTooltip : "배포 계획 상세"
+					},
+					detailBtn : "상세"
+				},
+				addSearch : {
+					"dplDesc" : "배포 설명",
+				},
+				actionBtn : {
+					title : "기능 버튼",
+					tooltip : {
+						detailTooltip : "배포 계획 상세 보기",
+					},
+					modalTitle : "[${1}] 상세 정보"
+				}
+			},
+			req:{
+				title: "요구사항 배정 목록",
+				button:{
+					tooltip:{
+						selectTooltip: "배정 요구사항 조회",
+						detailTooltip : "요구사항 상세"
+					},
+					detailBtn : "상세"
+				},
+				actionBtn : {
+					title : "기능 버튼",
+					tooltip : {
+						detailTooltip : "요구사항 상세 보기",
+					},
+					modalTitle : "[${1}] 요구사항 상세 정보"
+				}
+			},
+			job:{
+				title: "JOB 배정 목록",
+				button:{
+					tooltip:{
+						selectTooltip: "배정 JOB 조회",
+						detailTooltip : "JOB 상세"
+					},
+					detailBtn : "상세"
+				},
+				actionBtn : {
+					title : "기능 버튼",
+					tooltip : {
+						detailTooltip : "JOB 상세 보기",
+					},
+					modalTitle : "JOB 상세 정보"
+				}
+			},
+			message : {
+				selectOneDpl : "${1}건의 배포 계획이 선택되었습니다.<br/>1건의 배포 계획 정보를 선택하세요.",
+				selectOneReq : "${1}건의 요구사항이 선택되었습니다.<br/>1건의 요구사항 정보를 선택하세요.",
+				selectOneJob : "${1}건의 JOB이 선택되었습니다.<br/>1건의 JOB 정보를 선택하세요.",
+			}
+		},
 		cmm6000:{
 			title:{
 				mainPrjSetting:"메인프로젝트 설정",
@@ -711,9 +772,6 @@ var OSLCoreLangSetting = function () {
 					treeSelect : "왼쪽 트리에서 템플릿을 선택해주세요.",
 					notUsedTemplate : "미사용 템플릿에는 하위 템플릿을 추가할 수 없습니다.",
 					notRootDelete : "최상위 템플릿(ROOT)은 삭제할 수 없습니다.",
-					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
-					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
-					notSignUseCd : "결재를 사용하지 않는 템플릿 입니다."
 				},
 				confirm:{
 					deleteTemplate:"템플릿 정보 삭제 시 선택한 템플릿 정보 및 하위 템플릿 정보가 모두 삭제됩니다. 선택한 템플릿 정보를 삭제 하시겠습니까?",
@@ -750,6 +808,32 @@ var OSLCoreLangSetting = function () {
 				confirm : {
 					insert : "템플릿 정보를 추가 하시겠습니까?",
 					update : "템플릿 정보를 수정 하시겠습니까?"
+				}
+			}
+		},
+		prj1302 : {
+			label : {
+				itemNm : "항목 명",
+				itemCode : "항목 분류",
+				itemType : "항목 타입",
+				itemPcRowNum : "데스크탑 열 넓이",
+				itemTabletRowNum : "테블릿 열 넓이",
+				itemMobileRowNum : "모바일 열 넓이",
+				itemOrd : "순서",
+				itemCommonCode : "공통코드",
+				itemLength : "길이제한",
+				itemEssentialCd : "필수 유무",
+				
+			},
+			button : {
+				insert : "작성 완료",
+				update : "수정 완료"
+			},
+			message : {
+				confirm : {
+					insert : "기본항목을 추가 하시겠습니까?",
+					update : "기본항목을 수정 하시겠습니까?",
+					itemNotSelect : "기본항목을 1개 이상 선택해주세요.",
 				}
 			}
 		},
@@ -1000,11 +1084,46 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
 			},
 		},
+		req1002:{
+			label : {
+				reqUser : {
+					title : "요청자 정보", 
+					usrNm : "요청자 이름",
+					email : "요청자 e-mail",
+					deptNm : "요청자 소속",
+					telNo : "요청자 연락처",
+				},
+				group:{
+					groupReqInfo : "그룹 요구사항 정보",
+					groupReqId : "그룹 요구사항 번호",
+					groupReq : "그룹 요구 사항",
+					groupReqDesc : "그룹 요구사항 내용",
+				},
+				prjNm : "프로젝트",
+				reqDtm : "요청일",
+				reqId: "요구사항 ID",
+				reqOrd : "요구사항 순번",
+				reqProTypeNm : "처리 유형",
+				processNm : "프로세스명",
+				flowNm:"단계명",
+				reqNm : "요청 제목",
+				reqDesc : "요청 내용",
+				attachments : "파일 첨부",
+				requestDefaultOptNm : "접수 기본항목 입력"
+			},
+			message:{
+				notGroupReqNo : "없음",
+				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
+				notProcess : "배정된 프로세스 없음",
+				notStep : "없음"
+			},
+		},
 		req3000:{
+			allReqInDelete:"${1}건의 요구사항을 연결 해제하시겠습니까?",
 			insert:{
-				saveMsg:"연결에 성공했습니다.",
-				saveDupleMsg:"이미 연결된 요구사항입니다.",
-				saveAllDupleMsg:"모든 요구사항이 연결되었습니다.",
+				saveMsg: "${1}개의 요구사항이 연결되었습니다.",
+				saveDupleMsg: "이미 연결된 ${1}개의 요구사항 제외",
+				saveAllDupleMsg: "이미 연결중인 요구사항입니다. (${1}개)"
 			},
 			alert:{
 				checkUsrId:"요청자 명을 검색하여 입력해주세요. \n 해당 요청자의 소속을 알아야합니다.",
@@ -1043,6 +1162,8 @@ var OSLCoreLangSetting = function () {
 				
 				prjGrpNm: "프로젝트 그룹명",
 				reqGrpNm: "그룹 요구사항 명",
+				reqGrpNo : "그룹 요구사항 번호",
+				reqDesc : "요구사항 내용"
 			},
 			actionBtn:{
 				title : "수정 / 삭제 / 상세 / 복사",
@@ -1069,6 +1190,9 @@ var OSLCoreLangSetting = function () {
 				selectData : "요구사항을 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
 				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
+			},
+			message : {
+				nothing : "없음",
 			}
 		},
 		req4101:{
@@ -1076,6 +1200,7 @@ var OSLCoreLangSetting = function () {
 			saveString :{
 				insertStr : "요구사항을 등록하시겠습니까?",
 				updateStr : "요구사항 수정을 완료하시겠습니까?",
+				copyStr : "요구사항 복사를 완료하시겠습니까?",
 			},
 			label : {
 				reqUser : {
@@ -1145,6 +1270,40 @@ var OSLCoreLangSetting = function () {
 			formCheck:{
 				passwordMessage : "비밀글에 사용할 비밀번호를 입력해주세요.",
 				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
+			},
+		},
+		req4102:{
+			label : {
+				reqUser : {
+					title : "요청자 정보", 
+					usrNm : "요청자 이름",
+					email : "요청자 e-mail",
+					deptNm : "요청자 소속",
+					telNo : "요청자 연락처",
+				},
+				group:{
+					groupReqInfo : "그룹 요구사항 정보",
+					groupReqId : "그룹 요구사항 번호",
+					groupReq : "그룹 요구 사항",
+					groupReqDesc : "그룹 요구사항 내용",
+				},
+				prjNm : "프로젝트",
+				reqDtm : "요청일",
+				reqId: "요구사항 ID",
+				reqOrd : "요구사항 순번",
+				reqProTypeNm : "처리 유형",
+				processNm : "프로세스명",
+				flowNm:"단계명",
+				reqNm : "요청 제목",
+				reqDesc : "요청 내용",
+				attachments : "파일 첨부",
+				requestDefaultOptNm : "접수 기본항목 입력"
+			},
+			message:{
+				notGroupReqNo : "없음",
+				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
+				notProcess : "배정된 프로세스 없음",
+				notStep : "없음"
 			},
 		},
 		req4103:{
@@ -2289,6 +2448,13 @@ var OSLCoreLangSetting = function () {
 				allTitle: "All"
 			},
 			
+			arm1000ArmTable:{
+				checkCd : "Read",
+				sendUsrNm : "Send User",
+				usrNm : "Recive User",
+				armTitle : "Title",
+				sendDtm : "Date"
+			},
 			arm1000CmmTable:{
 				sendUsrNm : "From User Name",
 				armTitle : "Title",
@@ -2342,6 +2508,31 @@ var OSLCoreLangSetting = function () {
 				dplVer:"Deploy Version",
 				dplTypeNm:"Deploy Type",
 				dplDesc:"Deploy Description",
+			},
+			dpl4000DplTable:{
+				dplSignUseNm: "Approval Used Check",
+				nowSignTypeNm: "Approval Status",
+				lastSignUsrNm : "Approver",
+				dplStsNm: "Deploy Status",
+				dplVer: "Deploy Version",
+				dplNm: "Deploy Name",
+				dplTypeNm : "Deploy Type",
+				dplRevisionNum : "Deploy Revision Number",
+				dplDt : "Deploy Date",
+				dplUsrNm : "Deployer"
+			},
+			dpl4000AssReqTable:{
+				reqNm : "Request Title",
+				reqOrd : "Request Number",
+				reqProTypeNm : "Processing Status",
+				reqDtm : "Request Date",
+			},
+			dpl4000AssJobTable:{
+				jobTypeNm : "Job Type",
+				jobId : "JOB ID",
+				jobRestoreId : "Restore JOB ID",
+				bldResultMsg :"Build Result",
+				jobParameter :"Job Parameter"
 			},
 			req1000ReqTable:{
 				prjNm: "Project Name",
@@ -2857,6 +3048,67 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
+		dpl4000:{
+			dpl:{
+				title: "Deployment Plan List",
+				button:{
+					tooltip:{
+						selectTooltip: "Select Deployment Plan",
+						detailTooltip : "Deployment Plan Info"
+					},
+					detailBtn : "Detail"
+				},
+				addSearch : {
+					dplDesc : "Deployment Description",
+				},
+				actionBtn : {
+					title : "Detail",
+					tooltip : {
+						detailTooltip : "Deployment Plan Info",
+					},
+					modalTitle : "[${1}] Detail Info"
+				}
+			},
+			req:{
+				title: "Request List",
+				button:{
+					tooltip:{
+						selectTooltip: "Select Request List",
+						detailTooltip : "Request Info"
+					},
+					detailBtn : "Detail"
+				},
+				actionBtn : {
+					title : "Detail",
+					tooltip : {
+						detailTooltip : "Request Info",
+					},
+					modalTitle : "[${1}] Request Detail Info"
+				}
+			},
+			job:{
+				title: "JOB List",
+				button:{
+					tooltip:{
+						selectTooltip: "Select JOB List ",
+						detailTooltip : "JOB Info"
+					},
+					detailBtn : "Detail"
+				},
+				actionBtn : {
+					title : "Detail",
+					tooltip : {
+						detailTooltip : "Job Info",
+					},
+					modalTitle : "Job Detail Info"
+				}
+			},
+			message : {
+				selectOneDpl : "Please, select only 1 deployment data.<br/>${1} deployment datas have been selected.",
+				selectOneReq : "Please, select only 1 request data.<br/>${1} request datas have been selected.",
+				selectOneJob : "Please, select only 1 job data.<br/>${1} job datas have been selected.",
+			}
+		},
 		prj1000:{
 			startDate: "Start Date",
 			endDate: "End Date",
@@ -3178,7 +3430,42 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "The entered passwords are different.",
 			},
 		},
+		req1002:{
+			label : {
+				reqUser : {
+					title : "Requester Information",
+					usrNm : "Name",
+					email : "E-mail",
+					deptNm : "Department",
+					telNo : "Contact",
+				},
+				group:{
+					groupReqInfo : "Group Request Information",
+					groupReqId : "Group Request Num",
+					groupReq : "Group Request",
+					groupReqDesc : "Group Request Content",
+				},
+				prjNm : "Project",
+				reqDtm : "Request Date",
+				reqId: "Request ID",
+				reqOrd : "Request Ord.",
+				reqProTypeNm : "Process Type Name",
+				processNm : "Process",
+				flowNm:"Step",
+				reqNm : "Title",
+				reqDesc : "Content",
+				attachments : "Attachments",
+				requestDefaultOptNm : "Enter basic items for application"
+			},
+			message:{
+				notGroupReqNo : "Noting",
+				notGroupReqInfo : "Group requirements are not linked.",
+				notProcess : "No process assigned.",
+				notStep : "Nothing"
+			},
+		},
 		req3000:{
+			allReqInDelete:"Are you sure you want to exclude ${1} requests?",
 			insert:{
 				saveMsg:"Connection success",
 				saveDupleMsg:"That connection is already connected",
@@ -3262,7 +3549,9 @@ var OSLCoreLangSetting = function () {
 			field:{
 				
 				prjGrpNm: "Project Group Name",
-				reqGrpNm: "Requirement Group Name",
+				reqGrpNm: "Request Group Name",
+				reqGrpNo : "Group Request Number",
+				reqDesc : "Request Description"
 			},
 			actionBtn:{
 				title : "Udp / Del / Det / Cop",
@@ -3288,6 +3577,9 @@ var OSLCoreLangSetting = function () {
 				selectData : "Choose your data.",
 				LockData : "Locked requirements cannot be copied.",
 				selectCopyData : "Copying is only possible for 1 copy. Currently ${1} are selected.",
+			},
+			message : {
+				nothing : "Nothing",
 			}
 		},
 		req4101:{
@@ -3295,6 +3587,7 @@ var OSLCoreLangSetting = function () {
 			saveString :{
 				insertStr : "Would you like to register your requirements?",
 				updateStr : "Would you like to modify your requirements?",
+				copyStr : "Would you like to copy your requirements?",
 			},
 			label : {
 				reqUser : {
@@ -3364,6 +3657,40 @@ var OSLCoreLangSetting = function () {
 			formCheck:{
 				passwordMessage : "You must write password for secret request.",
 				passwordMatching : "The entered passwords are different.",
+			},
+		},
+		req4102:{
+			label : {
+				reqUser : {
+					title : "Requester Information",
+					usrNm : "Name",
+					email : "E-mail",
+					deptNm : "Department",
+					telNo : "Contact",
+				},
+				group:{
+					groupReqInfo : "Group Request Information",
+					groupReqId : "Group Request Num",
+					groupReq : "Group Request",
+					groupReqDesc : "Group Request Content",
+				},
+				prjNm : "Project",
+				reqDtm : "Request Date",
+				reqId: "Request ID",
+				reqOrd : "Request Ord.",
+				reqProTypeNm : "Process Type Name",
+				processNm : "Process",
+				flowNm:"Step",
+				reqNm : "Title",
+				reqDesc : "Content",
+				attachments : "Attachments",
+				requestDefaultOptNm : "Enter basic items for application"
+			},
+			message:{
+				notGroupReqNo : "Noting",
+				notGroupReqInfo : "Group requirements are not linked.",
+				notProcess : "No process assigned.",
+				notStep : "Nothing"
 			},
 		},
 		req4103:{

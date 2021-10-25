@@ -54,16 +54,6 @@
 							</select>
 						</div>
 					</div>
-					<!-- 리비전 선택 주석처리
-					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplRevisionNum">배포 리비전</span></label>
-						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="리비전 검색 후 선택" id="dplRevisionNumStr" name="dplRevisionNumStr" opttype="05" >
-								<button type="button" class="btn btn-brand input-group-append" id="searchDplRevBtn"><span data-lang-cd="dpl1001.button.searchBtn">검색</span></button>
-							</div>
-						</div>
-					</div>	 -->
 					<div class="form-group row kt-margin-b-10">
 						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fab fa-cloudsmith kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplType">배포 방법</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
@@ -141,8 +131,8 @@
 
 
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="dpl1001SaveSubmit"><i class="fa fa-save"></i><span>완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-brand" id="dpl1001SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 
 
@@ -196,9 +186,20 @@ var OSLDpl1001Popup = function () {
 		var maxDate =  new Date(minMaxYear, 12, 0);
 		
 		
-		$.osl.date.datepicker($("#dplDt"), {});
+		$.osl.date.daterangepicker($("#dplDt"), {
+			singleDatePicker: true, 
+			timePicker: false, 
+			timePicker24Hour: false,
+			minDate: minDate,
+			maxDate: maxDate,
+			locale: {
+				format: 'YYYY-MM-DD'
+	        }
+		});
 		
-		$('#dplAutoTm').daterangepicker({
+		
+		$.osl.date.daterangepicker($('#dplAutoTm'), {
+			singleDatePicker: false,
             timePicker: true,
             timePicker24Hour: true,
             timePickerIncrement: 1,
@@ -209,11 +210,11 @@ var OSLDpl1001Popup = function () {
 				format: 'HH:mm:ss',
 					"applyLabel": $.osl.lang("dpl1001.label.autoTimeCompl"),
 					"cancelLabel": $.osl.lang("dpl1001.label.autoTimeCancel")
-			}
-        }).on('show.daterangepicker', function (ev, picker) {
-            picker.container.find(".calendar-table").hide();
-        });
-  		
+				}
+			}).on('show.daterangepicker', function (ev, picker) {
+	            picker.container.find(".calendar-table").hide();
+	        });
+		
 		
     	$("#dpl1001DplUsrSearch").click(function(){
     		
@@ -299,14 +300,20 @@ var OSLDpl1001Popup = function () {
 			
 			$.each(chkInfo, function(idx, map){
 				
-				var jobId = $(map).data("dpl-jenid");
-				var jenId = $(map).data("dpl-jobid");
+				var jenId = $(map).data("dpl-jenid");
+				var jobId = $(map).data("dpl-jobid");
 				
 				
 				var chkJobInfo = $("[data-dpl-job-info=jobinfo][data-dpl-jenid="+jenId+"][data-dpl-jobid="+jobId+"]");
 				
+				
 				chkJobInfo.remove();
+				
+				
+				fnAllJobListOrdSet();
 			});
+			
+			
 			
 		});
 		
@@ -372,6 +379,21 @@ var OSLDpl1001Popup = function () {
     		});
 		});
 	};
+	
+	
+	var fnAllJobListOrdSet = function(){
+		
+		var jobTarget = $("[data-dpl-job-info='jobinfo']");
+		if(jobTarget.length > 0){
+			
+			$.each(jobTarget, function(idx, map){
+				$(map).attr("data-job-ord",idx+1);
+				$(map).find("span[data-dpl-job-info='ord']").attr("data-job-ord", idx+1);
+				$(map).find("span[data-dpl-job-info='ord']").text(idx+1);
+			});
+		}
+	};
+	
 	
 	
 	 var selectDplInfo = function() {
@@ -460,7 +482,8 @@ var OSLDpl1001Popup = function () {
    			
    			var jenId = $(map).data("dpl-jenid");
    			var jobId = $(map).data("dpl-jobid");
-   			var jobOrd = $(map).data("job-ord");
+   			
+   			var jobOrd = $(map).attr("ord");
    			
    			jobList.push({jenId: jenId, jobId: jobId, jobStartOrd: jobOrd});
    		});
@@ -538,11 +561,11 @@ var OSLDpl1001Popup = function () {
     				jobRestoreStr = jobRestoreId
     			}
     			
-    			jobInfoHtmlStr += '<div class="kt-portlet border" data-dpl-job-info="jobinfo" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'" data-job-ord="'+ jobOrd +'" >'
+    			jobInfoHtmlStr += '<div class="kt-portlet border" data-dpl-job-info="jobinfo" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'" data-job-ord="'+ jobOrd +'" ord="'+ jobOrd +'" >'
 				    				+ '<div class="kt-portlet__head">'
 				    					+ '<div class="kt-portlet__head-label">'
 				    						+ '<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0"><input type="checkbox" data-dpl-job-info="checkbox" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'">&nbsp;<span></span></label>'
-				    						+ '<span class="osl-badge-brand osl-jenkins-card__num">No.<span data-dpl-job-info="ord"  data-job-ord="'+ jobOrd +'" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'" >' + jobOrd + '</span></span>'
+				    						+ '<span class="osl-badge-brand osl-jenkins-card__num">No.<span data-dpl-job-info="ord"  data-job-ord="'+ jobOrd +'" ord="'+ jobOrd +'" data-dpl-jenid="'+map.jenId+'" data-dpl-jobid="'+$.osl.escapeHtml(map.jobId)+'" >' + jobOrd + '</span></span>'
 				    						+ '<span class="osl-badge-brand osl-badge-brand-outline osl-cursor-pointer" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" title="JOB Type">'+ map.jobTypeNm +'</span>'
 				    						+ '<h5 class="kt-portlet__head-title kt-margin-l-10">'
 				    							+ '<p class="kt-margin-b-0 kt-font-dark kt-font-sm">'+ $.osl.escapeHtml(map.jenNm) +'</p>'+ $.osl.escapeHtml(map.jobId)
@@ -599,7 +622,7 @@ var OSLDpl1001Popup = function () {
 		
 		
 		var chkJobInfo = $("[data-dpl-job-info=jobinfo][data-dpl-jenid="+jenId+"][data-dpl-jobid="+jobId+"]");
-		var jobOrd = parseInt(chkJobInfo.data("job-ord"));
+		var jobOrd = parseInt(chkJobInfo.attr("data-job-ord"));
 		
 		
 		if(type == "up"){
@@ -664,7 +687,7 @@ var OSLDpl1001Popup = function () {
 		$.each($("[data-dpl-job-info=ord]"),function(idx, map){
 			
 			
-			var targetOrd = parseInt($(map).data("job-ord"));
+			var targetOrd = parseInt($(map).attr("data-job-ord"));
 						
 			
 			if(oldIndex > newIndex){

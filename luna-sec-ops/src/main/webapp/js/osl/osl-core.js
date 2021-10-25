@@ -78,6 +78,9 @@
 			OSLCoreChartSetting.init();
 			
 			
+			OSLCoreCustomOptionSetting.init();
+			
+			
 			$.validator.addMethod("email", function(value, element) {
 			    if (/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(value)) {
 			        return true;
@@ -176,6 +179,10 @@
 				switch (actionCd){
 				
 				case "01":
+					event.preventDefault();
+					if($(document).find("#menuNAuthShortCut").length != 0){
+						return;
+					}
 					var data = {};
 					var options = {
 						modalTitle: "단축키 설정 정보",
@@ -336,6 +343,52 @@
 					maxNumberOfFiles: 10,
 					minNumberOfFiles: 0,
 					allowedFileTypes: null,	
+					locale:Uppy.locales.ko_KR,
+					meta: {},
+					onBeforeUpload: $.noop,
+					onBeforeFileAdded: $.noop,
+				};
+				
+				
+				config = $.extend(true, defaultConfig, config);
+				
+				var targetObj = $("#"+targetId);
+				if(targetObj.length > 0){
+					rtnObject = Uppy.Core({
+						targetId: targetId,
+						autoProceed: config.autoProceed,
+						restrictions: {
+							maxFileSize: ((1024*1024)*parseInt(config.maxFileSize)),
+							maxNumberOfFiles: config.maxNumberOfFiles,
+							minNumberOfFiles: config.minNumberOfFiles,
+							allowedFileTypes: config.allowedFileTypes
+						},
+						locale:config.locale,
+						meta: config.meta,
+						onBeforeUpload: function(files){
+							return config.onBeforeUpload(files);
+						},
+						onBeforeFileAdded: function(currentFile, files){
+							
+							if(currentFile.source != "database" && config.fileReadonly){
+								$.osl.toastr($.osl.lang("file.error.fileReadonly"),{type:"warning"});
+								return false;
+							}
+							return config.onBeforeFileAdded(currentFile, files);
+						},
+						debug: config.debug,
+						logger: config.logger,
+						fileDownload: config.fileDownload
+					});
+					
+					rtnObject.use(Uppy.Dashboard, config);
+					rtnObject.use(Uppy.XHRUpload, { endpoint: config.url,formData: true });
+				}
+				
+				return rtnObject;
+			},
+			
+			
 			makeAtchfileId: function(callback){
 				
 				var ajaxObj = new $.osl.ajaxRequestAction(
@@ -582,6 +635,7 @@
 										var key = config.data.key;
 										var pKey = config.data.pKey;
 										var labelKey = config.data.labelKey;
+										var type = config.data.type;
 										
 										
 										$.each(treeDataList, function(idx, map){
@@ -591,6 +645,11 @@
 										
 										
 										$.each(treeDataList, function(idx, map){
+											
+											if(!$.osl.isNull(type) && map.hasOwnProperty(type)){
+												map["type"] = map[type];
+											}
+											
 											
 											if(tmpMap[map[pKey]] && map[key] != map[pKey]){
 												
@@ -702,7 +761,8 @@
 								
 								pKey:"",
 								
-								labelKey: ""
+								labelKey: "",
+								type:""
 							},
 				            'plugins': ["contextmenu", "types", "search"],
 				            'core': {
@@ -1766,7 +1826,7 @@
 	        				
 	        			});
 	        		}
-
+	        		
 	        		
         			$.osl.datatable.setting("notificationsTable",{
         				data: {
@@ -1804,6 +1864,8 @@
         						$("#notificationsCardTable").show();
         					},
         					ajaxDone: function(evt, list){
+        						mssArmLoad(); 
+        						
         						var ntfStr = '';
         						var cardMsg = '';
         						$.each(list, function(idx, map){
@@ -2049,6 +2111,7 @@
 	        		$.osl.prjGrpAuthList = prjOrdList;
 	        		$.osl.showLoadingBar(false,{target: "#kt_header"});
 	        		
+	        		$("#searchPrjNmBtn").off("click");
 	        		
 	        		$("#searchPrjNmBtn").click(function(){
 	        			var data = {
@@ -2072,6 +2135,7 @@
 	        		});
 	        		
 	        		
+	        		$("#mainPrjNm").off("keydown");
 	        		$("#mainPrjNm").keydown(function(e){
 	        			if(e.keyCode=='13'){
 	        				
@@ -2080,7 +2144,6 @@
 	        		});
 	        		
 	        		$("#mainPrjNm").val(data.mainPrjInfo[0].popPrjNm);
-	        		
 	        	}else{
 	        		$.osl.toastr(data.message);
 	        	}
@@ -2093,6 +2156,11 @@
 			
 			
 			ajaxObj.send();
+		}
+		
+		,customOpt:{
+			
+			setting: $.noop
 		}
 		
 		,chart:{
@@ -3623,7 +3691,7 @@
 							+'<img class=" '+usrImg+'" src="'+usrImgId+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 						+'</div>'
 						+'<div class="kt-user-card-v2__details '+cardDetail+'">'
-							+'<span class="kt-user-card-v2__name '+cardName+'">'+cardContent+'</span>'
+							+'<span class="kt-user-card-v2__name '+cardName+' text-truncate">'+cardContent+'</span>'
 						+'</div>'
 					+'</div>';
 				
@@ -4747,7 +4815,7 @@
 			}
 			
 			var defaultConfig = {
-				container: container,
+				
 	    		lang: 'ko-KR',
 	    		height: null,
 				maxHeight: null,

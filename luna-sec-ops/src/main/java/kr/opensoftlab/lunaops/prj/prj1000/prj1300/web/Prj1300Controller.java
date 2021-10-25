@@ -88,6 +88,24 @@ public class Prj1300Controller {
     public String selectPrj1302View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		return "/prj/prj1000/prj1300/prj1302";
     }
+	
+	
+	@RequestMapping(value="/prj/prj1000/prj1300/selectPrj1303View.do")
+    public String selectPrj1303View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/prj/prj1000/prj1300/prj1303";
+    }
+	
+	
+	@RequestMapping(value="/prj/prj1000/prj1300/selectPrj1304View.do")
+    public String selectPrj1304View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/prj/prj1000/prj1300/prj1304";
+    }
+	
+	
+	@RequestMapping(value="/prj/prj1000/prj1300/selectPrj1305View.do")
+    public String selectPrj1305View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/prj/prj1000/prj1300/prj1305";
+    }
 
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -256,6 +274,58 @@ public class Prj1300Controller {
    	
    	
 
+   	
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/prj/prj1000/prj1300/selectPrj1302AllItemListAjax.do")
+    public ModelAndView selectPrj1302AllItemListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+    	try {
+
+    		
+        	Map<String, String> paramMap = RequestConvertor.requestParamToMap(request, true);
+        	
+        	
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			String paramLicGrpId = (String) paramMap.get("paramLicGrpId");
+        	
+        	
+    		HttpSession ss = request.getSession();
+    		LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+    		
+    		
+    		if(paramPrjId == null || "".equals(paramPrjId)){
+    			paramPrjId = (String)ss.getAttribute("selPrjId");
+    		}
+    		
+    		
+    		if(paramLicGrpId == null || "".equals(paramLicGrpId)){
+    			paramLicGrpId = (String)loginVO.getLicGrpId();
+    		}
+    		
+    		paramMap.put("prjId", paramPrjId);
+    		paramMap.put("licGrpId", paramLicGrpId);
+    		
+        	
+    		List<Map> itemList = prj1300Service.selectPrj1302AllItemList(paramMap);
+        	
+        	
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	
+        	model.addAttribute("itemList",itemList);
+        	
+        	return new ModelAndView("jsonView");
+		} catch (Exception ex) {
+			Log.error("selectBad1000ListAjax()", ex);
+
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+    	
+    	
+    }
+    
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/prj/prj1000/prj1300/selectPrj1302ItemListAjax.do")
@@ -473,7 +543,7 @@ public class Prj1300Controller {
    	
    	
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/prj/prj1000/prj1300/selectPrj1300TemplateListAjax.do")
+	@RequestMapping(value="/prj/prj1000/prj1300/selectPrj1302CommonCodeListAjax.do")
     public ModelAndView selectPrj1302CommonCodeListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
     	
     	try{

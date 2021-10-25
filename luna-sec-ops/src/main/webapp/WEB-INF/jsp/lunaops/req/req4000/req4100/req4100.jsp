@@ -13,7 +13,7 @@
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-wrapper">
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="requestProcessing" title="요구사항 업무 처리" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="5">
-					<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAccept">업무 처리</span>
+					<i class="fa fa-chalkboard-teacher"></i><span data-lang-cd="req4100.button.requestAccept">업무 처리</span>
 				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air kt-hide" data-datatable-id="req4100ReqTable" data-datatable-action="requestAccept" title="요구사항 접수" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="5">
 					<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAccept">접수</span>
@@ -38,7 +38,7 @@
 	</div>
 	<div class="kt-portlet__body">
 		<div class="row">
-			<div class="col-lg-3 col-md-6 col-sm-12">
+			<div class="col-lg-5 col-md-6 col-sm-12">
 				<div class="osl-datatable-search" data-datatable-id="req4100ReqTable"></div>
 			</div>
 		</div>
@@ -80,6 +80,7 @@ var OSLReq4100Popup = function () {
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
+					/* 
 					template: function(row){
 						var resultStr = $.osl.escapeHtml(row.reqNm);
 						//비밀번호가 있는 경우
@@ -88,6 +89,7 @@ var OSLReq4100Popup = function () {
 						}
 						return resultStr;
 					}
+					 */
 				},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
 				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"date",
@@ -118,19 +120,22 @@ var OSLReq4100Popup = function () {
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqChargerNm)){
-							row.reqChargerNm = "";
+							return row.reqChargerNm = "-";
+						}else{
+							var usrData = {
+								html: row.reqChargerNm,
+								imgSize: "sm",
+								class:{
+									cardBtn: "osl-width__fit-content"
+								}
+							};
+							return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
 						}
-						var usrData = {
-							html: row.reqChargerNm,
-							imgSize: "sm",
-							class:{
-								cardBtn: "osl-width__fit-content"
-							}
-						};
-						return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
 					},
 					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.reqChargerId);
+						if(rowData.reqChargerNm != "-"){
+							$.osl.user.usrInfoPopup(rowData.reqChargerId);
+						}
 					}
 				},
 				{field: 'reqUsrEmail', title:'요청자e-mail', textAlign: 'left', width: 180, search: true},
@@ -141,7 +146,8 @@ var OSLReq4100Popup = function () {
 			],
 			searchColumns:[
 				{field: 'prjGrpNm', title: $.osl.lang("req4100.field.prjGrpNm"), searchOrd: 0},
-				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2}
+				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2},
+				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
 			],
 			rows:{
 				clickCheckbox: true
@@ -195,7 +201,7 @@ var OSLReq4100Popup = function () {
 							autoHeight:false,
 							modalSize: "sm",
 						};
-					
+					/* 
 					if(rowData.reqPw == "Y"){
 						//비밀번호가 걸린 경우 권한 체크
 						checkAuth($.osl.user.userInfo.usrId , rowData.reqId);
@@ -210,8 +216,11 @@ var OSLReq4100Popup = function () {
 						//비밀번호가 없는 요구사항인 경우
 						$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
 					}
+					 */
+					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
 				},
 				"delete":function(rowDatas, datatableId, type){
+					/* 
 					reqAuth = false;
 					var pwCount = 0;
 					var data = {
@@ -219,6 +228,7 @@ var OSLReq4100Popup = function () {
 							paramRowData : JSON.stringify(rowDatas),
 							datatableId: datatableId,
 						};
+					
 					var pwOptions = {
 							idKey: "req4100pw_"+datatableId,
 							modalTitle: $.osl.lang("req4100.title.passowrdCheckTitle"),
@@ -277,10 +287,30 @@ var OSLReq4100Popup = function () {
 						//AJAX 전송
 						ajaxObj.send();
 					}
+					 */
+					 
+					//AJAX 설정
+					var ajaxObj = new $.osl.ajaxRequestAction(
+							{"url":"<c:url value='/req/req4000/req4100/deleteReq4100ReqListAjax.do'/>"}
+							,{deleteDataList: JSON.stringify(rowDatas)});
+					//AJAX 전송 성공 함수
+					ajaxObj.setFnSuccess(function(data){
+						if(data.errorYn == "Y"){
+			   				$.osl.alert(data.message,{type: 'error'});
+			   			}else{
+			   				//삭제 성공
+			   				$.osl.toastr(data.message);
+			   				
+			   				//datatable 조회
+			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+			   			}
+					});
+					
+					//AJAX 전송
+					ajaxObj.send();
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum){
 					var data = {
-							//type:"update",
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId,
 							paramReqUsrId: rowData.reqUsrId
@@ -288,10 +318,18 @@ var OSLReq4100Popup = function () {
 					var options = {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("req4100.title.detailTitle"),
-							closeConfirm: false
+							autoHeight: false,
+					/* 		
+							modalSize: 'xl',
+							'class': {
+					            "body": "kt-padding-0"
+					         }
+					 */
+							//closeConfirm: false
 						};
 					
 					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+					//$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6203View.do',data,options);
 				},
 				"copy" : function(rowDatas, datatableId, type, rowNum){
 					var data;
@@ -300,10 +338,12 @@ var OSLReq4100Popup = function () {
 						if(rowNum == 0){
 							$.osl.alert($.osl.lang("req4100.alert.selectData"));
 						}else if(rowNum == 1){
+							/* 
 							//비밀번호가 걸린 글인지 확인 - 비밀번호가 걸린 글은 복사 안됨
 							if(rowDatas[0].reqPw == "Y"){
 								$.osl.alert($.osl.lang("req4100.alert.LockData"));
 							}else{
+							 */
 								//단건 복사인 경우
 								data ={
 									type:"copy",
@@ -320,17 +360,19 @@ var OSLReq4100Popup = function () {
 									};
 								
 								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
-							}
+							//}
 						}else{
 							//다중 복사인 경우
 							$.osl.alert($.osl.lang("req4100.alert.selectCopyData", rowNum));
 						}
 					}else{
 						//선택 항목이 row 단건인 경우
+						/* 
 						//비밀번호가 걸린 글인지 확인 - 비밀번호가 걸린 글은 복사 안됨
 						if(rowDatas.reqPw == "Y"){
 							$.osl.alert($.osl.lang("req4100.alert.LockData"));
 						}else{
+						 */	
 							data ={
 								type:"copy",
 								rowDatas : "["+JSON.stringify(rowDatas)+"]",
@@ -346,7 +388,7 @@ var OSLReq4100Popup = function () {
 								};
 							
 							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
-						}
+						//}
 					}
 				},
 				"requestAccept": function(rowDatas, datatableId, type, rowNum){
@@ -364,7 +406,7 @@ var OSLReq4100Popup = function () {
 						$.each(rowDatas, function(idx, map){
 							//접수유형이 "접수대기"가 아닌 경우 제외
 							if(map.reqProType == "01"){
-								selReqInfoList.push({prjId: map.prjId, reqId: map.reqId});
+								selReqInfoList.push({prjId: map.prjId, prjGrpId: map.prjGrpId, reqId: map.reqId});
 							}else{
 								reqProChkCnt++;
 								return true;
@@ -375,7 +417,6 @@ var OSLReq4100Popup = function () {
 								paramSelReqInfoList: JSON.stringify(selReqInfoList)
 						};
 						var options = {
-							autoHeight: false,
 							modalSize: "xl",
 							idKey: datatableId,
 							modalTitle: $.osl.lang("prj1102.update.title"),
@@ -417,12 +458,10 @@ var OSLReq4100Popup = function () {
 							paramReqId: rowDatas[0].reqId
 					};
 					var options = {
-						autoHeight: false,
 						modalSize: "fs",
 						idKey: datatableId,
-						modalTitle: $.osl.lang("prj1102.update.title"),
-						closeConfirm: false,
-						ftScrollUse: false
+						modalTitle: "["+rowDatas[0].reqNm+"] 요구사항 업무 처리",
+						closeConfirm: false
 					};
 					
 					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6201View.do',data,options);

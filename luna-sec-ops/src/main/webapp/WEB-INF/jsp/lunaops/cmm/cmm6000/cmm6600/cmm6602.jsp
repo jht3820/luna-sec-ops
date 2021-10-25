@@ -6,7 +6,7 @@
 	<div class="kt-portlet">
 		<div class="kt-portlet__body">
 			<div class="form-group">
-				<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="cmm6602.label.signRes" id="signResText">결재 사유</span></label>
+				<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="cmm6602.label.signRes" id="signResText">결재 사유</span></label>
 				<textarea class="form-control osl-min-h-px--130" name="signRes" id="signRes" maxlength="250"></textarea>
 			</div>
 		</div>
@@ -14,10 +14,10 @@
 </form>
 <div class="modal-footer">
 	<button type="button" class="btn btn-brand" id="cmm6602SaveSubmit"> 
-		<i class="fa fa-save"></i><span data-lang-cd="cmm6602.button.save">작성 완료</span>
+		<i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="cmm6602.button.save">작성 완료</span>
 	</button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span>Close</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span>
 	</button>
 </div>
 
@@ -26,22 +26,23 @@
 var OSLCmm6602Popup = function () {
 	var formId = 'frCmm6602';
 	
-	//type
+	
 	var type = $("#type").val();
 	
-	// 버튼 문구 세팅
+	
 	$("#signResText").text($.osl.lang("cmm6602.label."+type));
 	$("#cmm6602SaveSubmit > span").text($.osl.lang("cmm6602.button."+type));
 	$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
 	
-    // Private functions
+    
     var documentSetting = function () {
-    	// textarea 자동 사이즈 조절 설정
+    	
     	autosize($("#signRes"));
+    	
     };
 
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
@@ -55,7 +56,7 @@ var OSLCmm6602Popup = function () {
     };
 }();
 
-//Initialization
+
 $.osl.ready(function(){
 	OSLCmm6602Popup.init();
 });

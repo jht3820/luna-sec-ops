@@ -43,6 +43,14 @@ public interface Dpl1000Service {
 	List selectDpl1300DplJobList(Map paramMap)  throws Exception;
 	
 	
+	@SuppressWarnings("rawtypes")
+	List<Map> selectDpl1300DplJobPagingList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	int selectDpl1300DplJobPagingListCnt(Map paramMap) throws Exception;
+	
+	
 	@SuppressWarnings({"rawtypes" })
 	List selectDpl1400DplBldNumList(Map paramMap) throws Exception;
 	
@@ -64,7 +72,12 @@ public interface Dpl1000Service {
 	
 	
 	@SuppressWarnings("rawtypes")
-	public List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception;
+	List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	List selectDpl1000DplAllBldHistoryList(Map paramMap)  throws Exception;
+	
 	
 	
 	

@@ -224,7 +224,7 @@ var OSLCmm6800Popup = function() {
 					{field: 'name', title: '파일명', textAlign: 'left', width: 150, autoHide: false, search: true},
 				],
 				rows:{
-					clickCheckbox: true
+					clickCheckbox: true,
 				},
 				actionBtn:{
 					"title": $.osl.lang("cmm6800.revisionFile.actionTitle"),
@@ -244,22 +244,20 @@ var OSLCmm6800Popup = function() {
 					"click":function(rowData, datatableId, type, rowNum, elem){
 						var datatable = $.osl.datatable.list[datatableId].targetDt;
 						
-						datatable.setActiveAll(false);
-						
 						
 						var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
 						var target = targetCheckRow.find("label.kt-checkbox").children("input[type=checkbox]");
-						
 						if(target.length > 0){
 							if(target.is(":checked") == true){
-								target.prop("checked", false);
-								datatable.setInactive(target);
+								
+								datatable.setActiveAll(false);
+								
+								target.prop("checked", true);
+								datatable.setActive(target);
+							}else{
 								
 								targetCheckRow.removeClass("osl-datatable__row--selected");
 								targetCheckRow.addClass("kt-datatable__row--even");
-							}else{
-								target.prop("checked", true);
-								datatable.setActive(target);
 							}
 						}
 					},
@@ -446,7 +444,8 @@ var OSLCmm6800Popup = function() {
 					},
 				],
 				rows:{
-					clickCheckbox: true
+					clickCheckbox: true,
+					minHeight: 50
 				},
 				actionBtn:{
 					"title": $.osl.lang("cmm6800.title.actionTitle.repository"),

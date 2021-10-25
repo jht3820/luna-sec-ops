@@ -126,7 +126,7 @@ public class Prj3000ServiceImpl extends EgovAbstractServiceImpl implements Prj30
 	}
 
 	
-	@SuppressWarnings({ "rawtypes"})
+	@SuppressWarnings({ "rawtypes", "unchecked"})
 	@Override
 	public void deletePrj3000DocInfo(Map<String, String> paramMap) throws Exception {
 		String deleteDataList = paramMap.get("deleteDataList");
@@ -311,6 +311,10 @@ public class Prj3000ServiceImpl extends EgovAbstractServiceImpl implements Prj30
 	public void insertPrj3002DocConInfo(Map<String, String> paramMap) throws Exception {
 		
 		
+		
+		if("update".equals(paramMap.get("type"))) {
+			prj3000DAO.deletePrj3002DocConList(paramMap);
+		}
 		
 		
 		String targetIdList = (String) paramMap.get("targetIdList");

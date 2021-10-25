@@ -20,7 +20,7 @@ public class Req6001VO extends DefaultVO {
 	
 	private String reqChgId;
 	
-	private String reqChgType;
+	private String reqChgTypeCd;
 	
 	
 	private String chgUsrId;
@@ -52,7 +52,7 @@ public class Req6001VO extends DefaultVO {
 		this.licGrpId = licGrpId;
 		this.prjId = prjId;
 		this.reqId = reqId;
-		this.reqChgType = reqChgType;
+		this.reqChgTypeCd = reqChgType;
 	}
 	
 		
@@ -122,12 +122,14 @@ public class Req6001VO extends DefaultVO {
 	public void setReqChgId(String reqChgId) {
 		this.reqChgId = reqChgId;
 	}
-	public String getReqChgType() {
-		return reqChgType;
+	public String getReqChgTypeCd() {
+		return reqChgTypeCd;
 	}
-	public void setReqChgType(String reqChgType) {
-		this.reqChgType = reqChgType;
+
+	public void setReqChgTypeCd(String reqChgTypeCd) {
+		this.reqChgTypeCd = reqChgTypeCd;
 	}
+
 	public String getChgUsrId() {
 		return chgUsrId;
 	}
