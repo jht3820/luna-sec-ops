@@ -813,6 +813,9 @@ var OSLDpl1002Popup = function () {
 					
 					fnSignHistorySetting(signHistoryList);
 				}
+				
+				
+				openUsrPopup();
 			}
 		});
 		
@@ -849,11 +852,13 @@ var OSLDpl1002Popup = function () {
 				
 				var signRes = '';
 				
-				var signUsrNm = $.osl.escapeHtml(map.regUsrNm);
+				var bldUsrId = $.osl.escapeHtml(map.regUsrId);
 				
+				var bldUsrNm = $.osl.escapeHtml(map.regUsrNm);
 				
+				var bldUsrEmail = $.osl.escapeHtml(map.regUsrEmail);
 				
-				var signUsrImgId = $.osl.escapeHtml(map.regUsrImgId);
+				var bldUsrImgId = $.osl.escapeHtml(map.regUsrImgId);
 				
 				var dtmMargin = 'kt-margin-r-10';
 				
@@ -926,14 +931,14 @@ var OSLDpl1002Popup = function () {
 										+				'<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">'+bldResultMsg+'</div>'
 										+			'</div>'
 										+			'<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">'
-										+				'<div class="kt-user-card-v2 btn kt-margin-b-10">'
+										+				'<div class="kt-user-card-v2 btn kt-margin-b-10 user-popup" data-user-id="'+bldUsrId+'">'
 										+					'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
-										+						'<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId='+signUsrImgId+'" onerror=""/>'
+										+						'<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId='+bldUsrImgId+'" onerror=""/>'
 										+					'</div>'
 										+					'<div class="kt-user-card-v2__details">'
-										+						'<span class="kt-user-card-v2__name text-left">'+signUsrNm+'</span>'
+										+						'<span class="kt-user-card-v2__name text-left">'+bldUsrNm+'</span>'
 										+					'</div>'
-										+					'<div class="kt-margin-l-10 osl-email"></div>'
+										+					'<div class="kt-margin-l-10 osl-email">'+bldUsrEmail+'</div>'
 										+				'</div>'
 										+			'</div>'
 										+		'</div>'
@@ -1067,13 +1072,13 @@ var OSLDpl1002Popup = function () {
 			
 			var bldTitle = '';
 			
-			var signRes = '';
+			var bldUsrId = $.osl.escapeHtml(bldInfo.regUsrId);
 			
-			var signUsrNm = $.osl.escapeHtml(bldInfo.regUsrNm);
+			var bldUsrNm = $.osl.escapeHtml(bldInfo.regUsrNm);
 			
-			var signUsrEmail = $.osl.escapeHtml(bldInfo.regUsrEmail);
+			var bldUsrEmail = $.osl.escapeHtml(bldInfo.regUsrEmail);
 			
-			var signUsrImgId = $.osl.escapeHtml(bldInfo.regUsrImgId);
+			var bldUsrImgId = $.osl.escapeHtml(bldInfo.regUsrImgId);
 			
 			var dtmMargin = 'kt-margin-r-10';
 			
@@ -1147,14 +1152,14 @@ var OSLDpl1002Popup = function () {
 									+				'<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">'+bldResultMsg+'</div>'
 									+			'</div>'
 									+			'<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">'
-									+				'<div class="kt-user-card-v2 btn kt-margin-b-10">'
+									+				'<div class="kt-user-card-v2 btn kt-margin-b-10 user-popup" data-user-id="'+bldUsrId+'">'
 									+					'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
-									+						'<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId='+signUsrImgId+'" onerror=""/>'
+									+						'<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId='+bldUsrImgId+'" onerror=""/>'
 									+					'</div>'
 									+					'<div class="kt-user-card-v2__details">'
-									+						'<span class="kt-user-card-v2__name text-left">'+signUsrNm+'</span>'
+									+						'<span class="kt-user-card-v2__name text-left">'+bldUsrNm+'</span>'
 									+					'</div>'
-									+					'<div class="kt-margin-l-10 osl-email">'+signUsrEmail+'</div>'
+									+					'<div class="kt-margin-l-10 osl-email">'+bldUsrEmail+'</div>'
 									+				'</div>'
 									+			'</div>'
 									+		'</div>'
@@ -1314,6 +1319,8 @@ var OSLDpl1002Popup = function () {
 		
 		var signRes = '';
 		
+		var signUsrId = $.osl.escapeHtml(signInfo.signUsrId);
+		
 		var signUsrNm = $.osl.escapeHtml(signInfo.signUsrNm);
 		
 		var signUsrEmail = $.osl.escapeHtml(signInfo.signUsrEmail);
@@ -1341,6 +1348,7 @@ var OSLDpl1002Popup = function () {
 			iconImg = "fa-edit kt-font-dark";
 			signType = "요청";
 			signTitle = "[대기] 결재 요청";
+			var signUsrId = $.osl.escapeHtml(signInfo.nextUsrId);
 			signUsrNm = $.osl.escapeHtml(signInfo.nextUsrNm);
 			signUsrEmail = $.osl.escapeHtml(signInfo.nextUsrEmail);
 			signUsrImgId = $.osl.escapeHtml(signInfo.nextUsrImgId);
@@ -1404,7 +1412,7 @@ var OSLDpl1002Popup = function () {
 							+				'<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">'+signRes+'</div>'
 							+			'</div>'
 							+			'<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">'
-							+				'<div class="kt-user-card-v2 btn kt-margin-b-10">'
+							+				'<div class="kt-user-card-v2 btn kt-margin-b-10 user-popup" data-user-id="'+signUsrId+'">'
 							+					'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
 							+						'<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId='+signUsrImgId+'" onerror=""/>'
 							+					'</div>'
@@ -1420,6 +1428,24 @@ var OSLDpl1002Popup = function () {
 		
 		$(targetTab+" .kt-timeline").append(timelineItemDiv);
 	}
+
+	
+	
+	var openUsrPopup = function(){
+		var usrInfoDiv = $(".user-popup");
+		$.each(usrInfoDiv,function(idx,map){
+			var usrId = $(this).data("user-id");
+			
+			$(this).click(function(){
+				
+				if(!$.osl.isNull(usrId)){
+					
+					$.osl.user.usrInfoPopup(usrId);
+				}				
+			});
+		});
+	}
+	
 	
 	
 	var fnKtScrollInit = function(targetName, targetHeight) {
