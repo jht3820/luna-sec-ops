@@ -1071,7 +1071,7 @@ var OSLDpl1002Popup = function () {
 			
 			var signUsrNm = $.osl.escapeHtml(bldInfo.regUsrNm);
 			
-			
+			var signUsrEmail = $.osl.escapeHtml(bldInfo.regUsrEmail);
 			
 			var signUsrImgId = $.osl.escapeHtml(bldInfo.regUsrImgId);
 			
@@ -1154,7 +1154,7 @@ var OSLDpl1002Popup = function () {
 									+					'<div class="kt-user-card-v2__details">'
 									+						'<span class="kt-user-card-v2__name text-left">'+signUsrNm+'</span>'
 									+					'</div>'
-									+					'<div class="kt-margin-l-10 osl-email"></div>'
+									+					'<div class="kt-margin-l-10 osl-email">'+signUsrEmail+'</div>'
 									+				'</div>'
 									+			'</div>'
 									+		'</div>'
