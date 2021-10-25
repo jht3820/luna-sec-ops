@@ -576,7 +576,7 @@ jQuery(function ($) {
             	}
             	
             	else if(flowStatus == "04"){
-            		operator_mask_html = '<i class="fa fa-times-circle"></i>';
+            		operator_mask_html = '';
             	}
             	
             	$operator_mask.html(operator_mask_html);
@@ -614,7 +614,7 @@ jQuery(function ($) {
                 $operator_body.appendTo($operator);
             }
 
-            /*
+            
             var $operator_inputs_outputs = $('<div class="flowchart-operator-inputs-outputs"></div>');
 
             var $operator_inputs = $('<div class="flowchart-operator-inputs"></div>');

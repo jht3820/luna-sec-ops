@@ -952,8 +952,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .flowchart-operator-mask.status04,
 .flowchart-operator-mask.status02 {
     background-color: #000;
-    color: #fff;
-    opacity: 0.6;
+    opacity: 0.1;
     font-size: 3rem;
 }
 .flowchart-operator-mask.status03 {

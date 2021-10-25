@@ -377,7 +377,7 @@
 						<div class="kt-portlet__head-toolbar">
 							<div class="kt-portlet__head-wrapper">
 								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="reset" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-redo-alt"></i><span data-lang-cd="datatable.button.select">줌 리셋</span>
+									<i class="fa fa-redo-alt"></i><span data-lang-cd="datatable.button.select">확대 초기화</span>
 								</button>
 								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="in" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 									<i class="fa fa-search-plus"></i><span data-lang-cd="datatable.button.select">확대</span>
@@ -575,8 +575,12 @@ var OSLCmm6201Popup = function () {
     			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
     		}
     		
-    		
-    		fnReqProcessAction();
+    		$.osl.confirm("입력된 내용으로 업무 처리를 진행하시겠습니까?",{html:true}, function(result){
+				if (result.value) {
+					
+		    		fnReqProcessAction();
+				}
+			});
     	});
     	
     	
@@ -1105,26 +1109,14 @@ var OSLCmm6201Popup = function () {
 	
 	var fnReqProcessAction = function(){
 		
-		if(!$("#"+formId).valid()){
-			$.osl.alert("필수 값이 입력되지 않았습니다.");
-			return false;
-		}
-		
-		
    		var fd = $.osl.formDataToJsonArray(formId);
-		
 		fd.append("selFlowId",selFlowId);
-		return true;
+		
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/req/req4000/req4100/updateReq4100ReqAcceptList.do'/>", "async":"false"}
-				,{
-					paramSelReqInfoList : JSON.stringify(paramSelReqInfoList),
-					defaultSwitchCd: defaultSwitchCd,
-					selReqChargerId: selReqChargerId,
-					reqAcceptTxt: reqAcceptTxt,
-					selProcessId: selProcessId
-				});
+				{"url":"<c:url value='/req/req4000/req4100/saveReq4100ReqProcessAction.do'/>"
+					, "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
+					,fd);
 		
 		
 		ajaxObj.setFnSuccess(function(data){
@@ -1134,15 +1126,9 @@ var OSLCmm6201Popup = function () {
 				
 				$.osl.layerPopupClose();
 			}else{
-				$.osl.toastr(data.message);
 				
 				
-				$.osl.layerPopupClose();
 				
-				
-				if(typeof OSLReq4100Popup != "undefined"){
-					OSLReq4100Popup.getReqDatatable().targetDt.reload();
-				}
 			}
 		});
 		

@@ -18,6 +18,34 @@
 			<ul class="kt-nav" id="prj1100CardTable">
 			</ul>
 			<div class="kt_datatable osl-datatable-footer__divide" id="prj1100PrjTable"></div>
+			<!-- 
+			<ul class="kt-nav">
+				<li class="kt-nav__item">
+					<a href="#" class="kt-nav__link">
+						<i class="kt-nav__link-icon fa fa-genderless kt-font-warning"></i>
+						<span class="kt-nav__link-text">전체 프로세스</span>
+					</a>
+				</li>
+				<li class="kt-nav__item">
+					<a href="#" class="kt-nav__link">
+						<i class="kt-nav__link-icon fa fa-genderless kt-font-success"></i>
+						<span class="kt-nav__link-text">확정 프로세스</span>
+					</a>
+				</li>
+				<li class="kt-nav__item">
+					<a href="#" class="kt-nav__link">
+						<i class="kt-nav__link-icon fa fa-genderless kt-font-info"></i>
+						<span class="kt-nav__link-text">폐기 프로세스</span>
+					</a>
+				</li>
+				<li class="kt-nav__item">
+					<a href="#" class="kt-nav__link">
+						<i class="kt-nav__link-icon fa flaticon2-plus"></i>
+						<span class="kt-nav__link-text">프로세스 분류 생성</span>
+					</a>
+				</li>
+			</ul>
+			 -->
 		</div>
 	</div>
 	<div class="kt-grid__item kt-grid__item--fluid kt-portlet kt-inbox__list kt-inbox__list--shown" id="processFlowLayerMain">
@@ -25,22 +53,22 @@
 			<div class="kt-inbox__toolbar kt-inbox__toolbar--extended">
 				<div class="kt-inbox__actions kt-inbox__actions--expanded">
 					<div class="kt-inbox__panel">
-						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="Zoom reset" data-zoom="reset">
+						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="확대 초기화" data-zoom="reset">
 							<i class="flaticon2-refresh-button"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="Zoom in" data-zoom="in">
+						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="확대" data-zoom="in">
 							<i class="fa fa-search-plus"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="Zoom out" data-zoom="out">
+						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="축소" data-zoom="out">
 							<i class="fa fa-search-minus"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="insert" data-toggle="kt-tooltip" title="Create">
+						<button type="button" class="kt-inbox__icon" data-flow-action="insert" data-toggle="kt-tooltip" title="단계 생성">
 							<i class="flaticon2-add-square"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="update" data-toggle="kt-tooltip" title="Update">
+						<button type="button" class="kt-inbox__icon" data-flow-action="update" data-toggle="kt-tooltip" title="단계 수정">
 							<i class="flaticon2-writing"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="delete" data-toggle="kt-tooltip" title="Delete">
+						<button type="button" class="kt-inbox__icon" data-flow-action="delete" data-toggle="kt-tooltip" title="단계 삭제">
 							<i class="flaticon2-rubbish-bin"></i>
 						</button>
 						<!-- <button type="button" class="kt-inbox__icon" data-flow-action="detail" data-toggle="kt-tooltip" title="Detail">

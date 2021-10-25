@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="req6000DAO">
 	 
@@ -44,7 +44,6 @@
 				F.USE_CD AS CHG_FLOW_USE_CD,
 				F.FLOW_TITLE_BG_COLOR AS CHG_FLOW_TITLE_BG_COLOR,
 				F.FLOW_TITLE_COLOR AS CHG_FLOW_TITLE_COLOR,
-				A.CHARGER_CHG_CD,
 				A.PRE_CHARGER_ID,
 				G.USR_NM AS PRE_CHARGER_NM,
 				G.EMAIL AS PRE_CHARGER_EMAIL,
@@ -108,7 +107,7 @@
 	           A.LIC_GRP_ID,			A.PRJ_ID,					A.REQ_ID,					A.REQ_CHG_ID
 	           ,A.REQ_CHG_TYPE_CD,		A.CHG_USR_ID,				A.CHG_DTM,					A.PRE_PROCESS_ID
 	           ,A.CHG_PROCESS_ID,		A.PRE_FLOW_ID,				A.CHG_FLOW_ID
-	           ,A.CHARGER_CHG_CD,		A.PRE_CHARGER_ID,			A.CHG_CHARGER_ID
+	           ,A.PRE_CHARGER_ID,			A.CHG_CHARGER_ID
 	           ,A.REG_DTM,				A.REG_USR_ID,				A.REG_USR_IP
 	           ,A.MODIFY_DTM,			A.MODIFY_USR_ID,			A.MODIFY_USR_IP
 	        )
@@ -117,7 +116,7 @@
 	        	#licGrpId#,				#prjId#,					#reqId#,					#newReqChgId#
 	        	,#reqChgTypeCd#,		#chgUsrId#,					SYSDATE,					#preProcessId#
 	        	,#chgProcessId#,		#preFlowId#,				#chgFlowId#
-	        	,#chargerChgCd#,		#preChargerId#,				#chgChargerId#
+	        	,#preChargerId#,				#chgChargerId#
 	        	,SYSDATE,				#regUsrId#,					#regUsrIp#
 	        	,SYSDATE,				#modifyUsrId#,				#modifyUsrIp#
 	        )
