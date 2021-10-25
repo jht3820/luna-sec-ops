@@ -525,7 +525,12 @@ var OSLCoreLangSetting = function () {
 		cmm6601:{
 			infomation : {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
+			},
+			sign : {
+				success : "결재 성공",
+				fail : "결재 실패"
 			}
+		
 		},
 		cmm6602:{
 			label : {
