@@ -35,7 +35,7 @@
 							<i class="fa fa-minus"></i>
 						</a>
 						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md">
-							<i class="la la-angle-down"></i>
+							<i class="fa fa-chevron-down"></i>
 						</a>
 					</div>
 				</div>
@@ -182,6 +182,17 @@ var OSLStm8100 = function () {
 					selPrjId = selNode.original.prjId;
 					selPrjNm = selNode.original.prjNm;
 					selPrjGrpId = selNode.original.prjGrpId;
+					
+					
+					
+					searchReset(strgAssDatatableId);
+					
+					$("button[data-datatable-id="+strgAssDatatableId+"][data-datatable-action=select]").click();
+					
+					searchReset(strgNonAssDatatableId);
+					
+					$("button[data-datatable-id="+strgNonAssDatatableId+"][data-datatable-action=select]").click();
+					
 					
 					
 					var assDataTableTarget = $.osl.datatable.list[strgAssDatatableId].targetDt;
@@ -442,6 +453,36 @@ var OSLStm8100 = function () {
 		
     	ajaxObj.send();
 	};
+	
+	
+	var searchReset = function(datatableId){
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
+		
+		
+		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
+		
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
+		
+		
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
+		
+		
+		$("#searchData_"+datatableId).removeAttr("readonly");
+		
+		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
+		
+		
+		$("#searchData_"+datatableId).val("");
+
+		
+		
+		$("#searchData_"+datatableId).attr("disabled","disabled");
+	};
+	
 	
 	return {
         

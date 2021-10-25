@@ -51,7 +51,23 @@ var OSLCoreChartSetting = function () {
 				width:"100%",
 				height:360,
 				
-				toolbar:{},
+				toolbar : {
+					show: true,
+					offsetX: 0,
+					offsetY: 0,
+					tools: {
+						download: true,
+						selection: true,
+						zoom: false,
+						zoomin: '<i class="fa fa-plus-circle osl-icon-transform__scale--150"></i>',
+						zoomout: '<i class="fa fa-minus-circle osl-icon-transform__scale--150"></i>',
+						pan: '<i class="fa fa-expand-arrows-alt osl-icon-transform__scale--150"></i>',
+						reset: '<i class="fa flaticon2-refresh-1"></i>',
+						customIcons: [
+							
+						]
+					}
+				},
 				
 				colors:[],
 				
@@ -191,23 +207,7 @@ var OSLCoreChartSetting = function () {
 					width: targetConfig.chart.width,
 					height: targetConfig.chart.height,
 					type: targetConfig.data.param.chartType, 
-					toolbar : {
-						show: true,
-						offsetX: 0,
-						offsetY: 0,
-						tools: {
-							download: true,
-							selection: true,
-							zoom: false,
-							zoomin: '<i class="fa fa-plus-circle osl-icon-transform__scale--150"></i>',
-							zoomout: '<i class="fa fa-minus-circle osl-icon-transform__scale--150"></i>',
-							pan: '<i class="fa fa-expand-arrows-alt osl-icon-transform__scale--150"></i>',
-							reset: '<i class="fa flaticon2-refresh-1"></i>',
-							customIcons: [
-								
-							]
-						}
-					},
+					toolbar : targetConfig.chart.toolbar,
 					events:{
 						
 						beforeMount: targetConfig.actionFn.beforeMount,
@@ -227,10 +227,13 @@ var OSLCoreChartSetting = function () {
 					offsetX: 0,
 					offsetY: 0,
 				},
+				
 				dataLabels:targetConfig.chart.dataLabels,
+				
 				markers:targetConfig.chart.markers,
 				stroke: targetConfig.chart.stroke,
 				xaxis: targetConfig.chart.xaxis,
+				
 				grid: targetConfig.chart.grid,
 				yaxis: targetConfig.chart.yaxis,
 				
@@ -285,6 +288,19 @@ var OSLCoreChartSetting = function () {
 					}
 				}
 			});
+			
+			var notShowTools = {
+				download: false,
+				selection: false,
+				zoom: false,
+				zoomin: false,
+				zoomout: false,
+				pan: false,
+				reset: false,
+			}
+			if(targetConfig.chart.toolbar.show == "false"){
+				targetConfig.chart.toolbar.tools = notShowTools;
+			}
 			
 			
 			var apexEvt = $.extend(true, {}, chartEvt, {

@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="spr1000DAO">
 
 	
 	<typeAlias alias="egovMap"	 	type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
+	 <resultMap id="resultMapSpr1000List" class="egovMap">
+	 	<result property="rn"					column="RN"/>
+    	<result property="licGrpId"				column="LIC_GRP_ID"/>
+		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
+		<result property="prjId"				column="PRJ_ID"/>
+		<result property="sprId"				column="SPR_ID"/>
+		<result property="sprNm"				column="SPR_NM"/>
+		<result property="sprDesc"				column="SPR_DESC" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="sprTypeCd"			column="SPR_TYPE_CD"/>
+		<result property="sprTypeNm"			column="SPR_TYPE_NM"/>
+		<result property="sprStDt"				column="SPR_ST_DT"/>
+		<result property="sprEdDt"				column="SPR_ED_DT"/>
+		<result property="ord"					column="ORD"/>
+		<result property="useCd"				column="USE_CD"/>
+		<result property="useNm"				column="USE_NM"/>
+		<result property="delCd"				column="DEL_CD"/>
+		<result property="reqAllCnt"			column="REQ_ALL_CNT"/>
+		<result property="reqDoneCnt"			column="REQ_DONE_CNT"/>
+		<result property="reqProgressCnt"		column="REQ_PROGRESS_CNT"/>
+    </resultMap>
 	
 	 <resultMap id="resultMapSpr1000ReqList" class="egovMap">
 		<result property="rn"					column="RN"/>
@@ -148,6 +168,25 @@
 				<isEqual property="searchTargetId" compareValue="sprTypeCd">
 					AND	T1.SPR_TYPE_CD = #searchTargetData#
 				</isEqual>
+				<isEqual property="searchTargetId" compareValue="useCd">
+					AND A.USE_CD = #useCd#
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="sprStDt">
+					<isNotEmpty property="searchStartDt">
+						AND	TO_DATE(T1.SPR_ST_DT, 'YYYY-MM-DD') &gt;= TO_DATE(SUBSTR(#searchStartDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+					<isNotEmpty property="searchEndDt">
+						AND	TO_DATE(T1.SPR_ST_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="sprEdDt">
+					<isNotEmpty property="searchStartDt">
+						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &gt;= TO_DATE(SUBSTR(#searchStartDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+					<isNotEmpty property="searchEndDt">
+						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+				</isEqual>
 				<isEqual property="searchTargetId" compareValue="sprDtm">
 					<isNotEmpty property="searchStartDt">
 						AND	TO_DATE(T1.SPR_ST_DT, 'YYYY-MM-DD') &gt;= TO_DATE(SUBSTR(#searchStartDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
@@ -156,6 +195,7 @@
 						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
 					</isNotEmpty>
 				</isEqual>
+				
 			</isNotEmpty>
 		</isNotEmpty>
 	</sql>
@@ -341,7 +381,7 @@
     </select>
     
     
-    <select id="spr1000DAO.selectSpr1000SprList" parameterClass="java.util.Map"  resultClass="egovMap">
+    <select id="spr1000DAO.selectSpr1000SprList" parameterClass="java.util.Map"  resultMap="resultMapSpr1000List">
 	    
 		SELECT 
 			Z.*
@@ -450,7 +490,7 @@
 	</update>
 	
 	
-	<select id="spr1000DAO.selectSpr1000SprInfo" parameterClass="java.util.Map" resultClass="egovMap">
+	<select id="spr1000DAO.selectSpr1000SprInfo" parameterClass="java.util.Map" resultMap="resultMapSpr1000List">
 		
 		SELECT T1.*
 		FROM
@@ -522,7 +562,7 @@
 			    SELECT
 			        1 AS ALL_CNT
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN 1 ELSE 0 END AS END_CNT
-			      , CASE WHEN B.REQ_PRO_TYPE!='04' THEN 1 ELSE 0 END AS NOT_END_CNT
+			      , CASE WHEN B.REQ_PRO_TYPE='02' THEN 1 ELSE 0 END AS NOT_END_CNT
 			      , CASE WHEN B.REQ_PRO_TYPE!='04' THEN NVL2(B.REQ_ED_DTM, TRUNC((SYSDATE - B.REQ_ST_DTM)*24,1),0) ELSE 0 END AS NOT_END_TIME_REQUIRED 
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL2(B.REQ_ED_DTM,TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24,1) , 0) ELSE 0 END AS END_TIME_REQUIRED
 			      , NVL(A.SPR_POINT,0) AS SPR_POINT

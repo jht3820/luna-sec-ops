@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <form class="kt-form" id="spr1001">
 	<input type="hidden" id="sprId" name="sprId" value="${param.paramSprId}">
 	<input type="hidden" id="sprStDt" name="sprStDt" value="${param.paramSprStDt}">
@@ -15,12 +17,12 @@
 				
 				
 				<div class="col-12 text-right">${param.paramSprStDt} - ${param.paramSprEdDt}</div>
-				<div class="col-12 text-right">관리자</div>
+				<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
 				<div class="col-12 text-right">${param.paramSprDesc}</div>
 				
 				
 				
-				<div class="table border kt-margin-t-20">
+				<div class="table border kt-margin-t-20 kt-margin-b-0">
 					<div class="row kt-margin-0">
 						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">전체 배정 백로그</div>
 						<div class="col-6 text-center kt-padding-15" id="sprStat01"></div>
@@ -50,16 +52,16 @@
 			</div>
 			
 			
-			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20">
+			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
-					<div class="border osl-min-h-px--140" id="burnUpChart"></div>
+					<div class="border osl-card__data--empty osl-min-h-px--365" id="burnUpChart"></div>
 				</div>
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
-					<div class="border osl-min-h-px--140" id="burnDownChart"></div>
+					<div class="border osl-card__data--empty osl-min-h-px--365" id="burnDownChart"></div>
 				</div>
 			</div>
-			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-20 osl-user__active--block" id="velocityChartWrap">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
+			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 osl-user__active--block" id="velocityChartWrap">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
 					<div class="border osl-min-h-px--140" id="velocityChart"></div>
 				</div>
 			</div>
@@ -67,7 +69,7 @@
 			
 			
 			<div class="row kt-margin-t-20">
-				<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="col-lg-12 col-md-12 col-sm-12 kt-padding-20">
 					<div class="row">
 						
 						<div class="col-lg-6 col-md-6 col-sm-12">
@@ -96,7 +98,7 @@
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand"
 		data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 
@@ -292,14 +294,22 @@ var OSLSpr1001Popup = function () {
  				
  				
  				var seriesData = getDataRangeData(paramSprStDt, paramSprEdDt, "1", chartData);
+ 				if(chartData.length == 0){
+ 					$("#burnDownChart").text("데이터 없음")
+ 					$("#burnUpChart").text("데이터 없음")
+ 				}else{
+	 				
+	 				drawBurnUpChart(seriesData);
+	 				
+	 				drawBurnDownChart(seriesData);
+ 				}
  				
- 				
- 				drawBurnUpChart(seriesData);
- 				
- 				
- 				drawBurnDownChart(seriesData);
- 				
- 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				if(chartData.length == 0){
+					endSprPoint = 0	 					
+ 				}else{
+	 				
+	 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+ 				}
  				
  				if(paramSprTypeCd == "03"){
  					drawVelocityChart();
@@ -360,7 +370,7 @@ var OSLSpr1001Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map(x => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
@@ -448,7 +458,7 @@ var OSLSpr1001Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map(x => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
@@ -572,14 +582,19 @@ var OSLSpr1001Popup = function () {
  	
  	var getDataRangeData = function(sttDt, endDT, type, data){
  		
+ 		if(paramSprTypeCd == '01'){
+ 			return [];
+ 		}
  		
- 		
- 		var sprPoint = [];
- 		$.each(data, function(index, value){
- 			var _series = {};
- 			_series[value.reqEdDtm] = value.cumSprPoint;
- 			sprPoint.push(_series);
- 		});
+ 		if(data.length != 0){
+	 		
+	 		var sprPoint = [];
+	 		$.each(data, function(index, value){
+	 			var _series = {};
+	 			_series[value.reqEdDtm] = value.cumSprPoint;
+	 			sprPoint.push(_series);
+	 		});
+ 		}
  		
  		
  		if(type=='1'){
@@ -644,39 +659,41 @@ var OSLSpr1001Popup = function () {
 	 			end -= step	
 	 		}
  		})
- 		
- 		var today = new Date();
- 		
- 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
- 			var match = false;
- 			
- 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
- 			if(gap < 0){
-	 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
-	 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
-	 					match = true;
-	 					
-	 					resDay[dayIndex]['burnUpSprPoint'] = data[dataIndex].cumSprPoint
-	 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
-	 					break;
-	 				}
-	 			}
+ 		if(data.length != 0){
+	 		
+	 		var today = new Date();
+	 		
+	 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
+	 			var match = false;
 	 			
-	 			if(!match){
-	 				
-	 				if(dayIndex == 0){
-	 					resDay[dayIndex]['burnUpSprPoint'] = 0;
-	 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
-	 				
-	 				}else{
-		 				resDay[dayIndex]['burnUpSprPoint'] = resDay[dayIndex - 1]['burnUpSprPoint']; 
-		 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
-	 				}
+	 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
+	 			if(gap < 0){
+		 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
+		 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
+		 					match = true;
+		 					
+		 					resDay[dayIndex]['burnUpSprPoint'] = data[dataIndex].cumSprPoint
+		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
+		 					break;
+		 				}
+		 			}
+		 			
+		 			if(!match){
+		 				
+		 				if(dayIndex == 0){
+		 					resDay[dayIndex]['burnUpSprPoint'] = 0;
+		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
+		 				
+		 				}else{
+			 				resDay[dayIndex]['burnUpSprPoint'] = resDay[dayIndex - 1]['burnUpSprPoint']; 
+			 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
+		 				}
+		 			}
+	 			}else{
+	 				resDay[dayIndex]['burnUpSprPoint'] = null;
+					resDay[dayIndex]['burnDownSprPoint'] = null;
 	 			}
- 			}else{
- 				resDay[dayIndex]['burnUpSprPoint'] = null;
-				resDay[dayIndex]['burnDownSprPoint'] = null;
- 			}
+	 		}
  		}
  	   	return resDay;
  	}

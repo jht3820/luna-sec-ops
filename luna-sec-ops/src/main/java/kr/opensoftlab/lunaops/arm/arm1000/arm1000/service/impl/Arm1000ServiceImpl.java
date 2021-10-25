@@ -20,6 +20,7 @@ import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.service.impl.FileManageDAO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.opensoftlab.lunaops.arm.arm1000.arm1000.service.Arm1000Service;
+import kr.opensoftlab.lunaops.arm.arm1000.arm1100.service.impl.Arm1100DAO;
 
 
 
@@ -27,164 +28,184 @@ import kr.opensoftlab.lunaops.arm.arm1000.arm1000.service.Arm1000Service;
 public class Arm1000ServiceImpl extends EgovAbstractServiceImpl implements Arm1000Service {
 
 	
-    @Resource(name="arm1000DAO")
-    private Arm1000DAO arm1000DAO;
-    
-    @Resource(name = "FileManageDAO")
+	@Resource(name = "arm1000DAO")
+	private Arm1000DAO arm1000DAO;
+	
+	
+    @Resource(name="arm1100DAO")
+    private Arm1100DAO arm1100DAO;
+
+	@Resource(name = "FileManageDAO")
 	private FileManageDAO fileMngDAO;
-    
-    
-   	@Resource(name = "egovMessageSource")
-   	EgovMessageSource egovMessageSource;
 
-   	
-    
+	
+	@Resource(name = "egovMessageSource")
+	EgovMessageSource egovMessageSource;
 
-   	
+
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private Map<String, String> selectArm1000JsonToMap(Map paramMap){
+	private Map<String, String> selectArm1000JsonToMap(Map paramMap) {
 		Map rtnMap = new HashMap();
-		for( Object key : paramMap.keySet() ) {
+		for (Object key : paramMap.keySet()) {
 			String jsonVal = "";
-			try{
+			try {
 				jsonVal = (String) paramMap.get(key);
-			}catch(ClassCastException cce){	
+			} catch (ClassCastException cce) { 
 				continue;
 			}
-			
+
 			JSONObject jsonObj = null;
+
 			
-			
-			try{
+			try {
 				JSONParser jsonParser = new JSONParser();
 				jsonObj = (JSONObject) jsonParser.parse(jsonVal);
 				rtnMap.put(key, jsonObj.get("optVal"));
-			}catch(Exception e){
+			} catch (Exception e) {
 				rtnMap.put(key, jsonVal);
 			}
 		}
 		return rtnMap;
 	}
-	
+
 	
 	@SuppressWarnings("rawtypes")
 	public int selectArm1000AlarmListCnt(Map paramMap) throws Exception {
 		return arm1000DAO.selectArm1000AlarmListCnt(paramMap);
 	}
-	
+
 	
 	@SuppressWarnings("rawtypes")
 	public List selectArm1000AlarmList(Map paramMap) throws Exception {
-		 return arm1000DAO.selectArm1000AlarmList(paramMap);
-    }
-	
+		return arm1000DAO.selectArm1000AlarmList(paramMap);
+	}
+
 	
 	@SuppressWarnings("rawtypes")
 	public Map selectArm1000AlarmInfo(Map paramMap) throws Exception {
 		return arm1000DAO.selectArm1000AlarmInfo(paramMap);
 	}
-	
+
 	
 	@SuppressWarnings("rawtypes")
 	public void insertArm1000AlarmInfo(Map paramMap) throws Exception {
 		Map<String, String> convertParamMap = selectArm1000JsonToMap(paramMap);
-		
+
 		
 		
 		String idStr = (String) convertParamMap.get("idList");
 
 		
-		if(idStr != null && !"[]".equals(idStr)) {
-			idStr = idStr.substring(1, idStr.length()-1);
+		if (idStr != null && !"[]".equals(idStr)) {
+			idStr = idStr.substring(1, idStr.length() - 1);
 			idStr = idStr.replaceAll("\"", "");
 			String[] usrId = idStr.split(",");
-			
-			if(usrId.length>0 && usrId[0] != "") {
-				for(int i=0; i<usrId.length; i++) {
+
+			if (usrId.length > 0 && usrId[0] != "") {
+				for (int i = 0; i < usrId.length; i++) {
 					convertParamMap.put("getUsrId", usrId[i]);
-					
+
 					
 					arm1000DAO.insertArm1000AlarmInfo(convertParamMap);
+
+					
+					Map<String, Object> ntfParam = new HashMap<String, Object>();
+					ntfParam.put("licGrpId", paramMap.get("licGrpId"));
+					ntfParam.put("sendUsrId", paramMap.get("usrId")); 
+					ntfParam.put("armTypeCd", "04"); 
+					ntfParam.put("armSendTypeCd", "02"); 
+
+					ntfParam.put("usrId", usrId[i]); 
+
+					ntfParam.put("armTitle", paramMap.get("usrNm") +  "님의 [Message] 도착"); 
+					ntfParam.put("armContent", convertParamMap.get("armTitle")); 
+
+					arm1100DAO.insertArm1100NtfInfo(ntfParam);
 				}
 			}
 		}
 	}
-	
+
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void updateArm1000AlarmInfo(Map paramMap) throws Exception {
 		String dataList = (String) paramMap.get("dataList");
-		
+
 		
 		JSONParser jsonParser = new JSONParser();
 		JSONArray jsonArray = (JSONArray) jsonParser.parse(dataList);
 
 		
-		for(int i=0;i<jsonArray.size();i++) {
+		for (int i = 0; i < jsonArray.size(); i++) {
 			JSONObject jsonObj = (JSONObject) jsonArray.get(i);
-			
+
 			
 			Map infoMap = new Gson().fromJson(jsonObj.toJSONString(), new HashMap().getClass());
-			
+
 			
 			infoMap.put("licGrpId", paramMap.get("licGrpId"));
 			infoMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
 			infoMap.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
-		
+
 			
 			arm1000DAO.updateArm1000AlarmInfo(infoMap);
 		}
 	}
-	
+
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void deleteArm1000AlarmInfo(Map paramMap) throws Exception {
 		String dataList = (String) paramMap.get("dataList");
-		
+
 		
 		JSONParser jsonParser = new JSONParser();
 		JSONArray jsonArray = (JSONArray) jsonParser.parse(dataList);
 
 		
-		for(int i=0;i<jsonArray.size();i++) {
+		for (int i = 0; i < jsonArray.size(); i++) {
 			JSONObject jsonObj = (JSONObject) jsonArray.get(i);
-			
+
 			
 			Map infoMap = new Gson().fromJson(jsonObj.toJSONString(), new HashMap().getClass());
-			
+
 			
 			infoMap.put("licGrpId", paramMap.get("licGrpId"));
 			infoMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
 			infoMap.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
-		
+
 			
 			arm1000DAO.deleteArm1000AlarmInfo(infoMap);
-			
+
 			
 			
 			String atchFileId = (String) infoMap.get("atchFileId");
-			
+
 			FileVO fileVo = new FileVO();
 			fileVo.setAtchFileId(atchFileId);
-			
+
 			List<FileVO> selFileList = fileMngDAO.selectFileInfs(fileVo);
+
 			
-			
-			for(FileVO fileInfo : selFileList) {
+			for (FileVO fileInfo : selFileList) {
 				
 				fileMngDAO.deleteFileInf(fileInfo);
+
 				
-				
-				try{
+				try {
 					
-					String fileDeletePath  = fileInfo.getFileStreCours()+fileInfo.getStreFileNm();
-				    EgovFileMngUtil.deleteFile(fileDeletePath);
-				}catch(Exception fileE){	
+					String fileDeletePath = fileInfo.getFileStreCours() + fileInfo.getStreFileNm();
+					EgovFileMngUtil.deleteFile(fileDeletePath);
+				} catch (Exception fileE) { 
 					Log.error(fileE);
 				}
 			}
 		}
 	}
-    
-    
+
+	
+	
+	
+	
+	
 }

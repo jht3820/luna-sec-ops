@@ -18,34 +18,6 @@
 			<ul class="kt-nav" id="prj1100CardTable">
 			</ul>
 			<div class="kt_datatable osl-datatable-footer__divide" id="prj1100PrjTable"></div>
-			<!-- 
-			<ul class="kt-nav">
-				<li class="kt-nav__item">
-					<a href="#" class="kt-nav__link">
-						<i class="kt-nav__link-icon fa fa-genderless kt-font-warning"></i>
-						<span class="kt-nav__link-text">전체 프로세스</span>
-					</a>
-				</li>
-				<li class="kt-nav__item">
-					<a href="#" class="kt-nav__link">
-						<i class="kt-nav__link-icon fa fa-genderless kt-font-success"></i>
-						<span class="kt-nav__link-text">확정 프로세스</span>
-					</a>
-				</li>
-				<li class="kt-nav__item">
-					<a href="#" class="kt-nav__link">
-						<i class="kt-nav__link-icon fa fa-genderless kt-font-info"></i>
-						<span class="kt-nav__link-text">폐기 프로세스</span>
-					</a>
-				</li>
-				<li class="kt-nav__item">
-					<a href="#" class="kt-nav__link">
-						<i class="kt-nav__link-icon fa flaticon2-plus"></i>
-						<span class="kt-nav__link-text">프로세스 분류 생성</span>
-					</a>
-				</li>
-			</ul>
-			 -->
 		</div>
 	</div>
 	<div class="kt-grid__item kt-grid__item--fluid kt-portlet kt-inbox__list kt-inbox__list--shown" id="processFlowLayerMain">
@@ -370,7 +342,7 @@ var OSLPrj1100Popup = function () {
 				};
 				var options = {
 					autoHeight: false,
-					modalSize: "md",
+					modalSize: "xl",
 					idKey: selProcessId,
 					modalTitle: $.osl.lang("prj1102.update.title"),
 					closeConfirm: false,
@@ -418,7 +390,7 @@ var OSLPrj1100Popup = function () {
 				};
 				var options = {
 					autoHeight: false,
-					modalSize: "md",
+					modalSize: "xl",
 					idKey: selProcessId,
 					modalTitle: $.osl.lang("prj1102.insert.title"),
 					closeConfirm: false,
@@ -447,7 +419,7 @@ var OSLPrj1100Popup = function () {
 			}
 		});
 		
-		zoomObj = panzoom($("#flowChartDiv")[0],{
+		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
 		});
@@ -546,6 +518,9 @@ var OSLPrj1100Popup = function () {
 			   				$.osl.toastr(data.message);
 			   				
 			   				
+							fnSelectFlowList();
+			   			
+			   				
 			   				if(!$.osl.isNull($.osl.datatable.list[datatableId])){
 				   				$.osl.datatable.list[datatableId].targetDt.reload();
 			   				}
@@ -574,7 +549,7 @@ var OSLPrj1100Popup = function () {
 						$("#flowMaskDiv").hide();
 						 
 						
-						$("#flowChartDiv").removeClass("kt-hidden");
+						flowChart.removeClass("kt-hidden");
 						
 						
 						fnFlowChartZoom("reset");
@@ -875,6 +850,8 @@ var OSLPrj1100Popup = function () {
 			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
+   				flowChart.flowchart("setData",{});
+   				
    				
    				var flowList = data.flowList;
    				var flowLinkList = data.flowLinkList;
@@ -913,7 +890,6 @@ var OSLPrj1100Popup = function () {
    								outputs: {output_1: {label: '다음'}},
    								flowTitleBgColor: map.flowTitleBgColor,
    								flowTitleColor: map.flowTitleColor,
-   								flowEssentialCd: map.flowEssentialCd,
    								flowSignCd: map.flowSignCd,
    								flowSignStopCd: map.flowSignStopCd,
    								flowStartCd: map.flowStartCd,
@@ -921,11 +897,12 @@ var OSLPrj1100Popup = function () {
    								flowWorkCd: map.flowWorkCd,
    								flowRevisionCd: map.flowRevisionCd,
    								flowDplCd: map.flowDplCd,
-   								flowAuthCd: map.flowAuthCd
+   								flowAuthCd: map.flowAuthCd,
+   								basicItemList: map.basicItemList
    							}
    						};
    		   				
-   		   				$("#flowChartDiv").flowchart('createOperator', map.flowId, operatorData);
+   		   			flowChart.flowchart('createOperator', map.flowId, operatorData);
    					});
    					
    					
@@ -941,7 +918,7 @@ var OSLPrj1100Popup = function () {
    		   							toSubConnector: 0
    		   						};
    							
-   							$("#flowChartDiv").flowchart('createLink', idx, linkData);
+   							flowChart.flowchart('createLink', idx, linkData);
    						});
    					}
    				}

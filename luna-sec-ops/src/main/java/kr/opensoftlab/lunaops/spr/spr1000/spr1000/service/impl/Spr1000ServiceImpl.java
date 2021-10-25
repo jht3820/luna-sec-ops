@@ -68,9 +68,24 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		for(Map param : sprList) {
 			
 			Map sprStat = spr1000DAO.selectSpr1000SprInfoStat(param);
+			
+			double allCnt = Double.parseDouble(String.valueOf(sprStat.get("allCntSum")));
+			
+			double endCnt = Double.parseDouble(String.valueOf(sprStat.get("endCntSum")));
+			
 			double avgEndTime = Double.parseDouble(String.valueOf(sprStat.get("avgEndTimeRequired")));
 			
+			param.put("sprPoint", sprStat.get("sprPoint"));
+			
 			param.put("avgTime", avgEndTime);
+			
+			if("01".equals(param.get("sprTypeCd"))) {
+				
+				param.put("sprEndPercent", 0);
+			}else {
+				
+				param.put("sprEndPercent", endCnt / allCnt * 100.0);
+			}
 		}
 		return  sprList;
 	}

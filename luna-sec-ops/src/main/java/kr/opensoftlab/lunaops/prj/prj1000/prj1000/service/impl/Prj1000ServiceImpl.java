@@ -175,24 +175,7 @@ public class Prj1000ServiceImpl extends EgovAbstractServiceImpl implements Prj10
 		String prjNm = (String) paramMap.get("prjNm");
 		
 		String prjGrpId = (String) prj1000DAO.insertPrj1000PrjGrpAjax(paramMap);
-
-		
-		paramMap.put("prjId", prjGrpId);
-		prj1000DAO.insertPrj1000PrjAuthInfo(paramMap);
-		
-		
 		Map<String, Object> ntfParam = new HashMap<String, Object>();
-		ntfParam.put("licGrpId", paramMap.get("licGrpId"));
-		ntfParam.put("sendUsrId", prjAuthTargetId); 
-		ntfParam.put("armTypeCd", "04"); 
-		ntfParam.put("armSendTypeCd", "01"); 
-		
-		ntfParam.put("usrId", prjAuthTargetId); 
-		
-		ntfParam.put("armTitle", "["+prjNm+"] 담당자 지정"); 
-		ntfParam.put("armContent", "["+prjNm+"] 프로젝트에 담당자로 지정되었습니다."); 
-		
-		arm1100DAO.insertArm1100NtfInfo(ntfParam);
 		
 		
 		String usrIdList = (String) paramMap.get("usrIdList");
@@ -208,31 +191,27 @@ public class Prj1000ServiceImpl extends EgovAbstractServiceImpl implements Prj10
 				String authTypeCd = jsonObj.getString("authTypeCd");
 				
 				
-				if(!usrId.equals(prjAuthTargetId)) {
+				ntfParam.put("licGrpId", licGrpId);
+				ntfParam.put("sendUsrId", prjAuthTargetId); 
+				ntfParam.put("armSendTypeCd", "01"); 
 
-					
-					ntfParam.put("licGrpId", licGrpId);
-					ntfParam.put("sendUsrId", prjAuthTargetId); 
-					ntfParam.put("armSendTypeCd", "01"); 
-
-					if(authTypeCd.equals("01")) {
-						ntfParam.put("armTypeCd", "04"); 
-						ntfParam.put("usrId", usrId); 
-					}else if(authTypeCd.equals("02")) {
-						ntfParam.put("armTypeCd", "03"); 
-						ntfParam.put("authGrpId", usrId); 
-						ntfParam.put("prjId", prjGrpId); 
-					}
-					ntfParam.put("armTitle", "["+prjNm+"] 담당자 지정"); 
-					ntfParam.put("armContent", "["+prjNm+"] 프로젝트에 담당자로 지정되었습니다."); 
-					
-					arm1100DAO.insertArm1100NtfInfo(ntfParam);
-					
-					paramMap.put("licGrpId", licGrpId);
-					paramMap.put("prjAuthTargetId", usrId);
-					paramMap.put("prjAuthTypeCd", authTypeCd);
-					prj1000DAO.insertPrj1000PrjAuthInfo(paramMap);
+				if(authTypeCd.equals("01")) {
+					ntfParam.put("armTypeCd", "04"); 
+					ntfParam.put("usrId", usrId); 
+				}else if(authTypeCd.equals("02")) {
+					ntfParam.put("armTypeCd", "03"); 
+					ntfParam.put("authGrpId", usrId); 
+					ntfParam.put("prjId", prjGrpId); 
 				}
+				ntfParam.put("armTitle", "["+prjNm+"] 담당자 지정"); 
+				ntfParam.put("armContent", "["+prjNm+"] 프로젝트에 담당자로 지정되었습니다."); 
+				
+				arm1100DAO.insertArm1100NtfInfo(ntfParam);
+				
+				paramMap.put("licGrpId", licGrpId);
+				paramMap.put("prjAuthTargetId", usrId);
+				paramMap.put("prjAuthTypeCd", authTypeCd);
+				prj1000DAO.insertPrj1000PrjAuthInfo(paramMap);
 			}
 		}
 		
@@ -261,11 +240,6 @@ public class Prj1000ServiceImpl extends EgovAbstractServiceImpl implements Prj10
 		prj1000DAO.deletePrj1000PrjAuthInfo(paramMap);
 		
 		
-		paramMap.put("prjAuthTargetId", prjAuthTargetId);
-		paramMap.put("prjAuthTypeCd", "01");
-		prj1000DAO.insertPrj1000PrjAuthInfo(paramMap);
-		
-		
 		Map<String, Object> ntfParam = new HashMap<String, Object>();
 		ntfParam.put("licGrpId", paramMap.get("licGrpId"));
 		ntfParam.put("sendUsrId", prjAuthTargetId); 
@@ -295,31 +269,27 @@ public class Prj1000ServiceImpl extends EgovAbstractServiceImpl implements Prj10
 				String authTypeCd = jsonObj.getString("authTypeCd");
 				
 				
-				if(!usrId.equals(prjAuthTargetId)) {
-					
-					
-					ntfParam.put("licGrpId", licGrpId);
-					ntfParam.put("sendUsrId", prjAuthTargetId); 
-					ntfParam.put("armSendTypeCd", "01"); 
+				ntfParam.put("licGrpId", licGrpId);
+				ntfParam.put("sendUsrId", prjAuthTargetId); 
+				ntfParam.put("armSendTypeCd", "01"); 
 
-					if(authTypeCd.equals("01")) {
-						ntfParam.put("armTypeCd", "04"); 
-						ntfParam.put("usrId", usrId); 
-					}else if(authTypeCd.equals("02")) {
-						ntfParam.put("armTypeCd", "03"); 
-						ntfParam.put("authGrpId", usrId); 
-						ntfParam.put("prjId", prjId); 
-					}
-					ntfParam.put("armTitle", "["+prjNm+"] 담당자 지정"); 
-					ntfParam.put("armContent", "["+prjNm+"] 프로젝트에 담당자로 지정되었습니다."); 
-					
-					arm1100DAO.insertArm1100NtfInfo(ntfParam);
-					
-					paramMap.put("licGrpId", licGrpId);
-					paramMap.put("prjAuthTargetId", usrId);
-					paramMap.put("prjAuthTypeCd", authTypeCd);
-					prj1000DAO.insertPrj1000PrjAuthInfo(paramMap);
+				if(authTypeCd.equals("01")) {
+					ntfParam.put("armTypeCd", "04"); 
+					ntfParam.put("usrId", usrId); 
+				}else if(authTypeCd.equals("02")) {
+					ntfParam.put("armTypeCd", "03"); 
+					ntfParam.put("authGrpId", usrId); 
+					ntfParam.put("prjId", prjId); 
 				}
+				ntfParam.put("armTitle", "["+prjNm+"] 담당자 지정"); 
+				ntfParam.put("armContent", "["+prjNm+"] 프로젝트에 담당자로 지정되었습니다."); 
+				
+				arm1100DAO.insertArm1100NtfInfo(ntfParam);
+				
+				paramMap.put("licGrpId", licGrpId);
+				paramMap.put("prjAuthTargetId", usrId);
+				paramMap.put("prjAuthTypeCd", authTypeCd);
+				prj1000DAO.insertPrj1000PrjAuthInfo(paramMap);
 			}
 		}
 		

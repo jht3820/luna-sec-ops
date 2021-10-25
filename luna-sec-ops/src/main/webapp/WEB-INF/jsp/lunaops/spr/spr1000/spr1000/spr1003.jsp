@@ -105,7 +105,7 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="form-group">
 							<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="spr1003.label.mmtTitle">회의록 제목</span></label>
-							<input type="text" class="form-control" name="mmtNm" id="mmtNm" value="" required>
+							<input type="text" class="form-control" name="mmtNm" id="mmtNm" value="" maxlength="99" required>
 						</div>
 					</div>
 				</div>
@@ -172,7 +172,7 @@
 <div class="modal-footer">
 	
 	<button class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 	
@@ -398,11 +398,11 @@ var OSLSpr1003Popup = function () {
     	var usrEmail = state.element.attributes.getNamedItem("data-usr-email").value;
 
     	var state = $(
-    			'<div class="kt-user-card-v2 btn" data-usr-id="'+ usrId +'">' 
+    			'<div class="kt-user-card-v2 btn osl-word__break" data-usr-id="'+ usrId +'">' 
 				+'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
 					+'<img src="'+$.osl.user.usrImgUrlVal(usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 				+'</div>'
-				+'<div class="kt-user-card-v2__details float-left">'
+				+'<div class="kt-user-card-v2__details float-left osl-word__break">'
 					+'<span class="kt-user-card-v2__name float-left">'+usrNm+'</span>'
 					+'<span class="kt-user-card-v2__email float-left kt-margin-l-10 osl-line-height-rem-1_5">'+usrEmail+'</span>'
 				+'</div>'
@@ -590,7 +590,6 @@ var OSLSpr1003Popup = function () {
 						}catch(e){
 							inputVal = 0;
 						}
-						
 						if(!isNaN(inputVal)){
 							wizardData["reqSprPointList"][data.reqId] = inputVal;
 						}
@@ -598,7 +597,6 @@ var OSLSpr1003Popup = function () {
 							wizardData["reqSprPointList"][data.reqId] = null;
 						}
 					});
-					
 					
 					if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
 						this.value = wizardData["reqSprPointList"][data.reqId];
@@ -738,11 +736,10 @@ var OSLSpr1003Popup = function () {
 									+'</div>'
 									+'<div class="kt-widget__wrapper">'
 										+'<div class="kt-widget__label">'
-											+'<div class="kt-widget__title">'
+											+'<div class="kt-widget__title osl-word__break osl-word__break--w200" title='+map.usrNm+'>'
 												+$.osl.escapeHtml(map.usrNm)
-												+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											+'</div>'
-											
+											+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											+'<span class="kt-widget__desc">'
 												+'<span>'+$.osl.escapeHtml(map.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(map.usrPositionNm)+'</span>'
 											+'</span>'

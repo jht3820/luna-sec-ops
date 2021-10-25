@@ -128,14 +128,14 @@ var OSLSpr1100Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'sprTypeNm', title: '상태', textAlign: 'center', width: 80, search: true, searchType:"select", searchCd: "SPR00001", searchField:"sprTypeCd", sortable: true, sortField:"sprTypeCd"},
 				{field: 'sprNm', title: '스프린트명', textAlign: 'left', width: 240, autoHide: false, search: true, sortField: "sprNm"},
-				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 120, sortField: "sprStDt",
+				{field: 'sprStDt', title: '시작일', textAlign: 'center', width: 120, sortField: "sprStDt",search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.sprStDt);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
 		                return agoTimeStr.agoString;
 					}
 				},
-				{field: 'sprEdDt', title:'종료일', textAlign: 'center', width: 120, sortField: "sprEdDt",
+				{field: 'sprEdDt', title:'종료일', textAlign: 'center', width: 120, sortField: "sprEdDt", search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.sprEdDt);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
@@ -144,7 +144,7 @@ var OSLSpr1100Popup = function () {
 				},
 			],
 			searchColumns:[
-				{field: 'sprDesc', title: '스프린트 설명', searchOrd: 3},
+				{field: 'sprDesc', title: '스프린트 설명', searchOrd: 3, search:true},
 				{field: 'sprDtm', title: '기간', searchOrd:4, searchType:"daterange"}
 			],
 			actionBtn:{
@@ -188,11 +188,32 @@ var OSLSpr1100Popup = function () {
 						
 						$("#sprId").val("");
 						selectBtnClick();
+						
+						
+						
+						searchReset(reqAssDatatableId);
+						
+						$("button[data-datatable-id="+reqAssDatatableId+"][data-datatable-action=select]").click();
+						
+						searchReset(reqNonDatatableId);
+						
+						$("button[data-datatable-id="+reqNonDatatableId+"][data-datatable-action=select]").click();
 					}
 				},
 				"click": function(rowData){
 					$("#sprId").val(rowData.sprId);
 					selectBtnClick();
+					
+					
+					
+					searchReset(reqAssDatatableId);
+					
+					$("button[data-datatable-id="+reqAssDatatableId+"][data-datatable-action=select]").click();
+					
+					searchReset(reqNonDatatableId);
+					
+					$("button[data-datatable-id="+reqNonDatatableId+"][data-datatable-action=select]").click();
+					
 				}
 			}
 		});
@@ -205,12 +226,12 @@ var OSLSpr1100Popup = function () {
 						url: "/spr/spr1000/spr1100/selectSpr1100AssReqListAjax.do"
 					}
 				},
-				pageSize: 4
+				pageSize: 5
 			},
 			toolbar:{
 				items:{
 					pagination:{
-						pageSizeSelect : [4, 10, 20, 30, 50, 100]
+						pageSizeSelect : [5, 10, 20, 30, 50, 100]
 					}
 				}
 			},
@@ -226,9 +247,9 @@ var OSLSpr1100Popup = function () {
 						return resultStr;
 					}	
 				},
-				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80},
+				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80, search:true},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 80, sortField: "reqProTypeCd", search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortable: true, sortField:"reqProTypeCd"},
-				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",
+				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.reqDtm);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
@@ -254,12 +275,12 @@ var OSLSpr1100Popup = function () {
 						url: "/spr/spr1000/spr1100/selectSpr1100NonAssReqListAjax.do"
 					}
 				},
-				pageSize: 4
+				pageSize: 5
 			},
 			toolbar:{
 				items:{
 					pagination:{
-						pageSizeSelect : [4, 10, 20, 30, 50, 100]
+						pageSizeSelect : [5, 10, 20, 30, 50, 100]
 					}
 				}
 			},
@@ -276,9 +297,9 @@ var OSLSpr1100Popup = function () {
 						return resultStr;
 					}	
 				},
-				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80},
+				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80 ,search:true},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 80, sortField: "reqProTypeCd", search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortable: true, sortField:"reqProTypeCd"},
-				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",
+				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 120, sortField: "reqDtm",search:true, searchType:"date",
 					template: function (row) {
 						var paramDatetime = new Date(row.reqDtm);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
@@ -343,25 +364,40 @@ var OSLSpr1100Popup = function () {
 		$.each(sprList, function(index, value){
 			if(sprId == value.sprId){
 				
+				var data = {
+						paramSprId: sprId,
+						dataList : list
+					};
 				if(value.sprTypeCd == "02"){
-					var data = {
-							paramSprId: sprId,
-							dataList : list
-						};
 					var options = {
 							idKey:"selectSpr1101",
 							autoHeight: false,
 							modalSize: "xl",
 							closeConfirm: false,
 							modalTitle: "스프린트 요구사항 배정",
-							callback:[{
-								targetId: "selectUsr",
-								actionFn: function(thisObj){
-									
-								}
-							}]
 					};
 					$.osl.layerPopupOpen('/spr/spr1000/spr1100/selectSpr1101View.do',data,options);
+				}else{
+					
+					var ajaxObj = new $.osl.ajaxRequestAction(
+			    			{"url":"<c:url value='/spr/spr1000/spr1100/insertSpr1100ReqListAjax.do'/>"}
+							, data);
+					
+			    	ajaxObj.setFnSuccess(function(data){
+			    		if(data.errorYn == "Y"){
+							$.osl.alert(data.message,{type: 'error'});
+							
+							$.osl.layerPopupClose();
+						}else{
+							if(list.length>0){
+								$.osl.toastr(data.message);
+								assList = [];
+							}
+							selectBtnClick();
+						}
+			    	});
+					
+			    	ajaxObj.send();
 				} 
 			}
 		})
@@ -395,6 +431,35 @@ var OSLSpr1100Popup = function () {
 		
     	ajaxObj.send();
 	}
+	
+	
+	var searchReset = function(datatableId){
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
+		
+		
+		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
+		
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
+		
+		
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
+		
+		
+		$("#searchData_"+datatableId).removeAttr("readonly");
+		
+		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
+		
+		
+		$("#searchData_"+datatableId).val("");
+
+		
+		
+		$("#searchData_"+datatableId).attr("disabled","disabled");
+	};
 	
 	return {
         

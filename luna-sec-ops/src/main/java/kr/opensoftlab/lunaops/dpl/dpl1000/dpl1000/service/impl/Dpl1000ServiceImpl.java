@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.opensoftlab.lunaops.arm.arm1000.arm1000.service.impl.Arm1000DAO;
+import kr.opensoftlab.lunaops.arm.arm1000.arm1100.service.impl.Arm1100DAO;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.service.Dpl1000Service;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.vo.Dpl1000VO;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.vo.Dpl1300VO;
@@ -54,6 +55,9 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	@Resource(name = "stm9100Service")
 	private Stm9100Service stm9100Service;
 	
+	
+    @Resource(name="arm1100DAO")
+    private Arm1100DAO arm1100DAO;
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -133,17 +137,27 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
     		
     		dpl1000DAO.insertDpl1300DeployJobInfo(jobInfo);
     	}
-    	
-    	
-
-
-
-
-
-
-
 
     	
+    	Map<String, Object> ntfParam = new HashMap<String, Object>();
+    	
+    	String dplNm = convertParamMap.get("dplNm");
+    	String dplUsrId = convertParamMap.get("dplUsrId");
+    	
+    	ntfParam.put("licGrpId", paramMap.get("licGrpId"));
+    	ntfParam.put("sendUsrId", paramMap.get("regUsrId")); 
+    	ntfParam.put("armTypeCd", "04"); 
+    	ntfParam.put("armSendTypeCd", "03"); 
+    	ntfParam.put("usrId", dplUsrId); 
+    	
+    	ntfParam.put("armTitle", "["+dplNm+"] 배포자 지정"); 
+    	ntfParam.put("armContent", "["+dplNm+"] 배포계획에 배포자로 지정되었습니다."); 
+		
+    	
+    	if(!paramMap.get("regUsrId").equals(dplUsrId)) {
+    		
+    		arm1100DAO.insertArm1100NtfInfo(ntfParam);
+    	}
     	
     	
 
@@ -176,7 +190,8 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	public void updateDpl1000DplInfo(Map paramMap) throws Exception{
 		
 		
-		this.insertDpl1500DplInfoModifyList(paramMap);
+		
+		
 		
 		Map<String, String> convertParamMap = selectDpl1000JsonToMap(paramMap);
 		
@@ -213,6 +228,30 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
     		
     		
     		dpl1000DAO.insertDpl1300DeployJobInfo(jobInfo);
+    	}
+    	
+    	
+    	
+    	String dplNm = convertParamMap.get("dplNm");
+    	String dplUsrId = convertParamMap.get("dplUsrId");
+    	String beforeDplUsrId = (String)beforeDplInfo.get("dplUsrId");
+    	
+    	
+    	if(!beforeDplUsrId.equals(dplUsrId)) {
+    		
+        	Map<String, Object> ntfParam = new HashMap<String, Object>();
+        	
+        	ntfParam.put("licGrpId", paramMap.get("licGrpId"));
+        	ntfParam.put("sendUsrId", paramMap.get("regUsrId")); 
+        	ntfParam.put("armTypeCd", "04"); 
+        	ntfParam.put("armSendTypeCd", "03"); 
+        	ntfParam.put("usrId", dplUsrId); 
+        	
+        	ntfParam.put("armTitle", "["+dplNm+"] 배포자 지정"); 
+        	ntfParam.put("armContent", "["+dplNm+"] 배포계획에 배포자로 지정되었습니다."); 
+        	
+        	
+    		arm1100DAO.insertArm1100NtfInfo(ntfParam);
     	}
     	
     	
@@ -318,6 +357,18 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	public List selectDpl1300DplJobList(Map paramMap)  throws Exception{
 		return dpl1000DAO.selectDpl1300DplJobList(paramMap);
 	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public List<Map> selectDpl1300DplJobPagingList(Map paramMap) throws Exception {
+		return dpl1000DAO.selectDpl1300DplJobPagingList(paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public int selectDpl1300DplJobPagingListCnt(Map paramMap) throws Exception {
+		return dpl1000DAO.selectDpl1300DplJobPagingListCnt(paramMap);
+	} 
 	
 	
 	@SuppressWarnings({"rawtypes" })
@@ -440,6 +491,12 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	@Override
 	public List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception {
 		return dpl1000DAO.selectCmm6601SignHistoryList(paramMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public List selectDpl1000DplAllBldHistoryList(Map paramMap)  throws Exception{
+		return dpl1000DAO.selectDpl1000DplAllBldHistoryList(paramMap);
 	}
 	
 	

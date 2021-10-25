@@ -12,7 +12,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">Close</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
 "use strict";
@@ -22,7 +22,7 @@ var OSLCmm6401Popup = function () {
 		var datatableId = "cmm6401Table";
     	var name = $.osl.escapeHtml($("#paramUsrNm").val());
     	
-    	//데이터 테이블 셋팅
+    	
     	$.osl.datatable.setting(datatableId,{
     		data : {
     			source:{
@@ -79,30 +79,30 @@ var OSLCmm6401Popup = function () {
     		},
     	});
     	
-    	//초기 한번 - 넘어온 값이 있는 경우
+    	
     	if(!$.osl.isNull(name)){
     		var menus = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]");
 			menus.find("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item");
 			menus.children("a.dropdown-item[data-field-id=usrNm]").attr("class", "dropdown-item active");
-			//검색 메뉴 버튼 변경
+			
 			menus.siblings(".btn.btn-secondary.dropdown-toggle").text($.osl.lang("cmm6401.field.usrNm"));
 		 
-			//select 감추기
+			
 			menus.attr("aria-hidden", "true");
 			 
-			//input 보이기
+			
 			$("#searchData_"+datatableId).removeAttr("disabled");
-			//input에 이름넣기
+			
 			$("#searchData_"+datatableId).val(name);
 
-			//파라메터 초기화
+			
 			var detailDataTable = $.osl.datatable.list[datatableId].targetDt;
 			detailDataTable.setDataSourceParam("searchDataTxt","");
     	}
      
     	$("#searchData_"+datatableId).on("keypress", function(e){
     		if(e.keyCode=='13'){
-    			//검색
+    			
     			$(".osl-datatable-search__button[data-datatable-id="+datatableId+"]").click();	
     		}
     	});
@@ -113,17 +113,17 @@ var OSLCmm6401Popup = function () {
     };
     
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
         getUsrInfo: function(){
-        	return JSON.stringify(temp);//선택한 사용자 정보
+        	return JSON.stringify(temp);
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLCmm6401Popup.init();
 });

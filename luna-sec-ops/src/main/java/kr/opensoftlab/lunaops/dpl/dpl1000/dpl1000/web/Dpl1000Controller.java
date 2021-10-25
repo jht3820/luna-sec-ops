@@ -200,26 +200,8 @@ public class Dpl1000Controller {
 			paramMap.put("paramSortFieldId", paramSortFieldId);
 			
 			
-			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
-			
-			
-			totCnt = dpl1000Service.selectDpl1000DplListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			dataList = dpl1000Service.selectDpl1000DplList(paramMap);
-			
-        	
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -332,7 +314,6 @@ public class Dpl1000Controller {
     public ModelAndView deleteDpl1000DplListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
     	try{
     		
-			
     		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
         	
         	
@@ -372,10 +353,10 @@ public class Dpl1000Controller {
 			paramMap.put("prjId", prjId);
         	
         	
-        	List<Map> dplDplHistoryList = dpl1000Service.selectDpl1000DplHistoryList(paramMap);
+        	List<Map> dplAllBldHistoryList = dpl1000Service.selectDpl1000DplAllBldHistoryList(paramMap);
         	
         	
-        	List<Map> dplModifyHistoryList = dpl1000Service.selectDpl1500ModifyHistoryList(paramMap);
+        	
         	
         	
         	List<Map> jobList = dpl1000Service.selectDpl1300DplJobList(paramMap);
@@ -387,8 +368,8 @@ public class Dpl1000Controller {
 			
 			List<Map> dplSignHistoryList = dpl1000Service.selectCmm6601SignHistoryList(paramMap);
 			
-        	model.addAttribute("dplDplHistoryList", dplDplHistoryList);
-        	model.addAttribute("dplModifyHistoryList", dplModifyHistoryList);
+        	model.addAttribute("dplAllBldHistoryList", dplAllBldHistoryList);
+        	
         	model.addAttribute("dplSignHistoryList",dplSignHistoryList);
         	model.addAttribute("jobList", jobList);
         	
@@ -748,50 +729,50 @@ public class Dpl1000Controller {
     		List<Map> dplRunAuthGrp = null;
  			
  			
- 			if(dplRunAuthGrp != null && dplRunAuthGrp.size() > 0){
- 				
- 				Map dpl1000DplInfo = dpl1000Service.selectDpl1000DeployVerInfo(paramMap);
- 				
- 				
- 				String dplUsrId = (String) dpl1000DplInfo.get("dplUsrId");
- 				
- 				
- 				if(!usrId.equals(dplUsrId)){
-	 				
-	 				
-	 				
-	 				
-	 				boolean authGrpChk = false;
-	 				
-	 				for(Map authGrp : dplRunAuthGrp){
-	 					String authGrpId = (String) authGrp.get("authGrpId");
-	 					
-						boolean prjauthChk = false;
-						
-						for(Map prjUsrAuthInfo : prjUsrAuthList) {
-							
-							
-							if(authGrpId.equals(prjUsrAuthInfo.get("authGrpId"))){
-								prjauthChk = true;
-								break;
-							}
-						}
-						
-						if(prjauthChk) {
-							authGrpChk = true;
-							break;
-						}
-	 				}
-	 				
-	 				
-	 				if(!authGrpChk){
-	 					
-	 					model.addAttribute("errorYn", "Y");
-	 					model.addAttribute("message", "허용 권한이 없습니다.");
-	 					return new ModelAndView("jsonView", model);
-	 				}
- 				}
- 			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  			
     		
     		Map dpl1400InfoMap = dpl1000Service.selectDpl1400DplSelBuildInfoAjax(paramMap);

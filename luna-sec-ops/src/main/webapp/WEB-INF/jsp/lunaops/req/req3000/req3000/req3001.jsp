@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 <form class="kt-form" id="frReq3001">
@@ -20,15 +20,15 @@
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 							<div class="form-group">
 								<label><i class="fas fa-sort-amount-down kt-margin-r-5"></i><span data-lang-cd="req3000.label.reqGrpNo">그룹 요구사항 번호</span></label>
-								<input type="text" class="form-control" id="reqGrpNo" name="reqGrpNo">
+								<input type="text" class="form-control" id="reqGrpNo" maxlength="99" name="reqGrpNo">
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 							<div class="form-group">
 								<label class="required"><i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req3000.label.reqGrpUsr">요청자</span></label>
 								<div class="input-group">
-									<input type="text" class="form-control" id="reqGrpUsrNm" name="reqGrpUsrNm" required="required">
-									<button type="button" class="btn btn-brand input-group-append" id="searchUsrNmBtn" name="searchUsrNmBtn"><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
+									<input type="text" class="form-control" id="reqGrpUsrNm" name="reqGrpUsrNm" maxlength="10" required="required">
+									<button type="button" class="btn btn-brand input-group-append" id="searchUsrNmBtn" name="searchUsrNmBtn" ><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
 								</div>
 							</div>
 						</div>
@@ -38,7 +38,7 @@
 							<div class="form-group">
 								<label class="required"><i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req3000.label.reqGrpCharger">그룹 요구사항 담당자</span></label>
 								<div class="input-group">
-									<input type="text" class="form-control" id="reqGrpChargerNm" name="reqGrpChargerNm" required="required">
+									<input type="text" class="form-control" id="reqGrpChargerNm" name="reqGrpChargerNm" maxlength="10" required="required">
 									<button type="button" class="btn btn-brand input-group-append" id="searchChargerNmBtn" name="searchChargerNmBtn"><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
 								</div>
 							</div>
@@ -48,7 +48,7 @@
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							<div class="form-group">
 								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req3000.label.reqGrpNm">그룹 요구사항 명</span></label>
-								<input type="text" class="form-control" id="reqGrpNm" name="reqGrpNm" required="required" placeholder="연결된 그룹요구사항이 없습니다.">
+								<input type="text" class="form-control" id="reqGrpNm" name="reqGrpNm" required="required" maxlength="99" placeholder="연결된 그룹요구사항이 없습니다.">
 							</div>
 						</div>
 					</div>
@@ -135,9 +135,10 @@
 	
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="req3000SaveSubmit"><span data-lang-cd="req3000.button.done">완료</span></button>
+	<button type="button" class="btn btn-brand" id="req3000SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="req3000.button.done">완료</span></button>
 	<button type="button" class="btn btn-outline-brand"	data-dismiss="modal">
-		<span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i>
+		<span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 
@@ -453,8 +454,7 @@ var OSLReq3001Popup = function () {
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
 					}
-					
-					$.osl.confirm($.osl.lang("prj2100.allUsrInDelete",rowDatas.length),null, function(result){
+					$.osl.confirm($.osl.lang("req3000.allReqInDelete", rowDatas.length), null, function(result){
 						if (result.value) {
 							
 							fnAllReqDelete(rowDatas);
@@ -631,19 +631,23 @@ var OSLReq3001Popup = function () {
 		
 		var toastrMsg = "";
 		var toastrType = "success";
-		
 		if(selDatas.length > reqDupleList){
 			toastrMsg += $.osl.lang("req3000.insert.saveMsg",(selDatas.length-reqDupleList));
 		}
-		
-		
-		
+		if(reqDupleList > 0){
+			
+			if(toastrMsg.length > 0){
+				toastrMsg += "</br>";
+			}
+			toastrMsg += $.osl.lang("req3000.insert.saveDupleMsg",reqDupleList);
+			toastrType = "warning";
+		}
 		
 		if(reqDupleList == selDatas.length){
-			
-			toastrMsg = $.osl.lang("req3000.insert.saveDupleMsg",reqDupleList);
+			toastrMsg = $.osl.lang("req3000.insert.saveAllDupleMsg",reqDupleList);
 			toastrType = "error";
-			
+			$.osl.toastr(toastrMsg,{type: toastrType});
+			return false;
 		}
 		
 		$.osl.toastr(toastrMsg,{type: toastrType});
@@ -838,7 +842,6 @@ var OSLReq3001Popup = function () {
 		
    		
    		ajaxObj.setFnSuccess(function(data){
-   			
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
