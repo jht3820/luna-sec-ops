@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
-	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
@@ -54,7 +53,7 @@ var OSLDpl2100Popup = function () {
 					read: {
 						url: "/dpl/dpl2000/dpl2100/selectDpl2100SignListAjax.do",
 						params:{
-							targetCd : '02'
+							targetCd : '02',
 						}
 					}
 				}
@@ -73,10 +72,10 @@ var OSLDpl2100Popup = function () {
 				},
 				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100, search: true,
 					template: function (row) {
-						return $.osl.user.usrImgSet(row.signUsrImgId, row.signUsrNm);
+						return $.osl.user.usrImgSet(row.lastSignUsrImgId, row.lastSignUsrNm);
 					},
 					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.signUsrId);
+						$.osl.user.usrInfoPopup(rowData.lastSignUsrId);
 					}
 				},
 				{field: 'signDtm', title: '결재 요청 일자', textAlign: 'center', width: 150, search: true,searchType:"daterange"},
@@ -139,6 +138,25 @@ var OSLDpl2100Popup = function () {
 						rowDatas.push(rowData);
 					}
 					
+
+					var usrId = $.osl.user.userInfo.usrId;
+					
+					
+					var usrSign = false;
+					
+					
+					$.each(rowDatas,function(idx,map){
+						
+						if(!(map.lastSignUsrId == usrId)){
+							usrSign = true;
+						}	
+					});
+					
+					if(usrSign){
+						$.osl.alert("결재 순서가 아닙니다.");
+						return;
+					}
+					
 					var data = {
 							type : "signApr"
 					};
@@ -164,6 +182,7 @@ var OSLDpl2100Popup = function () {
 							        if (result.value) {
 							        	
 							        	var type = OSLCmm6602Popup.getType();
+							        	
 							        	
 										$.osl.layerPopupClose();
 							        	
@@ -204,10 +223,28 @@ var OSLDpl2100Popup = function () {
 						rowDatas.push(rowData);
 					}
 					
+					var usrId = $.osl.user.userInfo.usrId;
+					
+					
+					var usrSign = false;
+					
+					
+					$.each(rowDatas,function(idx,map){
+						
+						if(!(map.lastSignUsrId == usrId)){
+							usrSign = true;
+						}	
+					});
+					
+					if(usrSign){
+						$.osl.alert("결재 순서가 아닙니다.");
+						return;
+					}
+					
 					var data = {
 							type : "signRjt"
 					};
-					
+					console.log(rowDatas)
 					var options = {
 						modalTitle: $.osl.lang("dpl2100.modal.title.signRjtRes"),
 						autoHeight: false,
@@ -287,7 +324,7 @@ var OSLDpl2100Popup = function () {
  				$.osl.alert($.lang("cmm6601.sign.fail"),{type: 'error'});
  			}else{
  				
- 				$.osl.toastr($.lang("cmm6601.sign.fail"));
+ 				$.osl.toastr($.lang("cmm6601.sign.success"));
  			}
  		});
  		

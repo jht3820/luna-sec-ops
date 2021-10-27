@@ -14,6 +14,7 @@
 					</h5>
 				</div>
 			</div>
+			
 			<div class="kt-portlet__body kt-padding-15">
 				<div class="row">
 					<div class="col-lg-6 col-md-12 col-sm-12">
@@ -118,8 +119,8 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="prj1101SaveSubmit"><i class="fa fa-save"></i><span>완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-brand" id="prj1101SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 <script>
 "use strict";

@@ -35,8 +35,8 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="stm9001SaveSubmit"><span data-lang-cd="stm9001.button.insert">작성 완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">Close</button>
+	<button type="button" class="btn btn-brand" id="stm9001SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="stm9001.button.insert">작성 완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 
 <script>
@@ -46,106 +46,106 @@ var OSLStm9001Popup = function () {
 	var formId = 'frStm9001';
 	var type = $("#type").val();
 	
-	// 기존 jenkins 토큰
+	
 	var nowJenUsrTok = "";
 	
-	// 버튼 문구 세팅
+	
 	$("#stm9001SaveSubmit > span").text($.osl.lang("stm9001.button."+type));
 	$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
-    // Private functions
+    
     var documentSetting = function () {
     	
-    	// stm9001 팝업 공통코드 select 세팅
+    	
 		var commonCodeArr = [
-			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"} // 사용유무
+			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"} 
 		];
     	
-		//공통코드 채우기
+		
 		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
 
-		// textarea 자동 사이즈 조절 설정
+		
     	autosize($("#jenDesc"));
     	
-    	// TODO
-    	//수정인경우
+    	
+    	
     	if(type == "update"){
-    		// jenkins 정보 조회
+    		
     		selectJenkinsInfo();
     	}
     	
-    	// 등록&수정버튼 클릭
+    	
     	$("#stm9001SaveSubmit").click(function(){
     		
     		var form = $('#'+formId);
-    		var jenUrl = $("#jenUrl").val(); 		// jenkins url
-			var jenUsrId = $("#jenUsrId").val(); 	// jenkins 사용자 id
-			var jenUsrTok = $("#jenUsrTok").val(); 	// jenkins 사용자 토큰
-			var jenDesc = $("#jenDesc").val(); 		// jenkins 설명
+    		var jenUrl = $("#jenUrl").val(); 		
+			var jenUsrId = $("#jenUsrId").val(); 	
+			var jenUsrTok = $("#jenUsrTok").val(); 	
+			var jenDesc = $("#jenDesc").val(); 		
     		
-    		//폼 유효 값 체크
+    		
     		if (!form.valid()) {
     			return;
     		}
     		
-			// TODO byte 체크
 			
 			
 			
-        	// Jenkins 등록&수정
+			
+        	
         	submitSaveAction();
     	});
     	
     };
 
     
-    // Jenkins 정보 단건 조회
+    
 	var selectJenkinsInfo = function() {
     	
     	var jenId = $("#jenId").val();
     	
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/stm/stm9000/stm9000/selectStm9000JenkinsInfoAjax.do'/>", "async": false}
 				,{"jenId": jenId});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				
 				var jenkinsInfo = data.jenInfo;
 				
-				// jenkins 정보 세팅
+				
 		    	$.osl.setDataFormElem(jenkinsInfo,"frStm9001", ["jenId", "jenNm", "jenUrl", "jenUsrId", "jenUsrTok", "jenDesc"]);
 				
-				// combobox selected setting
+				
 		    	$("#useCd").attr("data-osl-value", jenkinsInfo.useCd);
 				
-				// 기존 토큰 정보 세팅
+				
 		    	nowJenUsrTok = jenkinsInfo.jenUsrTok;
 					
-				// textarea 입력된 내용에 따라 size 조정
+				
 				autosize.update($("#jenDesc"));
 			}	
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
     
     
-  	// Jenkis 등록, 수정
+  	
     var submitSaveAction = function(){
     	
     	var form = $('#'+formId);
-		//폼 유효 값 체크
+		
 		if (!form.valid()) {
 			return;
 		}
@@ -156,44 +156,44 @@ var OSLStm9001Popup = function () {
 	        	var formDataArray = form.serializeArray();
 	        	formDataArray.push({name:"nowJenUsrTok", value:nowJenUsrTok});
 	        	
-	    		//AJAX 설정
+	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/stm/stm9000/stm9000/saveStm9001JenkinsInfoAjax.do'/>"
 	    			, "loadingShow": true}, formDataArray);
 
-	    		//AJAX 전송 성공 함수
+	    		
 	    		ajaxObj.setFnSuccess(function(data){
 	    			
-	    			// 등록, 수정 시 jenkins 연결 체크 결과 - 연결 체크 오류 발생시 서버에서 코드값이 전달된다.
+	    			
 	    			var jenConnectCheckCode = data.resultCode;
 	    			
-	    			// jenkins 연결 체크 시 오류 발생
+	    			
 	    			if(!$.osl.isNull(jenConnectCheckCode)){
-	    				// 오류내용 alert를 띄우고 팝업은 닫지 않는다.
+	    				
 	    				$.osl.alert(data.resultMessage,{type: 'error'});
 	    			
-	    			// 등록&수정 실패
+	    			
 	    			}else if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    				//모달 창 닫기
+	    				
 						$.osl.layerPopupClose();
 	    				
-    				// 등록&수정 성공
+    				
 	    			}else{
 	    				$.osl.toastr(data.message);
-	    				//모달 창 닫기
+	    				
 	    				$.osl.layerPopupClose();
 	    				
 	    				if(type == "insert"){
-		    				//datatable 조회 - 등록일 경우
+		    				
 		    				$("button[data-datatable-id=stm9000JenkinsTable][data-datatable-action=select]").click();
 	    				}else{
-	    					// 수정시 현재페이지 유지한채로 재조회
+	    					
 	    					$.osl.datatable.list["stm9000JenkinsTable"].targetDt.reload();	
 	    				}
 	    			}
 	    		});
 	    		
-	    		//AJAX 전송
+	    		
 	    		ajaxObj.send();
 	        }
 	    });
@@ -201,7 +201,7 @@ var OSLStm9001Popup = function () {
     };
 	
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -209,7 +209,7 @@ var OSLStm9001Popup = function () {
     };
 }();
 
-//Initialization
+
 $.osl.ready(function(){
 	OSLStm9001Popup.init();
 });

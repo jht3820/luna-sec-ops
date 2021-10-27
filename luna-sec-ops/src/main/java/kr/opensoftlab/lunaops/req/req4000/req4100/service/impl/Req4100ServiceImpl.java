@@ -698,7 +698,6 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "03");
 			req6001Vo.setChgProcessId(processId);
 			req6001Vo.setChgFlowId(flowId);
-			req6001Vo.setChargerChgCd(defaultSwitchCd);
 			req6001Vo.setChgUsrId(regUsrId);
 			
 			
@@ -773,5 +772,45 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	@SuppressWarnings({ "rawtypes" })
 	public List<Map>  selectReq4100ChargeReqList(Map paramMap) throws Exception {
 		return  req4100DAO.selectReq4100ChargeReqList(paramMap);
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void saveReq4100ReqProcessActionInfo(Map paramMap) throws Exception {
+		
+		String licGrpId = (String) paramMap.get("licGrpId");
+		String prjId = (String) paramMap.get("prjId");
+		String reqId = (String) paramMap.get("reqId");
+		String regUsrId = (String) paramMap.get("regUsrId");
+		
+		
+		Map beforeReqInfo = req4100DAO.selectReq4100ReqInfo(paramMap);
+		
+		
+		String beforeReqChargerId = (String) beforeReqInfo.get("reqChargerId");
+		
+		
+		String processId = (String) paramMap.get("processId");
+		
+		
+		String selFlowId = (String) paramMap.get("selFlowId");
+		
+		
+		String reqChargerId = (String) paramMap.get("reqChargerId");
+		
+		
+		if(reqChargerId.equals(beforeReqChargerId)) {
+			
+			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "02", beforeReqChargerId, reqChargerId, regUsrId);
+			paramMap.put("req6001Vo", req6001Vo);
+			req6000Service.insertReq6001ReqChgInfo(paramMap);
+		}
+		
+		
+		
+		
+		
+		
+		
 	}
 }

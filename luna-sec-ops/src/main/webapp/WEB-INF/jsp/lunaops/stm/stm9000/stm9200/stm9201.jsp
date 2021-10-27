@@ -7,7 +7,7 @@
 	<input type="hidden" name="paramJobId" id="paramJobId" value="${param.paramJobId}"/>
 </form>
 <div class="row">
-	<!-- begin::배포 실행 권한 목록 영역 -->
+	
 	<div class="col-lg-6 col-md-12 col-sm-12">
 		<div class="kt-portlet">
 			<div class="kt-portlet__head kt-portlet__head--lg">
@@ -33,9 +33,9 @@
 			</div>
 		</div>
 	</div>
-	<!-- end::배포 실행 권한 목록 영역 -->
 	
-	<!-- begin::배포 실행 미배정 권한 목록 영역 -->
+	
+	
 	<div class="col-lg-6 col-md-12 col-sm-12">
 		<div class="kt-portlet">
 			<div class="kt-portlet__head kt-portlet__head--lg">
@@ -61,32 +61,33 @@
 			</div>
 		</div>
 	</div>
-	<!-- end::배포 실행 미배정 권한 목록 영역 -->
+	
 </div>
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">Close</button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><span class="osl-resize__display--show" data-lang-cd="modal.close"
+	>Close</span></button>
 </div>
 
 <script>
 "use strict";
 var OSLStm9201Popup = function () {
 
-	// 버튼 문구 세팅
+	
 	$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
 	
-	// 넘어온 파라미터 값
+	
 	var paramPrjId = $("#paramPrjId").val();
 	var paramJenId = $("#paramJenId").val();
 	var paramJobId = $("#paramJobId").val();
 	
-	// datatable Id
+	
 	var assignDplAuthTableId = "stm9201AssignDplAuthTable";
 	var notAssignDplAuthTableId = "stm9201NotAssignDplAuthTable";
 	
-    // Private functions
+    
     var documentSetting = function () {
     	
-    	// 배정된 배포 실행 권한 datatable 세팅
+    	
 		$.osl.datatable.setting(assignDplAuthTableId,{
 			data: {
 				source:{
@@ -154,13 +155,13 @@ var OSLStm9201Popup = function () {
 					var rowDatas = [];
 					rowDatas.push(rowData);
 					
-					// 배포 실행 권한 배정 제외
+					
 					fnDplAuthDelete(rowDatas);
 				},
-				// 배포 권한 배정제외
+				
 				"selDplAuthDelete": function(rowDatas, datatableId, type, rownum, elem){
 					
-					//선택 레코드 없는 경우
+					
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
@@ -168,7 +169,7 @@ var OSLStm9201Popup = function () {
 					
 					$.osl.confirm($.osl.lang("stm9201.message.confirm.dplAuthDelete",rowDatas.length),{html:true}, function(result){
 						if (result.value) {
-							// 배포 실행 권한 배정 제외
+							
 							fnDplAuthDelete(rowDatas);
 						}
 					});
@@ -176,7 +177,7 @@ var OSLStm9201Popup = function () {
 			}
 		});
 		
-		// 미배정된 배포 실행 권한 datatable 세팅
+		
 		$.osl.datatable.setting(notAssignDplAuthTableId,{
 			data: {
 				source: {
@@ -245,12 +246,12 @@ var OSLStm9201Popup = function () {
 					var rowDatas = [];
 					rowDatas.push(rowData);
 					
-					//배포 샐행 권한 배정 등록
+					
 					fnDplAuthInsert(rowDatas);
 				},
-				// 배포 실행 권한 배정
+				
 				"selDplAuthInsert": function(rowDatas, datatableId, type, rownum, elem){
-					//선택 레코드 없는 경우
+					
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
@@ -258,7 +259,7 @@ var OSLStm9201Popup = function () {
 					
 					$.osl.confirm($.osl.lang("stm9201.message.confirm.dplAuthInsert",rowDatas.length),{html:true}, function(result){
 						if (result.value) {
-							// 배포 실행 권한 배정
+							
 							fnDplAuthInsert(rowDatas);
 						}
 					});
@@ -267,71 +268,63 @@ var OSLStm9201Popup = function () {
 		});
 		
 		
-		/**
-		 * function 명 	: fnDplAuthInsert
-		 * function 설명	: 배포 실행 권한을 배정한다.
-		 * @param rowDatas : 미배정 데이터 테이블에서 선택한 row 데이터 목록
-		 */
+		
 		var fnDplAuthInsert = function(rowDatas){
 			
 			 console.log(">> ", rowDatas);
 			 
-			//AJAX 설정
+			
 			var ajaxObj = new $.osl.ajaxRequestAction(
 					{"url":"<c:url value='/stm/stm9000/stm9200/insertStm9200DplAuthInfoAjax.do'/>"}
 					,{paramPrjId : paramPrjId, paramJenId : paramJenId , paramJobId : paramJobId, dataList : JSON.stringify(rowDatas)});
-			//AJAX 전송 성공 함수
+			
 			ajaxObj.setFnSuccess(function(data){
 				if(data.errorYn == "Y"){
 	   				$.osl.alert(data.message,{type: 'error'});
 	   			}else{
-	   				// 배정 등록 메시지 출력
+	   				
 	   				$.osl.toastr(data.message);
 	   				
-					// 데이터 테이블 재조회
+					
 					$.osl.datatable.list[assignDplAuthTableId].targetDt.reload();
 					$.osl.datatable.list[notAssignDplAuthTableId].targetDt.reload();
 	   			}
 			});
 			
-			//AJAX 전송
+			
 			ajaxObj.send();
 		};
 		
 
-		/**
-		 * function 명 	: fnDplAuthDelete
-		 * function 설명	: 배포 실행 권한을 배정 제외한다.
-		 * @param rowDatas : 미배정 데이터 테이블에서 선택한 row 데이터 목록
-		 */
+		
 		var fnDplAuthDelete = function(rowDatas){
 			
-			//AJAX 설정
+			
 			var ajaxObj = new $.osl.ajaxRequestAction(
 					{"url":"<c:url value='/stm/stm9000/stm9200/deleteStm9200DplAuthInfoAjax.do'/>"}
 					,{paramPrjId : paramPrjId, paramJenId : paramJenId , paramJobId : paramJobId, dataList: JSON.stringify(rowDatas)});
-			//AJAX 전송 성공 함수
+			
 			ajaxObj.setFnSuccess(function(data){
 				if(data.errorYn == "Y"){
 	   				$.osl.alert(data.message,{type: 'error'});
 	   			}else{
-	   				// 배정 제외 메시지 출력
+	   				
 	   				$.osl.toastr(data.message);
 	   				
-	   				// 데이터 테이블 재조회
+	   				
 					$.osl.datatable.list[assignDplAuthTableId].targetDt.reload();
 					$.osl.datatable.list[notAssignDplAuthTableId].targetDt.reload();
 	   			}
 			});
 			
-			//AJAX 전송
+			
 			ajaxObj.send();
 		};
 		
     };
 	
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -339,7 +332,7 @@ var OSLStm9201Popup = function () {
     };
 }();
 
-//Initialization
+
 $.osl.ready(function(){
 	OSLStm9201Popup.init();
 });

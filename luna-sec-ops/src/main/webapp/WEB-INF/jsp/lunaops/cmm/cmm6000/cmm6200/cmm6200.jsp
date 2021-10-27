@@ -5,9 +5,9 @@
 	<input type="hidden" name="paramSelReqInfoList" id="paramSelReqInfoList" value='<c:out value="${param.paramSelReqInfoList}"/>'/>
 	<input type="hidden" name="selReqChargerId" id="selReqChargerId"/>
 	<div class="osl-wizard" id="requestAcceptWizard" data-ktwizard-state="step-first">
-		<div class="osl-wizard__nav kt-margin-b-10">
+		<div class="osl-wizard__nav">
 			<div class="osl-wizard__nav-items osl-wizard__nav-items--clickable">
-				<div class="osl-wizard__nav-item rounded-lg" data-ktwizard-type="step" data-ktwizard-state="current">
+				<div class="osl-wizard__nav-item rounded-top" data-ktwizard-type="step" data-ktwizard-state="current">
 					<div class="osl-wizard-wrapper">
 						<div class="wizard-number">1</div>
 						<div class="wizard-label">
@@ -16,7 +16,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="osl-wizard__nav-item rounded-lg" data-ktwizard-type="step">
+				<div class="osl-wizard__nav-item rounded-top" data-ktwizard-type="step">
 					<div class="osl-wizard-wrapper">
 						<div class="wizard-number">2</div>
 						<div class="wizard-label">
@@ -25,7 +25,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="osl-wizard__nav-item rounded-lg" data-ktwizard-type="step">
+				<div class="osl-wizard__nav-item rounded-top" data-ktwizard-type="step">
 					<div class="osl-wizard-wrapper">
 						<div class="wizard-number">3</div>
 						<div class="wizard-label">
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="osl-form__actions kt-padding-l-25 kt-padding-b-10 kt-margin-b-10 rounded-lg" id="wizardStepBtnTmp">
+		<div class="osl-form__actions kt-padding-l-25 kt-padding-b-10" id="wizardStepBtnTmp">
 			<div>
 				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15" data-ktwizard-type="step-info" data-ktwizard-state="current">
 					<div class="kt-widget__top">
@@ -67,243 +67,249 @@
 				<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
 			</button>
 		</div>
-		<div class="osl-wizard__content w-100" data-ktwizard-type="step-content" data-ktwizard-state="current">
-			<div class="row">
-				<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-					<div class="kt-portlet kt-portlet--mobile">
-						<div class="kt-portlet__head kt-portlet__head--lg">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-th-large kt-margin-r-5"></i><span>접수대기 요구사항 목록</span>
-								</h5>
-							</div>
-							<div class="kt-portlet__head-toolbar">
-								<div class="kt-portlet__head-wrapper">
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6200ReqTable" data-datatable-action="select" title="요구사항 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-										<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
-									</button>
+		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content" data-ktwizard-state="current">
+			<div class="osl-background-around kt-padding-10">
+				<div class="row">
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="kt-portlet kt-portlet--mobile">
+							<div class="kt-portlet__head kt-portlet__head--lg">
+								<div class="kt-portlet__head-label">
+									<h5 class="kt-font-boldest kt-font-brand">
+										<i class="fa fa-th-large kt-margin-r-5"></i><span>접수대기 요구사항 목록</span>
+									</h5>
 								</div>
-								<div class="kt-portlet__head-group">
-									<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-wrapper">
+										<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6200ReqTable" data-datatable-action="select" title="요구사항 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+											<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
+										</button>
+									</div>
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="kt-portlet__body osl-min-h-px--470">
-							<div class="osl-datatable-search" data-datatable-id="cmm6200ReqTable"></div>
-							<div class="kt_datatable" id="cmm6200ReqTable"></div>
+							<div class="kt-portlet__body osl-min-h-px--470">
+								<div class="osl-datatable-search" data-datatable-id="cmm6200ReqTable"></div>
+								<div class="kt_datatable" id="cmm6200ReqTable"></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-					<div class="kt-portlet kt-portlet--mobile" id="selReqInfoPrtlet">
-						<div class="kt-portlet__head kt-portlet__head--lg">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-th-large kt-margin-r-5"></i><span>선택 요구사항 정보</span>
-								</h5>
-							</div>
-							<div class="kt-portlet__head-toolbar">
-								<div class="kt-portlet__head-group">
-									<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="kt-portlet kt-portlet--mobile" id="selReqInfoPrtlet">
+							<div class="kt-portlet__head kt-portlet__head--lg">
+								<div class="kt-portlet__head-label">
+									<h5 class="kt-font-boldest kt-font-brand">
+										<i class="fa fa-th-large kt-margin-r-5"></i><span>선택 요구사항 정보</span>
+									</h5>
 								</div>
-							</div>
-						</div>
-						<div class="kt-portlet__body">
-							<div class="row">
-								<div class="col-xl-2 kt-align-center">
-									<a href="#" class="kt-media kt-media--xl kt-media--circle">
-										<img type="img" id="usrImgId">
-									</a>
-								</div>
-								<div class="col-xl-4 col-lg-6">
-									<div class="form-group">
-										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.usrNm">요청자 이름</span></label>
-										<input type="text" class="form-control" placeholder="요청자 이름" name="reqUsrNm" id="reqUsrNm" readonly="readonly">
-									</div>
-								</div>
-								<div class="col-xl-6 col-lg-6">
-									<div class="form-group">
-										<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
-										<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="reqUsrEmail" readonly="readonly">
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-xl-6 col-lg-6">
-									<div class="form-group">
-										<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
-										<input type="text" class="form-control" name="reqUsrDeptNm" placeholder="요청자 소속"  id="reqUsrDeptNm" readonly="readonly">
+							<div class="kt-portlet__body">
+								<div class="row">
+									<div class="col-xl-2 kt-align-center">
+										<a href="#" class="kt-media kt-media--xl kt-media--circle">
+											<img type="img" id="usrImgId">
+										</a>
+									</div>
+									<div class="col-xl-4 col-lg-6">
+										<div class="form-group">
+											<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.usrNm">요청자 이름</span></label>
+											<input type="text" class="form-control" placeholder="요청자 이름" name="reqUsrNm" id="reqUsrNm" readonly="readonly">
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6">
+										<div class="form-group">
+											<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
+											<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="reqUsrEmail" readonly="readonly">
+										</div>
 									</div>
 								</div>
-								<div class="col-xl-6 col-lg-6">
-									<div class="form-group">
-										<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.tel">요청자 연락처</span></label>
-										<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="reqUsrNum" readonly="readonly">
+								<div class="row">
+									<div class="col-xl-6 col-lg-6">
+										<div class="form-group">
+											<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
+											<input type="text" class="form-control" name="reqUsrDeptNm" placeholder="요청자 소속"  id="reqUsrDeptNm" readonly="readonly">
+										</div>
+									</div>
+									<div class="col-xl-6 col-lg-6">
+										<div class="form-group">
+											<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.tel">요청자 연락처</span></label>
+											<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="reqUsrNum" readonly="readonly">
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label for="prjNm"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">프로젝트</span></label>
-										<input type="text" class="form-control" placeholder="프로젝트" name="prjNm" id="prjNm" readonly="readonly">
+								<div class="row">
+									<div class="col-xl-6">
+										<div class="form-group">
+											<label for="prjNm"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">프로젝트</span></label>
+											<input type="text" class="form-control" placeholder="프로젝트" name="prjNm" id="prjNm" readonly="readonly">
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="form-group">
+											<label><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDtm">요청 일자</span></label>
+											<input type="date" class="form-control" placeholder="요청일" name="reqDtm" id="reqDtm" readonly="readonly">
+										</div>
 									</div>
 								</div>
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDtm">요청 일자</span></label>
-										<input type="date" class="form-control" placeholder="요청일" name="reqDtm" id="reqDtm" readonly="readonly">
-									</div>
+								<div class="form-group">
+									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">그룹 요구사항 제목</span></label>
+									<input type="text" class="form-control" placeholder="그룹 요구사항 제목" name="reqGrpNm" id="reqGrpNm" autocomplete="off"  readonly="readonly">
 								</div>
-							</div>
-							<div class="form-group">
-								<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">그룹 요구사항 제목</span></label>
-								<input type="text" class="form-control" placeholder="그룹 요구사항 제목" name="reqGrpNm" id="reqGrpNm" autocomplete="off"  readonly="readonly">
-							</div>
-							<div class="form-group">
-								<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">요청 제목</span></label>
-								<input type="text" class="form-control" placeholder="요청 제목" name="reqNm" id="reqNm" autocomplete="off"  readonly="readonly">
-							</div>
-							<div class="form-group">
-								<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDesc">요청 내용</span></label>
-								<textarea name="reqDesc" id="reqDesc" autocomplete="off" readonly="readonly"></textarea>
+								<div class="form-group">
+									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">요청 제목</span></label>
+									<input type="text" class="form-control" placeholder="요청 제목" name="reqNm" id="reqNm" autocomplete="off"  readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDesc">요청 내용</span></label>
+									<textarea name="reqDesc" id="reqDesc" autocomplete="off" readonly="readonly"></textarea>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="osl-wizard__content w-100" data-ktwizard-type="step-content">
-			<div class="row">
-				<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-					<div class="kt-portlet kt-portlet--mobile">
-						<div class="kt-portlet__head kt-portlet__head--lg">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-th-large kt-margin-r-5"></i><span>접수 정보 입력</span>
-								</h5>
-							</div>
-							<div class="kt-portlet__head-toolbar">
-								<div class="kt-portlet__head-group">
-									<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content">
+			<div class="osl-background-around kt-padding-10">
+				<div class="row">
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="kt-portlet kt-portlet--mobile">
+							<div class="kt-portlet__head kt-portlet__head--lg">
+								<div class="kt-portlet__head-label">
+									<h5 class="kt-font-boldest kt-font-brand">
+										<i class="fa fa-th-large kt-margin-r-5"></i><span>접수 정보 입력</span>
+									</h5>
 								</div>
-							</div>
-						</div>
-						<div class="kt-portlet__body osl-min-h-px--470">
-							<div class="row">
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="required" for="prjNm"><i class="fa fa-edit kt-margin-r-5"></i><span>담당자명</span></label>
-										<div class="input-group">
-											<input type="text" class="form-control" placeholder="담당자명" name="selReqChargerNm" id="selReqChargerNm" opttype="-1" required>
-											<button type="button" class="btn btn-brand input-group-append" id="searchReqChargerBtn" name="searchReqChargerBtn"><i class="fa fa-search"></i><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
-										</div>
-										<span class="form-text text-muted">* 요구사항의 담당자를 선택해주세요.</span>
-									</div>
-								</div>
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label for="test"><i class="fa fa-user kt-margin-r-5"></i><span>기본 담당자 선택</span></label>
-										<div>
-											<span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--brand">
-												<label>
-													<input type="checkbox" name="selChargerDefaultSwitch" id="selChargerDefaultSwitch">
-													<span></span>
-												</label>
-											</span>
-											<span class="form-text text-muted">* 이미 배정된 담당자가 우선 배정됩니다.</span>
-											<span class="form-text text-muted">* 프로세스 기본 담당자가 배정됩니다.</span>
-										</div>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<label><i class="fa fa-edit kt-margin-r-5"></i><span>접수 의견</span></label>
-								<textarea name="reqAcceptTxt" id="reqAcceptTxt" autocomplete="off" readonly="readonly" opttype="-1"></textarea>
+							<div class="kt-portlet__body osl-min-h-px--470">
+								<div class="row">
+									<div class="col-xl-6">
+										<div class="form-group">
+											<label class="required" for="prjNm"><i class="fa fa-edit kt-margin-r-5"></i><span>담당자명</span></label>
+											<div class="input-group">
+												<input type="text" class="form-control" placeholder="담당자명" name="selReqChargerNm" id="selReqChargerNm" opttype="-1" required>
+												<button type="button" class="btn btn-brand input-group-append" id="searchReqChargerBtn" name="searchReqChargerBtn"><i class="fa fa-search"></i><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
+											</div>
+											<span class="form-text text-muted">* 요구사항의 담당자를 선택해주세요.</span>
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="form-group">
+											<label for="test"><i class="fa fa-user kt-margin-r-5"></i><span>기본 담당자 선택</span></label>
+											<div>
+												<span class="kt-switch kt-switch--outline kt-switch--icon kt-switch--brand">
+													<label>
+														<input type="checkbox" name="selChargerDefaultSwitch" id="selChargerDefaultSwitch">
+														<span></span>
+													</label>
+												</span>
+												<span class="form-text text-muted">* 이미 배정된 담당자가 우선 배정됩니다.</span>
+												<span class="form-text text-muted">* 프로세스 기본 담당자가 배정됩니다.</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label><i class="fa fa-edit kt-margin-r-5"></i><span>접수 의견</span></label>
+									<textarea name="reqAcceptTxt" id="reqAcceptTxt" autocomplete="off" readonly="readonly" opttype="-1"></textarea>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-					<div class="kt-portlet kt-portlet--mobile" id="selReqInfoPrtlet">
-						<div class="kt-portlet__head kt-portlet__head--lg">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-th-large kt-margin-r-5"></i><span>접수 기본 항목 입력</span>
-								</h5>
-							</div>
-							<div class="kt-portlet__head-toolbar">
-								<div class="kt-portlet__head-group">
-									<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="kt-portlet kt-portlet--mobile" id="selReqInfoPrtlet">
+							<div class="kt-portlet__head kt-portlet__head--lg">
+								<div class="kt-portlet__head-label">
+									<h5 class="kt-font-boldest kt-font-brand">
+										<i class="fa fa-th-large kt-margin-r-5"></i><span>접수 기본 항목 입력</span>
+									</h5>
+								</div>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="kt-portlet__body osl-min-h-px--470">
-						
+							<div class="kt-portlet__body osl-min-h-px--470">
+							
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="osl-wizard__content w-100" data-ktwizard-type="step-content">
-			<div class="row">
-				<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-					<div class="kt-portlet kt-portlet--mobile">
-						<div class="kt-portlet__head kt-portlet__head--lg">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-th-large kt-margin-r-5"></i><span>프로세스 목록</span>
-								</h5>
-							</div>
-							<div class="kt-portlet__head-toolbar">
-								<div class="kt-portlet__head-wrapper">
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6200ProcessTable" data-datatable-action="select" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-										<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
-									</button>
+		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content">
+			<div class="osl-background-around kt-padding-10">
+				<div class="row">
+					<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+						<div class="kt-portlet kt-portlet--mobile">
+							<div class="kt-portlet__head kt-portlet__head--lg">
+								<div class="kt-portlet__head-label">
+									<h5 class="kt-font-boldest kt-font-brand">
+										<i class="fa fa-th-large kt-margin-r-5"></i><span>프로세스 목록</span>
+									</h5>
 								</div>
-								<div class="kt-portlet__head-group">
-									<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-wrapper">
+										<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6200ProcessTable" data-datatable-action="select" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+											<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
+										</button>
+									</div>
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="kt-portlet__body osl-min-h-px--470">
-							<div class="osl-datatable-search" data-datatable-id="cmm6200ProcessTable"></div>
-							<div class="kt_datatable" id="cmm6200ProcessTable"></div>
+							<div class="kt-portlet__body osl-min-h-px--470">
+								<div class="osl-datatable-search" data-datatable-id="cmm6200ProcessTable"></div>
+								<div class="kt_datatable" id="cmm6200ProcessTable"></div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-xl-9 col-lg-6 col-md-12 col-sm-12">
-					<div class="kt-portlet kt-portlet--mobile">
-						<div class="kt-portlet__head kt-portlet__head--lg">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-th-large kt-margin-r-5"></i><span>작업흐름 목록</span>
-								</h5>
+					<div class="col-xl-9 col-lg-6 col-md-12 col-sm-12">
+						<div class="kt-portlet kt-portlet--mobile">
+							<div class="kt-portlet__head kt-portlet__head--lg">
+								<div class="kt-portlet__head-label">
+									<h5 class="kt-font-boldest kt-font-brand">
+										<i class="fa fa-th-large kt-margin-r-5"></i><span>작업흐름 목록</span>
+									</h5>
+								</div>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-wrapper">
+										<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="reset" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+											<i class="fa fa-redo-alt"></i><span data-lang-cd="datatable.button.select">줌 리셋</span>
+										</button>
+										<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="in" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+											<i class="fa fa-search-plus"></i><span data-lang-cd="datatable.button.select">확대</span>
+										</button>
+										<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="out" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+											<i class="fa fa-search-minus"></i><span data-lang-cd="datatable.button.select">축소</span>
+										</button>
+									</div>
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+									</div>
+								</div>
 							</div>
-							<div class="kt-portlet__head-toolbar">
-								<div class="kt-portlet__head-wrapper">
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="reset" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-										<i class="fa fa-redo-alt"></i><span data-lang-cd="datatable.button.select">줌 리셋</span>
-									</button>
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="in" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-										<i class="fa fa-search-plus"></i><span data-lang-cd="datatable.button.select">확대</span>
-									</button>
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="out" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-										<i class="fa fa-search-minus"></i><span data-lang-cd="datatable.button.select">축소</span>
-									</button>
-								</div>
-								<div class="kt-portlet__head-group">
-									<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
-								</div>
-							</div>
-						</div>
-						<div class="kt-portlet__body osl-min-h-px--470 osl-process__flow-main">
-							<div class="osl-process__flow-container">
-								<div class="osl-mask" id="flowMaskDiv">
-									<span>프로세스를 선택해주세요.</span>
-								</div>
-								<div class="osl-process__flow-chart d-inline-block kt-hidden" id="cmm6200FlowChartDiv">
-									
+							<div class="kt-portlet__body osl-min-h-px--470 osl-process__flow-main">
+								<div class="osl-process__flow-container">
+									<div class="osl-mask" id="flowMaskDiv">
+										<span>프로세스를 선택해주세요.</span>
+									</div>
+									<div class="osl-process__flow-chart d-inline-block kt-hidden" id="cmm6200FlowChartDiv">
+										
+									</div>
 								</div>
 							</div>
 						</div>

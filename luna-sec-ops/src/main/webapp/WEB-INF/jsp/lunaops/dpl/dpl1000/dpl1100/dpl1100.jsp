@@ -24,7 +24,6 @@
 				</div>
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-wrapper">
-						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="dpl1000DplTable"></div>
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000DplTable" data-datatable-action="select" title="배포계획 조회" data-title-lang-cd="dpl1100.actionBtn.tooltip.dplSelect" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
@@ -32,6 +31,11 @@
 				</div>
 			</div>
 			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-lg-7 col-md-8 col-sm-12 col-12">
+						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="dpl1000DplTable"></div>
+					</div>
+				</div>
 				<div class="kt_datatable" id="dpl1000DplTable"></div>
 			</div>
 		</div>
@@ -47,7 +51,6 @@
 				</div>
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-wrapper">
-						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="req1100AssTable"></div>
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="select" title="요구사항 배정 조회" data-title-lang-cd="dpl1100.actionBtn.title.assSelect" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
@@ -58,6 +61,11 @@
 				</div>
 			</div>
 			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-lg-5 col-md-6 col-sm-12 col-12">
+						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="req1100AssTable"></div>
+					</div>
+				</div>
 				<div class="kt_datatable" id="req1100AssTable"></div>
 			</div>
 		</div> 
@@ -70,7 +78,6 @@
 				</div>
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-wrapper">
-						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="req1100NonTable"></div>
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100NonTable" data-datatable-action="select" title="요구사항 미배정 조회" data-title-lang-cd="dpl1100.actionBtn.title.nonSelect" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
@@ -81,6 +88,11 @@
 				</div>
 			</div>
 			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-lg-5 col-md-6 col-sm-12 col-12">
+						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="req1100NonTable"></div>
+					</div>
+				</div>
 				<div class="kt_datatable" id="req1100NonTable"></div>
 			</div>
 		</div>
