@@ -152,7 +152,7 @@
 				</div>
 				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 ">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
-						<div class="border osl-min-h-px--140" id="velocityChart"></div>
+						<div class="border osl-min-h-px--140 osl-card__data--empty" id="velocityChart"></div>
 					</div>
 				</div>
 				
@@ -620,7 +620,8 @@ var OSLSpr1004Popup = function () {
  				}
  				
  				if(chartData.length == 0){
-					endSprPoint = 0	 					
+					endSprPoint = 0
+					$("#velocityChart").text("데이터 없음")
  				}else{
 	 				
 	 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;

@@ -16,7 +16,10 @@
 				
 				
 				
-				<div class="col-12 text-right">${param.paramSprStDt} - ${param.paramSprEdDt}</div>
+				
+				<div class="col-12 text-right">
+					${param.paramSprStDt} - ${param.paramSprEdDt}
+				</div>
 				<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
 				<div class="col-12 text-right">${param.paramSprDesc}</div>
 				
