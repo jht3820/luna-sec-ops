@@ -175,6 +175,12 @@
            		<isNotEmpty property="itemId">
            			AND	A.ITEM_ID		=	#itemId#
            		</isNotEmpty>
+           		<isNotEmpty property="reqId">
+           			AND	A.REQ_ID		=	#reqId#
+           		</isNotEmpty>
+           		<isEmpty property="reqId">
+           			AND	A.REQ_ID		=	'ROOTSYSTEM_FLW'
+           		</isEmpty>
 		    <isNotEmpty property="searchTargetData">
 				<isNotEmpty property="searchTargetId">
 					<isEqual property="searchTargetId" compareValue="itemNm">
