@@ -217,7 +217,17 @@ var OSLCoreChartSetting = function () {
 						mounted: targetConfig.actionFn.mounted,
 						
 						click: targetConfig.actionFn.click,
-					}
+					},
+					locales: [{
+						"name": "en",
+						"options": {
+							"toolbar": {
+								"exportToCSV": "다운로드 CSV",
+								"exportToSVG": "다운로드 SVG",
+								"exportToPNG": "다운로드 PNG",
+							}
+					  }
+					}]
 				},
 				grid:{
 					show: false

@@ -856,6 +856,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     margin-bottom: 5px;
     border-radius: 0 0 4px 4px;
     flex:1 1 auto;
+    justify-content: flex-end;
 }
 .osl-req__process-history {
     display: flex;

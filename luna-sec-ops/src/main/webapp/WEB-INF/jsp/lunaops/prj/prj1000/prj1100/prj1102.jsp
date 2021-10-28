@@ -52,15 +52,15 @@
 								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="kt-checkbox-list">
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-											<input type="checkbox" name="flowSignStopCd" id="flowSignStopCd" opttype="-1"> 결재 반려 시 종료
-											<span></span>
-										</label>
-										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
 											<input type="checkbox" name="flowSignCd" id="flowSignCd" opttype="-1"> 결재 필수
 											<span></span>
 										</label>
+										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+											<input type="checkbox" name="flowSignStopCd" id="flowSignStopCd" opttype="-1"> 결재 반려 시 종료
+											<span></span>
+										</label>
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand kt-hide">
-											<input type="checkbox" name="flowWorkCd" id="flowWorkCd" opttype="-1"> 작업 분기
+											<input type="checkbox" name="flowMiddleEndCd" id="flowMiddleEndCd" opttype="-1"> 중간 종료
 											<span></span>
 										</label>
 									</div>
