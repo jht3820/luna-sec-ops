@@ -6,9 +6,11 @@
    	<resultMap id="resultMapSelectPrj1102" class="egovMap">
 		<result property="rn"  					column="RN"/>
 		<result property="prjId"				column="PRJ_ID"/>
-		<result property="processId"				column="PROCESS_ID"/>
+		<result property="processId"			column="PROCESS_ID"/>
 		<result property="flowId"				column="FLOW_ID"/>
 		<result property="itemId"				column="ITEM_ID"/>
+		<result property="reqId"				column="REQ_ID"/>
+		<result property="itemDivision"			column="ITEM_DIVISION"/>
 		<result property="itemNm"				column="ITEM_NM"/>
 		<result property="itemCode"				column="ITEM_CODE"/>
 		<result property="itemCodeNm"			column="ITEM_CODE_NM"/>
@@ -139,6 +141,8 @@
 			       , A.PROCESS_ID
 			       , A.FLOW_ID
 			       , A.ITEM_ID
+			       , A.REQ_ID
+			       , A.ITEM_DIVISION
 			       , A.ITEM_NM
 			       , A.ITEM_CODE
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00001', A.ITEM_CODE, '1') AS ITEM_CODE_NM
@@ -503,6 +507,29 @@
 						) A
     </select>
     
+    
+    <select id="prj1300DAO.selectPrj1103ItemListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
+	    
+	    SELECT
+			COUNT(*)
+		FROM	(
+			SELECT	 A.PRJ_ID
+			       , A.PROCESS_ID
+			       , A.FLOW_ID
+			       , A.ITEM_ID
+			       , A.REQ_ID
+			       , A.ITEM_VALUE
+			       , A.ITEM_VALUE_NM
+           	FROM	PRJ1103 A
+           	WHERE	1=1
+           		AND A.PRJ_ID		=	#prjId#
+           		AND	A.PROCESS_ID	=	#processId#
+           		AND	A.FLOW_ID		=	#flowId#
+       			AND	A.ITEM_ID		=	#itemId#
+       			AND	A.REQ_ID		=	#reqId#
+		) A
+    </select>
+    
 	
 	<select id="prj1300DAO.selectPrj1102ItemInfo" parameterClass="java.util.Map" resultClass="egovMap">
 		
@@ -525,6 +552,7 @@
 			INSERT INTO PRJ1102
 			(
                 PROCESS_ID			,	PRJ_ID					,	ITEM_ID					,	FLOW_ID
+            ,	REQ_ID				,	ITEM_DIVISION
             , 	ITEM_NM				,	ITEM_CODE				,	ITEM_COMMON_CODE	
             ,	ITEM_PC_ROW_NUM		,	ITEM_TABLET_ROW_NUM		,	ITEM_MOBILE_ROW_NUM
             ,	ITEM_TYPE			,	ITEM_LENGTH				,	ITEM_ESSENTIAL_CD
@@ -533,6 +561,7 @@
             ,	MODIFY_DTM			,	MODIFY_USR_ID			,	MODIFY_USR_IP
         )VALUES(
                 #processId#			,	#prjId#					,	#itemId#				,	#flowId#
+            ,	#reqId# 			,	#itemDivision#
             ,	#itemNm# 			,	#itemCode#				,	#itemCommonCode#	
             ,	#itemPcRowNum#		,	#itemTabletRowNum#		,	#itemMobileRowNum#
             ,	#itemType#	 		,	NVL(#itemLength#,255)	,	#itemEssentialCd#
@@ -550,12 +579,12 @@
 		<![CDATA[
 			INSERT INTO PRJ1103
 			(
-                PROCESS_ID			,	PRJ_ID				,	ITEM_ID		
+                PROCESS_ID			,	PRJ_ID				,	ITEM_ID		,	REQ_ID
             , 	FLOW_ID				,	ITEM_VALUE			,	ITEM_VALUE_NM	
             ,	REG_DTM				,	REG_USR_ID  		,	REG_USR_IP
             ,	MODIFY_DTM			,	MODIFY_USR_ID		,	MODIFY_USR_IP
         )VALUES(
-                #processId#			,	#prjId#				,	#itemId#
+                #processId#			,	#prjId#				,	#itemId#	,	#reqId#
             ,	#flowId# 			,	#itemValue#			,	#itemValueNm#	
             ,	SYSDATE				,	#regUsrId#			,	#regUsrIp#
             ,	SYSDATE				,	#regUsrId#			,	#regUsrIp#
@@ -650,6 +679,8 @@
 	        AND	A.PROCESS_ID	= 	#processId#
 	        AND	A.PRJ_ID		=	#prjId#
 	        AND	A.FLOW_ID		=	#flowId#
+	        AND	A.ITEM_ID		=	#itemId#
+	        AND	A.REQ_ID		=	#reqId#
 	]]>
 	</delete>
 </sqlMap>

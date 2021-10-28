@@ -1222,4 +1222,47 @@ public class Req4100Controller {
     		throw new Exception(ex.getMessage());
     	}
     }
+	
+	
+    
+    @SuppressWarnings({ "rawtypes" })
+	@RequestMapping(value="/req/req4000/req4100/selectReq4100FlowInfoAjax.do")
+	public ModelAndView selectReq4100FlowInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
+    	try{
+    		
+        	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+        	
+        	
+			HttpSession ss = request.getSession();
+			String licGrpId = ((LoginVO) ss.getAttribute("loginVO")).getLicGrpId();
+			paramMap.put("licGrpId", licGrpId);
+			
+			
+			String paramPrjId = (String) paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("prjId", paramPrjId);
+			
+        	
+        	Map flowInfo = (Map) req4100Service.selectReq4100FlowInfoAjax(paramMap);        	
+        	model.addAttribute("flowInfo", flowInfo);
+
+        	
+        	model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	return new ModelAndView("jsonView");
+        	
+    	}catch(Exception ex){
+    		Log.error("selectReq1000ReqInfoAjax()", ex);
+    		
+    		model.addAttribute("errorYn", "Y");
+        	model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		throw new Exception(ex.getMessage());
+    	}
+    }
 }

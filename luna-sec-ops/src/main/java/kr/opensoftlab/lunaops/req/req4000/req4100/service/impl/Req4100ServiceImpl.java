@@ -35,6 +35,7 @@ import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl.Prj1100DAO;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.Prj1300Service;
 import kr.opensoftlab.lunaops.req.req3000.req3000.service.impl.Req3000DAO;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.Req4100Service;
 import kr.opensoftlab.lunaops.req.req6000.req6000.service.Req6000Service;
@@ -56,6 +57,10 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
     @Resource(name="prj1100DAO")
     private Prj1100DAO prj1100DAO;
 
+	
+    @Resource(name = "prj1300Service")
+    private Prj1300Service prj1300Service;
+    
 	
 	@Resource(name = "req6000Service")
 	private Req6000Service req6000Service;
@@ -727,6 +732,57 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			paramMap.put("req6001Vo", req6001Vo);
 			req6000Service.insertReq6001ReqChgInfo(paramMap);
 			
+
+			
+			
+			String basicItemList = (String) paramMap.get("basicItemList");
+			String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+			String basicItemDelList = (String) paramMap.get("basicItemDelList");
+			
+			
+			JSONArray basicItemJsonArray = (JSONArray) jsonParser.parse(basicItemList);
+			JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+			JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
+			
+			
+			for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+				JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+				Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("processId", processId);
+    			itemMap.put("flowId", paramMap.get("selFlowId"));
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqId);
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+				prj1300Service.savePrj1103ItemAjax(itemMap);
+			}
+			
+			
+			for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+				JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+				Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("processId", processId);
+    			itemMap.put("flowId", paramMap.get("selFlowId"));
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqId);
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "02");
+
+    			prj1300Service.savePrj1102ItemAjax(itemMap);
+    			prj1300Service.savePrj1103ItemAjax(itemMap);
+			}
+			
+			
+			for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
+				JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
+				Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("processId", processId);
+    			itemMap.put("flowId", paramMap.get("selFlowId"));
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqId);
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			prj1300Service.deletePrj1102ItemAjax(itemMap);
+    			prj1300Service.deletePrj1102ItemInfoAjax(itemMap);
+			}
 		}
 	}
 	
@@ -847,4 +903,11 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		
 		req4100DAO.updateReq4101ReqProcessInfo(paramMap);
 	}
+
+	
+	@SuppressWarnings("rawtypes")
+	public Map selectReq4100FlowInfoAjax(Map paramMap) throws Exception{
+		return req4100DAO.selectReq4100FlowInfoAjax(paramMap);
+	}
+	
 }
