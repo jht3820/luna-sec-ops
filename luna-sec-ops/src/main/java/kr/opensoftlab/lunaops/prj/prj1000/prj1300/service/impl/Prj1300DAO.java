@@ -106,6 +106,11 @@ public class Prj1300DAO  extends ComOslitsAbstractDAO {
 	}
 	
 	
+	public int selectPrj1103ItemListCnt(Map<String, String> paramMap) throws Exception{
+		return (int) select("prj1300DAO.selectPrj1103ItemListCnt", paramMap);
+	}
+	
+	
 	@SuppressWarnings("rawtypes")
 	public Map selectPrj1102ItemInfo(Map paramMap) throws Exception{
 		return (Map)select("prj1300DAO.selectPrj1102ItemInfo",paramMap);
