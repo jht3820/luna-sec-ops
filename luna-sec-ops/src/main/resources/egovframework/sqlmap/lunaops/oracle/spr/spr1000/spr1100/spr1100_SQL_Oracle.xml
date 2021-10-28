@@ -534,6 +534,7 @@
 					  A.LIC_GRP_ID
 					, A.PRJ_GRP_ID
 					, A.PRJ_ID
+					, SF_PRJ1000_GRP_NM(A.PRJ_ID) AS PRJ_NM
 					, A.SPR_ID
 					, A.REQ_ID
 					, A.SPR_POINT
