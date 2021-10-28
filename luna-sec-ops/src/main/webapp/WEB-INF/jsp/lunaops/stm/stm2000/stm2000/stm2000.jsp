@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 <div class="row">
-	<div class="col-xl-4">
+	<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
@@ -36,7 +36,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-8 ">
+	<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile" id="stm2000MenuTreeInfo">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">

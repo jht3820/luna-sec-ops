@@ -1826,7 +1826,7 @@
 	        				
 	        			});
 	        		}
-
+	        		
 	        		
         			$.osl.datatable.setting("notificationsTable",{
         				data: {
@@ -1864,6 +1864,8 @@
         						$("#notificationsCardTable").show();
         					},
         					ajaxDone: function(evt, list){
+        						mssArmLoad(); 
+        						
         						var ntfStr = '';
         						var cardMsg = '';
         						$.each(list, function(idx, map){

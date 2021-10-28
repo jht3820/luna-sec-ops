@@ -209,6 +209,9 @@ input:-webkit-autofill,
 .osl-min-h-px--80 {
   min-height: 80px; 
 }
+.osl-min-h-px--100 {
+  min-height: 100px; 
+}
 .osl-max-h-px--100 {
   max-height: 100px; 
 }
@@ -949,8 +952,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .flowchart-operator-mask.status04,
 .flowchart-operator-mask.status02 {
     background-color: #000;
-    color: #fff;
-    opacity: 0.6;
+    opacity: 0.1;
     font-size: 3rem;
 }
 .flowchart-operator-mask.status03 {
@@ -1010,6 +1012,9 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 	0% { top: -60px; }
 	50% { top: -80px; }
 	100% { top: -60px; }
+}
+.osl-block--imp{
+	display: block !important;
 }
 
 .kt-datatable__body > .kt-datatable_row > td.kt-datatable__cell--left.kt-datatable__cell > span {
@@ -1232,8 +1237,6 @@ label.required:after {
 }
 .osl-kaban--card__body{
 	padding: 0 10px 10px 10px !important;
-	height: 500px;
-	overflow: auto;
 }
 
 .jstree-default .jstree-anchor {
@@ -2025,28 +2028,27 @@ label.required:after {
 	background-color: #f3f6f9;
 }
 .kt-portlet.kt-portlet--fullscreen{
-	position: fixed;
-    top: 0;
-    left: 0;
-    margin: 0px auto;
     box-sizing: border-box;
     width: 100%;
     height: auto;
+	position: fixed;
+    top: 30%;
+    left: 0;
+    margin: 0px auto;
     object-fit: contain;
-    z-index: 10001;
+    z-index: 9999;
     box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.4);
-    animation-duration:2s;
 }
 
 .osl-dsh-kanban{
-	height: 590px;
+	height: 610px;
 	overflow-x: auto;
 	overflow-y: hidden;
 	display: inline-flex;
 	align-items: center;
 }
 .osl-dsh-flowchart{
-	height: 85px;
+	height: 110px;
 	overflow-x: auto;
 	overflow-y: hidden;
 	display: inline-flex;
