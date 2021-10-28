@@ -44,6 +44,8 @@ var OSLCoreChartSetting = function () {
 					chartType: "",
 					
 					dataArr:[],
+					
+					xKeyArr:[],
 				},
 				type: "remote"
 			},
@@ -215,7 +217,17 @@ var OSLCoreChartSetting = function () {
 						mounted: targetConfig.actionFn.mounted,
 						
 						click: targetConfig.actionFn.click,
-					}
+					},
+					locales: [{
+						"name": "en",
+						"options": {
+							"toolbar": {
+								"exportToCSV": "다운로드 CSV",
+								"exportToSVG": "다운로드 SVG",
+								"exportToPNG": "다운로드 PNG",
+							}
+					  }
+					}]
 				},
 				grid:{
 					show: false
@@ -343,6 +355,8 @@ var OSLCoreChartSetting = function () {
 					
 					if(!$.osl.isNull(config.data.param.xKey)){
 						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}else if(!$.osl.isNull(config.data.param.xKeyArr)){
+						targetConfig.xaxis.categories = config.data.param.xKeyArr;
 					}
 					if(!$.osl.isNull(config.data.param.yKey)){
 						targetConfig.yaxis.categories = chartArrays[config.data.param.yKey ];
@@ -469,6 +483,8 @@ var OSLCoreChartSetting = function () {
 					
 					if(!$.osl.isNull(config.data.param.xKey)){
 						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}else if(!$.osl.isNull(config.data.param.xKeyArr)){
+						targetConfig.xaxis.categories = config.data.param.xKeyArr;
 					}
 					
 					if(!$.osl.isNull(config.data.param.yKey)){
@@ -477,14 +493,16 @@ var OSLCoreChartSetting = function () {
 				},
 				"colum": function(array){
 					targetConfig.chart.type="bar";
-					targetConfig.yaxis = {show:true};
+					
 					
 					$.each(array, function(idx, value){
-						for(var idx = 1; idx <= Object.keys(config.data.param.key).length ;idx++){
-							if(!chartArrays.hasOwnProperty(config.data.param.key["key"+idx])){
-								chartArrays[config.data.param.key["key"+idx]]=[]
-							}
-							chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+						targetConfig.series[idx] = [];
+						
+						targetConfig.series[idx].name = value[config.data.param.key.key1];
+						if(!$.osl.isNull(chartArrays[config.data.param.key.key2] )){
+							targetConfig.series[idx].data=chartArrays[config.data.param.key.key2 ];
+						}else{
+							targetConfig.series[idx].data=[];
 						}
 						
 						if(!$.osl.isNull(config.data.param.xKey)){
@@ -502,18 +520,10 @@ var OSLCoreChartSetting = function () {
 					});
 					
 					
-					for(var idx = 0; idx < Object.keys(config.data.param.key).length ;idx++){
-						targetConfig.series[idx]={name:config.data.param.keyNm["keyNm"+(idx+1)]};
-						if(!$.osl.isNull(chartArrays[config.data.param.key["key"+(idx+1)] ])){
-							targetConfig.series[idx].data=chartArrays[config.data.param.key["key"+(idx+1)] ];
-						}else{
-							targetConfig.series[idx].data=[];
-						}
-					}
-					
-					
 					if(!$.osl.isNull(config.data.param.xKey)){
 						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}else if(!$.osl.isNull(config.data.param.xKeyArr)){
+						targetConfig.xaxis.categories = config.data.param.xKeyArr;
 					}
 					
 					if(!$.osl.isNull(config.data.param.yKey)){
@@ -560,6 +570,8 @@ var OSLCoreChartSetting = function () {
 					
 					if(!$.osl.isNull(config.data.param.xKey)){
 						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}else if(!$.osl.isNull(config.data.param.xKeyArr)){
+						targetConfig.xaxis.categories = config.data.param.xKeyArr;
 					}
 					
 					if(!$.osl.isNull(config.data.param.yKey)){

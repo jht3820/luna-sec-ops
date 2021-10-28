@@ -530,7 +530,6 @@ jQuery(function ($) {
             
             var flowSignCd = operatorData.properties.flowSignCd;
             var flowSignStopCd = operatorData.properties.flowSignStopCd;
-            var flowEndCd= operatorData.properties.flowEndCd;
             var flowRevisionCd = operatorData.properties.flowRevisionCd;
             var flowDplCd = operatorData.properties.flowDplCd;
             
@@ -548,10 +547,6 @@ jQuery(function ($) {
 			if(flowSignStopCd == "01"){
 				flowIconStr += '<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>';
 			}
-			
-            if(flowEndCd == "01"){
-            	flowIconStr += "<li class='fa fa-sign-out-alt' title='종료 분기'></li>";
-            }
             
             if(flowRevisionCd == "01"){
             	flowIconStr += "<li class='fa fa-code' title='리비전 저장유무'></li>";
@@ -566,22 +561,28 @@ jQuery(function ($) {
             }
             
             
-            if(flowStatus != "01"){
+            if(!$.osl.isNull(flowStatus) && flowStatus != "01"){
             	var $operator_mask = $('<div class="flowchart-operator-mask status'+flowStatus+'"></div>');
             	var operator_mask_html = '';
             	
             	
             	if(flowStatus == "03"){
-            		operator_mask_html = '<i class="fa fa-hand-point-down"></i>';
+            		operator_mask_html = '<i class="fa fa-hand-point-up"></i>';
             	}
             	
             	else if(flowStatus == "04"){
-            		operator_mask_html = '<i class="fa fa-times-circle"></i>';
+            		operator_mask_html = '';
             	}
             	
             	$operator_mask.html(operator_mask_html);
             	$operator_mask.appendTo($operator);
             }
+            
+            
+            var $operator_nextIcon = $('<div class="flowchart-operator-nextIcon"></div>');
+        	var operator_nextIcon_html = '';
+        	$operator_nextIcon.html('<i class="fa fa-angle-double-right"></i>');
+        	$operator_nextIcon.appendTo($operator);
             
             var $operator_function = $('<div class="flowchart-operator-function '+flowHideClass+'"></div>');
             $operator_function.html(flowIconStr);
@@ -614,7 +615,7 @@ jQuery(function ($) {
                 $operator_body.appendTo($operator);
             }
 
-            /*
+            
             var $operator_inputs_outputs = $('<div class="flowchart-operator-inputs-outputs"></div>');
 
             var $operator_inputs = $('<div class="flowchart-operator-inputs"></div>');

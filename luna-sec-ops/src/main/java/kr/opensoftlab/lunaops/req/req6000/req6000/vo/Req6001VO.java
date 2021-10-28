@@ -36,7 +36,6 @@ public class Req6001VO extends DefaultVO {
 	private String chgFlowId;
 	
 	
-	private String chargerChgCd;
 	private String preChargerId;
 	private String chgChargerId;
 	
@@ -81,14 +80,6 @@ public class Req6001VO extends DefaultVO {
 		this(licGrpId, prjId, reqId, reqChgType, preData, chgData);
 		this.chgUsrId = chgUsrId;
 	}
-	
-		
-	public Req6001VO(String licGrpId, String prjId, String reqId, String reqChgType, String preData, String chgData, String chgUsrId, String chargerChgCd) {
-		this(licGrpId, prjId, reqId, reqChgType, preData, chgData);
-		this.chgUsrId = chgUsrId;
-		this.chargerChgCd = chargerChgCd;
-	}
-	
 	
 	public String getRn() {
 		return rn;
@@ -165,12 +156,6 @@ public class Req6001VO extends DefaultVO {
 	}
 	public void setChgFlowId(String chgFlowId) {
 		this.chgFlowId = chgFlowId;
-	}
-	public String getChargerChgCd() {
-		return chargerChgCd;
-	}
-	public void setChargerChgCd(String chargerChgCd) {
-		this.chargerChgCd = chargerChgCd;
 	}
 	public String getPreChargerId() {
 		return preChargerId;

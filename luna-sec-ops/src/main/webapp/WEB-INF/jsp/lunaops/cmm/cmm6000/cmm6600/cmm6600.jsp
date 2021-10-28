@@ -26,7 +26,7 @@
 			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 kt-margin-b-20-tablet kt-margin-b-20-mobile">
 				<div class="kt-portlet__body kt-padding-15">
 					<button type="button" class="btn btn-outline-brand osl-right-arrow" data-datatable-id="stm3000UsrTable" data-datatable-action="signMove" title="선택 담당자 결재선 등록" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="signMove" tabindex="1"></button>
-					<button type="button" class="btn btn-outline-brand kt-margin-t-20 osl-left-arrow" data-datatable-id="stm3000UsrTable" data-datatable-action="signRemove" title="선택 담당자 결재선 제외" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="signRemove" tabindex="1"></button>
+					<button type="button" class="btn btn-outline-brand kt-margin-t-20 osl-left-arrow" data-datatable-id="stm3000UsrTable" data-datatable-action="signRemove" title="선택 담당자 결재선 제외" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="signRemove" tabindex="2"></button>
 				</div>
 			</div>
 		</div>
@@ -38,6 +38,16 @@
 							<i class="fa fa-th-large kt-margin-r-5"></i>결재선 정보
 						</h5>
 					</div>
+					
+					<div class="kt-portlet__head-toolbar">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-datatable-id="stm3000UsrTable" data-datatable-action="upMoveBtn" title="위로" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="upMoveBtn" tabindex="3">
+							<i class="fas fa-arrow-up"></i><span data-lang-cd="dpl1001.button.upMoveBtn">위로</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" data-datatable-id="stm3000UsrTable" data-datatable-action="downMoveBtn" title="아래로" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="downMoveBtn" tabindex="4">
+							<i class="fas fa-arrow-down"></i><span data-lang-cd="dpl1001.button.downMoveBtn">아래로</span>
+						</button>
+					</div>
+					
 				</div>
 				<div class="kt-portlet__body kt-padding-r-15">
 					<div class="kt-scroll kt-padding-r-10" data-height="525" id="signCardTable"></div>
@@ -80,7 +90,7 @@ var OSLCmm6600Popup = function () {
 	
     
     var documentSetting = function () {
-	    
+	   	
     	selectSignUsrInfList();
     	
 	    
@@ -97,6 +107,27 @@ var OSLCmm6600Popup = function () {
 	  		
 			
 		   	var MyInfo = $.osl.user.userInfo;
+	  		var duty = '';
+	  		
+			if((!$.osl.isNull(MyInfo.usrDutyCd)) && (!$.osl.isNull(MyInfo.usrPositionCd))){
+	  			duty 	+= 	'<span class="kt-widget__desc">'
+	  					+		'<span>'+$.osl.escapeHtml(MyInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(MyInfo.usrPositionNm)+'</span>'
+	  					+	'</span>'
+	  		}else{
+	  			
+	  			if((!$.osl.isNull(MyInfo.usrDutyCd))){
+	  				duty 	+= '<span class="kt-widget__desc">'
+	  						+		'<span>'+$.osl.escapeHtml(MyInfo.usrDutyNm)+'</span>'
+	  						+	'</span>'
+	  			}
+	  			
+	  			if((!$.osl.isNull(MyInfo.usrPositionNm))){
+	  				duty 	+= 	'<span class="kt-widget__desc">'
+	  						+		'<span>'+$.osl.escapeHtml(MyInfo.usrPositionNm)+'</span>'
+	  						+	'</span>'
+	  			}
+	  		}
+	  		
 			var MyusrStr = 
 					'<div class="kt-widget osl-bg-eee kt-margin-r-10 kt-margin-b-10 kt-widget--general-2 rounded" data-usr-id="'+MyInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(MyInfo.usrNm)+'">'
 						+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
@@ -109,14 +140,11 @@ var OSLCmm6600Popup = function () {
 							+'</div>'
 							+'<div class="kt-widget__wrapper">'
 								+'<div class="kt-widget__label">'
-									+'<div class="kt-widget__title">'
+									+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
 										+$.osl.escapeHtml(MyInfo.usrNm)
-										+'<small>'+$.osl.escapeHtml(MyInfo.email)+'</small>'
 									+'</div>'
-									
-									+'<span class="kt-widget__desc">'
-										+'<span>'+$.osl.escapeHtml(MyInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(MyInfo.usrPositionNm)+'</span>'
-									+'</span>'
+									+'<small class="osl-word__break osl-word__break--w200">'+$.osl.escapeHtml(MyInfo.email)+'</small>'
+									+ duty
 								+'</div>'
 							+'</div>'
 						+'</div>'
@@ -169,7 +197,7 @@ var OSLCmm6600Popup = function () {
 	    		
 	    		var signUsrInf = {};
 	    		signUsrInf.usrId = $(this).data("usr-id");
-	    		signUsrInf.ord = $(this).find(".signStartOrdCell").data("ord");
+	    		signUsrInf.ord = $(this).data("ord");
 	    		signUsrInfs.push(signUsrInf);
 	    	})
 	    	
@@ -293,12 +321,94 @@ var OSLCmm6600Popup = function () {
 					var rowDatas = [];
 					rowDatas.push(rowData);
 					fnAllUsrInsert(rowDatas);
+				},
+				"downMoveBtn":function(rowData){
+					moveUsrCard("down");
+					
+				},
+				"upMoveBtn":function(rowData){
+					moveUsrCard("up");
 				}
-				
 			}
 		});
 	   	
-	    	
+	   	
+	   	var moveUsrCard= function(type){
+			 var selUsrCard = $(".osl-sign-card.selected");
+			
+			if(selUsrCard.length == 0){
+				
+				$.osl.alert("선택된 결재자가 없습니다.");
+				return false;
+			}
+			
+			
+			var moveCd = false;
+			
+			
+			if(type == "up"){
+				
+				$.each(selUsrCard,function(idx,map){
+				
+					var ord = parseInt($(this).attr("data-ord"));
+					
+					
+					if(moveCd){
+						return false;
+					}
+					
+					
+					if(ord == 1){
+						moveCd = true;
+						return true;
+					}
+					
+					
+					var beforeOrd = ord - 1;
+					var targetObj = $("div.osl-sign-card[data-ord="+beforeOrd+"]");
+					
+					targetObj.before($(this));
+					
+					targetObj.attr("data-ord",ord);
+					$(this).attr("data-ord",beforeOrd);
+					
+				});
+				
+				updateLastUsrCard();
+			}else if(type = "down"){
+				selUsrCard = selUsrCard.get().reverse();
+				
+				$.each(selUsrCard,function(idx,map){
+					
+					var ord = parseInt($(this).attr("data-ord"));
+					
+					
+					if(moveCd){
+						return false;
+					}
+					
+					
+					if(ord == $("#signCardTable .osl-sign-card").length){
+						moveCd = true;
+						return true;
+					}
+					
+					
+					var afterOrd = ord + 1;
+					var targetObj = $("div.osl-sign-card[data-ord="+afterOrd+"]");
+					
+					targetObj.after($(this));
+					
+					targetObj.attr("data-ord",ord);
+					$(this).attr("data-ord",afterOrd);
+					
+				});
+				
+				updateLastUsrCard();
+			}
+			
+		 }
+	   	
 	   	
 	   	$('button[data-datatable-action="signRemove"]').click(function(){
 	   		
@@ -456,11 +566,32 @@ var OSLCmm6600Popup = function () {
     
   	
    	function userSetting(userInfo){
+  		var duty = '';
+   		if((!$.osl.isNull(userInfo.usrDutyCd)) && (!$.osl.isNull(userInfo.usrPositionCd))){
+  			duty 	+= 	'<span class="kt-widget__desc">'
+  					+		'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
+  					+	'</span>'
+  		}else{
+  			
+  			if((!$.osl.isNull(userInfo.usrDutyCd))){
+  				duty 	+= '<span class="kt-widget__desc">'
+  						+		'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>'
+  						+	'</span>'
+  			}
+  			
+  			if((!$.osl.isNull(userInfo.usrPositionCd))){
+  				duty 	+= 	'<span class="kt-widget__desc">'
+  						+		'<span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
+  						+	'</span>'
+  			}
+  		}
+  		
+  		
 		usrStr += 
-			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'">'
+			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'" data-ord="'+ord+'">'
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
 				+'<div class="kt-margin-r-20 font-weight-bolder">'
-					+'<span class="cardNumber">No.</span><span class="signStartOrdCell" data-ord='+ord+'>'+ord+'</span>'
+					+'<span class="cardNumber">No.</span><span class="signStartOrdCell"></span>'
 				+'</div>'
 				+'<div class="kt-widget__label kt-margin-r-10 osl-user__active--block">'
 						+'<i class="fa fa-arrow-alt-circle-left"></i>'
@@ -469,15 +600,12 @@ var OSLCmm6600Popup = function () {
 						+'<img src="'+$.osl.user.usrImgUrlVal(userInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 					+'</div>'
 					+'<div class="kt-widget__wrapper">'
-						+'<div class="kt-widget__label">'
-							+'<div class="kt-widget__title">'
+						+'<div class="kt-widget__label osl-min-h-px--57 justify-content-center">'
+							+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
 								+$.osl.escapeHtml(userInfo.usrNm)
-								+'<small>'+$.osl.escapeHtml(userInfo.email)+'</small>'
 							+'</div>'
-							
-							+'<span class="kt-widget__desc">'
-								+'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
-							+'</span>'
+							+'<small class="osl-word__break osl-word__break--w200">'+$.osl.escapeHtml(userInfo.email)+'</small>'
+							+duty
 						+'</div>'
 					+'</div>'
 				+'</div>'
@@ -498,19 +626,21 @@ var OSLCmm6600Popup = function () {
   	
   	
     var updateLastUsrCard = function(){
-    	var usrCardList = $("#signCardTable .signStartOrdCell").parent();
+    	var usrCardList = $("#signCardTable .osl-sign-card");
     	var usrCardCnt = usrCardList.length;
     	$.each(usrCardList,function(idx,map){
 			if((idx+1) == usrCardCnt){
-				$(this).children(".cardNumber").text("");
-				var ordCell = $(this).children(".signStartOrdCell"); 
-				ordCell.text("최종");
-				ordCell.data('ord', idx+1);
+				$(this).attr("data-ord",idx+1);
+				$(this).data("ord",idx+1);
+				$(this).find(".cardNumber").text("최종");
+				var ordCell = $(this).find(".signStartOrdCell"); 
+				ordCell.text("");
 			}else{
-				$(this).children(".cardNumber").text("No.");
-				var ordCell = $(this).children(".signStartOrdCell"); 
+				$(this).attr("data-ord",idx+1);
+				$(this).data("ord",idx+1);
+				$(this).find(".cardNumber").text("검토자 ");
+				var ordCell = $(this).find(".signStartOrdCell"); 
 				ordCell.text(idx+1);
-				ordCell.data('ord', idx+1);
 			}
     		
     	});
