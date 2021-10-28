@@ -210,6 +210,9 @@ input:-webkit-autofill,
 .osl-min-h-px--50 {
   min-height: 50px; 
 }
+.osl-min-h-px--57 {
+  min-height: 57px;
+}
 .osl-min-h-px--70 {
   min-height: 70px; 
 }
