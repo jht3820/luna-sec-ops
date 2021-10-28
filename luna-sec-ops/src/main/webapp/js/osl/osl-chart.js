@@ -493,7 +493,7 @@ var OSLCoreChartSetting = function () {
 				},
 				"colum": function(array){
 					targetConfig.chart.type="bar";
-					targetConfig.yaxis = {show:true};
+					
 					
 					$.each(array, function(idx, value){
 						targetConfig.series[idx] = [];

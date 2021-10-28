@@ -795,6 +795,82 @@ var OSLCmm6201Popup = function () {
  				
  				reqProcessAuthFlag = data.reqProcessAuthFlag;
  				
+var reqInfo = data.reqInfo;
+ 				
+ 				paramProId = reqInfo.processId;
+ 				paramFlowId = reqInfo.flowId;
+ 				
+ 				
+		    	$.osl.setDataFormElem(reqInfo, formId);
+ 				
+		    	
+		    	fnUsrChargerChg({
+		    		usrId: reqInfo.reqChargerId,
+		    		usrNm: reqInfo.reqChargerNm,
+		    		usrImgId: reqInfo.reqChargerImgId,
+		    		email: reqInfo.reqChargerEmail
+		    	});
+		    	
+		    	
+		    	$("#"+formId+" #reqUsrId").val(reqInfo.reqUsrId);
+				$("#"+formId+" #reqGrpNm").val(reqInfo.reqGrpNm);
+		    	$("#"+formId+" #usrNm").val(reqInfo.reqUsrNm);
+		    	$("#"+formId+" #email").val(reqInfo.reqUsrEmail);
+		    	$("#"+formId+" #telno").val(reqInfo.reqUsrNum);
+		    	$("#"+formId+" #deptName").val(reqInfo.reqUsrDeptNm);
+		    	$("#"+formId+" #deptId").val(reqInfo.reqUsrDeptId);
+		    	$("#"+formId+" #usrImgId").attr("src",$.osl.user.usrImgUrlVal(reqInfo.reqUsrImgId));
+		    	
+		    	$("#"+formId+" #nextProcessNm").text(reqInfo.processNm);
+		    	$("#"+formId+" #reqPrjSelect").val($.osl.escapeHtml(reqInfo.prjId)).trigger('change.select2');
+		    	$("#"+formId+" #reqPrjSelect").prop("disabled", true);
+		    	
+		    	
+		    	formEditList.push($.osl.editorSetting(formId+" #reqDesc", {
+		    		toolbar: false,
+	    			disableResizeEditor: false,
+	    			disableDragAndDrop: true,
+	    			disabledEditor: true,
+	    			height:260
+		    	}));
+		    	formEditList.push($.osl.editorSetting(formId+" #reqGrpDesc", {
+		    		toolbar: false,
+	    			disableResizeEditor: false,
+	    			disableDragAndDrop: true,
+	    			disabledEditor: true,
+	    			height:180
+	    		}));
+		    	formEditList.push($.osl.editorSetting(formId+" #reqAcceptTxt", {
+		    		toolbar: false,
+	    			disableResizeEditor: false,
+	    			disableDragAndDrop: true,
+	    			disabledEditor: true,
+	    			height:100
+	    		}));
+		    	
+				
+		    	fileUploadObj = $.osl.file.uploadSet(formId+" #fileListDiv",{
+		    		maxFileSize: "${requestScope.fileSumMaxSize}",
+		    		meta: {"atchFileId": $("#"+formId+" #atchFileId").val(), "fileSn": 0},
+		    		height: 260,
+		    		isDraggingOver: false,
+		    		fileDownload: true,
+		    		fileReadonly: true
+		    	});
+				
+		    	
+		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
+		    	
+		    	
+		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
  				
  				if(reqProcessAuthFlag == false){
  					
@@ -874,75 +950,6 @@ var OSLCmm6201Popup = function () {
  				var modalId = $("#modalId").val();
  				$("#"+modalId+" .modal-header").prepend(modalHeaderStr);
  				
-				var reqInfo = data.reqInfo;
- 				
- 				paramProId = reqInfo.processId;
- 				paramFlowId = reqInfo.flowId;
- 				
- 				
-		    	$.osl.setDataFormElem(reqInfo, formId);
- 				
-		    	
-		    	fnUsrChargerChg({
-		    		usrId: reqInfo.reqChargerId,
-		    		usrNm: reqInfo.reqChargerNm,
-		    		usrImgId: reqInfo.reqChargerImgId,
-		    		email: reqInfo.reqChargerEmail
-		    	});
-		    	
-		    	
-		    	$("#"+formId+" #reqUsrId").val(reqInfo.reqUsrId);
-				$("#"+formId+" #reqGrpNm").val(reqInfo.reqGrpNm);
-		    	$("#"+formId+" #usrNm").val(reqInfo.reqUsrNm);
-		    	$("#"+formId+" #email").val(reqInfo.reqUsrEmail);
-		    	$("#"+formId+" #telno").val(reqInfo.reqUsrNum);
-		    	$("#"+formId+" #deptName").val(reqInfo.reqUsrDeptNm);
-		    	$("#"+formId+" #deptId").val(reqInfo.reqUsrDeptId);
-		    	$("#"+formId+" #usrImgId").attr("src",$.osl.user.usrImgUrlVal(reqInfo.reqUsrImgId));
-		    	
-		    	$("#"+formId+" #nextProcessNm").text(reqInfo.processNm);
-		    	$("#"+formId+" #reqPrjSelect").val($.osl.escapeHtml(reqInfo.prjId)).trigger('change.select2');
-		    	$("#"+formId+" #reqPrjSelect").prop("disabled", true);
-		    	
-		    	
-		    	formEditList.push($.osl.editorSetting(formId+" #reqDesc", {
-		    		toolbar: false,
-	    			disableResizeEditor: false,
-	    			disableDragAndDrop: true,
-	    			disabledEditor: true,
-	    			height:260
-		    	}));
-		    	formEditList.push($.osl.editorSetting(formId+" #reqGrpDesc", {
-		    		toolbar: false,
-	    			disableResizeEditor: false,
-	    			disableDragAndDrop: true,
-	    			disabledEditor: true,
-	    			height:180
-	    		}));
-		    	formEditList.push($.osl.editorSetting(formId+" #reqAcceptTxt", {
-		    		toolbar: false,
-	    			disableResizeEditor: false,
-	    			disableDragAndDrop: true,
-	    			disabledEditor: true,
-	    			height:100
-	    		}));
-		    	
-				
-		    	fileUploadObj = $.osl.file.uploadSet(formId+" #fileListDiv",{
-		    		maxFileSize: "${requestScope.fileSumMaxSize}",
-		    		meta: {"atchFileId": $("#"+formId+" #atchFileId").val(), "fileSn": 0},
-		    		height: 260,
-		    		isDraggingOver: false,
-		    		fileDownload: true,
-		    		fileReadonly: true
-		    	});
-				
-		    	
-		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
-		    	
-		    	
-		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
-		    	
  				
  				var reqChgList = data.reqChgList;
  				var reqChgStr = '';

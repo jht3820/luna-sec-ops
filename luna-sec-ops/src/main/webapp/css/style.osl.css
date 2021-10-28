@@ -1079,7 +1079,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 	display: block !important;
 }
 
-.kt-datatable__body > .kt-datatable_row > td.kt-datatable__cell--left.kt-datatable__cell > span {
+.kt-datatable__body > .kt-datatable__row > td.kt-datatable__cell--left.kt-datatable__cell > span {
     white-space: nowrap;
 }
 .kt-datatable.osl-datatable-footer__divide.kt-datatable--default > .kt-datatable__pager{
