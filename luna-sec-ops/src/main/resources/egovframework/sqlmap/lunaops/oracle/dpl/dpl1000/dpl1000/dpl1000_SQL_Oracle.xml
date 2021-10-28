@@ -715,6 +715,7 @@
                	, 	SUB1.REG_USR_ID
                 , 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 1) AS REG_USR_NM
 				, 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 6) AS REG_USR_IMG
+				,	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, '2')  AS REG_USR_EMAIL
             FROM
             (
  				SELECT 

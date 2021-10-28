@@ -94,6 +94,12 @@ public class Req4100DAO  extends ComOslitsAbstractDAO {
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes" })
+	public void updateReq4101ReqProcessInfo(Map paramMap) throws Exception{
+		update("req4100DAO.updateReq4101ReqProcessInfo",paramMap);
+	}
+	
+	
 	@SuppressWarnings("rawtypes")
 	public int updateReq4101ReqInfo(Map paramMap) throws Exception{
 		return (int) update("req4100DAO.updateReq4101ReqInfo", paramMap);

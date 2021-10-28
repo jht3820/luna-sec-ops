@@ -1126,4 +1126,58 @@ public class Req4100Controller {
     		throw new Exception(ex.getMessage());
     	}
     }
+	
+	
+	@RequestMapping(value="/req/req4000/req4100/saveReq4100ReqProcessAction.do")
+	public ModelAndView saveReq4100ReqProcessAction(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
+    	try{
+    		
+        	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+        	
+        	
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
+			
+			
+			String paramPrjGrpId = (String) paramMap.get("prjGrpId");
+			
+			
+			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
+				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
+			}
+			
+			
+			String paramPrjId = (String) paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			
+			String paramReqId = (String) paramMap.get("paramReqId");
+			
+
+			paramMap.put("prjGrpId", paramPrjGrpId);
+			paramMap.put("prjId", paramPrjId);
+			paramMap.put("reqId", paramReqId);
+			
+			
+			req4100Service.saveReq4100ReqProcessActionInfo(paramMap);
+			
+        	
+        	model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	return new ModelAndView("jsonView");
+        	
+    	}catch(Exception ex){
+    		Log.error("saveReq4100ReqProcessAction()", ex);
+    		
+    		model.addAttribute("errorYn", "Y");
+        	model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		throw new Exception(ex.getMessage());
+    	}
+    }
 }
