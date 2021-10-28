@@ -169,7 +169,7 @@
 							<div class="osl-datatable-search" data-datatable-id="reqChargeDplTable"></div>
 						</div>
 					</div>
-					<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="reqChargeDplTable"></div>
+					
 				</div>
 			</div>
 		</div>
@@ -248,7 +248,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -282,7 +282,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -316,7 +316,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -350,7 +350,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -384,7 +384,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -565,7 +565,7 @@
 					</div>
 					 
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
@@ -695,7 +695,7 @@
 							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
 						</div>
 					</div>
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -727,7 +727,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -888,9 +888,9 @@
 	
 	
 	<div id="spr1000CardTable">
-	<div class="kt_datatable osl-datatable-footer__divide" id="spr1000Table"></div>
+		<div class="kt_datatable osl-datatable-footer__divide" id="spr1000Table"></div>
     
-    
+    </div>
  <script>
 "use strict";
 var OSLDsh2000Popup = function () {
@@ -931,7 +931,7 @@ var OSLDsh2000Popup = function () {
 		$("#dshWidgetSortBtn").click(function(){
 			fnDshWidgetSort(this);
 		});
-
+		
 		
 		$.each(scrollArray,function(idx,map){
 			fnKtScrollInit(map,"500");
@@ -944,10 +944,9 @@ var OSLDsh2000Popup = function () {
 		portletAll.push(new KTPortlet('reqChargeDpl', $.osl.lang("portlet")));
 		portletAll.push(new KTPortlet('processPortlet1', $.osl.lang("portlet")));	
 		portletAll.push(new KTPortlet('processPortlet2', $.osl.lang("portlet")));	
-		portletAll.push(new KTPortlet('sprPortlet1', $.osl.lang("portlet")));	
+		
 		
 		$('#allPortletClose').click(function(){
-			
 			var parentPortlet = $(this).parents('.kt-portlet');
 			
 			
@@ -963,11 +962,11 @@ var OSLDsh2000Popup = function () {
 					map.collapse();
 					parentPortlet.addClass('kt-portlet--collapse');
 				});
-				
-				$(this).data('original-title','전체 위젯 열기');
-				KTApp.initTooltips();
-				
 			}
+			
+			
+			
+			
 		});
 		
 		fnDashBoardSetting();
@@ -1568,7 +1567,7 @@ var OSLDsh2000Popup = function () {
 						
 						sprintStr +=
 								
-								'<div class="kt-portlet kt-portlet--mobile">'
+								'<div class="kt-portlet kt-portlet--mobile" id="sprPortlet_'+map.sprId+'">'
 									
 									+'<div class="kt-portlet__head kt-portlet__head--lg">'
 										
@@ -1577,15 +1576,15 @@ var OSLDsh2000Popup = function () {
 											+'<h5 class="kt-font-boldest"><span class="badge badge-primary kt-margin-r-10">No. '+map.rn+'</span></h5>'
 											+'<h5><span class="badge badge-primary" title="스프린트 기간" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><i class="far fa-calendar-alt kt-margin-r-10"></i>'+$.osl.escapeHtml(map.sprNm)+'</span></h5>'
 										+'</div>'
-										+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 invisible" data-datatable-id="sprReqTable_'+map.sprId+'" data-datatable-action="select" title="조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">'
+										+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 invisible" data-datatable-id="sprReqTable_'+map.sprId+'" data-datatable-action="select" title="조회" data-auth-button="select" tabindex="5">'
 											+ '<i class="fas fa-redo-alt"></i>'
 										+ '</button>'
 										
 										
 										+'<div class="kt-portlet__head-toolbar">'
 											+'<div class="dropdown dropdown-inline">'
-												+'<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
-													+'<i class="fa fa-bars osl-padding-r0"></i>'
+												+'<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-l-10 kt-margin-r-10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="스프린트 메뉴" data-toggle-second="tooltip" data-theme="brand" data-placement="bottom">'
+													+'<i class="fas fa-ellipsis-h"></i>'
 												+'</button>'
 												+'<div class="dropdown-menu dropdown-menu-right" data-datatable-rownum="'+idx+'">'
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprStart"><i class="fas fa-play-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintStart")+'</div>'
@@ -1594,6 +1593,7 @@ var OSLDsh2000Popup = function () {
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
 												+'</div>'
 											+'</div>'
+											+'<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-l-10"><i class="fa fa-chevron-down"></i></a>'
 										+'</div>'
 										
 									+'</div>'
@@ -1694,13 +1694,17 @@ var OSLDsh2000Popup = function () {
 						}
 					});
 					
+					
 					$("#spr1000CardTable").html(sprintStr);
 					
 					$.each(list, function(idx, map){
 						drawChart(map);
-					})
+						portletAll.push(new KTPortlet("sprPortlet_"+map.sprId, $.osl.lang("portlet")));
+
+					});
 					
 					KTApp.initTooltips();
+					$('[data-toggle-second="tooltip"]').tooltip();
 					$("#spr1000Table .kt-datatable__table").css({visibility: "hidden", height: 0});
 					
 					

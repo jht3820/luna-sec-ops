@@ -86,6 +86,9 @@ input:-webkit-autofill,
 .kt-portlet.kt-portlet--collapsed .kt-portlet__head .kt-portlet__head-wrapper .fa-chevron-down:before, .kt-portlet.kt-portlet--collapse .kt-portlet__head .kt-portlet__head-wrapper .fa-chevron-down:before {
   content: "\f077"; 
  }  
+.kt-portlet.kt-portlet--collapsed .kt-portlet__head .kt-portlet__head-group .fa-chevron-down:before, .kt-portlet.kt-portlet--collapse .kt-portlet__head .kt-portlet__head-group .fa-chevron-down:before {
+  content: "\f077"; 
+ }  
 
 .osl-mask{
 	display: -webkit-box;
@@ -625,6 +628,8 @@ select[id^=usrOpt_] {
 .tooltip-inner{
 	max-width: 300px;
 }
+
+
 .kt-portlet__head.osl-portlet__head__block{
 	flex-wrap: wrap;
     padding-top: 15px;
@@ -2059,9 +2064,15 @@ label.required:after {
 	width: 250px;
 }
 .osl-dsh-flowchart>i,.osl-dsh-kanban>i{
-	width: 80px;
-	font-size: 30px; 
-	text-align: center;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 23px;
+    text-align: center;
+    background-color: #5867dd;
+    color: #fff;
+    border-radius: 5px;
+    margin: 0 15px;
 }
 .osl-dsh-flowchart .flowchart-operator .flowchart-operator-title{
 	cursor: default;
@@ -3039,7 +3050,7 @@ label.required:after {
 		margin-top: 20px !important;
 	}	
 	
-	.osl-mobile-flex-flow--row{
+	.osl-flex-flow--column-mobile{
 		flex-flow: column !important;
 	}
 }
