@@ -1573,8 +1573,8 @@ var OSLDsh2000Popup = function () {
 										
 										+'<div class="kt-portlet__head-label">'
 											+'<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"><input type="checkbox" value="'+idx+'" data-datatable-id="spr1000Table">&nbsp;<span></span></label>'
-											+'<h5 class="kt-font-boldest"><span class="badge badge-primary kt-margin-r-10">No. '+map.rn+'</span></h5>'
-											+'<h5><span class="badge badge-primary" title="스프린트 기간" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><i class="far fa-calendar-alt kt-margin-r-10"></i>'+$.osl.escapeHtml(map.sprNm)+'</span></h5>'
+											+'<h5 class="kt-font-boldest"><span class="osl-badge-brand kt-margin-r-10">D - ' + $.osl.escapeHtml(map.restDay) + '</span></h5>'
+											+'<h4 class="kt-font-brand kt-font-boldest" title="'+$.osl.escapeHtml(map.sprNm)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'+$.osl.escapeHtml(map.sprNm)+'</h4>'
 										+'</div>'
 										+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 invisible" data-datatable-id="sprReqTable_'+map.sprId+'" data-datatable-action="select" title="조회" data-auth-button="select" tabindex="5">'
 											+ '<i class="fas fa-redo-alt"></i>'
