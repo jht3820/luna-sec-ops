@@ -343,7 +343,7 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		List<Map> velocityData = new ArrayList();
 		
 		cal.setTime(stDt);
-		for(int i = 1 ; i<5 ; i++) {
+		for(int i = 1; i<5 ; i++) {
 			
 			String startD = df.format(cal.getTime());
 			if(i==4) {
@@ -358,7 +358,7 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			paramMap.put("endD", endD);
 			
 			Map data = spr1000DAO.selectSpr1000VelocityChartInfo(paramMap);
-			data.put("term", "Sprint#"+i);
+			data.put("term", startD + "~" + endD);
 			data.put("commitSprPoint", commitSprPoint);
 			data.put("commitVelocity", commitSprPoint);
 			data.put("actualVelocity", endVelocity);
