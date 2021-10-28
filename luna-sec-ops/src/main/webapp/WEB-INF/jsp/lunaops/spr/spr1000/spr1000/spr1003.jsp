@@ -468,8 +468,8 @@ var OSLSpr1003Popup = function () {
 				+'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
 					+'<img src="'+$.osl.user.usrImgUrlVal(usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 				+'</div>'
-				+'<div class="kt-user-card-v2__details float-left osl-word__break">'
-					+'<span class="kt-user-card-v2__name float-left">'+usrNm+'</span>'
+				+'<div class="kt-user-card-v2__details float-left">'
+					+'<span class="kt-user-card-v2__name float-left osl-word__break">'+usrNm+'</span>'
 					+'<span class="kt-user-card-v2__email float-left kt-margin-l-10 osl-line-height-rem-1_5">'+usrEmail+'</span>'
 				+'</div>'
 			+'</div>'
@@ -485,6 +485,7 @@ var OSLSpr1003Popup = function () {
    	 	}
     	var usrId = state.id;
     	var usrNm = state.element.attributes.getNamedItem("data-usr-nm").value;
+    	
     	var usrImgId = state.element.attributes.getNamedItem("data-usr-img-id").value;
     	var usrEmail = state.element.attributes.getNamedItem("data-usr-email").value;
 
@@ -494,7 +495,7 @@ var OSLSpr1003Popup = function () {
 						+'<img src="'+$.osl.user.usrImgUrlVal(usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 					+'</div>'
 					+'<div class="kt-user-card-v2__details float-left">'
-						+'<span class="kt-user-card-v2__name">'+usrNm+'</span>'
+						+'<span class="kt-user-card-v2__name osl-word__break osl-word__break--w100">'+usrNm+'</span>'
 						+'<span class="kt-user-card-v2__email">'+usrEmail+'</span>'
 					+'</div>'
 				+'</div>'
