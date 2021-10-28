@@ -525,7 +525,12 @@ var OSLCoreLangSetting = function () {
 		cmm6601:{
 			infomation : {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
+			},
+			sign : {
+				success : "결재 성공",
+				fail : "결재 실패"
 			}
+		
 		},
 		cmm6602:{
 			label : {
@@ -1403,7 +1408,8 @@ var OSLCoreLangSetting = function () {
 				reqSprPoint: "모든 요구사항의 스토리포인트를 입력해주세요.</br>미 입력 요구사항 ${1}건",
 				saveProcessMsg: "${1}개의 프로세스가 배정되었습니다.",
 				saveProcessDupleMsg: "이미 배정된 ${1}개의 프로세스 제외",
-				saveProcessAllDupleMsg: "이미 배정중인 프로세스입니다. (${1}개)"
+				saveProcessAllDupleMsg: "이미 배정중인 프로세스입니다. (${1}개)",
+				reqCharger:"모든 요구사항의 담당자를 입력해주세요.</br>미 배정 요구사항 ${1}건",
 			}
 		},
 		spr1004:{

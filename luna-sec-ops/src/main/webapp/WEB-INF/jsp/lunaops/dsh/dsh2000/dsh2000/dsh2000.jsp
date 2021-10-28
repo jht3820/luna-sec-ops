@@ -153,7 +153,10 @@
 					</div>
 					<div class="kt-portlet__head-toolbar">
 			            <div class="kt-portlet__head-group">
-							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 invisible" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+								<i class="fas fa-redo-alt"></i>
+							</button>
+							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="refresh" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="refresh" tabindex="5">
 								<i class="fas fa-redo-alt"></i>
 							</button>
 		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air" data-skin="brand"><i class="fa fa-chevron-down"></i></a>
@@ -161,7 +164,12 @@
 			         </div>
 				</div>
 				<div class="kt-portlet__body">
-					<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="reqChargeDplTable"></div>
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-9 col-9">
+							<div class="osl-datatable-search" data-datatable-id="reqChargeDplTable"></div>
+						</div>
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -240,7 +248,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -274,7 +282,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -308,7 +316,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -342,7 +350,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -376,7 +384,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -557,7 +565,7 @@
 					</div>
 					 
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
@@ -687,7 +695,7 @@
 							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
 						</div>
 					</div>
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -719,7 +727,7 @@
 					</div>
 					
 					
-					<i class="fas fa-arrow-circle-right"></i>
+					<i class="fa fa-arrow-right"></i>
 					
 					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
@@ -880,16 +888,22 @@
 	
 	
 	<div id="spr1000CardTable">
-	<div class="kt_datatable osl-datatable-footer__divide" id="spr1000Table"></div>
+		<div class="kt_datatable osl-datatable-footer__divide" id="spr1000Table"></div>
     
-    
+    </div>
  <script>
 "use strict";
 var OSLDsh2000Popup = function () {
 	
 	
+	
 	var reqDatatableId = "req4100ReqTable";
 	var prjRequestAcceptCd = "02";
+	
+	var dplDatatableId = "reqChargeDplTable";
+	
+	var dshDatatableIdList = ["req4100ReqTable", "reqChargeDplTable"];
+	
 	
 	var portletAll=[];
 	
@@ -930,10 +944,9 @@ var OSLDsh2000Popup = function () {
 		portletAll.push(new KTPortlet('reqChargeDpl', $.osl.lang("portlet")));
 		portletAll.push(new KTPortlet('processPortlet1', $.osl.lang("portlet")));	
 		portletAll.push(new KTPortlet('processPortlet2', $.osl.lang("portlet")));	
-		portletAll.push(new KTPortlet('sprPortlet1', $.osl.lang("portlet")));	
+		
 		
 		$('#allPortletClose').click(function(){
-			
 			var parentPortlet = $(this).parents('.kt-portlet');
 			
 			
@@ -949,11 +962,11 @@ var OSLDsh2000Popup = function () {
 					map.collapse();
 					parentPortlet.addClass('kt-portlet--collapse');
 				});
-				
-				$(this).data('original-title','전체 위젯 열기');
-				KTApp.initTooltips();
-				
 			}
+			
+			
+			
+			
 		});
 		
 		fnDashBoardSetting();
@@ -1159,12 +1172,6 @@ var OSLDsh2000Popup = function () {
 					"dblClick" : "fas fa-external-link-alt",
 				}
 			},
-			callback :{
-				ajaxDone: function(evt, list){
-					var reqListCnt = $.osl.datatable.list.req4100ReqTable.targetDt.lastResponse.meta.total;
-					$("#reqListCnt").text(reqListCnt);
-				}
-			}
 		});
 		
 
@@ -1231,11 +1238,14 @@ var OSLDsh2000Popup = function () {
 		
 		
 		
-		$.osl.datatable.setting("reqChargeDplTable",{
+		$.osl.datatable.setting(dplDatatableId,{
 			data: {
 				source: {
 					read: {
-						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do"
+						url: "/dpl/dpl2000/dpl2100/selectDpl2100SignListAjax.do",
+						params:{
+							targetCd : '02',
+						}
 					}
 				},
 				pageSize : 5,
@@ -1259,37 +1269,89 @@ var OSLDsh2000Popup = function () {
 					 }
 				 }
 		 	},
-			columns: [
-				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false},
-				{field: '', title: '프로젝트 명', textAlign: 'center', width: 150},
-				{field: '', title: '결재 상태', textAlign: 'center', width: 70},
-				{field: '', title: '요청자', textAlign: 'center', width: 70},
-				{field: '', title: '결재자', textAlign: 'center', width: 70},
-				{field: '', title: '결재 요청 일자', textAlign: 'center', width: 100},
-				{field: '', title: '배포계획명', textAlign: 'center', width: 150},
-				{field: '', title: '결재 의견', textAlign: 'center', width: 150},
-				{field: '', title: '반려내용', textAlign: 'center', width: 150}
+		 	columns: [
+				{field: 'rn', title: 'no.', textalign: 'center', width: 30, autohide: false, sortable: false},
+				{field: '', title: '프로젝트 명', textalign: 'center', width: 150},
+				{field: 'nowSigntypenm', title: '결재 상태', textalign: 'center', width: 70, autohide: false, sortable: true, sortfield: "nowSignTypeCd", search:true, searchtype: "select", searchcd: "CMM00008", searchfield:"nowSignTypeCd"},
+				{field: 'signReqUsrId', title: '요청자', textalign: 'center', width: 100, sortable: true, search:true,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.signDrfUsrImgId, row.signDrfUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.signDrfUsrId);
+					}	
+				},
+				{field: 'lastSignUsrNm', title: '결재자', textalign: 'center', width: 100, sortable: true, autohide: false,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.signUsrImgId, row.signUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.signUsrId);
+					}	
+				},
+				{field: 'signDtm', title: '결재 요청 일자', textalign: 'center', width: 100, sortable: true,
+					template: function (row) {
+						var paramDateTime = new Date(row.signDtm);
+		                var agoTimeStr = $.osl.datetimeAgo(paramDateTime, {fullTime: "d", returnFormat: "yyyy-mm-dd"});
+		                return agoTimeStr.agoString;
+					}
+				},
+				{field: 'dplNm', title: '배포계획명', textalign: 'center', width: 150, autohide:false, sortable: true, search: true},
+				{field: 'signRes', title: '결재 의견', textalign: 'center', width: 200, sortable: false},
+				{field: 'dplUsrNm', title: '배포자', textalign: 'center', width: 150, sortable: true, search:true,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.dplUsrImgId, row.dplUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.dplUsrId);
+					}
+				}
 			],
+			rows:{
+				clickcheckbox: true
+			},
 			actionBtn:{
-				"dblClick": false
+				"dblClick": false,
+				"refresh" : true,
+				"update": false,
+				"delete": false,
 			},
 			actionTooltip:{
-				"update": "수정",
-				"delete": "삭제",
-				"dblClick": "상세보기"
+				"title" : "상세",
+				"dblClick": "상세보기",
+				"refresh": "상세보기",
 			},
 			actionFn:{
-				"insert":function(datatableId){
+				"refresh": function(rowData, datatableId, type, rowNum){
 					
+					searchReset(datatableId);
+					
+					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 				},
-				"update":function(rowData){
+				"dblClick":function(rowData, datatableId, type, rowNum){
+					var data = {
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
+						};
+					var options = {
+							idKey: datatableId +"_"+ rowData.dplId,
+							modalTitle: "["+rowData.dplNm+"] 상세 정보",
+							autoHeight: false,
+							modalSize: 'xl'
+						};
 					
+					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
 				},
-				"delete":function(rowDataList){
-					
-					
+			},
+			theme:{
+				actionBtn:{
+					"dblClick" : "",
+					"refresh" : " kt-hide",
+				},
+				actionBtnIcon:{
+					"dblClick" : "fas fa-external-link-alt",
 				}
-			}
+			},
 		});
 		$.osl.datatable.setting("spr1000Table",{
 			cardUiTarget: $("#spr1000CardTable"),
@@ -1505,24 +1567,24 @@ var OSLDsh2000Popup = function () {
 						
 						sprintStr +=
 								
-								'<div class="kt-portlet kt-portlet--mobile">'
+								'<div class="kt-portlet kt-portlet--mobile" id="sprPortlet_'+map.sprId+'">'
 									
 									+'<div class="kt-portlet__head kt-portlet__head--lg">'
 										
 										+'<div class="kt-portlet__head-label">'
 											+'<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"><input type="checkbox" value="'+idx+'" data-datatable-id="spr1000Table">&nbsp;<span></span></label>'
-											+'<h5 class="kt-font-boldest"><span class="badge badge-primary kt-margin-r-10">No. '+map.rn+'</span></h5>'
-											+'<h5><span class="badge badge-primary" title="스프린트 기간" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><i class="far fa-calendar-alt kt-margin-r-10"></i>'+$.osl.escapeHtml(map.sprNm)+'</span></h5>'
+											+'<h5 class="kt-font-boldest"><span class="osl-badge-brand kt-margin-r-10">D - ' + $.osl.escapeHtml(map.restDay) + '</span></h5>'
+											+'<h4 class="kt-font-brand kt-font-boldest" title="'+$.osl.escapeHtml(map.sprNm)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'+$.osl.escapeHtml(map.sprNm)+'</h4>'
 										+'</div>'
-										+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 invisible" data-datatable-id="sprReqTable_'+map.sprId+'" data-datatable-action="select" title="조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">'
+										+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 invisible" data-datatable-id="sprReqTable_'+map.sprId+'" data-datatable-action="select" title="조회" data-auth-button="select" tabindex="5">'
 											+ '<i class="fas fa-redo-alt"></i>'
 										+ '</button>'
 										
 										
 										+'<div class="kt-portlet__head-toolbar">'
 											+'<div class="dropdown dropdown-inline">'
-												+'<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
-													+'<i class="fa fa-bars osl-padding-r0"></i>'
+												+'<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-l-10 kt-margin-r-10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="스프린트 메뉴" data-toggle-second="tooltip" data-theme="brand" data-placement="bottom">'
+													+'<i class="fas fa-ellipsis-h"></i>'
 												+'</button>'
 												+'<div class="dropdown-menu dropdown-menu-right" data-datatable-rownum="'+idx+'">'
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprStart"><i class="fas fa-play-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintStart")+'</div>'
@@ -1531,6 +1593,7 @@ var OSLDsh2000Popup = function () {
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
 												+'</div>'
 											+'</div>'
+											+'<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-l-10"><i class="fa fa-chevron-down"></i></a>'
 										+'</div>'
 										
 									+'</div>'
@@ -1631,13 +1694,17 @@ var OSLDsh2000Popup = function () {
 						}
 					});
 					
+					
 					$("#spr1000CardTable").html(sprintStr);
 					
 					$.each(list, function(idx, map){
 						drawChart(map);
-					})
+						portletAll.push(new KTPortlet("sprPortlet_"+map.sprId, $.osl.lang("portlet")));
+
+					});
 					
 					KTApp.initTooltips();
+					$('[data-toggle-second="tooltip"]').tooltip();
 					$("#spr1000Table .kt-datatable__table").css({visibility: "hidden", height: 0});
 					
 					
@@ -2100,7 +2167,7 @@ var OSLDsh2000Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
@@ -2236,12 +2303,18 @@ var OSLDsh2000Popup = function () {
  		}
  		return resDay;
  	}		
+ 	
 	var fnDashBoardSetting = function(){
 		
 		timerVarSel = $('#timerVarSel').val();
 		secondTime = (timerVarSel*60);
 		clearInterval(timer);
 		timer = setInterval(printTime,1000);
+		
+		
+		$.each(dshDatatableIdList, function(idx, value){
+			fsRefresh(value);
+		});
 	};
 
 	
@@ -2395,6 +2468,14 @@ var OSLDsh2000Popup = function () {
 		
 		$("#searchData_"+datatableId).attr("disabled","disabled");
 	};
+	
+	
+	var fsRefresh = function(datatableId){
+		
+		searchReset(datatableId);
+		
+		$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+	 };
 	
 	
 	var fnKtScrollInit = function(targetName, targetHeight) {

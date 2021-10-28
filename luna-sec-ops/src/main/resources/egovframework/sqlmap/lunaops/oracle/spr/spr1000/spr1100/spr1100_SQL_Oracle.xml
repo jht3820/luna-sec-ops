@@ -11,6 +11,7 @@
 		<result property="licGrpId"				column="LIC_GRP_ID"/>
 		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
 		<result property="prjId"					column="PRJ_ID"/>
+		<result property="prjNm"					column="PRJ_NM"/>
 		<result property="sprId"					column="SPR_ID"/>
 		<result property="reqId"					column="REQ_ID"/>
 		<result property="sprPoint"				column="SPR_POINT"/>
@@ -533,6 +534,7 @@
 					  A.LIC_GRP_ID
 					, A.PRJ_GRP_ID
 					, A.PRJ_ID
+					, SF_PRJ1000_GRP_NM(A.PRJ_ID) AS PRJ_NM
 					, A.SPR_ID
 					, A.REQ_ID
 					, A.SPR_POINT

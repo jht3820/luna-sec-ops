@@ -370,7 +370,7 @@ var OSLSpr1001Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map(x => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
@@ -412,6 +412,7 @@ var OSLSpr1001Popup = function () {
 						$(".apexcharts-toolbar").addClass("kt-margin-10");
 						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
 						$(".apexcharts-toolbar").removeAttr("style[padding]");
+						$(".apexcharts-menu-item").addClass("osl-min-width-70");
 					}
 				}
 			});
@@ -458,7 +459,7 @@ var OSLSpr1001Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map(x => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
@@ -511,6 +512,7 @@ var OSLSpr1001Popup = function () {
 						$(".apexcharts-toolbar").addClass("kt-margin-10");
 						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
 						$(".apexcharts-toolbar").removeAttr("style[padding]");
+						$(".apexcharts-menu-item").addClass("osl-min-width-70");
 					}
 				}
 			});
@@ -554,6 +556,10 @@ var OSLSpr1001Popup = function () {
 				 type: "remote"
 			},
 			chart:{
+				title: {
+					text: "벨로시티 차트",
+					align: "center",
+				},
 				
 				colors: ["#840ad9", "#ffb822","#840ad9", "#ffb822"],
 			 	stroke: {
@@ -574,6 +580,7 @@ var OSLSpr1001Popup = function () {
 					$(".apexcharts-toolbar").addClass("kt-margin-10");
 					$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
 					$(".apexcharts-toolbar").removeAttr("style[padding]");
+					$(".apexcharts-menu-item").addClass("osl-min-width-70");
 				}
 			}
 		});
