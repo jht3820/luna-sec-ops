@@ -1248,6 +1248,9 @@ label.required:after {
     font-weight: 900;
 }
 
+.modal-header{
+	justify-content: flex-start;
+}
 .modal .modal-content .modal-body{
 	background-color: #eeeef4;
 	overflow-y: auto;

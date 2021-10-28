@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frCmm6201" autocomplete="off">
+	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}"/>
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}"/>
 	<input type="hidden" name="paramReqId" id="paramReqId" value="${param.paramReqId}"/>
 	<input type="hidden" name="processId" id="processId"/>
@@ -87,7 +88,7 @@
 			<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
 				<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
 			</button>
-			<button type="button" class="btn btn-outline-brand kt-margin-l-20" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit" data-ktwizard-type="action-submit">
+			<button type="button" class="btn btn-outline-brand kt-margin-l-20 osl-preview-hide" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit" data-ktwizard-type="action-submit">
 				<i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">처리 완료</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
@@ -283,36 +284,86 @@
 			<div class="osl-background-around kt-padding-10">
 				<div class="row">
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-						<div class="kt-portlet" id="cmm6201ChargerUsrSel">
-							<div class="kt-portlet__head">
-								<div class="kt-portlet__head-label">
-									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">담당자 선택</span>
-								</div>
-								<div class="kt-portlet__head-toolbar">
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6201ProcessAuthUsrTable" data-datatable-action="select" title="프로세스 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-										<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">기본 담당자 조회</span>
-									</button>
-									<div class="kt-portlet__head-group">
-										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+						<div class="row">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+								<div class="kt-portlet" id="cmm6201ChargerUsrSel">
+									<div class="kt-portlet__head">
+										<div class="kt-portlet__head-label">
+											<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">업무 일정 입력</span>
+										</div>
+										<div class="kt-portlet__head-toolbar">
+											<div class="kt-portlet__head-group">
+												<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+											</div>
+										</div>
+									</div>
+									<div class="kt-portlet__body">
+										<div class="row">
+											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+												<div class="form-group">
+													<label for="reqStDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 일시</span></label>
+													<input type="text" class="form-control osl-preview-readonly" name="reqStDtm" id="reqStDtm">
+												</div>
+											</div>
+											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+												<div class="form-group">
+													<label for="reqEdDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 일시</span></label>
+													<input type="text" class="form-control osl-preview-readonly" name="reqEdDtm" id="reqEdDtm">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+												<div class="form-group">
+													<label for="reqStDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 예정 일자</span></label>
+													<input type="text" class="form-control osl-preview-readonly" name="reqStDuDtm" id="reqStDuDtm" required>
+												</div>
+											</div>
+											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+												<div class="form-group">
+													<label for="reqEdDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 예정 일자</span></label>
+													<input type="text" class="form-control osl-preview-readonly" name="reqEdDuDtm" id="reqEdDuDtm" required>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div class="kt-portlet__body">
-								<div class="row">
-									<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-										<div class="form-group">
-											<label class="required" for="prjNm"><i class="fa fa-edit kt-margin-r-5"></i><span>담당자명</span></label>
-											<div class="input-group">
-												<input type="text" class="form-control" placeholder="담당자명" name="reqChargerNm" id="reqChargerNm" opttype="-1" required>
-												<button type="button" class="btn btn-brand input-group-append" id="searchReqChargerBtn" name="searchReqChargerBtn"><i class="fa fa-search"></i><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
+						</div>
+						<div class="row">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+								<div class="kt-portlet" id="cmm6201ChargerUsrSel">
+									<div class="kt-portlet__head">
+										<div class="kt-portlet__head-label">
+											<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">담당자 선택</span>
+										</div>
+										<div class="kt-portlet__head-toolbar">
+											<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-preview-hide" data-datatable-id="cmm6201ProcessAuthUsrTable" data-datatable-action="select" title="프로세스 조회" data-title-lang-cd="req4100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+												<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">기본 담당자 조회</span>
+											</button>
+											<div class="kt-portlet__head-group">
+												<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 											</div>
-											<span class="form-text text-muted">* 요구사항의 담당자를 선택해주세요.</span>
 										</div>
 									</div>
-									<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-										<label><i class="fa fa-edit kt-margin-r-5"></i><span>프로세스 기본 담당자</span></label>
-										<div class="osl-datatable-search" data-datatable-id="cmm6201ProcessAuthUsrTable"></div>
-										<div class="kt_datatable" id="cmm6201ProcessAuthUsrTable"></div>
+									<div class="kt-portlet__body">
+										<div class="row">
+											<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+												<div class="form-group">
+													<label class="required" for="prjNm"><i class="fa fa-edit kt-margin-r-5"></i><span>담당자명</span></label>
+													<div class="input-group">
+														<input type="text" class="form-control osl-preview-readonly" placeholder="담당자명" name="reqChargerNm" id="reqChargerNm" opttype="-1" required>
+														<button type="button" class="btn btn-brand input-group-append osl-preview-hide" id="searchReqChargerBtn" name="searchReqChargerBtn"><i class="fa fa-search"></i><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
+													</div>
+													<span class="form-text text-muted">* 요구사항의 담당자를 선택해주세요.</span>
+												</div>
+											</div>
+											<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 osl-preview-hide">
+												<label><i class="fa fa-edit kt-margin-r-5"></i><span>프로세스 기본 담당자</span></label>
+												<div class="osl-datatable-search" data-datatable-id="cmm6201ProcessAuthUsrTable"></div>
+												<div class="kt_datatable" id="cmm6201ProcessAuthUsrTable"></div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -322,7 +373,7 @@
 						<div class="kt-portlet" id="cmm6201ChargerUsrSel">
 							<div class="kt-portlet__head">
 								<div class="kt-portlet__head-label">
-									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">추가 항목 입력</span>
+									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">기본 항목 입력</span>
 								</div>
 								<div class="kt-portlet__head-toolbar">
 									<div class="kt-portlet__head-group">
@@ -331,34 +382,7 @@
 								</div>
 							</div>
 							<div class="kt-portlet__body">
-								<div class="row">
-									<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-										<div class="form-group">
-											<label for="reqStDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 일시</span></label>
-											<input type="text" class="form-control" name="reqStDtm" id="reqStDtm">
-										</div>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-										<div class="form-group">
-											<label for="reqEdDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 일시</span></label>
-											<input type="text" class="form-control" name="reqEdDtm" id="reqEdDtm">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-										<div class="form-group">
-											<label for="reqStDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 예정 일자</span></label>
-											<input type="text" class="form-control" name="reqStDuDtm" id="reqStDuDtm" required>
-										</div>
-									</div>
-									<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-										<div class="form-group">
-											<label for="reqEdDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 예정 일자</span></label>
-											<input type="text" class="form-control" name="reqEdDuDtm" id="reqEdDuDtm" required>
-										</div>
-									</div>
-								</div>
+							
 							</div>
 						</div>
 					</div>
@@ -410,8 +434,6 @@
 <script>
 "use strict";
 
-
-var zoomObj;
 var OSLCmm6201Popup = function () {
 	var formId = 'frCmm6201';
 
@@ -435,7 +457,9 @@ var OSLCmm6201Popup = function () {
 	
 	
 	var flowChart = $("#"+formId+" #cmm6201FlowChartDiv");
-
+	
+	
+	var zoomObj;
 	var currentZoom = 2;
 	
 	
@@ -447,6 +471,9 @@ var OSLCmm6201Popup = function () {
 	
 	
 	var selFlowId;
+	
+	
+	var reqProcessAuthFlag;
 	
     
     var documentSetting = function () {
@@ -484,13 +511,13 @@ var OSLCmm6201Popup = function () {
 		
 		wizard.on('beforeNext', function(wizardObj) {
 			
-			if(!$("#"+formId).valid()){
+			if(reqProcessAuthFlag && !$("#"+formId).valid()){
 				wizardObj.stop();
 			}
 		});
 		wizard.on('beforePrev', function(wizardObj) {
 			
-			if(!$("#"+formId).valid()){
+			if(reqProcessAuthFlag && !$("#"+formId).valid()){
 				wizardObj.stop();
 			}
 		});
@@ -513,7 +540,9 @@ var OSLCmm6201Popup = function () {
 				}
 				
 				
-				fnFlowChartZoom("currentFocus");
+				if(reqProcessAuthFlag){
+					fnFlowChartZoom("currentFocus");
+				}
 			}
 			
 		});
@@ -612,6 +641,9 @@ var OSLCmm6201Popup = function () {
             	return false;
             },
             onOperatorSelect: function(operatorId){
+            	if(!reqProcessAuthFlag){
+            		return false;
+            	}
 				
 				var selFlow = flowChart.flowchart("getOperatorData", operatorId);
 
@@ -675,7 +707,7 @@ var OSLCmm6201Popup = function () {
 					read: {
 						url: "/prj/prj1000/prj1100/selectPrj1100ProcessAuthUsrListAjax.do",
 						params:{
-							type: "remote",
+							listType: "user",
 							paramPrjId: paramPrjId,
 							paramReqId: paramReqId,
 							processId: paramProcessId
@@ -785,6 +817,159 @@ var OSLCmm6201Popup = function () {
  				$.osl.layerPopupClose();
  			}else{
  				
+ 				var modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate kt-margin-r-5">업무 처리 가능</div>';
+ 				
+ 				reqProcessAuthFlag = data.reqProcessAuthFlag;
+ 				
+ 				
+ 				if(reqProcessAuthFlag == false){
+ 					
+ 					$("#frCmm6201").addClass("preview");
+ 					
+ 					
+ 					$("#frCmm6201 input[required]").removeAttr("required");
+ 					$("#frCmm6201 label.required").removeClass("required");
+ 					$("#frCmm6201 .osl-preview-hide").hide();
+ 				
+ 					
+ 					$("#frCmm6201 .osl-preview-readonly").attr("readonly","readonly");
+ 					
+ 					modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">읽기 전용</div>';
+ 				}
+ 				
+ 				else{
+	 				
+					$.osl.date.daterangepicker($("#"+formId+" #reqStDtm"), {
+							singleDatePicker: true, 
+							timePicker: true, 
+							timePicker24Hour: true,
+							maxDate: moment($("#reqEdDtm").val(), "YYYY-MM-DD HH:mm"),
+							locale: {
+								format: 'YYYY-MM-DD HH:mm'
+					        }
+						},function(defaultConfig, start, end, label){
+							var stDtStr = new Date(start._d).format("yyyy-MM-dd HH:mm");
+							
+							
+							if($("#"+formId+" #reqEdDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
+								$("#"+formId+" #reqEdDtm").data('daterangepicker').setStartDate(stDtStr);
+							}
+							$("#"+formId+" #reqEdDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD HH:mm");
+					});
+					$.osl.date.daterangepicker($("#"+formId+" #reqEdDtm"), {
+							singleDatePicker: true, 
+							timePicker: true, 
+							timePicker24Hour: true,
+							minDate: moment($("#"+formId+" #reqStDtm").val(), "YYYY-MM-DD HH:mm"),
+							locale: {
+								format: 'YYYY-MM-DD HH:mm'
+					        }
+						
+						},function(defaultConfig, start, end, label){
+							var edDtStr = new Date(start._d).format("yyyy-MM-dd HH:mm");
+							
+							$("#"+formId+" #reqStDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD HH:mm");
+					});
+					
+					
+					$.osl.date.daterangepicker($("#"+formId+" #reqStDuDtm"), {
+							singleDatePicker: true,
+							maxDate: moment($("#"+formId+" #reqEdDuDtm").val(), "YYYY-MM-DD")
+						
+						},function(defaultConfig, start, end, label){
+							var stDtStr = new Date(start._d).format("yyyy-MM-dd");
+							
+							
+							if($("#"+formId+" #reqEdDuDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
+								$("#"+formId+" #reqEdDuDtm").data('daterangepicker').setStartDate(stDtStr);
+							}
+							$("#"+formId+" #reqEdDuDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD");
+					});
+					$.osl.date.daterangepicker($("#"+formId+" #reqEdDuDtm"), {
+							singleDatePicker: true,
+							minDate: moment($("#"+formId+" #reqStDuDtm").val(), "YYYY-MM-DD")
+						
+						},function(defaultConfig, start, end, label){
+							var edDtStr = new Date(start._d).format("yyyy-MM-dd");
+							
+							$("#"+formId+" #reqStDuDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD");
+					});
+ 				}
+ 				
+ 				
+ 				var modalId = $("#modalId").val();
+ 				$("#"+modalId+" .modal-header").prepend(modalHeaderStr);
+ 				
+				var reqInfo = data.reqInfo;
+ 				
+ 				paramProId = reqInfo.processId;
+ 				paramFlowId = reqInfo.flowId;
+ 				
+ 				
+		    	$.osl.setDataFormElem(reqInfo, formId);
+ 				
+		    	
+		    	fnUsrChargerChg({
+		    		usrId: reqInfo.reqChargerId,
+		    		usrNm: reqInfo.reqChargerNm,
+		    		usrImgId: reqInfo.reqChargerImgId,
+		    		email: reqInfo.reqChargerEmail
+		    	});
+		    	
+		    	
+		    	$("#"+formId+" #reqUsrId").val(reqInfo.reqUsrId);
+				$("#"+formId+" #reqGrpNm").val(reqInfo.reqGrpNm);
+		    	$("#"+formId+" #usrNm").val(reqInfo.reqUsrNm);
+		    	$("#"+formId+" #email").val(reqInfo.reqUsrEmail);
+		    	$("#"+formId+" #telno").val(reqInfo.reqUsrNum);
+		    	$("#"+formId+" #deptName").val(reqInfo.reqUsrDeptNm);
+		    	$("#"+formId+" #deptId").val(reqInfo.reqUsrDeptId);
+		    	$("#"+formId+" #usrImgId").attr("src",$.osl.user.usrImgUrlVal(reqInfo.reqUsrImgId));
+		    	
+		    	$("#"+formId+" #nextProcessNm").text(reqInfo.processNm);
+		    	$("#"+formId+" #reqPrjSelect").val($.osl.escapeHtml(reqInfo.prjId)).trigger('change.select2');
+		    	$("#"+formId+" #reqPrjSelect").prop("disabled", true);
+		    	
+		    	
+		    	formEditList.push($.osl.editorSetting(formId+" #reqDesc", {
+		    		toolbar: false,
+	    			disableResizeEditor: false,
+	    			disableDragAndDrop: true,
+	    			disabledEditor: true,
+	    			height:260
+		    	}));
+		    	formEditList.push($.osl.editorSetting(formId+" #reqGrpDesc", {
+		    		toolbar: false,
+	    			disableResizeEditor: false,
+	    			disableDragAndDrop: true,
+	    			disabledEditor: true,
+	    			height:180
+	    		}));
+		    	formEditList.push($.osl.editorSetting(formId+" #reqAcceptTxt", {
+		    		toolbar: false,
+	    			disableResizeEditor: false,
+	    			disableDragAndDrop: true,
+	    			disabledEditor: true,
+	    			height:100
+	    		}));
+		    	
+				
+		    	fileUploadObj = $.osl.file.uploadSet(formId+" #fileListDiv",{
+		    		maxFileSize: "${requestScope.fileSumMaxSize}",
+		    		meta: {"atchFileId": $("#"+formId+" #atchFileId").val(), "fileSn": 0},
+		    		height: 260,
+		    		isDraggingOver: false,
+		    		fileDownload: true,
+		    		fileReadonly: true
+		    	});
+				
+		    	
+		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
+		    	
+		    	
+		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
+		    	
+ 				
  				var reqChgList = data.reqChgList;
  				var reqChgStr = '';
  				if(!$.osl.isNull(reqChgList) && reqChgList.length > 0){
@@ -888,136 +1073,11 @@ var OSLCmm6201Popup = function () {
  					});
  				}
  				$("#osl-req__process-history").html(reqChgStr);
- 				var reqInfo = data.reqInfo;
  				
- 				paramProId = reqInfo.processId;
- 				paramFlowId = reqInfo.flowId;
- 				
- 				
-		    	$.osl.setDataFormElem(reqInfo, formId);
-				
- 				
-		    	fnUsrChargerChg({
-		    		usrId: reqInfo.reqChargerId,
-		    		usrNm: reqInfo.reqChargerNm,
-		    		usrImgId: reqInfo.reqChargerImgId,
-		    		email: reqInfo.reqChargerEmail
-		    	});
- 				
-				
-		    	$("#"+formId+" #reqUsrId").val(reqInfo.reqUsrId);
-				$("#"+formId+" #reqGrpNm").val(reqInfo.reqGrpNm);
-		    	$("#"+formId+" #usrNm").val(reqInfo.reqUsrNm);
-		    	$("#"+formId+" #email").val(reqInfo.reqUsrEmail);
-		    	$("#"+formId+" #telno").val(reqInfo.reqUsrNum);
-		    	$("#"+formId+" #deptName").val(reqInfo.reqUsrDeptNm);
-		    	$("#"+formId+" #deptId").val(reqInfo.reqUsrDeptId);
-		    	$("#"+formId+" #usrImgId").attr("src",$.osl.user.usrImgUrlVal(reqInfo.reqUsrImgId));
-		    	
-		    	$("#"+formId+" #nextProcessNm").text(reqInfo.processNm);
-		    	$("#"+formId+" #reqPrjSelect").val($.osl.escapeHtml(reqInfo.prjId)).trigger('change.select2');
-		    	$("#"+formId+" #reqPrjSelect").prop("disabled", true);
-		    	
-		    	
-		    	formEditList.push($.osl.editorSetting(formId+" #reqDesc", {
-		    		toolbar: false,
-	    			disableResizeEditor: false,
-	    			disableDragAndDrop: true,
-	    			disabledEditor: true,
-	    			height:260
-		    	}));
-		    	formEditList.push($.osl.editorSetting(formId+" #reqGrpDesc", {
-		    		toolbar: false,
-	    			disableResizeEditor: false,
-	    			disableDragAndDrop: true,
-	    			disabledEditor: true,
-	    			height:180
-	    		}));
-		    	formEditList.push($.osl.editorSetting(formId+" #reqAcceptTxt", {
-		    		toolbar: false,
-	    			disableResizeEditor: false,
-	    			disableDragAndDrop: true,
-	    			disabledEditor: true,
-	    			height:100
-	    		}));
-		    	
-				
-		    	fileUploadObj = $.osl.file.uploadSet(formId+" #fileListDiv",{
-		    		maxFileSize: "${requestScope.fileSumMaxSize}",
-		    		meta: {"atchFileId": $("#"+formId+" #atchFileId").val(), "fileSn": 0},
-		    		height: 260,
-		    		isDraggingOver: false,
-		    		fileDownload: true,
-		    		fileReadonly: true
-		    	});
-				
-		    	
-				$.osl.date.daterangepicker($("#"+formId+" #reqStDtm"), {
-						singleDatePicker: true, 
-						timePicker: true, 
-						timePicker24Hour: true,
-						maxDate: moment($("#reqEdDtm").val(), "YYYY-MM-DD HH:mm"),
-						locale: {
-							format: 'YYYY-MM-DD HH:mm'
-				        }
-					},function(defaultConfig, start, end, label){
-						var stDtStr = new Date(start._d).format("yyyy-MM-dd HH:mm");
-						
-						
-						if($("#"+formId+" #reqEdDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
-							$("#"+formId+" #reqEdDtm").data('daterangepicker').setStartDate(stDtStr);
-						}
-						$("#"+formId+" #reqEdDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD HH:mm");
-				});
-				$.osl.date.daterangepicker($("#"+formId+" #reqEdDtm"), {
-						singleDatePicker: true, 
-						timePicker: true, 
-						timePicker24Hour: true,
-						minDate: moment($("#"+formId+" #reqStDtm").val(), "YYYY-MM-DD HH:mm"),
-						locale: {
-							format: 'YYYY-MM-DD HH:mm'
-				        }
-					
-					},function(defaultConfig, start, end, label){
-						var edDtStr = new Date(start._d).format("yyyy-MM-dd HH:mm");
-						
-						$("#"+formId+" #reqStDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD HH:mm");
-				});
-				
-				
-				$.osl.date.daterangepicker($("#"+formId+" #reqStDuDtm"), {
-						singleDatePicker: true,
-						maxDate: moment($("#"+formId+" #reqEdDuDtm").val(), "YYYY-MM-DD")
-					
-					},function(defaultConfig, start, end, label){
-						var stDtStr = new Date(start._d).format("yyyy-MM-dd");
-						
-						
-						if($("#"+formId+" #reqEdDuDtm").data('daterangepicker').startDate._d.getTime() < new Date(start._d).getTime()){
-							$("#"+formId+" #reqEdDuDtm").data('daterangepicker').setStartDate(stDtStr);
-						}
-						$("#"+formId+" #reqEdDuDtm").data('daterangepicker').minDate = moment(stDtStr, "YYYY-MM-DD");
-				});
-				$.osl.date.daterangepicker($("#"+formId+" #reqEdDuDtm"), {
-						singleDatePicker: true,
-						minDate: moment($("#"+formId+" #reqStDuDtm").val(), "YYYY-MM-DD")
-					
-					},function(defaultConfig, start, end, label){
-						var edDtStr = new Date(start._d).format("yyyy-MM-dd");
-						
-						$("#"+formId+" #reqStDuDtm").data('daterangepicker').maxDate = moment(edDtStr, "YYYY-MM-DD");
-				});
-		    	
-		    	
-		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
-		    	
-		    	
-		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
-		    	
+
 		    	
 		    	flowLinkList = data.flowLinkList;
 		    	flowList = data.flowList;
-		    	
  			}
  		});
  		
