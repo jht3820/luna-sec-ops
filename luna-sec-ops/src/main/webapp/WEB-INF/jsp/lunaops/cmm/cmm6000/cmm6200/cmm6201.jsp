@@ -65,23 +65,37 @@
 						</div>
 					</div>
 				</div>
+				<div class="osl-wizard__nav-item osl-preview-hide" data-ktwizard-type="step">
+					<div class="osl-wizard-wrapper">
+						<div class="wizard-number">4</div>
+						<div class="wizard-label">
+							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.sprPtTitle">결재 정보 입력</span></div>
+							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">결재선 및 결재 정보 입력</span></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="osl-form__actions kt-padding-l-25 kt-padding-b-10" id="wizardStepBtnTmp">
 			<div>
 				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15" data-ktwizard-type="step-info" data-ktwizard-state="current">
-					<div class="kt-widget__top">
+					<div class="kt-widget__top osl-preview-hide">
 						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.mmt">* 요구사항 정보를 확인하세요.</span></h6>
 					</div>
 				</div>
 				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15" data-ktwizard-type="step-info">
-					<div class="kt-widget__top">
+					<div class="kt-widget__top osl-preview-hide">
 						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.charger">* 업무 처리에 필요한 정보를 입력하세요.</span></h6>
 					</div>
 				</div>
 				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15" data-ktwizard-type="step-info">
-					<div class="kt-widget__top">
+					<div class="kt-widget__top osl-preview-hide">
 						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.process">* 다음 단계를 선택하세요.</span></h6>
+					</div>
+				</div>
+				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15 osl-preview-hide" data-ktwizard-type="step-info">
+					<div class="kt-widget__top osl-preview-hide">
+						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.process">* 결재 정보를 입력해주세요.</span></h6>
 					</div>
 				</div>
 			</div>
@@ -425,6 +439,11 @@
 				</div>
 			</div>
 		</div>
+		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10 osl-preview-hide" data-ktwizard-type="step-content">
+			<div class="osl-background-around kt-padding-10">
+			
+			</div>
+		</div>
 	</div>
 </form>
 <div class="modal-footer">
@@ -502,51 +521,6 @@ var OSLCmm6201Popup = function () {
     		}
     	});
     	
-    	
-		var wizard = new KTWizard('requestProcessWizard', {
-			startStep: 1, 
-			clickableSteps: true		
-		});
-    	
-		
-		wizard.on('beforeNext', function(wizardObj) {
-			
-			if(reqProcessAuthFlag && !$("#"+formId).valid()){
-				wizardObj.stop();
-			}
-		});
-		wizard.on('beforePrev', function(wizardObj) {
-			
-			if(reqProcessAuthFlag && !$("#"+formId).valid()){
-				wizardObj.stop();
-			}
-		});
-		
-		
-		wizard.on('change', function(wizardObj) {
-			if(wizardObj.currentStep == 2){
-				if($.osl.isNull(cmm6201ProcessAuthUsrTable)){
-					
-					fnDatatableSetting();
-				}else{
-					
-					cmm6201ProcessAuthUsrTable.targetDt.reload();
-				}
-			}
-			else if(wizardObj.currentStep == 3){
-				if($.osl.isNull(selFlowId)){
-					
-					fnSelectFlowList(flowList, flowLinkList);
-				}
-				
-				
-				if(reqProcessAuthFlag){
-					fnFlowChartZoom("currentFocus");
-				}
-			}
-			
-		});
-		
 		
 		$("#"+formId+" #reqChargerNm").keydown(function(e){
 			if(e.keyCode == 13){
@@ -829,7 +803,7 @@ var OSLCmm6201Popup = function () {
  					
  					$("#frCmm6201 input[required]").removeAttr("required");
  					$("#frCmm6201 label.required").removeClass("required");
- 					$("#frCmm6201 .osl-preview-hide").hide();
+ 					$("#frCmm6201 .osl-preview-hide").remove();
  				
  					
  					$("#frCmm6201 .osl-preview-readonly").attr("readonly","readonly");
@@ -1074,10 +1048,57 @@ var OSLCmm6201Popup = function () {
  				}
  				$("#osl-req__process-history").html(reqChgStr);
  				
-
 		    	
 		    	flowLinkList = data.flowLinkList;
 		    	flowList = data.flowList;
+		    	
+		    	
+				var wizard = new KTWizard('requestProcessWizard', {
+					startStep: 1, 
+					clickableSteps: true		
+				});
+		    	
+				
+				wizard.on('beforeNext', function(wizardObj) {
+					
+					if(reqProcessAuthFlag && !$("#"+formId).valid()){
+						wizardObj.stop();
+					}
+				});
+				wizard.on('beforePrev', function(wizardObj) {
+					
+					if(reqProcessAuthFlag && !$("#"+formId).valid()){
+						wizardObj.stop();
+					}
+				});
+				
+				
+				wizard.on('change', function(wizardObj) {
+					if(wizardObj.currentStep == 2){
+						
+						if(reqProcessAuthFlag){
+							if($.osl.isNull(cmm6201ProcessAuthUsrTable)){
+								
+								fnDatatableSetting();
+							}else{
+								
+								cmm6201ProcessAuthUsrTable.targetDt.reload();
+							}
+						}
+					}
+					else if(wizardObj.currentStep == 3){
+						if($.osl.isNull(selFlowId)){
+							
+							fnSelectFlowList(flowList, flowLinkList);
+						}
+						
+						
+						if(reqProcessAuthFlag){
+							fnFlowChartZoom("currentFocus");
+						}
+					}
+					
+				});
  			}
  		});
  		
