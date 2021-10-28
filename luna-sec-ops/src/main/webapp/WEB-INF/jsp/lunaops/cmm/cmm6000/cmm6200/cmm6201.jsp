@@ -29,7 +29,7 @@
 							<span class="kt-user-card-v2__email kt-margin-l-10 osl-line-height-rem-1_5" id="nextFlowEmail"></span>
 						</div>
 					</div>
-					<div class="flowchart-operator-chg__dtm"><i class="fa fa-info-circle kt-margin-r-5"></i><span>다음 단계 내용</span></div>
+					<div class="flowchart-operator-chg__dtm"><i class="fa fa-info-circle kt-margin-r-5"></i><span>다음 단계 정보</span></div>
 				</div>
 			</div>
 		</div>
@@ -404,17 +404,19 @@
 	</div>
 </form>
 <div class="modal-footer">
+	<input type="hidden" name="cmm6201ModalCallbackBtn" id="cmm6201ModalCallbackBtn"/>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
 "use strict";
 
-var formValidate;
+
+var zoomObj;
 var OSLCmm6201Popup = function () {
 	var formId = 'frCmm6201';
 
 	
-	formValidate = $.osl.validate(formId);
+	var formValidate = $.osl.validate(formId);
 	
 	
 	var paramPrjId = $("#"+formId+" #paramPrjId").val();
@@ -434,8 +436,6 @@ var OSLCmm6201Popup = function () {
 	
 	var flowChart = $("#"+formId+" #cmm6201FlowChartDiv");
 
-	
-	var zoomObj;
 	var currentZoom = 2;
 	
 	
@@ -513,7 +513,7 @@ var OSLCmm6201Popup = function () {
 				}
 				
 				
-				fnFlowChartZoom("reset");
+				fnFlowChartZoom("currentFocus");
 			}
 			
 		});
@@ -575,7 +575,21 @@ var OSLCmm6201Popup = function () {
     			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
     		}
     		
-    		$.osl.confirm("입력된 내용으로 업무 처리를 진행하시겠습니까?",{html:true}, function(result){
+    		
+    		var currentFlowInfo = flowChart.flowchart("getOperatorData",selFlowId);
+    		
+    		var addConfirmMsgStr = '';
+    		if(!$.osl.isNull(currentFlowInfo) && currentFlowInfo.hasOwnProperty("properties") && currentFlowInfo.properties.flowDoneCd == "01"){
+    			
+    			if($.osl.isNull($("#reqStDtm").val()) || $.osl.isNull($("#reqEdDtm").val())){
+    				$.osl.alert("최종 완료 단계에서 </br>업무 시작 일시, 업무 종료 일시는 필수 항목입니다.");
+    				return false;
+    			}
+    			
+    			addConfirmMsgStr += "최종 완료 단계를 선택하셨습니다.</br>해당 요구사항의 업무 처리가 종료됩니다.</br></br>";
+    		}
+    		
+    		$.osl.confirm(addConfirmMsgStr+"입력된 내용으로 업무 처리를 진행하시겠습니까?",{html:true}, function(result){
 				if (result.value) {
 					
 		    		fnReqProcessAction();
@@ -775,6 +789,10 @@ var OSLCmm6201Popup = function () {
  				var reqChgStr = '';
  				if(!$.osl.isNull(reqChgList) && reqChgList.length > 0){
  					$.each(reqChgList, function(idx, map){
+ 						
+ 						if(map.reqChgTypeCd == "04"){
+ 							return true;
+ 						}
  						var processNextLabel = '<div class="osl-flowchart__label"><i class="fa fa-arrow-right"></i></div>';
  						
  						
@@ -783,26 +801,56 @@ var OSLCmm6201Popup = function () {
  						}
  						
  						
- 						var processNm, bgColor, color, flowNm, chgDtm, chgUsrId, chgUsrImgId, chgUsrNm, chgUsrEmail;
+ 						var processNm, bgColor, color, flowNm, chgDtm, chgUsrId, chgUsrImgId, chgUsrNm, chgUsrEmail, chargerChgStr;
+ 						var addBadgeStr = '';
  						
  						
- 						if(map.reqChgTypeCd == "03") {
- 							processNm = $.osl.escapeHtml(map.chgProcessNm);
- 							bgColor = map.chgFlowTitleBgColor;
- 							color = map.chgFlowTitleColor;
- 							flowNm = map.chgFlowNm;
- 						}
  						
+						processNm = $.osl.escapeHtml(map.chgProcessNm);
+						bgColor = map.chgFlowTitleBgColor;
+						color = map.chgFlowTitleColor;
+						flowNm = $.osl.escapeHtml(map.chgFlowNm);
+						chargerChgStr = '<div class="flowchart-operator-title__lebel d-inline-block text-truncate">'+flowNm+'</div>';
+
+		                
+		                chgUsrId = map.chgUsrId;
+		                chgUsrImgId = map.chgUsrImgId;
+		                chgUsrNm = $.osl.escapeHtml(map.chgUsrNm);
+		                chgUsrEmail = $.osl.escapeHtml(map.chgUsrEmail);
+		                
+						
+						if(map.reqChgTypeCd == "02"){
+							
+							chgUsrId = map.chgChargerId;
+			                chgUsrImgId = map.chgChargerImgId;
+			                chgUsrNm = $.osl.escapeHtml(map.chgChargerNm);
+			                chgUsrEmail = $.osl.escapeHtml(map.chgChargerEmail);
+							
+							processNm = "담당자 변경";
+							
+							
+							chargerChgStr = 
+								'<div class="kt-user-card-v2 btn" data-usr-id="'+ map.preChargerId +'">' 
+									+'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
+										+'<img src="'+$.osl.user.usrImgUrlVal(map.preChargerImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
+									+'</div>'
+									+'<div class="kt-user-card-v2__details kt-align-left">'
+										+'<span class="kt-user-card-v2__name text-truncate">'+$.osl.escapeHtml(map.preChargerNm)+'</span>'
+										+'<span class="kt-user-card-v2__email kt-margin-l-10 osl-line-height-rem-1_5">'+$.osl.escapeHtml(map.preChargerEmail)+'</span>'
+									+'</div>'
+								+'</div>'
+								+'<div class="osl-charger__arrow--change"><i class="fa fa-arrow-alt-circle-down"></i></div>';
+						}
+						
+						if(map.reqChgTypeCd == "03"){
+							addBadgeStr += '<div class="flowchart-operator-title__lebel badge badge-brand d-inline-block text-truncate">'+$.osl.escapeHtml(map.reqChgTypeNm)+'</div>';
+						}
+						
  						
  						var paramDatetime = new Date(map.chgDtm);
 		                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd HH:mm:ss"});
 		                chgDtm = agoTimeStr.agoString;
 		                
-		                
-		                chgUsrId = map.chgUsrId;
-		                chgUsrImgId = map.chgUsrImgId;
-		                chgUsrNm = map.chgUsrNm;
-		                chgUsrEmail = map.chgUsrEmail;
 		                
 		                
 		                if(!flowChgLogData.hasOwnProperty(map.chgProcessId)){
@@ -818,9 +866,10 @@ var OSLCmm6201Popup = function () {
  							'<div class="osl-flowchart__operator">'
 	 							+'<div class="flowchart-operator-process-title">'
 	 								+'<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate">'+processNm+'</div>'
+	 								+addBadgeStr
 	 							+'</div>'
 	 							+'<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">'
-	 								+'<div class="flowchart-operator-title__lebel d-inline-block text-truncate">'+flowNm+'</div>'
+	 								+chargerChgStr
 	 							+'</div>'
 	 							+'<div class="flowchart-operator-inputs-outputs">'
 	 								+'<div class="kt-user-card-v2 btn" data-usr-id="'+ chgUsrId +'">' 
@@ -1009,7 +1058,29 @@ var OSLCmm6201Popup = function () {
 			}
 		}
 		
-		zoomObj.zoomAbs(0,0,possibleZooms[currentZoom]);
+		if(type == "currentFocus"){
+			
+			var currentFlowInfo = flowChart.flowchart("getOperatorData",paramFlowId);
+			
+			
+			var widthDefault = $("#cmm6201FlowChartDiv").parent(".osl-process__flow-container").width()/2;
+			var heightDefault = $("#cmm6201FlowChartDiv").parent(".osl-process__flow-container").height()/2;
+			
+			var left = (widthDefault - currentFlowInfo.left);
+			var top = (heightDefault - currentFlowInfo.top);
+			
+			
+			zoomObj.pause();
+			
+			
+			zoomObj.moveTo(left,top);
+			zoomObj.zoomAbs(left,top,1);
+			
+			
+			zoomObj.resume();
+		}else{
+			zoomObj.zoomAbs(0,0,possibleZooms[currentZoom]);
+		}
 	};
 	
 	
@@ -1036,6 +1107,11 @@ var OSLCmm6201Popup = function () {
 			
 			var currentFlowNextIds = flowNextIdList[paramFlowId];
 			
+			
+			var flowNextCnt = 0;
+			
+			var targetFlowNextId;
+			
 			$.each(flowList, function(idx, map){
 				var flowNextId = [];
 				if(flowNextIdList.hasOwnProperty(map.flowId)){
@@ -1059,6 +1135,12 @@ var OSLCmm6201Popup = function () {
 				}
 				
 				
+				if(flowStatus == "01"){
+					targetFlowNextId = map.flowId;
+					flowNextCnt++;
+				}
+				
+				
    				var operatorData = {
 					top: map.flowTop,
 					left: map.flowLeft,
@@ -1075,11 +1157,11 @@ var OSLCmm6201Popup = function () {
 						flowSignCd: map.flowSignCd,
 						flowSignStopCd: map.flowSignStopCd,
 						flowStartCd: map.flowStartCd,
-						flowEndCd: map.flowEndCd,
+						flowDoneCd: map.flowDoneCd,
 						flowWorkCd: map.flowWorkCd,
 						flowRevisionCd: map.flowRevisionCd,
 						flowDplCd: map.flowDplCd,
-						flowAuthCd: map.flowAuthCd
+						flowAuthCd: map.flowAuthCd,
 					}
 				};
    				
@@ -1102,6 +1184,11 @@ var OSLCmm6201Popup = function () {
 					flowChart.flowchart('createLink', idx, linkData);
 				});
 			}
+			
+			
+			if(flowNextCnt == 1){
+				flowChart.flowchart('selectOperator', targetFlowNextId);
+			}
 		}
 	};
 	
@@ -1122,14 +1209,15 @@ var OSLCmm6201Popup = function () {
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-
-				
-				$.osl.layerPopupClose();
 			}else{
+				$.osl.alert("업무 처리가 완료되었습니다.");
 				
 				
-				
+				$("#cmm6201ModalCallbackBtn").click();
 			}
+			
+			
+			$.osl.layerPopupClose();
 		});
 		
 		

@@ -68,10 +68,6 @@
 								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="kt-checkbox-list">
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-											<input type="checkbox" name="flowEndCd" id="flowEndCd" opttype="-1"> 종료 분기
-											<span></span>
-										</label>
-										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
 											<input type="checkbox" name="flowRevisionCd" id="flowRevisionCd" opttype="-1"> 소스 저장소
 											<span></span>
 										</label>
@@ -341,7 +337,6 @@ var OSLPrj1102Popup = function () {
 						flowTitleColor: $("#flowTitleColor").val(),
 						flowSignCd: $("#flowSignCd").is(":checked")? "01": "02",
 						flowSignStopCd: $("#flowSignStopCd").is(":checked")? "01": "02",
-						flowEndCd: $("#flowEndCd").is(":checked")? "01": "02",
 						flowWorkCd: $("#flowWorkCd").is(":checked")? "01": "02",
 						flowRevisionCd: $("#flowRevisionCd").is(":checked")? "01": "02",
 						flowDplCd: $("#flowDplCd").is(":checked")? "01": "02",
@@ -361,7 +356,6 @@ var OSLPrj1102Popup = function () {
 				flowInfo.properties.flowTitleColor = $("#flowTitleColor").val();
 				flowInfo.properties.flowSignCd = $("#flowSignCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowSignStopCd = $("#flowSignStopCd").is(":checked")? "01": "02";
-				flowInfo.properties.flowEndCd = $("#flowEndCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowWorkCd = $("#flowWorkCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowRevisionCd = $("#flowRevisionCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowDplCd = $("#flowDplCd").is(":checked")? "01": "02";

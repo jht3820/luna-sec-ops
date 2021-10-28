@@ -158,6 +158,10 @@ input:-webkit-autofill,
 	overflow-x: auto;
 }
 
+.badge-brand{
+    background-color: #1cac81;
+	color: #fff;
+}
 .osl-badge-lightgray{
 	background-color: #f7f7f7;
 	border: 1px solid #eee;
@@ -992,13 +996,14 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     border-radius: 4px;
     font-size: 2rem;
     display: none;
+    color: #1cac81;
 }
-.osl-flowchart__operator.active.selected .flowchart-operator-nextIcon{
+.osl-flowchart__operator.active .flowchart-operator-nextIcon{
 	display: -webkit-box;
     display: -ms-flexbox;
 	display: flex;
 }
-.osl-flowchart__operator.active.selected .flowchart-operator-nextIcon > i.fa {
+.osl-flowchart__operator.active .flowchart-operator-nextIcon > i.fa {
     position: absolute;
     top: -25px;
     -webkit-animation: flowNext 1s linear infinite;

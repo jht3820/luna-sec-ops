@@ -604,6 +604,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		
 		String licGrpId = (String) paramMap.get("licGrpId");
 		String regUsrId = (String) paramMap.get("regUsrId");
+		String regUsrIp = (String) paramMap.get("regUsrIp");
 		
 		
 		String paramRejectContents = (String) paramMap.get("paramRejectContents");
@@ -630,6 +631,11 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "04");
 			req6001Vo.setChgUsrId(regUsrId);
+			req6001Vo.setRegUsrId(regUsrId);
+			req6001Vo.setRegUsrIp(regUsrIp);
+			req6001Vo.setModifyUsrId(regUsrId);
+			req6001Vo.setModifyUsrIp(regUsrIp);
+			
 			paramMap.put("req6001Vo", req6001Vo);
 			req6000Service.insertReq6001ReqChgInfo(paramMap);
 			
@@ -782,6 +788,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		String prjId = (String) paramMap.get("prjId");
 		String reqId = (String) paramMap.get("reqId");
 		String regUsrId = (String) paramMap.get("regUsrId");
+		String regUsrIp = (String) paramMap.get("regUsrIp");
 		
 		
 		Map beforeReqInfo = req4100DAO.selectReq4100ReqInfo(paramMap);
@@ -789,28 +796,55 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		
 		String beforeReqChargerId = (String) beforeReqInfo.get("reqChargerId");
 		
+		String beforeFlowId = (String) beforeReqInfo.get("flowId");
+		
 		
 		String processId = (String) paramMap.get("processId");
 		
-		
 		String selFlowId = (String) paramMap.get("selFlowId");
+		paramMap.put("processId", processId);
+		paramMap.put("flowId", selFlowId);
+		
+		
+		Map selFlowInfo = prj1100DAO.selectPrj1101FlowInfo(paramMap);
+		
+		
+		String selFlowDoneCd = (String) selFlowInfo.get("flowDoneCd");
+		
+		if("01".equals(selFlowDoneCd)) {
+			
+			paramMap.put("reqProType", "04");
+		}
 		
 		
 		String reqChargerId = (String) paramMap.get("reqChargerId");
 		
 		
-		if(reqChargerId.equals(beforeReqChargerId)) {
+		if(!reqChargerId.equals(beforeReqChargerId)) {
 			
 			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "02", beforeReqChargerId, reqChargerId, regUsrId);
+			req6001Vo.setRegUsrId(regUsrId);
+			req6001Vo.setRegUsrIp(regUsrIp);
+			req6001Vo.setModifyUsrId(regUsrId);
+			req6001Vo.setModifyUsrIp(regUsrIp);
+			
 			paramMap.put("req6001Vo", req6001Vo);
 			req6000Service.insertReq6001ReqChgInfo(paramMap);
 		}
 		
 		
+		Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "01", beforeFlowId, selFlowId, regUsrId);
+		req6001Vo.setPreProcessId(processId);
+		req6001Vo.setChgProcessId(processId);
+		req6001Vo.setRegUsrId(regUsrId);
+		req6001Vo.setRegUsrIp(regUsrIp);
+		req6001Vo.setModifyUsrId(regUsrId);
+		req6001Vo.setModifyUsrIp(regUsrIp);
+		
+		paramMap.put("req6001Vo", req6001Vo);
+		req6000Service.insertReq6001ReqChgInfo(paramMap);
 		
 		
-		
-		
-		
+		req4100DAO.updateReq4101ReqProcessInfo(paramMap);
 	}
 }
