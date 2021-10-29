@@ -37,7 +37,11 @@ var OSLCoreCustomOptionSetting = function () {
 				
 				"viewType": "default",
 				
+				"delAt": false,
+				
 				"actionFn":{},	
+				
+				"htmlAppendType":false,
 				
 				"classNm":{
 					
@@ -357,7 +361,7 @@ var OSLCoreCustomOptionSetting = function () {
 				var delBtn = "";
 				
 				
-				if(config.viewType=='preview'){
+				if(config.delAt){
 					delBtn = "<button type='button' class='osl-uppy__right close itemDelete' data-item-id='"+map.itemId+"'><i class='fa fa-window-close'></i></button>";
 				}
 				
@@ -377,20 +381,24 @@ var OSLCoreCustomOptionSetting = function () {
 			
 			if(rtnStrArr.length > 0){
 				
-				$("#"+htmlTargetObj).html(rtnStrValue);
+				if(!config.htmlAppendType){
+					$("#"+htmlTargetObj).html(rtnStrValue);
+				}else{
+					$("#"+htmlTargetObj).append(rtnStrValue);
+				}
 			}
 			
 			
-			if(config.viewType=='preview'){
-				$(".itemDelete").off();
-				$(".itemDelete").click(function(){
-					if(config.actionFn.hasOwnProperty("delete")){
-						config.actionFn.delete($(this));
-					}else{
-						$(this).parents(".basicItemDiv:first").remove();
-					}
-				});
-			}
+			$(".itemDelete").off();
+			$(".itemDelete").click(function(){
+				debugger;
+				if(config.actionFn.hasOwnProperty("delete")){
+					config.actionFn.delete($(this));
+				}else{
+					$(this).parents(".basicItemDiv:first").remove();
+				}
+			});
+			
 			
 			if(!$.osl.isNull(fileIdList)){
 				

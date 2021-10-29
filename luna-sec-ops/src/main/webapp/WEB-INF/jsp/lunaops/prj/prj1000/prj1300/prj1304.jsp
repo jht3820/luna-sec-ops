@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="kt-portlet kt-portlet--mobile">
+	<input type="hidden" id="callPage" name="callPage" val="${param.callPage}">
 	<div class="kt-portlet__body">
 		<div class="row">
 			
@@ -84,13 +85,20 @@
 		</div>
 	</div>
 </div>
+<button type="button" id="prj1304ModalCallBackBtn" name="prj1304ModalCallBackBtn"/>
 <script>
 "use strict";
-var OSLPrj1302Popup = function () {
+var OSLPrj1304Popup = function () {
 	
 	var formId = 'frPrj1302';
 	
 	var prj1304PrjTable = "prj1304PrjTable";
+	
+	
+	var callPage = $("#callPage").val();
+	
+	var itemList=[];
+	
 	var treeObj = null;
 	var templateId = "";
 	
@@ -184,7 +192,7 @@ var OSLPrj1302Popup = function () {
 						$.osl.alert($.osl.lang("prj1302.message.confirm.itemNotSelect"));
 						return;
 					}
-		        	var itemList = [];
+		        	itemList = [];
 		        	if(Array.isArray(rowDatas)){
 		        		itemList = rowDatas;
 		        	}else{
@@ -200,7 +208,10 @@ var OSLPrj1302Popup = function () {
 		        		}
 	        			map.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+separator;
 		        	});
-		        	OSLPrj1102Popup.addItemList(itemList);
+		        	
+		        	
+
+		        	$("#prj1304ModalCallBackBtn").click();
 		        	
 					
 					$.osl.layerPopupClose();
@@ -222,6 +233,9 @@ var OSLPrj1302Popup = function () {
 	       
         init: function() {
         	templateumentSetting();
+        },
+        getItemList: function(){
+        	return itemList;
         }
         
     };
@@ -229,7 +243,7 @@ var OSLPrj1302Popup = function () {
 
 
 $.osl.ready(function(){
-	OSLPrj1302Popup.init();
+	OSLPrj1304Popup.init();
 });
 
 	

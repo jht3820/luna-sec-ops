@@ -16,7 +16,7 @@
 </form>
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span>Close</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span>
 	</button>
 	
 </div>

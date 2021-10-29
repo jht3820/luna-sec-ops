@@ -52,25 +52,21 @@
 								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="kt-checkbox-list">
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-											<input type="checkbox" name="flowSignStopCd" id="flowSignStopCd" opttype="-1"> 결재 반려 시 종료
-											<span></span>
-										</label>
-										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
 											<input type="checkbox" name="flowSignCd" id="flowSignCd" opttype="-1"> 결재 필수
 											<span></span>
 										</label>
+										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+											<input type="checkbox" name="flowSignStopCd" id="flowSignStopCd" opttype="-1"> 결재 반려 시 종료
+											<span></span>
+										</label>
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand kt-hide">
-											<input type="checkbox" name="flowWorkCd" id="flowWorkCd" opttype="-1"> 작업 분기
+											<input type="checkbox" name="flowMiddleEndCd" id="flowMiddleEndCd" opttype="-1"> 중간 종료
 											<span></span>
 										</label>
 									</div>
 								</div>
 								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="kt-checkbox-list">
-										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-											<input type="checkbox" name="flowEndCd" id="flowEndCd" opttype="-1"> 종료 분기
-											<span></span>
-										</label>
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
 											<input type="checkbox" name="flowRevisionCd" id="flowRevisionCd" opttype="-1"> 소스 저장소
 											<span></span>
@@ -114,7 +110,6 @@
 								<div class="dropdown-item" id="insertBasicItemBtn"><i class="fa fa-plus kt-font-brand"></i>신규 항목 추가</div>
 								<div class="dropdown-item" id="selectBasicItemBtn"><i class="fa fa-list-alt kt-font-brand"></i>기본항목 불러오기</div>
 							</div>
-							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 						</div>
 					</div>
 				</div>
@@ -128,8 +123,8 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="prj1101SaveSubmit"><i class="fa fa-save"></i><span>완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-brand" id="prj1101SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 <script>
 "use strict";
@@ -158,6 +153,7 @@ var OSLPrj1102Popup = function () {
     var documentSetting = function () {
     	
     	$("#flowRightDiv").css("min-height",$("#flowLeftDiv").height());
+
     	
     	$("#prj1101SaveSubmit > span").text($.osl.lang("modal."+type+".saveBtnString"));
 		
@@ -260,14 +256,21 @@ var OSLPrj1102Popup = function () {
 		
 		$("#selectBasicItemBtn").click(function(){
 			var data = {
-					
+					callPage:"OSLPrj1102Popup"
 				};
 			var options = {
 					idKey: "prj1304",
 					modalTitle: "기본항목 리스트",
 					modalSize: "xl",
 					closeConfirm: false,
-					autoHeight: false
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1304ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1304Popup.getItemList();
+							OSLPrj1102Popup.addItemList(itemList);
+						}
+					}]
 				};
 			
 			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1304View.do',data,options);
@@ -276,14 +279,22 @@ var OSLPrj1102Popup = function () {
 
 		$("#insertBasicItemBtn").click(function(){
 			var data = {
-					type:"insert"
+					type:"insert",
+					callPage:"OSLPrj1102Popup"
 				};
 			var options = {
 					idKey: "prj1305",
 					modalTitle: "기본항목 추가",
 					modalSize: "lg",
 					closeConfirm: false,
-					autoHeight: false
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1305ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1305Popup.getItemList();
+							OSLPrj1102Popup.addItemList(itemList);
+						}
+					}]
 				};
 			
 			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1305View.do',data,options);
@@ -318,6 +329,8 @@ var OSLPrj1102Popup = function () {
    		
 		$.each(basicItemList, function(idx, map){
 			map.itemOrd = idx+1;
+			map.reqId = "ROOTSYSTEM_FLW";
+			map.itemDivision = "01";
 			basicItemList[idx] = map;
 		});
    		
@@ -341,7 +354,6 @@ var OSLPrj1102Popup = function () {
 						flowTitleColor: $("#flowTitleColor").val(),
 						flowSignCd: $("#flowSignCd").is(":checked")? "01": "02",
 						flowSignStopCd: $("#flowSignStopCd").is(":checked")? "01": "02",
-						flowEndCd: $("#flowEndCd").is(":checked")? "01": "02",
 						flowWorkCd: $("#flowWorkCd").is(":checked")? "01": "02",
 						flowRevisionCd: $("#flowRevisionCd").is(":checked")? "01": "02",
 						flowDplCd: $("#flowDplCd").is(":checked")? "01": "02",
@@ -361,7 +373,6 @@ var OSLPrj1102Popup = function () {
 				flowInfo.properties.flowTitleColor = $("#flowTitleColor").val();
 				flowInfo.properties.flowSignCd = $("#flowSignCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowSignStopCd = $("#flowSignStopCd").is(":checked")? "01": "02";
-				flowInfo.properties.flowEndCd = $("#flowEndCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowWorkCd = $("#flowWorkCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowRevisionCd = $("#flowRevisionCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowDplCd = $("#flowDplCd").is(":checked")? "01": "02";
@@ -393,6 +404,7 @@ var OSLPrj1102Popup = function () {
 	    			
 	    			{
 						viewType: "preview",
+						delAt: true,
 						actionFn:{
 							delete:function($this){
 								var targetId = $this.data("itemId");
@@ -437,6 +449,7 @@ var OSLPrj1102Popup = function () {
 	    			
 	    			{
 						viewType: "preview",
+						delAt:true,
 						actionFn:{
 							delete:function($this){
 								var targetId = $this.data("itemId");

@@ -525,7 +525,12 @@ var OSLCoreLangSetting = function () {
 		cmm6601:{
 			infomation : {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
+			},
+			sign : {
+				success : "결재 성공",
+				fail : "결재 실패"
 			}
+		
 		},
 		cmm6602:{
 			label : {
@@ -1163,6 +1168,7 @@ var OSLCoreLangSetting = function () {
 				prjGrpNm: "프로젝트 그룹명",
 				reqGrpNm: "그룹 요구사항 명",
 				reqGrpNo : "그룹 요구사항 번호",
+				reqDesc : "요구사항 내용"
 			},
 			actionBtn:{
 				title : "수정 / 삭제 / 상세 / 복사",
@@ -1189,6 +1195,9 @@ var OSLCoreLangSetting = function () {
 				selectData : "요구사항을 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
 				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
+			},
+			message : {
+				nothing : "없음",
 			}
 		},
 		req4101:{
@@ -1399,7 +1408,8 @@ var OSLCoreLangSetting = function () {
 				reqSprPoint: "모든 요구사항의 스토리포인트를 입력해주세요.</br>미 입력 요구사항 ${1}건",
 				saveProcessMsg: "${1}개의 프로세스가 배정되었습니다.",
 				saveProcessDupleMsg: "이미 배정된 ${1}개의 프로세스 제외",
-				saveProcessAllDupleMsg: "이미 배정중인 프로세스입니다. (${1}개)"
+				saveProcessAllDupleMsg: "이미 배정중인 프로세스입니다. (${1}개)",
+				reqCharger:"모든 요구사항의 담당자를 입력해주세요.</br>미 배정 요구사항 ${1}건",
 			}
 		},
 		spr1004:{
@@ -3545,8 +3555,9 @@ var OSLCoreLangSetting = function () {
 			field:{
 				
 				prjGrpNm: "Project Group Name",
-				reqGrpNm: "Requirement Group Name",
+				reqGrpNm: "Request Group Name",
 				reqGrpNo : "Group Request Number",
+				reqDesc : "Request Description"
 			},
 			actionBtn:{
 				title : "Udp / Del / Det / Cop",
@@ -3572,6 +3583,9 @@ var OSLCoreLangSetting = function () {
 				selectData : "Choose your data.",
 				LockData : "Locked requirements cannot be copied.",
 				selectCopyData : "Copying is only possible for 1 copy. Currently ${1} are selected.",
+			},
+			message : {
+				nothing : "Nothing",
 			}
 		},
 		req4101:{

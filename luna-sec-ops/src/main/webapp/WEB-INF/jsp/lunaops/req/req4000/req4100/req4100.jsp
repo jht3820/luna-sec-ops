@@ -45,11 +45,11 @@
 		<div class="kt_datatable osl-datatable-footer__divide" id="req4100ReqTable"></div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLReq4100Popup = function () {
-	//비밀 요구사항인 경우 접근 권한 확인하기 위한 변수
+	
 	var reqAuth = false;
 	var datatableId = "req4100ReqTable";
 	var prjRequestAcceptCd = "02";
@@ -57,10 +57,10 @@ var OSLReq4100Popup = function () {
 	var reqDatatable;
 	
 	var documentSetting = function(){
-		//현재 프로젝트가 접수 기능 사용인지 체크
+		
 		var prjRequestAcceptCd = $.osl.prjGrpAuthList[$.osl.selPrjGrpId].prjList[$.osl.selPrjId].prjRequestAcceptCd;
 		
-		//접수 기능 사용인경우 접수 버튼 show
+		
 		if(prjRequestAcceptCd == "01"){
 			$("button[data-datatable-id=req4100ReqTable][data-datatable-action=requestAccept]").removeClass("kt-hide");
 		}
@@ -80,16 +80,7 @@ var OSLReq4100Popup = function () {
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
-					/* 
-					template: function(row){
-						var resultStr = $.osl.escapeHtml(row.reqNm);
-						//비밀번호가 있는 경우
-						if(row.reqPw == "Y"){
-							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
-						}
-						return resultStr;
-					}
-					 */
+					
 				},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
 				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"date",
@@ -201,112 +192,30 @@ var OSLReq4100Popup = function () {
 							autoHeight:false,
 							modalSize: "sm",
 						};
-					/* 
-					if(rowData.reqPw == "Y"){
-						//비밀번호가 걸린 경우 권한 체크
-						checkAuth($.osl.user.userInfo.usrId , rowData.reqId);
-						if(reqAuth){
-							//권한이 있을 경우
-							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
-						}else{
-							//권한이 없을 경우 비밀번호 입력 화면
-							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
-						}
-					}else{
-						//비밀번호가 없는 요구사항인 경우
-						$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
-					}
-					 */
+					
 					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
 				},
 				"delete":function(rowDatas, datatableId, type){
-					/* 
-					reqAuth = false;
-					var pwCount = 0;
-					var data = {
-							type:"delete",
-							paramRowData : JSON.stringify(rowDatas),
-							datatableId: datatableId,
-						};
 					
-					var pwOptions = {
-							idKey: "req4100pw_"+datatableId,
-							modalTitle: $.osl.lang("req4100.title.passowrdCheckTitle"),
-							closeConfirm: false,
-							autoHeight:false,
-							modalSize: "sm",
-						};
-					
-					//잠금된 요구사항 갯수 확인
-					$.each(rowDatas, function(idx, value){
-						if(value.reqPw == "Y"){
-							reqAuth = true;
-							pwCount++;
-						}
-					});
-
-					//선택된 rowDatas 갯수
-					var rowCnt = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords().length;
-					
-					//비밀번호가 걸린 항목을 삭제시
-					if(reqAuth){
-						//단건 삭제일 때
-						if(rowCnt == 1 || type=="info"){
-							//비밀번호 확인 후 삭제
-							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
-						}else if(rowCnt >1){
-							//다중 삭제일 때
-							//비밀번호가 걸린 항목이 단건인 경우
-							if(pwCount == 1){
-								//비밀번호 확인 후 삭제
-								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4103View.do',data,pwOptions);
-							}else{
-								//비밀번호가 걸린 항목이 여러건인 경우
-								$.osl.alert($.osl.lang("req4100.alert.multiPwMsg", pwCnt));
-								return false;
-							}
-						}
-					}else{
-						//AJAX 설정
-						var ajaxObj = new $.osl.ajaxRequestAction(
-								{"url":"<c:url value='/req/req4000/req4100/deleteReq4100ReqListAjax.do'/>"}
-								,{deleteDataList: JSON.stringify(rowDatas)});
-						//AJAX 전송 성공 함수
-						ajaxObj.setFnSuccess(function(data){
-							if(data.errorYn == "Y"){
-				   				$.osl.alert(data.message,{type: 'error'});
-				   			}else{
-				   				//삭제 성공
-				   				$.osl.toastr(data.message);
-				   				
-				   				//datatable 조회
-				   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
-				   			}
-						});
-						
-						//AJAX 전송
-						ajaxObj.send();
-					}
-					 */
 					 
-					//AJAX 설정
+					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/req/req4000/req4100/deleteReq4100ReqListAjax.do'/>"}
 							,{deleteDataList: JSON.stringify(rowDatas)});
-					//AJAX 전송 성공 함수
+					
 					ajaxObj.setFnSuccess(function(data){
 						if(data.errorYn == "Y"){
 			   				$.osl.alert(data.message,{type: 'error'});
 			   			}else{
-			   				//삭제 성공
+			   				
 			   				$.osl.toastr(data.message);
 			   				
-			   				//datatable 조회
+			   				
 			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			   			}
 					});
 					
-					//AJAX 전송
+					
 					ajaxObj.send();
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum){
@@ -319,35 +228,25 @@ var OSLReq4100Popup = function () {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("req4100.title.detailTitle"),
 							autoHeight: false,
-					/* 		
-							modalSize: 'xl',
-							'class': {
-					            "body": "kt-padding-0"
-					         }
-					 */
-							//closeConfirm: false
+					
+							
 						};
 					
 					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
-					//$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6203View.do',data,options);
+					
 				},
 				"copy" : function(rowDatas, datatableId, type, rowNum){
 					var data;
 					if(type == "list"){
-						//선택 항목이 리스트인 경우
+						
 						if(rowNum == 0){
 							$.osl.alert($.osl.lang("req4100.alert.selectData"));
 						}else if(rowNum == 1){
-							/* 
-							//비밀번호가 걸린 글인지 확인 - 비밀번호가 걸린 글은 복사 안됨
-							if(rowDatas[0].reqPw == "Y"){
-								$.osl.alert($.osl.lang("req4100.alert.LockData"));
-							}else{
-							 */
-								//단건 복사인 경우
+							
+								
 								data ={
 									type:"copy",
-									//rowDatas : JSON.stringify(rowDatas),
+									
 									paramPrjId: rowDatas[0].prjId,
 									paramReqId: rowDatas[0].reqId,
 									paramReqUsrId: rowDatas[0].reqUsrId,
@@ -360,19 +259,14 @@ var OSLReq4100Popup = function () {
 									};
 								
 								$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
-							//}
+							
 						}else{
-							//다중 복사인 경우
+							
 							$.osl.alert($.osl.lang("req4100.alert.selectCopyData", rowNum));
 						}
 					}else{
-						//선택 항목이 row 단건인 경우
-						/* 
-						//비밀번호가 걸린 글인지 확인 - 비밀번호가 걸린 글은 복사 안됨
-						if(rowDatas.reqPw == "Y"){
-							$.osl.alert($.osl.lang("req4100.alert.LockData"));
-						}else{
-						 */	
+						
+							
 							data ={
 								type:"copy",
 								rowDatas : "["+JSON.stringify(rowDatas)+"]",
@@ -388,7 +282,7 @@ var OSLReq4100Popup = function () {
 								};
 							
 							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4101View.do',data,options);
-						//}
+						
 					}
 				},
 				"requestAccept": function(rowDatas, datatableId, type, rowNum){
@@ -397,14 +291,14 @@ var OSLReq4100Popup = function () {
 						return false;
 					}else{
 						
-						//각 요구사항 Id,프로젝트 ID값 구하기
+						
 						var selReqInfoList = [];
 						
-						//선택 요구사항 중 처리유형이 "접수대기"가 아닌 요구사항 수
+						
 						var reqProChkCnt = 0;
 						
 						$.each(rowDatas, function(idx, map){
-							//접수유형이 "접수대기"가 아닌 경우 제외
+							
 							if(map.reqProType == "01"){
 								selReqInfoList.push({prjId: map.prjId, prjGrpId: map.prjGrpId, reqId: map.reqId});
 							}else{
@@ -424,7 +318,7 @@ var OSLReq4100Popup = function () {
 							ftScrollUse: false
 						};
 						
-						//선택 요구사항이 모두 접수 불가인경우 중지
+						
 						if(rowDatas.length == reqProChkCnt){
 							$.osl.alert("접수 가능한 요구사항이 선택되지 않았습니다.");
 							return false;
@@ -437,7 +331,7 @@ var OSLReq4100Popup = function () {
 						}
 					}
 				},
-				//요구사항 업무 처리
+				
 				"requestProcessing": function(rowDatas, datatableId, type, rowNum){
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("req4100.alert.selectData"));
@@ -461,9 +355,14 @@ var OSLReq4100Popup = function () {
 						modalSize: "fs",
 						idKey: datatableId,
 						modalTitle: "["+rowDatas[0].reqNm+"] 요구사항 업무 처리",
-						closeConfirm: false
+						closeConfirm: false,
+						callback:[{
+							targetId: "cmm6201ModalCallbackBtn",
+							actionFn: function(thisObj){
+								reqDatatable.targetDt.reload();
+							}
+						}]
 					};
-					
 					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6201View.do',data,options);
 				}
 			},
@@ -478,25 +377,21 @@ var OSLReq4100Popup = function () {
 		});
 	};
 	
-	/**
-	 * 비밀글인 경우 접근 권한있는지 확인
-	 * param : usrId : 권한 체크하려는 회원 id
-	 * param : reqId : 권한 체크하려는 요구사항 id
-	 */
+	
 	var checkAuth = function(usrId, reqId){
 		var data = {
 				usrId : usrId,
 				reqId : reqId
 		};
-		//ajax 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
     			{"url":"<c:url value='/req/req4000/req4100/selectReq4100UserCheckAjax.do'/>", "async": true}
 				, data);
-		//ajax 전송 성공 함수
+		
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				var result = data.reqAuth;
@@ -507,12 +402,12 @@ var OSLReq4100Popup = function () {
 				}
 			}
     	});
-		//ajax 전송
+		
     	ajaxObj.send();
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
@@ -527,5 +422,5 @@ $.osl.ready(function(){
 	OSLReq4100Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

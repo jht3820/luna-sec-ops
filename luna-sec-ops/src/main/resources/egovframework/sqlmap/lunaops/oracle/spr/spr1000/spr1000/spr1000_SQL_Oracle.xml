@@ -7,6 +7,7 @@
 	<typeAlias alias="egovMap"	 	type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
 	 <resultMap id="resultMapSpr1000List" class="egovMap">
+	 	<result property="rn"					column="RN"/>
     	<result property="licGrpId"				column="LIC_GRP_ID"/>
 		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
 		<result property="prjId"				column="PRJ_ID"/>
@@ -24,6 +25,7 @@
 		<result property="reqAllCnt"			column="REQ_ALL_CNT"/>
 		<result property="reqDoneCnt"			column="REQ_DONE_CNT"/>
 		<result property="reqProgressCnt"		column="REQ_PROGRESS_CNT"/>
+		<result property="restDay"				column="REST_DAY"/>
     </resultMap>
 	
 	 <resultMap id="resultMapSpr1000ReqList" class="egovMap">
@@ -99,6 +101,7 @@
 			, T1.REQ_ALL_CNT
 			, T1.REQ_DONE_CNT
 			, T1.REQ_PROGRESS_CNT
+			, T1.REST_DAY 
 		FROM
 		(
 			SELECT
@@ -127,6 +130,9 @@
 		            FROM SPR1100 Z INNER JOIN REQ4100 Y ON(Z.PRJ_ID = Y.PRJ_ID AND Z.REQ_ID = Y.REQ_ID AND Y.REQ_PRO_TYPE = '02')
 		            WHERE Z.LIC_GRP_ID = A.LIC_GRP_ID AND Z.PRJ_GRP_ID = A.PRJ_GRP_ID AND Z.PRJ_ID = A.PRJ_ID AND Z.SPR_ID = A.SPR_ID
 		        ) AS REQ_PROGRESS_CNT
+		        <![CDATA[
+		        , CASE WHEN TRUNC(A.SPR_ED_DT - SYSDATE) < 0 THEN 0 ELSE TRUNC(A.SPR_ED_DT - SYSDATE) END AS REST_DAY
+		        ]]>
 		    FROM SPR1000 A
 		    WHERE 1=1
 		    AND A.LIC_GRP_ID = #licGrpId#
@@ -561,7 +567,7 @@
 			    SELECT
 			        1 AS ALL_CNT
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN 1 ELSE 0 END AS END_CNT
-			      , CASE WHEN B.REQ_PRO_TYPE!='04' THEN 1 ELSE 0 END AS NOT_END_CNT
+			      , CASE WHEN B.REQ_PRO_TYPE='02' THEN 1 ELSE 0 END AS NOT_END_CNT
 			      , CASE WHEN B.REQ_PRO_TYPE!='04' THEN NVL2(B.REQ_ED_DTM, TRUNC((SYSDATE - B.REQ_ST_DTM)*24,1),0) ELSE 0 END AS NOT_END_TIME_REQUIRED 
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL2(B.REQ_ED_DTM,TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24,1) , 0) ELSE 0 END AS END_TIME_REQUIRED
 			      , NVL(A.SPR_POINT,0) AS SPR_POINT
@@ -593,7 +599,6 @@
     	SELECT 
     		 T.REQ_ED_DTM AS REQ_ED_DTM
         	, T.END_REQ_CNT AS END_REQ_CNT
-        	
             , SUM(T.SPR_POINT) OVER(ORDER BY REQ_ED_DTM) AS CUM_SPR_POINT
             , T.TIME_REQUIRED AS TIME_REQUIRED
     	FROM
