@@ -181,6 +181,8 @@
 	<!-- end:: 담당 요구사항 결재 목록, 담당 배포계획 결재 목록 -->
 	
 	<!-- begin:: 프로세스 목록1 -->
+	<div id="processCard">
+	</div>
 	<div class="kt-portlet kt-portlet--mobile" data-target-div="process1" id="processPortlet1">
 		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
 			<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">
@@ -901,7 +903,7 @@ var OSLDsh2000Popup = function () {
 	
 	
 	var reqDatatableId = "req4100ReqTable";
-	var prjRequestAcceptCd = "02";
+	
 	
 	var dplDatatableId = "reqChargeDplTable";
 	
@@ -1281,7 +1283,7 @@ var OSLDsh2000Popup = function () {
 		 	},
 		 	columns: [
 				{field: 'rn', title: 'no.', textalign: 'center', width: 30, autohide: false, sortable: false},
-				{field: '', title: '프로젝트 명', textalign: 'center', width: 150},
+				{field: 'upPrjNm', title: '프로젝트 명', textalign: 'center', width: 150},
 				{field: 'nowSigntypenm', title: '결재 상태', textalign: 'center', width: 70, autohide: false, sortable: true, sortfield: "nowSignTypeCd", search:true, searchtype: "select", searchcd: "CMM00008", searchfield:"nowSignTypeCd"},
 				{field: 'signReqUsrId', title: '요청자', textalign: 'center', width: 100, sortable: true, search:true,
 					template: function (row) {
@@ -1363,6 +1365,12 @@ var OSLDsh2000Popup = function () {
 				}
 			},
 		});
+		
+		
+		processList();
+		
+		
+		
 		$.osl.datatable.setting("spr1000Table",{
 			cardUiTarget: $("#spr1000CardTable"),
 			data: {
@@ -2031,6 +2039,310 @@ var OSLDsh2000Popup = function () {
 		
     	ajaxObj.send();
 	};
+	
+	
+	
+	var processList = function(){
+		var data = {
+				delCd: "02"
+		};
+		
+		
+		var ajaxObj = new $.osl.ajaxRequestAction(
+    			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100ProcessListAjax.do'/>", "async": true}
+				, data);
+		
+    	ajaxObj.setFnSuccess(function(datas){
+    		if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+				
+				$.osl.layerPopupClose();
+			}else{
+				var processes = datas.data;
+				$.each(processes, function(idx, value){
+					var str = '<div class="kt-portlet kt-portlet--mobile" id="processPortlet'+idx+'" data-target-div="process'+idx+'" data-process-id="'+value.processId+'">'
+								+ '<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">'
+									+ '<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">'
+										+ '<h4 class="kt-font-boldest kt-font-brand">'
+											+ '<i class="fa fa-th-large kt-margin-r-5"></i>' + $.osl.escapeHtml(value.processNm)
+										+ '</h4>'
+										+ '<h5 class="kt-font-bolder kt-font-brand osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile-430">'
+											+ '<span class="kt-margin-l-10">'
+												+ '(생성일: <span>'+value.regDtm+'</span>)'
+											+ '</span>'
+											+ '<span class="kt-margin-l-20">'
+												+ '담당<span class="badge osl-badge-brand kt-margin-l-5 kt-margin-r-10 chargerBadge">0</span>'
+												+ '전체<span class="badge osl-badge-brand kt-margin-l-5" allBadge>0</span>'
+											+ '</span>'
+										+ '</h5>'
+									+ '</div>'
+									+ '<div class="col-lg-5 col-md-12 col-sm-12 col-12 text-right kt-padding-r-0">'
+										+ '<div class="kt-portlet__head-group">'
+											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process1" title="칸반 그리드 전환" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
+												+ '<i class="fas fa-columns"></i>'
+											+ '</button>'
+											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
+											+ '</button>'
+											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
+												+ '<i class="fas fa-redo-alt"></i>'
+											+ '</button>'
+											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-portlet-fullscreen-btn" title="영역 전체화면" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
+												+ '<i class="fas fa-expand"></i>'
+											+ '</button>'
+											+ '<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>'
+										+ '</div>'
+									+ '</div>'
+								+ '</div>'
+								+ '<div class="kt-portlet__body kt-padding-10">'
+									+ '<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">'
+										
+										+ '<div class="osl-dsh-flowchart kt-margin-20 chartDiv">'
+											
+										+ '</div>'
+									+ '</div>'
+								+ '</div>'
+							+ '</div>'
+						+ '</div>'
+						+ '<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 kt-hide" id="processReqTable'+idx+'"></div>';
+					$("#processCard").append(str);
+				});
+				
+				getProcessFlow();
+			}
+    	});
+		
+    	ajaxObj.send();		
+	};
+	
+	var getProcessFlow = function(){
+		
+		var ajaxObj = new $.osl.ajaxRequestAction(
+    			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAjax.do'/>", "async": true});
+		
+    	ajaxObj.setFnSuccess(function(data){
+    		if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+				
+				$.osl.layerPopupClose();
+			}else{
+				console.log(data.flowList);
+				console.log(data.flowLinkList);
+				
+				var allProcessFlowList = {};
+				
+				
+				
+				
+				var flowList = data.flowList;
+				var flowLinkList = data.flowLinkList;
+				
+				
+				var processFlowList = [];
+				
+				var processFlowLinkList = [];
+				
+				
+				if(!$.osl.isNull(flowList)){
+					
+					
+					$.each(flowList, function(idx, map){
+						
+						var processId = map.processId;
+						
+						if($.osl.isNull(processFlowList[processId])){
+							
+							processFlowList[processId] = [];
+						}
+						
+						
+						processFlowList[processId].push(map); 
+					});
+				}
+				
+				
+				if(!$.osl.isNull(flowLinkList)){
+					
+					$.each(flowLinkList, function(idx, map){
+						
+						var processId = map.processId;
+						
+						if($.osl.isNull(processFlowLinkList[processId])){
+							
+							processFlowLinkList[processId] = [];
+						}
+						
+						
+						processFlowLinkList[processId].push(map); 
+					});
+				}
+				
+			}
+		});
+		
+		ajaxObj.send();	
+	}
+	
+	
+	var flowChart = function(flowList, flowLinkList){
+		
+		
+
+		if($.osl.isNull(flowList) || flowList.length == 0){
+			return true;
+		}
+		
+	      
+	      var flowNextIdList = {};
+	      
+	      
+	      if(!$.osl.isNull(flowLinkList) && flowLinkList.length > 0){
+	         $.each(flowLinkList, function(idx, map){
+	            
+	            if(!flowNextIdList.hasOwnProperty(map.flowId)){
+	               flowNextIdList[map.flowId] = [];
+	            }
+	            flowNextIdList[map.flowId].push(map.flowNextId);
+	         });
+	      }
+	      
+	      
+	      var flowInfoList = {};
+	      
+	      
+	      var startFlowId;
+	      
+	      var doneFlowId;
+	      
+	      
+	      var addFlowCheck = [];
+	      
+	      
+	      $.each(flowList, function(idx, map){
+	         
+	         if(map.flowStartCd == "01"){
+	            
+	            
+	            console.log(map.flowNm);
+	            
+	            startFlowId = map.flowId;
+	         }
+	         
+	         
+	         if(map.flowDoneCd == "01"){
+	            doneFlowId = map.flowId;
+	         }
+	         map["flowNextId"] = flowNextIdList[map.flowId];
+	         flowInfoList[map.flowId] = map;
+	      });
+	
+	      
+	      var innerFlowAppend = function(currentFlowId) {
+	         
+	         var flowInfo = flowInfoList[currentFlowId];
+	         
+	         
+	         
+	         var nextFlowIds = null;
+	         
+	         if(flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
+	        	 nextFlowIds = flowInfoList[currentFlowId]["flowNextId"];
+	         }
+	         
+	         
+	         if(!$.osl.isNull(nextFlowIds) && nextFlowIds.length == 0){
+	            return true;
+	         }
+	         
+	         else if(addFlowCheck.indexOf(currentFlowId) != -1){
+	            return true;
+	         }
+	         
+	         
+	         if(flowInfo.flowStartCd == "02"){
+	            
+	            
+	            addFlowCheck.push(currentFlowId);
+	            console.log(flowInfo.flowNm);
+	         }
+	         
+	         
+	         if(!$.osl.isNull(nextFlowIds)){
+	            
+	            $.each(nextFlowIds, function(idx, map){
+	               innerFlowAppend(map);
+	            });
+	         };
+	            return true;
+	      };
+	         
+	      
+	      
+	      innerFlowAppend(startFlowId);
+	      
+	      
+	      
+	      
+	      
+		
+		flowChartDraw();
+	};
+	
+	
+	var flowChartDraw = function(list, processId){
+		
+		var str = '';
+		$.each(list, function(idx, value){
+			str += '<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">'
+					+ '<div class="flowchart-operator-function">';
+				if(value.flowSignCd == "01"){
+					str += '<li class="fa fa-file-signature" title="결재"></li>';	
+				}
+				if(value.flowSignStopCd == "01"){
+					str += '<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>';	
+				}
+				if(value.flowEndCd == "01"){
+					str += '<li class="fa fa-sign-out-alt" title="종료 분기"></li>';	
+				}
+				if(value.flowRevisionCd == "01"){
+					str += '<li class="fa fa-code" title="리비전 저장유무"></li>';	
+				}
+				if(value.flowDplCd == "01"){
+					str += '<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>';	
+				}
+				
+				str	+= '</div>'
+					+ '<div class="flowchart-operator-title">'
+						+ '<div class="flowchart-operator-title__lebel">'+$.osl.escapeHtml(value.flowNm)+'</div>'
+						+ '<div class="flowchart-operator-menu hide">'
+							+ '<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">'
+								+ '<i class="fa fa-bars kt-padding-r-0"></i>'
+							+ '</button>'
+							+ '<div class="dropdown-menu dropdown-menu-right">'
+								+ '<div class="dropdown-item" data-flow-action="update">'
+									+ '<i class="fa fa fa-edit kt-font-primary"></i>수정'
+								+ '</div>'
+								+ '<div class="dropdown-item" data-flow-action="delete">'
+									+ '<i class="fa fa fa-trash kt-font-primary"></i>삭제'
+								+ '</div>'
+							+ '</div>'
+						+ '</div>'
+					+ '</div>'
+					+ '<div class="flowchart-operator-inputs-outputs kt-margin-0">'
+						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flowCharger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>1</span></div>'
+						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flowAllCharger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>1</span></div>'
+					+ '</div>'
+				+ '</div>';
+				
+			if(idx < list.length ){
+				
+				str += '<i class="fas fa-arrow-circle-right"></i>';
+			}
+		});
+		
+		
+		var processRow = $("#processCard").children("div[data-process-id="+processId+"]").find("chartDiv");
+		$(processRow).append(str);
+	}
 	
 	
 	var processTableSetting = function(tablenum){
