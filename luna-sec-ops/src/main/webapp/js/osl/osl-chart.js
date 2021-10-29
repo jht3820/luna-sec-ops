@@ -499,8 +499,8 @@ var OSLCoreChartSetting = function () {
 						targetConfig.series[idx] = [];
 						
 						targetConfig.series[idx].name = value[config.data.param.key.key1];
-						if(!$.osl.isNull(chartArrays[config.data.param.key.key2] )){
-							targetConfig.series[idx].data=chartArrays[config.data.param.key.key2 ];
+						if(!$.osl.isNull(value[config.data.param.key.key2] )){
+							targetConfig.series[idx].data=value[config.data.param.key.key2 ];
 						}else{
 							targetConfig.series[idx].data=[];
 						}

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -48,7 +48,7 @@
 		</div>
 	</div>
 </div>
-
+<!-- begin:: 대시보드 대제목 -->
 	<div class="kt-portlet kt-portlet--mobile" id="prjTopInfo">
 		<div class="kt-portlet__head kt-portlet__head--lg">
 			<div class="kt-portlet__head-label">
@@ -58,7 +58,7 @@
 			</div>
 			<div class="kt-portlet__head-toolbar">
 	            <div class="kt-portlet__head-group">
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" id="dshboardChartReset">
 						<i class="fas fa-redo-alt"></i>
 					</button>
 	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
@@ -68,19 +68,22 @@
 		<div class="kt-portlet__body">
 			<div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-12 col-12 kt-padding-20">
-					<div class="border osl-min-h-px--250">차트1</div>
+					<!-- 프로세스 별 요구사항 수 -->
+					<div class="border osl-min-h-px--250" id="processReqCntChart" data-dshboard-chart="prjChart"></div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-12 col-12 kt-padding-20">
-					<div class="border osl-min-h-px--250">차트2</div>
+					<!-- 각 프로세스별 처리율(월) -->
+					<div class="border osl-min-h-px--250" id="processMonthRatioChart" data-dshboard-chart="prjChart"></div>
 				</div>
 				<div class="col-lg-3 col-md-3 col-sm-12 col-12 kt-padding-20">
-					<div class="border osl-min-h-px--250">차트3</div>
+					<!-- 분기별 처리율 -->
+					<div class="border osl-min-h-px--250" id="processQuarterRatioChart" data-dshboard-chart="prjChart"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
+	<!-- end:: 대시보드 대제목 -->
+	<!-- begin:: 접수대기 -->
 	<div class="kt-portlet kt-portlet--mobile" id="newReq">
 		<div class="kt-portlet__head kt-portlet__head--lg">
 			<div class="kt-portlet__head-label">
@@ -114,11 +117,11 @@
 			<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="req4100ReqTable"></div>
 		</div>
 	</div>
+	<!-- end:: 접수대기 -->
 	
-	
-	
+	<!-- begin:: 담당 요구사항 결재 목록, 담당 배포계획 결재 목록 -->
 	<div class="row">
-		
+		<!-- begin:: 담당 요구사항 결재 목록 -->
 		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeSign">
 				<div class="kt-portlet__head kt-portlet__head--lg">
@@ -141,8 +144,8 @@
 				</div>
 			</div>
 		</div>
-		
-		
+		<!-- end:: 담당 요구사항 결재 목록 -->
+		<!-- begin:: 담당 배포계획 결재 목록 -->
 		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeDpl">
 				<div class="kt-portlet__head kt-portlet__head--lg">
@@ -169,15 +172,15 @@
 							<div class="osl-datatable-search" data-datatable-id="reqChargeDplTable"></div>
 						</div>
 					</div>
-					
+					<!-- <div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="reqChargeDplTable"></div> -->
 				</div>
 			</div>
 		</div>
-		
+		<!-- end:: 담당 배포계획 결재 목록 -->
 	</div>
+	<!-- end:: 담당 요구사항 결재 목록, 담당 배포계획 결재 목록 -->
 	
-	
-	
+	<!-- begin:: 프로세스 목록1 -->
 	<div class="kt-portlet kt-portlet--mobile" data-target-div="process1" id="processPortlet1">
 		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
 			<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">
@@ -213,10 +216,10 @@
 		</div>
 		<div class="kt-portlet__body kt-padding-10">
 			<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">
-				
+				<!-- begin :: 그리드 -->
 				<div class="osl-dsh-flowchart kt-margin-20">
 				
-					
+					<!-- flowchart 1 -->
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -247,10 +250,10 @@
 						</div>
 					</div>
 					
-					
+					<!-- 화살표 1 -->
 					<i class="fa fa-arrow-right"></i>
 					
-					
+					<!-- flowchart 2 -->
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -281,10 +284,10 @@
 						</div>
 					</div>
 					
-					
+					<!-- 화살표 2 -->
 					<i class="fa fa-arrow-right"></i>
 					
-					
+					<!-- flowchart 3 -->
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -315,10 +318,10 @@
 						</div>
 					</div>
 					
-					
+					<!-- 화살표 3 -->
 					<i class="fa fa-arrow-right"></i>
 					
-					
+					<!-- flowchart 4 -->
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -349,10 +352,10 @@
 						</div>
 					</div>
 					
-					
+					<!-- 화살표 4 -->
 					<i class="fa fa-arrow-right"></i>
 					
-					
+					<!-- flowchart 5 -->
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -383,10 +386,10 @@
 						</div>
 					</div>
 					
-					
+					<!-- 화살표 5 -->
 					<i class="fa fa-arrow-right"></i>
 					
-					
+					<!-- flowchart 6 -->
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -417,11 +420,11 @@
 						</div>
 					</div>
 				</div>
-				
+				<!-- end :: 그리드 -->
 
-				
+				<!-- begin :: 칸반 -->
 				<div class="osl-dsh-kanban kt-margin-20 kt-hide">
-					
+					<!-- kanban 1 -->
 					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
 						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
 							<div class="col-12 border-bottom">
@@ -438,7 +441,7 @@
 							<div class="col-12 text-center border-top kt-padding-10 font-border">작업흐름 명</div>
 						</div>
 						<div class="kt-portlet__body osl-kaban--card__body kt-scroll" processid="1">
-							
+							<!-- kanban_card 1-1 -->
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -469,7 +472,7 @@
 								</div>
 							</div>
 							
-							
+							<!-- kanban_card 1-2 -->
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -500,7 +503,7 @@
 								</div>
 							</div>
 							
-							
+							<!-- kanban_card 1-3 -->
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -531,7 +534,7 @@
 								</div>
 							</div>
 							
-							
+							<!-- kanban_card 1-4 -->
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -564,10 +567,10 @@
 						</div>
 					</div>
 					 
-					
+					<!-- 화살표 1 -->
 					<i class="fa fa-arrow-right"></i>
 					
-					
+					<!-- kanban 2 -->
 					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
 						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
 							<div class="col-12 border-bottom">
@@ -584,7 +587,7 @@
 							<div class="col-12 text-center border-top kt-padding-10 font-border">작업흐름 명</div>
 						</div>
 						<div class="kt-portlet__body osl-kaban--card__body kt-scroll"  processid="2">
-							
+							<!-- kanban_card 2-1 -->
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -617,17 +620,17 @@
 						</div>
 					</div>
 				</div>
-				
+				<!-- end :: 칸반 -->
 			</div>
 			
-			
+			<!-- begin :: grid datatable -->
 			<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 kt-hide" id="processReqTable_1"></div>
-			
+			<!-- end :: grid datatable -->
 		</div>
 	</div>
+	<!-- end:: 프로세스 목록 1 -->
 	
-	
-	
+	<!-- begin:: 프로세스 목록 2 -->
 	<div class="kt-portlet kt-portlet--mobile" data-target-div="process2" id="processPortlet2">
 		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
 			<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">
@@ -663,9 +666,9 @@
 		</div>
 		<div class="kt-portlet__body kt-padding-10">
 			<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">
-				
+				<!-- begin :: 그리드 -->
 				<div class="osl-dsh-flowchart kt-margin-20">
-					
+					<!-- flowchart 1 -->
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -726,10 +729,10 @@
 						</div>
 					</div>
 					
-					
+					<!-- 화살표 1 -->
 					<i class="fa fa-arrow-right"></i>
 					
-					
+					<!-- flowchart 2 -->
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -760,10 +763,10 @@
 						</div>
 					</div>
 				</div>
-				
-				
+				<!-- end :: 그리드 -->
+				<!-- begin :: 칸반 -->
 				<div class="osl-dsh-kanban kt-margin-20 kt-hide">
-					
+					<!-- kanban -->
 					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
 						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
 							<div class="col-12 border-bottom">
@@ -781,7 +784,7 @@
 						</div>
 						<div class="kt-portlet__body osl-kaban--card__body kt-scroll" processid="3">
 							
-							
+							<!-- kanban_card 3-1 -->
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -812,7 +815,7 @@
 								</div>
 							</div>
 							
-							
+							<!-- kanban_card 3-2 -->
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -843,7 +846,7 @@
 								</div>
 							</div>
 							
-							
+							<!-- kanban_card 3-3 -->
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -876,20 +879,20 @@
 						</div>
 					</div>
 				</div>
-				
+				<!-- end :: 칸반 -->
 			</div>
 			
-			
+			<!-- begin :: grid datatable -->
 			<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 kt-hide" id="processReqTable_2"></div>
-			
+			<!-- end :: grid datatable -->
 		</div>
 	</div>
+	<!-- end:: 프로세스 목록 2 -->
 	
-	
-	
+	<!-- begin :: 스프린트 -->
 	<div id="spr1000CardTable">
 		<div class="kt_datatable osl-datatable-footer__divide" id="spr1000Table"></div>
-    
+    <!-- end :: 스프린트 -->
     </div>
  <script>
 "use strict";
@@ -911,6 +914,8 @@ var OSLDsh2000Popup = function () {
 	
 	var scrollArray = $('.osl-kaban--card__body.kt-scroll');
 	
+
+	
 	
 	var timerVarSel;
 	var secondTime;
@@ -931,6 +936,11 @@ var OSLDsh2000Popup = function () {
 		$("#dshWidgetSortBtn").click(function(){
 			fnDshWidgetSort(this);
 		});
+		
+		$("#dshboardChartReset").click(function(){
+			fnChartDataLoad();
+		});
+		
 		
 		
 		$.each(scrollArray,function(idx,map){
@@ -2304,6 +2314,7 @@ var OSLDsh2000Popup = function () {
  		return resDay;
  	}		
  	
+ 	
 	var fnDashBoardSetting = function(){
 		
 		timerVarSel = $('#timerVarSel').val();
@@ -2315,8 +2326,443 @@ var OSLDsh2000Popup = function () {
 		$.each(dshDatatableIdList, function(idx, value){
 			fsRefresh(value);
 		});
+		
+		
+		fnChartDataLoad();
+		
 	};
 
+	
+	
+	var fnChartDataLoad = function(){
+		
+		
+		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/dsh/dsh2000/dsh2000/selectDsh2000DashBoardDataAjax.do'/>"});
+		
+		ajaxObj.setFnSuccess(function(data){
+			
+			if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+			}else{
+				fnChartSetting(data);
+			}	
+		});
+		
+		
+		ajaxObj.send();
+		
+	};
+	
+	
+	
+	var fnChartSetting = function(dshData){
+		 
+		
+		var chartIdArr = []; 
+		$.each($("div[data-dshboard-chart=prjChart]"), function(idx, map){
+			
+			chartIdArr.push($(map).attr("id"));
+		});
+		
+		
+		$.each(chartIdArr, function(idx, map){
+			var dshChartObj = $.osl.chart.list[map];
+			
+			if(!$.osl.isNull(dshChartObj)){
+				dshChartObj.targetCt.destroy();
+			}
+		});
+		
+		
+		var processReqCnt = dshData.processReqCnt;
+			
+		
+		var monthProcessReqCnt = dshData.monthProcessReqCnt;
+		
+		
+		var reqCntChartData = [];
+		
+		var monthRatioChart = [];
+		
+		var quarterRatioChart = [];
+		
+		
+		if(!$.osl.isNull(processReqCnt)){
+			
+			
+			$.each(processReqCnt,function(idx, map){
+		
+				
+				var tmpChartData = {
+						"processId":map.processId, 
+						"processNm":map.processNm,
+						"reqAllcnt":map.allCnt,
+						"reqChargerCnt":map.chargerCnt,
+						"reqEndCnt":map.endCnt
+					};
+				
+				
+				reqCntChartData.push(tmpChartData); 
+			});
+		}
+		
+		
+		var monthRatio_X_Label = ["01월","02월","03월","04월","05월","06월","07월","08월","09월","10월","11월","12월"];	
+		var monthRatio_Y_Label = [];	
+		var monthRatio_processNm = {};	
+		var monthRatio_monthCnt = {};	
+		var monthRatio_cahrt_data = [];	
+		var monthRatio_bgColor_list = ["#4b73eb","#936de9","#ff5643","#58c3e5","#fba450","#eb4ba4","#89eb4b","#c4eb4b","#9f4beb","#fba450","#ff5643","#58c3e5","#fba450"];	
+		var monthRatio_chart_color = []; 
+		var monthRatio_chart_border = []; 
+		
+		
+		var quarterRatio_X_Label = ["1분기", "2분기", "3분기", "4분기"];
+		var quarterRatio_label_val = {"1분기":0, "2분기":1, "3분기":3, "4분기":4};
+		var quarterRatio_month_idx = {"01월":0,"02월":0,"03월":0,"04월":1,"05월":1,"06월":1,"07월":2,"08월":2,"09월":2,"10월":3,"11월":3,"12월":3};
+		var quarterRatio_chart_data = [0,0,0,0]; 
+		
+		var quarterCahrtData = []; 
+		
+		
+		var defaultQuarterCahrt = [
+			{"quarterNm":"1분기", "quarterVal":0},
+			{"quarterNm":"2분기", "quarterVal":0},
+			{"quarterNm":"3분기", "quarterVal":0},
+			{"quarterNm":"4분기", "quarterVal":0},
+		];
+		
+		
+		
+		if(!$.osl.isNull(monthProcessReqCnt)){
+			
+			$.each(monthProcessReqCnt, function(idx, map){
+				
+				var reqEdDtmMm = map.reqEdDuMm;
+				
+				reqEdDtmMm += "월";
+				
+				if(monthRatio_Y_Label.indexOf(map.processId) == -1){
+					
+					monthRatio_Y_Label.push(map.processId);
+					
+					
+					var tempJson = {};
+					tempJson[map.processId] = map.processNm;
+					$.extend(monthRatio_processNm,tempJson);
+				}
+				
+				
+				if(Object.keys(monthRatio_monthCnt).indexOf(reqEdDtmMm) == -1){
+					monthRatio_monthCnt[reqEdDtmMm] = {};
+				}
+				
+				
+				if(Object.keys(monthRatio_monthCnt[reqEdDtmMm]).indexOf(map.processId) == -1){
+					
+					
+					var reqTotalCnt = map.reqTotalCnt;
+					
+					var reqEdMmCnt = map.reqEdMmCnt;
+					
+					var reqEdMmRatio = 0;
+					
+					
+					if(reqEdMmCnt > 0 && reqTotalCnt > 0){
+						reqEdMmRatio = ((reqEdMmCnt/reqTotalCnt)*100);
+						reqEdMmRatio = reqEdMmRatio.toFixed(0);
+					}
+					
+					monthRatio_monthCnt[reqEdDtmMm][map.processId] = reqEdMmRatio;
+				}
+			});
+			
+			
+			$.each(monthRatio_Y_Label,function(idx, map){
+				
+				var mmCntDataArr = [];
+				
+				
+				$.each(monthRatio_X_Label,function(inIdx, inMap){
+					
+					if($.osl.isNull(monthRatio_monthCnt[inMap])){
+						mmCntDataArr.push(0);
+					}else{
+						
+						if($.osl.isNull(monthRatio_monthCnt[inMap][map])){	
+							mmCntDataArr.push(0);
+						}else{	
+							
+							mmCntDataArr.push(monthRatio_monthCnt[inMap][map]);
+						
+							
+							var mmCntVal = monthRatio_monthCnt[inMap][map];
+							if(mmCntVal > 0){
+								mmCntVal = (mmCntVal/3);
+							}
+							
+							
+							var quarterVal = quarterRatio_month_idx[inMap]; 
+							
+							
+							if( $.osl.isNull(quarterCahrtData[quarterRatio_label_val[quarterVal]]) ){
+								
+								quarterCahrtData[quarterVal] = {};
+								
+								quarterCahrtData[quarterVal]["quarterNm"] = (quarterVal+1)+"분기";
+								quarterCahrtData[quarterVal]["quarterVal"] = 0;
+							}
+
+							
+							quarterRatio_chart_data[quarterVal] += mmCntVal;
+						 	quarterCahrtData[quarterVal]["quarterVal"] = quarterRatio_chart_data[quarterVal]; 
+						}
+					}
+				});
+				
+				
+				var bgIdx = idx;
+				
+				
+				if(idx > monthRatio_bgColor_list.length-1){
+					bgIdx = idx%monthRatio_bgColor_list.length;
+				}
+				
+				monthRatio_chart_color.push(monthRatio_bgColor_list[bgIdx]);
+				monthRatio_chart_border.push(0);
+				
+				
+				monthRatio_cahrt_data.push({
+					processId:map,
+		            processNm: monthRatio_processNm[map],
+		            monthRatio: mmCntDataArr,
+				});
+			});
+		}
+	
+		
+		var settingQuarterData = [];
+		
+		$.each(quarterCahrtData, function(idx, map){
+			
+			if($.osl.isNull(map)){
+				
+				settingQuarterData.push(defaultQuarterCahrt[idx]);
+			}else{
+				map["quarterVal"] = Math.round(map["quarterVal"]);
+				
+				settingQuarterData.push(map);
+			}
+		});
+		
+		
+		
+		var reqCntChart = $.osl.chart.setting("apex","processReqCntChart",{
+			
+			
+			data:{
+				param:{
+					
+					dataArr: reqCntChartData,	
+					
+					xKey:"processNm",
+					key:{
+						 key1: "reqAllcnt", 
+						 key2: "reqChargerCnt", 
+						 key3: "reqEndCnt", 
+					},
+					keyNm:{
+						keyNm1:"총 요구사항",
+						keyNm2:"담당 요구사항",
+						keyNm3:"최종완료 요구사항"
+					},
+					keyType:{
+						 keyType1:"bar",
+						 keyType3:"line",
+						 keyType4:"line"
+					},
+					dataType: "local",
+					
+					chartType:"mix"
+				}
+			},
+			chart:{
+				
+				colors: ["#840ad9", "#ffb822","#d90a4d"],
+				title: {
+					text: "프로세스별 요구사항 수",
+					align: "center",
+					margin: 20,
+				},
+				stroke: {
+		        	width: [0, 5, 5],
+		          	curve: 'straight',
+		          	dashArray: [0, 0, 0]
+				},
+				
+				markers: {
+				    size: 4, 
+				    strokeWidth: 0, 
+				},
+				dataLabels:{
+					enabled:true,
+				 	enabledOnSeries: [0], 
+					
+					formatter:function(val, opts){
+						return val;
+					},
+					
+					background: {
+						enabled:false
+					},
+					
+					style: {
+						colors: ["#ffffff"] 
+					},
+				},
+				yaxis: {
+					show:true,
+					min:0,
+				},
+				zoom: {
+		            enabled: false 
+		        },
+			}
+		});
+		
+		
+    	
+		var processMonthRatioChart = $.osl.chart.setting("apex","processMonthRatioChart",{
+			
+			data:{
+				param:{
+					
+					dataArr: monthRatio_cahrt_data,	
+					
+					xKeyArr: monthRatio_X_Label, 
+					key:{
+						 key1: "processNm", 
+						 key2: "monthRatio", 
+					},
+					keyType:{
+						 keyType1:"bar",
+					},
+					dataType: "local",
+					
+					chartType:"colum"
+				}
+			},
+			chart:{
+				
+				colors: monthRatio_chart_color,
+				title: {
+					text: "각 프로세스 별 처리율(월)",
+					align: "center",
+					margin: 20,
+				},
+				stacked: true,
+				stroke: {
+		        	width: monthRatio_chart_border, 
+		          	curve: 'straight',
+		          	dashArray: monthRatio_chart_border 
+				},
+				dataLabels:{
+					enabled:true,
+					
+					formatter:function(val, opts){
+						return val+"%";
+					},
+				},
+				yaxis: {
+					show:true,
+					min: 0,
+				    max: 100,
+				    labels: {
+				        formatter: function(val, index) {
+				          return val+"%";
+				        }
+				     }
+				},
+				zoom: {
+		            enabled: false 
+		        },
+			}
+		});
+		
+		
+		
+		var processQuarterRatioChart = $.osl.chart.setting("apex","processQuarterRatioChart",{
+			
+			
+			data:{
+				param:{
+					
+					dataArr: settingQuarterData,	
+					
+					xKey:"quarterNm",
+					key:{
+						 key1: "quarterVal", 
+					},
+					keyNm:{
+						keyNm1:"분기별 처리율",
+					},
+					keyType:{
+						 keyType1:"bar",
+					},
+					dataType: "local",
+					
+					chartType:"mix"
+				}
+			},
+			chart:{
+				
+				colors: ["#58c3e5"],
+				title: {
+					text: "분기별 처리율",
+					align: "center",
+					margin: 20,
+				},
+				stroke: {
+		        	width: [0],
+		          	curve: 'straight',
+		          	dashArray: [0]
+				},
+				dataLabels:{
+					enabled:true,
+					textAnchor: "middle",
+					
+					formatter:function(val, opts){
+						return Math.round(val)+"%";
+					},
+					
+					background: {
+						enabled:false
+					},
+					
+					style: {
+						colors: ["#ffffff"] 
+					},
+				},
+				yaxis: {
+					show:true,
+					min:0,
+					labels: {
+						
+						formatter: function(val, index) {
+							return val+"%";
+				    	}
+					}
+				},
+				zoom: {
+		            enabled: false 
+		        },
+			}
+		});
+		
+	};
+	
+	
 	
 	var printTime = function() {
 		var timerStr = Math.floor(secondTime/60) + "분 " + (secondTime%60) + "초";
@@ -2503,5 +2949,5 @@ $.osl.ready(function(){
 	OSLDsh2000Popup.init();
 });
 </script>
-
+<!-- end script -->
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />
