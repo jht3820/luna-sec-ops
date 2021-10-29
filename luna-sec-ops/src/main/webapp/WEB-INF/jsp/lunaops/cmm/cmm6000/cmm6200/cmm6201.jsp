@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <form class="kt-form" id="frCmm6201" autocomplete="off">
 	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}"/>
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}"/>
@@ -51,8 +51,8 @@
 					<div class="osl-wizard-wrapper">
 						<div class="wizard-number">2</div>
 						<div class="wizard-label">
-							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.sprPtTitle">기본 항목 입력</span></div>
-							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">담당자 및 요구사항 항목 입력</span></div>
+							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.sprPtTitle">항목 정보 입력</span></div>
+							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">기본 항목 및 필수 항목 입력</span></div>
 						</div>
 					</div>
 				</div>
@@ -62,15 +62,6 @@
 						<div class="wizard-label">
 							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.chargerTitle">단계 선택</span></div>
 							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.chargerDesc">다음 단계 선택</span></div>
-						</div>
-					</div>
-				</div>
-				<div class="osl-wizard__nav-item osl-preview-hide" data-ktwizard-type="step">
-					<div class="osl-wizard-wrapper">
-						<div class="wizard-number">4</div>
-						<div class="wizard-label">
-							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.sprPtTitle">결재 정보 입력</span></div>
-							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">결재선 및 결재 정보 입력</span></div>
 						</div>
 					</div>
 				</div>
@@ -91,11 +82,6 @@
 				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15" data-ktwizard-type="step-info">
 					<div class="kt-widget__top osl-preview-hide">
 						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.process">* 다음 단계를 선택하세요.</span></h6>
-					</div>
-				</div>
-				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15 osl-preview-hide" data-ktwizard-type="step-info">
-					<div class="kt-widget__top osl-preview-hide">
-						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.process">* 결재 정보를 입력해주세요.</span></h6>
 					</div>
 				</div>
 			</div>
@@ -298,6 +284,25 @@
 			<div class="osl-background-around kt-padding-10">
 				<div class="row">
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="row osl-flow-sign-hide">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+								<div class="kt-portlet" id="cmm6201ChargerUsrSel">
+									<div class="kt-portlet__head">
+										<div class="kt-portlet__head-label">
+											<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">결재선 지정</span>
+										</div>
+										<div class="kt-portlet__head-toolbar">
+											<div class="kt-portlet__head-group">
+												<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+											</div>
+										</div>
+									</div>
+									<div class="kt-portlet__body">
+									
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 								<div class="kt-portlet" id="cmm6201ChargerUsrSel">
@@ -316,13 +321,13 @@
 											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 												<div class="form-group">
 													<label for="reqStDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 일시</span></label>
-													<input type="text" class="form-control osl-preview-readonly" name="reqStDtm" id="reqStDtm">
+													<input type="text" class="form-control osl-preview-readonly" name="reqStDtm" id="reqStDtm" opttype="-1">
 												</div>
 											</div>
 											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 												<div class="form-group">
 													<label for="reqEdDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 일시</span></label>
-													<input type="text" class="form-control osl-preview-readonly" name="reqEdDtm" id="reqEdDtm">
+													<input type="text" class="form-control osl-preview-readonly" name="reqEdDtm" id="reqEdDtm" opttype="-1">
 												</div>
 											</div>
 										</div>
@@ -330,13 +335,13 @@
 											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 												<div class="form-group">
 													<label for="reqStDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 예정 일자</span></label>
-													<input type="text" class="form-control osl-preview-readonly" name="reqStDuDtm" id="reqStDuDtm" required>
+													<input type="text" class="form-control osl-preview-readonly" name="reqStDuDtm" id="reqStDuDtm" opttype="-1" required>
 												</div>
 											</div>
 											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 												<div class="form-group">
 													<label for="reqEdDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 예정 일자</span></label>
-													<input type="text" class="form-control osl-preview-readonly" name="reqEdDuDtm" id="reqEdDuDtm" required>
+													<input type="text" class="form-control osl-preview-readonly" name="reqEdDuDtm" id="reqEdDuDtm" opttype="-1" required>
 												</div>
 											</div>
 										</div>
@@ -437,11 +442,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10 osl-preview-hide" data-ktwizard-type="step-content">
-			<div class="osl-background-around kt-padding-10">
-			
 			</div>
 		</div>
 	</div>
@@ -592,6 +592,11 @@ var OSLCmm6201Popup = function () {
     			addConfirmMsgStr += "최종 완료 단계를 선택하셨습니다.</br>해당 요구사항의 업무 처리가 종료됩니다.</br></br>";
     		}
     		
+    		
+    		if(paramFlowId == selFlowId){
+    			addConfirmMsgStr += "같은 단계 진행 시 </br>입력 항목 정보만 저장됩니다.</br></br>";
+    		}
+    		
     		$.osl.confirm(addConfirmMsgStr+"입력된 내용으로 업무 처리를 진행하시겠습니까?",{html:true}, function(result){
 				if (result.value) {
 					
@@ -622,7 +627,7 @@ var OSLCmm6201Popup = function () {
 				var selFlow = flowChart.flowchart("getOperatorData", operatorId);
 
 				
-				if(selFlow.properties.flowStatus != "01"){
+				if(selFlow.properties.flowStatus != "01" && selFlow.properties.flowStatus != "03"){
 					
 					return false;
 				}
@@ -795,10 +800,14 @@ var OSLCmm6201Popup = function () {
  				
  				reqProcessAuthFlag = data.reqProcessAuthFlag;
  				
-var reqInfo = data.reqInfo;
  				
- 				paramProId = reqInfo.processId;
- 				paramFlowId = reqInfo.flowId;
+				var reqInfo = data.reqInfo;
+ 				
+ 				
+ 				var flowInfo = data.flowInfo;
+ 				
+ 				paramProId = flowInfo.processId;
+ 				paramFlowId = flowInfo.flowId;
  				
  				
 		    	$.osl.setDataFormElem(reqInfo, formId);
@@ -874,20 +883,31 @@ var reqInfo = data.reqInfo;
  				
  				if(reqProcessAuthFlag == false){
  					
- 					$("#frCmm6201").addClass("preview");
+ 					$("#"+formId).addClass("preview");
  					
  					
- 					$("#frCmm6201 input[required]").removeAttr("required");
- 					$("#frCmm6201 label.required").removeClass("required");
- 					$("#frCmm6201 .osl-preview-hide").remove();
+ 					$("#"+formId+" input[required]").removeAttr("required");
+ 					$("#"+formId+" label.required").removeClass("required");
+ 					$("#"+formId+" .osl-preview-hide").remove();
  				
  					
- 					$("#frCmm6201 .osl-preview-readonly").attr("readonly","readonly");
+ 					$("#"+formId+" .osl-preview-readonly").attr("readonly","readonly");
  					
  					modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">읽기 전용</div>';
  				}
  				
  				else{
+ 					
+ 					
+ 					if(flowInfo.flowSignCd == "01"){
+ 						
+ 						
+ 						
+ 					}else{
+ 						
+ 						$("#"+formId+" .osl-flow-sign-hide").hide();
+ 					}
+ 						
 	 				
 					$.osl.date.daterangepicker($("#"+formId+" #reqStDtm"), {
 							singleDatePicker: true, 

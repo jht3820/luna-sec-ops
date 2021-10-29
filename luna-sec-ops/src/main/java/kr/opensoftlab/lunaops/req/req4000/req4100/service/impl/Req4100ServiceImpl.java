@@ -889,16 +889,19 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		}
 		
 		
-		Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "01", beforeFlowId, selFlowId, regUsrId);
-		req6001Vo.setPreProcessId(processId);
-		req6001Vo.setChgProcessId(processId);
-		req6001Vo.setRegUsrId(regUsrId);
-		req6001Vo.setRegUsrIp(regUsrIp);
-		req6001Vo.setModifyUsrId(regUsrId);
-		req6001Vo.setModifyUsrIp(regUsrIp);
-		
-		paramMap.put("req6001Vo", req6001Vo);
-		req6000Service.insertReq6001ReqChgInfo(paramMap);
+		if(!beforeFlowId.equals(selFlowId)) {
+			
+			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "01", beforeFlowId, selFlowId, regUsrId);
+			req6001Vo.setPreProcessId(processId);
+			req6001Vo.setChgProcessId(processId);
+			req6001Vo.setRegUsrId(regUsrId);
+			req6001Vo.setRegUsrIp(regUsrIp);
+			req6001Vo.setModifyUsrId(regUsrId);
+			req6001Vo.setModifyUsrIp(regUsrIp);
+			
+			paramMap.put("req6001Vo", req6001Vo);
+			req6000Service.insertReq6001ReqChgInfo(paramMap);
+		}
 		
 		
 		req4100DAO.updateReq4101ReqProcessInfo(paramMap);

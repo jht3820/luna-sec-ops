@@ -978,6 +978,10 @@
 		    <isNotEmpty property="reqProType">
 		    	,	A.REQ_PRO_TYPE = #reqProType#
 		    </isNotEmpty>
+		    	,	REQ_ST_DTM			= TO_DATE(REPLACE(#reqStDtm#, '-'), 'YYYYMMDD HH24:MI')
+			    ,	REQ_ED_DTM			= TO_DATE(REPLACE(#reqEdDtm#, '-'), 'YYYYMMDD HH24:MI')
+			    ,	REQ_ST_DU_DTM		= TO_DATE(REPLACE(#reqStDuDtm#, '-'), 'YYYYMMDD')
+			    ,	REQ_ED_DU_DTM		= TO_DATE(REPLACE(#reqEdDuDtm#, '-') || '23:59', 'YYYYMMDDHH24:MI')
 		    	,	A.PROCESS_ID = #processId#
 		    	,	A.FLOW_ID = #flowId#
 		WHERE	1=1

@@ -1101,6 +1101,9 @@ public class Req4100Controller {
     		List<Map> flowLinkList = prj1100Service.selectPrj1107FlowLinkList(paramMap);
     		
     		
+    		Map flowInfo = prj1100Service.selectPrj1101FlowInfo(reqInfo);
+    		
+    		
     		Boolean reqProcessAuthFlag = false;
     				
     		
@@ -1142,6 +1145,7 @@ public class Req4100Controller {
 			Map prjGrpInfo = prj1000Service.selectPrj1000GrpInfo(paramMap);
     		
     		model.addAttribute("flowList", flowList);
+    		model.addAttribute("flowInfo", flowInfo);
     		model.addAttribute("flowLinkList", flowLinkList);
         	
 			model.addAttribute("fileList",fileList);
