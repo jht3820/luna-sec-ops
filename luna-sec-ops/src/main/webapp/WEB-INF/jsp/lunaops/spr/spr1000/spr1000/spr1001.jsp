@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
+<%@ taglib prefix="c" uri="http:
+<!-- begin page DOM -->
+<!-- begin :: form -->
 <form class="kt-form" id="spr1001">
 	<input type="hidden" id="sprId" name="sprId" value="${param.paramSprId}">
 	<input type="hidden" id="sprStDt" name="sprStDt" value="${param.paramSprStDt}">
@@ -10,103 +10,210 @@
 	<div class="kt-portlet kt-portlet--mobile">
 		<div class="kt-portlet__body">
 			<div class="row kt-padding-l-20 kt-padding-r-20">
-			
-			
-				<div class="col-12 text-center kt-margin-t-20"><h1 class="font-weight-bold">${param.paramSprNm}</h1></div>
-				
-				
-				
-				
-				<div class="col-12 text-right">
-					${param.paramSprStDt} - ${param.paramSprEdDt}
+				<!-- begin :: 스프린트 이름, 설명 -->
+				<div class="col-lg-5 col-md-5 col-sm-12 col-12 d-flex align-items-center">
+					<div class="d-flex kt-padding-l-15">
+						<div class="kt-media kt-media--xl kt-media--circle kt-media--primary osl-margin-r-2rm"><span>대기</span></div>
+						<div class="d-flex flex-column osl-margin-r-auto osl-word__break">
+							<h5 class="kt-font-boldest text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번째 스프린트">${param.paramSprNm}</h5>
+							<span class="text-muted text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번째 스프린트">${param.paramSprDesc}</span>
+						</div>
+					</div>	
 				</div>
-				<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
-				<div class="col-12 text-right">${param.paramSprDesc}</div>
-				
-				
-				
-				<div class="table border kt-margin-t-20 kt-margin-b-0">
-					<div class="row kt-margin-0">
-						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">전체 배정 백로그</div>
-						<div class="col-6 text-center kt-padding-15" id="sprStat01"></div>
-					</div>
-					<div class="row kt-margin-0 border-top">
-						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">최종 완료 백로그</div>
-						<div class="col-6 text-center kt-padding-15" id="sprStat02"></div>
-					</div>
-					<div class="row kt-margin-0 border-top">
-						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">미 완료 백로그</div>
-						<div class="col-6 text-center kt-padding-15" id="sprStat03"></div>
-					</div>
-					<div class="row kt-margin-0 border-top">
-						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">평균 완료 소요시간</div>
-						<div class="col-6 text-center kt-padding-15" id="sprStat04"></div>
-					</div>
-					<div class="row kt-margin-0 border-top">
-						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">진척률</div>
-						<div class="col-6 text-center kt-padding-15" id="sprStat05"></div>
-					</div>
-					<div class="row kt-margin-0 border-top">
-						<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">완료 스토리 포인트 공수</div>
-						<div class="col-6 text-center kt-padding-15" id="sprStat06"></div>
+				<!-- end :: 스프린트 이름, 설명 -->
+				<div class="col-lg-7 col-md-7 col-sm-12 col-12">
+					<div class="d-flex flex-wrap osl-margin-t-2rm kt-padding-l-20">
+						<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">
+							<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>시작일</span>
+							<h5><span class="badge badge-primary">${param.paramSprStDt}</span></h5>
+						</div>
+						<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">
+							<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>종료일</span>
+							<h5><span class="badge badge-danger">${param.paramSprEdDt}</span></h5>
+						</div>
+						<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">
+							<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>남은 일수</span>
+							<h5><span class="badge badge-warning osl-min-width-85">0</span></h5>
+						</div>
+						<div class="osl-flex-row-fluid osl-margin-b-175rm">
+							<div class="osl-progress">
+								<div class="osl-margin-b-1rm">
+									<i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i>
+									<span>진척률</span>
+								</div>
+								<div class="progress osl-prj-group-md">
+									<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				
 			</div>
-			
-			
-			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
+			<!-- begin :: 스프린트 내용 table -->
+			<div class="d-flex flex-wrap">
+				<div class="kt-pricing-v1">
+					<div class="kt-pricing-v1__header">
+						<div class="kt-iconbox">
+							<div class="kt-iconbox__icon">
+								<div class="kt-iconbox__icon-bg"></div>
+								<img src="/media/osl/icon/reqAll.png">
+							</div>
+						</div>
+					</div>
+					<div class="kt-pricing-v1__body">
+						<div class="kt-iconbox__title">
+							전체 배정 백로그
+						</div>
+						<div class="kt-pricing-v1__price" id="sprStat01">
+							<span class="kt-pricing-v1__price-currency">개</span>
+						</div>
+					</div>
+				</div>
+				<div class="kt-pricing-v1">
+					<div class="kt-pricing-v1__header">
+						<div class="kt-iconbox">
+							<div class="kt-iconbox__icon">
+								<div class="kt-iconbox__icon-bg"></div>
+								<img src="/media/osl/icon/reqDone.png">
+							</div>
+						</div>
+					</div>
+					<div class="kt-pricing-v1__body">
+						<div class="kt-iconbox__title">
+							최종 완료 백로그
+						</div>
+						<div class="kt-pricing-v1__price" id="sprStat02">
+							<span class="kt-pricing-v1__price-currency">개</span>
+						</div>
+					</div>
+				</div>
+				<div class="kt-pricing-v1">
+					<div class="kt-pricing-v1__header">
+						<div class="kt-iconbox">
+							<div class="kt-iconbox__icon">
+								<div class="kt-iconbox__icon-bg"></div>
+								<img src="/media/osl/icon/reqPointer.png">
+							</div>
+						</div>
+					</div>
+					<div class="kt-pricing-v1__body">
+						<div class="kt-iconbox__title">
+							미 완료 백로그
+						</div>
+						<div class="kt-pricing-v1__price" id="sprStat03">
+							<span class="kt-pricing-v1__price-currency">개</span>
+						</div>
+					</div>
+				</div>
+				<div class="kt-pricing-v1">
+					<div class="kt-pricing-v1__header">
+						<div class="kt-iconbox">
+							<div class="kt-iconbox__icon">
+								<div class="kt-iconbox__icon-bg"></div>
+								<img src="/media/osl/icon/reqInProgress.png">
+							</div>
+						</div>
+					</div>
+					<div class="kt-pricing-v1__body">
+						<div class="kt-iconbox__title">
+							평균 완료 소요시간
+						</div>
+						<div class="kt-pricing-v1__price" id="sprStat04">
+							<span class="kt-pricing-v1__price-currency">시</span>
+						</div>
+					</div>
+				</div>
+				<div class="kt-pricing-v1">
+					<div class="kt-pricing-v1__header">
+						<div class="kt-iconbox">
+							<div class="kt-iconbox__icon">
+								<div class="kt-iconbox__icon-bg"></div>
+								<img src="/media/osl/icon/reqInProgress.png">
+							</div>
+						</div>
+					</div>
+					<div class="kt-pricing-v1__body">
+						<div class="kt-iconbox__title">
+							완료 스토리 포인트 공수
+						</div>
+						<div class="kt-pricing-v1__price" id="sprStat06">
+							<span class="kt-pricing-v1__price-currency">시간 /  1 스토리 포인트</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end :: 스프린트 내용 table -->
+		</div>
+	</div>
+	<div class="kt-portlet">
+		<div class="kt-portlet__head">
+			<div class="kt-portlet__head-label">
+				<h5 class="kt-font-boldest kt-font-brand">
+					<i class="fa fa-th-large kt-margin-r-5"></i>스프린트 차트
+				</h5>
+			</div>
+		</div>
+		<div class="kt-portlet__body">
+			<!-- begin :: 스프린트 차트 -->
+			<div class="row kt-margin-0">
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
-					<div class="border osl-card__data--empty osl-min-h-px--365" id="burnUpChart"></div>
+					<div class="border rounded-sm osl-card__data--empty osl-min-h-px--365" id="burnUpChart"></div>
 				</div>
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
-					<div class="border osl-card__data--empty osl-min-h-px--365" id="burnDownChart"></div>
+					<div class="border rounded-sm osl-card__data--empty osl-min-h-px--365" id="burnDownChart"></div>
 				</div>
 			</div>
-			<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 osl-user__active--block" id="velocityChartWrap">
+			<div class="row kt-margin-0 kt-margin-t-20 osl-user__active--block" id="velocityChartWrap">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
-					<div class="border osl-min-h-px--140" id="velocityChart"></div>
+					<div class="border rounded-sm osl-min-h-px--140" id="velocityChart"></div>
 				</div>
 			</div>
-			
-			
-			
-			<div class="row kt-margin-t-20">
-				<div class="col-lg-12 col-md-12 col-sm-12 kt-padding-20">
-					<div class="row">
-						
-						<div class="col-lg-6 col-md-6 col-sm-12">
-							<div class="osl-datatable-search" data-datatable-id="sprDetailTable"></div>
-						</div>
-						
-						
-						<div class="col-lg-6 col-md-6 col-sm-12">
-							<button type="button" class="btn btn-brand float-right" data-datatable-id="sprDetailTable" data-datatable-action="select" title="스프린트 상세정보 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
-								<i class="fa fa-list"></i><span>조회</span>
-							</button>
-						</div>
-						
-					</div>
-					
-					<div class="kt_datatable" id="sprDetailTable"></div>
-					
-				</div>
+			<!-- end :: 스프린트 차트 -->
+		</div>
+	</div>
+	<div class="kt-portlet kt-margin-b-0">
+		<div class="kt-portlet__head">
+			<div class="kt-portlet__head-label">
+				<h5 class="kt-font-boldest kt-font-brand">
+					<i class="fa fa-th-large kt-margin-r-5"></i>스프린트 데이터 테이블
+				</h5>
 			</div>
+		</div>
+		<div class="kt-portlet__body kt-padding-b-0">
+			<!-- begin :: 스프린트 데이터테이블 전체영역-->
+			<div class="row kt-margin-0">
+				<!-- begin :: 스프린트 데이터테이블 검색영역 -->
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="osl-datatable-search" data-datatable-id="sprDetailTable"></div>
+				</div>
+				<!-- end :: 스프린트 데이터테이블 검색영역 -->
+				<!-- begin :: 스프린트 데이터테이블 조회버튼 -->
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<button type="button" class="btn btn-brand float-right" data-datatable-id="sprDetailTable" data-datatable-action="select" title="스프린트 상세정보 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+						<i class="fa fa-list"></i><span>조회</span>
+					</button>
+				</div>
+				<!-- end :: 스프린트 데이터테이블 조회버튼 -->
+			</div>
+			<!-- begin :: 스프린트 데이터테이블  -->
+			<div class="kt_datatable" id="sprDetailTable"></div>
+			<!-- end :: 스프린트 데이터테이블  -->
 			
+			<!-- end :: 스프린트 데이터테이블 전체영역 -->
 		</div>
 	</div>
 </form>
-
-
+<!-- end :: form -->
+<!-- begin :: modal-footer -->
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand"
 		data-dismiss="modal">
 		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
-
-
-
+<!-- end :: modal-footer -->
+<!-- end DOM -->
+<!-- begin page script -->
 <script>
 "use strict";
 var OSLSpr1001Popup = function () {
@@ -253,27 +360,27 @@ var OSLSpr1001Popup = function () {
  				
  				var sprStat= data.sprStat;
  				
- 				$("#sprStat01").html($.osl.escapeHtml(sprStat.allCntSum));
+ 				$("#sprStat01").prepend($.osl.escapeHtml(sprStat.allCntSum));
  				
- 				$("#sprStat02").html($.osl.escapeHtml(sprStat.endCntSum));
+ 				$("#sprStat02").prepend($.osl.escapeHtml(sprStat.endCntSum));
  				
- 				$("#sprStat03").html($.osl.escapeHtml(sprStat.notEndCntSum));
+ 				$("#sprStat03").prepend($.osl.escapeHtml(sprStat.notEndCntSum));
  				
  				if($.osl.escapeHtml(sprStat.avgTime)=='NaN'){
-	 				$("#sprStat04").html("0");
+	 				$("#sprStat04").prepend("0");
  				}else{
- 					$("#sprStat04").html($.osl.escapeHtml(sprStat.avgTime.toFixed(2)));
+ 					$("#sprStat04").prepend($.osl.escapeHtml(sprStat.avgTime.toFixed(2)));
  				}
  				
  				if($.osl.escapeHtml(sprStat.sprEndPercent)=='NaN'){
-	 				$("#sprStat05").html($.osl.escapeHtml("0 %"));
+	 				$("#sprStat05").prepend($.osl.escapeHtml("0"));
  				}else{
- 					$("#sprStat05").html($.osl.escapeHtml(sprStat.sprEndPercent.toFixed(2))+" %");
+ 					$("#sprStat05").prepend($.osl.escapeHtml(sprStat.sprEndPercent.toFixed(2)));
  				}
  				if($.osl.escapeHtml(sprStat.sprPerTime)=='NaN'){
-	 				$("#sprStat06").html("0 시간   /  1 스토리 포인트");
+	 				$("#sprStat06").prepend("0");
  				}else{
- 					$("#sprStat06").html($.osl.escapeHtml(sprStat.sprPerTime.toFixed(2)) + "시간 /  1 스토리 포인트");
+ 					$("#sprStat06").prepend($.osl.escapeHtml(sprStat.sprPerTime.toFixed(2)));
  				}
  				
  				totalSprPoint = sprStat.sprPoint;
@@ -721,4 +828,4 @@ $.osl.ready(function(){
 	OSLSpr1001Popup.init();
 });
 </script>
-
+<!-- end script -->
