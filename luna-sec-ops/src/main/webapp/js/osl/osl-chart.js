@@ -222,9 +222,9 @@ var OSLCoreChartSetting = function () {
 						"name": "en",
 						"options": {
 							"toolbar": {
-								"exportToCSV": "다운로드 CSV",
-								"exportToSVG": "다운로드 SVG",
-								"exportToPNG": "다운로드 PNG",
+								"exportToCSV": "CSV로 다운로드",
+								"exportToSVG": "SVG로 다운로드",
+								"exportToPNG": "PNG로 다운로드",
 							}
 					  }
 					}]
