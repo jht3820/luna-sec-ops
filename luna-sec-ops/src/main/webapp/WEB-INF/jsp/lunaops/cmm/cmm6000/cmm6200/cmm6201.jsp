@@ -88,7 +88,10 @@
 			<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
 				<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
 			</button>
-			<button type="button" class="btn btn-outline-brand kt-margin-l-20 osl-preview-hide" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit" data-ktwizard-type="action-submit">
+			<button type="button" class="btn btn-outline-primary kt-margin-l-20 osl-preview-hide" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit">
+				<i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">저장 (현재 단계 유지)</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand kt-margin-l-20 osl-preview-hide" id="cmm6201SaveNextSubmit" name="cmm6201SaveNextSubmit" data-ktwizard-type="action-submit">
 				<i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">처리 완료</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
@@ -558,7 +561,7 @@ var OSLCmm6201Popup = function () {
     	});
     	
     	
-    	$("#cmm6201SaveSubmit").click(function(){
+    	$("#cmm6201SaveNextSubmit").click(function(){
     		
     		if($.osl.isNull(selFlowId)){
     			$.osl.alert("단계를 선택해주세요.");
@@ -566,43 +569,14 @@ var OSLCmm6201Popup = function () {
     		}
     		
     		
-    		$(".osl-wizard__content[data-ktwizard-type=step-content]").addClass("osl-block--imp");
+    		fnReqProcessCheck("next");
     		
+    	});
+    	
+    	
+    	$("#cmm6201SaveSubmit").click(function(){
     		
-    		if(!$("#"+formId).valid()){
-    			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
-    			$("form#"+formId).parent(".modal-body").scrollTop(0); 
-    			$.osl.alert("입력되지 않은 필수 항목이 있습니다.");
-    			return false;
-    		}else{
-    			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
-    		}
-    		
-    		
-    		var currentFlowInfo = flowChart.flowchart("getOperatorData",selFlowId);
-    		
-    		var addConfirmMsgStr = '';
-    		if(!$.osl.isNull(currentFlowInfo) && currentFlowInfo.hasOwnProperty("properties") && currentFlowInfo.properties.flowDoneCd == "01"){
-    			
-    			if($.osl.isNull($("#reqStDtm").val()) || $.osl.isNull($("#reqEdDtm").val())){
-    				$.osl.alert("최종 완료 단계에서 </br>업무 시작 일시, 업무 종료 일시는 필수 항목입니다.");
-    				return false;
-    			}
-    			
-    			addConfirmMsgStr += "최종 완료 단계를 선택하셨습니다.</br>해당 요구사항의 업무 처리가 종료됩니다.</br></br>";
-    		}
-    		
-    		
-    		if(paramFlowId == selFlowId){
-    			addConfirmMsgStr += "같은 단계 진행 시 </br>입력 항목 정보만 저장됩니다.</br></br>";
-    		}
-    		
-    		$.osl.confirm(addConfirmMsgStr+"입력된 내용으로 업무 처리를 진행하시겠습니까?",{html:true}, function(result){
-				if (result.value) {
-					
-		    		fnReqProcessAction();
-				}
-			});
+    		fnReqProcessCheck("current");
     	});
     	
     	
@@ -1301,11 +1275,64 @@ var OSLCmm6201Popup = function () {
 	};
 	
 	
+	var fnReqProcessCheck = function(nextType){
+		
+		$(".osl-wizard__content[data-ktwizard-type=step-content]").addClass("osl-block--imp");
+		
+		
+		if(!$("#"+formId).valid()){
+			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
+			$("form#"+formId).parent(".modal-body").scrollTop(0); 
+			$.osl.alert("입력되지 않은 필수 항목이 있습니다.");
+			return false;
+		}else{
+			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
+		}
+
+		var addConfirmMsgStr = '';
+		
+		
+		if(nextType == "next"){
+    		
+    		var currentFlowInfo = flowChart.flowchart("getOperatorData",selFlowId);
+    		
+    		if(!$.osl.isNull(currentFlowInfo) && currentFlowInfo.hasOwnProperty("properties") && currentFlowInfo.properties.flowDoneCd == "01"){
+    			
+    			if($.osl.isNull($("#reqStDtm").val()) || $.osl.isNull($("#reqEdDtm").val())){
+    				$.osl.alert("최종 완료 단계에서 </br>업무 시작 일시, 업무 종료 일시는 필수 항목입니다.");
+    				return false;
+    			}
+    			addConfirmMsgStr += "최종 완료 단계를 선택하셨습니다.</br>해당 요구사항의 업무 처리가 종료됩니다.</br></br>";
+    		}
+    		
+    		
+    		if(paramFlowId == selFlowId){
+    			addConfirmMsgStr += "같은 단계 진행 시 </br>입력 항목 정보만 저장됩니다.</br></br>";
+    		}
+		}else{
+			addConfirmMsgStr += "같은 단계 진행 시 </br>입력 항목 정보만 저장됩니다.</br></br>";
+		}
+		
+		$.osl.confirm(addConfirmMsgStr+"입력된 내용으로 업무 처리를 진행하시겠습니까?",{html:true}, function(result){
+			if (result.value) {
+				
+	    		fnReqProcessAction(nextType);
+			}
+		});
+	}
 	
-	var fnReqProcessAction = function(){
+	
+	var fnReqProcessAction = function(nextType){
 		
    		var fd = $.osl.formDataToJsonArray(formId);
-		fd.append("selFlowId",selFlowId);
+		
+		
+   		if(nextType == "next"){
+			fd.append("selFlowId",selFlowId);
+   		}else{
+   			
+   			fd.append("selFlowId",paramFlowId);
+   		}
 		
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
