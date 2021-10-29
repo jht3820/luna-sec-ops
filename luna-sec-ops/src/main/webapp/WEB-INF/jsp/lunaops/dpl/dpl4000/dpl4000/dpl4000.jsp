@@ -242,6 +242,15 @@
 						}
 					}
 					
+					
+					searchReset(reqDatatableId);
+					
+					$("button[data-datatable-id="+reqDatatableId+"][data-datatable-action=select]").click();
+					
+					searchReset(jobDatatableId);
+					
+					$("button[data-datatable-id="+jobDatatableId+"][data-datatable-action=select]").click();
+					
 					reloadList();		
 				},
 				"dblClick":function(rowData){
@@ -536,6 +545,35 @@
 		 }
 	 };
 
+	 
+	var searchReset = function(datatableId){
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
+		
+		
+		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
+		
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
+		
+		
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
+		
+		
+		$("#searchData_"+datatableId).removeAttr("readonly");
+		
+		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
+		
+		
+		$("#searchData_"+datatableId).val("");
+
+		
+		
+		$("#searchData_"+datatableId).attr("disabled","disabled");
+	};
+	
 	 return {
 		init: function(){
 			documentSetting();

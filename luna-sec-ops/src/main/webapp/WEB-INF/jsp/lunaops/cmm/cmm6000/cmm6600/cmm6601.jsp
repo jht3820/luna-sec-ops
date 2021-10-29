@@ -44,7 +44,7 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span>Close</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
 "use strict";
@@ -148,7 +148,7 @@ var OSLCmm6601Popup = function () {
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do'/>", "async": false}
-			, {"prjId" : prjId, "targetId" : targetId});
+			, {"prjId" : prjId, "targetId" : targetId, "targetCd": targetCd});
 
 		
 		ajaxObj.setFnSuccess(function(data){
@@ -187,11 +187,24 @@ var OSLCmm6601Popup = function () {
 		else if(userInfo.ord == ord){
 			signTypeNm = signType;
 		}
-		
-  		
-  		var usrNm = $.osl.escapeHtml(userInfo.usrNm);
-  		if(usrNm.length > 10){
-  			usrNm = usrNm.substr(0,10) + '...';
+  		var duty = '';
+   		if((!$.osl.isNull(userInfo.usrDutyCd)) && (!$.osl.isNull(userInfo.usrPositionCd))){
+  			duty 	+= 	'<span class="kt-widget__desc">'
+  					+		'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
+  					+	'</span>'
+  		}else{
+  			
+  			if((!$.osl.isNull(userInfo.usrDutyCd))){
+  				duty 	+= '<span class="kt-widget__desc">'
+  						+		'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>'
+  						+	'</span>'
+  			}
+  			
+  			if((!$.osl.isNull(userInfo.usrPositionCd))){
+  				duty 	+= 	'<span class="kt-widget__desc">'
+  						+		'<span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
+  						+	'</span>'
+  			}
   		}
   		
 		usrStr += 
@@ -206,16 +219,13 @@ var OSLCmm6601Popup = function () {
 					+'<div class="kt-media kt-media--circle kt-media--md">'
 						+'<img src="'+$.osl.user.usrImgUrlVal(userInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 					+'</div>'
-					+'<div class="kt-widget__wrapper text-truncate">'
-						+'<div class="kt-widget__label">'
-							+'<div class="kt-widget__title"> <span>'
-								+usrNm
-								+'</span><small>'+$.osl.escapeHtml(userInfo.email)+'</small>'
+					+'<div class="kt-widget__wrapper">'
+						+'<div class="kt-widget__label  osl-min-h-px--57 justify-content-center">'
+							+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
+								+$.osl.escapeHtml(userInfo.usrNm)
 							+'</div>'
-							
-							+'<span class="kt-widget__desc">'
-								+'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
-							+'</span>'
+							+'<small class="osl-word__break osl-word__break--w200">'+$.osl.escapeHtml(userInfo.email)+'</small>'
+							+duty
 						+'</div>'
 					+'</div>'
 						+"<div class='sign-type'>"+signTypeNm+"</div>"

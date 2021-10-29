@@ -103,6 +103,21 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 					}
 					
 					arm1100DAO.insertArm1100NtfInfo(ntfParam);
+					
+					
+					if("1".equals(ord)) {
+						
+						if("01".equals(paramMap.get("targetCd"))) {
+							ntfParam.put("armTitle", "[요구사항] 결재 담당자 지정"); 
+							ntfParam.put("armContent", "["+targetNm+"] 요구 사항에 "+ord+"번째 결재자로 지정되었습니다."); 
+						
+						}else if("02".equals(paramMap.get("targetCd"))) {
+							ntfParam.put("armTitle", "[배포 계획] 결재 요청"); 
+							ntfParam.put("armContent", "["+targetNm+"] 배포 계획이 결재 대기 중입니다."); 
+						}
+						
+						arm1100DAO.insertArm1100NtfInfo(ntfParam);
+					}
 				}
 			}
 		}
@@ -136,6 +151,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void insertCmm6601SignInfo(Map<String, String> paramMap) throws Exception {
 		String rowDatas = paramMap.get("rowDatas");
@@ -165,16 +181,18 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				paramMap.put("ord", String.valueOf(ord));
 				paramMap.put("targetId", jsonObj.getString("dplId"));
 				
+				
 				ntfParamDft.put("armTypeCd", "04"); 
 				ntfParamDft.put("usrId", jsonObj.getString("signDrfUsrId")); 
 				
 				
 				if("signRjt".equals(paramMap.get("type"))) {
 					paramMap.put("signTypeCd", "04");
-					
+					ntfParamDft.put("armSendTypeCd", "05"); 
 					
 					if("01".equals(jsonObj.get("targetCd"))) {
 						targetNm = jsonObj.getString("dplNm");
+						
 						
 						ntfParamDft.put("armTitle", "[배포 계획] 결재 반려"); 
 						ntfParamDft.put("armContent", "["+targetNm+"] 배포 계획이 결재 반려 되었습니다."); 
@@ -182,6 +200,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 					
 					else if("02".equals(jsonObj.get("targetCd"))) {
 						targetNm = jsonObj.getString("dplNm");
+						
 						
 						ntfParamDft.put("armTitle", "[배포 계획] 결재 반려"); 
 						ntfParamDft.put("armContent", "["+targetNm+"] 배포 계획이 결재 반려 되었습니다."); 
@@ -194,29 +213,36 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 					int maxOrd = cmm6600DAO.selectCmm6600MaxOrd(paramMap);
 					
 					
-					
-					if("01".equals(jsonObj.get("targetCd"))) {
-						targetNm = jsonObj.getString("dplNm");
-						
-						ntfParamDft.put("armTitle", "[배포 계획] 결재 승인"); 
-						ntfParamDft.put("armContent", "["+targetNm+"] 배포 계획이 결재 승인 되었습니다."); 
-					}
-					
-					else if("02".equals(jsonObj.get("targetCd"))) {
-						targetNm = jsonObj.getString("dplNm");
-						
-						ntfParamDft.put("armTitle", "[배포 계획] 결재 반려"); 
-						ntfParamDft.put("armContent", "["+targetNm+"] 배포 계획이 결재 승인 되었습니다."); 
-					}
-					
-					
 					if(maxOrd == ord) {
 						paramMap.put("signTypeCd", "03");
-					
+						ntfParamDft.put("armSendTypeCd", "04"); 
+						
+						
+						if("01".equals(jsonObj.get("targetCd"))) {
+							targetNm = jsonObj.getString("dplNm");
+							
+							
+							ntfParamDft.put("armTitle", "[배포 계획] 최종 결재 승인"); 
+							ntfParamDft.put("armContent", "["+targetNm+"] 배포 계획이 최종 결재 승인 되었습니다."); 
+						}
+						
+						else if("02".equals(jsonObj.get("targetCd"))) {
+							targetNm = jsonObj.getString("dplNm");
+							
+							
+							ntfParamDft.put("armTitle", "[배포 계획] 최종 결재 승인"); 
+							ntfParamDft.put("armContent", "["+targetNm+"] 배포 계획이 최종 결재 승인 되었습니다"); 
+						}
+						
 					
 					}else {
+						
+						paramMap.put("ord", String.valueOf(ord+1));
 						paramMap.put("signTypeCd", "02");
-
+						
+						
+						Map nextSignUsrInfo = cmm6600DAO.selectCmm6600NextOrdInfo(paramMap);
+						
 						
 						Map<String, Object> ntfParamApr = new HashMap<String, Object>();
 						
@@ -225,8 +251,36 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 						ntfParamApr.put("sendUsrId", jsonObj.getString("signDrfUsrId")); 
 						ntfParamApr.put("armSendTypeCd", "01"); 
 						
-						ntfParamDft.put("armTypeCd", "04"); 
-						ntfParamDft.put("usrId", jsonObj.getString("signDrfUsrId")); 
+						ntfParamApr.put("armTypeCd", "04"); 
+						ntfParamApr.put("usrId", nextSignUsrInfo.get("signUsrId")); 
+						
+						
+						if("01".equals(jsonObj.get("targetCd"))) {
+							targetNm = jsonObj.getString("dplNm");
+							
+							
+							ntfParamDft.put("armTitle", "[배포 계획] 결재 승인"); 
+							ntfParamDft.put("armContent", "["+targetNm+"] 배포 계획이 결재 승인 되었습니다."); 
+							
+							
+							ntfParamApr.put("armTitle", "[배포 계획] 결재 승인"); 
+							ntfParamApr.put("armContent", "["+targetNm+"] 배포 계획이 결재 승인 되었습니다."); 
+						}
+						
+						else if("02".equals(jsonObj.get("targetCd"))) {
+							targetNm = jsonObj.getString("dplNm");
+							
+							
+							ntfParamDft.put("armTitle", "[배포 계획] 결재 승인"); 
+							ntfParamDft.put("armContent", "["+targetNm+"] 배포 계획이 결재 승인 되었습니다 <br> 다음 결재자 : "+nextSignUsrInfo.get("signUsrId")); 
+							
+							
+							ntfParamApr.put("armTitle", "[배포 계획] 결재 요청"); 
+							ntfParamApr.put("armContent", "["+targetNm+"] 배포 계획이 결재 대기 중입니다."); 
+						}
+						
+						
+						arm1100DAO.insertArm1100NtfInfo(ntfParamApr);
 					}
 				}
 				
@@ -234,6 +288,10 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				cmm6600DAO.insertCmm6601SignInfo(paramMap);
 				
 			}
+			
+			
+			arm1100DAO.insertArm1100NtfInfo(ntfParamDft);
+			
 		}
 	}
 

@@ -79,8 +79,8 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="cmm6500SelDept">조직 선택</button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">Close</button>
+	<button type="button" class="btn btn-brand" id="cmm6500SelDept"><i class="fa fa-check-square"></i><span class="osl-resize__display--show">조직 선택</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show">Close</span></button>
 </div>
 <script>
 "use strict";

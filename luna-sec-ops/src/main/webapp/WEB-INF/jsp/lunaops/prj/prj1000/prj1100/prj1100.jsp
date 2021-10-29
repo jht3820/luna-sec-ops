@@ -25,22 +25,22 @@
 			<div class="kt-inbox__toolbar kt-inbox__toolbar--extended">
 				<div class="kt-inbox__actions kt-inbox__actions--expanded">
 					<div class="kt-inbox__panel">
-						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="Zoom reset" data-zoom="reset">
+						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="확대 초기화" data-zoom="reset">
 							<i class="flaticon2-refresh-button"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="Zoom in" data-zoom="in">
+						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="확대" data-zoom="in">
 							<i class="fa fa-search-plus"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="Zoom out" data-zoom="out">
+						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="축소" data-zoom="out">
 							<i class="fa fa-search-minus"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="insert" data-toggle="kt-tooltip" title="Create">
+						<button type="button" class="kt-inbox__icon" data-flow-action="insert" data-toggle="kt-tooltip" title="단계 생성">
 							<i class="flaticon2-add-square"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="update" data-toggle="kt-tooltip" title="Update">
+						<button type="button" class="kt-inbox__icon" data-flow-action="update" data-toggle="kt-tooltip" title="단계 수정">
 							<i class="flaticon2-writing"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="delete" data-toggle="kt-tooltip" title="Delete">
+						<button type="button" class="kt-inbox__icon" data-flow-action="delete" data-toggle="kt-tooltip" title="단계 삭제">
 							<i class="flaticon2-rubbish-bin"></i>
 						</button>
 						<!-- <button type="button" class="kt-inbox__icon" data-flow-action="detail" data-toggle="kt-tooltip" title="Detail">
@@ -893,7 +893,7 @@ var OSLPrj1100Popup = function () {
    								flowSignCd: map.flowSignCd,
    								flowSignStopCd: map.flowSignStopCd,
    								flowStartCd: map.flowStartCd,
-   								flowEndCd: map.flowEndCd,
+   								flowDoneCd: map.flowDoneCd,
    								flowWorkCd: map.flowWorkCd,
    								flowRevisionCd: map.flowRevisionCd,
    								flowDplCd: map.flowDplCd,
