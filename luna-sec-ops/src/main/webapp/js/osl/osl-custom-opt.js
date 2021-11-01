@@ -298,7 +298,6 @@ var OSLCoreCustomOptionSetting = function () {
 			
 			$(".itemDelete").off();
 			$(".itemDelete").click(function(){
-				debugger;
 				if(config.actionFn.hasOwnProperty("delete")){
 					config.actionFn.delete($(this));
 				}else{

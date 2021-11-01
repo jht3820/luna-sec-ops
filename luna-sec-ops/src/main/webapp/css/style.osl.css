@@ -1081,6 +1081,29 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .osl-block--imp{
 	display: block !important;
 }
+.kt-widget.kt-widget--general-3 .kt-widget__top {
+    background-color: #fff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
+    box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
+}
+.kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper .kt-widget__label{
+	flex-basis: 100%;
+}
+.kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper .kt-widget__links{
+	-webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+	margin-left: 2rem;
+	margin-right: 0;
+}
+.kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper{
+	overflow: hidden;
+}
+.kt-widget.kt-widget--general-3:not(.kt-widget--fit) .kt-widget__top {
+    padding: 5px 25px;
+}
 
 .kt-datatable__body > .kt-datatable__row > td.kt-datatable__cell--left.kt-datatable__cell > span {
     white-space: nowrap;
