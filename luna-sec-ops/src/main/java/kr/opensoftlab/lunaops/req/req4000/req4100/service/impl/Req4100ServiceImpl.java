@@ -772,17 +772,6 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			}
 			
 			
-			for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
-				JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
-				Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
-    			itemMap.put("processId", processId);
-    			itemMap.put("flowId", paramMap.get("selFlowId"));
-    			itemMap.put("prjId", prjId);
-    			itemMap.put("reqId", reqId);
-    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
-    			prj1300Service.deletePrj1102ItemAjax(itemMap);
-    			prj1300Service.deletePrj1102ItemInfoAjax(itemMap);
-			}
 		}
 	}
 	
@@ -905,6 +894,50 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		
 		
 		req4100DAO.updateReq4101ReqProcessInfo(paramMap);
+		
+		
+		
+		
+		String basicItemList = (String) paramMap.get("basicItemList");
+		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+		String basicItemDelList = (String) paramMap.get("basicItemDelList");
+		
+		JSONParser jsonParser = new JSONParser();
+		
+		
+		JSONArray basicItemJsonArray = (JSONArray) jsonParser.parse(basicItemList);
+		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
+		
+		
+		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("processId", processId);
+			itemMap.put("flowId", paramMap.get("selFlowId"));
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", reqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			prj1300Service.savePrj1103ItemAjax(itemMap);
+		}
+		
+		
+		for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("processId", processId);
+			itemMap.put("flowId", paramMap.get("selFlowId"));
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", reqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			itemMap.put("itemDivision", "02");
+
+			prj1300Service.savePrj1102ItemAjax(itemMap);
+			prj1300Service.savePrj1103ItemAjax(itemMap);
+		}
+		
+		
+		
 	}
 
 	

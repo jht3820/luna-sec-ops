@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frCmm6201" autocomplete="off">
 	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}"/>
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}"/>
@@ -399,12 +399,19 @@
 								</div>
 								<div class="kt-portlet__head-toolbar">
 									<div class="kt-portlet__head-group">
+										<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air osl-preview-hide" data-toggle="dropdown" data-skin="brand" data-placement="bottom" tabindex="1"><i class="fa fa-plus"></i></a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<div class="dropdown-item" id="insertBasicItemBtn"><i class="fa fa-plus kt-font-brand"></i>신규 항목 추가</div>
+											<div class="dropdown-item" id="selectBasicItemBtn"><i class="fa fa-list-alt kt-font-brand"></i>기본항목 불러오기</div>
+										</div>
 										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 									</div>
 								</div>
 							</div>
 							<div class="kt-portlet__body">
-							
+								<div class="row" id="basicItemList">
+								
+								</div>
 							</div>
 						</div>
 					</div>
@@ -469,6 +476,13 @@ var OSLCmm6201Popup = function () {
 	var paramFlowId;
 
 	
+	var basicItemList = new Array();
+	
+	var basicItemInsertList = new Array();
+	
+	var basicItemDelList = new Array();
+	
+	
 	var formEditList = [];
 	
 	
@@ -515,6 +529,54 @@ var OSLCmm6201Popup = function () {
 			windowScroll:false
 		});
     	
+
+    	
+		$("#selectBasicItemBtn").click(function(){
+			var data = {
+					callPage:"OSLCmm6200Popup"
+				};
+			var options = {
+					idKey: "prj1304",
+					modalTitle: "기본항목 리스트",
+					modalSize: "xl",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1304ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1304Popup.getItemList();
+							OSLCmm6201Popup.addItemList(itemList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1304View.do',data,options);
+		});
+		
+		
+		$("#insertBasicItemBtn").click(function(){
+			var data = {
+					type:"insert",
+					callPage:"OSLCmm6200Popup"
+				};
+			var options = {
+					idKey: "prj1305",
+					modalTitle: "기본항목 추가",
+					modalSize: "lg",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1305ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1305Popup.getItemList();
+							OSLCmm6201Popup.addItemList(itemList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1305View.do',data,options);
+		});
+		
     	$(".osl-req__process-history").on('mousewheel',function(e){
     		var wheelDelta = e.originalEvent.wheelDelta;
     		if(wheelDelta > 0){
@@ -852,6 +914,39 @@ var OSLCmm6201Popup = function () {
 		    	
 		    	
 		    	
+				var ajaxObj = new $.osl.ajaxRequestAction(
+						{"url":"<c:url value='/prj/prj1000/prj1300/selectPrj1102AllItemListAjax.do'/>", "async":"false"}
+						,{prjId: paramPrjId, processId: paramProId, flowId: paramFlowId, reqId: paramReqId});
+				
+				
+				ajaxObj.setFnSuccess(function(data){
+					if(data.errorYn == "Y"){
+						$.osl.alert(data.message,{type: 'error'});
+					}else{
+						
+						basicItemList = data.itemList;
+						
+						var viewType=""
+						var readOnly=""
+						if(reqProcessAuthFlag){
+							viewType="default";
+							readOnly=false;
+						}else{
+							viewType="preview";
+							readOnly=true;
+						}
+				    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+				    			
+				    			{
+									viewType: viewType,
+									readOnly: readOnly
+								}
+			    		); 
+					}
+				});
+				
+				
+				ajaxObj.send();
 		    	
 		    	
  				
@@ -1334,6 +1429,45 @@ var OSLCmm6201Popup = function () {
    			fd.append("selFlowId",paramFlowId);
    		}
 		
+
+   		
+		$.each(basicItemList, function(idx, map){
+			if(map.itemCode == "01"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "02"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "03"){ 
+			}else if(map.itemCode == "04"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}else if(map.itemCode == "05"){ 
+			}else if(map.itemCode == "06"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}
+		});
+   		
+		
+		$.each(basicItemInsertList, function(idx, map){
+			if(map.itemCode == "01"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "02"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "03"){ 
+			}else if(map.itemCode == "04"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}else if(map.itemCode == "05"){ 
+			}else if(map.itemCode == "06"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}
+		});
+		
+		fd.append("basicItemList",JSON.stringify(basicItemList));
+		fd.append("basicItemInsertList",JSON.stringify(basicItemInsertList));
+		fd.append("basicItemDelList",JSON.stringify(basicItemDelList));
+		
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req4000/req4100/saveReq4100ReqProcessAction.do'/>"
@@ -1362,7 +1496,36 @@ var OSLCmm6201Popup = function () {
         
         init: function() {
         	documentSetting();
-        }
+        },
+    	addItemList: function(itemList){
+	    	basicItemInsertList = basicItemInsertList.concat(itemList);
+	    	
+	    	
+	    	$.osl.customOpt.setting(itemList,  "basicItemList",
+	    			
+	    			{
+						htmlAppendType: true,
+						delAt: true,
+						actionFn:{
+							delete:function($this){
+								var targetId = $this.data("itemId");
+								$this.parents(".basicItemDiv:first").remove();
+								basicItemDelList.push({"itemId":targetId});
+		
+								var delIdx = ""
+								$.each(basicItemInsertList,function(idx, map){
+									if(map.itemId == targetId){
+											delIdx = idx;						
+									}
+								});
+								if(delIdx!==""){
+									basicItemInsertList.splice(delIdx,1);
+								}
+							}
+						}
+					}
+    		); 
+    	}
     };
 }();
 
