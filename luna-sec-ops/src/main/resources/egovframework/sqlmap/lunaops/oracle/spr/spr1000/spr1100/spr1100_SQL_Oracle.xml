@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="spr1100DAO">
 
@@ -11,6 +11,7 @@
 		<result property="licGrpId"				column="LIC_GRP_ID"/>
 		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
 		<result property="prjId"					column="PRJ_ID"/>
+		<result property="prjNm"					column="PRJ_NM"/>
 		<result property="sprId"					column="SPR_ID"/>
 		<result property="reqId"					column="REQ_ID"/>
 		<result property="sprPoint"				column="SPR_POINT"/>
@@ -23,24 +24,30 @@
 		<result property="modifyUsrIp"			column="MODIFY_USR_IP"/>
 		<result property="reqResultDesc"			column="REQ_RESULT_DESC" jdbcType="CLOB" javaType="java.lang.String"/>
     </resultMap>
-    
    
 	
 	
 	<sql id="selectSpr1100AssList">
 		SELECT
 			ROWNUM RN
+			, T1.PRJ_NM AS PRJ_NM
 			, T1.REQ_ID AS REQ_ID
 			, T1.REQ_NM AS REQ_NM
+			, T1.REQ_USR_NM AS REQ_USR_NM
 			, T1.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
 			, T1.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
 			, T1.REQ_USR_EMAIL AS REQ_USR_EMAIL
 			, T1.REQ_USR_NUM AS REQ_USR_NUM
 			, T1.REQ_USR_IMG_ID AS REQ_USR_IMG_ID
+			, T1.REQ_CHARGER_ID AS REQ_CHARGER_ID
+			, T1.REQ_CHARGER_NM AS REQ_CHARGER_NM
+			, T1.REQ_CHARGER_IMG_ID AS REQ_CHARGER_IMG_ID
+			, T1.REQ_CHARGER_EMAIL AS REQ_CHARGER_EMAIL
 			, T1.REQ_ORD AS REQ_ORD
 			, T1.REQ_PRO_TYPE AS REQ_PRO_TYPE
 			, T1.REQ_PRO_TYPE_NM AS REQ_PRO_TYPE_NM
 			, T1.REQ_DTM AS REQ_DTM
+			, T1.REG_DTM AS REG_DTM
 			, T1.REQ_PW AS REQ_PW
 			, T1.PROCESS_ID AS PROCESS_ID
 			, T1.FLOW_ID AS FLOW_ID
@@ -48,16 +55,27 @@
 			SELECT 
 				A.REQ_ID AS REQ_ID
 				, A.REQ_NM AS REQ_NM
+				, SF_PRJ1000_GRP_NM(A.PRJ_ID) AS PRJ_NM
 				, A.REQ_DESC AS REQ_DESC
+				, NVL(REQ_USR_NM, SF_STM3000_USR_INFO(A.REQ_USR_ID, '1')) AS REQ_USR_NM
 				, A.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
 				, A.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
 				, A.REQ_USR_EMAIL AS REQ_USR_EMAIL
 				, A.REQ_USR_NUM AS REQ_USR_NUM
 				, SF_STM3000_USR_INFO(A.REQ_USR_ID, '6')  AS REQ_USR_IMG_ID
+				,	A.REQ_CHARGER_ID
+				,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
+				,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+				,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
+				, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
+    		   	, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
+				, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
+				, 	NVL2(A.REQ_ED_DU_DTM, TO_CHAR(A.REQ_ED_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ED_DU_DTM
 				, A.REQ_ORD AS REQ_ORD
 				, A.REQ_PRO_TYPE AS REQ_PRO_TYPE
 				, SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', A.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
-				, TO_CHAR(A.REQ_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REQ_DTM
+				, TO_CHAR(A.REQ_DTM, 'YYYY-MM-DD') AS REQ_DTM
+				, TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REG_DTM
 				, NVL2(A.REQ_PW, 'Y', 'N') AS REQ_PW
 				, A.PROCESS_ID AS PROCESS_ID
 				, A.FLOW_ID AS FLOW_ID
@@ -67,6 +85,14 @@
 		    AND A.PRJ_GRP_ID = #prjGrpId#
 			AND A.PRJ_ID = #prjId#
 			AND B.SPR_ID = #sprId#
+			<isNotEmpty property="cate">
+				<isEqual property="cate" compareValue="ongoing">
+					AND A.REQ_PRO_TYPE = '02'
+				</isEqual>
+				<isEqual property="cate" compareValue="end">
+					AND A.REQ_PRO_TYPE = '04'
+				</isEqual>
+			</isNotEmpty>
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">
 					ORDER BY $paramSortFieldId$
@@ -88,7 +114,7 @@
 				<isEqual property="searchTargetId" compareValue="reqOrd">
 					AND	T1.REQ_ORD = #searchTargetData#
 				</isEqual>
-				<isEqual property="searchTargetId" compareValue="reqProTypeCd">
+				<isEqual property="searchTargetId" compareValue="reqProType">
 					AND	T1.REQ_PRO_TYPE = #searchTargetData#
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="prjNm">
@@ -105,6 +131,9 @@
 					AND	REGEXP_REPLACE(T1.REQ_DESC, '<[^>]*>', '') LIKE '%'|| #searchTargetData# ||'%'
 				]]>
 				</isEqual>
+				<isEqual property="searchTargetId" compareValue="reqKey">
+					AND	T1.REQ_KEY LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
 				<isEqual property="searchTargetId" compareValue="reqUsrNm">
 					AND	T1.REQ_USR_NM LIKE '%'|| #searchTargetData# ||'%'
 				</isEqual>
@@ -112,6 +141,14 @@
 					AND	T1.REQ_USR_EMAIL LIKE '%'|| #searchTargetData# ||'%'
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="reqDtm">
+					<isNotEmpty property="searchStartDt">
+						AND	T1.REQ_DTM &gt;= TO_DATE(#searchStartDt#, 'YYYY-MM-DD HH24:MI:SS')
+					</isNotEmpty>
+					<isNotEmpty property="searchEndDt">
+						AND	T1.REQ_DTM &lt;=   TO_DATE(#searchEndDt#, 'YYYY-MM-DD HH24:MI:SS')
+					</isNotEmpty>
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="regDtmDay">
 					<isNotEmpty property="searchStartDt">
 						AND	T1.REQ_DTM &gt;= TO_DATE(#searchStartDt#, 'YYYY-MM-DD HH24:MI:SS')
 					</isNotEmpty>
@@ -128,15 +165,30 @@
 			ROWNUM RN
 			, T1.REQ_ID AS REQ_ID
 			, T1.REQ_NM AS REQ_NM
+			, T1.PRJ_NM AS PRJ_NM
 			, T1.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
 			, T1.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
 			, T1.REQ_USR_EMAIL AS REQ_USR_EMAIL
-			, T1.REQ_USR_NUM AS REQ_USR_NUM
-			, T1.REQ_USR_IMG_ID AS REQ_USR_IMG_ID
+			, T1.REQ_CHARGER_DEPT_ID AS REQ_CHARGER_DEPT_ID
+			, T1.REQ_CHARGER_DEPT_NM AS REQ_CHARGER_DEPT_NM
+			, T1.REQ_CHARGER_EMAIL AS REQ_CHARGER_EMAIL
+			, T1.REQ_CHARGER_NUM AS REQ_CHARGER_NUM
+			, T1.REQ_CHARGER_IMG_ID AS REQ_CHARGER_IMG_ID
 			, T1.REQ_ORD AS REQ_ORD
 			, T1.REQ_PRO_TYPE AS REQ_PRO_TYPE
 			, T1.REQ_PRO_TYPE_NM AS REQ_PRO_TYPE_NM
 			, T1.REQ_DTM AS REQ_DTM
+			, T1.REG_DTM
+			, T1.REQ_ST_DTM
+  		   	, T1.REQ_ED_DTM
+			, T1.REQ_ST_DU_DTM
+			, T1.REQ_ED_DU_DTM
+			, T1.REQ_PRO_TYPE
+			, T1.REQ_PRO_TYPE_NM
+			, T1.REQ_NEW_TYPE
+			, T1.REQ_NEW_TYPE_NM
+			, T1.REQ_TYPE_CD
+			, T1.REQ_TYPE_NM
 			, T1.REQ_PW AS REQ_PW
 			, T1.PROCESS_ID AS PROCESS_ID
 			, T1.FLOW_ID AS FLOW_ID
@@ -145,16 +197,37 @@
 			SELECT 
 				A.REQ_ID AS REQ_ID
 				, A.REQ_NM AS REQ_NM
+				, SF_PRJ1000_GRP_NM(A.PRJ_ID) AS PRJ_NM
 				, A.REQ_DESC AS REQ_DESC
 				, A.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
 				, A.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
 				, A.REQ_USR_EMAIL AS REQ_USR_EMAIL
+				, A.REQ_CHARGER_ID
+				, SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
+				, SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+				, SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
 				, A.REQ_USR_NUM AS REQ_USR_NUM
 				, SF_STM3000_USR_INFO(A.REQ_USR_ID, '6')  AS REQ_USR_IMG_ID
+				, A.USR_NM AS USR_NM
+				, A.REQ_ST_DTM
+  		   		, A.REQ_ED_DTM
+				, A.REQ_ST_DU_DTM
+				, A.REQ_ED_DU_DTM
 				, A.REQ_ORD AS REQ_ORD
 				, A.REQ_PRO_TYPE AS REQ_PRO_TYPE
 				, SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', A.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
 				, TO_CHAR(A.REQ_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REQ_DTM
+				, TO_CHAR(A.REG_DTM, 'YYYY-MM-DD') AS REG_DTM_DAY
+				, NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
+    		   	, NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
+				, NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
+				, NVL2(A.REQ_ED_DU_DTM, TO_CHAR(A.REQ_ED_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ED_DU_DTM
+				, A.REQ_PRO_TYPE
+				, SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', A.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
+				, A.REQ_NEW_TYPE
+				, SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00009', A.REQ_NEW_TYPE, '1') AS REQ_NEW_TYPE_NM
+			    , A.REQ_TYPE_CD
+			    , SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00012', A.REQ_TYPE_CD, '1') AS REQ_TYPE_NM
 				, NVL2(A.REQ_PW, 'Y', 'N') AS REQ_PW
 				, A.PROCESS_ID AS PROCESS_ID
 				, A.FLOW_ID AS FLOW_ID
@@ -219,6 +292,14 @@
 					</isNotEmpty>
 				</isEqual>
 			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="reqProType">
+			<isEqual property="reqProType" compareValue="ongoing">
+				AND T1.REQ_PRO_TYPE = '02'				
+			</isEqual>
+			<isEqual property="reqProType" compareValue="end">
+				AND T1.REQ_PRO_TYPE = '04'
+			</isEqual>
 		</isNotEmpty>
 	</sql>
 	
@@ -453,6 +534,7 @@
 					  A.LIC_GRP_ID
 					, A.PRJ_GRP_ID
 					, A.PRJ_ID
+					, SF_PRJ1000_GRP_NM(A.PRJ_ID) AS PRJ_NM
 					, A.SPR_ID
 					, A.REQ_ID
 					, A.SPR_POINT

@@ -6,6 +6,7 @@
 	<input type="hidden" id="paramPrjId" name="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" id="paramDplId" name="paramDplId" value="${param.paramDplId}">
 	<input type="hidden" id="dplSignUseCd" name=""dplSignUseCd"" value="${dplInfo.dplSignUseCd}">
+	<input type="hidden" id="regDtm" name="regDtm" value="${dplInfo.regDtm}">
 	<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 osl-bg-none shadow-none" id="dplRecord">
 		<div class="kt-portlet__head kt-bg-light">
 			<div class="kt-portlet__head-label">
@@ -181,7 +182,7 @@
 												<div class="form-group row">
 													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>결재 요청 의견</label>
 													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
+														<textarea class="form-control osl-textarea__resize--none osl-min-h-px--100" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
 													</div>
 												</div>
 											</div>
@@ -189,7 +190,7 @@
 												<div class="form-group row">
 													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
 													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
+														<textarea class="form-control osl-textarea__resize--none osl-min-h-px--100" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
 													</div>
 												</div>		
 											</div>
@@ -224,105 +225,6 @@
 						<div class="kt-portlet__body">
 							<div class="kt-timeline">
 								
-								<div class="kt-timeline__item kt-timeline__item--danger osl-timeline-item-right">	
-									<div class="kt-timeline__item-section">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-times kt-font-danger"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-l-10">2019-07-23 20:14:30</span>
-									</div>
-									<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">
-										<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">
-											<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">
-												<i class="fa fa-code"></i>
-											</div>
-											<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">
-												<i class="fas fa-list"></i>
-											</div>
-										</div>
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">
-											<div class="w-100 float-left kt-padding-r-90">
-												<div class="badge badge-danger kt-margin-r-15 float-left">실패</div>
-												<div class="kt-font-bolder kt-padding-l-55">[원복-28] SECMS_build</div>
-											</div>
-											<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">빌드 실패</div>
-										</div>
-										<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">
-											<div class="kt-user-card-v2 btn kt-margin-b-10">
-												<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
-													<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000088" onerror=""/>
-												</div>
-												<div class="kt-user-card-v2__details">
-													<span class="kt-user-card-v2__name text-left">홍길동</span>
-												</div>
-												<div class="kt-margin-l-10 osl-email">rlfehd@opensoftlab.kr</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-		
-								
-								<div class="kt-timeline__item kt-timeline__item--success osl-timeline-item-left">
-									<div class="kt-timeline__item-section flex-row-reverse-desktop">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-check kt-font-success"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-r-10">2019-07-20 12:14:30</span>
-									</div>
-									<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">
-										<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">
-											<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="bottom">
-												<i class="fa fa-code"></i>
-											</div>
-											<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">
-												<i class="fas fa-list"></i>
-											</div>
-										</div>
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">
-											<div class="w-100 float-left kt-padding-r-90">
-												<div class="badge badge-success kt-margin-r-15 float-left">성공</div>
-												<div class="kt-font-bolder kt-padding-l-55">[원복-28] SECMS_build</div>
-											</div>
-											<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">빌드 성공</div>
-										</div>
-										<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">
-											<div class="kt-user-card-v2 btn kt-margin-b-10">
-												<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
-													<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000088" onerror=""/>
-												</div>
-												<div class="kt-user-card-v2__details">
-													<span class="kt-user-card-v2__name text-left">홍길동</span>
-												</div>
-												<div class="kt-margin-l-10 osl-email">rlfehd@opensoftlab.kr</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-								
-								
-								<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">
-									<div class="kt-timeline__item-section">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-sync-alt kt-font-brand"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-r-10">2019-07-20 12:14:30</span>
-									</div>
-									<div class="osl-timeline-content">
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-padding-20">
-											<span class="kt-font-bolder">[원복-28] SECMS_build</span>
-											<span class="kt-margin-r-15 float-left">실행</span>
-										</div>
-									</div>
-								</div>
-								
 							</div>
 						</div>
 					</div>
@@ -340,143 +242,6 @@
 						</div>
 						<div class="kt-portlet__body">
 							<div class="kt-timeline">
-								
-								<div class="kt-timeline__item kt-timeline__item--danger osl-timeline-item-right">	
-									<div class="kt-timeline__item-section">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-times kt-font-danger"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-l-10">2019-07-23 20:14:30</span>
-									</div>
-									<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">
-										<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">
-											<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">
-												<i class="fa fa-code"></i>
-											</div>
-											<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">
-												<i class="fas fa-list"></i>
-											</div>
-										</div>
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">
-											<div class="w-100 float-left kt-padding-r-90">
-												<div class="badge badge-danger kt-margin-r-15 float-left">실패</div>
-												<div class="kt-font-bolder kt-padding-l-55">[원복-28] SECMS_build</div>
-											</div>
-											<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">빌드 실패</div>
-										</div>
-										<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">
-											<div class="kt-user-card-v2 btn kt-margin-b-10">
-												<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
-													<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000088" onerror=""/>
-												</div>
-												<div class="kt-user-card-v2__details">
-													<span class="kt-user-card-v2__name text-left">홍길동</span>
-												</div>
-												<div class="kt-margin-l-10 osl-email">rlfehd@opensoftlab.kr</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-		
-								
-								<div class="kt-timeline__item kt-timeline__item--success osl-timeline-item-left">
-									<div class="kt-timeline__item-section flex-row-reverse-desktop">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-check kt-font-success"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-r-10">2019-07-20 12:14:30</span>
-									</div>
-									<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">
-										<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">
-											<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="bottom">
-												<i class="fa fa-code"></i>
-											</div>
-											<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">
-												<i class="fas fa-list"></i>
-											</div>
-										</div>
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">
-											<div class="w-100 float-left kt-padding-r-90">
-												<div class="badge badge-success kt-margin-r-15 float-left">성공</div>
-												<div class="kt-font-bolder kt-padding-l-55">[원복-28] SECMS_build</div>
-											</div>
-											<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">빌드 성공</div>
-										</div>
-										<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">
-											<div class="kt-user-card-v2 btn kt-margin-b-10">
-												<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
-													<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000088" onerror=""/>
-												</div>
-												<div class="kt-user-card-v2__details">
-													<span class="kt-user-card-v2__name text-left">홍길동</span>
-												</div>
-												<div class="kt-margin-l-10 osl-email">rlfehd@opensoftlab.kr</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-								
-								
-								<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">
-									<div class="kt-timeline__item-section">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-sync-alt kt-font-brand"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-r-10">2019-07-20 12:14:30</span>
-									</div>
-									<div class="osl-timeline-content">
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-padding-20">
-											<span class="kt-font-bolder">[원복-28] SECMS_build</span>
-											<span class="kt-margin-r-15 float-left">실행</span>
-										</div>
-									</div>
-								</div>
-								
-								
-								<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">
-									<div class="kt-timeline__item-section">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-plus kt-font-brand"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-r-10">2019-07-07 12:14:30</span>
-									</div>
-									<div class="osl-timeline-content">
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-padding-20">
-											<span class="kt-margin-r-15 float-left">JOB</span>
-											<span class="kt-font-bolder">[빌드] SECMS_build</span>
-											<span class="kt-margin-r-15 float-left">등록</span>
-										</div>
-									</div>
-								</div>
-								
-								
-								<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">
-									<div class="kt-timeline__item-section">
-										<div class="kt-timeline__item-section-border">
-											<div class="kt-timeline__item-section-icon">
-												<i class="fas fa-edit kt-font-brand"></i>
-											</div>
-										</div>
-										<span class="kt-timeline__item-datetime kt-margin-r-10">2019-06-07 12:14:30</span>
-									</div>
-									<div class="osl-timeline-content">
-										<div class="kt-timeline__item-text kt-margin-l-0 kt-padding-20">
-											<span class="kt-margin-r-15 float-left">배포 계획</span>
-											<span class="kt-font-bolder">19년 6월 1주차 운영서버 배포</span>
-											<span class="kt-margin-r-15 float-left">생성</span>
-										</div>
-									</div>
-								</div>
 								
 							</div>
 						</div>
@@ -684,7 +449,7 @@
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand"
 		data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 
@@ -1029,17 +794,473 @@ var OSLDpl1002Popup = function () {
 				
 				var signHistoryList = data.dplSignHistoryList;
 				
+				var allHistiryList = bldHistoryList.concat(signHistoryList)
+				
+				allHistiryList.sort(function(a, b) { 
+				    return b["regDtm"] - a["regDtm"];
+				    
+				});
+				console.log(allHistiryList)
 				
 				
+				fnAllHistorySetting(allHistiryList, jobList);
 				
 				
-				fnSignHistorySetting(signHistoryList);
+				fnBldHistorySetting(bldHistoryList, jobList);
+				
+				
+				if($("#dplSignUseCd").val() == "01"){
+					
+					fnSignHistorySetting(signHistoryList);
+				}
+				
+				
+				openUsrPopup();
 			}
 		});
 		
 		
 		ajaxObj.send();
 	};
+	
+	
+	
+	var fnAllHistorySetting = function(allHistiryList, jobList){
+		
+		
+		$.each(allHistiryList,function(idx, map){
+			
+			if(map.type == "BLD"){
+				
+				var bldTimelineDiv ='';
+				
+				var bldResult = map.bldResult;
+				
+				var itemPosition = '';
+				
+				var itemColor = '';
+				
+				var itemIconPosition = '';
+				
+				var iconImg = '';
+				
+				var badgeColor = '';
+				
+				var bldBadge = '';
+				
+				var bldTitle = '';
+				
+				var signRes = '';
+				
+				var bldUsrId = $.osl.escapeHtml(map.regUsrId);
+				
+				var bldUsrNm = $.osl.escapeHtml(map.regUsrNm);
+				
+				var bldUsrEmail = $.osl.escapeHtml(map.regUsrEmail);
+				
+				var bldUsrImgId = $.osl.escapeHtml(map.regUsrImgId);
+				
+				var dtmMargin = 'kt-margin-r-10';
+				
+				var bldResultMsg = '';
+				
+				var cardType = '';
+				
+				
+				if(bldResult == "PROGRESS"){
+					iconImg = "fa-sync-alt kt-font-brand";
+					bldTitle = "["+$.osl.escapeHtml(map.jobTypeNm)+"-"+map.bldNum+"] "+$.osl.escapeHtml(map.jobId);
+					bldResultMsg = $.osl.escapeHtml(map.bldResultMsg);
+					cardType = '2';
+					
+				
+				}else if(bldResult == "START"){
+					return;
+					
+				
+				}else if(bldResult == "FAILURE"){
+					itemPosition = "osl-timeline-item-right";
+					itemColor = "kt-timeline__item--danger ";
+					dtmMargin = 'kt-margin-l-10';
+					iconImg = "fa-times kt-font-danger";
+					bldBadge = "실패";
+					bldTitle = "["+$.osl.escapeHtml(map.jobTypeNm)+"-"+map.bldNum+"] "+$.osl.escapeHtml(map.jobId);
+					badgeColor = "badge-danger";
+					bldResultMsg = $.osl.escapeHtml(map.bldResultMsg);
+					cardType = '1';
+					
+				
+				}else if(bldResult == "SUCCESS"){
+					itemPosition = "osl-timeline-item-left";
+					itemColor = "kt-timeline__item--success ";
+					itemIconPosition = "flex-row-reverse-desktop";
+					iconImg = "fa-check kt-font-success";
+					bldBadge = "성공";
+					bldTitle = "["+$.osl.escapeHtml(map.jobTypeNm)+"-"+map.bldNum+"] "+$.osl.escapeHtml(map.jobId);
+					badgeColor = "badge-success";
+					cardType = '1';
+					
+				}
+				
+				if(cardType == '1'){
+					
+					
+					bldTimelineDiv 		+=	'<div class="kt-timeline__item '+itemColor+itemPosition+'">'
+										+		'<div class="kt-timeline__item-section '+itemIconPosition+'">'
+										+			'<div class="kt-timeline__item-section-border">'
+										+				'<div class="kt-timeline__item-section-icon">'
+										+					'<i class="fas '+iconImg+'"></i>'
+										+				'</div>'
+										+			'</div>'
+										+			'<span class="kt-timeline__item-datetime '+dtmMargin+'">'+getTimeStamp(map.regDtm)+'</span>'
+										+		'</div>'
+										+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
+										+			'<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">'
+										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">'
+										+					'<i class="fa fa-code"></i>'
+										+				'</div>'
+										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">'
+										+					'<i class="fas fa-list"></i>'
+										+				'</div>'
+										+			'</div>'
+										+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">'
+										+				'<div class="w-100 float-left kt-padding-r-90">'
+										+					'<div class="badge '+badgeColor+' kt-margin-r-15 float-left">'+bldBadge+'</div>'
+										+					'<div class="kt-font-bolder kt-padding-l-55">'+bldTitle+'</div>'
+										+				'</div>'
+										+				'<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">'+bldResultMsg+'</div>'
+										+			'</div>'
+										+			'<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">'
+										+				'<div class="kt-user-card-v2 btn kt-margin-b-10 user-popup" data-user-id="'+bldUsrId+'">'
+										+					'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
+										+						'<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId='+bldUsrImgId+'" onerror=""/>'
+										+					'</div>'
+										+					'<div class="kt-user-card-v2__details">'
+										+						'<span class="kt-user-card-v2__name text-left">'+bldUsrNm+'</span>'
+										+					'</div>'
+										+					'<div class="kt-margin-l-10 osl-email">'+bldUsrEmail+'</div>'
+										+				'</div>'
+										+			'</div>'
+										+		'</div>'
+										+	'</div>'
+				
+				}
+				else if(cardType == '2'){
+					
+					
+					bldTimelineDiv 		+=	'<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">'
+										+		'<div class="kt-timeline__item-section">'
+										+			'<div class="kt-timeline__item-section-border">'
+										+				'<div class="kt-timeline__item-section-icon">'
+										+					'<i class="fas '+iconImg+'"></i>'
+										+				'</div>'
+										+			'</div>'
+										+			'<span class="kt-timeline__item-datetime '+dtmMargin+'">'+getTimeStamp(map.regDtm)+'</span>'
+										+		'</div>'
+										+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
+										+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">'
+										+				'<span class="kt-font-bolder">'+bldTitle+'</span>'
+										+				'<span class="kt-margin-r-15 float-left">'+bldResultMsg+'</span>'
+										+			'</div>'
+										+		'</div>'
+										+	'</div>'
+										
+				}
+				
+				
+				$("#allHistoryTab .kt-timeline").append(bldTimelineDiv);
+				
+			}else if(map.type == "SIG"){
+				
+				var signTypeCd = map.signTypeCd;
+				
+				
+				if(signTypeCd == '01' ){
+					
+					
+					drawSignInfoCard(map, 2, "#allHistoryTab");
+					
+					drawSignInfoCard(map, 1, "#allHistoryTab");
+				
+				}else if(signTypeCd == '02'){
+					
+					
+					drawSignInfoCard(map, 2, "#allHistoryTab");
+					
+					drawSignInfoCard(map, 3, "#allHistoryTab");
+				
+				}else if(signTypeCd == '03'){
+					
+					
+					drawSignInfoCard(map, 4, "#allHistoryTab");
+				
+				}else if(signTypeCd == '04'){
+					
+					
+					drawSignInfoCard(map, 5, "#allHistoryTab");
+				}
+			}	
+		});
+		
+			var dplTimelineDiv = '';
+		$.each(jobList, function(idx, jobInfo){
+			dplTimelineDiv +=	'<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">'
+							+		'<div class="kt-timeline__item-section">'
+							+			'<div class="kt-timeline__item-section-border">'
+							+				'<div class="kt-timeline__item-section-icon">'
+							+					'<i class="fas fa-edit kt-font-brand"></i>'
+							+				'</div>'
+							+			'</div>'
+							+			'<span class="kt-timeline__item-datetime kt-margin-r-10">'+getTimeStamp(jobInfo.regDtm)+'</span>'
+							+		'</div>'
+							+		'<div class="osl-timeline-content">'
+							+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-padding-20">'
+							+				'<span class="kt-margin-r-15 float-left">JOB</span>'
+							+				'<span class="kt-font-bolder">'+"["+$.osl.escapeHtml(jobInfo.jobTypeNm)+"] "+$.osl.escapeHtml(jobInfo.jobId)+'</span>'
+							+				'<span class="kt-margin-r-15 float-left">등록</span>'
+							+			'</div>'
+							+		'</div>'
+							+	'</div>'
+			
+		});
+		
+		var dplNm = $("#dplNm").val();
+		var regDtm = $('#regDtm').val();
+		dplTimelineDiv +=	'<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">'
+						+		'<div class="kt-timeline__item-section">'
+						+			'<div class="kt-timeline__item-section-border">'
+						+				'<div class="kt-timeline__item-section-icon">'
+						+					'<i class="fas fa-edit kt-font-brand"></i>'
+						+				'</div>'
+						+			'</div>'
+						+			'<span class="kt-timeline__item-datetime kt-margin-r-10">'+getTimeStamp(regDtm)+'</span>'
+						+		'</div>'
+						+		'<div class="osl-timeline-content">'
+						+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-padding-20">'
+						+				'<span class="kt-margin-r-15 float-left">배포 계획</span>'
+						+				'<span class="kt-font-bolder">'+$.osl.escapeHtml(dplNm)+'</span>'
+						+				'<span class="kt-margin-r-15 float-left">생성</span>'
+						+			'</div>'
+						+		'</div>'
+						+	'</div>'
+		
+		
+		
+		$("#allHistoryTab .kt-timeline").append(dplTimelineDiv);
+	}
+	
+	
+	
+	var fnBldHistorySetting = function(bldHistoryList,jobList){
+		var bldTimelineDiv = '';
+		
+		$.each(bldHistoryList,function(idx, bldInfo){
+			var bldResult = bldInfo.bldResult;
+			
+			
+			var itemPosition = '';
+			
+			var itemColor = '';
+			
+			var itemIconPosition = '';
+			
+			var iconImg = '';
+			
+			var badgeColor = '';
+			
+			var bldBadge = '';
+			
+			var bldTitle = '';
+			
+			var bldUsrId = $.osl.escapeHtml(bldInfo.regUsrId);
+			
+			var bldUsrNm = $.osl.escapeHtml(bldInfo.regUsrNm);
+			
+			var bldUsrEmail = $.osl.escapeHtml(bldInfo.regUsrEmail);
+			
+			var bldUsrImgId = $.osl.escapeHtml(bldInfo.regUsrImgId);
+			
+			var dtmMargin = 'kt-margin-r-10';
+			
+			var bldResultMsg = '';
+			
+			var cardType = '';
+			
+			
+			if(bldResult == "PROGRESS"){
+				iconImg = "fa-sync-alt kt-font-brand";
+				bldTitle = "["+$.osl.escapeHtml(bldInfo.jobTypeNm)+"-"+bldInfo.bldNum+"] "+$.osl.escapeHtml(bldInfo.jobId);
+				bldResultMsg = $.osl.escapeHtml(bldInfo.bldResultMsg);
+				cardType = '2';
+				
+			
+			}else if(bldResult == "START"){
+				return;
+				
+			
+			}else if(bldResult == "FAILURE"){
+				itemPosition = "osl-timeline-item-right";
+				itemColor = "kt-timeline__item--danger ";
+				dtmMargin = 'kt-margin-l-10';
+				iconImg = "fa-times kt-font-danger";
+				bldBadge = "실패";
+				bldTitle = "["+$.osl.escapeHtml(bldInfo.jobTypeNm)+"-"+bldInfo.bldNum+"] "+$.osl.escapeHtml(bldInfo.jobId);
+				badgeColor = "badge-danger";
+				bldResultMsg = $.osl.escapeHtml(bldInfo.bldResultMsg);
+				cardType = '1';
+				
+			
+			}else if(bldResult == "SUCCESS"){
+				itemPosition = "osl-timeline-item-left";
+				itemColor = "kt-timeline__item--success ";
+				itemIconPosition = "flex-row-reverse-desktop";
+				iconImg = "fa-check kt-font-success";
+				bldBadge = "성공";
+				bldTitle = "["+$.osl.escapeHtml(bldInfo.jobTypeNm)+"-"+bldInfo.bldNum+"] "+$.osl.escapeHtml(bldInfo.jobId);
+				badgeColor = "badge-success";
+				bldResultMsg = $.osl.escapeHtml(bldInfo.bldResultMsg);
+				cardType = '1';
+				
+			}
+			
+			if(cardType == '1'){
+				
+				
+				bldTimelineDiv 		+=	'<div class="kt-timeline__item '+itemColor+itemPosition+'">'
+									+		'<div class="kt-timeline__item-section '+itemIconPosition+'">'
+									+			'<div class="kt-timeline__item-section-border">'
+									+				'<div class="kt-timeline__item-section-icon">'
+									+					'<i class="fas '+iconImg+'"></i>'
+									+				'</div>'
+									+			'</div>'
+									+			'<span class="kt-timeline__item-datetime '+dtmMargin+'">'+getTimeStamp(bldInfo.regDtm)+'</span>'
+									+		'</div>'
+									+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
+									+			'<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">'
+									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">'
+									+					'<i class="fa fa-code"></i>'
+									+				'</div>'
+									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">'
+									+					'<i class="fas fa-list"></i>'
+									+				'</div>'
+									+			'</div>'
+									+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">'
+									+				'<div class="w-100 float-left kt-padding-r-90">'
+									+					'<div class="badge '+badgeColor+' kt-margin-r-15 float-left">'+bldBadge+'</div>'
+									+					'<div class="kt-font-bolder kt-padding-l-55">'+bldTitle+'</div>'
+									+				'</div>'
+									+				'<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">'+bldResultMsg+'</div>'
+									+			'</div>'
+									+			'<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">'
+									+				'<div class="kt-user-card-v2 btn kt-margin-b-10 user-popup" data-user-id="'+bldUsrId+'">'
+									+					'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
+									+						'<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId='+bldUsrImgId+'" onerror=""/>'
+									+					'</div>'
+									+					'<div class="kt-user-card-v2__details">'
+									+						'<span class="kt-user-card-v2__name text-left">'+bldUsrNm+'</span>'
+									+					'</div>'
+									+					'<div class="kt-margin-l-10 osl-email">'+bldUsrEmail+'</div>'
+									+				'</div>'
+									+			'</div>'
+									+		'</div>'
+									+	'</div>'
+			
+			}
+			else if(cardType == '2'){
+				
+				
+				bldTimelineDiv 		+=	'<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">'
+									+		'<div class="kt-timeline__item-section">'
+									+			'<div class="kt-timeline__item-section-border">'
+									+				'<div class="kt-timeline__item-section-icon">'
+									+					'<i class="fas '+iconImg+'"></i>'
+									+				'</div>'
+									+			'</div>'
+									+			'<span class="kt-timeline__item-datetime '+dtmMargin+'">'+getTimeStamp(bldInfo.regDtm)+'</span>'
+									+		'</div>'
+									+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
+									+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">'
+									+				'<span class="kt-font-bolder">'+bldTitle+'</span>'
+									+				'<span class="kt-margin-r-15 float-left">'+bldResultMsg+'</span>'
+									+			'</div>'
+									+		'</div>'
+									+	'</div>'
+									
+			}
+			
+		});
+		
+		
+		$.each(jobList, function(idx, jobInfo){
+			bldTimelineDiv +=	'<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">'
+							+		'<div class="kt-timeline__item-section">'
+							+			'<div class="kt-timeline__item-section-border">'
+							+				'<div class="kt-timeline__item-section-icon">'
+							+					'<i class="fas fa-edit kt-font-brand"></i>'
+							+				'</div>'
+							+			'</div>'
+							+			'<span class="kt-timeline__item-datetime kt-margin-r-10">'+getTimeStamp(jobInfo.regDtm)+'</span>'
+							+		'</div>'
+							+		'<div class="osl-timeline-content">'
+							+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-padding-20">'
+							+				'<span class="kt-margin-r-15 float-left">JOB</span>'
+							+				'<span class="kt-font-bolder">'+"["+$.osl.escapeHtml(jobInfo.jobTypeNm)+"] "+$.osl.escapeHtml(jobInfo.jobId)+'</span>'
+							+				'<span class="kt-margin-r-15 float-left">등록</span>'
+							+			'</div>'
+							+		'</div>'
+							+	'</div>'
+			
+		});
+		
+		var dplNm = $("#dplNm").val();
+		var regDtm = $('#regDtm').val();
+		bldTimelineDiv +=	'<div class="kt-timeline__item kt-timeline__item--brand osl-timeline-item-center kt-padding-t-20">'
+						+		'<div class="kt-timeline__item-section">'
+						+			'<div class="kt-timeline__item-section-border">'
+						+				'<div class="kt-timeline__item-section-icon">'
+						+					'<i class="fas fa-edit kt-font-brand"></i>'
+						+				'</div>'
+						+			'</div>'
+						+			'<span class="kt-timeline__item-datetime kt-margin-r-10">'+getTimeStamp(regDtm)+'</span>'
+						+		'</div>'
+						+		'<div class="osl-timeline-content">'
+						+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-padding-20">'
+						+				'<span class="kt-margin-r-15 float-left">배포 계획</span>'
+						+				'<span class="kt-font-bolder">'+$.osl.escapeHtml(dplNm)+'</span>'
+						+				'<span class="kt-margin-r-15 float-left">생성</span>'
+						+			'</div>'
+						+		'</div>'
+						+	'</div>'
+		
+		
+		
+		$("#bldHistoryTab .kt-timeline").html(bldTimelineDiv);
+	}
+	
+	var getTimeStamp = function(time) {
+		  var d = new Date(time);
+		  var s =
+		    leadingZeros(d.getFullYear(), 4) + '-' +
+		    leadingZeros(d.getMonth() + 1, 2) + '-' +
+		    leadingZeros(d.getDate(), 2) + ' ' +
+
+		    leadingZeros(d.getHours(), 2) + ':' +
+		    leadingZeros(d.getMinutes(), 2) + ':' +
+		    leadingZeros(d.getSeconds(), 2);
+
+		  return s;
+	}
+	
+	var leadingZeros = function(n, digits) {
+		  var zero = '';
+		  n = n.toString();
+
+		  if (n.length < digits) {
+		    for (var i = 0; i < digits - n.length; i++)
+		      zero += '0';
+		  }
+		  return zero + n;
+	}
 	
 	
 	var fnSignHistorySetting = function(dplSignHistoryList){
@@ -1052,26 +1273,26 @@ var OSLDpl1002Popup = function () {
 			if(signTypeCd == '01' ){
 				
 				
-				drawSignInfoCard(signInfo, 2);
+				drawSignInfoCard(signInfo, 2, "#dplSignHistoryTab");
 				
-				drawSignInfoCard(signInfo, 1);
+				drawSignInfoCard(signInfo, 1, "#dplSignHistoryTab");
 			
 			}else if(signTypeCd == '02'){
 				
 				
-				drawSignInfoCard(signInfo, 2);
+				drawSignInfoCard(signInfo, 2, "#dplSignHistoryTab");
 				
-				drawSignInfoCard(signInfo, 3);
+				drawSignInfoCard(signInfo, 3, "#dplSignHistoryTab");
 			
 			}else if(signTypeCd == '03'){
 				
 				
-				drawSignInfoCard(signInfo, 4);
+				drawSignInfoCard(signInfo, 4, "#dplSignHistoryTab");
 			
 			}else if(signTypeCd == '04'){
 				
 				
-				drawSignInfoCard(signInfo, 5);
+				drawSignInfoCard(signInfo, 5, "#dplSignHistoryTab");
 			}
 			
 		});
@@ -1079,7 +1300,7 @@ var OSLDpl1002Popup = function () {
 	};
 	
 	
-	var drawSignInfoCard = function(signInfo, type){
+	var drawSignInfoCard = function(signInfo, type, targetTab){
 		
 		
 		var itemPosition = '';
@@ -1098,11 +1319,13 @@ var OSLDpl1002Popup = function () {
 		
 		var signRes = '';
 		
-		var signUsrNm = signInfo.signUsrNm;
+		var signUsrId = $.osl.escapeHtml(signInfo.signUsrId);
 		
-		var signUsrEmail = signInfo.signUsrEmail;
+		var signUsrNm = $.osl.escapeHtml(signInfo.signUsrNm);
 		
-		var signUsrImgId = signInfo.signUsrImgId;
+		var signUsrEmail = $.osl.escapeHtml(signInfo.signUsrEmail);
+		
+		var signUsrImgId = $.osl.escapeHtml(signInfo.signUsrImgId);
 		
 		var dtmMargin = 'kt-margin-r-10';
 		
@@ -1125,9 +1348,10 @@ var OSLDpl1002Popup = function () {
 			iconImg = "fa-edit kt-font-dark";
 			signType = "요청";
 			signTitle = "[대기] 결재 요청";
-			signUsrNm = signInfo.nextUsrNm;
-			signUsrEmail = signInfo.nextUsrEmail;
-			signUsrImgId = signInfo.nextUsrImgId;
+			var signUsrId = $.osl.escapeHtml(signInfo.nextUsrId);
+			signUsrNm = $.osl.escapeHtml(signInfo.nextUsrNm);
+			signUsrEmail = $.osl.escapeHtml(signInfo.nextUsrEmail);
+			signUsrImgId = $.osl.escapeHtml(signInfo.nextUsrImgId);
 			badgeColor = "badge-dark";
 			
 		
@@ -1136,7 +1360,7 @@ var OSLDpl1002Popup = function () {
 			itemColor = "kt-timeline__item--success ";
 			itemIconPosition = "flex-row-reverse-desktop";
 			iconImg = "fa-check kt-font-success";
-			signRes = signInfo.signRes;
+			signRes = $.osl.escapeHtml(signInfo.signRes);
 			signType = "승인";
 			signTitle = "[승인] 결재 승인";
 			badgeColor = "badge-success";
@@ -1147,7 +1371,7 @@ var OSLDpl1002Popup = function () {
 			itemColor = "kt-timeline__item--success ";
 			itemIconPosition = "flex-row-reverse-desktop";
 			iconImg = "fa-check kt-font-success";
-			signRes = signInfo.signRes;
+			signRes = $.osl.escapeHtml(signInfo.signRes);
 			signType = "승인";
 			signTitle = "[최종 승인] 결재 최종 승인";
 			badgeColor = "badge-success";
@@ -1157,7 +1381,7 @@ var OSLDpl1002Popup = function () {
 			itemPosition = "osl-timeline-item-right";
 			itemColor = "kt-timeline__item--danger ";
 			iconImg = "fa-times kt-font-danger";
-			signRes = signInfo.signRes;
+			signRes = $.osl.escapeHtml(signInfo.signRes);
 			signType = "반려";
 			signTitle = "[반려] 결재 반려";
 			badgeColor = "badge-danger";
@@ -1188,7 +1412,7 @@ var OSLDpl1002Popup = function () {
 							+				'<div class="kt-timeline__item-info kt-font-dark kt-padding-b-0">'+signRes+'</div>'
 							+			'</div>'
 							+			'<div class="border-top kt-padding-t-10 kt-padding-l-20 kt-padding-r-20">'
-							+				'<div class="kt-user-card-v2 btn kt-margin-b-10">'
+							+				'<div class="kt-user-card-v2 btn kt-margin-b-10 user-popup" data-user-id="'+signUsrId+'">'
 							+					'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
 							+						'<img class="" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId='+signUsrImgId+'" onerror=""/>'
 							+					'</div>'
@@ -1202,8 +1426,26 @@ var OSLDpl1002Popup = function () {
 							+	'</div>'
 		
 		
-		$(".kt-timeline").append(timelineItemDiv);
+		$(targetTab+" .kt-timeline").append(timelineItemDiv);
 	}
+
+	
+	
+	var openUsrPopup = function(){
+		var usrInfoDiv = $(".user-popup");
+		$.each(usrInfoDiv,function(idx,map){
+			var usrId = $(this).data("user-id");
+			
+			$(this).click(function(){
+				
+				if(!$.osl.isNull(usrId)){
+					
+					$.osl.user.usrInfoPopup(usrId);
+				}				
+			});
+		});
+	}
+	
 	
 	
 	var fnKtScrollInit = function(targetName, targetHeight) {

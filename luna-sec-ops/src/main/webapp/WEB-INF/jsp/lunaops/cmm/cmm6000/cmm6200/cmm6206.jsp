@@ -13,14 +13,14 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-brand" id="cmm6206SaveSubmit"><i class="fa fa-check-square"></i><span data-lang-cd="common.name.select">선택</span></button>
-		<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">Close</span></button>
+		<button type="button" class="btn btn-brand" id="cmm6206SaveSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="common.name.select">선택</span></button>
+		<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 	</div>
 </form>
 <script>
 "use strict";
 var OSLCmm6206Popup = function () {
-	//선택 요구사항 목록
+	
 	var selReqList = [];
 	
     var documentSetting = function () {
@@ -28,7 +28,7 @@ var OSLCmm6206Popup = function () {
     	var paramReqNm = $.osl.escapeHtml($("#frCmm6206 > #paramReqNm").val());
     	var paramReqProType = $("#frCmm6206 > #paramReqProType").val();
     	
-    	//데이터 테이블 셋팅
+    	
     	$.osl.datatable.setting(datatableId,{
     		data : {
     			source:{
@@ -55,7 +55,7 @@ var OSLCmm6206Popup = function () {
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
 					template: function(row){
 						var resultStr = $.osl.escapeHtml(row.reqNm);
-						//비밀번호가 있는 경우
+						
 						if(row.reqPw == "Y"){
 							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
 						}
@@ -132,14 +132,14 @@ var OSLCmm6206Popup = function () {
     				}
     			},
 	    		"unCheck": function(evt, ids, datatableInfo){
-					//해당 데이터 제거하기
+					
 	    			if(ids.length > 0){
 	    				$.each(ids, function(idx, map){
     						var prjId = map.split("_")[0];
     						var reqId = map.split("_")[1];
     						
     						$.each(selReqList, function(subIdx, subMap){
-    							//데이터 일치하면 idx splice
+    							
     							if(prjId == subMap.prjId && reqId == subMap.reqId){
     								selReqList.splice(subIdx, 1);
     								return false;
@@ -153,7 +153,7 @@ var OSLCmm6206Popup = function () {
     	
     	$("#searchData_"+datatableId).on("keypress", function(e){
     		if(e.keyCode == 13){
-    			//검색
+    			
     			$(".osl-datatable-search__button[data-datatable-id="+datatableId+"]").click();	
     		}
     	});
@@ -164,7 +164,7 @@ var OSLCmm6206Popup = function () {
     };
     
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
@@ -174,7 +174,7 @@ var OSLCmm6206Popup = function () {
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLCmm6206Popup.init();
 });

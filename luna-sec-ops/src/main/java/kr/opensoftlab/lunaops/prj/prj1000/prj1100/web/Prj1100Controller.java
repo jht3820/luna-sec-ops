@@ -128,8 +128,26 @@ public class Prj1100Controller {
 			paramMap.put("delCd", "02");
 			
 			
-			/
-			/
+			
+			int totCnt = 0;
+			List<Map> dataList = null;
+			Map<String, Object> metaMap = null;
+			
+			
+			totCnt = prj1100Service.selectPrj1100ProcessListCnt(paramMap);
+
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+
+			
+			
+			dataList = (List) prj1100Service.selectPrj1100ProcessList(paramMap);
+			
+        	
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -281,7 +299,33 @@ public class Prj1100Controller {
 			model.addAttribute("processInfo", processInfo);
 			
 			
-			/
+			
+			int totCnt = prj1100Service.selectPrj1100ProcessAuthUsrListCnt(paramMap);
+			
+			paramMap.put("firstIndex", "0");
+			paramMap.put("lastIndex", String.valueOf(totCnt));
+			
+			
+			List<Map> processAuthList = prj1100Service.selectPrj1100ProcessAuthUsrList(paramMap);
+			model.addAttribute("processAuthList", processAuthList);
+			
+			
+			model.addAttribute("errorYN", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectPrj1100ProcessInfoAjax()", ex);
+
+			
+			model.addAttribute("errorYN", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
+	
+	
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/prj/prj1000/prj1100/selectPrj1100ProcessAuthUsrListAjax.do")
     public ModelAndView selectPrj1100ProcessAuthUsrListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
@@ -315,8 +359,26 @@ public class Prj1100Controller {
 			
 			
 			
-			/
-			/
+			
+			int totCnt = 0;
+			List<Map> dataList = null;
+			Map<String, Object> metaMap = null;
+			
+			
+			totCnt = prj1100Service.selectPrj1100ProcessAuthUsrListCnt(paramMap);
+
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+
+			
+			
+			dataList = (List) prj1100Service.selectPrj1100ProcessAuthUsrList(paramMap);
+			
+        	
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -372,8 +434,26 @@ public class Prj1100Controller {
     		
     		
     		
-    		/
-			/
+    		
+    		int totCnt = 0;
+    		List<Map> dataList = null;
+    		Map<String, Object> metaMap = null;
+    		
+			
+			totCnt = prj1100Service.selectPrj1100ProcessAuthNoneUsrListCnt(paramMap);
+			
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+			
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+			
+			
+			
+			dataList = (List) prj1100Service.selectPrj1100ProcessAuthNoneUsrList(paramMap);
+			
+			
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -407,16 +487,25 @@ public class Prj1100Controller {
 			
     		String paramPrjId = (String) paramMap.get("paramPrjId");
     		String paramProcessId = (String) paramMap.get("paramProcessId");
+    		String paramLicGrpId = (String) paramMap.get("paramLicGrpId");
     		
     		HttpSession ss = request.getSession();
+    		LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
     		
     		
     		if(paramPrjId == null || "".equals(paramPrjId)) {
     			paramPrjId = (String) ss.getAttribute("selPrjId");
     		}
+
+    		
+    		if(paramLicGrpId == null || "".equals(paramLicGrpId)){
+    			paramLicGrpId = (String)loginVO.getLicGrpId();
+    		}
+    		
     		paramMap.put("prjId", paramPrjId);
     		paramMap.put("processId", paramProcessId);
-			
+    		paramMap.put("licGrpId", paramLicGrpId);
+    		
     		
     		List<Map> flowList = prj1100Service.selectPrj1101FlowList(paramMap);
     		
@@ -918,10 +1007,19 @@ public class Prj1100Controller {
 		try{
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-			
-			
+
+    		String paramLicGrpId = (String) paramMap.get("paramLicGrpId");
+    		
     		HttpSession ss = request.getSession();
+    		LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+    		
+    		
+    		if(paramLicGrpId == null || "".equals(paramLicGrpId)){
+    			paramLicGrpId = (String)loginVO.getLicGrpId();
+    		}
+    		
     		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
+    		paramMap.put("licGrpId", paramLicGrpId);
     		
 			List<Map> flowList = prj1100Service.selectPrj1101FlowList(paramMap);
 			

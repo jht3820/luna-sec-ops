@@ -107,41 +107,41 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 <script>
 "use strict";
 var OSLPrj1402Popup = function () {
 	var formId = 'frPrj1402';
 	
-	//배정 담당자 중복 체크
+	
 	var prjAuthUsrIdList = [];
 	
-	//수정시 배정담당자 원본 데이터
+	
 	var prjAuthOriginalData = [];
 	
-	//수정인경우 대상 프로젝트ID
+	
 	var paramPrjId = $("#paramPrjId").val();
 	
-    // Private functions
+    
     var documentSetting = function () {
-    	// 팝업 공통코드 select 세팅
+    	
 		var commonCodeArr = [
-			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"} // 사용유무
+			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"} 
 		];
-		//공통코드 채우기
+		
 		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
 		
-		//그룹 정보 조회
+		
 		fnPrjGrpInfoSelect();
 		
-		//데이터 테이블 세팅
+		
     	datatableSetting();
     };
     
-    //담당자 배정, 배정 프로젝트 목록
+    
     var datatableSetting = function(){
-    	//사용자 배정 정보 datatable 세팅
+    	
 		$.osl.datatable.setting("prj1402PrjAuthUsrTable",{
 			data: {
 				source: {
@@ -191,7 +191,7 @@ var OSLPrj1402Popup = function () {
 			},
 		});
     	
-		//데이터 테이블 세팅
+		
 		$.osl.datatable.setting("prj1000PrjTable", {
 			data: {
 				source: {
@@ -232,20 +232,20 @@ var OSLPrj1402Popup = function () {
 			},
 			callback:{
 				ajaxDone: function(evt, list,datatableInfo){
-					//총 개수
+					
 					$("#prjAuthListCnt").text(datatableInfo.lastResponse.meta.total);
 				}
 			}
 		});
 	};
 	
-	//프로젝트 그룹 정보 조회
+	
 	var fnPrjGrpInfoSelect = function(){
-		//프로젝트 그룹 정보 조회
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj1000/prj1400/selectPrj1400PrjGrpInfoAjax.do'/>"}
 				,{prjId: paramPrjId});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
@@ -254,26 +254,26 @@ var OSLPrj1402Popup = function () {
    				
    				$.osl.setDataFormElem(prjInfo, formId, ["prjNm","useCd","ord","prjDesc","startDt","endDt"]);
    				
-   				//시작일 - 종료일 입력
+   				
    				$("#prjGrpRange").val(prjInfo.startDt+" ~ "+prjInfo.endDt);
    				
-   				//프로젝트 전체 배정 개수
+   				
    				$("#prjChildListCnt").text(prjInfo.prjChildCnt);
    			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLPrj1402Popup.init();
 });

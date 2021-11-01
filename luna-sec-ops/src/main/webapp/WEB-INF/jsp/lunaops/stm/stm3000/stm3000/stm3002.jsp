@@ -1,198 +1,162 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<html lang="ko">
-<title>OpenSoftLab</title>
-
-<style type="text/css">
-.layer_popup_box .pop_left, .layer_popup_box .pop_right { height: 54px; }
-.button_normal { width: 39px; height: 22px; line-height: 22px; text-align: center; font-weight: bold; font-size: 1em; border-radius: 5px; box-shadow: 1px 1px 1px #ccd4eb; margin: 0 auto; border: 1px solid #b8b8b8; cursor: pointer; }
-div.pop_sub .pop_left {width:28%;} /* common.css pop_left width값 오버라이딩 */
-div.pop_sub .pop_right {width:72%;} /* common.css pop_left width값 오버라이딩 */
-.input_txt {padding-left: 5px;}
-</style>
-<script type="text/javascript">
-
-	var restfulPopSearch;
-	var restfulPopGrid  = {
-			init : function() {
-				//그리드 및 검색 상자 호출
+<form class="kt-form" id="frStm3002">
+	<div class="kt-portlet">
+		<div class="kt-portlet__body">
+			<div class="row kt-margin-b-10">
 				
-				fnAxGridSet();  // Grid 초기화  설정\
+				<div class="col-xl-6 kt-align-center">
+					<div class="kt-avatar kt-avatar--circle">
+						<div class="kt-avatar__holder osl-avatar__holder-lg" id="usrImage" title="사용자 이미지"></div>
+					</div>
+				</div>
 				
-				fnSearchBoxControl(); // Search Grid 초기화 설정
-			}
-			
-	}
-
-
-	$(document).ready(function() {
-		//달력 세팅 (배포일)
-		restfulPopGrid.init(); // AXISJ Grid 초기화 실행 부분들
-		/* 취소 */
-		$('#btnPopStm3002Cancle').click(function() {
-			gfnLayerPopupClose();
-		});
-		
-		$('#btnPopStm3002Select').click(function() {
-			
-			var chkList = restfulPopGrid.getList('selected');
-			
-			$(chkList).each(function(idx, data) {
-				if(data.__selected__){
-					
-					$('#jenNm').val(data.name);
-				}
-			});
-			
-			
-			gfnLayerPopupClose();
-		});
-	});
-	
-
-	function fnSearchBoxControl(){
-		var pageID = "AXSearchPop";
-		restfulPopSearch = new AXSearch();
-
-		var fnPopObjSearch = {
-			pageStart: function(){
-				//검색도구 설정 01 ---------------------------------------------------------
-				restfulPopSearch.setConfig({
-					targetID:"AXSearchPopTarget",
-					theme : "AXSearch",
-					rows:[
-						{display:true, addClass:"", style:"", list:[
-														
-					
-														
-							{label:"", labelWidth:"", type:"button", width:"55", key:"btn_searchPop",valueBoxStyle:"padding-left:0px;padding-right:2px;", value:"<i class='fa fa-list' aria-hidden='true'></i>&nbsp;<span>조회</span>",
-							onclick:function(){
-								/* 검색 조건 설정 후 reload */
-									
-								var pars = restfulPopSearch.getParam();
-							    var ajaxParam = $('#searchFrm').serialize();
-	
-							    if(!gfnIsNull(pars)){
-							    	ajaxParam += "&"+pars;
-							    }
-								
-							    fnInGridPopListSet(ajaxParam);
-								 
-							}}
-						]}
-					]
-				});
-			}
-		};
-		
-		jQuery(document.body).ready(function(){
-			fnPopObjSearch.pageStart();
-			//검색 상자 로드 후 텍스트 입력 폼 readonly 처리
-			
-			
-			//버튼 권한 확인
-			fnBtnAuthCheck(restfulPopSearch);
-		});
-		
-	}
-
-
-	//axisj5 그리드
-	function fnAxGridSet(){
-		var isMulti =false;
-		
-		restfulPopGrid = new ax5.ui.grid();
- 
-        restfulPopGrid.setConfig({
-            target: $('[data-ax5grid="pop-grid"]'),
-            sortable:false,
-            showRowSelector: true,
-            multipleSelect: isMulti  ,
-            header: {align:"center", selector : isMulti  },
-            //frozenColumnIndex: 2,
-            columns: [
-				{key: "name", label: "job명", width: 500, align: "left"}				
-            ],
-            body: {
-                align: "center",
-                columnHeight: 30,
-                onClick: function () {
-                	restfulPopGrid.select(this.doindex, {selected: true});
-                }
-            }
-        });
-        var ajaxParam = "";
-		
-        fnInGridPopListSet(ajaxParam);
-	}
-	//그리드 데이터 넣는 함수
-	
-	function fnInGridPopListSet(ajaxParam){
-     	/* 그리드 데이터 가져오기 */
-     	//파라미터 세팅
-         	
-		if(gfnIsNull(ajaxParam)){
-			ajaxParam = $('#searchFrm').serialize();
-		}
-    	
-		var ajaxObj = new gfnAjaxRequestAction(
-				{"url":"<c:url value='/stm/stm3000/stm3000/selectStm3000JobList.do'/>","loadingShow":false}
-				,ajaxParam);
-     	
-    	//AJAX 전송 성공 함수
-    
-    	ajaxObj.setFnSuccess(function(data){
-    		data = JSON.parse(data);
-    		
-    		var list = data.list;
-    		
-    		
-    		restfulPopGrid.setData( list );
-                
-    	
-    	});
-    	//AJAX 전송 오류 함수
-    	ajaxObj.setFnError(function(xhr, status, err){
-    		//세션이 만료된 경우 로그인 페이지로 이동
-           	if(status == "999"){
-           		alert('세션이 만료되어 로그인 페이지로 이동합니다.');
-        		document.location.href="<c:url value='/cmm/cmm4000/cmm4000/selectCmm4000View.do'/>";
-        		return;
-           	}
-    	});
-    	
-    	//AJAX 전송
-    	ajaxObj.send();
-					   	
-		
-	}
-	
-
-
-</script>
-
-<div class="popup">
-		
-	<div class="pop_title">사용 가능한 JOB 조회</div>
-	<div class="pop_sub">
-		<div class="tab_contents menu" style="max-width:520px;">
-			<form id="searchFrm" name="searchFrm" method="post" onsubmit="return false">
-				<input type="hidden" name="jenUsrId" id="jenUsrId"  value= "${param.jenUsrId}" >
-				<input type="hidden" name="jenUsrTok" id="jenUsrTok" value= "${param.jenUsrTok}"  >
-				<input type="hidden" name="jenUrl" id="jenUrl" value= "${param.jenUrl}" >
-				<input type="hidden" name="type" id="type" value= "${param.type}" >
-			</form>
-			<div id="AXSearchPopTarget" style="border-top:1px solid #ccc;"></div>
-			<br />
-			<div data-ax5grid="pop-grid" data-ax5grid-config="{}" style="height: 200px;"></div>		
-		</div>
-		<div class="btn_div">
-			<div class="button_normal save_btn" id="btnPopStm3002Select" >선택</div>
-			<div class="button_normal exit_btn" id="btnPopStm3002Cancle" >취소</div>
+				<div class="col-xl-6">
+					<div class="form-group kt-margin-b-20">
+						<label><i class="fa fa-edit kt-margin-r-5"></i>아이디</label>
+						<input type="text" class="form-control" label="아이디" placeholder="아이디" id="usrId" name="usrId" readonly="readonly" value="${param.paramUsrId}">
+					</div>
+					<div class="form-group kt-margin-b-15">
+						<label><i class="fa fa-edit kt-margin-r-5"></i>이름</label>
+						<input type="text" class="form-control" placeholder="이름" name="usrNm" id="usrNm" readonly="readonly">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-6">
+					<div class="form-group">
+						<label><i class="fa fa-phone-alt kt-margin-r-5"></i>연락처</label>
+						<input type="text" class="form-control" placeholder="연락처" name="telno" id="telno" readonly="readonly">
+					</div>
+				</div>
+				<div class="col-xl-6">
+					<div class="form-group">
+						<label><i class="fa fa-envelope kt-margin-r-5"></i>이메일</label>
+						<input type="email" class="form-control" label="이메일" placeholder="이메일" id="email" name="email" readonly="readonly">
+					</div>	
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-6">
+					<div class="form-group">
+						<label><i class="fa fa-id-badge kt-margin-r-5"></i>직급</label>
+						<input type="text" class="form-control" placeholder="직급" id="usrPositionNm" name="usrPositionNm" readonly="readonly">
+					</div>
+				</div>
+				<div class="col-xl-6">
+					<div class="form-group">
+						<label><i class="fa fa-id-badge kt-margin-r-5"></i>직책</label>
+						<input type="text" class="form-control" placeholder="직책" id="usrDutyNm" name="usrDutyNm" readonly="readonly">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label><i class="fa fa-id-card kt-margin-r-5"></i>부서</label>
+				<input type="text" class="form-control" label="부서" placeholder="부서" id="deptName" name="deptName" readonly="readonly">
+			</div>
+			<div class="row">
+				<div class="col-xl-6">
+					<div class="form-group">
+						<label><i class="fa fa-portrait kt-margin-r-5"></i>사용유무</label>
+						<input type="text" class="form-control" placeholder="사용유무" id="useNm" name="useNm" readonly="readonly">
+					</div>
+				</div>
+				<div class="col-xl-6">
+					<div class="form-group">
+						<label><i class="fa fa-lock kt-margin-r-5"></i>차단유무</label>
+						<input type="text" class="form-control" placeholder="차단유무" id="blockNm" name="blockNm" readonly="readonly">
+					</div>
+				</div>
+			</div>
+			<div class="form-group d-none" id="bloclLogInfo">
+				<label><i class="fa fa-pencil-alt kt-margin-r-5"></i>차단로그</label>
+				<div class="form-control h-100 osl-min-height--12rem" id="blkLog"></div>
+			</div>
+			<div class="form-group">
+				<label><i class="fa fa-edit kt-margin-r-5"></i>비고</label>
+				<div class="form-control h-100 osl-min-height--12rem" id="etc"></div>
+			</div>
 		</div>
 	</div>
-	</form>
+</form>
+<div class="modal-footer">
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close"
+	>Close</span></button>
 </div>
-</html>
+
+<script>
+
+"use strict";
+var OSLStm3002Popup = function () {
+	var formId = 'frStm3002';
+	
+    
+    var documentSetting = function () {
+    	
+		selectUsrInfo();
+    };
+
+    
+	var selectUsrInfo = function() {
+    	
+    	var paramUsrId = $("#usrId").val();
+    	
+		
+		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/stm/stm3000/stm3000/selectStm3000UsrInfoAjax.do'/>", "async": false}
+				,{"usrId": paramUsrId});
+		
+		ajaxObj.setFnSuccess(function(data){
+			
+			if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+				
+				$.osl.layerPopupClose();
+			}else{
+				
+		    	$.osl.setDataFormElem(data.usrInfoMap,"frStm3002", ["usrNm", "email", "telno", "deptName", "usrPositionNm", "usrDutyNm", "useNm", "blockNm"]);
+				
+				var etc = data.usrInfoMap.etc;
+				var block = data.usrInfoMap.block;
+				var blkLog = data.usrInfoMap.blkLog;
+				
+				
+				$("#usrImage").css("background-image", "url("+$.osl.user.usrImgUrlVal(data.usrInfoMap.usrImgId)+")");
+				
+				
+				if(block == "02" && !$.osl.isNull(blkLog)){
+					$("#bloclLogInfo").removeClass("d-none");
+					block =  $.osl.escapeHtml(block);
+					$("#blkLog").html(blkLog.replace(/\n/g, '<br/>'));
+				}
+					
+				if(!$.osl.isNull(etc)){
+					
+					etc =  $.osl.escapeHtml(etc);
+					$("#etc").html(etc.replace(/\n/g, '<br/>'));
+				}
+				
+			}
+		});
+		
+		
+		ajaxObj.send();
+	};
+
+	
+    return {
+        
+        init: function() {
+        	documentSetting();
+        }
+        
+    };
+}();
+
+
+$.osl.ready(function(){
+	OSLStm3002Popup.init();
+});
+	
+</script>

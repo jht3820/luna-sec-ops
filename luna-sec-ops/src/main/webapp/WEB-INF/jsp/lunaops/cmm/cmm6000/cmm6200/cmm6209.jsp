@@ -20,14 +20,14 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="reqRejectDescSave"><i class="fa fa-save"></i><span>반려 사유 등록</span></button>
+	<button type="button" class="btn btn-brand" id="reqRejectDescSave"><i class="fa fa-save"></i><span class="osl-resize__display--show">반려 사유 등록</span></button>
 	<input type="hidden" id="cmm6209SubmitBtn" name="cmm6209SubmitBtn"/>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 
-
+s
 <script>
 "use strict";
 var OSLCmm6209Popup = function () {
