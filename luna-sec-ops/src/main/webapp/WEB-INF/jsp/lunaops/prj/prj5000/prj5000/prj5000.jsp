@@ -9,7 +9,7 @@
 <script src="<c:url value='/plugins/custom/fullcalendar/main.js'/>"></script>
 <script src="<c:url value='/plugins/custom/fullcalendar/locales-all.js'/>"></script>
 
-<div class="kt-portlet kt-portlet--mobile osl-flex-flow--row-desktop osl-mobile-flex-flow--row osl-portlet__body-style--none kt-margin-b-0">
+<div class="kt-portlet kt-portlet--mobile osl-flex-flow--row osl-flex-flow--column-mobile osl-portlet__body-style--none kt-margin-b-0">
 	<div class="kt-portlet kt-portlet--mobile osl-calendar osl-desktop-max-w-285 float-left kt-margin-b-0" id="prj5000">
 		<div class="kt-portlet__head kt-hidden-desktop kt-hidden-tablet">
 			<div class="kt-portlet__head-label">
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div class="kt-portlet__body osl-min-h-px--415">
-			<div class="osl-flex-flow--row-desktop osl-mobile-flex-flow--row w-100" id="prj5000LeftDiv">
+			<div class="osl-flex-flow--row osl-flex-flow--column-mobile w-100" id="prj5000LeftDiv">
 				<button type="button" id="saveBtn" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-b-10 btn-elevate btn-elevate-air w-100" title="일정 등록" data-title-lang-cd="prj5000.button.title.insert" data-toggle="kt-tooltip" data-skin="brand">
 					<i class="fa fa-calendar-plus"></i><span data-lang-cd="prj5000.button.title.insert">일정등록</span>
 				</button>

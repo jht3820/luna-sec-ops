@@ -183,7 +183,7 @@ public class Prj1300ServiceImpl extends EgovAbstractServiceImpl implements Prj13
 		
 		
 		
-		int cnt = prj1300DAO.selectPrj1102ItemListCnt(paramMap);
+		int cnt = prj1300DAO.selectPrj1103ItemListCnt(paramMap);
 		if(cnt>0) {
 			prj1300DAO.updatePrj1103ItemAjax(paramMap);
 		}else {

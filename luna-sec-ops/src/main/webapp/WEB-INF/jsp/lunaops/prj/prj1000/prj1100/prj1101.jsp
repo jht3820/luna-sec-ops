@@ -14,6 +14,7 @@
 					</h5>
 				</div>
 			</div>
+			
 			<div class="kt-portlet__body kt-padding-15">
 				<div class="row">
 					<div class="col-lg-6 col-md-12 col-sm-12">

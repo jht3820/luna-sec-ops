@@ -232,11 +232,10 @@ var OSLSpr1101Popup = function () {
 									+'</div>'
 									+'<div class="kt-widget__wrapper">'
 										+'<div class="kt-widget__label">'
-											+'<div class="kt-widget__title">'
+											+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
 												+$.osl.escapeHtml(map.usrNm)
-												+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											+'</div>'
-											
+											+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											+'<span class="kt-widget__desc">'
 												+'<span>'+$.osl.escapeHtml(map.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(map.usrPositionNm)+'</span>'
 											+'</span>'
