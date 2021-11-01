@@ -509,7 +509,7 @@ var OSLSpr1004Popup = function () {
 		$('#frSpr1004 [data-ktwizard-type="action-submit"]').click(function(){
 	       	
 	   		var fd = $.osl.formDataToJsonArray(formId);
-	       	
+	       	debugger;
 	   		
 	   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/spr/spr1000/spr1000/updateSpr1003SprEnd.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
