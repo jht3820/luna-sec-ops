@@ -265,6 +265,11 @@ var OSLSpr1003Popup = function () {
 		
 		wizard.on('change', function(wizardObj) {
 			
+			if($.osl.isNull($.osl.datatable.list['sprAssignReqTable'])){
+				$.osl.alert("스토리포인트 배정을 완료해주세요.",{type:"error"})
+				wizardObj.goTo(2);
+			}
+			
 			var totalStep = wizard.totalSteps;
 			
 			var checkThis = wizard.currentStep;
