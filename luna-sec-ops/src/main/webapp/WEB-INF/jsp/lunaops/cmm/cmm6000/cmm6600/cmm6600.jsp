@@ -6,6 +6,8 @@
 	<input type="hidden" name="paramTargetCd" id="paramTargetCd" value="${param.targetCd}">
 	<input type="hidden" name="paramTargetNm" id="paramTargetNm" value="${param.targetNm}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.prjId}">
+	<input type="hidden" name="paramSubmitAction" id="paramSubmitAction" value="${param.paramSubmitAction}">
+	<input type="hidden" name="paramSignUsrList" id="paramSignUsrList" value='<c:out value="${param.paramSignUsrList}"/>'>
 	<div class="row">
 		<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 kt-margin-b-20-tablet kt-margin-b-20-mobile">
@@ -57,13 +59,15 @@
 	</div>
 </form>
 <div class="modal-footer">
+	<input type="hidden" name="cmm6601ModalCallbackBtn" id="cmm6601ModalCallbackBtn"/>
 	<button type="button" class="btn btn-brand" id="cmm6600SaveSignLine"><i class="fa fa-save"></i><span class="osl-resize__display--show">결재 요청</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
 "use strict";
 var OSLCmm6600Popup = function () {
-		
+	var formId = 'frCmm6600';
+	
 	
     var ord=1;
     
@@ -86,12 +90,25 @@ var OSLCmm6600Popup = function () {
 	var targetNm = $('#paramTargetNm').val();
 	
 	
+	var paramSubmitAction = $("#paramSubmitAction").val();
+	
+	
 	var type = '';
+	
+	
+	var signUsrInfs = [];
+	
+	
+	var usrDataList = {};
 	
     
     var documentSetting = function () {
-	   	
     	selectSignUsrInfList();
+    	
+    	
+    	if(paramSubmitAction == "false"){
+    		$("#cmm6600SaveSignLine > span").text("결재선 저장");
+    	}
     	
 	    
 	   	$("#cmm6600SignUsrInfo").on("click",".osl-sign-card",function(){
@@ -153,16 +170,31 @@ var OSLCmm6600Popup = function () {
 			
 			$("#signCardTable").parent().prepend(MyusrStr);
 			selectUsrArray.push(MyInfo.usrId);
+			
+			
+			var paramSignUsrList = $("#"+formId+" #paramSignUsrList").val();
+			var signUsrListJson = JSON.parse(paramSignUsrList);
+			
+			if(!$.osl.isNull(signUsrListJson) && signUsrListJson.length > 0){
+				var signUsrList = [];
+				
+				
+				$.each(signUsrListJson, function(idx, map){
+					if(map.type == "02" || $.osl.isNull(map.type)){
+						signUsrList.push(map);
+					}
+				});
+				
+				
+				fnAllUsrInsert(signUsrList);	
+			}
 	  	}
 	    
 	    
 	    
 	    $('#cmm6600SaveSignLine').click(function(){
-	    	
-	    	
     		$.osl.confirm($.osl.lang("cmm6600.message.confirm.saveString"),null,function(result) {
     	        if (result.value) {
-					
    	        		
     	        	saveFormAction();
     	        }
@@ -172,7 +204,7 @@ var OSLCmm6600Popup = function () {
 	    
 	    
 	    var saveFormAction = function(){
-			var signUsrInfs = [];
+	    	signUsrInfs = [];
 	    	
 	    	var selSignUsrInfs = $('.osl-sign-card');
 	    	
@@ -186,49 +218,63 @@ var OSLCmm6600Popup = function () {
 	    	
 	    	if(!(targetCd == '03')){
 	    		
-		    	var myInf = {};
-		    	myInf.usrId = $.osl.user.userInfo.usrId;
-		    	myInf.ord = 0;
-		    	signUsrInfs.push(myInf);
+	    		var myInfo = $.extend({},$.osl.user.userInfo);
+	    		myInfo["ord"] = 0;
+	    		myInfo["type"] = "01";
+	    		
+		    	signUsrInfs.push(myInfo);
 	    	}
 	    	
 	    	
 	    	$.each(selSignUsrInfs,function(idx, map){
+	    		var usrId = $(this).data("usr-id");
+	    		var ord = $(this).data("ord");
 	    		
-	    		var signUsrInf = {};
-	    		signUsrInf.usrId = $(this).data("usr-id");
-	    		signUsrInf.ord = $(this).data("ord");
+	    		
+	    		var signUsrInf = $.extend({},usrDataList[usrId]);
+	    		signUsrInf["ord"] = ord;
+	    		signUsrInf["type"] = "02";
+	    		
 	    		signUsrInfs.push(signUsrInf);
 	    	})
 	    	
 	    	
-    		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/cmm/cmm6000/cmm6600/saveCmm6600SignLineAjax.do'/>"}
-				,{signUsrInfList: JSON.stringify(signUsrInfs) , prjId : prjId, targetId : targetId, targetCd:targetCd,type:type,targetNm:targetNm});
+	    	if($.osl.isNull(paramSubmitAction) || paramSubmitAction == "true"){
+	        	
+	    		var ajaxObj = new $.osl.ajaxRequestAction(
+					{"url":"<c:url value='/cmm/cmm6000/cmm6600/saveCmm6600SignLineAjax.do'/>"}
+					,{signUsrInfList: JSON.stringify(signUsrInfs) , prjId : prjId, targetId : targetId, targetCd:targetCd,type:type,targetNm:targetNm});
 
-    		
-    		ajaxObj.setFnSuccess(function(data){
-    			if(data.errorYn == "Y"){
-    				$.osl.alert(data.message,{type: 'error'});
-    			}else{
-    				
-    				$.osl.toastr(data.message);
-    				
-    				
-    				$.osl.layerPopupClose();
-    				
-    				
-    				if(targetCd == '02'){
+	    		
+	    		ajaxObj.setFnSuccess(function(data){
+	    			if(data.errorYn == "Y"){
+	    				$.osl.alert(data.message,{type: 'error'});
+	    			}else{
+	    				
+	    				$.osl.toastr(data.message);
+	    				
+	    				
+	    				$.osl.layerPopupClose();
+	    				
+	    				
+	    				if(targetCd == '02'){
 
-			        	
-			        	$("button[data-datatable-id=dpl1000Table][data-datatable-action=select]").click();
-    				}
-    				
-    			}
-    		});
-    		
-    		
-    		ajaxObj.send();
+				        	
+				        	$("button[data-datatable-id=dpl1000Table][data-datatable-action=select]").click();
+	    				}
+	    				
+	    			}
+	    		});
+	    		
+	    		
+	    		ajaxObj.send();
+	    	}else{
+	    		
+	    		$("#cmm6601ModalCallbackBtn").click();
+	    		
+	    		
+				$.osl.layerPopupClose();
+	    	}
 	    }
 	    
 	   	
@@ -252,7 +298,17 @@ var OSLCmm6600Popup = function () {
 			toolbar:{
 				items:{
 					pagination:{
-						pageSizeSelect : [8, 10, 20, 30, 50, 100]
+						pageSizeSelect : [8, 10, 20, 30, 50, 100],
+						pages: {
+							desktop: {
+								layout: 'default',
+								pagesNumber: 5,
+							},
+							tablet: {
+								layout: 'compact',
+								pagesNumber: 3,
+							},
+						},
 					}
 				}
 			},
@@ -291,6 +347,7 @@ var OSLCmm6600Popup = function () {
 				}
 			},
 			rows:{
+				clickCheckbox: true,
 				beforeTemplate: function (row, data, index){
 					
 					if(selectUsrArray.indexOf(data.usrId) > -1){
@@ -328,6 +385,19 @@ var OSLCmm6600Popup = function () {
 				},
 				"upMoveBtn":function(rowData){
 					moveUsrCard("up");
+				}
+			},
+			callback:{
+				ajaxDone: function(evt, list){
+					
+					if(list.length > 0){
+						$.each(list, function(idx, map){
+							
+							if(!usrDataList.hasOwnProperty(map.usrId)){
+								usrDataList[map.usrId] = map;
+							}
+						});
+					}
 				}
 			}
 		});
@@ -521,6 +591,7 @@ var OSLCmm6600Popup = function () {
 				usrIdDupleList++;
 				return true;
 			}
+
     		
 			userSetting(map);
     		
@@ -656,6 +727,9 @@ var OSLCmm6600Popup = function () {
         
         init: function() {
         	documentSetting();
+        },
+        getSignUsrInfs: function(){
+        	return JSON.stringify(signUsrInfs);
         }
     };
 }();
