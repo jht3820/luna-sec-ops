@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -48,7 +48,7 @@
 		</div>
 	</div>
 </div>
-<!-- begin:: 대시보드 대제목 -->
+
 	<div class="kt-portlet kt-portlet--mobile" id="prjTopInfo">
 		<div class="kt-portlet__head kt-portlet__head--lg">
 			<div class="kt-portlet__head-label">
@@ -68,22 +68,22 @@
 		<div class="kt-portlet__body">
 			<div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-12 col-12 kt-padding-20">
-					<!-- 프로세스 별 요구사항 수 -->
+					
 					<div class="border osl-min-h-px--250" id="processReqCntChart" data-dshboard-chart="prjChart"></div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-12 col-12 kt-padding-20">
-					<!-- 각 프로세스별 처리율(월) -->
+					
 					<div class="border osl-min-h-px--250" id="processMonthRatioChart" data-dshboard-chart="prjChart"></div>
 				</div>
 				<div class="col-lg-3 col-md-3 col-sm-12 col-12 kt-padding-20">
-					<!-- 분기별 처리율 -->
+					
 					<div class="border osl-min-h-px--250" id="processQuarterRatioChart" data-dshboard-chart="prjChart"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end:: 대시보드 대제목 -->
-	<!-- begin:: 접수대기 -->
+	
+	
 	<div class="kt-portlet kt-portlet--mobile" id="newReq">
 		<div class="kt-portlet__head kt-portlet__head--lg">
 			<div class="kt-portlet__head-label">
@@ -117,11 +117,11 @@
 			<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="req4100ReqTable"></div>
 		</div>
 	</div>
-	<!-- end:: 접수대기 -->
 	
-	<!-- begin:: 담당 요구사항 결재 목록, 담당 배포계획 결재 목록 -->
+	
+	
 	<div class="row">
-		<!-- begin:: 담당 요구사항 결재 목록 -->
+		
 		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeSign">
 				<div class="kt-portlet__head kt-portlet__head--lg">
@@ -144,8 +144,8 @@
 				</div>
 			</div>
 		</div>
-		<!-- end:: 담당 요구사항 결재 목록 -->
-		<!-- begin:: 담당 배포계획 결재 목록 -->
+		
+		
 		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeDpl">
 				<div class="kt-portlet__head kt-portlet__head--lg">
@@ -172,15 +172,15 @@
 							<div class="osl-datatable-search" data-datatable-id="reqChargeDplTable"></div>
 						</div>
 					</div>
-					<!-- <div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="reqChargeDplTable"></div> -->
+					
 				</div>
 			</div>
 		</div>
-		<!-- end:: 담당 배포계획 결재 목록 -->
+		
 	</div>
-	<!-- end:: 담당 요구사항 결재 목록, 담당 배포계획 결재 목록 -->
 	
-	<!-- begin:: 프로세스 목록1 -->
+	
+	
 	<div id="processCard">
 	</div>
 	<div class="kt-portlet kt-portlet--mobile" data-target-div="process1" id="processPortlet1">
@@ -218,10 +218,10 @@
 		</div>
 		<div class="kt-portlet__body kt-padding-10">
 			<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">
-				<!-- begin :: 그리드 -->
+				
 				<div class="osl-dsh-flowchart kt-margin-20">
 				
-					<!-- flowchart 1 -->
+					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -252,10 +252,10 @@
 						</div>
 					</div>
 					
-					<!-- 화살표 1 -->
+					
 					<i class="fa fa-arrow-right"></i>
 					
-					<!-- flowchart 2 -->
+					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -286,10 +286,10 @@
 						</div>
 					</div>
 					
-					<!-- 화살표 2 -->
+					
 					<i class="fa fa-arrow-right"></i>
 					
-					<!-- flowchart 3 -->
+					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -320,10 +320,10 @@
 						</div>
 					</div>
 					
-					<!-- 화살표 3 -->
+					
 					<i class="fa fa-arrow-right"></i>
 					
-					<!-- flowchart 4 -->
+					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -354,10 +354,10 @@
 						</div>
 					</div>
 					
-					<!-- 화살표 4 -->
+					
 					<i class="fa fa-arrow-right"></i>
 					
-					<!-- flowchart 5 -->
+					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -388,10 +388,10 @@
 						</div>
 					</div>
 					
-					<!-- 화살표 5 -->
+					
 					<i class="fa fa-arrow-right"></i>
 					
-					<!-- flowchart 6 -->
+					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -422,11 +422,11 @@
 						</div>
 					</div>
 				</div>
-				<!-- end :: 그리드 -->
+				
 
-				<!-- begin :: 칸반 -->
+				
 				<div class="osl-dsh-kanban kt-margin-20 kt-hide">
-					<!-- kanban 1 -->
+					
 					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
 						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
 							<div class="col-12 border-bottom">
@@ -443,7 +443,7 @@
 							<div class="col-12 text-center border-top kt-padding-10 font-border">작업흐름 명</div>
 						</div>
 						<div class="kt-portlet__body osl-kaban--card__body kt-scroll" processid="1">
-							<!-- kanban_card 1-1 -->
+							
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -474,7 +474,7 @@
 								</div>
 							</div>
 							
-							<!-- kanban_card 1-2 -->
+							
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -505,7 +505,7 @@
 								</div>
 							</div>
 							
-							<!-- kanban_card 1-3 -->
+							
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -536,7 +536,7 @@
 								</div>
 							</div>
 							
-							<!-- kanban_card 1-4 -->
+							
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -569,10 +569,10 @@
 						</div>
 					</div>
 					 
-					<!-- 화살표 1 -->
+					
 					<i class="fa fa-arrow-right"></i>
 					
-					<!-- kanban 2 -->
+					
 					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
 						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
 							<div class="col-12 border-bottom">
@@ -589,7 +589,7 @@
 							<div class="col-12 text-center border-top kt-padding-10 font-border">작업흐름 명</div>
 						</div>
 						<div class="kt-portlet__body osl-kaban--card__body kt-scroll"  processid="2">
-							<!-- kanban_card 2-1 -->
+							
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -622,17 +622,17 @@
 						</div>
 					</div>
 				</div>
-				<!-- end :: 칸반 -->
+				
 			</div>
 			
-			<!-- begin :: grid datatable -->
+			
 			<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 kt-hide" id="processReqTable_1"></div>
-			<!-- end :: grid datatable -->
+			
 		</div>
 	</div>
-	<!-- end:: 프로세스 목록 1 -->
 	
-	<!-- begin:: 프로세스 목록 2 -->
+	
+	
 	<div class="kt-portlet kt-portlet--mobile" data-target-div="process2" id="processPortlet2">
 		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
 			<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">
@@ -668,9 +668,9 @@
 		</div>
 		<div class="kt-portlet__body kt-padding-10">
 			<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">
-				<!-- begin :: 그리드 -->
+				
 				<div class="osl-dsh-flowchart kt-margin-20">
-					<!-- flowchart 1 -->
+					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -731,10 +731,10 @@
 						</div>
 					</div>
 					
-					<!-- 화살표 1 -->
+					
 					<i class="fa fa-arrow-right"></i>
 					
-					<!-- flowchart 2 -->
+					
 					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
 						<div class="flowchart-operator-function">
 							<li class="fa fa-file-signature" title="결재"></li>
@@ -765,10 +765,10 @@
 						</div>
 					</div>
 				</div>
-				<!-- end :: 그리드 -->
-				<!-- begin :: 칸반 -->
+				
+				
 				<div class="osl-dsh-kanban kt-margin-20 kt-hide">
-					<!-- kanban -->
+					
 					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
 						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
 							<div class="col-12 border-bottom">
@@ -786,7 +786,7 @@
 						</div>
 						<div class="kt-portlet__body osl-kaban--card__body kt-scroll" processid="3">
 							
-							<!-- kanban_card 3-1 -->
+							
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -817,7 +817,7 @@
 								</div>
 							</div>
 							
-							<!-- kanban_card 3-2 -->
+							
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -848,7 +848,7 @@
 								</div>
 							</div>
 							
-							<!-- kanban_card 3-3 -->
+							
 							<div class="card kt-margin-t-10">
 								<div class="card-header kt-padding-10 kt-font-bolder">
 									요구사항 순번
@@ -881,21 +881,24 @@
 						</div>
 					</div>
 				</div>
-				<!-- end :: 칸반 -->
+				
 			</div>
 			
-			<!-- begin :: grid datatable -->
+			
 			<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 kt-hide" id="processReqTable_2"></div>
-			<!-- end :: grid datatable -->
+			
 		</div>
 	</div>
-	<!-- end:: 프로세스 목록 2 -->
 	
-	<!-- begin :: 스프린트 -->
-	<div id="spr1000CardTable">
-		<div class="kt_datatable osl-datatable-footer__divide" id="spr1000Table"></div>
-    <!-- end :: 스프린트 -->
+	
+	
+	<div id="spr1000CardTable"></div>
+	<div class="kt_datatable osl-datatable-footer__divide" id="spr1000Table">
+		<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 invisible" data-datatable-id="spr1000Table" data-datatable-action="select" title="조회" data-auth-button="select" tabindex="5">
+			<i class="fas fa-redo-alt"></i>
+		</button>
     </div>
+    
  <script>
 "use strict";
 var OSLDsh2000Popup = function () {
@@ -907,7 +910,9 @@ var OSLDsh2000Popup = function () {
 	
 	var dplDatatableId = "reqChargeDplTable";
 	
-	var dshDatatableIdList = ["req4100ReqTable", "reqChargeDplTable"];
+	var sprDatatableId = "spr1000Table";
+	
+	var dshDatatableIdList = ["req4100ReqTable", "reqChargeDplTable","spr1000Table"];
 	
 	
 	var portletAll=[];
@@ -1367,7 +1372,7 @@ var OSLDsh2000Popup = function () {
 		});
 		
 		
-		processList();
+		fnProcessList();
 		
 		
 		
@@ -1395,7 +1400,8 @@ var OSLDsh2000Popup = function () {
 			],
 			actionBtn:{
 				"title": "기능 버튼",
-				"dblClick": true
+				"dblClick": true,
+				"refresh":true,
 			},
 			actionTooltip:{
 				"title": "기능 버튼",
@@ -1404,6 +1410,12 @@ var OSLDsh2000Popup = function () {
 				"dblClick": $.osl.lang("spr1000.datatable.action.dblClick")
 			},
 			actionFn:{
+				"refresh": function(rowData, datatableId, type, rowNum){
+					
+					searchReset(datatableId);
+					
+					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+				},
 				"insert":function(datatableId){
 					var data = {type:"insert"};
 					var options = {
@@ -1560,6 +1572,15 @@ var OSLDsh2000Popup = function () {
 							
 						};
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1004View.do',data,options);
+				}
+			},
+			theme:{
+				actionBtn:{
+					"dblClick" : "",
+					"refresh" : " kt-hide",
+				},
+				actionBtnIcon:{
+					"dblClick" : "fas fa-external-link-alt",
 				}
 			},
 			callback:{
@@ -1723,6 +1744,7 @@ var OSLDsh2000Popup = function () {
 					
 					KTApp.initTooltips();
 					$('[data-toggle-second="tooltip"]').tooltip();
+					
 					$("#spr1000Table .kt-datatable__table").css({visibility: "hidden", height: 0});
 					
 					
@@ -1736,6 +1758,7 @@ var OSLDsh2000Popup = function () {
 						
 						if($.osl.isNull($.osl.datatable.list["sprReqTable_"+sprId])){
 							sprReqTable(sprId, cate);
+							dshDatatableIdList.push("sprReqTable_"+sprId);
 						}else{
 							
 							$.osl.datatable.list["sprReqTable_"+sprId].targetDt.setDataSourceParam("sprId", sprId);
@@ -1984,7 +2007,6 @@ var OSLDsh2000Popup = function () {
 						$.osl.alert("처리중인 요구사항만 업무 처리가 가능합니다.");
 						return false;
 					}
-					
 					var data = {
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId
@@ -2042,7 +2064,7 @@ var OSLDsh2000Popup = function () {
 	
 	
 	
-	var processList = function(){
+	var fnProcessList = function(){
 		var data = {
 				delCd: "02"
 		};
@@ -2107,14 +2129,15 @@ var OSLDsh2000Popup = function () {
 					$("#processCard").append(str);
 				});
 				
-				getProcessFlow();
+				fnGetProcessFlow();
 			}
     	});
 		
     	ajaxObj.send();		
 	};
 	
-	var getProcessFlow = function(){
+	
+	var fnGetProcessFlow = function(){
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
     			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAjax.do'/>", "async": true});
@@ -2183,7 +2206,7 @@ var OSLDsh2000Popup = function () {
 	}
 	
 	
-	var flowChart = function(flowList, flowLinkList){
+	var fnFlowChart = function(flowList, flowLinkList){
 		
 		
 
@@ -2284,11 +2307,11 @@ var OSLDsh2000Popup = function () {
 	      
 	      
 		
-		flowChartDraw();
+		fnFlowChartDraw();
 	};
 	
 	
-	var flowChartDraw = function(list, processId){
+	var fnFlowChartDraw = function(list, processId){
 		
 		var str = '';
 		$.each(list, function(idx, value){
@@ -3261,5 +3284,5 @@ $.osl.ready(function(){
 	OSLDsh2000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />
