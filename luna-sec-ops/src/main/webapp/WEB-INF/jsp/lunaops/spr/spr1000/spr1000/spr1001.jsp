@@ -1,26 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
-<!-- begin page DOM -->
-<!-- begin :: form -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <form class="kt-form" id="spr1001">
 	<input type="hidden" id="sprId" name="sprId" value="${param.paramSprId}">
 	<input type="hidden" id="sprStDt" name="sprStDt" value="${param.paramSprStDt}">
 	<input type="hidden" id="sprEdDt" name="sprEdDt" value="${param.paramSprEdDt}">
 	<input type="hidden" id="sprTypeCd" name="sprTypeCd" value="${param.paramSprTypeCd}">
+	<input type="hidden" id="sprTypeNm" name="sprTypeNm" value="${param.paramSprTypeNm}">
+	<input type="hidden" id="sprRestDay" name="sprRestDay" value="${param.paramSprRestDay}">
+	<input type="hidden" id="sprEndPercent" name="sprEndPercent" value="${param.paramSprEndPercent}">
 	<div class="kt-portlet kt-portlet--mobile">
 		<div class="kt-portlet__body">
 			<div class="row kt-padding-l-20 kt-padding-r-20">
-				<!-- begin :: 스프린트 이름, 설명 -->
+				
 				<div class="col-lg-5 col-md-5 col-sm-12 col-12 d-flex align-items-center">
 					<div class="d-flex kt-padding-l-15">
-						<div class="kt-media kt-media--xl kt-media--circle kt-media--primary osl-margin-r-2rm"><span>대기</span></div>
+						<div id="sprTypeCdCircle" class="kt-media kt-media--xl kt-media--circle osl-margin-r-2rm"><span id="sprTypeCdSpan"></span></div>
 						<div class="d-flex flex-column osl-margin-r-auto osl-word__break">
-							<h5 class="kt-font-boldest text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번째 스프린트">${param.paramSprNm}</h5>
-							<span class="text-muted text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="두번째 스프린트">${param.paramSprDesc}</span>
+							<h5 id="sprNm" class="kt-font-boldest text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="">${param.paramSprNm}</h5>
+							<span id="sprDesc" class="text-muted text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="">${param.paramSprDesc}</span>
 						</div>
 					</div>	
 				</div>
-				<!-- end :: 스프린트 이름, 설명 -->
+				
 				<div class="col-lg-7 col-md-7 col-sm-12 col-12">
 					<div class="d-flex flex-wrap osl-margin-t-2rm kt-padding-l-20">
 						<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">
@@ -33,7 +36,7 @@
 						</div>
 						<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">
 							<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>남은 일수</span>
-							<h5><span class="badge badge-warning osl-min-width-85">0</span></h5>
+							<h5><span class="badge badge-warning osl-min-width-85">${param.paramRestDay}</span></h5>
 						</div>
 						<div class="osl-flex-row-fluid osl-margin-b-175rm">
 							<div class="osl-progress">
@@ -42,14 +45,14 @@
 									<span>진척률</span>
 								</div>
 								<div class="progress osl-prj-group-md">
-									<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+									<div id="progressBar" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- begin :: 스프린트 내용 table -->
+			
 			<div class="d-flex flex-wrap">
 				<div class="kt-pricing-v1">
 					<div class="kt-pricing-v1__header">
@@ -142,7 +145,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- end :: 스프린트 내용 table -->
+			
 		</div>
 	</div>
 	<div class="kt-portlet">
@@ -154,7 +157,7 @@
 			</div>
 		</div>
 		<div class="kt-portlet__body">
-			<!-- begin :: 스프린트 차트 -->
+			
 			<div class="row kt-margin-0">
 				<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
 					<div class="border rounded-sm osl-card__data--empty osl-min-h-px--365" id="burnUpChart"></div>
@@ -168,7 +171,7 @@
 					<div class="border rounded-sm osl-min-h-px--140" id="velocityChart"></div>
 				</div>
 			</div>
-			<!-- end :: 스프린트 차트 -->
+			
 		</div>
 	</div>
 	<div class="kt-portlet kt-margin-b-0">
@@ -180,40 +183,40 @@
 			</div>
 		</div>
 		<div class="kt-portlet__body kt-padding-b-0">
-			<!-- begin :: 스프린트 데이터테이블 전체영역-->
+			
 			<div class="row kt-margin-0">
-				<!-- begin :: 스프린트 데이터테이블 검색영역 -->
+				
 				<div class="col-lg-6 col-md-6 col-sm-12">
 					<div class="osl-datatable-search" data-datatable-id="sprDetailTable"></div>
 				</div>
-				<!-- end :: 스프린트 데이터테이블 검색영역 -->
-				<!-- begin :: 스프린트 데이터테이블 조회버튼 -->
+				
+				
 				<div class="col-lg-6 col-md-6 col-sm-12">
 					<button type="button" class="btn btn-brand float-right" data-datatable-id="sprDetailTable" data-datatable-action="select" title="스프린트 상세정보 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 						<i class="fa fa-list"></i><span>조회</span>
 					</button>
 				</div>
-				<!-- end :: 스프린트 데이터테이블 조회버튼 -->
+				
 			</div>
-			<!-- begin :: 스프린트 데이터테이블  -->
-			<div class="kt_datatable" id="sprDetailTable"></div>
-			<!-- end :: 스프린트 데이터테이블  -->
 			
-			<!-- end :: 스프린트 데이터테이블 전체영역 -->
+			<div class="kt_datatable" id="sprDetailTable"></div>
+			
+			
+			
 		</div>
 	</div>
 </form>
-<!-- end :: form -->
-<!-- begin :: modal-footer -->
+
+
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand"
 		data-dismiss="modal">
 		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
-<!-- end :: modal-footer -->
-<!-- end DOM -->
-<!-- begin page script -->
+
+
+
 <script>
 "use strict";
 var OSLSpr1001Popup = function () {
@@ -226,6 +229,15 @@ var OSLSpr1001Popup = function () {
 	
 	var paramSprTypeCd = $("#sprTypeCd").val();
 	
+	var paramSprTypeNm = $("#sprTypeNm").val();
+	
+	var paramSprNm = $("#sprNm").val();
+	
+	var paramSprDesc = $("#sprDesc").val();
+	
+	var paramSprEndPercent = $("#sprEndPercent").val();
+	
+	
 	var totalSprPoint = 0;
 	
 	var endSprPoint = 0;
@@ -234,6 +246,35 @@ var OSLSpr1001Popup = function () {
 	
 	var documentSetting = function(){
 		
+			
+			var sprTypeClass = "kt-media--primary";
+			var sprTypeNm = paramSprTypeNm;
+			
+			if(paramSprTypeCd == "02"){
+				sprTypeClass = "kt-media--danger";
+			}else if(paramSprTypeCd == "03"){
+				sprTypeClass = "kt-media--warning";
+			}
+			
+			else if(paramUseCd == "02"){
+				sprTypeClass = "kt-media--dark";
+				sprTypeNm = "미 사용";
+			}
+			
+			$("#sprTypeCdCircle").addClass(sprTypeClass);
+			
+			$("#sprTypeCdSpan").text(sprTypeNm);
+			
+			
+			$("#progressBar").css("width", paramSprEndPercent+"%");
+			
+			$("#progressBar").attr("aria-valuenow", paramSprEndPercent);
+			
+			$("#progressBar").text(paramSprEndPercent+"%");
+			
+			
+			$("#sprNm").data("original-title", paramSprNm);
+			$("#sprDesc").data("original-title", paramSprDesc);
 		
 		$.osl.datatable.setting("sprDetailTable",{
 			data: {
@@ -336,6 +377,8 @@ var OSLSpr1001Popup = function () {
 	 				if($.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.hasOwnProperty('data')){
 	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
 	 				}
+	 				
+	 				
 	 				
 	 				selectSprInfoStat();
 	 				
@@ -828,4 +871,4 @@ $.osl.ready(function(){
 	OSLSpr1001Popup.init();
 });
 </script>
-<!-- end script -->
+
