@@ -169,11 +169,14 @@ var OSLCmm6600Popup = function () {
 					
 			
 			$("#signCardTable").parent().prepend(MyusrStr);
-			selectUsrArray.push(MyInfo.usrId);
 			
 			
 			var paramSignUsrList = $("#"+formId+" #paramSignUsrList").val();
-			var signUsrListJson = JSON.parse(paramSignUsrList);
+			var signUsrListJson;
+			
+			if(!$.osl.isNull(paramSignUsrList)){
+				signUsrListJson = JSON.parse(paramSignUsrList);
+			}
 			
 			if(!$.osl.isNull(signUsrListJson) && signUsrListJson.length > 0){
 				var signUsrList = [];
@@ -535,11 +538,10 @@ var OSLCmm6600Popup = function () {
    
     
 	var selectSignUsrInfList = function(){
-    	
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 			{"url":"<c:url value='/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do'/>"}
-			, {prjId : prjId, targetId : targetId});
+			, {prjId : prjId, targetId : targetId, targetCd : targetCd});
 
 		
 		ajaxObj.setFnSuccess(function(data){
