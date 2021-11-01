@@ -47,11 +47,11 @@
 	
 <div class="modal-footer">
 	<button type="button" class="btn btn-brand" id="updateSpr1100Btn">
-		<i class="fa fa-check-square"></i><span>완료</span>
+		<i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span>
 	</button>
 	
 	<button class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 	
@@ -232,11 +232,10 @@ var OSLSpr1101Popup = function () {
 									+'</div>'
 									+'<div class="kt-widget__wrapper">'
 										+'<div class="kt-widget__label">'
-											+'<div class="kt-widget__title">'
+											+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
 												+$.osl.escapeHtml(map.usrNm)
-												+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											+'</div>'
-											
+											+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
 											+'<span class="kt-widget__desc">'
 												+'<span>'+$.osl.escapeHtml(map.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(map.usrPositionNm)+'</span>'
 											+'</span>'

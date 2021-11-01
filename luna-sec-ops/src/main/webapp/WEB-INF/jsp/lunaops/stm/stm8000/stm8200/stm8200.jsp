@@ -62,7 +62,8 @@
 				{field: 'strgRepUrl', title: '저장소 URL', textAlign: 'left', width: 240},
 			],
 			rows:{
-				clickCheckbox: true
+				clickCheckbox: true,
+				minHeight: 50
 			},
 			actionBtn:{
 				"update" : false,

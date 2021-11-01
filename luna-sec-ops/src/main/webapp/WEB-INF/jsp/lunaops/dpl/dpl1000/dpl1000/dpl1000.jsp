@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
+	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -200,7 +201,6 @@ var OSLDpl1000Popup = function () {
 					
 					$.each(rowDatas, function(idx, map){
 						
-						
 						if(map.nowSignTypeCd == "03"){
 							
 							$.osl.alert('결재 승인된 배포 계획은 삭제가 불가능합니다.');
@@ -221,7 +221,6 @@ var OSLDpl1000Popup = function () {
 						return false;
 					}
 					
-					return;
 					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/dpl/dpl1000/dpl1000/deleteDpl1000DplListAjax.do'/>"}
@@ -257,30 +256,29 @@ var OSLDpl1000Popup = function () {
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
 				},
 				
-				"signRequest":function(rowData, datatableId, type, rowNum, elem){
+				"signRequest":function(rowDatas, datatableId, type, rowNum, elem){
 					
 					var rowData;
 					
-					
 					if(type == "list"){
 						
-						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
+						
+						var rowLeng = rowDatas.length;
 						
 						
-						if(selRecords.length == 0){
+						if(rowLeng == 0){
 							$.osl.alert($.osl.lang("datatable.action.update.nonSelect"));
 							return true;
 						}
 						
-						else if(selRecords.length > 1){
-							$.osl.alert($.osl.lang("datatable.action.update.manySelect",selRecords.length));
+						else if(rowLeng > 1){
+							$.osl.alert($.osl.lang("datatable.action.update.manySelect",rowLeng));
 							return true;
+						}else{
+							rowData = rowDatas[0];
 						}
-						else{
-							var rowIdx = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords().data("row");
-							
-							rowData = $.osl.datatable.list[datatableId].targetDt.dataSet[rowIdx];
-						}
+					}else{
+						rowData = rowDatas;
 					}
 					
 					
@@ -297,6 +295,7 @@ var OSLDpl1000Popup = function () {
 								prjId :  rowData.prjId,
 								targetId :  rowData.dplId,
 								targetCd : '02',
+								targetNm : rowData.dplNm,
 								ord : rowData.lastOrd,
 								signType : rowData.nowSignTypeNm
 						};
@@ -315,6 +314,7 @@ var OSLDpl1000Popup = function () {
 						var data = {
 								prjId :  rowData.prjId,
 								targetId :  rowData.dplId,
+								targetNm : rowData.dplNm,
 								targetCd :  '02'
 						};
 						

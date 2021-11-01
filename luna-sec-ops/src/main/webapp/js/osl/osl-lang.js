@@ -1,10 +1,8 @@
-/**
- * function 명 : OSLCoreLangSetting function 설명 : core에서 사용되는 언어 데이터를 세팅한다.
- */
+
 var OSLCoreLangSetting = function () {
-	// 언어 세팅 데이터
+	
 	var lang = {};
-	// 한국어
+	
 	lang["ko"] = {
 		fromValidate:{
 			messages: {
@@ -184,8 +182,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  // The week that contains Jan 4th is the first
-								// week of the year.
+		            doy : 4  
+								
 		        }
 		    },
 		    agoTime:{
@@ -252,7 +250,7 @@ var OSLCoreLangSetting = function () {
 				closeAlert: "팝업 창을 닫으시겠습니까?"
 			}
 		},
-		/* 페이지 언어 */
+		
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -272,7 +270,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "답장",
 				checkBtn : "읽음",
 			},
-			/* 검색 바 메뉴 추가한 경우 */
+			
 			field: {
 				sendUsrId : "보낸 사람 ID",
 				sendUsrEmail : "보낸 사람 e-mail",
@@ -325,7 +323,7 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6401:{
 			field: {
-				/* 외부 search bar 검색, 데이터테이블과 일치시키기 */
+				
 				usrNm : "사용자명",
 			},
 			actionBtn : {
@@ -455,7 +453,7 @@ var OSLCoreLangSetting = function () {
 					"dplDesc" : "배포 설명",
 				},
 				actionBtn : {
-					title : "상세",
+					title : "기능 버튼",
 					tooltip : {
 						detailTooltip : "배포 계획 상세 보기",
 					},
@@ -472,7 +470,7 @@ var OSLCoreLangSetting = function () {
 					detailBtn : "상세"
 				},
 				actionBtn : {
-					title : "상세",
+					title : "기능 버튼",
 					tooltip : {
 						detailTooltip : "요구사항 상세 보기",
 					},
@@ -489,7 +487,7 @@ var OSLCoreLangSetting = function () {
 					detailBtn : "상세"
 				},
 				actionBtn : {
-					title : "상세",
+					title : "기능 버튼",
 					tooltip : {
 						detailTooltip : "JOB 상세 보기",
 					},
@@ -508,7 +506,7 @@ var OSLCoreLangSetting = function () {
 				searchPrj:"프로젝트 검색",
 			},
 			field: {
-				/* 외부 search bar 검색, 데이터테이블과 일치시키기 */
+				
 				prjNm : "프로젝트 명",
 				
 			},
@@ -527,7 +525,12 @@ var OSLCoreLangSetting = function () {
 		cmm6601:{
 			infomation : {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
+			},
+			sign : {
+				success : "결재 성공",
+				fail : "결재 실패"
 			}
+		
 		},
 		cmm6602:{
 			label : {
@@ -774,9 +777,6 @@ var OSLCoreLangSetting = function () {
 					treeSelect : "왼쪽 트리에서 템플릿을 선택해주세요.",
 					notUsedTemplate : "미사용 템플릿에는 하위 템플릿을 추가할 수 없습니다.",
 					notRootDelete : "최상위 템플릿(ROOT)은 삭제할 수 없습니다.",
-					fileExtChk : "확장자가 [ ${1} ] 인 파일은 첨부가 불가능 합니다.",
-					notHaveConfFile : "등록된 파일이 존재하지 않습니다.",
-					notSignUseCd : "결재를 사용하지 않는 템플릿 입니다."
 				},
 				confirm:{
 					deleteTemplate:"템플릿 정보 삭제 시 선택한 템플릿 정보 및 하위 템플릿 정보가 모두 삭제됩니다. 선택한 템플릿 정보를 삭제 하시겠습니까?",
@@ -813,6 +813,32 @@ var OSLCoreLangSetting = function () {
 				confirm : {
 					insert : "템플릿 정보를 추가 하시겠습니까?",
 					update : "템플릿 정보를 수정 하시겠습니까?"
+				}
+			}
+		},
+		prj1302 : {
+			label : {
+				itemNm : "항목 명",
+				itemCode : "항목 분류",
+				itemType : "항목 타입",
+				itemPcRowNum : "데스크탑 열 넓이",
+				itemTabletRowNum : "테블릿 열 넓이",
+				itemMobileRowNum : "모바일 열 넓이",
+				itemOrd : "순서",
+				itemCommonCode : "공통코드",
+				itemLength : "길이제한",
+				itemEssentialCd : "필수 유무",
+				
+			},
+			button : {
+				insert : "작성 완료",
+				update : "수정 완료"
+			},
+			message : {
+				confirm : {
+					insert : "기본항목을 추가 하시겠습니까?",
+					update : "기본항목을 수정 하시겠습니까?",
+					itemNotSelect : "기본항목을 1개 이상 선택해주세요.",
 				}
 			}
 		},
@@ -1063,11 +1089,46 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
 			},
 		},
+		req1002:{
+			label : {
+				reqUser : {
+					title : "요청자 정보", 
+					usrNm : "요청자 이름",
+					email : "요청자 e-mail",
+					deptNm : "요청자 소속",
+					telNo : "요청자 연락처",
+				},
+				group:{
+					groupReqInfo : "그룹 요구사항 정보",
+					groupReqId : "그룹 요구사항 번호",
+					groupReq : "그룹 요구 사항",
+					groupReqDesc : "그룹 요구사항 내용",
+				},
+				prjNm : "프로젝트",
+				reqDtm : "요청일",
+				reqId: "요구사항 ID",
+				reqOrd : "요구사항 순번",
+				reqProTypeNm : "처리 유형",
+				processNm : "프로세스명",
+				flowNm:"단계명",
+				reqNm : "요청 제목",
+				reqDesc : "요청 내용",
+				attachments : "파일 첨부",
+				requestDefaultOptNm : "접수 기본항목 입력"
+			},
+			message:{
+				notGroupReqNo : "없음",
+				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
+				notProcess : "배정된 프로세스 없음",
+				notStep : "없음"
+			},
+		},
 		req3000:{
+			allReqInDelete:"${1}건의 요구사항을 연결 해제하시겠습니까?",
 			insert:{
-				saveMsg:"연결에 성공했습니다.",
-				saveDupleMsg:"이미 연결된 요구사항입니다.",
-				saveAllDupleMsg:"모든 요구사항이 연결되었습니다.",
+				saveMsg: "${1}개의 요구사항이 연결되었습니다.",
+				saveDupleMsg: "이미 연결된 ${1}개의 요구사항 제외",
+				saveAllDupleMsg: "이미 연결중인 요구사항입니다. (${1}개)"
 			},
 			alert:{
 				checkUsrId:"요청자 명을 검색하여 입력해주세요. \n 해당 요청자의 소속을 알아야합니다.",
@@ -1103,9 +1164,11 @@ var OSLCoreLangSetting = function () {
 				requestAccept: "접수"
 			},
 			field:{
-				/* 외부 주입 search bar 인 경우 사용 */
+				
 				prjGrpNm: "프로젝트 그룹명",
 				reqGrpNm: "그룹 요구사항 명",
+				reqGrpNo : "그룹 요구사항 번호",
+				reqDesc : "요구사항 내용"
 			},
 			actionBtn:{
 				title : "수정 / 삭제 / 상세 / 복사",
@@ -1132,6 +1195,9 @@ var OSLCoreLangSetting = function () {
 				selectData : "요구사항을 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
 				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
+			},
+			message : {
+				nothing : "없음",
 			}
 		},
 		req4101:{
@@ -1139,6 +1205,7 @@ var OSLCoreLangSetting = function () {
 			saveString :{
 				insertStr : "요구사항을 등록하시겠습니까?",
 				updateStr : "요구사항 수정을 완료하시겠습니까?",
+				copyStr : "요구사항 복사를 완료하시겠습니까?",
 			},
 			label : {
 				reqUser : {
@@ -1221,18 +1288,27 @@ var OSLCoreLangSetting = function () {
 				},
 				group:{
 					groupReqInfo : "그룹 요구사항 정보",
+					groupReqId : "그룹 요구사항 번호",
 					groupReq : "그룹 요구 사항",
 					groupReqDesc : "그룹 요구사항 내용",
 				},
 				prjNm : "프로젝트",
 				reqDtm : "요청일",
+				reqId: "요구사항 ID",
+				reqOrd : "요구사항 순번",
+				reqProTypeNm : "처리 유형",
+				processNm : "프로세스명",
+				flowNm:"단계명",
 				reqNm : "요청 제목",
 				reqDesc : "요청 내용",
 				attachments : "파일 첨부",
 				requestDefaultOptNm : "접수 기본항목 입력"
 			},
-			pleaceholder:{
+			message:{
+				notGroupReqNo : "없음",
 				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
+				notProcess : "배정된 프로세스 없음",
+				notStep : "없음"
 			},
 		},
 		req4103:{
@@ -1332,7 +1408,8 @@ var OSLCoreLangSetting = function () {
 				reqSprPoint: "모든 요구사항의 스토리포인트를 입력해주세요.</br>미 입력 요구사항 ${1}건",
 				saveProcessMsg: "${1}개의 프로세스가 배정되었습니다.",
 				saveProcessDupleMsg: "이미 배정된 ${1}개의 프로세스 제외",
-				saveProcessAllDupleMsg: "이미 배정중인 프로세스입니다. (${1}개)"
+				saveProcessAllDupleMsg: "이미 배정중인 프로세스입니다. (${1}개)",
+				reqCharger:"모든 요구사항의 담당자를 입력해주세요.</br>미 배정 요구사항 ${1}건",
 			}
 		},
 		spr1004:{
@@ -1451,7 +1528,7 @@ var OSLCoreLangSetting = function () {
 			notAuthority : {
 					basic : "해당 게시판에 대한 권한이 없습니다.",
 			},
-			/* 카드형 그리기로 인해 선언, 데이터 테이블 필드명과 동일하게 지정 */
+			
 			field:{
 				stmTypeNm: "유형",
 				stmNm: "게시판명",
@@ -2121,9 +2198,9 @@ var OSLCoreLangSetting = function () {
 				noticeBadge: "공지",
 			},
 			field:{
-				/* 태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기 */
+				
 				tagNm:"태그",
-				/* 외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정 */
+				
 				badContent: "내용",
 				badNtcCheck : "공지유무",
 				delCd:"삭제유무",
@@ -2264,7 +2341,7 @@ var OSLCoreLangSetting = function () {
 		}
 	};
 	
-	// 영어
+	
 	lang["en"] = {
 		fromValidate:{
 			messages: {
@@ -2376,7 +2453,7 @@ var OSLCoreLangSetting = function () {
 				placeholder: "After entering, please press enter key",
 				allTitle: "All"
 			},
-			/* 추가된 datatable별로 언어 지정 */
+			
 			arm1000ArmTable:{
 				checkCd : "Read",
 				sendUsrNm : "Send User",
@@ -2731,8 +2808,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  // The week that contains Jan 4th is the first
-								// week of the year.
+		            doy : 4  
+								
 		        }
 		    },
 		    agoTime:{
@@ -2787,7 +2864,7 @@ var OSLCoreLangSetting = function () {
 				cancel: "Cancel"
 			}
 		},
-		/* 페이지 언어 */
+		
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -2807,7 +2884,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "Reply",
 				checkBtn : "Read Check"
 			},
-			/* 검색 바 메뉴 추가한 경우 */
+			
 			field: {
 				sendUsrId : "From User Id",
 				sendUsrEmail : "From User E-mail",
@@ -2875,7 +2952,7 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6401:{
 			field: {
-				/* 외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기 */
+				
 				usrNm : "User Name",
 			},
 			actionBtn : {
@@ -3359,7 +3436,42 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "The entered passwords are different.",
 			},
 		},
+		req1002:{
+			label : {
+				reqUser : {
+					title : "Requester Information",
+					usrNm : "Name",
+					email : "E-mail",
+					deptNm : "Department",
+					telNo : "Contact",
+				},
+				group:{
+					groupReqInfo : "Group Request Information",
+					groupReqId : "Group Request Num",
+					groupReq : "Group Request",
+					groupReqDesc : "Group Request Content",
+				},
+				prjNm : "Project",
+				reqDtm : "Request Date",
+				reqId: "Request ID",
+				reqOrd : "Request Ord.",
+				reqProTypeNm : "Process Type Name",
+				processNm : "Process",
+				flowNm:"Step",
+				reqNm : "Title",
+				reqDesc : "Content",
+				attachments : "Attachments",
+				requestDefaultOptNm : "Enter basic items for application"
+			},
+			message:{
+				notGroupReqNo : "Noting",
+				notGroupReqInfo : "Group requirements are not linked.",
+				notProcess : "No process assigned.",
+				notStep : "Nothing"
+			},
+		},
 		req3000:{
+			allReqInDelete:"Are you sure you want to exclude ${1} requests?",
 			insert:{
 				saveMsg:"Connection success",
 				saveDupleMsg:"That connection is already connected",
@@ -3441,9 +3553,11 @@ var OSLCoreLangSetting = function () {
 				copyBtn : "Copy"
 			},
 			field:{
-				/* 외부 주입 search bar에서 사용 */
+				
 				prjGrpNm: "Project Group Name",
-				reqGrpNm: "Requirement Group Name",
+				reqGrpNm: "Request Group Name",
+				reqGrpNo : "Group Request Number",
+				reqDesc : "Request Description"
 			},
 			actionBtn:{
 				title : "Udp / Del / Det / Cop",
@@ -3469,6 +3583,9 @@ var OSLCoreLangSetting = function () {
 				selectData : "Choose your data.",
 				LockData : "Locked requirements cannot be copied.",
 				selectCopyData : "Copying is only possible for 1 copy. Currently ${1} are selected.",
+			},
+			message : {
+				nothing : "Nothing",
 			}
 		},
 		req4101:{
@@ -3476,6 +3593,7 @@ var OSLCoreLangSetting = function () {
 			saveString :{
 				insertStr : "Would you like to register your requirements?",
 				updateStr : "Would you like to modify your requirements?",
+				copyStr : "Would you like to copy your requirements?",
 			},
 			label : {
 				reqUser : {
@@ -3558,18 +3676,27 @@ var OSLCoreLangSetting = function () {
 				},
 				group:{
 					groupReqInfo : "Group Request Information",
+					groupReqId : "Group Request Num",
 					groupReq : "Group Request",
 					groupReqDesc : "Group Request Content",
 				},
 				prjNm : "Project",
 				reqDtm : "Request Date",
+				reqId: "Request ID",
+				reqOrd : "Request Ord.",
+				reqProTypeNm : "Process Type Name",
+				processNm : "Process",
+				flowNm:"Step",
 				reqNm : "Title",
 				reqDesc : "Content",
 				attachments : "Attachments",
 				requestDefaultOptNm : "Enter basic items for application"
 			},
-			placeholder:{
+			message:{
+				notGroupReqNo : "Noting",
 				notGroupReqInfo : "Group requirements are not linked.",
+				notProcess : "No process assigned.",
+				notStep : "Nothing"
 			},
 		},
 		req4103:{
@@ -4181,9 +4308,9 @@ var OSLCoreLangSetting = function () {
 				deleteBadge: "Delete",
 				noticeBadge: "Notice",
 			},
-			field:{ /* 태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기 */
+			field:{ 
 				tagNm:"Tag",
-				/* 외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정 */
+				
 				badContent: "Content",
 				badNtcCheck : "Notice",
 				delCd:"Delete",
@@ -4324,12 +4451,12 @@ var OSLCoreLangSetting = function () {
 		}
 	};
     return {
-        // public functions
+        
         init: function() {
-        	// 언어팩 목록
+        	
     		var langList = ["ko","en"];
     		
-    		// 언어 데이터
+    		
     		var langData = {};
     		
     		$.each(langList, function(idx, map){
@@ -4338,7 +4465,7 @@ var OSLCoreLangSetting = function () {
     		
     		$.osl.langData = langData;
     		
-    		// datepicker 언어 처리
+    		
     		$.osl.date.init();
         }
     };

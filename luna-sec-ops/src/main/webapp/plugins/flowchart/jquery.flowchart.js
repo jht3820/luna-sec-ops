@@ -94,7 +94,13 @@ jQuery(function ($) {
             this.objs.layers.links = $('<svg class="flowchart-links-layer"></svg>');
             this.objs.layers.links.appendTo(this.element);
 
-            this.objs.layers.operators = $('<div class="flowchart-operators-layer unselectable"></div>');
+            
+            var canUserMoveOperatorsClass = 'flowchart-operators-move--dsiabled';
+            if(this.options.canUserMoveOperators){
+            	canUserMoveOperatorsClass = "flowchart-operators-move--enabled";
+            }
+            
+            this.objs.layers.operators = $('<div class="flowchart-operators-layer unselectable '+canUserMoveOperatorsClass+'"></div>');
             this.objs.layers.operators.appendTo(this.element);
 
             this.objs.layers.temporaryLink = $('<svg class="flowchart-temporary-link-layer"></svg>');
@@ -522,20 +528,17 @@ jQuery(function ($) {
             var flowTitleColor = operatorData.properties.flowTitleColor;
             
             
-            var flowEssentialCd = operatorData.properties.flowEssentialCd;
             var flowSignCd = operatorData.properties.flowSignCd;
             var flowSignStopCd = operatorData.properties.flowSignStopCd;
-            var flowEndCd= operatorData.properties.flowEndCd;
             var flowRevisionCd = operatorData.properties.flowRevisionCd;
             var flowDplCd = operatorData.properties.flowDplCd;
+            
+            
+            var flowStatus = operatorData.properties.flowStatus;
             
             var flowIconStr = '';
             var flowHideClass = '';
             
-            
-            if(flowEssentialCd == "01"){
-            	flowIconStr += '<li class="fa fa-key" title="필수"></li>';
-            }
             
             if(flowSignCd == "01"){
             	flowIconStr += "<li class='fa fa-file-signature' title='결재'></li>";
@@ -544,10 +547,6 @@ jQuery(function ($) {
 			if(flowSignStopCd == "01"){
 				flowIconStr += '<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>';
 			}
-			
-            if(flowEndCd == "01"){
-            	flowIconStr += "<li class='fa fa-sign-out-alt' title='종료 분기'></li>";
-            }
             
             if(flowRevisionCd == "01"){
             	flowIconStr += "<li class='fa fa-code' title='리비전 저장유무'></li>";
@@ -561,6 +560,29 @@ jQuery(function ($) {
             	flowHideClass = 'kt-hide';
             }
             
+            
+            if(!$.osl.isNull(flowStatus) && flowStatus != "01"){
+            	var $operator_mask = $('<div class="flowchart-operator-mask status'+flowStatus+'"></div>');
+            	var operator_mask_html = '';
+            	
+            	
+            	if(flowStatus == "03"){
+            		operator_mask_html = '<i class="fa fa-hand-point-up"></i>';
+            	}
+            	
+            	else if(flowStatus == "04"){
+            		operator_mask_html = '';
+            	}
+            	
+            	$operator_mask.html(operator_mask_html);
+            	$operator_mask.appendTo($operator);
+            }
+            
+            
+            var $operator_nextIcon = $('<div class="flowchart-operator-nextIcon"></div>');
+        	var operator_nextIcon_html = '';
+        	$operator_nextIcon.html('<i class="fa fa-angle-double-right"></i>');
+        	$operator_nextIcon.appendTo($operator);
             
             var $operator_function = $('<div class="flowchart-operator-function '+flowHideClass+'"></div>');
             $operator_function.html(flowIconStr);

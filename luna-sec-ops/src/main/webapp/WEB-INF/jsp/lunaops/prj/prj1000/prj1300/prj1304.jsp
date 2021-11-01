@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="kt-portlet kt-portlet--mobile">
+	<input type="hidden" id="callPage" name="callPage" val="${param.callPage}">
 	<div class="kt-portlet__body">
 		<div class="row">
 			
@@ -84,13 +85,20 @@
 		</div>
 	</div>
 </div>
+<button type="button" id="prj1304ModalCallBackBtn" name="prj1304ModalCallBackBtn"/>
 <script>
 "use strict";
-var OSLPrj1302Popup = function () {
+var OSLPrj1304Popup = function () {
 	
 	var formId = 'frPrj1302';
 	
 	var prj1304PrjTable = "prj1304PrjTable";
+	
+	
+	var callPage = $("#callPage").val();
+	
+	var itemList=[];
+	
 	var treeObj = null;
 	var templateId = "";
 	
@@ -180,7 +188,11 @@ var OSLPrj1302Popup = function () {
 			},
 			actionFn:{
 				"itemSelect":function(rowDatas, datatableId, type, rowNum, elem){
-		        	var itemList = [];
+					if($.osl.isNull(rowDatas)){
+						$.osl.alert($.osl.lang("prj1302.message.confirm.itemNotSelect"));
+						return;
+					}
+		        	itemList = [];
 		        	if(Array.isArray(rowDatas)){
 		        		itemList = rowDatas;
 		        	}else{
@@ -188,9 +200,18 @@ var OSLPrj1302Popup = function () {
 		        	}
 		        	
 		        	$.each(itemList, function(idx, map){
-	        			map.itemId = 'itm'+new Date().format('yyMMddHHmmssms')+idx;
+		        		var separator = "";
+		        		if(idx<10){
+		        			separator = "0"+idx
+		        		}else{
+		        			separator = idx
+		        		}
+	        			map.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+separator;
 		        	});
-		        	OSLPrj1102Popup.addItemList(itemList);
+		        	
+		        	
+
+		        	$("#prj1304ModalCallBackBtn").click();
 		        	
 					
 					$.osl.layerPopupClose();
@@ -212,6 +233,9 @@ var OSLPrj1302Popup = function () {
 	       
         init: function() {
         	templateumentSetting();
+        },
+        getItemList: function(){
+        	return itemList;
         }
         
     };
@@ -219,7 +243,7 @@ var OSLPrj1302Popup = function () {
 
 
 $.osl.ready(function(){
-	OSLPrj1302Popup.init();
+	OSLPrj1304Popup.init();
 });
 
 	

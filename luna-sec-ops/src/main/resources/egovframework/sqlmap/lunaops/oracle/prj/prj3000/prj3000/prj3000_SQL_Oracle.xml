@@ -446,15 +446,7 @@
 				WHERE	1=1
 					AND B.LIC_GRP_ID = #licGrpId#
 					AND	A.PRJ_ID = #prjId#
-					AND	A.REQ_ID NOT IN (
-											SELECT	A.REQ_ID
-											FROM	REQ4100 A
-											INNER JOIN PRJ3002 B
-											ON (A.REQ_ID = B.TARGET_ID AND A.PRJ_ID = B.PRJ_ID)
-											WHERE 1 = 1
-											AND		B.PRJ_ID = #prjId#
-											AND		B.DOC_ID = #docId#
-										)
+					
 										
 				UNION
 				SELECT	A.MILESTONE_ID	AS TARGET_ID
@@ -473,15 +465,8 @@
 				WHERE	1=1
 					AND B.LIC_GRP_ID = #licGrpId#
 					AND	A.PRJ_ID = #prjId#
-					AND	A.MILESTONE_ID NOT IN (
-													SELECT	A.MILESTONE_ID
-													FROM	MIS1000 A
-													INNER JOIN PRJ3002 B
-													ON (A.MILESTONE_ID = B.TARGET_ID AND A.PRJ_ID = B.PRJ_ID)
-													WHERE 1 = 1
-													AND		B.PRJ_ID = #prjId#
-													AND		B.DOC_ID = #docId#
-												)
+					
+					
 				UNION
 				SELECT	A.SPR_ID	AS TARGET_ID
 						,A.SPR_NM 	AS TARGET_NM
@@ -499,15 +484,7 @@
 				WHERE	1=1
 					AND B.LIC_GRP_ID = #licGrpId#
 					AND	A.PRJ_ID = #prjId#
-					AND	A.SPR_ID NOT IN (
-											SELECT	A.SPR_ID
-											FROM	SPR1000 A
-											INNER JOIN PRJ3002 B
-											ON (A.SPR_ID = B.TARGET_ID AND A.PRJ_ID = B.PRJ_ID)
-											WHERE 1 = 1
-											AND		B.PRJ_ID = #prjId#
-											AND		B.DOC_ID = #docId#
-										)
+					
 				UNION
 				SELECT	A.DPL_ID	AS TARGET_ID	
 						,A.DPL_NM 	AS TARGET_NM
@@ -525,15 +502,7 @@
 				WHERE	1=1
 					AND B.LIC_GRP_ID = #licGrpId#
 					AND	A.PRJ_ID = #prjId#
-					AND	A.DPL_ID NOT IN (
-											SELECT	A.DPL_ID
-											FROM	DPL1000 A
-											INNER JOIN PRJ3002 B
-											ON (A.DPL_ID = B.TARGET_ID AND A.PRJ_ID = B.PRJ_ID)
-											WHERE 1 = 1
-											AND		B.PRJ_ID = #prjId#
-											AND		B.DOC_ID = #docId#
-										)
+					
 			) T WHERE 1 = 1
 		]]>
 		
@@ -632,6 +601,18 @@
     	AND		PRJ_ID		= #prjId#
     	AND		DOC_ID		= #docId#
     	AND		TARGET_ID	= #targetId#
+    </delete>
+	
+		
+	<delete id="prj3000DAO.deletePrj3002DocConList" parameterClass="java.util.Map">
+    	
+    	DELETE
+    	FROM	PRJ3002
+    	WHERE	1 = 1
+    	AND		LIC_GRP_ID	= #licGrpId#
+    	AND		PRJ_GRP_ID	= #prjGrpId#
+    	AND		PRJ_ID		= #prjId#
+    	AND		DOC_ID		= #docId#
     </delete>
 	
 	
