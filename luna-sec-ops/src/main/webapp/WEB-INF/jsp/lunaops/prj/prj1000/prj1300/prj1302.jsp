@@ -35,7 +35,7 @@
 				
 				<div class="col-lg-6 col-md-12 col-sm-12">
 					<div class="form-group">
-						<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemPcRowNum">PC 열 넓이</span></label>
+						<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemPcRowNum">데스크탑 열 넓이</span></label>
 						<select class="form-control kt-select2 rowNumSelectBox" id="itemPcRowNum" name="itemPcRowNum" opttype="-1" required>
 						</select>
 					</div>
@@ -77,7 +77,7 @@
 				<div class="col-lg-6 col-md-12 col-sm-12">
 					<div class="form-group">
 						<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemLength">길이 제한</span></label>
-						<input type="number" class="form-control" placeholder="길이 제한" name="itemLength" id="itemLength" value="1" opttype="-1" min="0" max="999" maxlength="3" required>
+						<input type="number" class="form-control" placeholder="길이 제한" name="itemLength" id="itemLength" opttype="-1" min="1" max="4000" value="255" maxlength="4" required>
 					</div>
 				</div>
 				
@@ -94,10 +94,10 @@
 </form>
 <div class="modal-footer">
 	<button type="button" class="btn btn-brand" id="prj1302SaveSubmit"> 
-		<i class="fa fa-save"></i><span data-lang-cd="prj1302.button.insert">작성 완료</span>
+		<i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="prj1302.button.insert">작성 완료</span>
 	</button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span>Close</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span>
 	</button>
 	
 </div>
@@ -132,11 +132,19 @@ var OSLPrj1302Popup = function () {
     	$("#itemCode").change(function(){
     		itemCodeChange();
     	});
+
+    	$("#itemType").change(function(){
+    		itemTypeChange();
+    	});
     	
     	
     	var rowNumList = "";
     	for(var i=1;i<=12;i++){
-    		rowNumList += "<option value='"+i+"'>"+i+"</option>";
+    		if(i==6){
+    			rowNumList += "<option value='"+i+"' selected>"+i+"</option>";
+    		}else{
+    			rowNumList += "<option value='"+i+"'>"+i+"</option>";
+    		}
     	}
 		$(".rowNumSelectBox").append(rowNumList);
 		
@@ -188,6 +196,21 @@ var OSLPrj1302Popup = function () {
 			$("#itemType").prop("disabled",true);
 		}
     }
+    
+    var itemTypeChange = function(){
+    	var selType = $("#itemType").val();
+		if(selType=='01'){
+			$("#itemLength").prop("disabled",false);
+			$("#itemLength").val("255");
+		}else if(selType=='02'){
+			$("#itemLength").prop("disabled",false);
+			$("#itemLength").val("4000");
+		}else{
+			$("#itemLength").prop("disabled",true);
+			$("#itemLength").val("");
+		}
+    }
+    
   	var commonCodeDataSelect = function(selData){
   		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj1000/prj1300/selectPrj1302CommonCodeListAjax.do'/>", "async": false},{});
@@ -247,6 +270,7 @@ var OSLPrj1302Popup = function () {
 				$.osl.getMulticommonCodeDataForm(commonCodeArr , false);
 
 				itemCodeChange();
+				itemTypeChange();
 				
 				
 		    	commonCodeDataSelect(itemInfo.itemCommonCode);
@@ -267,8 +291,14 @@ var OSLPrj1302Popup = function () {
 		if (!form.valid()) {
 			return;
 		}
+		var msg = "";
+		if(type=="insert"){
+			msg = $.osl.lang("prj1302.message.confirm.insert")
+		}else if(type=="update"){
+			msg = $.osl.lang("prj1302.message.confirm.update")
+		}
 		
-		$.osl.confirm($.osl.lang("prj1302.message.confirm.insert"),null,function(result) {
+		$.osl.confirm(msg ,null,function(result) {
 	        if (result.value) {
 	        	
 	        	var formData = form.serializeArray();

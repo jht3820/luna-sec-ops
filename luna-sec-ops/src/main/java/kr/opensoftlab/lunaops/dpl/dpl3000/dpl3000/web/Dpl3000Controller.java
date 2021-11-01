@@ -2,8 +2,8 @@ package kr.opensoftlab.lunaops.dpl.dpl3000.dpl3000.web;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +29,7 @@ import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1100.service.Dpl1100Service;
 import kr.opensoftlab.lunaops.dpl.dpl3000.dpl3000.service.Dpl3000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9000.service.Stm9000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9100.service.Stm9100Service;
+import kr.opensoftlab.lunaops.stm.stm9000.stm9200.service.Stm9200Service;
 import kr.opensoftlab.sdf.jenkins.JenkinsClient;
 import kr.opensoftlab.sdf.jenkins.service.BuildService;
 import kr.opensoftlab.sdf.jenkins.vo.BuildVO;
@@ -65,8 +66,12 @@ public class Dpl3000Controller {
     private Dpl3000Service dpl3000Service;
 
     
-	@Resource(name = "stm9000Service")
-	private Stm9000Service stm9000Service;
+    @Resource(name = "stm9000Service")
+    private Stm9000Service stm9000Service;
+    
+    
+	@Resource(name = "stm9200Service")
+	private Stm9200Service stm9200Service;
 	
 	
 	@Resource(name = "stm9100Service")
@@ -225,6 +230,12 @@ public class Dpl3000Controller {
     			paramPrjId = (String) ss.getAttribute("selPrjId");
     		}
     		
+    		String paramAuthGrpId = paramMap.get("authGrpId");
+    		if(paramAuthGrpId == null || "".equals(paramAuthGrpId)) {
+    			
+    			paramAuthGrpId = (String) ss.getAttribute("selAuthGrpId");
+    		}
+    		
     		paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
     		
     		
@@ -235,6 +246,42 @@ public class Dpl3000Controller {
     		
     		
 			String dplUsrId = (String) dplMap.get("dplUsrId");
+    		
+			
+			boolean buildFlag = false;
+			
+    		
+    		List<Map> bldAuthList = stm9200Service.selectStm9200PrjAssignDplAuthNormalList(paramMap);
+    		
+    		if(bldAuthList != null && bldAuthList.size() > 0) {
+    			
+    			for(int i=0 ;i<bldAuthList.size(); i++) {
+    				Map bldAuthInfo = bldAuthList.get(i);
+    				
+    				String dplAuthTargetId = (String)bldAuthInfo.get("dplAuthTargetId");
+    				
+    				
+    				if(dplAuthTargetId.equals(dplUsrId)){
+    					buildFlag = true;
+    					break;
+    				
+    				}else if(dplAuthTargetId.equals(paramAuthGrpId)){
+    					buildFlag = true;
+    					break;
+    				}
+    			}
+    		
+    		}else{
+    			buildFlag = true;
+    		}
+    		
+    		
+    		if(!buildFlag){
+    			
+    			model.addAttribute("errorYn", "Y");
+				model.addAttribute("message", "해당 JOB의 배포 실행 권한이 없습니다. 관리자에게 문의하세요.");
+				return new ModelAndView("jsonView");
+    		}
 			
     		
     		if(!loginVO.getUsrId().equals(dplUsrId)){
@@ -299,6 +346,7 @@ public class Dpl3000Controller {
 			paramMap.put("dplTypeCd", (String)dplMap.get("dplTypeCd"));
 			paramMap.put("dplAutoAfterCd", (String)dplMap.get("dplAutoAfterCd"));
 			paramMap.put("dplRestoreCd", (String)dplMap.get("dplRestoreCd"));
+			paramMap.put("dplRevisionNum", (String)dplMap.get("dplRevisionNum"));
 			paramMap.put("regUsrId", loginVO.getUsrId());
 			paramMap.put("regUsrIp", request.getRemoteAddr());
 			
@@ -477,42 +525,42 @@ public class Dpl3000Controller {
 		 			List<Map> dplRunAuthGrp = null;
 		 			
 		 			
-	 				boolean authGrpChk = false;
+	 				boolean authGrpChk = true;
 	 				
 		 			
-		 			if(dplRunAuthGrp != null){
-		 				
-		 				Map dpl1000DplInfo = dpl1000Service.selectDpl1000DeployVerInfo(paramMap);
-		 				
-		 				
-		 				String usrId = (String)loginVO.getUsrId();
-		 				
-		 				
-		 				String dplUsrId = (String) dpl1000DplInfo.get("dplUsrId");
-		 				
-		 				
-		 				if(usrId.equals(dplUsrId)){
-		 					authGrpChk = true;
-		 				}
-		 				
-		 				
-		 				String selAuthGrpId = (String)ss.getAttribute("selAuthGrpId");
-		 				
-		 				
-		 				if(dplRunAuthGrp.size() == 0){
-		 					authGrpChk = true;
-		 				}else{
-			 				for(Map authGrp : dplRunAuthGrp){
-			 					String authGrpId = (String) authGrp.get("authGrpId");
-			 					
-			 					
-			 					if(selAuthGrpId.equals(authGrpId)){
-			 						authGrpChk = true;
-			 						break;
-			 					}
-			 				}
-		 				}
-		 			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		 			
 		 			
 	 				if(!authGrpChk){

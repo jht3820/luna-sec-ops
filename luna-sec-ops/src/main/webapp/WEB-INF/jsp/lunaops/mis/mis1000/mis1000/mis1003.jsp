@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- begin page DOM -->
+
 <form class="kt-form" id="mis1003">
 	<div class="row">
 		<div class="col-lg-6 col-md-12 col-sm-12">
@@ -55,28 +55,28 @@
 		</div>
 	</div>
 </form>
-<!-- begin :: modal-footer -->
+
 <div class="modal-footer">
 	<button type="button" class="btn btn-brand" id="">
-		<i class="fa fa-save"></i><span>등록</span>
+		<i class="fa fa-save"></i><span class="osl-resize__display--show">등록</span>
 	</button>
 	<button type="button" class="btn btn-outline-brand"
 		data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
-<!-- end :: modal-footer -->
-<!-- end DOM -->
-<!-- begin page script -->
+
+
+
 <script>
 "use strict";
 var OSLMis1003Popup = function () {
 	var documentSetting = function(){
 		datatableSetting();
 	};
-	//담당자 배정, 미 배정 목록
+	
     var datatableSetting = function(){
-    	//사용자 배정 정보 datatable 세팅
+    	
 		$.osl.datatable.setting("mis1003UsrTable",{
 			data: {
 				type:'local',
@@ -116,12 +116,12 @@ var OSLMis1003Popup = function () {
 			}
 		});
 		
-		//사용자 미 배정 정보 datatable 세팅
+		
 		$.osl.datatable.setting("mis1003NoneUsrTable",{
 			data: {
 				source: {
 					read: {
-						/*오류로 인해 임시 url 삽입 하였으니 수정하시면 됩니다. --prj1002 참고*/
+						
 						url: "/prj/prj1000/prj1000/selectPrj1000PrjAuthNoneUsrListAjax.do",
 						params:{
 							prjAuthTypeCd: "01"
@@ -173,7 +173,7 @@ var OSLMis1003Popup = function () {
 	};
 
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -185,4 +185,4 @@ $.osl.ready(function(){
 	OSLMis1003Popup.init();
 });
 </script>
-<!-- end script -->
+

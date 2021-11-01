@@ -5,48 +5,6 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
-	<!-- 카드형, 그리드형 보기 부분은 현재 주석처리
-	<div class="kt-portlet__head kt-portlet__head--lg">
-		<div class="kt-portlet__head-label">
-			<h4 class="kt-font-boldest kt-font-brand">
-				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
-			</h4>
-		</div>	
-		<div class="kt-portlet__head-toolbar">
-			<div class="kt-portlet__head-wrapper">
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type active" title="데이터 카드 형식으로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="6" data-view-type="01">
-						<i class="fa fa-table osl-padding-r0"></i>
-					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type" title="데이터 테이블 형식으로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="7" data-view-type="02">
-						<i class="fa fa-list osl-padding-r0"></i>
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block ">
-		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
-			<div class="osl-datatable-search" data-datatable-id="dpl1000Table"></div>
-		</div>
-		<div class="col-lg-9 col-md-12 col-sm-12 text-right kt-padding-r-0">
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-				<i class="fa fa-list"></i><span>조회</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="insert" title="배포 계획  등록" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
-				<i class="fa fa-plus"></i><span>등록</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="update" title="배포 계획  수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
-				<i class="fa fa-edit"></i><span>수정</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="delete" title="배포 계획  삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
-				<i class="fa fa-trash-alt"></i><span>삭제</span>
-			</button>
-		</div>
-	</div>
-	<div id="dpl1000CardTable"></div>
-	<div class="kt_datatable osl-datatable-footer__divide" id="dpl1000Table"></div>
-	 -->
 	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
@@ -104,7 +62,7 @@ var OSLDpl1000Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
 				{field: 'dplSignUseNm', title: '결재 사용 유무', textAlign: 'center', width: 110, search: true, searchType:"select", searchCd: "CMM00001", searchField:"dplSignUseCd", sortField: "dplSignUseCd"},
-				{field: 'nowSignTypeNm', title: '결재 상태', textAlign: 'center', width: 90, search: true, searchType:"select", searchCd: "REQ00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"
+				{field: 'nowSignTypeNm', title: '결재 상태', textAlign: 'center', width: 90, search: true, searchType:"select", searchCd: "CMM00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"
 					,template: function(row){
 						var nowSignTypeNm = row.nowSignTypeNm
 						if($.osl.isNull(nowSignTypeNm)){
@@ -113,7 +71,7 @@ var OSLDpl1000Popup = function () {
 						return nowSignTypeNm;
 					}	
 				},
-				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100
+				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100, search: true
 					,template: function(row){
 						var lastSignUsrNm = row.lastSignUsrNm
 						
@@ -243,7 +201,6 @@ var OSLDpl1000Popup = function () {
 					
 					$.each(rowDatas, function(idx, map){
 						
-						
 						if(map.nowSignTypeCd == "03"){
 							
 							$.osl.alert('결재 승인된 배포 계획은 삭제가 불가능합니다.');
@@ -264,7 +221,6 @@ var OSLDpl1000Popup = function () {
 						return false;
 					}
 					
-					return;
 					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/dpl/dpl1000/dpl1000/deleteDpl1000DplListAjax.do'/>"}
@@ -300,30 +256,29 @@ var OSLDpl1000Popup = function () {
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
 				},
 				
-				"signRequest":function(rowData, datatableId, type, rowNum, elem){
+				"signRequest":function(rowDatas, datatableId, type, rowNum, elem){
 					
 					var rowData;
 					
-					
 					if(type == "list"){
 						
-						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
+						
+						var rowLeng = rowDatas.length;
 						
 						
-						if(selRecords.length == 0){
+						if(rowLeng == 0){
 							$.osl.alert($.osl.lang("datatable.action.update.nonSelect"));
 							return true;
 						}
 						
-						else if(selRecords.length > 1){
-							$.osl.alert($.osl.lang("datatable.action.update.manySelect",selRecords.length));
+						else if(rowLeng > 1){
+							$.osl.alert($.osl.lang("datatable.action.update.manySelect",rowLeng));
 							return true;
+						}else{
+							rowData = rowDatas[0];
 						}
-						else{
-							var rowIdx = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords().data("row");
-							
-							rowData = $.osl.datatable.list[datatableId].targetDt.dataSet[rowIdx];
-						}
+					}else{
+						rowData = rowDatas;
 					}
 					
 					
@@ -340,6 +295,7 @@ var OSLDpl1000Popup = function () {
 								prjId :  rowData.prjId,
 								targetId :  rowData.dplId,
 								targetCd : '02',
+								targetNm : rowData.dplNm,
 								ord : rowData.lastOrd,
 								signType : rowData.nowSignTypeNm
 						};
@@ -358,6 +314,7 @@ var OSLDpl1000Popup = function () {
 						var data = {
 								prjId :  rowData.prjId,
 								targetId :  rowData.dplId,
+								targetNm : rowData.dplNm,
 								targetCd :  '02'
 						};
 						

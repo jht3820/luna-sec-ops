@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <form class="kt-form" id="frDpl1001">
 	<input type="hidden" id="type" name="type" value="${param.type}">
 	<input type="hidden" id="paramPrjId" name="paramPrjId" value="${param.paramPrjId}">
@@ -53,16 +54,6 @@
 							</select>
 						</div>
 					</div>
-					<!-- 리비전 선택 주석처리
-					<div class="form-group row kt-margin-b-10">
-						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplRevisionNum">배포 리비전</span></label>
-						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="리비전 검색 후 선택" id="dplRevisionNumStr" name="dplRevisionNumStr" opttype="05" >
-								<button type="button" class="btn btn-brand input-group-append" id="searchDplRevBtn"><span data-lang-cd="dpl1001.button.searchBtn">검색</span></button>
-							</div>
-						</div>
-					</div>	 -->
 					<div class="form-group row kt-margin-b-10">
 						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label required"><i class="fab fa-cloudsmith kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplType">배포 방법</span></label>
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
@@ -140,8 +131,8 @@
 
 
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="dpl1001SaveSubmit"><i class="fa fa-save"></i><span>완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-brand" id="dpl1001SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 
 
@@ -195,9 +186,20 @@ var OSLDpl1001Popup = function () {
 		var maxDate =  new Date(minMaxYear, 12, 0);
 		
 		
-		$.osl.date.datepicker($("#dplDt"), {});
+		$.osl.date.daterangepicker($("#dplDt"), {
+			singleDatePicker: true, 
+			timePicker: false, 
+			timePicker24Hour: false,
+			minDate: minDate,
+			maxDate: maxDate,
+			locale: {
+				format: 'YYYY-MM-DD'
+	        }
+		});
 		
-		$('#dplAutoTm').daterangepicker({
+		
+		$.osl.date.daterangepicker($('#dplAutoTm'), {
+			singleDatePicker: false,
             timePicker: true,
             timePicker24Hour: true,
             timePickerIncrement: 1,
@@ -208,11 +210,11 @@ var OSLDpl1001Popup = function () {
 				format: 'HH:mm:ss',
 					"applyLabel": $.osl.lang("dpl1001.label.autoTimeCompl"),
 					"cancelLabel": $.osl.lang("dpl1001.label.autoTimeCancel")
-			}
-        }).on('show.daterangepicker', function (ev, picker) {
-            picker.container.find(".calendar-table").hide();
-        });
-  		
+				}
+			}).on('show.daterangepicker', function (ev, picker) {
+	            picker.container.find(".calendar-table").hide();
+	        });
+		
 		
     	$("#dpl1001DplUsrSearch").click(function(){
     		

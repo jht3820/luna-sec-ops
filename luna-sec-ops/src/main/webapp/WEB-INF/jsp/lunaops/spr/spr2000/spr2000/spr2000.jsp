@@ -38,8 +38,8 @@
 				<div class="kt_datatable osl-datatable-footer__divide" id="spr1000SprTable"></div>
 			</div>
 		</div>
-	</div> <!-- 스프린트 목록 끝 -->
-	<!-- 우측 -->
+	</div> 
+	
 	<div class="col-lg-7 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head kt-portlet__head--lg">
@@ -74,20 +74,20 @@
 				</div>
 				<div class="kt_datatable osl-datatable-footer__divide" id="spr2000MmtTable"></div>
 			</div>
-		</div> <!-- 회의록 목록 끝 -->
+		</div> 
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLSpr2000Popup = function () {
-	//스프린트 데이터 테이블
+	
 	var sprDatatableId = "spr1000SprTable";
-	//회의록 목록 테이블
+	
 	var mmtDatatableId = "spr2000MmtTable";
 	
 	var documentSetting = function(){
-		//스프린트 데이터 테이블 셋팅
+		
 		$.osl.datatable.setting(sprDatatableId,{
 			data:{
 				source:{
@@ -129,25 +129,25 @@ var OSLSpr2000Popup = function () {
 			},
 			actionFn:{
 				"select": function(datatableId, elem){
-					//검색 대상 가져오기
+					
 					var searchTypeTarget = $(".osl-datatable-search__dropdown[data-datatable-id="+datatableId+"] > .dropdown-item.active");
 					
-					//검색 값
+					
 					var searchData = $("#searchData_"+datatableId);
 
-					//대상 정보 가져오기
+					
 					var searchFieldId = searchTypeTarget.data("field-id");
 					var searchType = searchTypeTarget.data("opt-type");
 					var searchCd = $(this).data("opt-mst-cd");
 					
-					//입력된 검색값 초기화
+					
 					$.osl.datatable.list[datatableId].targetDt.setDataSourceQuery({});
 					
-					//전체가 아닌경우 해당 타입으로 검색
+					
 					if(searchType != "all"){
 						var searchDataValue = searchData.val();
 						
-						//공통코드인경우 select값 가져오기
+						
 						if(searchType == "select"){
 							searchDataValue = $("#searchSelect_"+datatableId).val();
 						}
@@ -156,11 +156,17 @@ var OSLSpr2000Popup = function () {
 					}else{
 						$.osl.datatable.list[datatableId].targetDt.search();
 						
-						//검색한 경우 기존에 선택 항목 초기화
+						
 						$("#sprId").val("");
 						$("#sprNm").val("");
 						$("#sprNmStr").text("");
 						selectBtnClick();
+						
+						
+						
+						searchReset(mmtDatatableId);
+						
+						$("button[data-datatable-id="+mmtDatatableId+"][data-datatable-action=select]").click();
 					}
 				},
 				"click": function(rowData){
@@ -168,11 +174,16 @@ var OSLSpr2000Popup = function () {
 					$("#sprNm").val(rowData.sprNm);
 					$("#sprNmStr").text(rowData.sprNm + " ");
 					selectBtnClick();
+					
+					
+					searchReset(mmtDatatableId);
+					
+					$("button[data-datatable-id="+mmtDatatableId+"][data-datatable-action=select]").click();
 				}
 			}
 		});
 
-		//회의록 목록 테이블 세팅
+		
 		$.osl.datatable.setting(mmtDatatableId,{
 			data:{
 				source:{
@@ -241,7 +252,7 @@ var OSLSpr2000Popup = function () {
 			actionFn:{
 				"insert":function(rowData){
 					if($.osl.isNull($("#sprId").val())){
-						//스프린트를 선택하지 않았으면
+						
 						$.osl.alert($.osl.lang("spr2000.message.selectMsg"));
 						return false;
 					}
@@ -278,22 +289,22 @@ var OSLSpr2000Popup = function () {
 					var data = {
 						dataList : JSON.stringify(rowData)
 					};
-					//AJAX 설정
+					
 			    	var ajaxObj = new $.osl.ajaxRequestAction(
 			    			{"url":"<c:url value='/spr/spr2000/spr2000/deleteSpr2000MmtListAjax.do'/>"}
 			    				, data);
-					//AJAX 전송 성공 함수
+					
 			    	ajaxObj.setFnSuccess(function(data){
 			    		if(data.errorYn == "Y"){
 							$.osl.alert(data.message,{type: 'error'});
-							//모달 창 닫기
+							
 							$.osl.layerPopupClose();
 						}else{
 							$.osl.toastr(data.message);
 							selectBtnClick();
 						}
 			    	});
-			    	//AJAX 전송
+			    	
 					ajaxObj.send();
 				},
 				"dblClick": function(rowData){
@@ -314,17 +325,44 @@ var OSLSpr2000Popup = function () {
 		});
 	};
 	
-	/**
-	* selectBtnClick : 회의록 목록 조회 버튼 클릭
-	*/
+	
 	var selectBtnClick = function(){
 		var sprId = $("#sprId").val();
 		$.osl.datatable.list[mmtDatatableId].targetDt.setDataSourceParam("sprId", sprId);
 		$("button[data-datatable-id="+mmtDatatableId+"][data-datatable-action=select]").click();
 	};
 	
+	
+	var searchReset = function(datatableId){
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
+		
+		
+		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
+		
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
+		
+		
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
+		
+		
+		$("#searchData_"+datatableId).removeAttr("readonly");
+		
+		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
+		
+		
+		$("#searchData_"+datatableId).val("");
+
+		
+		
+		$("#searchData_"+datatableId).attr("disabled","disabled");
+	};
+	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
@@ -338,5 +376,5 @@ $.osl.ready(function(){
 	OSLSpr2000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

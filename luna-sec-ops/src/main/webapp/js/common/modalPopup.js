@@ -87,13 +87,12 @@ $(document).on('hide.bs.modal', '.modal', function () {
 	}
 	
 	
-	if(!$(that).data("closeconfirm")){
 		
-		if($(that).data("backdrop")==true && event.path.length != 5 || event.keyCode == 27){
-			modalCloseFlag = false;
-			return true;
-		}
+	if($(that).data("backdrop")==true && event.path.length != 5 || event.keyCode == 27){
+		modalCloseFlag = false;
+		return true;
 	}
+	
 	
 	
 	modalCloseAlert = true;

@@ -16,6 +16,10 @@ public interface Stm9200Service {
 	int selectStm9200PrjAssignJenkinsJobListCnt(Map paramMap) throws Exception;
 	
 	
+	@SuppressWarnings("rawtypes")
+	List<Map> selectStm9200PrjAssignDplAuthNormalList(Map paramMap) throws Exception;
+	
+	
 	@SuppressWarnings("rawtypes" )
 	List<Map> selectStm9200PrjNotAssignJenkinsJobList(Map paramMap) throws Exception;
 

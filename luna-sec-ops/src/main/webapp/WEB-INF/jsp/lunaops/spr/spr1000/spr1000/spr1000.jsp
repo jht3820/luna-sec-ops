@@ -169,6 +169,7 @@ var OSLSpr1000Popup = function () {
 							paramSprId:rowData.sprId,
 							paramSprStDt:rowData.sprStDt,
 							paramSprEdDt:rowData.sprEdDt,
+							paramSprNm: rowData.sprNm,
 							paramSprDesc:rowData.sprDesc,
 							paramSprTypeCd:rowData.sprTypeCd
 						};
@@ -211,6 +212,7 @@ var OSLSpr1000Popup = function () {
 							paramPrjGrpId: sprInfo.prjGrpId
 							,paramPrjId: sprInfo.prjId
 							,paramSprId: sprInfo.sprId
+							,paramSprNm: sprInfo.sprNm
 							,paramStartDt: sprInfo.sprStDt
 							,paramEndDt: sprInfo.sprEdDt
 						};
@@ -352,6 +354,10 @@ var OSLSpr1000Popup = function () {
 												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1000.endDate")+'</span>'
 												+'<h5><span class="badge badge-danger">'+$.osl.escapeHtml(map.sprEdDt)+'</span></h5>'
 											+'</div>'
+											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
+												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>남은 일수</span>'
+												+'<h5><span class="badge badge-warning osl-min-width-85">'+$.osl.escapeHtml(map.restDay)+'</span></h5>'
+											+'</div>'
 											+'<div class="osl-flex-row-fluid osl-margin-b-175rm">'
 												+'<div class="osl-progress">'
 													+'<div class="osl-margin-b-1rm"><i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i><span>'+$.osl.lang("prj1000.completedRatio")+'</span></div>'
@@ -420,6 +426,7 @@ var OSLSpr1000Popup = function () {
 					$.each(list, function(idx, map){
 						drawChart(map);
 					})
+					
 					
 					KTApp.initTooltips();
 				}
@@ -511,6 +518,9 @@ var OSLSpr1000Popup = function () {
 					type:false
 				},
 				chart:{
+					toolbar: {
+						show:false
+					},
 					height:180,
 					
 					colors: ["#ffb822","#840ad9"],
@@ -528,7 +538,7 @@ var OSLSpr1000Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
@@ -564,31 +574,15 @@ var OSLSpr1000Popup = function () {
 					yaxis: {
 						show:true
 		        	},
-		        	toolbar:{
-		        		tools:{
-		        			pan:false
-		        		}
-		        	},
 		        	grid:{
 		        		show:true
 		        	}
-				},
-				callback:{
-					
-					initComplete: function(chartContext, config){
-						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
-						$(".apexcharts-reset-icon").addClass("kt-margin-0");
-						$(".apexcharts-toolbar").addClass("kt-margin-10");
-						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
-						$(".apexcharts-toolbar").removeAttr("style[padding]");
-					}
 				}
 			});
 		 }
  	
  	var getDataRangeData = function(sttDt, endDT, type, data){
  		
-
  		if(data.length!=0){
 	 		
 	 		var sprPoint = [];
@@ -598,7 +592,6 @@ var OSLSpr1000Popup = function () {
 	 			sprPoint.push(_series);
 	 		});
  		}
- 		
  		
  		if(type=='1'){
  			var resDay = [];

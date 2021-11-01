@@ -5,6 +5,7 @@
 <form class="kt-form" id="frDpl3001">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" name="paramDplId" id="paramDplId" value="${param.paramDplId}">
+	<input type="hidden" name="paramDplUsrId" id="paramDplUsrId" value="${param.paramDplUsrId}">
 	<div class="row">
 		
 		<div class="col-lg-6 col-md-12 col-sm-12">
@@ -17,17 +18,17 @@
 					</div>
 					<div class="kt-portlet__head-toolbar">
 						<div class="kt-portlet__head-wrapper">
-							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3001AssignJobTable" data-datatable-action="select" title="배정 JOB 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-auth-button="select" tabindex="1">
+							<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3001AssignJobTable" data-datatable-action="select" title="배정 JOB 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-auth-button="select" tabindex="1">
 								<i class="fa fa-list"></i><span>조회</span>
-							</button>
-							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3001AssignJobTable" data-datatable-action="jobExcute" title="선택 JOB 배포 실행" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-auth-button="insert" tabindex="2">
+							</button> -->
+							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3001AssignJobTable" data-datatable-action="jobExcute" title="선택 JOB 배포 실행" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-auth-button="insert" tabindex="2" id="jobDployExcute">
 								<i class="fas fa-play-circle"></i><span>배포 실행</span>
 							</button>
 						</div>
 					</div>
 				</div>
-				<div class="kt-portlet__body osl-min-h-px--415 kt-padding-10"">
-					<div class="osl-datatable-search" data-datatable-id="dpl3001AssignJobTable"></div>
+				<div class="kt-portlet__body osl-min-h-px--535 kt-padding-10"">
+					
 					<div class="kt_datatable" id="dpl3001AssignJobTable"></div>
 				</div>
 			</div>
@@ -42,21 +43,31 @@
 							<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="">배포 콘솔 로그</span>
 						</h5>
 					</div>
+					<div class="kt-portlet__head-toolbar">
+						<div class="kt-portlet__head-wrapper">
+							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-btn-job kt-hide" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-auth-button="select" tabindex="1" id="mainJobBldLog" data-logbtn-type="main" data-jobid="" >
+								<i class="fa fa-copy"></i><span></span>
+							</button>
+							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-btn-job kt-hide" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-auth-button="insert" tabindex="2" id="subJobBldLog" data-logbtn-type="sub" data-jobid="" >
+								<i class="fa fa-file"></i><span></span>
+							</button>
+						</div>
+					</div>
 				</div>
 				<div class="kt-portlet__body">
 					<div class="osl-contents-frame osl-min-h-px-imp--415 osl-code-bg" id="contentsFrame">
 						<pre>
-							<code class="osl-code-bg" id="buildConsoleLog">좌측에서 JOB을 선택해주세요.</code>
+							<code class="osl-code-bg" id="buildConsoleLog"></code>
 						</pre>
 					</div>	
 					<div class="kt-margin-t-20">
 						<div class="osl-progress">
 							<div class="kt-padding-b-5">
 								<i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i>
-								배포 진행률 ( <span>78</span>% )
+								배포 진행률 ( <span id="bldProgressPer">0</span>% )
 							</div>
 							<div class="progress osl-prj-group-md">
-								<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress-bar progress-bar-striped bg-info" role="progressbar" data-transitiongoal="100" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
 						</div>
 					</div>
@@ -69,7 +80,7 @@
 
 
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 
 
@@ -92,7 +103,7 @@ var OSLDpl3001Popup = function () {
 	var jobConsoleLog = {};
 	
 	
-	var selJobStatusFlag = true;
+	var selJobStatusFlag = false;
 	
 	
 	var buildStartItem = null;
@@ -100,12 +111,26 @@ var OSLDpl3001Popup = function () {
 	
 	var jobBuildingConsoleLog = "";
 	
-	var buildJob = {};
+	
+	var buildJobInfo = {};
+	
+	
+	var buildCompFlag = false;
 	
 	var documentSetting = function(){
+
+		
+		var loginUsrId = $.osl.user.userInfo.usrId;
+		
+		if($("#paramDplUsrId").val() != loginUsrId){
+			$("#jobDployExcute").addClass("kt-hide");
+		}
 		
 		
-		fnJobStatusCheck();
+		$("#buildConsoleLog").html("<span class='kt-font-inverse-brand kt-padding-l-10 osl-font-lg osl-font'>좌측에서 JOB을 선택해주세요.</span>");
+		
+		
+		fnJobStatusCheckLoop();
 		
 		
 		$.osl.datatable.setting("dpl3001AssignJobTable",{
@@ -119,23 +144,31 @@ var OSLDpl3001Popup = function () {
 						}
 					}
 				},
-				pageSize: 4
+				pageSize: 10
 			},
 			toolbar:{
 				items:{
 					pagination:{
-						pageSizeSelect : [4, 10, 20, 30, 50, 100]
+						pageSizeSelect : [10, 20, 30, 50, 100]
 					}
 				}
 			},
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				
 				
-				{field: 'jobStartOrd', title: "실행 순번", textAlign: 'center', width: 60, autoHide: false, sortable: true, sortField: "jobStartOrd"},
-				{field: 'bldResultMsg', title: "실행 결과", textAlign: 'center', width: 130, search: false, sortable: true},
-				{field: 'jobTypeNm', title: "Job Type", textAlign: 'center', width: 60, search: true, sortable: true, searchType:"select", searchCd: "DPL00002", searchField:"jobTypeCd", sortField: "jobTypeCd"},
-				{field: 'bldNum', title: "빌드 번호", textAlign: 'center', width: 100, search: false, sortable: true
+				
+				{field: 'jobStartOrd', title: "실행 순번", textAlign: 'center', width: 60, autoHide: false},
+				{field: 'bldResultMsg', title: "실행 결과", textAlign: 'center', width: 130, search: false
+					,template: function(row){
+						var bldResultMsg = row.bldResultMsg;
+						if($.osl.isNull(bldResultMsg)){
+							bldResultMsg = "-";
+						}
+						return bldResultMsg;
+					}
+				},
+				{field: 'jobTypeNm', title: "Job Type", textAlign: 'center', width: 60, search: false},
+				{field: 'bldNum', title: "빌드 번호", textAlign: 'center', width: 100, search: false
 					,template: function(row){
 						var bldNum = row.bldNum;
 						if($.osl.isNull(bldNum)){
@@ -144,7 +177,7 @@ var OSLDpl3001Popup = function () {
 						return bldNum;
 					}
 				},
-				{field: 'jobId', title: "Job Id", textAlign: 'center', width: 130, autoHide: false, search: true, sortable: true, sortField: "jobId"},
+				{field: 'jobId', title: "Job Id", textAlign: 'center', width: 130, autoHide: false, search: false},
 				{field: 'jobParameter', title: "Job 매개변수", textAlign: 'center', width: 120
 					,template: function(row){
 						var jobParameter = row.jobParameter;
@@ -155,9 +188,8 @@ var OSLDpl3001Popup = function () {
 						return jobParameter;
 					}
 				},
-				
-				{field: 'bldRestoreNum', title: "원복 빌드 번호", textAlign: 'center', width: 150, search: false, sortable: true},
-				{field: 'jobRestoreId', title: "원복 Job Id", textAlign: 'center', width: 130, search: true, sortable: true, sortField: "jobRestoreId"
+				{field: 'bldRestoreNum', title: "원복 빌드 번호", textAlign: 'center', width: 150, search: false},
+				{field: 'jobRestoreId', title: "원복 Job Id", textAlign: 'center', width: 130, search: false
 					,template: function(row){
 						var jobRestoredId = row.jobRestoreId;
 						
@@ -167,63 +199,149 @@ var OSLDpl3001Popup = function () {
 						return jobRestoredId;
 					}
 				},
-				{field: 'bldRestoreResultMsg', title: "원복 결과", textAlign: 'center', width: 150, search: false, sortable: true},
+				{field: 'bldRestoreResultMsg', title: "원복 결과", textAlign: 'center', width: 150, search: false
+					,template: function(row){
+						var bldRestoreResultMsg = row.bldRestoreResultMsg;
+						
+						if($.osl.isNull(bldRestoreResultMsg)){
+							bldRestoreResultMsg = "-";
+						}
+						return bldRestoreResultMsg;
+					}
+				},
 				
 			],
+			rows:{
+				clickCheckbox: true
+			},
 			actionBtn:{
 				"title": "기능 버튼",
 				"width":130,
 				"click":true,
 				"insert":false,
 				"update":false,
-				"delete":false
+				"delete":false,
+				"jobExcute":true
 			},
 			actionTooltip:{
-				"click":"배포 콘솔 로그 보기"
+				"click":"배포 콘솔 로그 보기",
+				"jobExcute":"배포 실행"
 			},
 			actionFn:{
 				
 				"click":function(rowData, datatableId, type, rowNum, elem){
+
+					
+					$("#mainJobBldLog").removeClass("kt-hide");
+					$("#mainJobBldLog").addClass("active");
+					$("#mainJobBldLog").data("jobid", rowData.jobId);
+					$("#mainJobBldLog").find("span").text(rowData.jobId);
 					
 					
+					if(rowData.jobRestoreId){
+						$("#subJobBldLog").removeClass("kt-hide");
+						$("#subJobBldLog").data("jobid", rowData.jobId);
+						$("#subJobBldLog").find("span").text(rowData.jobRestoreId);
+					}else{
+						$("#subJobBldLog").addClass("kt-hide");
+						$("#subJobBldLog").data("jobid", "");
+						$("#subJobBldLog").find("span").text("");
+					}
+					
+					
+					if(!$.osl.isNull(buildJobInfo.jobData)){
+						
+						if(buildJobInfo.jobData.jobId != rowData.jobId){
+							
+							if(buildCompFlag){
+								$(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar2({display_text: 'center'});
+								$("#bldProgressPer").text(0);
+							}
+						}
+					}
 					
 					
 					fnSelectJobConsoleLog(rowData);
+					
 				},
 				
 				"jobExcute":function(rowDatas , datatableId, type, rowNum, elem){
-						
 					
 					
-					if($.osl.isNull(rowDatas) || rowDatas.length == 0){
+					var selRowData = $.osl.datatable.list["dpl3001AssignJobTable"].targetDt.dataSet[rowNum];
+					
+					if($.osl.isNull(selRowData)){
 						$.osl.alert("실행(빌드)하려는 JOB을 선택해주세요.", {type: "warning"});
 						return false;
 					}
 					
-					if(rowDatas.length > 1){
-						$.osl.alert("1건의 JOB을 선택해주세요.", {type: "warning"});
-						return false;
-					}
 					
-					var allJobList = $.osl.datatable.list["dpl3001AssignJobTable"].targetDt.getDataSet();
-					
-					
-					fnSelJobDeployExcute(rowDatas[0], allJobList);
+					fnSelJobDeployExcute(selRowData, rowNum);
 				}
 			},
+			theme: {
+				 actionBtnIcon:{
+					 
+					 "jobExcute": "fas fa-play-circle"
+				 }
+			},
 			callback:{
+				initComplete: function(evt,config){
+				},
 				ajaxDone: function(evt, list){
-				
+
 				}
 			}
 		});
     	
-		
+    	
+    	
+    	
+		$(".osl-btn-job").click(function(){
+			
+			var btnType = $(this).data("logbtn-type");
+			var selJobId = $(this).data("jobid");
+			
+			
+			if(btnType == "main"){
+				
+				if(jobConsoleLog.hasOwnProperty("bldConsoleLog")){
+					
+					if($.osl.isNull(jobConsoleLog.bldConsoleLog)){
+						$('#buildConsoleLog').html("<span class='kt-font-inverse-brand kt-padding-l-10 osl-font-lg osl-font'>선택한 JOB("+jobId+")의 콘솔 로그가 없습니다.</span>");
+					}else{
+						
+						$('#buildConsoleLog').html(jobConsoleLog.bldConsoleLog);
+						$('#buildConsoleLog').each(function(i, block) {hljs.highlightBlock(block);});
+						$("#buildConsoleLog").scrollTop(9999999);
+					}
+				}
+				
+				$("button[data-logbtn-type=main]").addClass("active");
+				$("button[data-logbtn-type=sub]").removeClass("active");
+			
+			
+			}else if(btnType == "sub"){
+				
+				if(jobConsoleLog.hasOwnProperty("bldConsoleRestoreLog")){
+					
+					if($.osl.isNull(jobConsoleLog.bldConsoleRestoreLog)){
+						$('#buildConsoleLog').html("<span class='kt-font-inverse-brand kt-padding-l-10 osl-font-lg osl-font'>선택한 JOB("+jobId+")의 콘솔 로그가 없습니다.</span>");
+					}else{
+						
+						$('#buildConsoleLog').html(jobConsoleLog.bldConsoleRestoreLog);
+						$('#buildConsoleLog').each(function(i, block) {hljs.highlightBlock(block);});
+						$("#buildConsoleLog").scrollTop(9999999);
+					}
+				}
+				$("button[data-logbtn-type=main]").removeClass("active");
+				$("button[data-logbtn-type=sub]").addClass("active");
+			}
+		});
 	};
 	
 	
-	
-	var fnSelJobDeployExcute = function(selJobData, allJobList){
+	var fnSelJobDeployExcute = function(selJobData, rowNum){
 		
 		
 		if($.osl.isNull(selJobData)){
@@ -236,10 +354,20 @@ var OSLDpl3001Popup = function () {
 	        if (result.value) {
 	        	
 	        	
-	        	buildJob = selJobData;
+	        	buildJobInfo = {
+						jobData: selJobData, 
+						jobRowNum : rowNum	
+				};
 	        	
 	        	var bldProgressChk = false;
 				
+	        	
+	        	var datatable = $.osl.datatable.list["dpl3001AssignJobTable"].targetDt;
+	        	
+	        	var allJobList = datatable.getDataSet();
+	        	
+	        	var dataSet = datatable.dataSet[buildJobInfo.jobRowNum];
+	        	
 				
 				if(!$.osl.isNull(allJobList)){
 					$.each(allJobList, function(idx, map){
@@ -259,34 +387,37 @@ var OSLDpl3001Popup = function () {
 				}else{
 					
 					
+					if(!$.osl.isNull(selJobData)){
+						
+						selJobStatusFlag = true;
+						
+						$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.reload();
+					}
 					
+					
+					$(".progress .progress-bar").attr('data-transitiongoal', 0).progressbar2({display_text: 'center'});
+					$("#bldProgressPer").text(0);
 					
 					
 					var ajaxObj = new $.osl.ajaxRequestAction(
-							{"url":"<c:url value='/dpl/dpl3000/dpl3000/selectDpl3000JobBuildAjax.do'/>"}
+							{"url":"<c:url value='/dpl/dpl3000/dpl3000/selectDpl3000JobBuildAjax.do'/>" ,"loadingShow":false}
 							,selJobData);
 					
 					ajaxObj.setFnSuccess(function(data){
 						
 						
-						$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.reload();
+						
 						
 						if(data.errorYn == "Y"){
+							
 							$.osl.alert(data.message,{type: 'error'});
-							
-							
-							
 							
 							
 							$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.reload();
 							
-							
-							
 						}else{
 							
 							jobBuildingConsoleLog = '';
-							
-							
 							
 							
 							buildStartItem = selJobData;
@@ -298,8 +429,6 @@ var OSLDpl3001Popup = function () {
 
 				    		
 							if($("#paramDplId").val() == selJobData.dplId){
-								
-								
 								
 								$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.reload();
 							}
@@ -315,7 +444,7 @@ var OSLDpl3001Popup = function () {
 	};
 	
 	
-	
+	 
 	var fnSelectJobConsoleLog = function(selJobData){
 		
 		
@@ -331,25 +460,17 @@ var OSLDpl3001Popup = function () {
 		var jobId = selJobData.jobId;
 		
 		
-		
-		
 		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/dpl/dpl3000/dpl3000/selectDpl3000DplConsoleLogView.do'/>"}
+				{"url":"<c:url value='/dpl/dpl3000/dpl3000/selectDpl3000DplConsoleLogView.do'/>","loadingShow":false}
 				,{prjId:prjId, dplId:dplId, jenId:jenId, jobId:jobId});
 		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				
-				
-				$.osl.layerPopupClose();
 			}else{
 				
-				
-				
-				
-				
 				var localJobInfo = data.localJobInfo;
+				
 				
 				if(!$.osl.isNull(localJobInfo)){
 					
@@ -393,10 +514,9 @@ var OSLDpl3001Popup = function () {
 						$("#buildConsoleLog").append('<i class="fa fa-spinner fa-spin"></i>');
 						$("#buildConsoleLog").scrollTop(9999999);
 					}
-					
 				}else{
 					
-					$('#buildConsoleLog').html("선택한 JOB("+jobId+")의 콘솔 로그가 없습니다.");
+					$('#buildConsoleLog').html("<span class='kt-font-inverse-brand kt-padding-l-10 osl-font-lg osl-font'>선택한 JOB("+jobId+")의 콘솔 로그가 없습니다.</span>");
 				}
 
 			}
@@ -418,11 +538,9 @@ var OSLDpl3001Popup = function () {
 		var requestConsole = "N";
 		
 		
-		
-		
-		if(!$.osl.isNull(buildJob)){
+		if(!$.osl.isNull(buildJobInfo) && !$.osl.isNull(buildJobInfo.jobData)){
 			
-			if(targetJobId == buildJob.jobId || targetJobId == buildJob.jobRestoreId){
+			if(targetJobId == buildJobInfo.jobData.jobId || targetJobId == buildJobInfo.jobData.jobRestoreId){
 				
 				requestConsole = "Y";
 			}
@@ -459,7 +577,7 @@ var OSLDpl3001Popup = function () {
 			var buildMap = data.buildMap;
 			
 			
-			if($.ols.isNull(buildMap)){
+			if($.osl.isNull(buildMap)){
 				return false;
 			}
 			
@@ -468,18 +586,18 @@ var OSLDpl3001Popup = function () {
 				var consoleRefreshFlag = false;
 				
 				
-				if(requestConsole == "Y" && !$.ols.isNull(data.consoleText)){
-					
-
-					var selJobItem = buildJob;
+				if(requestConsole == "Y" && !$.osl.isNull(data.consoleText)){
 					
 					
-					if(!$.osl.isNull(selJobItem)){
+					if(!$.osl.isNull(buildJobInfo) && !$.osl.isNull(buildJobInfo.jobData)){
+						
+						
+						var selJobItem = buildJobInfo.jobData;
 						
 						
 						if(targetJobId == selJobItem.jobId || targetJobId == selJobItem.jobRestoreId){
 							
-							if($("button.logBtnActive").attr("jobid") == targetJobId){
+							if($("button.osl-btn-job.active").data("jobid") == targetJobId){
 								
 								jobBuildingConsoleLog = data.consoleText;
 								
@@ -494,7 +612,9 @@ var OSLDpl3001Popup = function () {
 								$("#buildConsoleLog").scrollTop(9999999);
 							}else{
 								
-								
+								if($("button.osl-btn-job[data-jobid="+targetJobId+"]").length > 0){
+									$("button.bldLogBtn[data-jobid="+targetJobId+"]").animate({"background-color":"#4b73eb","color":"#fff"}, 500, function() {$(this).css({"background-color":"","color":""})});
+								}
 							}
 						}
 					}
@@ -529,6 +649,8 @@ var OSLDpl3001Popup = function () {
 					}
 					
 					
+					$(".progress .progress-bar").attr('data-transitiongoal', arrTime).progressbar2({display_text: 'center', percent_format: function(p) {return buildMap.fullDisplayName+': ' + p+'%';}});
+					$("#bldProgressPer").text(Math.round(arrTime));
 					
 					
 					consoleRefreshFlag = true;
@@ -539,7 +661,52 @@ var OSLDpl3001Popup = function () {
 					
 					if(!$.osl.isNull(localBldInfo)){
 						
+						var dataTable = $.osl.datatable.list["dpl3001AssignJobTable"].targetDt;
+						var allJobList = dataTable.getDataSet();
 						
+						
+						$.each(allJobList,function(idx, map){
+							
+							if(map.jobId == localBldInfo.jobId){
+								
+								var selJobInfo = targetJobInfo;
+								targetJobInfo["bldResult"] = localBldInfo.bldResult;
+								targetJobInfo["bldResultMsg"] = localBldInfo.bldResultMsg;
+								targetJobInfo["bldSeq"] = localBldInfo.bldSeq;
+								targetJobInfo["bldNum"] = localBldInfo.bldNum;
+								
+								
+								$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.reload();
+								
+								
+								$(".progress .progress-bar").attr('data-transitiongoal', 100).progressbar2({display_text: 'center', percent_format: function(p) {return buildMap.fullDisplayName+': ' + p+'%';}});
+								$("#bldProgressPer").text("100");
+								
+								buildCompFlag = true;
+								
+								return false;
+							}
+							
+							else if(!gfnIsNull(map.jobRestoreId) && map.jobRestoreId != "-" && map.jobRestoreId == localBldInfo.jobId){
+								
+								var selJobInfo = targetJobInfo;
+								targetJobInfo["bldRestoreResult"] = localBldInfo.bldResult;
+								targetJobInfo["bldRestoreResultMsg"] = localBldInfo.bldResultMsg;
+								targetJobInfo["bldRestoreSeq"] = localBldInfo.bldSeq;
+								targetJobInfo["bldRestoreNum"] = localBldInfo.bldNum;
+								
+								
+								$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.reload();
+								
+								
+								$(".progress .progress-bar").attr('data-transitiongoal', 100).progressbar2({display_text: 'center', percent_format: function(p) {return buildMap.fullDisplayName+': ' + p+'%';}});
+								$("#bldProgressPer").text("100");
+								
+								buildCompFlag = true;
+								
+								return false;
+							}
+						});
 						
 						
 						selJobStatusFlag = true;
@@ -560,31 +727,32 @@ var OSLDpl3001Popup = function () {
 					return false;
 				}
 			}catch(error){
-				
+				console.log(error);
 				return false;
 			}
 			
 		});
 		
 		
+		ajaxObj.setFnError(function(xhr, status, err){
+			
+	       	selJobStatusFlag = true;
+	       	fnJobStatusCheckLoop();
+		});
+		
+		
+		ajaxObj.send();
+		
 	};
 	
 	
 	
-	
-	var fnJobStatusCheck = function(){
+	var fnJobStatusCheckLoop = function(){
 		
 		var paramPrjId = $("#paramPrjId").val();
 		var paramDplId = $("#paramDplId").val();
 		
-		
-		if($.osl.isNull(paramDplId)){
-			$.osl.alert("배포 계획 정보가 존재하지 않습니다.",{type: 'warning'});
-			return false;
-		}
-		
-		
-		if(selJobStatusFlag){ 
+		if(!$.osl.isNull(paramDplId) && selJobStatusFlag){
 			
 			
 			var ajaxObj = new $.osl.ajaxRequestAction(
@@ -593,12 +761,8 @@ var OSLDpl3001Popup = function () {
 			
 			ajaxObj.setFnSuccess(function(data){
 				
-				
-				
 				if(data.errorYn == "Y"){
 					$.osl.alert(data.message,{type: 'error'});
-					
-					$.osl.layerPopupClose();
 				}else{
 					
 					var jobList = data.list;
@@ -628,8 +792,6 @@ var OSLDpl3001Popup = function () {
 								}
 								
 								
-								
-								
 								if(!$.osl.isNull(bldResult) && bldResult == "progress"){
 									progressChk = true;
 									
@@ -641,7 +803,6 @@ var OSLDpl3001Popup = function () {
 									fnSelectJobBuildResult(map.jobRestoreId, map.bldRestoreNum, map);
 									return false;
 								}
-								
 							}
 							
 						});
@@ -649,17 +810,14 @@ var OSLDpl3001Popup = function () {
 						
 						
 						if(!progressChk){
-							
-							
-							$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.dataSet = jobList;
-							$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.redraw();
+							$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.reload();
 						}
 						
 					}
 					
 					if(afterStartChk){
 						
-						setTimeout(fnJobStatusCheck, jobStatusWaitTime);
+						setTimeout(fnJobStatusCheckLoop, jobStatusWaitTime);
 					}
 					
 				}
@@ -670,13 +828,12 @@ var OSLDpl3001Popup = function () {
 			
 		}else{
 			
-			setTimeout(fnJobStatusCheck, jobStatusWaitTime);
+			setTimeout(fnJobStatusCheckLoop, jobStatusWaitTime);
 		}
 		
 		
 	};
-	
-	
+		
 	return {
         
         init: function() {

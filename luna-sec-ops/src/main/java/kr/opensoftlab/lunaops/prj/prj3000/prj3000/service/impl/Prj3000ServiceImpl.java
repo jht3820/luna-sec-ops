@@ -312,6 +312,10 @@ public class Prj3000ServiceImpl extends EgovAbstractServiceImpl implements Prj30
 		
 		
 		
+		if("update".equals(paramMap.get("type"))) {
+			prj3000DAO.deletePrj3002DocConList(paramMap);
+		}
+		
 		
 		String targetIdList = (String) paramMap.get("targetIdList");
 		if(targetIdList != null && !"[]".equals(targetIdList)) {

@@ -4,7 +4,7 @@
 <form class="kt-form" id="frPrj3001">
 	<input type="hidden" name="type" id="type" value="${requestScope.type}">
 	<input type="hidden" name="dtParamPrjId" id="dtParamPrjId" value="${param.dtParamPrjId }">
-	<input type="hidden" id="lvl" name="lvl" value="${param.lvl}"//>
+	<input type="hidden" id="lvl" name="lvl" value="${param.lvl}"
 	<div class="kt-portlet">
 		<div class="kt-portlet__body">
 			<div class="form-group">
@@ -54,10 +54,10 @@
 </form>
 <div class="modal-footer">
 	<button type="button" class="btn btn-brand" id="prj3001SaveSubmit"> 
-		<i class="fa fa-save"></i><span data-lang-cd="prj3001.button.insert">작성 완료</span>
+		<i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="prj3001.button.insert">작성 완료</span>
 	</button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span>Close</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span>
 	</button>
 	
 </div>

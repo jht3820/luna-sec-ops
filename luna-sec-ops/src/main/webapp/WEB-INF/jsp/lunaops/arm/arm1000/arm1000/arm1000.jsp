@@ -4,25 +4,25 @@
 	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__body kt-padding-10">
-				<ul class="kt-nav kt-nav--bold kt-nav--md-space nav nav-tabs osl-display__flex" role="tablist">
-					<li class="kt-nav__item osl-message__menu-width" id="menuTypeGet">
+				<ul class="kt-nav kt-nav--bold kt-nav--md-space nav nav-tabs osl-display__flex osl-flex-flow--column-mobile" role="tablist">
+					<li class="kt-nav__item osl-display__flex osl-flex-row-fluid" id="menuTypeGet">
 						<a class="kt-nav__link kt-padding-l-20 kt-padding-r-20 active" data-toggle="tab" href="#kt_profile_tab_personal_information" role="tab">
 							<span class="kt-nav__link-icon"><i class="fas fa-inbox"></i></span>
-							<span class="kt-nav__link-text kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.get">받은 메시지</span>
-							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadGetCntBadge" name="notReadGetCntBadge">0</span>
+							<span class="kt-nav__link-text flex-grow-0 kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.get">받은 메시지</span>
+							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-margin-l-20 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadGetCntBadge" name="notReadGetCntBadge">0</span>
 						</a>
 					</li>
-					<li class="kt-nav__item osl-message__menu-width kt-padding-t-5" id="menuTypeSend">
+					<li class="kt-nav__item osl-display__flex osl-flex-row-fluid kt-padding-t-5" id="menuTypeSend">
 						<a class="kt-nav__link kt-padding-l-20 kt-padding-r-20" data-toggle="tab" href="#kt_profile_tab_account_information" role="tab">
 							<span class="kt-nav__link-icon"><i class="fas fa-paper-plane"></i></span>
-							<span class="kt-nav__link-text kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.send">보낸 메시지</span>
+							<span class="kt-nav__link-text flex-grow-0 kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.send">보낸 메시지</span>
 						</a>
 					</li>
-					<li class="kt-nav__item osl-message__menu-width" id="menuTypeAlone">
+					<li class="kt-nav__item osl-display__flex osl-flex-row-fluid" id="menuTypeAlone">
 						<a class="kt-nav__link kt-padding-l-20 kt-padding-r-20" data-toggle="tab" href="#kt_profile_change_password" role="tab">
 							<span class="kt-nav__link-icon"><i class="fas fa-envelope-square"></i></span>
-							<span class="kt-nav__link-text kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.alone">나에게 보낸 메시지</span>
-							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadAloneCntBadge" name="notReadAloneCntBadge">0</span>
+							<span class="kt-nav__link-text flex-grow-0 kt-font-boldest kt-font-lg" data-lang-cd="arm1000.label.alone">나에게 보낸 메시지</span>
+							<span class='badge osl-badge-lightgray osl-min-w-px-35 kt-margin-l-20 kt-font-bolder kt-font-lg kt-font-brand kt-hide' id="notReadAloneCntBadge" name="notReadAloneCntBadge">0</span>
 						</a>
 					</li>
 				</ul>
@@ -191,7 +191,7 @@ var OSLArm1000Popup = function () {
 				"update" : false,
 				"dblClick" : true,
 				"check" : true,
-				"autoHide": true
+				
 			}, 
 			actionTooltip:{
 				"reInsert" : $.osl.lang("arm1000.button.tooltip.reInsertBtn"),
@@ -206,6 +206,7 @@ var OSLArm1000Popup = function () {
 							modalTitle: $.osl.lang("arm1000.actionBtn.insertTitle"),
 							closeConfirm: true,
 							autoHeight:false,
+							ftScrollUse: false,
 						};
 					
 					$.osl.layerPopupOpen('/arm/arm1000/arm1000/insertArm1001View.do',data,options);
@@ -223,13 +224,14 @@ var OSLArm1000Popup = function () {
 							data = {
 									type:"reInsert",
 									reSendUsrId : rowDatas[0].sendUsrId,
-									atchfileId : rowDatas[0].atchFileId
+									atchfileId : rowDatas[0].atchFileId,
 								};
 							options = {
 									idKey: "reInsert_"+rowDatas[0].armId,
 									modalTitle: $.osl.lang("arm1000.actionBtn.reInsertTitle"),
 									closeConfirm: false,
 									autoHeight:false,
+									ftScrollUse: false,
 								};
 						}else{
 							
@@ -247,6 +249,7 @@ var OSLArm1000Popup = function () {
 								modalTitle: $.osl.lang("arm1000.actionBtn.reInsertTitle"),
 								closeConfirm: true,
 								autoHeight:false,
+								ftScrollUse: false,
 							};
 					}
 					
@@ -289,6 +292,7 @@ var OSLArm1000Popup = function () {
 							modalTitle: $.osl.lang("arm1000.actionBtn.dblClickTitle"),
 							closeConfirm: true,
 							autoHeight:false,
+							ftScrollUse: false,
 					};
 					
 					$.osl.layerPopupOpen('/arm/arm1000/arm1000/selectArm1002View.do',data,options);

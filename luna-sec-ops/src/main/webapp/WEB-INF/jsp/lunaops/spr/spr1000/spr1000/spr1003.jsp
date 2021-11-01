@@ -13,7 +13,7 @@
 		<div class="osl-wizard" id="kt_wizard_v3" data-ktwizard-state="step-first">
 			
 			<div class="osl-wizard__nav">
-				<div class="osl-wizard__nav-items">
+				<div class="osl-wizard__nav-items osl-wizard__nav-items--clickable">
 					
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step" data-ktwizard-state="current">
 						<div class="osl-wizard-wrapper">
@@ -172,7 +172,7 @@
 <div class="modal-footer">
 	
 	<button class="btn btn-outline-brand" data-dismiss="modal">
-		<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
 	
@@ -201,6 +201,7 @@ var OSLSpr1003Popup = function () {
 	
 	var sprProcessIdList = [];
 	
+	var beforeStep = 0;
 	
 	var wizardData = {
 		
@@ -241,12 +242,11 @@ var OSLSpr1003Popup = function () {
 		
 		
 		var wizard = new KTWizard('kt_wizard_v3', {
-			startStep: 1, 
-			clickableSteps: false		
+			startStep: 1	
 		});
 		 
 		
-		wizard.on('beforeNext', function(wizardObj) {
+		 wizard.on('beforeNext', function(wizardObj) {
 			
 			if($("#"+mainFormId).valid() !== true){
 				wizardObj.stop();
@@ -259,26 +259,56 @@ var OSLSpr1003Popup = function () {
 					wizardObj.stop();
 				}
 			}
+			beforeStep = wizard.currentStep;
 		});
 		 
-		
-		wizard.on('beforePrev', function(wizardObj) {
-			
-			if($("#"+mainFormId).valid() !== true){
-				wizardObj.stop();
-			}else{
-				
-				var rtnFlag = fnWizardDataSave(wizardObj);
-				
-				
-				if(rtnFlag === false){
-					wizardObj.stop();
-				}
-			}
-		});
-		
 		
 		wizard.on('change', function(wizardObj) {
+			
+			var totalStep = wizard.totalSteps;
+			
+			var checkThis = wizard.currentStep;
+			
+			var checking = totalStep - checkThis;
+			
+			if((checkThis-beforeStep) != 1){
+				
+				if(checking < checkThis){
+					
+					var reqListCnt = wizardData["reqListCnt"];
+					var reqSprPointList = wizardData["reqSprPointList"];
+					var reqSprPointListCnt = 0;
+					
+					if(!$.osl.isNull(reqSprPointList)){
+						
+						$.each(reqSprPointList, function(idx, map){
+							if(!$.osl.isNull(map) && map >= 0){
+								reqSprPointListCnt++;
+							}
+						});
+					}
+					if(reqListCnt > reqSprPointListCnt){
+						
+						$.osl.alert($.osl.lang("spr1003.alert.reqSprPoint",(reqListCnt-reqSprPointListCnt)),{type: 'error'});
+						wizardObj.goTo(2);
+					}
+					
+					var reqChargerList = wizardData["reqUsrList"];
+					var reqChargerListCnt = 0;
+					if(!$.osl.isNull(reqChargerList)){
+						$.each(reqChargerList, function(idx, map){
+							if(!$.osl.isNull(map)){
+								reqChargerListCnt++;	
+							}
+						});
+					}
+					if(reqListCnt > reqChargerListCnt){
+						
+						$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(reqListCnt-reqChargerListCnt)),{type: 'error'});
+						wizardObj.goTo(3);
+					}
+				}
+			}
 			if(datatableInitFlag.hasOwnProperty(wizardObj.currentStep)){
 				
 				if(!datatableInitFlag[wizardObj.currentStep]){
@@ -304,6 +334,9 @@ var OSLSpr1003Popup = function () {
 	    		});
 	    		
 	    		wizardData["sprProcessList"] = processIdList;
+	    	}else{
+	    		$.osl.alert("프로세스는 한건이상 추가해야합니다.",{type:"error"})
+	    		return; 
 	    	}
 	       	
 	       	
@@ -341,13 +374,32 @@ var OSLSpr1003Popup = function () {
 		
 		if(wizardObj.currentStep == 1){
 			
-			wizardData["mmtNm"] = $("#mmtNm").val();
+			
+			var mmtNm = $("#mmtNm").val();
 			
 			
-			wizardData["mmtDesc"] = $("#mmtDesc").val();
+			var mmtDesc = $("#mmtDesc").val();
 			
 			
-			wizardData["usrList"] = $("#sprConferenceUsr").val();
+			var usrList = $("#sprConferenceUsr").val();
+			
+			
+			if($.osl.isNull(mmtNm)){
+				$.osl.alert("회의록 제목을 입력해주세요.",{type: 'error'});
+			}
+			
+			if($.osl.isNull(mmtDesc)){
+				$.osl.alert("회의록 내용을 입력해주세요.",{type: 'error'});
+			}
+			
+			
+			wizardData["mmtNm"] = mmtNm;
+			
+			
+			wizardData["mmtDesc"] = mmtDesc;
+			
+			
+			wizardData["usrList"] = usrList;
 		}
 		
 		else if(wizardObj.currentStep == 2){
@@ -366,23 +418,37 @@ var OSLSpr1003Popup = function () {
 			}
 			
 			if(reqListCnt > reqSprPointListCnt){
-				$.osl.toastr($.osl.lang("spr1003.alert.reqSprPoint",(reqListCnt-reqSprPointListCnt))
-					,{
-						positionClass: "osl-toastr-center",
-						timeOut: 3000,
-						preventDuplicates: true
-					}
-				);
+				
+				$.osl.alert($.osl.lang("spr1003.alert.reqSprPoint",(reqListCnt-reqSprPointListCnt)),{type: 'error'});
 				return false;
 			}
 		}
 		
 		else if(wizardObj.currentStep == 3){
 			
+			var reqListCnt = wizardData["reqListCnt"];
+			var reqChargerList = wizardData["reqUsrList"];
+			var reqChargerListCnt = 0;
+			if(!$.osl.isNull(reqChargerList)){
+				$.each(reqChargerList, function(idx, map){
+					if(!$.osl.isNull(map)){
+						reqChargerListCnt++;	
+					}
+				});
+			}
+			if(reqListCnt > reqChargerListCnt){
+				
+				$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(reqListCnt-reqChargerListCnt)),{type: 'error'});
+				return false;
+			}
 		}
 		
 		else if(wizardObj.currentStep == 4){
-			
+			var processDatasets = $.osl.datatable.list['sprAssignProcessTable'].targetDt.originalDataSet();
+			if(processDatasets.length == 0){
+				$.osl.alert("프로세스를 한건이상 배정해야합니다.", {type:"error"});
+				return false;
+			}
 		}
 		return true;
 	};
@@ -402,8 +468,8 @@ var OSLSpr1003Popup = function () {
 				+'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
 					+'<img src="'+$.osl.user.usrImgUrlVal(usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 				+'</div>'
-				+'<div class="kt-user-card-v2__details float-left osl-word__break">'
-					+'<span class="kt-user-card-v2__name float-left">'+usrNm+'</span>'
+				+'<div class="kt-user-card-v2__details float-left">'
+					+'<span class="kt-user-card-v2__name float-left osl-word__break">'+usrNm+'</span>'
 					+'<span class="kt-user-card-v2__email float-left kt-margin-l-10 osl-line-height-rem-1_5">'+usrEmail+'</span>'
 				+'</div>'
 			+'</div>'
@@ -419,6 +485,7 @@ var OSLSpr1003Popup = function () {
    	 	}
     	var usrId = state.id;
     	var usrNm = state.element.attributes.getNamedItem("data-usr-nm").value;
+    	
     	var usrImgId = state.element.attributes.getNamedItem("data-usr-img-id").value;
     	var usrEmail = state.element.attributes.getNamedItem("data-usr-email").value;
 
@@ -428,7 +495,7 @@ var OSLSpr1003Popup = function () {
 						+'<img src="'+$.osl.user.usrImgUrlVal(usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 					+'</div>'
 					+'<div class="kt-user-card-v2__details float-left">'
-						+'<span class="kt-user-card-v2__name">'+usrNm+'</span>'
+						+'<span class="kt-user-card-v2__name osl-word__break osl-word__break--w100">'+usrNm+'</span>'
 						+'<span class="kt-user-card-v2__email">'+usrEmail+'</span>'
 					+'</div>'
 				+'</div>'
@@ -455,7 +522,7 @@ var OSLSpr1003Popup = function () {
  				usrList = data.usrAllList;
  				
  				$.each(data.usrAllList, function(idx, value){
- 					var str = '<option value="' + value.usrId + '" data-usr-nm="'+value.usrNm+'" data-usr-img-id="'+value.usrImgId+'" data-usr-email="'+value.email+'">' 
+ 					var str = '<option class="osl-word__break" value="' + value.usrId + '" data-usr-nm="'+value.usrNm+'" data-usr-img-id="'+value.usrImgId+'" data-usr-email="'+value.email+'">' 
  									+ value.usrNm
  								+ '</option>';
  					
@@ -578,6 +645,25 @@ var OSLSpr1003Popup = function () {
 				"delete": "삭제",
 				"dblClick": "상세보기"
 			},
+			actionFn:{
+				"dblClick":function(rowData, datatableId, type, rowNum){
+					var data = {
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId,
+							paramReqUsrId: rowData.reqUsrId
+						};
+					var options = {
+							idKey: rowData.reqId,
+							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							autoHeight: false,
+					
+							
+						};
+					
+					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+					
+				}
+			},
 			rows:{
 				afterTemplate: function(row, data, index){
 					
@@ -646,6 +732,11 @@ var OSLSpr1003Popup = function () {
 				 }
 			 },
 			columns: [
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false,
+					template: function(row){
+    					return row.reqId;
+    				}
+				},
 				{field: 'reqOrd', title: '순번', textAlign: 'center', width: 50, search: true},
 				{field: 'reqNm', title: '요청 제목', textAlign: 'center', width: 100, search: true},
 				{field: 'sprPoint', title: '스토리 포인트', textAlign: 'center', width: 80,template:function(row){
@@ -667,6 +758,9 @@ var OSLSpr1003Popup = function () {
 					return '<input type="text" class="form-control kt-align-center" name="reqCharger_'+row.reqId+'" id="reqCharger_'+row.reqId+'" data-req-id="'+row.reqId+'" value="'+rtnVal+'" readonly="readonly" />';
 				}},
 			],
+			rows:{
+				clickCheckbox: true
+			},
 			actionBtn:{
 				"update": false,
 				"delete": false,
@@ -716,7 +810,13 @@ var OSLSpr1003Popup = function () {
 			],
 			actionBtn:{
 				"update": false,
-				"delete": false
+				"delete": false,
+				"click": false,
+			},
+			actionFn:{
+				"click":function(rowData, datatableId, type, rowNum){
+					
+				},
 			},
 			callback:{
 				initComplete: function(evt,config){
@@ -736,11 +836,10 @@ var OSLSpr1003Popup = function () {
 									+'</div>'
 									+'<div class="kt-widget__wrapper">'
 										+'<div class="kt-widget__label">'
-											+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
+											+'<div class="kt-widget__title osl-word__break osl-word__break--w200" title='+map.usrNm+'>'
 												+$.osl.escapeHtml(map.usrNm)
 											+'</div>'
 											+'<small>'+$.osl.escapeHtml(map.email)+'</small>'
-											
 											+'<span class="kt-widget__desc">'
 												+'<span>'+$.osl.escapeHtml(map.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(map.usrPositionNm)+'</span>'
 											+'</span>'
@@ -782,6 +881,35 @@ var OSLSpr1003Popup = function () {
 						$(".osl-widget-draggable.active").removeClass("active");
 						if(unActive === false){
 							$(this).addClass("active");
+							
+							
+							var targetElem = $(".osl-widget-draggable.active");
+							
+							var datatable = $.osl.datatable.list['sprAssignReqUsrTable'].targetDt;
+							
+							var length = datatable.getDataSet().length;
+							
+							var rownum = 0
+							for(rownum; rownum < length ; rownum ++){
+								var targetCheckRow = datatable.row("[data-row="+rownum+"]").nodes();
+								
+								var target = targetCheckRow.find("label.kt-checkbox").children("input[type=checkbox]");
+								if(target.length > 0){
+									if(target.is(":checked") == true){
+										var targetReqId = target.val();
+										
+										
+										var targetUsrId = targetElem.data("usr-id");
+								   		var targetUsrNm = targetElem.data("usr-name");
+								   		
+								   		
+									    $("#reqCharger_"+targetReqId).val(targetUsrNm);
+									    
+									    
+									    wizardData["reqUsrList"][targetReqId] = {usrId: targetUsrId, usrNm: targetUsrNm};
+									}
+								}
+							}
 						}
 					});
 				}
