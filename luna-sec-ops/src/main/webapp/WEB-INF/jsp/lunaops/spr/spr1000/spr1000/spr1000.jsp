@@ -175,6 +175,7 @@ var OSLSpr1000Popup = function () {
 							paramSprEndPercent : Math.trunc(rowData.sprEndPercent),
 							paramSprTypeNm : rowData.sprTypeNm,
 							paramSprTypeCd : rowData.sprTypeCd,
+							paramUseCd: rowData.useCd,
 						};
 					
 					var options = {

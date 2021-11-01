@@ -10,6 +10,7 @@
 	<input type="hidden" id="sprTypeNm" name="sprTypeNm" value="${param.paramSprTypeNm}">
 	<input type="hidden" id="sprRestDay" name="sprRestDay" value="${param.paramSprRestDay}">
 	<input type="hidden" id="sprEndPercent" name="sprEndPercent" value="${param.paramSprEndPercent}">
+	<input type="hidden" id="sprUseCd" name="sprUseCd" value="${param.paramUseCd}">
 	<div class="kt-portlet kt-portlet--mobile">
 		<div class="kt-portlet__body">
 			<div class="row kt-padding-l-20 kt-padding-r-20">
@@ -237,6 +238,7 @@ var OSLSpr1001Popup = function () {
 	
 	var paramSprEndPercent = $("#sprEndPercent").val();
 	
+	var paramUseCd = $("#sprUseCd").val();
 	
 	var totalSprPoint = 0;
 	
@@ -447,9 +449,9 @@ var OSLSpr1001Popup = function () {
  				
  				
  				var seriesData = getDataRangeData(paramSprStDt, paramSprEdDt, "1", chartData);
- 				if(chartData.length == 0){
- 					$("#burnDownChart").text("데이터 없음")
- 					$("#burnUpChart").text("데이터 없음")
+ 				if(paramSprTypeCd == '01'){
+ 					$("#burnDownChart").text("데이터 없음");
+ 					$("#burnUpChart").text("데이터 없음");
  				}else{
 	 				
 	 				drawBurnUpChart(seriesData);
