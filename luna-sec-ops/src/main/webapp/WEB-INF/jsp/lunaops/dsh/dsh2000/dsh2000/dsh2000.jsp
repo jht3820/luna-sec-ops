@@ -983,7 +983,6 @@ var OSLDsh2000Popup = function () {
 			
 			
 			
-			
 		});
 		
 		fnDashBoardSetting();
@@ -1638,7 +1637,7 @@ var OSLDsh2000Popup = function () {
 									+'</div>'
 									+'<div class="kt-portlet__body">'
 										+'<div class="row">'
-											+ '<div class="col-4">'
+											+ '<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">'
 												+'<div class="d-flex kt-padding-l-15 align-items-center">'
 													+'<div class="kt-media kt-media--xl kt-media--circle '+sprTypeClass+' osl-margin-r-2rm">'
 														+'<span>'+sprTypeNm+'</span>'
@@ -1667,10 +1666,10 @@ var OSLDsh2000Popup = function () {
 													+'</div>'
 												+'</div>'
 											+'</div>'
-											+ '<div class="col-4">'
+											+ '<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">'
 												+ '<div class="osl-widget osl-flex-row-fluid flex-wrap">'
 													+ '<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer" data-spr-id="'+map.sprId+'" data-type="total">'
-														+ '<div class="osl-widget-info__item-icon">'
+														+ '<div class="osl-widget-info__item-icon d-block">'
 															+ '<img src="/media/osl/icon/reqAll.png">'
 														+ '</div>'
 													+ '<div class="osl-widget-info__item-info">'
@@ -1679,7 +1678,7 @@ var OSLDsh2000Popup = function () {
 														+ '</div>'
 													+ '</div>'
 													+ '<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer" data-spr-id="'+map.sprId+'" data-type="ongoing">'
-														+ '<div class="osl-widget-info__item-icon">'
+														+ '<div class="osl-widget-info__item-icon d-block">'
 															+ '<img src="/media/osl/icon/reqInProgress.png">'
 														+ '</div>'
 														+ '<div class="osl-widget-info__item-info">'
@@ -1690,7 +1689,7 @@ var OSLDsh2000Popup = function () {
 												+ '</div>'
 												+ '<div class="osl-widget osl-flex-row-fluid flex-wrap">'
 													+ '<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer" data-spr-id="'+map.sprId+'" data-type="end">'
-														+ '<div class="osl-widget-info__item-icon">'
+														+ '<div class="osl-widget-info__item-icon d-block">'
 															+ '<img src="/media/osl/icon/reqDone.png">'
 														+ '</div>'
 														+ '<div class="osl-widget-info__item-info">'
@@ -1699,7 +1698,7 @@ var OSLDsh2000Popup = function () {
 														+ '</div>'
 													+ '</div>'
 													+ '<div class="osl-widget-info__item osl-flex-row-fluid">'
-														+ '<div class="osl-widget-info__item-icon">'
+														+ '<div class="osl-widget-info__item-icon d-block">'
 															+ '<img src="/media/osl/icon/reqPointer.png">'
 														+ '</div>'
 														+ '<div class="osl-widget-info__item-info">'
@@ -1709,7 +1708,7 @@ var OSLDsh2000Popup = function () {
 													+ '</div>'
 												+ '</div>'
 											+ '</div>'
-											+ '<div class="col-4">'
+											+ '<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">'
 												+'<div class="osl-card__data--empty osl-min-h-px--202" id="burnDownChart'+map.sprId+'">'
 												+'</div>'
 											+ '</div>'
@@ -1743,7 +1742,9 @@ var OSLDsh2000Popup = function () {
 					});
 					
 					KTApp.initTooltips();
-					$('[data-toggle-second="tooltip"]').tooltip();
+					$('[data-toggle-second="tooltip"]').tooltip({
+						template:'<div class="tooltip tooltip-brand" role="tooltip"><div class="tooltip-arrow arrow" style="left: 25px;"></div><div class="tooltip-inner"></div></div>'
+					});
 					
 					$("#spr1000Table .kt-datatable__table").css({visibility: "hidden", height: 0});
 					
@@ -2148,71 +2149,84 @@ var OSLDsh2000Popup = function () {
 				
 				$.osl.layerPopupClose();
 			}else{
-				console.log(data.flowList);
-				console.log(data.flowLinkList);
-				
-				var allProcessFlowList = {};
-				
-				
-				
-				
-				var flowList = data.flowList;
-				var flowLinkList = data.flowLinkList;
-				
-				
-				var processFlowList = [];
-				
-				var processFlowLinkList = [];
-				
-				
-				if(!$.osl.isNull(flowList)){
-					
-					
-					$.each(flowList, function(idx, map){
-						
-						var processId = map.processId;
-						
-						if($.osl.isNull(processFlowList[processId])){
-							
-							processFlowList[processId] = [];
-						}
-						
-						
-						processFlowList[processId].push(map); 
-					});
-				}
-				
-				
-				if(!$.osl.isNull(flowLinkList)){
-					
-					$.each(flowLinkList, function(idx, map){
-						
-						var processId = map.processId;
-						
-						if($.osl.isNull(processFlowLinkList[processId])){
-							
-							processFlowLinkList[processId] = [];
-						}
-						
-						
-						processFlowLinkList[processId].push(map); 
-					});
-				}
-				
-			}
-		});
-		
-		ajaxObj.send();	
+	           
+	           var allProcessFlowList = {};
+	           var flowList = data.flowList;
+	           var flowLinkList = data.flowLinkList;
+	            
+	           
+	           var processFlowList = {};
+	           
+	           var processFlowLinkList = {};
+	            
+	           
+	           if(!$.osl.isNull(flowList)){
+	               
+	              
+	              $.each(flowList, function(idx, map){
+	                  
+	                 var processId = map.processId;
+	                 
+	                 if($.osl.isNull(processFlowList[processId])){
+	                    
+	                    processFlowList[processId] = [];
+	                 }
+	                 
+	                 processFlowList[processId].push(map); 
+	              });
+	           }
+	            
+	           if(!$.osl.isNull(flowLinkList)){
+	               
+	              $.each(flowLinkList, function(idx, map){
+	                  
+	                 var processId = map.processId;
+	                 
+	                 if($.osl.isNull(processFlowLinkList[processId])){
+	                    
+	                    processFlowLinkList[processId] = [];
+	                 }
+	                  
+	                 
+	                 processFlowLinkList[processId].push(map); 
+	              });
+	           }
+	            
+	           $.each(processFlowList, function(processId, flowData){
+	               
+	              if($.osl.isNull(allProcessFlowList[processId])){
+	                 allProcessFlowList[processId] = [];
+	              }
+	               
+	              allProcessFlowList[processId]["flowList"] = flowData;
+	              allProcessFlowList[processId]["flowLinkList"] = processFlowLinkList[processId];
+	           });
+	           
+	           
+	           $.each(allProcessFlowList, function(idx, value){
+	        	   console.log(idx, value);
+	        	   fnFlowChart(idx, value.flowList, value.flowLinkList);
+	           });
+	        }
+	     });
+	     
+	     ajaxObj.send();   
 	}
 	
 	
-	var fnFlowChart = function(flowList, flowLinkList){
+	var fnFlowChart = function(processId, flowList, flowLinkList){
 		
 		
 
 		if($.osl.isNull(flowList) || flowList.length == 0){
 			return true;
 		}
+		if($.osl.isNull(flowLinkList) || flowLinkList.length == 0){
+			return true;
+		}
+		
+		var list = [];
+		
 		
 	      
 	      var flowNextIdList = {};
@@ -2235,6 +2249,7 @@ var OSLDsh2000Popup = function () {
 	      var startFlowId;
 	      
 	      var doneFlowId;
+	      var doneFlow;
 	      
 	      
 	      var addFlowCheck = [];
@@ -2248,11 +2263,13 @@ var OSLDsh2000Popup = function () {
 	            console.log(map.flowNm);
 	            
 	            startFlowId = map.flowId;
+	            list.push(map);
 	         }
 	         
 	         
 	         if(map.flowDoneCd == "01"){
 	            doneFlowId = map.flowId;
+	            doneFlow = map;
 	         }
 	         map["flowNextId"] = flowNextIdList[map.flowId];
 	         flowInfoList[map.flowId] = map;
@@ -2262,15 +2279,13 @@ var OSLDsh2000Popup = function () {
 	      var innerFlowAppend = function(currentFlowId) {
 	         
 	         var flowInfo = flowInfoList[currentFlowId];
-	         
-	         
+	        
 	         
 	         var nextFlowIds = null;
 	         
-	         if(flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
+	         if(!$.osl.isNull(flowInfoList[currentFlowId]) && flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
 	        	 nextFlowIds = flowInfoList[currentFlowId]["flowNextId"];
 	         }
-	         
 	         
 	         if(!$.osl.isNull(nextFlowIds) && nextFlowIds.length == 0){
 	            return true;
@@ -2279,13 +2294,14 @@ var OSLDsh2000Popup = function () {
 	         else if(addFlowCheck.indexOf(currentFlowId) != -1){
 	            return true;
 	         }
+	        
 	         
-	         
-	         if(flowInfo.flowStartCd == "02"){
+	         if(flowInfo.flowStartCd == "02" && flowInfo.flowDoneCd == "02"){
 	            
 	            
 	            addFlowCheck.push(currentFlowId);
 	            console.log(flowInfo.flowNm);
+	            list.push(flowInfo);
 	         }
 	         
 	         
@@ -2295,19 +2311,18 @@ var OSLDsh2000Popup = function () {
 	               innerFlowAppend(map);
 	            });
 	         };
-	            return true;
+	         return true;
 	      };
-	         
 	      
 	      
 	      innerFlowAppend(startFlowId);
 	      
 	      
-	      
-	      
+	      list.push(doneFlow);
+	      console.log("list : ", list);
 	      
 		
-		fnFlowChartDraw();
+		
 	};
 	
 	

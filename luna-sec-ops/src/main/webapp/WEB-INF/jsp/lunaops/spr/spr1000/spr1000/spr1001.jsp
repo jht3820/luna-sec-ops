@@ -15,7 +15,7 @@
 		<div class="kt-portlet__body">
 			<div class="row kt-padding-l-20 kt-padding-r-20">
 				
-				<div class="col-lg-5 col-md-5 col-sm-12 col-12 d-flex align-items-center">
+				<div class="col-lg-5 col-md-12 col-sm-12 col-12 d-flex align-items-center">
 					<div class="d-flex kt-padding-l-15">
 						<div id="sprTypeCdCircle" class="kt-media kt-media--xl kt-media--circle osl-margin-r-2rm"><span id="sprTypeCdSpan"></span></div>
 						<div class="d-flex flex-column osl-margin-r-auto osl-word__break">
@@ -25,7 +25,7 @@
 					</div>	
 				</div>
 				
-				<div class="col-lg-7 col-md-7 col-sm-12 col-12">
+				<div class="col-lg-7 col-md-12 col-sm-12 col-12">
 					<div class="d-flex flex-wrap osl-margin-t-2rm kt-padding-l-20">
 						<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">
 							<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>시작일</span>
@@ -57,7 +57,7 @@
 			<div class="d-flex flex-wrap">
 				<div class="kt-pricing-v1">
 					<div class="kt-pricing-v1__header">
-						<div class="kt-iconbox">
+						<div class="kt-iconbox osl-remove__box-shadow">
 							<div class="kt-iconbox__icon">
 								<div class="kt-iconbox__icon-bg"></div>
 								<img src="/media/osl/icon/reqAll.png">
@@ -75,7 +75,7 @@
 				</div>
 				<div class="kt-pricing-v1">
 					<div class="kt-pricing-v1__header">
-						<div class="kt-iconbox">
+						<div class="kt-iconbox osl-remove__box-shadow">
 							<div class="kt-iconbox__icon">
 								<div class="kt-iconbox__icon-bg"></div>
 								<img src="/media/osl/icon/reqDone.png">
@@ -93,7 +93,7 @@
 				</div>
 				<div class="kt-pricing-v1">
 					<div class="kt-pricing-v1__header">
-						<div class="kt-iconbox">
+						<div class="kt-iconbox osl-remove__box-shadow">
 							<div class="kt-iconbox__icon">
 								<div class="kt-iconbox__icon-bg"></div>
 								<img src="/media/osl/icon/reqPointer.png">
@@ -111,7 +111,7 @@
 				</div>
 				<div class="kt-pricing-v1">
 					<div class="kt-pricing-v1__header">
-						<div class="kt-iconbox">
+						<div class="kt-iconbox osl-remove__box-shadow">
 							<div class="kt-iconbox__icon">
 								<div class="kt-iconbox__icon-bg"></div>
 								<img src="/media/osl/icon/reqInProgress.png">
@@ -129,7 +129,7 @@
 				</div>
 				<div class="kt-pricing-v1">
 					<div class="kt-pricing-v1__header">
-						<div class="kt-iconbox">
+						<div class="kt-iconbox osl-remove__box-shadow">
 							<div class="kt-iconbox__icon">
 								<div class="kt-iconbox__icon-bg"></div>
 								<img src="/media/osl/icon/reqInProgress.png">
