@@ -64,7 +64,7 @@
 				,	A.SIGN_TYPE_CD
 				,   SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
 				,	A.SIGN_USR_ID
-				,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH:MM:SS') AS SIGN_DTM
+				,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH24:MI:SS') AS SIGN_DTM
 				,	A.SIGN_RES
 				,	A.REG_DTM
 				,	A.REG_USR_ID
@@ -184,10 +184,10 @@
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="signDtm">
 						<isNotEmpty property="searchStartDt">
-							AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &gt;= TO_CHAR(T.SIGN_DTM, 'YYYY-MM-DD')  
+							AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD HH24:MI:SS') &lt;= TO_DATE(T.SIGN_DTM, 'YYYY-MM-DD HH24:MI:SS')  
 						</isNotEmpty>
 						<isNotEmpty property="searchEndDt">
-							AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &lt;= TO_CHAR(T.SIGN_DTM, 'YYYY-MM-DD')   
+							AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD HH24:MI:SS') &gt;= TO_DATE(T.SIGN_DTM, 'YYYY-MM-DD HH24:MI:SS')   
 						</isNotEmpty>
 					</isEqual>
 				</isNotEmpty>
@@ -324,14 +324,17 @@
 							AND	T.NOW_SIGN_TYPE_CD = #searchTargetData#
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="lastSignUsrNm">
-							AND	T.LAST_SIGN_USR_NM = #searchTargetData#
+							AND	T.LAST_SIGN_USR_NM = '%'|| #searchTargetData# ||'%'
+						</isEqual>
+						<isEqual property="searchTargetId" compareValue="signReqUsrId">
+							AND	T.SIGN_DRF_USR_ID = '%'|| #searchTargetData# ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="signDtm">
 							<isNotEmpty property="searchStartDt">
-								AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &gt;= TO_CHAR(T.SIGN_DTM, 'YYYY-MM-DD')  
+								AND	TO_DATE(#searchStartDt#, 'YYYY-MM-DD') &lt;= TO_DATE(T.SIGN_DTM, 'YYYY-MM-DD')  
 							</isNotEmpty>
 							<isNotEmpty property="searchEndDt">
-								AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &lt;= TO_CHAR(T.SIGN_DTM, 'YYYY-MM-DD')   
+								AND	TO_DATE(#searchEndDt#, 'YYYY-MM-DD') &gt;= TO_DATE(T.SIGN_DTM, 'YYYY-MM-DD')   
 							</isNotEmpty>
 						</isEqual>
 					</isNotEmpty>

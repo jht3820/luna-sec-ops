@@ -545,7 +545,6 @@ var OSLDsh2000Popup = function () {
 		});
 		
 		
-		
 		$.osl.datatable.setting(dplDatatableId,{
 			data: {
 				source: {
@@ -579,9 +578,8 @@ var OSLDsh2000Popup = function () {
 		 	},
 		 	columns: [
 				{field: 'rn', title: 'no.', textalign: 'center', width: 30, autohide: false, sortable: false},
-				{field: 'upPrjNm', title: '프로젝트 명', textalign: 'center', width: 150},
-				{field: 'nowSigntypenm', title: '결재 상태', textalign: 'center', width: 70, autohide: false, sortable: true, sortfield: "nowSignTypeCd", search:true, searchtype: "select", searchcd: "CMM00008", searchfield:"nowSignTypeCd"},
-				{field: 'signReqUsrId', title: '요청자', textalign: 'center', width: 100, sortable: true, search:true,
+				{field: 'nowSignTypeNm', title: '결재 상태', textalign: 'center', width: 70, autohide: false, search: true, searchType:"select", searchCd: "CMM00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"},
+				{field: 'signReqUsrId', title: '요청자', textalign: 'center', width: 100,  search:true, sortable: true,
 					template: function (row) {
 						return $.osl.user.usrImgSet(row.signDrfUsrImgId, row.signDrfUsrNm);
 					},
@@ -591,10 +589,10 @@ var OSLDsh2000Popup = function () {
 				},
 				{field: 'lastSignUsrNm', title: '결재자', textalign: 'center', width: 100, sortable: true, autohide: false,
 					template: function (row) {
-						return $.osl.user.usrImgSet(row.signUsrImgId, row.signUsrNm);
+						return $.osl.user.usrImgSet(row.lastSignUsrImgId, row.lastSignUsrNm);
 					},
 					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.signUsrId);
+						$.osl.user.usrInfoPopup(rowData.lastSignUsrId);
 					}	
 				},
 				{field: 'signDtm', title: '결재 요청 일자', textalign: 'center', width: 100, sortable: true,
@@ -604,9 +602,9 @@ var OSLDsh2000Popup = function () {
 		                return agoTimeStr.agoString;
 					}
 				},
-				{field: 'dplNm', title: '배포계획명', textalign: 'center', width: 150, autohide:false, sortable: true, search: true},
-				{field: 'signRes', title: '결재 의견', textalign: 'center', width: 200, sortable: false},
-				{field: 'dplUsrNm', title: '배포자', textalign: 'center', width: 150, sortable: true, search:true,
+				{field: 'dplNm', title: '배포계획명', textalign: 'center', width: 100, autohide:false, sortable: true, search: true},
+				{field: 'signRes', title: '결재 의견', textalign: 'center', width: 100, autohide:true, sortable: false},
+				{field: 'dplUsrNm', title: '배포자', textalign: 'center', width: 100, autohide:true,sortable: true, search:true,
 					template: function (row) {
 						return $.osl.user.usrImgSet(row.dplUsrImgId, row.dplUsrNm);
 					},
@@ -619,15 +617,20 @@ var OSLDsh2000Popup = function () {
 				clickcheckbox: true
 			},
 			actionBtn:{
-				"dblClick": false,
+				"dblClick": true,
 				"refresh" : true,
 				"update": false,
 				"delete": false,
+				"signApr": true,
+				"signReject":true,
+				"width" : 150
 			},
 			actionTooltip:{
 				"title" : "상세",
 				"dblClick": "상세보기",
 				"refresh": "상세보기",
+				"signApr": "결재 승인",
+				"signReject": "결재 반려",
 			},
 			actionFn:{
 				"refresh": function(rowData, datatableId, type, rowNum){
@@ -650,14 +653,178 @@ var OSLDsh2000Popup = function () {
 					
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
 				},
+				"signApr":function(rowData, datatableId, type, rowNum, elem){
+					var rowDatas = [];
+					
+					
+					if(type == "list"){
+						
+						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
+						
+						
+						if(selRecords.length == 0){
+							$.osl.alert($.osl.lang("dpl2100.action.sign.nonSelect"));
+							return true;
+						}
+						
+						rowDatas = rowData;
+						
+					
+					}else{
+						rowDatas.push(rowData);
+					}
+					
+
+					var usrId = $.osl.user.userInfo.usrId;
+					
+					
+					var usrSign = false;
+					
+					
+					$.each(rowDatas,function(idx,map){
+						
+						if(!(map.lastSignUsrId == usrId)){
+							usrSign = true;
+						}	
+					});
+					
+					if(usrSign){
+						$.osl.alert("결재 순서가 아닙니다.");
+						return;
+					}
+					
+					var data = {
+							type : "signApr"
+					};
+					
+					var options = {
+						modalTitle: $.osl.lang("dpl2100.modal.title.signAprRes"),
+						autoHeight: false,
+						modalSize: "md",
+						callback:[{
+							targetId: "cmm6602SaveSubmit",
+							actionFn: function(thisObj){
+								
+								
+					        	var signRes = OSLCmm6602Popup.getSignRes();
+								
+								
+								if($.osl.isNull(signRes)){
+									$.osl.alert("결재 사유를 입력해주세요.");
+									return true;
+								}
+								
+								$.osl.confirm($.osl.lang("dpl2100.message.confirm.signApr"),null,function(result) {
+							        if (result.value) {
+							        	
+							        	var type = OSLCmm6602Popup.getType();
+							        	
+							        	
+										$.osl.layerPopupClose();
+							        	
+							        	
+							        	signDpl(rowDatas,signRes,type);
+							        	
+							        	
+							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        }
+							    });
+							}
+						}]
+							
+					};
+					 
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6602View.do',data,options); 
+					
+				},
+				"signReject":function(rowData, datatableId, type, rowNum, elem){
+					var rowDatas = [];
+					
+					
+					if(type == "list"){
+						
+						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
+						
+						
+						if(selRecords.length == 0){
+							$.osl.alert($.osl.lang("dpl2100.action.sign.nonSelect"));
+							return true;
+						}
+						
+						rowDatas = rowData;
+						
+					
+					}else{
+						rowDatas.push(rowData);
+					}
+					
+					var usrId = $.osl.user.userInfo.usrId;
+					
+					
+					var usrSign = false;
+					
+					
+					$.each(rowDatas,function(idx,map){
+						
+						if(!(map.lastSignUsrId == usrId)){
+							usrSign = true;
+						}	
+					});
+					
+					if(usrSign){
+						$.osl.alert("결재 순서가 아닙니다.");
+						return;
+					}
+					
+					var data = {
+							type : "signRjt"
+					};
+					var options = {
+						modalTitle: $.osl.lang("dpl2100.modal.title.signRjtRes"),
+						autoHeight: false,
+						modalSize: "md",
+						callback:[{
+							targetId: "cmm6602SaveSubmit",
+							actionFn: function(thisObj){
+								
+					        	var signRes = OSLCmm6602Popup.getSignRes();
+								
+								
+								if($.osl.isNull(signRes)){
+									$.osl.alert("반려 사유를 입력해주세요.");
+									return true;
+								}
+								
+								$.osl.confirm($.osl.lang("dpl2100.modal.confirm.signRjt"),null,function(result) {
+							        if (result.value) {
+							        	
+							        	var type = OSLCmm6602Popup.getType();
+							        	
+										$.osl.layerPopupClose();
+							        	
+							        	
+							        	signDpl(rowDatas,signRes,type);
+							        	
+							        	
+							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        }
+							    });
+								
+							}
+						}]
+							
+					};
+					 
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6602View.do',data,options); 
+				},
 			},
 			theme:{
 				actionBtn:{
-					"dblClick" : "",
 					"refresh" : " kt-hide",
 				},
 				actionBtnIcon:{
-					"dblClick" : "fas fa-external-link-alt",
+					"signApr": "fas fa-check-square",
+					"signReject":"fas fa-times",
 				}
 			},
 		});
@@ -2631,6 +2798,29 @@ var OSLDsh2000Popup = function () {
 		}else{
 			toast.push("변경된 항목 정보가 없습니다.");
 		}
+	};
+	
+	
+	
+	var signDpl = function(rowDatas, signRes, type){
+		
+		
+ 		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/cmm/cmm6000/cmm6600/insertCmm6601SignInfoAjax.do'/>"}
+				,{rowDatas: JSON.stringify(rowDatas), signRes:signRes, type:type});
+
+ 		
+ 		ajaxObj.setFnSuccess(function(data){
+ 			if(data.errorYn == "Y"){
+ 				$.osl.alert($.lang("cmm6601.sign.fail"),{type: 'error'});
+ 			}else{
+ 				
+ 				$.osl.toastr($.lang("cmm6601.sign.success"));
+ 			}
+ 		});
+ 		
+ 		
+ 		ajaxObj.send();
 	};
 	
 	
