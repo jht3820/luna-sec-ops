@@ -32,6 +32,7 @@ import egovframework.com.cmm.service.impl.FileManageDAO;
 import egovframework.com.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl.Prj1100DAO;
@@ -64,6 +65,10 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	
 	@Resource(name = "req6000Service")
 	private Req6000Service req6000Service;
+
+	
+	@Resource(name = "cmm6600Service")
+	Cmm6600Service cmm6600Service;
 	
 	@Resource(name = "FileManageDAO")
 	private FileManageDAO fileMngDAO;
@@ -737,12 +742,12 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			String basicItemList = (String) paramMap.get("basicItemList");
 			String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
-			String basicItemDelList = (String) paramMap.get("basicItemDelList");
+			
 			
 			
 			JSONArray basicItemJsonArray = (JSONArray) jsonParser.parse(basicItemList);
 			JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
-			JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
+			
 			
 			
 			for(int idx=0;idx<basicItemJsonArray.size();idx++) {
@@ -836,6 +841,9 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		String regUsrIp = (String) paramMap.get("regUsrIp");
 		
 		
+		String signRequiredCd = (String) paramMap.get("signRequiredCd");
+		
+		
 		Map beforeReqInfo = req4100DAO.selectReq4100ReqInfo(paramMap);
 		
 		
@@ -890,6 +898,35 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			paramMap.put("req6001Vo", req6001Vo);
 			req6000Service.insertReq6001ReqChgInfo(paramMap);
+		}
+		
+		
+		if("01".equals(signRequiredCd)) {
+			Map newMap = new HashMap<>();
+			
+			
+			if(beforeFlowId.equals(selFlowId)) {
+				
+				newMap.put("type", "update");
+			}
+			
+			newMap.put("signUsrInfList", paramMap.get("signUsrList"));
+			newMap.put("targetId", beforeReqInfo.get("reqId"));
+			newMap.put("targetCd", "01");	
+			newMap.put("targetNm", beforeReqInfo.get("reqNm"));
+			newMap.put("subTargetFstId", processId);
+			newMap.put("subTargetScdId", beforeFlowId);
+
+			
+			newMap.put("licGrpId", licGrpId);
+			newMap.put("prjId", prjId);
+			newMap.put("regUsrId", regUsrId);
+			newMap.put("regUsrIp", regUsrIp);
+			newMap.put("modifyUsrId", regUsrId);
+			newMap.put("modifyUsrIp", regUsrIp);
+			
+			
+			cmm6600Service.saveCmm6600SignLine(newMap);
 		}
 		
 		
