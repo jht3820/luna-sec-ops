@@ -689,6 +689,13 @@ var OSLCmm6200Popup = function () {
     				}
     			});
     	   		
+    			var itemOrd = basicItemList[basicItemList.length].itemOrd;
+    	   		
+    			$.each(basicItemInsertList, function(idx, map){
+    				map.itemOrd = itemOrd+idx+1;
+    				basicItemInsertList[idx] = map;
+    			});
+    	   		
 				if (result.value) {
 		    		
 		    		var selProcessId = cmm6200ProcessTableData.targetDt.getSelectedRecords().find(".kt-checkbox > input[type=checkbox]").val();
