@@ -688,13 +688,15 @@ var OSLCmm6200Popup = function () {
     					map.itemValueNm = $("#"+map.itemId+"Nm").val();
     				}
     			});
-    	   		
-    			var itemOrd = basicItemList[basicItemList.length].itemOrd;
-    	   		
-    			$.each(basicItemInsertList, function(idx, map){
-    				map.itemOrd = itemOrd+idx+1;
-    				basicItemInsertList[idx] = map;
-    			});
+
+    			if(basicItemList.length>0){
+    				var itemOrd = basicItemList[basicItemList.length-1].itemOrd;
+    		   		
+    				$.each(basicItemInsertList, function(idx, map){
+    					map.itemOrd = itemOrd+idx+1;
+    					basicItemInsertList[idx] = map;
+    				});
+    			}
     	   		
 				if (result.value) {
 		    		
