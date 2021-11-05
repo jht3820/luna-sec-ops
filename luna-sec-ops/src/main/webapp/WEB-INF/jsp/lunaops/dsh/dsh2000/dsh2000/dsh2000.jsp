@@ -795,7 +795,7 @@ var OSLDsh2000Popup = function () {
 									return true;
 								}
 								
-								$.osl.confirm($.osl.lang("dpl2100.modal.confirm.signRjt"),null,function(result) {
+								$.osl.confirm($.osl.lang("dpl2100.message.confirm.signRjt"),null,function(result) {
 							        if (result.value) {
 							        	
 							        	var type = OSLCmm6602Popup.getType();
