@@ -24,6 +24,7 @@ import egovframework.com.cmm.service.EgovFileMngUtil;
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1000.service.Prj1000Service;
@@ -71,7 +72,11 @@ public class Req4100Controller {
 	
     @Resource(name = "prj1100Service")
     private Prj1100Service prj1100Service;
-    
+
+	
+	@Resource(name = "cmm6600Service")
+	Cmm6600Service cmm6600Service;
+	
 	
    	@Resource(name="fileMngService")
    	private FileMngService fileMngService;
@@ -1104,6 +1109,24 @@ public class Req4100Controller {
     		Map flowInfo = prj1100Service.selectPrj1101FlowInfo(reqInfo);
     		
     		
+    		String flowSignCd = (String)flowInfo.get("flowSignCd");
+    		
+    		
+    		
+    		List<Map> signUsrList = null;
+    		
+    		
+    		if("01".equals(flowSignCd)) {
+        		
+        		paramMap.put("targetId", (String) reqInfo.get("reqId"));
+        		paramMap.put("targetCd", "01");
+        		paramMap.put("subTargetFstId", (String) reqInfo.get("processId"));
+        		paramMap.put("subTargetScdId", (String) reqInfo.get("flowId"));
+        		
+    			signUsrList = cmm6600Service.selectCmm6600SignUsrList(paramMap);
+    		}
+    		
+    		
     		Boolean reqProcessAuthFlag = false;
     				
     		
@@ -1139,6 +1162,15 @@ public class Req4100Controller {
     			}
     		}
     		
+    		if(!reqProcessAuthFlag) {
+    			
+    			if(signUsrList != null) {
+    				
+    			}
+    		}
+    		
+    		
+    		
     		
 			paramMap.put("prjId", paramPrjGrpId);
 			
@@ -1155,6 +1187,8 @@ public class Req4100Controller {
 			model.addAttribute("prjInfo", prjInfo);
 			model.addAttribute("prjGrpInfo", prjGrpInfo);
 			model.addAttribute("reqChgList", reqChgList);
+			
+			model.addAttribute("signUsrList", signUsrList);
 			
 			model.addAttribute("reqProcessAuthFlag", reqProcessAuthFlag);
 			
