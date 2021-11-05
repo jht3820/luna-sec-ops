@@ -266,7 +266,7 @@ var OSLStm8100 = function () {
 			},
 			actionFn:{
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
-					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), null, function(result){
+					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), {"html" : true}, function(result){
 						if(result.value){
 							assList.push(rowData);
 							deleteRepo(selPrjId, JSON.stringify(assList));
@@ -274,7 +274,7 @@ var OSLStm8100 = function () {
 					});
 				},
 				"removeStrg": function(rowData, datatableId, type, rowNum, elem){
-					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), null, function(result){
+					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), {"html" : true}, function(result){
 						if(result.value){
 							assList = rowData;
 							deleteRepo(selPrjId, JSON.stringify(assList));
