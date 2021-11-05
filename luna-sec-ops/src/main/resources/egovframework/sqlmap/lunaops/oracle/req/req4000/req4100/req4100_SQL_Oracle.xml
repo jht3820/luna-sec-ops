@@ -288,6 +288,14 @@
 		    <isNotEmpty property="dshReqProTypeCd">
 				AND	A.REQ_PRO_TYPE = #dshReqProTypeCd#
 			</isNotEmpty>
+		    <isNotEmpty property="dshProcess">
+				AND	A.PROCESS_ID = #processId#
+				AND	A.FLOW_ID = #flowId#
+				AND	A.USE_CD = '01'
+				<isNotEmpty property="usrId">
+					AND A.REQ_CHARGER_ID = #usrId#
+				</isNotEmpty>
+			</isNotEmpty>
 			<isNotEmpty property="atchFileIdNotNull">
 				AND A.ATCH_FILE_ID IS NOT NULL
 			</isNotEmpty>
@@ -978,6 +986,10 @@
 		    <isNotEmpty property="reqProType">
 		    	,	A.REQ_PRO_TYPE = #reqProType#
 		    </isNotEmpty>
+		    	,	REQ_ST_DTM			= TO_DATE(REPLACE(#reqStDtm#, '-'), 'YYYYMMDD HH24:MI')
+			    ,	REQ_ED_DTM			= TO_DATE(REPLACE(#reqEdDtm#, '-'), 'YYYYMMDD HH24:MI')
+			    ,	REQ_ST_DU_DTM		= TO_DATE(REPLACE(#reqStDuDtm#, '-'), 'YYYYMMDD')
+			    ,	REQ_ED_DU_DTM		= TO_DATE(REPLACE(#reqEdDuDtm#, '-') || '23:59', 'YYYYMMDDHH24:MI')
 		    	,	A.PROCESS_ID = #processId#
 		    	,	A.FLOW_ID = #flowId#
 		WHERE	1=1
@@ -1227,4 +1239,18 @@
 		AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
     </select>
     
+    
+	<select id="req4100DAO.selectReq4100FlowInfoAjax" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		<![CDATA[
+			SELECT 
+					A.FLOW_ID
+			FROM 
+				PRJ1101 A
+			WHERE 	1=1
+				AND A.PRJ_ID 			= #prjId#
+				AND A.PROCESS_ID 		= #processId#
+				AND A.FLOW_START_CD		= '01'
+		]]>
+	</select>
 </sqlMap>

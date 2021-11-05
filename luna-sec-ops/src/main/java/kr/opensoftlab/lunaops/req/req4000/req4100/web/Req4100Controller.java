@@ -1031,6 +1031,10 @@ public class Req4100Controller {
         	
 			HttpSession ss = request.getSession();
 			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			String usrId = loginVO.getUsrId();
+			
 			paramMap.put("licGrpId", loginVO.getLicGrpId());
 			
 			
@@ -1096,12 +1100,52 @@ public class Req4100Controller {
     		
     		List<Map> flowLinkList = prj1100Service.selectPrj1107FlowLinkList(paramMap);
     		
+    		
+    		Map flowInfo = prj1100Service.selectPrj1101FlowInfo(reqInfo);
+    		
+    		
+    		Boolean reqProcessAuthFlag = false;
+    				
+    		
+    		String reqChargerId = (String) reqInfo.get("reqChargerId");
+    		
+    		
+    		if(reqChargerId != null && !"".equals(reqChargerId) && usrId.equals(reqChargerId)) {
+    			reqProcessAuthFlag = true;
+    		}
+    		
+    		else {
+    			
+    			paramMap.put("listType", "user");
+    			
+    			
+    			int processAuthUsrCnt = prj1100Service.selectPrj1100ProcessAuthUsrListCnt(paramMap);
+    			paramMap.put("firstIndex", "0");
+    			paramMap.put("lastIndex", String.valueOf(processAuthUsrCnt));
+    			
+    			
+    			List<Map> processAuthUsrList = prj1100Service.selectPrj1100ProcessAuthUsrList(paramMap);
+    			
+    			
+    			for(Map processAuthUsrInfo : processAuthUsrList) {
+    				
+    				String authUsrId = (String) processAuthUsrInfo.get("usrId");
+    				
+    				
+    				if(usrId.equals(authUsrId)) {
+    					reqProcessAuthFlag = true;
+    					break;
+    				}
+    			}
+    		}
+    		
+    		
 			paramMap.put("prjId", paramPrjGrpId);
-			
 			
 			Map prjGrpInfo = prj1000Service.selectPrj1000GrpInfo(paramMap);
     		
     		model.addAttribute("flowList", flowList);
+    		model.addAttribute("flowInfo", flowInfo);
     		model.addAttribute("flowLinkList", flowLinkList);
         	
 			model.addAttribute("fileList",fileList);
@@ -1111,6 +1155,8 @@ public class Req4100Controller {
 			model.addAttribute("prjInfo", prjInfo);
 			model.addAttribute("prjGrpInfo", prjGrpInfo);
 			model.addAttribute("reqChgList", reqChgList);
+			
+			model.addAttribute("reqProcessAuthFlag", reqProcessAuthFlag);
 			
         	
         	model.addAttribute("errorYn", "N");
@@ -1174,6 +1220,49 @@ public class Req4100Controller {
         	
     	}catch(Exception ex){
     		Log.error("saveReq4100ReqProcessAction()", ex);
+    		
+    		model.addAttribute("errorYn", "Y");
+        	model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		throw new Exception(ex.getMessage());
+    	}
+    }
+	
+	
+    
+    @SuppressWarnings({ "rawtypes" })
+	@RequestMapping(value="/req/req4000/req4100/selectReq4100FlowInfoAjax.do")
+	public ModelAndView selectReq4100FlowInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
+    	try{
+    		
+        	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+        	
+        	
+			HttpSession ss = request.getSession();
+			String licGrpId = ((LoginVO) ss.getAttribute("loginVO")).getLicGrpId();
+			paramMap.put("licGrpId", licGrpId);
+			
+			
+			String paramPrjId = (String) paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("prjId", paramPrjId);
+			
+        	
+        	Map flowInfo = (Map) req4100Service.selectReq4100FlowInfoAjax(paramMap);        	
+        	model.addAttribute("flowInfo", flowInfo);
+
+        	
+        	model.addAttribute("errorYn", "N");
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	return new ModelAndView("jsonView");
+        	
+    	}catch(Exception ex){
+    		Log.error("selectReq1000ReqInfoAjax()", ex);
     		
     		model.addAttribute("errorYn", "Y");
         	model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
