@@ -172,7 +172,7 @@
 							<div class="osl-datatable-search" data-datatable-id="reqChargeDplTable"></div>
 						</div>
 					</div>
-					
+					<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="reqChargeDplTable"></div>
 				</div>
 			</div>
 		</div>
@@ -1252,7 +1252,7 @@ var OSLDsh2000Popup = function () {
 					
 					dshDatatableIdList.push("processReqTable_"+idx);
 					
-					var str = '<div class="kt-portlet kt-portlet--mobile processDiv" id="processPortlet'+idx+'" data-target-div="process'+idx+'" data-process-id="'+value.processId+'">'
+					var str = '<div class="kt-portlet kt-portlet--mobile process-div" id="processPortlet'+idx+'" data-target-div="process'+idx+'" data-process-id="'+value.processId+'">'
 								+ '<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">'
 									+ '<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">'
 										+ '<h4 class="kt-font-boldest kt-font-brand">'
@@ -1273,9 +1273,7 @@ var OSLDsh2000Popup = function () {
 											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 invisible" data-datatable-id="processReqTable_'+idx+'" data-datatable-action="select" title="조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">'
 												+ '<i class="fas fa-redo-alt"></i>'
 											+ '</button>'
-											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process1" title="칸반 그리드 전환" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
-												+ '<i class="fas fa-columns"></i>'
-											+ '</button>'
+											
 											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
 											+ '</button>'
 											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="processReqTable_'+idx+'" data-datatable-action="refresh" title="새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="refresh" tabindex="5">'
@@ -1296,13 +1294,13 @@ var OSLDsh2000Popup = function () {
 										+ '</div>'
 									+ '</div>'
 								+ '</div>'
-								+ '<div class="processDatatableDiv kt-hide">'
+								+ '<div class="process-datatable-div kt-hide">'
 									+ '<div class="row">'
 										+ '<div class="col-lg-7 col-md-7 col-sm-8 col-8">'
 										+ '<div class="osl-datatable-search" data-datatable-id=processReqTable_'+idx+'"></div>'
 										+ '</div>'
 									+ '</div>'
-									+ '<div class="kt_datatable kt-padding-20 osl-datatable-footer__divide processDatatables" id="processReqTable_'+idx+'"></div>';
+									+ '<div class="kt_datatable kt-padding-20 osl-datatable-footer__divide process-datatables" id="processReqTable_'+idx+'"></div>';
 								+ '</div>'
 							+ '</div>'
 						+ '</div>'
@@ -1511,7 +1509,7 @@ var OSLDsh2000Popup = function () {
 		var str = '';
 		$.each(list, function(idx, value){
 			str += '<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">'
-					+ '<div class="flowchart-operator-function">';
+					+ '<div class="flowchart-operator-function osl-min-h-px--24">';
 				if(value.flowSignCd == "01"){
 					str += '<li class="fa fa-file-signature" title="결재"></li>';	
 				}
@@ -1546,14 +1544,14 @@ var OSLDsh2000Popup = function () {
 						+ '</div>'
 					+ '</div>'
 					+ '<div class="flowchart-operator-inputs-outputs kt-margin-0">'
-						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flowCharger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>1</span></div>'
-						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flowAllCharger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>1</span></div>'
+						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flow-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>1</span></div>'
+						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flow-all-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>1</span></div>'
 					+ '</div>'
 				+ '</div>';
 				
 			if(idx < list.length-1 ){
 				
-				str += '<i class="fas fa-arrow-circle-right"></i>';
+				str += '<i class="fa fa-arrow-right"></i>';
 			}
 		});
 		
@@ -1747,19 +1745,10 @@ var OSLDsh2000Popup = function () {
 		});
 		
 		
-		
-		$('.flowchart-operator-outputs,.flowchart-operator-inputs').click(function(){
+		$(".flow-charger").click(function(){
 			
-			var target = $(this).parents('.kt-portlet__body');
-			$(target).children('.kt_datatable').removeClass('kt-hide');
-			
-		});
-
-		
-		$(".flowCharger").click(function(){
-			
-			var item = $(this).parents(".processDiv");
-			var datatableId = $(item).children(".processDatatableDiv").find(".processDatatables").attr("id");
+			var item = $(this).parents(".process-div");
+			var datatableId = $(item).children(".process-datatable-div").find(".process-datatables").attr("id");
 			console.log(datatableId);
 			var datatable = $.osl.datatable.list[datatableId].targetDt;
 			
@@ -1772,14 +1761,14 @@ var OSLDsh2000Popup = function () {
 			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			
 			
-			if($(item).find(".processDatatableDiv").removeClass("kt-hide"));
+			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
 		});
 		
 		
-		$(".flowAllCharger").click(function(){
+		$(".flow-all-charger").click(function(){
 			
-			var item = $(this).parents(".processDiv");
-			var datatableId = $(item).find(".processDatatables").attr("id");
+			var item = $(this).parents(".process-div");
+			var datatableId = $(item).find(".process-datatables").attr("id");
 			var datatable = $.osl.datatable.list[datatableId].targetDt;
 			
 			datatable.setDataSourceParam("dshProcess", "Y");
