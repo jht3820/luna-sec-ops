@@ -217,7 +217,17 @@ var OSLCoreChartSetting = function () {
 						mounted: targetConfig.actionFn.mounted,
 						
 						click: targetConfig.actionFn.click,
-					}
+					},
+					locales: [{
+						"name": "en",
+						"options": {
+							"toolbar": {
+								"exportToCSV": "CSV로 다운로드",
+								"exportToSVG": "SVG로 다운로드",
+								"exportToPNG": "PNG로 다운로드",
+							}
+					  }
+					}]
 				},
 				grid:{
 					show: false
@@ -483,14 +493,14 @@ var OSLCoreChartSetting = function () {
 				},
 				"colum": function(array){
 					targetConfig.chart.type="bar";
-					targetConfig.yaxis = {show:true};
+					
 					
 					$.each(array, function(idx, value){
 						targetConfig.series[idx] = [];
 						
 						targetConfig.series[idx].name = value[config.data.param.key.key1];
-						if(!$.osl.isNull(chartArrays[config.data.param.key.key2] )){
-							targetConfig.series[idx].data=chartArrays[config.data.param.key.key2 ];
+						if(!$.osl.isNull(value[config.data.param.key.key2] )){
+							targetConfig.series[idx].data=value[config.data.param.key.key2 ];
 						}else{
 							targetConfig.series[idx].data=[];
 						}

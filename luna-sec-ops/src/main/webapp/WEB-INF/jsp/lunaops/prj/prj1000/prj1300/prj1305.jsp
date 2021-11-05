@@ -6,6 +6,7 @@
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId }">
 	<input type="hidden" name="templateId" id="templateId" value="${param.paramTemplateId }">
 	<input type="hidden" name="itemId" id="itemId" value="${param.paramItemId }">
+	<input type="hidden" id="callPage" name="callPage" val="${param.callPage}">
 	<div class="kt-portlet">
 		<div class="kt-portlet__body">
 			<div class="row">
@@ -101,6 +102,7 @@
 	</button>
 	
 </div>
+<button type="button" id="prj1305ModalCallBackBtn" name="prj1305ModalCallBackBtn"/>
 
 <script>
 "use strict";
@@ -117,6 +119,11 @@ var OSLPrj1305Popup = function () {
 	
 	
 	var itemId = $("#itemId").val();
+
+	
+	var callPage = $("#callPage").val();
+	
+	var itemList=[]
 	
 	
 	$("#prj1305SaveSubmit > span").text($.osl.lang("prj1302.button."+type));
@@ -310,9 +317,11 @@ var OSLPrj1305Popup = function () {
 	        	});
 	        	jsonData.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+"00";
 	        	
-	        	var itemList = [];
+	        	itemList = [];
 	        	itemList.push(jsonData);
-	        	OSLPrj1102Popup.addItemList(itemList);
+	        	
+	        	
+	        	$("#prj1305ModalCallBackBtn").click();
 				
 				$.osl.layerPopupClose();
 	        }
@@ -323,6 +332,9 @@ var OSLPrj1305Popup = function () {
         
         init: function() {
         	documentSetting();
+        },
+        getItemList: function(){
+        	return itemList;
         }
         
     };

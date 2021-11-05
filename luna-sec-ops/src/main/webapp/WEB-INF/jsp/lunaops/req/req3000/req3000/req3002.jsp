@@ -119,88 +119,7 @@
 							</div>
 						</div>				
 						<label class="kt-padding-l-10 kt-padding-r-10 kt-margin-t-20"><i class="fas fa-stream kt-margin-r-5"></i><span data-lang-cd="req3000.label.linkedReqInfo">연결 요구사항 정보</span></label>
-						<div class="col-lg-12 col-md-12 col-sm-12 card">
-							<div class="col-lg-12 col-md-12 col-sm-12">
-								<div class="col-lg-12 col-md-12 col-sm-12 card-hader osl-margin-t-1rm">
-									<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-										<div class="kt-portlet__head">
-											<div class="kt-portlet__head-label">
-												<span data-lang-cd="">접수 요청</span>
-											</div>
-											<div class="kt-portlet__head-toolbar">
-												<span data-lang-cd="">인사 공통 코드 조회 기능 구현</span>
-											</div>
-										</div>
-										<div class="kt-portlet__body">
-											<div class="row">
-												<div class="col-lg-4 ">
-													<div class="card">
-														<div class="card-header">
-															<div class="card-title">
-																<i class="fa flaticon2-writing kt-margin-l-5">
-																</i>
-															</div>
-														</div>
-														<div class="card-body">
-															<div class="row osl-align-center--imp">
-																접수요청
-															</div>
-															<div class="row osl-align-center--imp">
-																정형택
-															</div>
-														</div>
-														<div class="card-footer">
-															<div class="osl-align-center--imp">
-																2020-10-22 04:16
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12 col-sm-12 card-hader osl-margin-t-1rm">
-									<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-										<div class="kt-portlet__head">
-											<div class="kt-portlet__head-label">
-												<span data-lang-cd="">접수 요청</span>
-											</div>
-											<div class="kt-portlet__head-toolbar">
-												<span data-lang-cd="">인사 공통 코드 조회 기능 구현</span>
-											</div>
-										</div>
-										<div class="kt-portlet__body">
-											<div class="row">
-												<div class="col-lg-4 ">
-													<div class="card">
-														<div class="card-header">
-															<div class="card-title">
-																<i class="fa flaticon2-writing kt-margin-l-5">
-																</i>
-															</div>
-														</div>
-														<div class="card-body">
-															<div class="row osl-align-center--imp">
-																접수요청
-															</div>
-															<div class="row osl-align-center--imp">
-																정형택
-															</div>
-														</div>
-														<div class="card-footer">
-															<div class="osl-align-center--imp">
-																2020-10-22 04:16
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<div id="req3002ConnectReqTable"></div>
 					</div>
 				</div>
 			</div>
@@ -257,6 +176,55 @@ var OSLReq3002Popup = function () {
     	fileUploadObj.reset();
     	
     	selectReqGrpInfo();
+    	
+    	$.osl.datatable.setting("req3002ConnectReqTable",{
+			data: {
+				source: {
+					read: {
+						url: "/req/req3000/req3000/selectReq3001ListAjaxView.do",
+						params:{
+							reqGrpId: $("#reqGrpId").val()
+    					},
+					}
+				},
+			},
+			columns: [
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'rn', title:"No.", textAlign: 'center', width: 25, autoHide: false, sortable: false, autoHide: false},
+				{field: 'prjNm', title: '프로젝트 명', textAlign: 'left', width: 150, search:true, autoHide: false, sortable: false},	
+				{field: 'reqOrd', title: '요구사항 번호', textAlign: 'left', width: 100, search:true, autoHide: false },
+				{field: 'reqNm', title: '요구사항 명', textAlign: 'left', width: 100 , search:true, autoHide: false, sortable: false}
+			],
+			searchColumns:[
+				{field: 'reqUsrNm', title: '요청자', searchOrd: 5},
+				{field: 'reqChargerNm', title: '담당자', searchOrd: 6},
+				{field: 'reqProType', title: '처리유형', searchOrd: 7, searchType:"select", searchCd:"REQ00001"},
+			],
+			actionBtn:{
+				"dblClick":true,
+				"update":false,
+				"delete":false
+			},
+			actionFn:{
+				"dblClick":function(rowData,datatableId, type, rowNum){
+					var data = {
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId,
+							paramReqUsrId: rowData.reqUsrId
+						};
+					var options = {
+							idKey: rowData.reqId,
+							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							autoHeight: false,
+					
+							
+						};
+					
+					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+					
+				},
+			}
+		});
     	
 	}
 	

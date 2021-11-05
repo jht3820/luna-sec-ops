@@ -691,6 +691,7 @@
 		    	AND		A.PRJ_ID	   = #prjId#
 		    	AND		A.TARGET_ID  = #targetId#
     			AND		A.TARGET_CD  = #targetCd#
+    			
 		) SUB1
 		WHERE 1=1
 		ORDER BY SUB1.SIGN_DTM DESC
