@@ -34,7 +34,7 @@
 						<i class="fa fa-list osl-padding-r0"></i>
 					</button>
 				</div>
-				<!-- 엑셀 출력 버튼 넣기 -->
+				
 			</div>
 		</div>
 	</div>
@@ -46,15 +46,15 @@
 </div>
 <div id="stm2100StmCard"></div>
 <div class="kt_datatable osl-datatable-footer__divide" id="stm2100StmTable"></div>
-<!-- begin page script -->
+
 <script>
  "use strict";
 
  var OSLStm2100Popup = function() {
-	 //권한체크
+	 
 	 var okManager;
 	 var okWriter;
-	 //카드형 그리기
+	 
 	 var resultStr = "";
 	 var currentViewType = "01";
 	 var documentSetting = function() {	
@@ -139,7 +139,7 @@
 							menuId: rowData.menuId,
 							stmTypeCd: rowData.stmTypeCd,
 							stmNm: $.osl.escapeHtml(rowData.stmNm),
-							//시스템 게시판에서 접근 시 라이센스 범위로 보기 위해 01로 지정
+							
 							stmDsTypeCd : "01",
 							stmRootYn : "Y",
 						};
@@ -210,17 +210,18 @@
 					 viewTypeChange();
 				 },
 				 ajaxDone: function(evt, list){
-					 var cnt = 0;
-					 $.each(list, function(idx, row){
+					 $("#stm2100StmCard").empty();
+					var cnt = 0;
+					$.each(list, function(idx, row){
 						 resultStr = "";
 						var summeryData = selectStm2102(idx, row);
 		 				$("#stm2100StmCard").append(resultStr);
-		 				//차트 데이터 가져오기
-		 				//차트 그리기
+		 				
+		 				
 		 				drawChart(idx, row.menuId);
 					 });
 	 				
-	 				//카드형 내 수정 버튼 클릭 시
+	 				
 	 				$(".updateBtn").click(function(){
 	 					var item =$(this).parents(".osl-bad__card-body").siblings(".stmInfoDiv");
 	 					var data = {
@@ -243,17 +244,17 @@
 						if(okManager == true){
 							$.osl.layerPopupOpen('/stm/stm2000/stm2100/selectStm2101View.do',data,options);
 						}else{
-							$.osl.alert($.osl.lang("stm2100.notAuthority"), {"type":"warning"});
+							$.osl.alert($.osl.lang("stm2100.notAuthority.basic"), {"type":"warning"});
 						}
 	 				});
-	 				//카드형 내 관리 버튼 클릭 시
+	 				
 	 				$(".settingBtn").click(function(){
 	 					var item =$(this).parents(".osl-bad__card-body").siblings(".stmInfoDiv");
 	 					var data = {
 								menuId: $(item).data("menuId"),
 								stmTypeCd: $(item).data("stmTypeCd"),
 								stmNm: $(item).data("stmName"),
-								//시스템 게시판에서 접근 시 라이센스 범위로 보기 위해 01로 지정
+								
 								stmDsTypeCd : "01",
 								stmRootYn : "Y",
 							};
@@ -272,17 +273,17 @@
 								$.osl.layerPopupOpen('/bad/bad1000/bad1000/selectBad1006View.do',data,options);
 							}
 						}else{
-							$.osl.alert($.osl.lang("stm2100.notAuthority"), {"type":"warning"});
+							$.osl.alert($.osl.lang("stm2100.notAuthority.basic"), {"type":"warning"});
 						}
 	 				});
 
-					//사용자 이미지 클릭 시
+					
 					$(".badChargerList").click(function(){
 						$.osl.user.usrInfoPopup($(this).data("user"));
 					});
-					//그 외 담당자 수 클릭 시
+					
 					$(".otherBadChargerList").click(function(){
-						//새로운 팝업창 만들기 - 담당자 전체 리스트 출력
+						
 						var item =$(this).parents(".stmInfoDiv");
 						
 						var data = {
@@ -297,63 +298,57 @@
 						$.osl.layerPopupOpen('/stm/stm2000/stm2100/selectStm2103View.do',data,options);
 					});
 					
-				 }//ajaxDone end
+				 }
 			 }
-		 };//config end
+		 };
 		 
-		 //데이터 테이블 셋팅
+		 
 		 $.osl.datatable.setting(datatableId, config);
 
-		//뷰 변경 이벤트 - 카드형 그리드형 선택 확인
+		
 		$(".btn-view-type").click(function(){
 			var viewType = $(this).data("view-type");
 			
-			//active 교체
+			
 			$(".btn-view-type.active").removeClass("active");
 			$(this).addClass("active");
 			
 			currentViewType = viewType;
 			
-			//뷰어 변경
+			
 			viewTypeChange();
 		});
 		 
-		 /*
-		 * function : viewTypeChange
-		 * function 설명 : 화면 출력 타입 변경(카드형, 그리드형)
-		 */
+		 
 		 var viewTypeChange = function(){
-			//현재 viewType에 따라 show/hide
-			if(currentViewType == "01"){	//카드 형식
+			
+			if(currentViewType == "01"){	
 				$("#stm2100StmTable .kt-datatable__table").css({visibility: "hidden", height: 0});
 				$("#stm2100StmCard").show();
-			}else{	//데이터테이블 형식
+			}else{	
 				$("#stm2100StmTable .kt-datatable__table").css({visibility: "visible",height: "auto"});
 				$("#stm2100StmCard").hide();
 			}
 		}
 		 
-		 /**
-			* function 명 	: selectStm2102
-			* function 설명	: 해당 게시판 통계자료 가져오기
-			*/
+		 
 			 var selectStm2102 = function(idx, row){
-				 //조회할 메뉴 아이디 전달
+				 
 				 var data = {
 						 menuId : row.menuId,
 						 currentViewType: currentViewType,
 				 }
-				 //AJAX 설정
+				 
 				 var ajaxObj = new $.osl.ajaxRequestAction(
 			    			{"url":"<c:url value='/stm/stm2000/stm2100/selectStm2102BadSummeryInfoAjax.do'/>", "async": false}
 							, data);
 				 
-				 //AJAX 전송 성공
+				 
 				 ajaxObj.setFnSuccess(function(data){
 		    		if(data.errorYn == "Y"){
-						 //AJAX 전송 실패
+						 
 						$.osl.alert(data.message,{type: 'error'});
-						//모달 창 닫기
+						
 						$.osl.layerPopupClose();
 					}else{
 						var ntcInfo = data.ntcInfo;
@@ -389,24 +384,24 @@
 				 									+ "</h5>"
 				 								+ "</div>"
 			 									+ "<div class='kt-media-group osl-margin-b-05'>";
-			 									//담당자 리스트 뿌리기
+			 									
 			 									if(!$.osl.isNull(badChargerList)){
 			 										var lastCount =  badChargerList.length;
 			 										$.each(badChargerList, function(index, value){
-			 											//담당자 수 6명 이하일때만 사진 그리기
+			 											
 			 											if(index < 6){
-			 												//담당자가 5 이하일 때
-			 												//권한그룹인경우
+			 												
+			 												
 				 											if(value.authTypeCd=="01"){
 				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")'><span><i class='fa flaticon2-group kt-font-bold'></i></span></a>";
-				 											}else{//사용자인경우
+				 											}else{
 				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle badChargerList' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-user='"+value.authTargetId+"'><img src='/cmm/fms/getImage.do?fileSn=0&atchFileId="+value.authTargetImgId+"'></a>";
 				 											}
-			 												//남은 사용자 수
+			 												
 				 											lastCount = badChargerList.length - (index+1);
 			 											}else{
 			 												if(index == 6){
-			 													//그 외 담당자 +로 표시
+			 													
 				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle otherBadChargerList' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='' data-original-title='"+$.osl.lang("stm2101.label.otherAdmin")+" "+lastCount+"'><span>+"+lastCount+"</span></a>";
 			 												}
 			 											}
@@ -415,7 +410,7 @@
 													
 									resultStr += "</div>"
 				 							+ "</div>"
-				 						+ "</div>" //kt-portlet__head end
+				 						+ "</div>" 
 				 						+ "<div class='osl-bad__card-body'>"
 				 							+ "<div class='row kt-margin-10 kt-margin-r-25 kt-margin-l-25'>"
 					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
@@ -436,20 +431,20 @@
 					 							+ "</div>"
 					 						+ "</div>"
 				 							+ "<div class='row kt-margin-10 kt-margin-r-25 kt-margin-l-25'>"
-				 								//차트부분 시작
+				 								
 					 							+ "<div class='col-lg-6 col-md-12 col-sm-12 col-12'>"
 					 								+ "<div>"
 					 									+ "<i class='fa flaticon2-graphic kt-margin-r-5'></i>" + $.osl.lang("stm2100.label.summery")
 			 										+ "</div>"
 					 								+ "<div id='drawChart"+idx+"' name='drawChart"+idx+"'>"
-				 											//차트넣기
+				 											
 			 										+ "</div>"
 					 							+ "</div>"
-					 							//통계부분 시작
+					 							
 					 							+ "<div class='col-lg-6 col-md-12 col-sm-12 col-12'>"
-					 								//공지+댓글
+					 								
 				 									+ "<div class='row kt-margin-t-5 kt-margin-b-5'>"
-				 										//공지
+				 										
 						 								+"<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
 							 								+ "<div class='kt-padding-5'>"
 							 									+ "<i class='fa flaticon-exclamation-1 kt-margin-r-5'></i>"
@@ -479,8 +474,8 @@
 							 									+$.osl.lang("stm2102.summery.ntcCurrentN")
 															+ "</div>";
 						 				}
-					 						resultStr += "</div>"//공지 끝
-							 								//댓글
+					 						resultStr += "</div>"
+							 								
 									 					 + "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
 							 								+  "<div class='kt-padding-5'>"
 								 									+ "<i class='fa flaticon-chat-1 kt-margin-r-5'></i>"
@@ -501,11 +496,11 @@
 								 									+ $.osl.lang("stm2102.summery.cmtMaxInfoN")
 						 									+ "</div>";
 							 				}
-								 			resultStr	+= "</div>" //댓글 끝
-							 							+ "</div>" //공지+댓글 끝
-							 							//게시글 + 태그
+								 			resultStr	+= "</div>" 
+							 							+ "</div>" 
+							 							
 							 							+ "<div class='row kt-margin-t-5 kt-margin-b-5'>"
-							 								//게시글
+							 								
 							 								+ "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
 								 								+ "<div class='kt-padding-5'>"
 								 									+ "<i class='fa flaticon-edit-1 kt-margin-r-5'></i>"
@@ -538,8 +533,8 @@
 																		+ $.osl.lang("stm2102.summery.badPwCntN")
 																+  "</div>";
 									 			}
-						 					 	resultStr += "</div>"//게시글 끝
-								 					 		//태그
+						 					 	resultStr += "</div>"
+								 					 		
 									 					 	+ "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
 								 								+ "<div class='kt-padding-5'>"
 								 									+ "<i class='fa flaticon-interface-9 kt-margin-r-5'></i>"
@@ -547,7 +542,7 @@
 																+  "</div>";
 									 	if(!$.osl.isNull(tagInfo) && tagInfo != "N"){
 									 		$.each(tagInfo, function(index, value){
-									 			if(index < 3){ //sql 조회 top 5
+									 			if(index < 3){ 
 									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
 																		+ $.osl.lang("stm2102.summery.tagLabelY",index+1, $.osl.escapeHtml(value.tagNm))
 																+  "</div>";
@@ -558,11 +553,11 @@
 																		+ $.osl.lang("stm2102.summery.tagLabelN")
 																+  "</div>";
 									 	}
-											 	resultStr += "</div>" //태그 끝
-												 			+ "</div>"//게시글 + 태그 끝
-								 							//첨부파일
+											 	resultStr += "</div>" 
+												 			+ "</div>"
+								 							
 								 							+ "<div class='row kt-margin-t-5 kt-margin-b-5'>"
-								 								//첨부파일
+								 								
 								 								+ "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
 									 								+ "<div class='kt-padding-5'>"
 									 									+ "<i class='fa flaticon-tool-1 kt-margin-r-5'></i>"
@@ -583,9 +578,9 @@
 																			+ $.osl.lang("stm2102.summery.fileAllCntN")
 																	+  "</div>";
 												}
-								 					resultStr += "</div>" //첨부파일 끝
-															+ "</div>" //첨부파일 끝
-															//수정 관리 버튼 영역
+								 					resultStr += "</div>" 
+															+ "</div>" 
+															
 															+ "<div class='row kt-padding-t-15 kt-padding-b-15 kt-align-right'>"
 																+ "<div class='col-12 kt-padding-0'>"
 																	+ "<button type='button' class='btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air updateBtn' data-datatable-action='update' title='"+$.osl.lang("stm2100.actionBtn.updateTooltip")+"' data-title-lang-cd='stm2100.actionBtn.updateTooltip' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' data-auth-button='update'>"
@@ -598,55 +593,51 @@
 																	+ "</button>"
 																+ "</div>"
 															+ "</div>"
-														+"</div>" //수정 관리 버튼 영역 끝
-													+ "</div>"//통계부분 끝
+														+"</div>" 
+													+ "</div>"
 												+ "</div>"
 											+ "</div>"
-										+ "</div>" //kt-portlet kt-portlet--mobile end
+										+ "</div>" 
 									+ "</div>";
 					}
 				});
-			 //AJAX 전송
+			 
 			 ajaxObj.send();
 		 };
 		 
-		 /*
-		 * function : drawChart
-		 * param : menuId
-		 * function 설명 : 차트 그리기위한 한달 데이터 조회
-		 */
+		 
 		 var drawChart = function(index, menuId){
 			 var chart = $.osl.chart.setting("apex","drawChart"+index,{
-				//차트 데이터 설정
+				
 				data:{
-					//ajax 조회 url
+					
 					url: "<c:url value='/stm/stm2000/stm2100/selectStm2102BadSummeryChartInfoAjax.do'/>",
-					//파라미터
+					
 					param:{
 						 menuId : menuId,
-						 //차트 데이터 키값
+						 
 						 key: {
 							 key1: "totalNewCnt",
 							 key2: "delCnt",
 						 },
-						 //차트 데이터 키 명칭
+						 
 						 keyNm:{
 							 keyNm1: $.osl.lang("stm2100.chart.deletePost"),
 							 keyNm2: $.osl.lang("stm2100.chart.newPost"),
 						 },
-						 //x축 키값
+						 
 						 xKey:"chartDate",
-						 //차트 타입
+						 
 						 chartType:"area"
 					 },
 					 type: "remote"
 				},
 				chart:{
-					//라인 색상
+					
 					colors: ["#586272", "#1cac81"],
 				},
 				callback:{
-					//차트가 작성 후 실행
+					
 					initComplete: function(chartContext, config){
 						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
 						$(".apexcharts-reset-icon").addClass("kt-margin-0");
@@ -658,34 +649,30 @@
 			});
 		 }
 		 
-		 /*
-		 * function : checkUser
-		 * param : menuId, stmDsTypeCd
-		 * function 설명 : 담당자, 글작성범위에 해당하는지 사용자 체크
-		 */
+		 
 		 var checkUser = function(menuId, stmDsTypeCd){
 			 var data = {
 					 authGrpId : $.osl.selAuthGrpId,
 					 menuId : menuId,
 					 dsTypeCd : stmDsTypeCd,
 			 }
-			//ajax 설정
+			
 	    	var ajaxObj = new $.osl.ajaxRequestAction(
 	    			{"url":"<c:url value='/stm/stm2000/stm2100/selectStm2100UserCheckAjax.do'/>", "async": false}
 					, data);
-			//ajax 전송 성공 함수
+			
 	    	ajaxObj.setFnSuccess(function(data){
 	    		if(data.errorYn == "Y"){
 					$.osl.alert(data.message,{type: 'error'});
-					//모달 창 닫기
+					
 					$.osl.layerPopupClose();
 				}else{
 					var result = data.result;
-					//시스템 게시판 관리로 접속하는 사람은 무조건 담당자(목록에 없어도)
+					
 					okManager = true;	
 					
-					//글작성 목록에 있으면 - 글 작성 범위에 해당하는 사람
-					//처음부터 글작성 목록이 비어있는경우 - 접근하는 사람 모두
+					
+					
 					if(result.resultWriter == "Y" || result.resultWriter == "B"){
 						okWriter = true;	
 					}else{
@@ -694,7 +681,7 @@
 				}
 			});
 			
-	    	//AJAX 전송
+	    	
 			ajaxObj.send();
 		 }
 	 };
@@ -710,6 +697,6 @@
 	 OSLStm2100Popup.init();
  });
 </script>
-<!-- end script -->
+
 
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

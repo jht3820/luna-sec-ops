@@ -166,12 +166,16 @@ var OSLSpr1000Popup = function () {
 				},
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
 					var data = {
-							paramSprId:rowData.sprId,
-							paramSprStDt:rowData.sprStDt,
-							paramSprEdDt:rowData.sprEdDt,
+							paramSprId : rowData.sprId,
+							paramSprStDt : rowData.sprStDt,
+							paramSprEdDt : rowData.sprEdDt,
 							paramSprNm: rowData.sprNm,
-							paramSprDesc:rowData.sprDesc,
-							paramSprTypeCd:rowData.sprTypeCd
+							paramSprDesc : rowData.sprDesc,
+							paramRestDay : rowData.restDay,
+							paramSprEndPercent : Math.trunc(rowData.sprEndPercent),
+							paramSprTypeNm : rowData.sprTypeNm,
+							paramSprTypeCd : rowData.sprTypeCd,
+							paramUseCd: rowData.useCd,
 						};
 					
 					var options = {

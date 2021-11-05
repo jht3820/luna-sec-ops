@@ -800,7 +800,7 @@ var OSLDpl1002Popup = function () {
 				    return b["regDtm"] - a["regDtm"];
 				    
 				});
-				console.log(allHistiryList)
+				
 				
 				
 				fnAllHistorySetting(allHistiryList, jobList);
@@ -816,6 +816,9 @@ var OSLDpl1002Popup = function () {
 				
 				
 				openUsrPopup();
+				
+				
+				KTApp.initTooltips();
 			}
 		});
 		
@@ -916,10 +919,10 @@ var OSLDpl1002Popup = function () {
 										+		'</div>'
 										+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
 										+			'<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">'
-										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">'
+										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top">'
 										+					'<i class="fa fa-code"></i>'
 										+				'</div>'
-										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">'
+										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-placement="top">'
 										+					'<i class="fas fa-list"></i>'
 										+				'</div>'
 										+			'</div>'
@@ -1137,10 +1140,10 @@ var OSLDpl1002Popup = function () {
 									+		'</div>'
 									+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
 									+			'<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">'
-									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">'
+									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top">'
 									+					'<i class="fa fa-code"></i>'
 									+				'</div>'
-									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-skin="info" data-placement="bottom">'
+									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-placement="top">'
 									+					'<i class="fas fa-list"></i>'
 									+				'</div>'
 									+			'</div>'

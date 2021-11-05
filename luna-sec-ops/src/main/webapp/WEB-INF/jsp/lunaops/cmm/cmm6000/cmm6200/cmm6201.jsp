@@ -51,8 +51,8 @@
 					<div class="osl-wizard-wrapper">
 						<div class="wizard-number">2</div>
 						<div class="wizard-label">
-							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.sprPtTitle">기본 항목 입력</span></div>
-							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">담당자 및 요구사항 항목 입력</span></div>
+							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.sprPtTitle">항목 정보 입력</span></div>
+							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">기본 항목 및 필수 항목 입력</span></div>
 						</div>
 					</div>
 				</div>
@@ -62,15 +62,6 @@
 						<div class="wizard-label">
 							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.chargerTitle">단계 선택</span></div>
 							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.chargerDesc">다음 단계 선택</span></div>
-						</div>
-					</div>
-				</div>
-				<div class="osl-wizard__nav-item osl-preview-hide" data-ktwizard-type="step">
-					<div class="osl-wizard-wrapper">
-						<div class="wizard-number">4</div>
-						<div class="wizard-label">
-							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.sprPtTitle">결재 정보 입력</span></div>
-							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">결재선 및 결재 정보 입력</span></div>
 						</div>
 					</div>
 				</div>
@@ -93,16 +84,14 @@
 						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.process">* 다음 단계를 선택하세요.</span></h6>
 					</div>
 				</div>
-				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15 osl-preview-hide" data-ktwizard-type="step-info">
-					<div class="kt-widget__top osl-preview-hide">
-						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.process">* 결재 정보를 입력해주세요.</span></h6>
-					</div>
-				</div>
 			</div>
+			<button type="button" class="btn btn-outline-primary kt-margin-r-20 osl-preview-hide" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit">
+				<i class="fa fa-save"></i><span data-lang-cd="req4101.complete">저장 (현재 단계 유지)</span>
+			</button>
 			<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
 				<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
 			</button>
-			<button type="button" class="btn btn-outline-brand kt-margin-l-20 osl-preview-hide" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit" data-ktwizard-type="action-submit">
+			<button type="button" class="btn btn-outline-brand kt-margin-l-20 osl-preview-hide" id="cmm6201SaveNextSubmit" name="cmm6201SaveNextSubmit" data-ktwizard-type="action-submit">
 				<i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">처리 완료</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
@@ -298,6 +287,33 @@
 			<div class="osl-background-around kt-padding-10">
 				<div class="row">
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="row osl-flow-sign-hide">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+								<div class="kt-portlet" id="cmm6201ChargerUsrSel">
+									<div class="kt-portlet__head">
+										<div class="kt-portlet__head-label">
+											<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">결재선 정보</span>
+											<label class="required"></label>
+										</div>
+										<div class="kt-portlet__head-toolbar">
+											<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" name="cmm6201SignFlowBtn" id="cmm6201SignFlowBtn" title="결재선 지정" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+												<i class="fa fa-file-signature"></i><span data-lang-cd="datatable.button.select">결재선 지정</span>
+											</button>
+											<div class="kt-portlet__head-group">
+												<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+											</div>
+										</div>
+									</div>
+									<div class="kt-portlet__body">
+										<div class="row osl-background-around kt-padding-t-10 kt-padding-b-10">
+											<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 kt-widget kt-widget--general-3 kt-hide" id="cmm6201SignOrdList">
+											 
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 								<div class="kt-portlet" id="cmm6201ChargerUsrSel">
@@ -316,13 +332,13 @@
 											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 												<div class="form-group">
 													<label for="reqStDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 일시</span></label>
-													<input type="text" class="form-control osl-preview-readonly" name="reqStDtm" id="reqStDtm">
+													<input type="text" class="form-control osl-preview-readonly" name="reqStDtm" id="reqStDtm" opttype="-1">
 												</div>
 											</div>
 											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 												<div class="form-group">
 													<label for="reqEdDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 일시</span></label>
-													<input type="text" class="form-control osl-preview-readonly" name="reqEdDtm" id="reqEdDtm">
+													<input type="text" class="form-control osl-preview-readonly" name="reqEdDtm" id="reqEdDtm" opttype="-1">
 												</div>
 											</div>
 										</div>
@@ -330,13 +346,13 @@
 											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 												<div class="form-group">
 													<label for="reqStDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 시작 예정 일자</span></label>
-													<input type="text" class="form-control osl-preview-readonly" name="reqStDuDtm" id="reqStDuDtm" required>
+													<input type="text" class="form-control osl-preview-readonly" name="reqStDuDtm" id="reqStDuDtm" opttype="-1" required>
 												</div>
 											</div>
 											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 												<div class="form-group">
 													<label for="reqEdDtm" class="required"><i class="fa fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">업무 종료 예정 일자</span></label>
-													<input type="text" class="form-control osl-preview-readonly" name="reqEdDuDtm" id="reqEdDuDtm" required>
+													<input type="text" class="form-control osl-preview-readonly" name="reqEdDuDtm" id="reqEdDuDtm" opttype="-1" required>
 												</div>
 											</div>
 										</div>
@@ -391,12 +407,19 @@
 								</div>
 								<div class="kt-portlet__head-toolbar">
 									<div class="kt-portlet__head-group">
+										<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air osl-preview-hide" data-toggle="dropdown" data-skin="brand" data-placement="bottom" tabindex="1"><i class="fa fa-plus"></i></a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<div class="dropdown-item" id="insertBasicItemBtn"><i class="fa fa-plus kt-font-brand"></i>신규 항목 추가</div>
+											<div class="dropdown-item" id="selectBasicItemBtn"><i class="fa fa-list-alt kt-font-brand"></i>기본항목 불러오기</div>
+										</div>
 										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 									</div>
 								</div>
 							</div>
 							<div class="kt-portlet__body">
-							
+								<div class="row" id="basicItemList">
+								
+								</div>
 							</div>
 						</div>
 					</div>
@@ -439,11 +462,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10 osl-preview-hide" data-ktwizard-type="step-content">
-			<div class="osl-background-around kt-padding-10">
-			
-			</div>
-		</div>
 	</div>
 </form>
 <div class="modal-footer">
@@ -466,6 +484,13 @@ var OSLCmm6201Popup = function () {
 	var paramFlowId;
 
 	
+	var basicItemList = new Array();
+	
+	var basicItemInsertList = new Array();
+	
+	var basicItemDelList = new Array();
+	
+	
 	var formEditList = [];
 	
 	
@@ -473,6 +498,9 @@ var OSLCmm6201Popup = function () {
 	
 	
 	var cmm6201ProcessAuthUsrTable;
+	
+	
+	var cmm6201UsrTable;
 	
 	
 	var flowChart = $("#"+formId+" #cmm6201FlowChartDiv");
@@ -494,6 +522,12 @@ var OSLCmm6201Popup = function () {
 	
 	var reqProcessAuthFlag;
 	
+	
+	var signRequiredCd;
+	
+	
+	var signUsrList;
+	
     
     var documentSetting = function () {
 
@@ -505,6 +539,15 @@ var OSLCmm6201Popup = function () {
     	new KTPortlet('cmm6201ProcessSel', $.osl.lang("portlet"));
     	
     	
+	   	KTUtil.scrollInit($("#cmm6201SignOrdList")[0], {
+           disableForMobile: true, 
+           resetHeightOnDestroy: true, 
+           handleWindowResize: true,
+           windowScroll:false,
+           height: 500
+		});
+    	
+    	
     	KTUtil.scrollInit($("#osl-req__process-history")[0], {
 			disableForMobile: true, 
 			resetHeightOnDestroy: true, 
@@ -512,6 +555,54 @@ var OSLCmm6201Popup = function () {
 			windowScroll:false
 		});
     	
+
+    	
+		$("#selectBasicItemBtn").click(function(){
+			var data = {
+					callPage:"OSLCmm6200Popup"
+				};
+			var options = {
+					idKey: "prj1304",
+					modalTitle: "기본항목 리스트",
+					modalSize: "xl",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1304ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1304Popup.getItemList();
+							OSLCmm6201Popup.addItemList(itemList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1304View.do',data,options);
+		});
+		
+		
+		$("#insertBasicItemBtn").click(function(){
+			var data = {
+					type:"insert",
+					callPage:"OSLCmm6200Popup"
+				};
+			var options = {
+					idKey: "prj1305",
+					modalTitle: "기본항목 추가",
+					modalSize: "lg",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1305ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1305Popup.getItemList();
+							OSLCmm6201Popup.addItemList(itemList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1305View.do',data,options);
+		});
+		
     	$(".osl-req__process-history").on('mousewheel',function(e){
     		var wheelDelta = e.originalEvent.wheelDelta;
     		if(wheelDelta > 0){
@@ -558,7 +649,7 @@ var OSLCmm6201Popup = function () {
     	});
     	
     	
-    	$("#cmm6201SaveSubmit").click(function(){
+    	$("#cmm6201SaveNextSubmit").click(function(){
     		
     		if($.osl.isNull(selFlowId)){
     			$.osl.alert("단계를 선택해주세요.");
@@ -566,38 +657,14 @@ var OSLCmm6201Popup = function () {
     		}
     		
     		
-    		$(".osl-wizard__content[data-ktwizard-type=step-content]").addClass("osl-block--imp");
+    		fnReqProcessCheck("next");
     		
+    	});
+    	
+    	
+    	$("#cmm6201SaveSubmit").click(function(){
     		
-    		if(!$("#"+formId).valid()){
-    			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
-    			$("form#"+formId).parent(".modal-body").scrollTop(0); 
-    			$.osl.alert("입력되지 않은 필수 항목이 있습니다.");
-    			return false;
-    		}else{
-    			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
-    		}
-    		
-    		
-    		var currentFlowInfo = flowChart.flowchart("getOperatorData",selFlowId);
-    		
-    		var addConfirmMsgStr = '';
-    		if(!$.osl.isNull(currentFlowInfo) && currentFlowInfo.hasOwnProperty("properties") && currentFlowInfo.properties.flowDoneCd == "01"){
-    			
-    			if($.osl.isNull($("#reqStDtm").val()) || $.osl.isNull($("#reqEdDtm").val())){
-    				$.osl.alert("최종 완료 단계에서 </br>업무 시작 일시, 업무 종료 일시는 필수 항목입니다.");
-    				return false;
-    			}
-    			
-    			addConfirmMsgStr += "최종 완료 단계를 선택하셨습니다.</br>해당 요구사항의 업무 처리가 종료됩니다.</br></br>";
-    		}
-    		
-    		$.osl.confirm(addConfirmMsgStr+"입력된 내용으로 업무 처리를 진행하시겠습니까?",{html:true}, function(result){
-				if (result.value) {
-					
-		    		fnReqProcessAction();
-				}
-			});
+    		fnReqProcessCheck("current");
     	});
     	
     	
@@ -622,7 +689,7 @@ var OSLCmm6201Popup = function () {
 				var selFlow = flowChart.flowchart("getOperatorData", operatorId);
 
 				
-				if(selFlow.properties.flowStatus != "01"){
+				if(selFlow.properties.flowStatus != "01" && selFlow.properties.flowStatus != "03"){
 					
 					return false;
 				}
@@ -642,6 +709,56 @@ var OSLCmm6201Popup = function () {
 			}
 		});
 		
+    	
+    	$("form#"+formId+" #cmm6201SignFlowBtn").click(function(){
+    		
+    		
+    		var data = {
+					targetCd :  '02',
+					
+					paramSubmitAction: false,
+					paramSignUsrList: JSON.stringify(signUsrList)
+			};
+			
+			var options = {
+				modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
+				autoHeight: false,
+				modalSize: "xl",
+				callback:[{
+					targetId: "cmm6601ModalCallbackBtn",
+					actionFn: function(thisObj){
+						var paramSignUsrList = OSLCmm6600Popup.getSignUsrInfs();
+						if(!$.osl.isNull(paramSignUsrList)){
+							signUsrList = JSON.parse(paramSignUsrList);
+							
+							
+							var signOrdListStr = '';
+							
+							
+							if(!$.osl.isNull(signUsrList) && signUsrList.length > 0){
+								$.each(signUsrList, function(idx, map){
+									
+									if(map.ord == 0){
+										return true;
+									}
+									
+									signOrdListStr += signUsrUiSetting(map);
+								});
+								$("#cmm6201SignOrdList").removeClass("kt-hide");
+							}else{
+								$("#cmm6201SignOrdList").addClass("kt-hide");
+							}
+							$("#cmm6201SignOrdList").html(signOrdListStr);
+						}else{
+							signUsrList = [];
+						}
+					}
+				}]
+			};
+			 
+			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',data,options); 
+    	});
+    	
 		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
@@ -671,7 +788,7 @@ var OSLCmm6201Popup = function () {
     };
     
     
-	var fnDatatableSetting = function(){
+	var processAuthUsrTableSetting = function(){
 		var paramProcessId = $("#"+formId+"  #processId").val();
 		
 		
@@ -795,10 +912,14 @@ var OSLCmm6201Popup = function () {
  				
  				reqProcessAuthFlag = data.reqProcessAuthFlag;
  				
-var reqInfo = data.reqInfo;
  				
- 				paramProId = reqInfo.processId;
- 				paramFlowId = reqInfo.flowId;
+				var reqInfo = data.reqInfo;
+ 				
+ 				
+ 				var flowInfo = data.flowInfo;
+ 				
+ 				paramProId = flowInfo.processId;
+ 				paramFlowId = flowInfo.flowId;
  				
  				
 		    	$.osl.setDataFormElem(reqInfo, formId);
@@ -868,21 +989,93 @@ var reqInfo = data.reqInfo;
 		    	
 		    	
 		    	
-		    	
+				var ajaxObj = new $.osl.ajaxRequestAction(
+						{"url":"<c:url value='/prj/prj1000/prj1300/selectPrj1102AllItemListAjax.do'/>", "async":"false"}
+						,{prjId: paramPrjId, processId: paramProId, flowId: paramFlowId, reqId: paramReqId});
+
+				
+				ajaxObj.setFnSuccess(function(data){
+					if(data.errorYn == "Y"){
+						$.osl.alert(data.message,{type: 'error'});
+					}else{
+						
+						basicItemList = data.itemList;
+						
+						var defaultItemList = new Array;
+						var newItemList = new Array;
+						$.each(basicItemList, function(idx, map){
+							if(map.reqId == paramReqId){
+								newItemList.push(map);
+							}else{
+								defaultItemList.push(map);
+							}
+						});
+						
+						
+						
+						var viewType=""
+						var readOnly=""
+						if(reqProcessAuthFlag){
+							viewType="default";
+							readOnly=false;
+						}else{
+							viewType="preview";
+							readOnly=true;
+						}
+						
+				    	$.osl.customOpt.setting(defaultItemList,  "basicItemList",
+				    			
+				    			{
+									viewType: viewType,
+									readOnly: readOnly
+								}
+			    		); 
+				    	
+				    	$.osl.customOpt.setting(newItemList,  "basicItemList",
+				    			
+				    			{
+									viewType: viewType,
+									readOnly: readOnly,
+									htmlAppendType: true,
+									delAt: true,
+									actionFn:{
+										delete:function($this){
+											var targetId = $this.data("itemId");
+											$this.parents(".basicItemDiv:first").remove();
+											basicItemDelList.push({"itemId":targetId});
+					
+											var delIdx = ""
+											$.each(basicItemInsertList,function(idx, map){
+												if(map.itemId == targetId){
+														delIdx = idx;						
+												}
+											});
+											if(delIdx!==""){
+												basicItemInsertList.splice(delIdx,1);
+											}
+										}
+									}
+								}
+			    		); 
+					}
+				});
+				
+				
+				ajaxObj.send();
 		    	
 		    	
  				
  				if(reqProcessAuthFlag == false){
  					
- 					$("#frCmm6201").addClass("preview");
+ 					$("#"+formId).addClass("preview");
  					
  					
- 					$("#frCmm6201 input[required]").removeAttr("required");
- 					$("#frCmm6201 label.required").removeClass("required");
- 					$("#frCmm6201 .osl-preview-hide").remove();
+ 					$("#"+formId+" input[required]").removeAttr("required");
+ 					$("#"+formId+" label.required").removeClass("required");
+ 					$("#"+formId+" .osl-preview-hide").remove();
  				
  					
- 					$("#frCmm6201 .osl-preview-readonly").attr("readonly","readonly");
+ 					$("#"+formId+" .osl-preview-readonly").attr("readonly","readonly");
  					
  					modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">읽기 전용</div>';
  				}
@@ -946,6 +1139,44 @@ var reqInfo = data.reqInfo;
 					});
  				}
  				
+ 				
+				signRequiredCd = flowInfo.flowSignCd;
+				
+				
+				if(flowInfo.flowSignCd == "01"){
+					
+					modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
+					
+					
+					signUsrList = [];
+					var inSignUsrList = data.signUsrList;
+					if(!$.osl.isNull(inSignUsrList) && inSignUsrList.length > 0){
+						
+						var signOrdListStr = '';
+						
+						
+						$.each(inSignUsrList, function(idx, map){
+							
+							if(map.ord == 0){
+								return true;
+							}
+							
+							
+							signOrdListStr += signUsrUiSetting(map);
+							signUsrList.push(map);
+						});
+						$("#cmm6201SignOrdList").html(signOrdListStr);
+						$("#cmm6201SignOrdList").removeClass("kt-hide");
+					}else{
+						$("#cmm6201SignOrdList").addClass("kt-hide");
+						signUsrList = []; 
+					}
+					
+				}else{
+					
+					$("#"+formId+" .osl-flow-sign-hide").hide();
+				}
+				
  				
  				var modalId = $("#modalId").val();
  				$("#"+modalId+" .modal-header").prepend(modalHeaderStr);
@@ -1086,7 +1317,7 @@ var reqInfo = data.reqInfo;
 						if(reqProcessAuthFlag){
 							if($.osl.isNull(cmm6201ProcessAuthUsrTable)){
 								
-								fnDatatableSetting();
+								processAuthUsrTableSetting();
 							}else{
 								
 								cmm6201ProcessAuthUsrTable.targetDt.reload();
@@ -1281,11 +1512,115 @@ var reqInfo = data.reqInfo;
 	};
 	
 	
+	var fnReqProcessCheck = function(nextType){
+		
+		$(".osl-wizard__content[data-ktwizard-type=step-content]").addClass("osl-block--imp");
+		
+		
+		if(!$("#"+formId).valid()){
+			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
+			$("form#"+formId).parent(".modal-body").scrollTop(0); 
+			$.osl.alert("입력되지 않은 필수 항목이 있습니다.");
+			return false;
+		}else{
+			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
+		}
+
+		var addConfirmMsgStr = '';
+		
+		
+		if(nextType == "next"){
+    		
+    		var currentFlowInfo = flowChart.flowchart("getOperatorData",selFlowId);
+    		
+    		if(!$.osl.isNull(currentFlowInfo) && currentFlowInfo.hasOwnProperty("properties") && currentFlowInfo.properties.flowDoneCd == "01"){
+    			
+    			if($.osl.isNull($("#reqStDtm").val()) || $.osl.isNull($("#reqEdDtm").val())){
+    				$.osl.alert("최종 완료 단계에서 </br>업무 시작 일시, 업무 종료 일시는 필수 항목입니다.");
+    				return false;
+    			}
+    			addConfirmMsgStr += "최종 완료 단계를 선택하셨습니다.</br>해당 요구사항의 업무 처리가 종료됩니다.</br></br>";
+    		}
+    		
+    		
+    		if(paramFlowId == selFlowId){
+    			addConfirmMsgStr += "같은 단계 진행 시 </br>입력 항목 정보만 저장됩니다.</br></br>";
+    		}
+		}else{
+			addConfirmMsgStr += "같은 단계 진행 시 </br>입력 항목 정보만 저장됩니다.</br></br>";
+		}
+		
+		$.osl.confirm(addConfirmMsgStr+"입력된 내용으로 업무 처리를 진행하시겠습니까?",{html:true}, function(result){
+			if (result.value) {
+				
+	    		fnReqProcessAction(nextType);
+			}
+		});
+	}
 	
-	var fnReqProcessAction = function(){
+	
+	var fnReqProcessAction = function(nextType){
 		
    		var fd = $.osl.formDataToJsonArray(formId);
-		fd.append("selFlowId",selFlowId);
+		
+		
+   		if(nextType == "next"){
+			fd.append("selFlowId",selFlowId);
+   		}else{
+   			
+   			fd.append("selFlowId",paramFlowId);
+   		}
+		fd.append("signRequiredCd", signRequiredCd);
+		
+		
+		if(signRequiredCd == "01"){
+			fd.append("signUsrList",JSON.stringify(signUsrList));
+		}
+
+   		
+		$.each(basicItemList, function(idx, map){
+			if(map.itemCode == "01"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "02"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "03"){ 
+			}else if(map.itemCode == "04"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}else if(map.itemCode == "05"){ 
+			}else if(map.itemCode == "06"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}
+		});
+   		
+		
+		$.each(basicItemInsertList, function(idx, map){
+			if(map.itemCode == "01"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "02"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "03"){ 
+			}else if(map.itemCode == "04"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}else if(map.itemCode == "05"){ 
+			}else if(map.itemCode == "06"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}
+		});
+		
+		var itemOrd = basicItemList[basicItemList.length-1].itemOrd;
+   		
+		$.each(basicItemInsertList, function(idx, map){
+			map.itemOrd = itemOrd+idx+1;
+			basicItemInsertList[idx] = map;
+		});
+   		
+		fd.append("basicItemList",JSON.stringify(basicItemList));
+		fd.append("basicItemInsertList",JSON.stringify(basicItemInsertList));
+		fd.append("basicItemDelList",JSON.stringify(basicItemDelList));
 		
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
@@ -1311,11 +1646,75 @@ var reqInfo = data.reqInfo;
 		
 		ajaxObj.send();
 	};
+	
+	
+	var signUsrUiSetting = function(usrInfo){
+		var signOrdListStr = 
+			'<div class="kt-widget__top" data-user-Id="'+usrInfo.usrId+'">'
+				+'<div class="kt-media kt-media--lg kt-media--circle">'
+					+'<img src="'+$.osl.user.usrImgUrlVal(usrInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
+				+'</div>'
+				+'<div class="kt-widget__wrapper">'
+					+'<div class="kt-widget__label">'
+						+'<span class="kt-widget__title">'
+							+$.osl.escapeHtml(usrInfo.usrNm)
+						+'</span>'
+					+'</div>'
+					+'<div class="kt-widget__links">'
+						+'<div class="kt-widget__cont">'
+							+'<div class="kt-widget__link">'
+								+'<i class="flaticon2-send  kt-font-success"></i>'+$.osl.escapeHtml(usrInfo.email)+''
+							+'</div>'
+							+'<div class="kt-widget__link">'
+								+'<i class="fa fa-phone-square-alt kt-font-skype"></i>'+$.osl.escapeHtml(usrInfo.telno)+''
+							+'</div>'
+						+'</div>'
+					+'</div>'
+					+'<div class="kt-widget__stats">'
+						+'<div class="kt-widget__stat">'
+							+'<span class="kt-widget__value">'+$.osl.escapeHtml(usrInfo.ord)+'</span>'
+							+'<span class="kt-widget__caption">결재 순번</span>'
+						+'</div>'
+					+'</div>'
+				+'</div>'
+			+'</div>';
+			
+		return signOrdListStr;
+	};
     return {
         
         init: function() {
         	documentSetting();
-        }
+        },
+    	addItemList: function(itemList){
+	    	basicItemInsertList = basicItemInsertList.concat(itemList);
+	    	
+	    	
+	    	$.osl.customOpt.setting(itemList,  "basicItemList",
+	    			
+	    			{
+						htmlAppendType: true,
+						delAt: true,
+						actionFn:{
+							delete:function($this){
+								var targetId = $this.data("itemId");
+								$this.parents(".basicItemDiv:first").remove();
+								basicItemDelList.push({"itemId":targetId});
+		
+								var delIdx = ""
+								$.each(basicItemInsertList,function(idx, map){
+									if(map.itemId == targetId){
+											delIdx = idx;						
+									}
+								});
+								if(delIdx!==""){
+									basicItemInsertList.splice(delIdx,1);
+								}
+							}
+						}
+					}
+    		); 
+    	}
     };
 }();
 

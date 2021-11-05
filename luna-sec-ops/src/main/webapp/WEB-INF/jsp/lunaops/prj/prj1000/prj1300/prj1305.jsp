@@ -102,7 +102,7 @@
 	</button>
 	
 </div>
-<button type="button" id="prj1305ModalCallBackBtn" name="prj1305ModalCallBackBtn"/>
+<button type="button" class="kt-hide" id="prj1305ModalCallBackBtn" name="prj1305ModalCallBackBtn"/>
 
 <script>
 "use strict";

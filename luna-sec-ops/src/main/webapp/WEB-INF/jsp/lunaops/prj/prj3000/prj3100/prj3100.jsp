@@ -1598,7 +1598,7 @@ var OSLPrj3000Popup = function () {
 	 
 	var fileWhiteList = function( fileExt ){
 		
-		if( $.inArray(fileExt, ['doc','docx','hwp','pdf','ppt','pptx','xls','xlsx','zip','jpg','jpeg','png','gif','eml','cell','show']) == -1) {
+		if( $.inArray(fileExt, ['doc','docx','hwp','pdf','ppt','pptx','xls','xlsx','zip','jpg','jpeg','png','gif','eml','cell','show','txt']) == -1) {
 			return false;
 	   }
 		return true;

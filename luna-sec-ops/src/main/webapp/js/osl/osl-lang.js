@@ -208,8 +208,8 @@ var OSLCoreLangSetting = function () {
 					usrId: "아이디를 입력해주세요.",
 					usrPw: "비밀번호를 입력해주세요.",
 					usrPwIndexOfUsrId: "비밀번호에는 사용자 아이디를 포함할 수 없습니다.",
-					usrPwContinue: "비밀번호는 같은 문자를 3번 이상 연속해서<br/> 사용하실 수 없습니다.",
-					usrPwContinueMatch: "비밀번호는 연속된 문자열(123, abc 등)을<br/> ${1}자 이상 사용 할 수 없습니다.",
+					usrPwContinue: "비밀번호는 같은 문자를 3번 이상 연속해서</br> 사용하실 수 없습니다.",
+					usrPwContinueMatch: "비밀번호는 연속된 문자열(123, abc 등)을</br> ${1}자 이상 사용 할 수 없습니다.",
 				},
 				myPage:{
 					title:"개인정보 수정",
@@ -288,7 +288,7 @@ var OSLCoreLangSetting = function () {
 			alert :{
 				message : {
 					selectMessage : "답장할 메시지를 선택하세요.",
-					selectOneMessage : "1개의 메시지만 선택하세요.<br/>${1}개의 메시지가 선택되었습니다.",
+					selectOneMessage : "1개의 메시지만 선택하세요. </br>${1}개의 메시지가 선택되었습니다.",
 				}
 			}
 		},
@@ -495,9 +495,9 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectOneDpl : "${1}건의 배포 계획이 선택되었습니다.<br/>1건의 배포 계획 정보를 선택하세요.",
-				selectOneReq : "${1}건의 요구사항이 선택되었습니다.<br/>1건의 요구사항 정보를 선택하세요.",
-				selectOneJob : "${1}건의 JOB이 선택되었습니다.<br/>1건의 JOB 정보를 선택하세요.",
+				selectOneDpl : "${1}건의 배포 계획이 선택되었습니다. </br>1건의 배포 계획 정보를 선택하세요.",
+				selectOneReq : "${1}건의 요구사항이 선택되었습니다. </br>1건의 요구사항 정보를 선택하세요.",
+				selectOneJob : "${1}건의 JOB이 선택되었습니다. </br>1건의 JOB 정보를 선택하세요.",
 			}
 		},
 		cmm6000:{
@@ -561,7 +561,7 @@ var OSLCoreLangSetting = function () {
 					diffTooltip : "파일 비교"
 				},
 				message : {
-					selectOne : "${1}개가 선택되었습니다.<br/>한개의 파일만 선택하세요."
+					selectOne : "${1}개가 선택되었습니다. </br>한개의 파일만 선택하세요."
 				}
 			},
 			repository:{
@@ -1191,7 +1191,7 @@ var OSLCoreLangSetting = function () {
 			},
 			alert:{
 				updateMsg : "접수 요청중인 요구사항만 수정 가능합니다.",
-				multiPwMsg : "패스워드 확인이 필요한 요구사항이 ${1}건 있습니다.<br/> 잠금된 요구사항을 제외 후 삭제 또는 잠금 요구사항은 단건 삭제하세요.",
+				multiPwMsg : "패스워드 확인이 필요한 요구사항이 ${1}건 있습니다. </br> 잠금된 요구사항을 제외 후 삭제 또는 잠금 요구사항은 단건 삭제하세요.",
 				selectData : "요구사항을 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
 				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
@@ -1312,8 +1312,8 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		req4103:{
-			passwordMiss : "비밀번호가 틀렸습니다.<br/> 다시 입력하세요.",
-			text: "잠긴 요구사항입니다.<br/> 비밀번호를 입력하세요.",
+			passwordMiss : "비밀번호가 틀렸습니다. </br> 다시 입력하세요.",
+			text: "잠긴 요구사항입니다. </br> 비밀번호를 입력하세요.",
 			button:{
 				submit : "확인",
 			}
@@ -1524,7 +1524,7 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		stm2100:{
-			selectStmInfoCnt : "1건의 게시판만 선택하세요.<br/> ${1}건의 게시판이 선택되었습니다." ,
+			selectStmInfoCnt : "1건의 게시판만 선택하세요. </br> ${1}건의 게시판이 선택되었습니다." ,
 			notAuthority : {
 					basic : "해당 게시판에 대한 권한이 없습니다.",
 			},
@@ -1577,10 +1577,10 @@ var OSLCoreLangSetting = function () {
 		stm2101:{
 			update: "게시판 정보를 수정하시겠습니까?",
 			formCheck:{
-				fileCntMessage : "첨부파일 갯수는 최소 1부터 10까지 가능합니다<br/> 첨부파일 갯수를 최솟값인 1로 변경합니다.",
-				fileMaxCntMessage : "첨부파일 가능한 갯수를 초과합니다.<br/> 최대 수로 적용됩니다.",
-				fileMaxStrgMessage : "게시판 유형에 따라<br/> 최대 첨부파일 용량으로 지정됩니다.",
-				fileMaxStrgOutMessage : "최대 첨부파일 용량을 초과합니다<br/> 최대용량(${1})으로 변경됩니다.",
+				fileCntMessage : "첨부파일 갯수는 최소 1부터 10까지 가능합니다</br> 첨부파일 갯수를 최솟값인 1로 변경합니다.",
+				fileMaxCntMessage : "첨부파일 가능한 갯수를 초과합니다. </br> 최대 수로 적용됩니다.",
+				fileMaxStrgMessage : "게시판 유형에 따라</br> 최대 첨부파일 용량으로 지정됩니다.",
+				fileMaxStrgOutMessage : "최대 첨부파일 용량을 초과합니다</br> 최대용량(${1})으로 변경됩니다.",
 			},
 			label:{
 				name: "게시판 명",
@@ -1786,7 +1786,7 @@ var OSLCoreLangSetting = function () {
 			},
 			message:{
 				connect : {
-					selectCount : "${1}개가 선택되었습니다.<br/>접속 확인할 저장소를 선택하세요.",
+					selectCount : "${1}개가 선택되었습니다. </br>접속 확인할 저장소를 선택하세요.",
 					fail : {
 						auth : "접속 실패 : ID 또는 PW를 확인하세요.",
 						url : "접속 실패 : 유효한 URL이 아닙니다.",
@@ -1835,7 +1835,7 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectFile : "${1}개가 선택되었습니다.<br/>한의 파일을 선택하세요.",
+				selectFile : "${1}개가 선택되었습니다. </br>한의 파일을 선택하세요.",
 			}
 		},
 		stm8100:{
@@ -1873,8 +1873,8 @@ var OSLCoreLangSetting = function () {
 					authSetting : "리비전 및 소스 열람 권한 설정"
 				},
 				message : {
-					remove : "배정 제외 시 권한 설정 값도 초기화 됩니다.<br/>그래도 제외하시겠습니까?",
-					selectRep : "리비전 및 소스 열람 권한 설정을 위한<br/>소스 저장소를 하나 선택하세요.",
+					remove : "배정 제외 시 권한 설정 값도 초기화 됩니다.</br>그래도 제외하시겠습니까?",
+					selectRep : "리비전 및 소스 열람 권한 설정을 위한</br>소스 저장소를 하나 선택하세요.",
 					selectOnlyOne : "단건만 선택하세요",
 				},
 				title :{
@@ -1918,9 +1918,9 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				remove : "소스 열람 권한은 리비전 열람 권한이 있어야 가능합니다.<br/>리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.",
-				add : "소스 열람을 위해선 리비전 열람 권한도 필요합니다.<br/>리비전 열람 권한에도 배정됩니다.",
-				link : "리비전 열람 권한 목록은 있으나 소스 열람 권한에 배정된 항목이 없습니다.<br/>리비전 열람 권한과 동기화 됩니다."
+				remove : "소스 열람 권한은 리비전 열람 권한이 있어야 가능합니다. </br>리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.",
+				add : "소스 열람을 위해선 리비전 열람 권한도 필요합니다. </br>리비전 열람 권한에도 배정됩니다.",
+				link : "리비전 열람 권한 목록은 있으나 소스 열람 권한에 배정된 항목이 없습니다. </br>리비전 열람 권한과 동기화 됩니다."
 			}
 		},
 		stm8200:{
@@ -2182,7 +2182,7 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		bad1000:{
-			selectBadInfoCnt : "1건의 게시글을 선택하세요.<br/> ${1}건의 게시글이 선택되었습니다." ,
+			selectBadInfoCnt : "1건의 게시글을 선택하세요. </br> ${1}건의 게시글이 선택되었습니다." ,
 			notAuthority : {
 					basic : "해당 게시글에 대한 권한이 없습니다.",
 					insertMessage : "게시글 등록 권한이 없습니다.",
@@ -2321,11 +2321,11 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		bad1004:{
-			passwordMiss : "비밀번호가 틀렸습니다.<br/> 다시 입력하세요.",
+			passwordMiss : "비밀번호가 틀렸습니다. </br> 다시 입력하세요.",
 			title:{
 				detail:"게시글 상세보기",
 			},
-			text : "이 글은 비밀글입니다.<br/> 비밀번호를 입력하세요.",
+			text : "이 글은 비밀글입니다. </br> 비밀번호를 입력하세요.",
 			button:{
 				submit: "확인",
 			}
@@ -2834,12 +2834,12 @@ var OSLCoreLangSetting = function () {
 					usrId: "Please enter your ID.",
 					usrPw: "Please enter your password.",
 					usrPwIndexOfUsrId: "Your password cannot contain your user ID.",
-					usrPwContinue: "You can't use the same character <br/> more than 3 times consecutively in the same password.",
-					usrPwContinueMatch: "Password cannot use more than <br/> ${1} characters in consecutive strings (123, abc, etc.)",
+					usrPwContinue: "You can't use the same character </br> more than 3 times consecutively in the same password.",
+					usrPwContinueMatch: "Password cannot use more than </br> ${1} characters in consecutive strings (123, abc, etc.)",
 				},
 				myPage:{
 					title:"Update personal information",
-					error:"Since there is no user information,<br/> you cannot go to the personal information modification screen."
+					error:"Since there is no user information,</br> you cannot go to the personal information modification screen."
 				}
 			},
 			error:{
@@ -2902,7 +2902,7 @@ var OSLCoreLangSetting = function () {
 			alert :{
 				message : {
 					selectMessage : "Select a message to reply to.",
-					selectOneMessage : "Please select only 1 message.<br/>${1} messages have been selected.",
+					selectOneMessage : "Please select only 1 message. </br>${1} messages have been selected.",
 				}
 			}
 		},
@@ -3001,7 +3001,7 @@ var OSLCoreLangSetting = function () {
 					diffTooltip : "Code Diff"
 				},
 				message : {
-					selectOne : "Please, select only 1 file.<br/>${1} file have been selected."
+					selectOne : "Please, select only 1 file. </br>${1} file have been selected."
 				}
 			},
 			repository:{
@@ -3110,9 +3110,9 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectOneDpl : "Please, select only 1 deployment data.<br/>${1} deployment datas have been selected.",
-				selectOneReq : "Please, select only 1 request data.<br/>${1} request datas have been selected.",
-				selectOneJob : "Please, select only 1 job data.<br/>${1} job datas have been selected.",
+				selectOneDpl : "Please, select only 1 deployment data. </br>${1} deployment datas have been selected.",
+				selectOneReq : "Please, select only 1 request data. </br>${1} request datas have been selected.",
+				selectOneJob : "Please, select only 1 job data. </br>${1} job datas have been selected.",
 			}
 		},
 		prj1000:{
@@ -3579,7 +3579,7 @@ var OSLCoreLangSetting = function () {
 			},
 			alert:{
 				updateMsg : "You can only modify requirements whose processing status is being requested.",
-				multiPwMsg : "There are ${1} requirements that require password verification.<br/> You can delete locked requirements after excluding them, or you can delete locked requirements as a single item.",
+				multiPwMsg : "There are ${1} requirements that require password verification. </br> You can delete locked requirements after excluding them, or you can delete locked requirements as a single item.",
 				selectData : "Choose your data.",
 				LockData : "Locked requirements cannot be copied.",
 				selectCopyData : "Copying is only possible for 1 copy. Currently ${1} are selected.",
@@ -3700,8 +3700,8 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		req4103:{
-			passwordMiss : "It doesn’t match the password for this post.<br/> Please try again.",
-			text: "This is secret request.<br/> You must entered password.",
+			passwordMiss : "It doesn’t match the password for this post. </br> Please try again.",
+			text: "This is secret request. </br> You must entered password.",
 			button:{
 				submit : "Submit",
 			}
@@ -3817,7 +3817,7 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		stm2100:{
-			selectStmInfoCnt : "Please, select only 1 board.<br/> ${1} boards have been selected." ,
+			selectStmInfoCnt : "Please, select only 1 board. </br> ${1} boards have been selected." ,
 			notAuthority : {
 					basic : "You don’t have authority for that this board",
 			},
@@ -3869,10 +3869,10 @@ var OSLCoreLangSetting = function () {
 		stm2101:{
 			update: "Would you like to update this board setting?",
 			formCheck:{
-				fileCntMessage : "The number of attachments is 1 to 10.<br/> Change to minimum 1.",
-				fileMaxCntMessage : "The number of attachments is over.<br/> Change to maximum 10.",
+				fileCntMessage : "The number of attachments is 1 to 10. </br> Change to minimum 1.",
+				fileMaxCntMessage : "The number of attachments is over. </br> Change to maximum 10.",
 				fileMaxStrgMessage : "Change to maximum storage by board type.",
-				fileMaxStrgOutMessage : "Maximum storage is over.<br/> Change to maximum storage(${1}).",
+				fileMaxStrgOutMessage : "Maximum storage is over. </br> Change to maximum storage(${1}).",
 			},
 			label:{
 				name: "Board Name",
@@ -4078,7 +4078,7 @@ var OSLCoreLangSetting = function () {
 			},
 			message:{
 				connect : { 
-					selectCount : "Please, select repository for connection check.<br/> ${1} repository have been selected.",
+					selectCount : "Please, select repository for connection check. </br> ${1} repository have been selected.",
 					fail : {
 						auth : "Connection Fail : Please checking ID or Password.",
 						url : "Connection Fail  : Please checking URL.",
@@ -4127,7 +4127,7 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectFile : "Please, select 1 file.<br/>${1} file have been selected.",
+				selectFile : "Please, select 1 file. </br>${1} file have been selected.",
 			}
 		},
 		stm8100:{
@@ -4165,8 +4165,8 @@ var OSLCoreLangSetting = function () {
 					authSetting : "Setting authority for revision and file code"
 				},
 				message : {
-					remove : "If you send form Assign List to non-assign List <br/>then reset authority list. That's Ok?",
-					selectRep : "Please, select only one repository <br/>for authority setting to revision and file code.",
+					remove : "If you send form Assign List to non-assign List </br>then reset authority list. That's Ok?",
+					selectRep : "Please, select only one repository </br>for authority setting to revision and file code.",
 					selectOnlyOne : "Please, select only one repository.",
 				},
 				title :{
@@ -4188,7 +4188,7 @@ var OSLCoreLangSetting = function () {
 			label : {
 				revision : "Revision Authority",
 				fileCode : "File Code Authority",
-				message : "To setting authority for open file code,<br/>must have set authority for open revision.",
+				message : "To setting authority for open file code,</br>must have set authority for open revision.",
 				nonAssList : "Non-assign Authority group and Users"
 			},
 			button : {
@@ -4210,9 +4210,9 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				remove : "To setting authority for open file code, must have set authority for open revision.<br/>As revision authority is removed, file code authority is also removed.",
-				add : "To setting authority for open file code, must have set authority for open revision.<br/>Revision authority is also added.",
-				link : "There is a list of Revision Authority, but no list of File Code Authority.<br/>Synchronize with Revision Authority list.",
+				remove : "To setting authority for open file code, must have set authority for open revision. </br>As revision authority is removed, file code authority is also removed.",
+				add : "To setting authority for open file code, must have set authority for open revision. </br>Revision authority is also added.",
+				link : "There is a list of Revision Authority, but no list of File Code Authority. </br>Synchronize with Revision Authority list.",
 			}
 		},
 		stm8200:{
@@ -4293,7 +4293,7 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		bad1000:{
-			selectBadInfoCnt : "Please, select only 1 post.<br/> ${1} posts have been selected" ,
+			selectBadInfoCnt : "Please, select only 1 post. </br> ${1} posts have been selected" ,
 			notAuthority : {
 					basic : "You don’t have authority for that this post",
 					insertMessage : "You don’t have authority for insert the post.",
@@ -4431,11 +4431,11 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		bad1004:{
-			passwordMiss : "It doesn’t match the password for this post.<br/> Please try again.",
+			passwordMiss : "It doesn’t match the password for this post. </br> Please try again.",
 			title:{
 				detail:"Detail Post",
 			},
-			text : "This is secret post.<br/> You must entered password.",
+			text : "This is secret post. </br> You must entered password.",
 			button:{
 				submit: "Submit",
 			}
