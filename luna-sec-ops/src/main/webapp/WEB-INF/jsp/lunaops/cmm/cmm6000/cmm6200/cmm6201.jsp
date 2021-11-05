@@ -992,7 +992,7 @@ var OSLCmm6201Popup = function () {
 				var ajaxObj = new $.osl.ajaxRequestAction(
 						{"url":"<c:url value='/prj/prj1000/prj1300/selectPrj1102AllItemListAjax.do'/>", "async":"false"}
 						,{prjId: paramPrjId, processId: paramProId, flowId: paramFlowId, reqId: paramReqId});
-				
+
 				
 				ajaxObj.setFnSuccess(function(data){
 					if(data.errorYn == "Y"){
@@ -1000,6 +1000,18 @@ var OSLCmm6201Popup = function () {
 					}else{
 						
 						basicItemList = data.itemList;
+						
+						var defaultItemList = new Array;
+						var newItemList = new Array;
+						$.each(basicItemList, function(idx, map){
+							if(map.reqId == paramReqId){
+								newItemList.push(map);
+							}else{
+								defaultItemList.push(map);
+							}
+						});
+						
+						
 						
 						var viewType=""
 						var readOnly=""
@@ -1010,11 +1022,39 @@ var OSLCmm6201Popup = function () {
 							viewType="preview";
 							readOnly=true;
 						}
-				    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+						
+				    	$.osl.customOpt.setting(defaultItemList,  "basicItemList",
 				    			
 				    			{
 									viewType: viewType,
 									readOnly: readOnly
+								}
+			    		); 
+				    	
+				    	$.osl.customOpt.setting(newItemList,  "basicItemList",
+				    			
+				    			{
+									viewType: viewType,
+									readOnly: readOnly,
+									htmlAppendType: true,
+									delAt: true,
+									actionFn:{
+										delete:function($this){
+											var targetId = $this.data("itemId");
+											$this.parents(".basicItemDiv:first").remove();
+											basicItemDelList.push({"itemId":targetId});
+					
+											var delIdx = ""
+											$.each(basicItemInsertList,function(idx, map){
+												if(map.itemId == targetId){
+														delIdx = idx;						
+												}
+											});
+											if(delIdx!==""){
+												basicItemInsertList.splice(delIdx,1);
+											}
+										}
+									}
 								}
 			    		); 
 					}
@@ -1571,6 +1611,13 @@ var OSLCmm6201Popup = function () {
 			}
 		});
 		
+		var itemOrd = basicItemList[basicItemList.length-1].itemOrd;
+   		
+		$.each(basicItemInsertList, function(idx, map){
+			map.itemOrd = itemOrd+idx+1;
+			basicItemInsertList[idx] = map;
+		});
+   		
 		fd.append("basicItemList",JSON.stringify(basicItemList));
 		fd.append("basicItemInsertList",JSON.stringify(basicItemInsertList));
 		fd.append("basicItemDelList",JSON.stringify(basicItemDelList));

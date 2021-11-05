@@ -839,6 +839,19 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		String reqId = (String) paramMap.get("reqId");
 		String regUsrId = (String) paramMap.get("regUsrId");
 		String regUsrIp = (String) paramMap.get("regUsrIp");
+
+		JSONParser jsonParser = new JSONParser();
+
+		
+		
+		String basicItemList = (String) paramMap.get("basicItemList");
+		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+		String basicItemDelList = (String) paramMap.get("basicItemDelList");
+		
+		
+		JSONArray basicItemJsonArray = (JSONArray) jsonParser.parse(basicItemList);
+		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
 		
 		
 		String signRequiredCd = (String) paramMap.get("signRequiredCd");
@@ -898,6 +911,19 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			paramMap.put("req6001Vo", req6001Vo);
 			req6000Service.insertReq6001ReqChgInfo(paramMap);
+		}else {
+			
+			for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
+				JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
+				Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+				itemMap.put("processId", processId);
+				itemMap.put("flowId", paramMap.get("selFlowId"));
+				itemMap.put("prjId", prjId);
+				itemMap.put("reqId", reqId);
+				itemMap.put("licGrpId", paramMap.get("licGrpId"));
+				prj1300Service.deletePrj1103ItemAjax(itemMap);
+				prj1300Service.deletePrj1102ItemInfoAjax(itemMap);
+			}
 		}
 		
 		
@@ -933,20 +959,6 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		req4100DAO.updateReq4101ReqProcessInfo(paramMap);
 		
 		
-		
-		
-		String basicItemList = (String) paramMap.get("basicItemList");
-		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
-		String basicItemDelList = (String) paramMap.get("basicItemDelList");
-		
-		JSONParser jsonParser = new JSONParser();
-		
-		
-		JSONArray basicItemJsonArray = (JSONArray) jsonParser.parse(basicItemList);
-		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
-		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
-		
-		
 		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
 			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
 			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
@@ -972,8 +984,6 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			prj1300Service.savePrj1102ItemAjax(itemMap);
 			prj1300Service.savePrj1103ItemAjax(itemMap);
 		}
-		
-		
 		
 	}
 

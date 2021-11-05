@@ -85,7 +85,7 @@
 		</div>
 	</div>
 </div>
-<button type="button" id="prj1304ModalCallBackBtn" name="prj1304ModalCallBackBtn"/>
+<button type="button" class="kt-hide" id="prj1304ModalCallBackBtn" name="prj1304ModalCallBackBtn"/>
 <script>
 "use strict";
 var OSLPrj1304Popup = function () {
