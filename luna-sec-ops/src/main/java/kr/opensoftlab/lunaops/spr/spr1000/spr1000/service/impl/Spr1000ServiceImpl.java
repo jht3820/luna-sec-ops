@@ -336,18 +336,25 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		Double endSprPoint = Double.parseDouble(String.valueOf(paramMap.get("endSprPoint")));
 		Integer term = Integer.parseInt(String.valueOf(termInfo.get("distance")));
 		Integer interval = term/4;
-		Integer remainder = term%4;
+		
 		Double commitSprPoint = (double) (totalSprPoint/4);
 		Double endVelocity = (double) (endSprPoint/4);
 		Date stDt = (Date) termInfo.get("sprStDt");
+		Date edDt = (Date) termInfo.get("sprEdDt");
 		List<Map> velocityData = new ArrayList();
 		
 		cal.setTime(stDt);
 		for(int i = 1; i<5 ; i++) {
-			
-			String startD = df.format(cal.getTime());
+			String startD = "";
+			if(i == 1) {
+				
+				startD = df.format(cal.getTime());
+			}else {
+				cal.add(Calendar.DATE, 1);
+				startD = df.format(cal.getTime());
+			}
 			if(i==4) {
-				cal.add(Calendar.DATE, interval+remainder);
+				cal.setTime(edDt);
 			}else {
 				cal.add(Calendar.DATE, interval);
 			}

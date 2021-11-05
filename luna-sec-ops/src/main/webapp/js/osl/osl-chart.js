@@ -222,9 +222,9 @@ var OSLCoreChartSetting = function () {
 						"name": "en",
 						"options": {
 							"toolbar": {
-								"exportToCSV": "다운로드 CSV",
-								"exportToSVG": "다운로드 SVG",
-								"exportToPNG": "다운로드 PNG",
+								"exportToCSV": "CSV로 다운로드",
+								"exportToSVG": "SVG로 다운로드",
+								"exportToPNG": "PNG로 다운로드",
 							}
 					  }
 					}]
@@ -499,8 +499,8 @@ var OSLCoreChartSetting = function () {
 						targetConfig.series[idx] = [];
 						
 						targetConfig.series[idx].name = value[config.data.param.key.key1];
-						if(!$.osl.isNull(chartArrays[config.data.param.key.key2] )){
-							targetConfig.series[idx].data=chartArrays[config.data.param.key.key2 ];
+						if(!$.osl.isNull(value[config.data.param.key.key2] )){
+							targetConfig.series[idx].data=value[config.data.param.key.key2 ];
 						}else{
 							targetConfig.series[idx].data=[];
 						}

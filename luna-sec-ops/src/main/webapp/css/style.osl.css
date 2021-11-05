@@ -207,6 +207,9 @@ input:-webkit-autofill,
 .osl-h-px-38{
 	height: 38px;
 }
+.osl-min-h-px--24 {
+  min-height: 24px; 
+}
 .osl-min-h-px--50 {
   min-height: 50px; 
 }
@@ -339,6 +342,9 @@ input:-webkit-autofill,
 }
 .osl-min-width-80{
 	min-width: 80px;
+}
+.osl-min-width-90{
+	min-width: 90px;
 }
 .osl-min-width-85{
 	min-width: 85px;
@@ -1078,6 +1084,29 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .osl-block--imp{
 	display: block !important;
 }
+.kt-widget.kt-widget--general-3 .kt-widget__top {
+    background-color: #fff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
+    box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
+}
+.kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper .kt-widget__label{
+	flex-basis: 100%;
+}
+.kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper .kt-widget__links{
+	-webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+	margin-left: 2rem;
+	margin-right: 0;
+}
+.kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper{
+	overflow: hidden;
+}
+.kt-widget.kt-widget--general-3:not(.kt-widget--fit) .kt-widget__top {
+    padding: 5px 25px;
+}
 
 .kt-datatable__body > .kt-datatable__row > td.kt-datatable__cell--left.kt-datatable__cell > span {
     white-space: nowrap;
@@ -1165,6 +1194,64 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .kt-datatable.kt-datatable--default > .kt-datatable__table > .kt-datatable__body .kt-datatable__row > .kt-datatable__cell
 {
 	padding:5px;
+}
+
+.kt-pricing-v1 {
+    padding-left: 20px;
+    flex-flow: row;
+    display: flex;
+}
+.kt-pricing-v1:last-child{
+	padding-right: 0;
+}
+.kt-pricing-v1 .kt-iconbox__icon{
+	align-items: center;
+	justify-content: center;
+	display: flex;
+}
+.kt-pricing-v1 .kt-iconbox .kt-iconbox__icon .kt-iconbox__icon-bg{
+	width: 9rem;
+	height: 9rem;
+}
+.kt-pricing-v1 .kt-pricing-v1__body {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.kt-pricing-v1__body>.kt-iconbox__title{
+	font-size: 1.1rem;
+	font-weight: 700;
+}
+.kt-pricing-v1 .kt-pricing-v1__body .kt-pricing-v1__price {
+    font-weight: 700;
+    font-size: 2rem;
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.kt-pricing-v1 .kt-pricing-v1__body .kt-pricing-v1__price .kt-pricing-v1__price-currency {
+    color:#b9b9c1;
+    font-size: 1rem;
+    font-weight: 300;
+    -ms-flex-item-align: top;
+    align-self: top;
+    margin-top: 1rem;
+    margin-left: 0.4rem;
+    font-weight: 900;
 }
 .btn.btn-default{
 	color: #65686b;
@@ -1258,6 +1345,9 @@ label.required:after {
 .modal .modal-content .modal-body{
 	background-color: #eeeef4;
 	overflow-y: auto;
+}
+.modal .modal-content .modal-header .modal-title{
+	width:90%;
 }
 .ps > .ps__rail-y > .ps__thumb-y{
 	background: #1cac81;
@@ -1650,6 +1740,23 @@ label.required:after {
 .osl-chart--project__tooltip {
     padding: 1rem;
 }
+
+.tooltip.tooltip-primary .tooltip-inner {
+  color: #ffffff;
+  background: #5867dd; }
+
+.tooltip.tooltip-primary.bs-tooltip-top .arrow::before, .tooltip.tooltip-primary.bs-tooltip-auto[x-placement^="top"] .arrow::before {
+  border-top-color: #5867dd; }
+
+.tooltip.tooltip-primary.bs-tooltip-right .arrow::before, .tooltip.tooltip-primary.bs-tooltip-auto[x-placement^="right"] .arrow::before {
+  border-right-color: #5867dd; }
+
+.tooltip.tooltip-primary.bs-tooltip-bottom .arrow::before, .tooltip.tooltip-primary.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
+  border-bottom-color: #5867dd; }
+
+.tooltip.tooltip-primary.bs-tooltip-left .arrow::before, .tooltip.tooltip-primary.bs-tooltip-auto[x-placement^="left"] .arrow::before {
+  border-left-color: #5867dd; }
+
 .osl-calendar__guide-color {
     height: 27px;
     width: 27px;

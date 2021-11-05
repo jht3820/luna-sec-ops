@@ -78,7 +78,7 @@
 			</div>
 		</div>
 		<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
-			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 osl-margin-t-20-1400">
+			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 				<div class="kt-portlet__head">	
 					<div class="kt-portlet__head-toolbar">
 						<i class="fas fa-stream kt-margin-r-5"></i><span data-lang-cd="req3000.label.linkedReqList">연결 요구사항 목록</span>
