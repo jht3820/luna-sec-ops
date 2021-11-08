@@ -24,7 +24,7 @@ var OSLCmm6000Popup = function () {
 		var datatableId = "cmm6000PrjTable";
     	var prjNm = $.osl.escapeHtml($("#prjNm").val());
     	
-    	//데이터 테이블 셋팅
+    	
     	$.osl.datatable.setting(datatableId,{
     		data : {
     			source:{
@@ -63,31 +63,31 @@ var OSLCmm6000Popup = function () {
     		},
     		theme:{
     			actionBtnIcon:{
-    				"click": "fa flaticon2-check-mark",
+    				"click": "fa fa-external-link-alt",
     			}
     		}
     	});
     	
-    	//초기 한번 - 넘어온 값이 있는 경우
+    	
     	if(prjNm != ""){
     		
-    		//드롭다운 메뉴 선택 활성화 취소 및 재선택
+    		
 			$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
 			$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=prjNm]").attr("class", "dropdown-item active");
 			
-			//검색 메뉴 버튼 변경
-			$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text($.osl.lang("cmm17000.field.prjNm"));
+			
+			$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text($.osl.lang("cmm6000.field.prjNm"));
 		
-			//select 감추기
+			
 			$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
 			$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
 			
-			//input 보이기
+			
 			$("#searchData_"+datatableId).removeAttr("disabled");
-			//input에 이름넣기
+			
 			$("#searchData_"+datatableId).val(prjNm);
 
-			//파라메터 초기화
+			
 			var detailDataTable = $.osl.datatable.list[datatableId].targetDt;
 			detailDataTable.setDataSourceParam("searchDataTxt","");
 			
@@ -95,7 +95,7 @@ var OSLCmm6000Popup = function () {
     	
     	$("#searchData_"+datatableId).on("keypress", function(e){
     		if(e.key == "Enter"){
-    			//검색
+    			
     			$(".osl-datatable-search__button[data-datatable-id="+datatableId+"]").click();	
     		}
     	});
@@ -112,35 +112,35 @@ var OSLCmm6000Popup = function () {
     		
     		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/cmm/cmm6000/cmm6000/updateCmm6000UsrMainPrjAjax.do'/>"}, data);
 
-       		//AJAX 전송 성공 함수
+       		
        		ajaxObj.setFnSuccess(function(data){
        			if(data.errorYn == "Y"){
        				$.osl.alert(data.message,{type: 'error'});
        			}else{
-       				//수정 성공
+       				
        				$.osl.toastr(data.message);
 
-       				//모달 창 닫기
+       				
        				$.osl.layerPopupClose();
        			}
        		});
        		
-       		//AJAX 전송
+       		
        		ajaxObj.send();
 
     }
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
         getPrjInfo: function(){
-        	return temp.prjNm;//선택한 메인프로젝트명
+        	return temp.prjNm;
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLCmm6000Popup.init();
 });

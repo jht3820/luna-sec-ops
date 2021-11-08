@@ -203,10 +203,7 @@ var OSLStm8002Popup = function() {
 					 actionBtn:{
 						 "dblClick": "",
 						 "diff": " kt-hide"
-					 },
-					 actionBtnIcon:{
-						 "diff" : "fa flaticon2-check-mark",
-	    			}
+					 }
 				},
 				callback:{
 					initComplete: function(evt, config){
