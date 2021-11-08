@@ -288,11 +288,6 @@ var OSLPrj1000Popup = function () {
 					$.osl.layerPopupOpen('/prj/prj1000/prj1000/selectPrj1002View.do',data,options);
 				},
 			},
-			theme:{
-				actionBtnIcon:{
-					"dblClick":"fa fa-list-alt"
-				}
-			},
 			callback:{
 				initComplete: function(evt,config){
 					fnViewerChange();

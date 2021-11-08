@@ -2849,10 +2849,10 @@
 								"dblClick": ""
 							},
 							actionBtnIcon:{
-								"update": "la la-edit",
-								"delete": "la la-trash",
-								"click": "la la-check-square",
-								"dblClick": "la la-external-link"
+								"update": "fa fa-edit",
+								"delete": "far fa-trash-alt",
+								"click": "fa fa-check-square",
+								"dblClick": "fa fa-external-link-alt"
 							}
 						},
 						callback:{

@@ -5,12 +5,12 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 <div class="kt-portlet kt-portlet--mobile">
 	<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
-		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
+		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
 				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
 			</h4>
 		</div>
-		<div class="col-lg-9 col-md-12 col-sm-12 text-right kt-margin-t-15-tablet kt-margin-t-15-mobile">
+		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-group osl-float-left-tablet">
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl4000DplTable" data-datatable-action="select" title="배포 계획 조회" data-title-lang-cd="dpl4000.dpl.button.tooltip.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
@@ -32,15 +32,15 @@
 </div>
 <div class="row">
 	<div class="col-lg-6 col-md-12 col-sm-12 col-12">
-		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
+		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
-				<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
+				<div class="kt-portlet__head-label">
 					<h4 class="kt-font-boldest kt-font-brand">
 						<i class="fa fa-th-large kt-margin-r-5"></i>
 						<span data-lang-cd="dpl4000.req.title">요구사항 배정 목록</span>
 					</h4>
 				</div>
-				<div class="col-lg-9 col-md-12 col-sm-12 text-right kt-margin-t-15-tablet kt-margin-t-15-mobile">
+				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-group osl-float-left-tablet">
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl4000AssReqTable" data-datatable-action="select" title="배정 요구사항 조회" data-title-lang-cd="dpl4000.req.button.tooltip.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
@@ -64,13 +64,13 @@
 	<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 			<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
-				<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
+				<div class="kt-portlet__head-label">
 					<h4 class="kt-font-boldest kt-font-brand">
 						<i class="fa fa-th-large kt-margin-r-5"></i>
 						<span data-lang-cd="dpl4000.job.title">JOB 배정 목록</span>
 					</h4>
 				</div>
-				<div class="col-lg-9 col-md-12 col-sm-12 text-right kt-margin-t-15-tablet kt-margin-t-15-mobile">
+				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-group osl-float-left-tablet">
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl4000AssJobTable" data-datatable-action="select" title="배정 JOB 조회" data-title-lang-cd="dpl4000.job.button.tooltip.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
@@ -299,10 +299,6 @@
 					"click": " kt-hide",
 					"dblClick": "",
 					"detail" : " kt-hide",
-				 },
-				 actionBtnIcon:{
-					 "dblClick": " fa fa-info-circle",
-					 "detail": "fa fa-info-circle"
 				 }
 			 }
 		});
@@ -409,8 +405,7 @@
 					"detail" : "",
 				},
 				actionBtnIcon:{
-					"dblClick": "fa fa-info-circle",
-					"detail": "fa fa-info-circle",
+					"detail": "fa fa-external-link-alt"
 				}
 			}
 		});
@@ -523,8 +518,7 @@
 					"detail" : "",
 				},
 				actionBtnIcon:{
-					"dblClick": "fa fa-info-circle",
-					"detail": "fa fa-info-circle",
+					"detail": "fa fa-external-link-alt",
 				}
 			}
 		});
