@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -723,7 +723,7 @@ var OSLDsh2000Popup = function () {
 							        	signDpl(rowDatas,signRes,type);
 							        	
 							        	
-							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        	$("button[data-datatable-id="+dplDatatableId+"][data-datatable-action=select]").click();
 							        }
 							    });
 							}
@@ -803,7 +803,7 @@ var OSLDsh2000Popup = function () {
 							        	signDpl(rowDatas,signRes,type);
 							        	
 							        	
-							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        	$("button[data-datatable-id="+dplDatatableId+"][data-datatable-action=select]").click();
 							        }
 							    });
 								
