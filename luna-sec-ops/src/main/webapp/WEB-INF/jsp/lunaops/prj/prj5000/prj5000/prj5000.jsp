@@ -9,7 +9,7 @@
 <script src="<c:url value='/plugins/custom/fullcalendar/main.js'/>"></script>
 <script src="<c:url value='/plugins/custom/fullcalendar/locales-all.js'/>"></script>
 
-<div class="kt-portlet kt-portlet--mobile osl-flex-flow--row-desktop osl-mobile-flex-flow--row osl-portlet__body-style--none kt-margin-b-0">
+<div class="kt-portlet kt-portlet--mobile osl-flex-flow--row osl-flex-flow--column-mobile osl-portlet__body-style--none kt-margin-b-0">
 	<div class="kt-portlet kt-portlet--mobile osl-calendar osl-desktop-max-w-285 float-left kt-margin-b-0" id="prj5000">
 		<div class="kt-portlet__head kt-hidden-desktop kt-hidden-tablet">
 			<div class="kt-portlet__head-label">
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div class="kt-portlet__body osl-min-h-px--415">
-			<div class="osl-flex-flow--row-desktop osl-mobile-flex-flow--row w-100" id="prj5000LeftDiv">
+			<div class="osl-flex-flow--row osl-flex-flow--column-mobile w-100" id="prj5000LeftDiv">
 				<button type="button" id="saveBtn" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-b-10 btn-elevate btn-elevate-air w-100" title="일정 등록" data-title-lang-cd="prj5000.button.title.insert" data-toggle="kt-tooltip" data-skin="brand">
 					<i class="fa fa-calendar-plus"></i><span data-lang-cd="prj5000.button.title.insert">일정등록</span>
 				</button>
@@ -177,7 +177,7 @@ var OSLPrj5000Popup = function () {
 			
 			editable: true,
 			
-			dayMaxEventRows:true,
+			dayMaxEventRows: true,
 			
 			navLinks: true,
 			
@@ -230,7 +230,10 @@ var OSLPrj5000Popup = function () {
 			
 			views: {
 				dayGridMonth: {
-					dayMaxEventRows: 6
+					dayMaxEventRows: 4
+				},
+				timeGrid: {
+					dayMaxEventRows: 10
 				},
 				timeGridFourDay: {
 					type: 'timeGrid',
@@ -326,7 +329,9 @@ var OSLPrj5000Popup = function () {
 					var data = {
 							"type" : "view",
 							"evtType": info.event.extendedProps.eventType,
-							"prjEvtId": info.event.extendedProps.prjId,
+				    		"paramPrjId": info.event.extendedProps.prjId,
+				    		"paramPrjGrpId": info.event.extendedProps.prjGrpId,
+							"paramPrjEvtId": info.event.extendedProps.reqId,
 							"selCalendarStartDate" : info.event.start.format("yyyy-MM-dd"),
 							"selCalendarEndDate" : evtEndDate.format("yyyy-MM-dd"),
 							"selCalendarStartTime" : info.event.start.format("HH:mm"),
@@ -336,13 +341,12 @@ var OSLPrj5000Popup = function () {
 							"eventPrjId": info.event.extendedProps.prjId
 						};
 					var options = {
-							
+							idKey: info.event.extendedProps.reqId,
 							modalTitle: $.osl.lang("prj5001.insert.title"),
 							closeConfirm: false,
 							autoHeight: false,
 							modalSize: 'md'
 						};
-					
 					
 					$.osl.layerPopupOpen('/prj/prj5000/prj5000/selectPrj5001View.do',data,options);
 					
@@ -364,7 +368,8 @@ var OSLPrj5000Popup = function () {
 				var data = {
 			    		"type" : paramType,
 			    		"evtType": info.event.extendedProps.eventType,
-			    		"paramPrjId": prjId,
+			    		"paramPrjId": info.event.extendedProps.prjId,
+			    		"paramPrjGrpId": info.event.extendedProps.prjGrpId,
 			    		"paramPrjEvtId": prjEvtId,
 						"selCalendarStartDate" : info.event.start.format("yyyy-MM-dd"),
 						"selCalendarEndDate" : evtEndDate.format("yyyy-MM-dd"),
@@ -387,6 +392,13 @@ var OSLPrj5000Popup = function () {
 			
 			eventDrop: function(info) {
 				var evtEndDate = info.event.endStr;
+
+				var loginUsrId = "${sessionScope.loginVO.usrId}";
+				if(info.event.extendedProps.usrId != loginUsrId){
+					$.osl.alert("등록자만 수정이 가능합니다.");
+					fnSelectEventList();
+					return;
+				}
 				
 				
 				if($.osl.isNull(evtEndDate)){
@@ -420,6 +432,13 @@ var OSLPrj5000Popup = function () {
 			
 			eventResize: function(info) {
 				var evtEndDate = info.event.endStr;
+				
+				var loginUsrId = "${sessionScope.loginVO.usrId}";
+				if(info.event.extendedProps.usrId != loginUsrId){
+					$.osl.alert("등록자만 수정이 가능합니다.");
+					fnSelectEventList();
+					return;
+				}
 				
 				
 				if($.osl.isNull(evtEndDate)){

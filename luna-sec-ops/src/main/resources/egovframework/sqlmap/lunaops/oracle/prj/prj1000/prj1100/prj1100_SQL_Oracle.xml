@@ -163,37 +163,62 @@
 					AND B.BLOCK = '01'
 					AND A.PROCESS_AUTH_TYPE_CD = '01'
 				UNION
-				SELECT DISTINCT 
-					'02' AS AUTH_TYPE_CD,
-					C.LIC_GRP_ID,
-					A.PRJ_ID,
-					A.PROCESS_ID,
-					A.PROCESS_AUTH_TYPE_CD,
-					B.USR_ID,
-					C.USR_NM,
-					C.EMAIL,
-					C.TELNO,
-					C.USR_IMG_ID,
-					C.DEPT_ID,
-					SF_STM6000_DEPT_NM(C.LIC_GRP_ID, C.DEPT_ID, '2') AS DEPT_NAME,
-					C.USR_POSITION_CD,
-					C.USR_DUTY_CD
-				FROM PRJ1106 A LEFT JOIN PRJ2001 B ON ( A.PRJ_ID = B.PRJ_ID AND A.PROCESS_AUTH_TARGET_ID = B.AUTH_GRP_ID )
-					INNER JOIN STM3000 C ON ( C.LIC_GRP_ID = #licGrpId# AND C.USR_ID = B.USR_ID AND C.USE_CD = '01' AND C.BLOCK = '01' AND C.DEL_CD = '02')
-				WHERE 1=1
+				<isEqual property="listType" compareValue="user">
+					SELECT DISTINCT 
+						'02' AS AUTH_TYPE_CD,
+						C.LIC_GRP_ID,
+						A.PRJ_ID,
+						A.PROCESS_ID,
+						A.PROCESS_AUTH_TYPE_CD,
+						B.USR_ID,
+						C.USR_NM,
+						C.EMAIL,
+						C.TELNO,
+						C.USR_IMG_ID,
+						C.DEPT_ID,
+						SF_STM6000_DEPT_NM(C.LIC_GRP_ID, C.DEPT_ID, '2') AS DEPT_NAME,
+						C.USR_POSITION_CD,
+						C.USR_DUTY_CD
+					FROM PRJ1106 A LEFT JOIN PRJ2001 B ON ( A.PRJ_ID = B.PRJ_ID AND A.PROCESS_AUTH_TARGET_ID = B.AUTH_GRP_ID )
+						INNER JOIN STM3000 C ON ( C.LIC_GRP_ID = #licGrpId# AND C.USR_ID = B.USR_ID AND C.USE_CD = '01' AND C.BLOCK = '01' AND C.DEL_CD = '02')
+					WHERE 1=1
+						AND A.PRJ_ID = #prjId#
+						AND	A.PROCESS_ID = #processId#
+						AND A.PROCESS_AUTH_TYPE_CD = '02'
+						AND NOT EXISTS
+						(
+							SELECT *
+							FROM PRJ1106 Z
+						  	WHERE 1=1
+						  		AND Z.PRJ_ID = A.PRJ_ID
+								AND	Z.PROCESS_ID = A.PROCESS_ID
+								AND Z.PROCESS_AUTH_TYPE_CD = '01'
+								AND Z.PROCESS_AUTH_TARGET_ID = B.USR_ID
+						)
+				</isEqual>
+				<isEmpty property="listType">
+					SELECT
+						'02' AS AUTH_TYPE_CD,
+						B.LIC_GRP_ID,
+						A.PRJ_ID,
+						A.PROCESS_ID,
+						A.PROCESS_AUTH_TYPE_CD,
+						A.PROCESS_AUTH_TARGET_ID AS USR_ID,
+						B.AUTH_GRP_NM AS USR_NM,
+						'' AS EMAIL,
+						'' AS TELNO,
+						'' AS USR_IMG_ID,
+						'' AS DEPT_ID,
+						'' AS DEPT_NM,
+						'' AS USR_POSITION_CD,
+						'' AS USR_DUTY_CD
+					FROM PRJ1106 A
+					INNER JOIN PRJ2000 B ON (  B.LIC_GRP_ID  = #licGrpId# AND A.PRJ_ID = B.PRJ_ID AND B.AUTH_GRP_ID = A.PROCESS_AUTH_TARGET_ID AND B.USE_CD = '01')
+					WHERE 1=1
 					AND A.PRJ_ID = #prjId#
 					AND	A.PROCESS_ID = #processId#
 					AND A.PROCESS_AUTH_TYPE_CD = '02'
-					AND NOT EXISTS
-					(
-						SELECT *
-						FROM PRJ1106 Z
-					  	WHERE 1=1
-					  		AND Z.PRJ_ID = A.PRJ_ID
-							AND	Z.PROCESS_ID = A.PROCESS_ID
-							AND Z.PROCESS_AUTH_TYPE_CD = '01'
-							AND Z.PROCESS_AUTH_TARGET_ID = B.USR_ID
-					)
+				</isEmpty>
 			) SUBT1
 			WHERE 1=1
 			<isNotEmpty property="prjAuthTypeCd">
@@ -609,7 +634,9 @@
 		) SUBT1
 		WHERE 1=1
 			AND SUBT1.PRJ_ID = #prjId#
-		    AND SUBT1.PROCESS_ID = #processId#
+			<isNotEmpty property="processId">
+		    	AND SUBT1.PROCESS_ID = #processId#
+		    </isNotEmpty>
 		    AND SUBT1.USE_CD = '01'
 	</select>
 	
@@ -646,8 +673,8 @@
 			VALUES
 			(
 				#prjId#,				#processId#,				#newFlowId#
-				,#flowNm#,				NVL(#flowLeft#,20),			NVL(#flowTop#,20),		'02'
-				,'02',					#flowSignCd#
+				,#flowNm#,				NVL(#flowLeft#,20),			NVL(#flowTop#,20),		#flowStartCd#
+				,#flowDoneCd#,			#flowSignCd#
 				,#flowSignStopCd#,		#flowEndCd#,				#flowWorkCd#
 				,#flowRevisionCd#,		#flowDplCd#,				#flowAuthCd#
 				,#flowTitleBgColor#,	#flowTitleColor#,			'01'
@@ -669,8 +696,10 @@
 			FROM PRJ1107 A
 			WHERE 1=1
 			    AND A.PRJ_ID = #prjId#
-			    AND A.PROCESS_ID = #processId#
 		]]>
+			<isNotEmpty property="processId">
+			    AND A.PROCESS_ID = #processId#
+			</isNotEmpty>
 			<isNotEmpty property="flowId">
 				AND A.FLOW_ID = #flowId#			
 			</isNotEmpty>

@@ -28,18 +28,17 @@
 						<input type="text" class="form-control" placeholder="일정 일자" name="evtRange" id="evtRange" readonly="readonly" required>
 					</div>
 				</div>
-				<div class="col-lg-12 col-md-12 col-sm-12">
-					<div class="form-group">
-						<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj5001.label.guideColor">가이드 색상</span></label>
-						
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<div class="pop_evt_onwRow_title eventColorSwapList">
+				<c:if test="${param.type ne 'view'}">
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<div class="form-group">
+							<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj5001.label.guideColor">가이드 색상</span></label>
+							
+							<div class="col-lg-12 col-md-12 col-sm-12">
+								<div class="pop_evt_onwRow_title eventColorSwapList">
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				
-				
 				<div class="col-lg-6 col-md-12 col-sm-12">
 					<div class="form-group">
 						<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj5001.label.evtBgColor">일정 배경 색상</span></label>
@@ -52,6 +51,7 @@
 						<input type="color" class="form-control" name="evtColor" id="evtColor" value="#234abf" opttype="-1" >
 					</div>
 				</div>
+				</c:if>
 				<div class="col-lg-12 col-md-12 col-sm-12">
 					<div class="form-group">
 						<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj5001.label.evtDesc">일정 설명</span></label>
@@ -90,6 +90,7 @@ var OSLPrj5001Popup = function () {
 	var type = $("#type").val();
 	
 	
+	var paramPrjId = $("#paramPrjId").val();
 	var paramPrjEvtId = $("#prjEvtId").val();
 	var evtType = $("#evtType").val();
 	
@@ -156,7 +157,7 @@ var OSLPrj5001Popup = function () {
 	 			$("#evtStartTime").val(new Date(start._d).format("HH:mm"));
 	 			$("#evtEndTime").val(new Date(end._d).format("HH:mm"));
 			});
-		}
+ 		}
     	
 		var disabled = false;
 		
@@ -190,14 +191,13 @@ var OSLPrj5001Popup = function () {
 		
 		if(type != "insert"){
 			fnPrjSetInfoSelect();
-			if(type != "insert"){
+			if(type != "update"){
 				$("#prj5001DeleteSubmit").click(function(){
 					var form = $('#'+formId);    		
 		        	
 		    		$.osl.confirm($.osl.lang("prj5001.delete.deleteString"),null,function(result) {
 		    	        if (result.value) {
 		    	        	
-		    	        	console.log(paramPrjEvtId);
 		    	        	fnDeleteEvent(paramPrjEvtId);
 		    	        }
 		    		});
@@ -320,6 +320,20 @@ var OSLPrj5001Popup = function () {
    				if(type == "update"){
 	   				$("#evtRange").data("daterangepicker").setStartDate(prjEvtInfo.evtStartFullDate);
 	   				$("#evtRange").data("daterangepicker").setEndDate(prjEvtInfo.evtEndFullDate);
+   				}else if(type == "view"){
+					$("#prj5001DetailBtn").click(function(){
+						var data = {
+								paramPrjId: paramPrjId,
+								paramReqId: paramPrjEvtId,
+								
+							};
+						var options = {
+								idKey: "reqDetail"+paramPrjEvtId,
+								modalTitle: $.osl.lang("req4100.title.detailTitle"),
+								autoHeight: false,
+							};
+						$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+					})
    				}
    			}
 		});
