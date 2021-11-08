@@ -18,7 +18,7 @@
 						<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">요청자 정보</span>
 					</div>
 					<div class="kt-portlet__head-toolbar">
-						<div class="kt-portlet__head-group"> 
+						<div class="kt-portlet__head-group">
 							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 						</div>
 					</div>
@@ -765,7 +765,7 @@ var OSLReq4101Popup = function () {
     			return;
     		}
     		
-    		$.osl.confirm($.osl.lang("req4101.saveString."+type+"Str"),null,function(result) {
+    		$.osl.confirm($.osl.lang("req4101.saveString."+type+"Str"),{"html" : true},function(result) {
     	        if (result.value) {
     	        	fileUploadObj.upload();
     	        }

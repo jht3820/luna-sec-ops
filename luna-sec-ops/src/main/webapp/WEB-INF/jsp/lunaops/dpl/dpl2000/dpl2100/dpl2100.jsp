@@ -5,6 +5,8 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
+	 
+	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
@@ -78,7 +80,13 @@ var OSLDpl2100Popup = function () {
 						$.osl.user.usrInfoPopup(rowData.lastSignUsrId);
 					}
 				},
-				{field: 'signDtm', title: '결재 요청 일자', textAlign: 'center', width: 150, search: true,searchType:"daterange"},
+				{field: 'signDtm', title: '결재 요청 일자', textAlign: 'center', width: 150, search: true,searchType:"daterange",
+					template: function (row) {
+						var paramDateTime = new Date(row.signDtm);
+		                var agoTimeStr = $.osl.datetimeAgo(paramDateTime, {fullTime: "d", returnFormat: "yyyy-mm-dd"});
+		                return agoTimeStr.agoString;
+					}
+				},
 				{field: 'dplNm', title: '배포 명', textAlign: 'left', width: 300, autoHide: false, search: true},
 				{field: 'signRes', title: '결재 의견', textAlign: 'left', width: 250,  search: false,
 					template: function(row){
@@ -244,7 +252,6 @@ var OSLDpl2100Popup = function () {
 					var data = {
 							type : "signRjt"
 					};
-					console.log(rowDatas)
 					var options = {
 						modalTitle: $.osl.lang("dpl2100.modal.title.signRjtRes"),
 						autoHeight: false,
@@ -261,7 +268,7 @@ var OSLDpl2100Popup = function () {
 									return true;
 								}
 								
-								$.osl.confirm($.osl.lang("dpl2100.modal.confirm.signRjt"),null,function(result) {
+								$.osl.confirm($.osl.lang("dpl2100.message.confirm.signRjt"),null,function(result) {
 							        if (result.value) {
 							        	
 							        	var type = OSLCmm6602Popup.getType();

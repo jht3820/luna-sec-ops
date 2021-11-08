@@ -453,7 +453,7 @@ var OSLBad1003Popup = function () {
     		}
     		
 			
-    		$.osl.confirm($.osl.lang("bad1003.update"),null,function(result) {
+    		$.osl.confirm($.osl.lang("bad1003.update"),{"html" : true},function(result) {
     	        if (result.value) {
     	        	data = localData;
     	        	data.prjGrpId = rowData.prjGrpId;

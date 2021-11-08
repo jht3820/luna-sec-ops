@@ -85,11 +85,11 @@
 					</div>
 				</div>
 			</div>
+			<button type="button" class="btn btn-outline-primary kt-margin-r-20 osl-preview-hide" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit">
+				<i class="fa fa-save"></i><span data-lang-cd="req4101.complete">저장 (현재 단계 유지)</span>
+			</button>
 			<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
 				<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
-			</button>
-			<button type="button" class="btn btn-outline-primary kt-margin-l-20 osl-preview-hide" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit">
-				<i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">저장 (현재 단계 유지)</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand kt-margin-l-20 osl-preview-hide" id="cmm6201SaveNextSubmit" name="cmm6201SaveNextSubmit" data-ktwizard-type="action-submit">
 				<i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">처리 완료</span>
@@ -292,16 +292,24 @@
 								<div class="kt-portlet" id="cmm6201ChargerUsrSel">
 									<div class="kt-portlet__head">
 										<div class="kt-portlet__head-label">
-											<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">결재선 지정</span>
+											<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">결재선 정보</span>
+											<label class="required"></label>
 										</div>
 										<div class="kt-portlet__head-toolbar">
+											<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" name="cmm6201SignFlowBtn" id="cmm6201SignFlowBtn" title="결재선 지정" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+												<i class="fa fa-file-signature"></i><span data-lang-cd="datatable.button.select">결재선 지정</span>
+											</button>
 											<div class="kt-portlet__head-group">
 												<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 											</div>
 										</div>
 									</div>
 									<div class="kt-portlet__body">
-									
+										<div class="row osl-background-around kt-padding-t-10 kt-padding-b-10">
+											<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 kt-widget kt-widget--general-3 kt-hide" id="cmm6201SignOrdList">
+											 
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -492,6 +500,9 @@ var OSLCmm6201Popup = function () {
 	var cmm6201ProcessAuthUsrTable;
 	
 	
+	var cmm6201UsrTable;
+	
+	
 	var flowChart = $("#"+formId+" #cmm6201FlowChartDiv");
 	
 	
@@ -511,6 +522,12 @@ var OSLCmm6201Popup = function () {
 	
 	var reqProcessAuthFlag;
 	
+	
+	var signRequiredCd;
+	
+	
+	var signUsrList;
+	
     
     var documentSetting = function () {
 
@@ -520,6 +537,15 @@ var OSLCmm6201Popup = function () {
     	new KTPortlet('cmm6201ReqInfo', $.osl.lang("portlet"));
     	new KTPortlet('cmm6201NewRequestOpt', $.osl.lang("portlet"));
     	new KTPortlet('cmm6201ProcessSel', $.osl.lang("portlet"));
+    	
+    	
+	   	KTUtil.scrollInit($("#cmm6201SignOrdList")[0], {
+           disableForMobile: true, 
+           resetHeightOnDestroy: true, 
+           handleWindowResize: true,
+           windowScroll:false,
+           height: 500
+		});
     	
     	
     	KTUtil.scrollInit($("#osl-req__process-history")[0], {
@@ -683,6 +709,56 @@ var OSLCmm6201Popup = function () {
 			}
 		});
 		
+    	
+    	$("form#"+formId+" #cmm6201SignFlowBtn").click(function(){
+    		
+    		
+    		var data = {
+					targetCd :  '02',
+					
+					paramSubmitAction: false,
+					paramSignUsrList: JSON.stringify(signUsrList)
+			};
+			
+			var options = {
+				modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
+				autoHeight: false,
+				modalSize: "xl",
+				callback:[{
+					targetId: "cmm6601ModalCallbackBtn",
+					actionFn: function(thisObj){
+						var paramSignUsrList = OSLCmm6600Popup.getSignUsrInfs();
+						if(!$.osl.isNull(paramSignUsrList)){
+							signUsrList = JSON.parse(paramSignUsrList);
+							
+							
+							var signOrdListStr = '';
+							
+							
+							if(!$.osl.isNull(signUsrList) && signUsrList.length > 0){
+								$.each(signUsrList, function(idx, map){
+									
+									if(map.ord == 0){
+										return true;
+									}
+									
+									signOrdListStr += signUsrUiSetting(map);
+								});
+								$("#cmm6201SignOrdList").removeClass("kt-hide");
+							}else{
+								$("#cmm6201SignOrdList").addClass("kt-hide");
+							}
+							$("#cmm6201SignOrdList").html(signOrdListStr);
+						}else{
+							signUsrList = [];
+						}
+					}
+				}]
+			};
+			 
+			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6600View.do',data,options); 
+    	});
+    	
 		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
@@ -712,7 +788,7 @@ var OSLCmm6201Popup = function () {
     };
     
     
-	var fnDatatableSetting = function(){
+	var processAuthUsrTableSetting = function(){
 		var paramProcessId = $("#"+formId+"  #processId").val();
 		
 		
@@ -913,11 +989,10 @@ var OSLCmm6201Popup = function () {
 		    	
 		    	
 		    	
-		    	
 				var ajaxObj = new $.osl.ajaxRequestAction(
 						{"url":"<c:url value='/prj/prj1000/prj1300/selectPrj1102AllItemListAjax.do'/>", "async":"false"}
 						,{prjId: paramPrjId, processId: paramProId, flowId: paramFlowId, reqId: paramReqId});
-				
+
 				
 				ajaxObj.setFnSuccess(function(data){
 					if(data.errorYn == "Y"){
@@ -925,6 +1000,18 @@ var OSLCmm6201Popup = function () {
 					}else{
 						
 						basicItemList = data.itemList;
+						
+						var defaultItemList = new Array;
+						var newItemList = new Array;
+						$.each(basicItemList, function(idx, map){
+							if(map.reqId == paramReqId){
+								newItemList.push(map);
+							}else{
+								defaultItemList.push(map);
+							}
+						});
+						
+						
 						
 						var viewType=""
 						var readOnly=""
@@ -935,11 +1022,39 @@ var OSLCmm6201Popup = function () {
 							viewType="preview";
 							readOnly=true;
 						}
-				    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+						
+				    	$.osl.customOpt.setting(defaultItemList,  "basicItemList",
 				    			
 				    			{
 									viewType: viewType,
 									readOnly: readOnly
+								}
+			    		); 
+				    	
+				    	$.osl.customOpt.setting(newItemList,  "basicItemList",
+				    			
+				    			{
+									viewType: viewType,
+									readOnly: readOnly,
+									htmlAppendType: true,
+									delAt: true,
+									actionFn:{
+										delete:function($this){
+											var targetId = $this.data("itemId");
+											$this.parents(".basicItemDiv:first").remove();
+											basicItemDelList.push({"itemId":targetId});
+					
+											var delIdx = ""
+											$.each(basicItemInsertList,function(idx, map){
+												if(map.itemId == targetId){
+														delIdx = idx;						
+												}
+											});
+											if(delIdx!==""){
+												basicItemInsertList.splice(delIdx,1);
+											}
+										}
+									}
 								}
 			    		); 
 					}
@@ -966,17 +1081,6 @@ var OSLCmm6201Popup = function () {
  				}
  				
  				else{
- 					
- 					
- 					if(flowInfo.flowSignCd == "01"){
- 						
- 						
- 						
- 					}else{
- 						
- 						$("#"+formId+" .osl-flow-sign-hide").hide();
- 					}
- 						
 	 				
 					$.osl.date.daterangepicker($("#"+formId+" #reqStDtm"), {
 							singleDatePicker: true, 
@@ -1035,6 +1139,44 @@ var OSLCmm6201Popup = function () {
 					});
  				}
  				
+ 				
+				signRequiredCd = flowInfo.flowSignCd;
+				
+				
+				if(flowInfo.flowSignCd == "01"){
+					
+					modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
+					
+					
+					signUsrList = [];
+					var inSignUsrList = data.signUsrList;
+					if(!$.osl.isNull(inSignUsrList) && inSignUsrList.length > 0){
+						
+						var signOrdListStr = '';
+						
+						
+						$.each(inSignUsrList, function(idx, map){
+							
+							if(map.ord == 0){
+								return true;
+							}
+							
+							
+							signOrdListStr += signUsrUiSetting(map);
+							signUsrList.push(map);
+						});
+						$("#cmm6201SignOrdList").html(signOrdListStr);
+						$("#cmm6201SignOrdList").removeClass("kt-hide");
+					}else{
+						$("#cmm6201SignOrdList").addClass("kt-hide");
+						signUsrList = []; 
+					}
+					
+				}else{
+					
+					$("#"+formId+" .osl-flow-sign-hide").hide();
+				}
+				
  				
  				var modalId = $("#modalId").val();
  				$("#"+modalId+" .modal-header").prepend(modalHeaderStr);
@@ -1175,7 +1317,7 @@ var OSLCmm6201Popup = function () {
 						if(reqProcessAuthFlag){
 							if($.osl.isNull(cmm6201ProcessAuthUsrTable)){
 								
-								fnDatatableSetting();
+								processAuthUsrTableSetting();
 							}else{
 								
 								cmm6201ProcessAuthUsrTable.targetDt.reload();
@@ -1428,7 +1570,12 @@ var OSLCmm6201Popup = function () {
    			
    			fd.append("selFlowId",paramFlowId);
    		}
+		fd.append("signRequiredCd", signRequiredCd);
 		
+		
+		if(signRequiredCd == "01"){
+			fd.append("signUsrList",JSON.stringify(signUsrList));
+		}
 
    		
 		$.each(basicItemList, function(idx, map){
@@ -1464,6 +1611,15 @@ var OSLCmm6201Popup = function () {
 			}
 		});
 		
+		if(basicItemList.length>0){
+			var itemOrd = basicItemList[basicItemList.length-1].itemOrd;
+	   		
+			$.each(basicItemInsertList, function(idx, map){
+				map.itemOrd = itemOrd+idx+1;
+				basicItemInsertList[idx] = map;
+			});
+		}
+   		
 		fd.append("basicItemList",JSON.stringify(basicItemList));
 		fd.append("basicItemInsertList",JSON.stringify(basicItemInsertList));
 		fd.append("basicItemDelList",JSON.stringify(basicItemDelList));
@@ -1491,6 +1647,41 @@ var OSLCmm6201Popup = function () {
 		
 		
 		ajaxObj.send();
+	};
+	
+	
+	var signUsrUiSetting = function(usrInfo){
+		var signOrdListStr = 
+			'<div class="kt-widget__top" data-user-Id="'+usrInfo.usrId+'">'
+				+'<div class="kt-media kt-media--lg kt-media--circle">'
+					+'<img src="'+$.osl.user.usrImgUrlVal(usrInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
+				+'</div>'
+				+'<div class="kt-widget__wrapper">'
+					+'<div class="kt-widget__label">'
+						+'<span class="kt-widget__title">'
+							+$.osl.escapeHtml(usrInfo.usrNm)
+						+'</span>'
+					+'</div>'
+					+'<div class="kt-widget__links">'
+						+'<div class="kt-widget__cont">'
+							+'<div class="kt-widget__link">'
+								+'<i class="flaticon2-send  kt-font-success"></i>'+$.osl.escapeHtml(usrInfo.email)+''
+							+'</div>'
+							+'<div class="kt-widget__link">'
+								+'<i class="fa fa-phone-square-alt kt-font-skype"></i>'+$.osl.escapeHtml(usrInfo.telno)+''
+							+'</div>'
+						+'</div>'
+					+'</div>'
+					+'<div class="kt-widget__stats">'
+						+'<div class="kt-widget__stat">'
+							+'<span class="kt-widget__value">'+$.osl.escapeHtml(usrInfo.ord)+'</span>'
+							+'<span class="kt-widget__caption">결재 순번</span>'
+						+'</div>'
+					+'</div>'
+				+'</div>'
+			+'</div>';
+			
+		return signOrdListStr;
 	};
     return {
         

@@ -126,10 +126,10 @@ var OSLSpr1101Popup = function () {
 					
 					if(row.reqChargerNm != null){
 						rtnVal = row.reqChargerNm;
+						return rtnVal;
 					}else if(row.reqChargerNm == null){
 						rtnVal == "";
 					}
-					
 					return '<input type="text" class="form-control kt-align-center" name="reqCharger_'+row.reqId+'" id="reqCharger_'+row.reqId+'" data-req-id="'+row.reqId+'" value="'+rtnVal+'" readonly="readonly" />';
 				}},
 			],rows:{
