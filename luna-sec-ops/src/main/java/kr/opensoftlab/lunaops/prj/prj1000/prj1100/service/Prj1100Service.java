@@ -180,6 +180,9 @@ public interface Prj1100Service {
 
 	
 	@SuppressWarnings("rawtypes")
+	public List selectPrj1100FlowChargerCntList(Map paramMap) throws Exception;
+	
+	@SuppressWarnings("rawtypes")
 	List selectPrj1100ProcessCopyList(Map paramMap) throws Exception;
 	
 	
