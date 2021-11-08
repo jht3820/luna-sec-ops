@@ -475,9 +475,6 @@ var OSLDsh2000Popup = function () {
 				actionBtn:{
 					"dblClick" : "",
 					"refresh" : " kt-hide",
-				},
-				actionBtnIcon:{
-					"dblClick" : "fas fa-external-link-alt",
 				}
 			},
 		});
