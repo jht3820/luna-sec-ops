@@ -771,6 +771,12 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 	public int selectPrj1105FlowAuthGrpCnt(Map paramMap) throws Exception {
 		return prj1100DAO.selectPrj1105FlowAuthGrpCnt(paramMap);
 	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public List selectPrj1100FlowChargerCntList(Map paramMap) throws Exception {
+		return prj1100DAO.selectPrj1100FlowChargerCntList(paramMap);
+	}
 
 	
 	@SuppressWarnings("rawtypes")
