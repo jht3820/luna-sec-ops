@@ -409,7 +409,7 @@ var OSLPrj1102Popup = function () {
 							delete:function($this){
 								var targetId = $this.data("itemId");
 								$this.parents(".basicItemDiv:first").remove();
-								basicItemDelList.push({"itemId":targetId});
+								basicItemDelList.push({"itemId":targetId,"reqId":"ROOTSYSTEM_FLW"});
 								
 								var delIdx = ""
 								$.each(basicItemList,function(idx, map){
@@ -454,7 +454,7 @@ var OSLPrj1102Popup = function () {
 							delete:function($this){
 								var targetId = $this.data("itemId");
 								$this.parents(".basicItemDiv:first").remove();
-								basicItemDelList.push({"itemId":targetId});
+								basicItemDelList.push({"itemId":targetId,"reqId":"ROOTSYSTEM_FLW"});
 		
 								var delIdx = ""
 								$.each(basicItemList,function(idx, map){

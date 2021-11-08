@@ -32,13 +32,6 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
     @Resource(name = "prj1300Service")
     private Prj1300Service prj1300Service;
     
-    
-   	@Resource(name="fileMngService")
-   	private FileMngService fileMngService;
-   	
-   	@Resource(name = "egovFileIdGnrService")
-	private EgovIdGnrService idgenService;
-
 	
 	@SuppressWarnings("rawtypes")
 	public int  selectPrj1100ProcessListCnt(Map paramMap) throws Exception {
@@ -162,6 +155,20 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 				newMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
 				newMap.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
 				
+				
+			    if(startFlowId.equals(key)) {
+			    	newMap.put("flowStartCd", "01");
+			    }else {
+			    	newMap.put("flowStartCd", "02");
+			    }
+			    
+			    
+			    if(endFlowId.equals(key)) {
+			    	newMap.put("flowDoneCd", "01");
+			    }else {
+			    	newMap.put("flowDoneCd", "02");
+			    }
+				
 				String newFlowId = prj1100DAO.insertPrj1101FlowInfo(newMap);
 				
 				if(newFlowProp.has("basicItemList")) {
@@ -232,7 +239,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    			if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(flowNextId)) {
 		    				flowNextId = (String) newFlowIdList.get(flowNextId);
 		    			}
-		    			System.out.println(paramMap.get("flowId"));
+		    			
 		    			paramMap.put("flowNextId", flowNextId);
 		    		
 		    			

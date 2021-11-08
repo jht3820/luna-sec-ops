@@ -282,7 +282,7 @@ var OSLDpl3001Popup = function () {
 			theme: {
 				 actionBtnIcon:{
 					 
-					 "jobExcute": "fas fa-play-circle"
+					 "jobExcute": "far fa-play-circle"
 				 }
 			},
 			callback:{

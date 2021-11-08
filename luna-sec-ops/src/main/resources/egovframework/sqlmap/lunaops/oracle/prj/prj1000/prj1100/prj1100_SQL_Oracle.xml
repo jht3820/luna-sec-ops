@@ -634,7 +634,9 @@
 		) SUBT1
 		WHERE 1=1
 			AND SUBT1.PRJ_ID = #prjId#
-		    AND SUBT1.PROCESS_ID = #processId#
+			<isNotEmpty property="processId">
+		    	AND SUBT1.PROCESS_ID = #processId#
+		    </isNotEmpty>
 		    AND SUBT1.USE_CD = '01'
 	</select>
 	
@@ -671,8 +673,8 @@
 			VALUES
 			(
 				#prjId#,				#processId#,				#newFlowId#
-				,#flowNm#,				NVL(#flowLeft#,20),			NVL(#flowTop#,20),		'02'
-				,'02',					#flowSignCd#
+				,#flowNm#,				NVL(#flowLeft#,20),			NVL(#flowTop#,20),		#flowStartCd#
+				,#flowDoneCd#,			#flowSignCd#
 				,#flowSignStopCd#,		#flowEndCd#,				#flowWorkCd#
 				,#flowRevisionCd#,		#flowDplCd#,				#flowAuthCd#
 				,#flowTitleBgColor#,	#flowTitleColor#,			'01'
@@ -694,8 +696,10 @@
 			FROM PRJ1107 A
 			WHERE 1=1
 			    AND A.PRJ_ID = #prjId#
-			    AND A.PROCESS_ID = #processId#
 		]]>
+			<isNotEmpty property="processId">
+			    AND A.PROCESS_ID = #processId#
+			</isNotEmpty>
 			<isNotEmpty property="flowId">
 				AND A.FLOW_ID = #flowId#			
 			</isNotEmpty>

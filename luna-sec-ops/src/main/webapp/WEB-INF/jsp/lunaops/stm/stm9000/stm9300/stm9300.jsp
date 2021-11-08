@@ -27,13 +27,13 @@
 		<div class="kt_datatable" id="stm9300PrjJobTable"></div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLStm9300 = function () {
 	var documentSetting = function(){
 		
-		// begin:: 프로젝트 배정 Job 데이터테이블
+		
 		$.osl.datatable.setting("stm9300PrjJobTable",{
 			data: {
 				source: {
@@ -52,7 +52,7 @@ var OSLStm9300 = function () {
 				{field: 'jobRestoreId', title: "원복 Job Id", textAlign: 'center', width: 130, search: true, sortable: true, sortField: "jobRestoreId"
 					,template: function(row){
 						var jobRestoredId = row.jobRestoreId;
-						// 원복 job id 없을 경우 - 으로 표시
+						
 						if($.osl.isNull(jobRestoredId)){
 							jobRestoredId = "-";
 						}
@@ -62,7 +62,7 @@ var OSLStm9300 = function () {
 				{field: 'jobParameter', title: "Job 매개변수", textAlign: 'center', width: 120
 					,template: function(row){
 						var jobParameter = row.jobParameter;
-						// Job 매개변수 없을 경우 - 으로 표시
+						
 						if($.osl.isNull(jobParameter)){
 							jobParameter = "-";
 						}
@@ -79,17 +79,17 @@ var OSLStm9300 = function () {
 				"insert": false,
 				"update": false,
 				"delete": false,
-				//"detailJenkins":true,
+				
 				"dblClick": true,
 				"title": $.osl.lang("datatable.action.functionNm"),
 				"width" : 160
 			},
 			actionTooltip:{
 				"dblClick": $.osl.lang("stm9300.actionBtn.jobDetail"),
-				//"detailJenkins": $.osl.lang("stm9300.actionBtn.jenkinsDetail")
+				
 			},
 			actionFn:{
-				// job 상세보기
+				
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
 					
 					var data = {
@@ -106,46 +106,31 @@ var OSLStm9300 = function () {
 					$.osl.layerPopupOpen('/stm/stm9000/stm9100/selectStm9102View.do',data,options);
 					
 				},
-				// jenkins 상세보기
-				/* "detailJenkins":function(rowData, datatableId, type, rowNum, elem){
-					
-					var data = {
-							paramJenId: rowData.jenId,
-							paramJenNm: rowData.jenNm
-					};
-					var options = {
-							idKey: datatableId +"_"+ rowData.jenId,
-							modalTitle: "["+ rowData.jenNm + "] " + $.osl.lang("stm9300.modal.title.detail"),
-							closeConfirm: false,
-							modalSize: "xl"
-						};
-					
-					$.osl.layerPopupOpen('/stm/stm9000/stm9000/selectStm9002View.do',data,options);
-				} */
+				
+				
 			},
 			theme: {
 				 actionBtnIcon:{
-					 //"detailJenkins": "fa flaticon-settings-1",
-					 "dblClick": "fa fa-info-circle"
+					 
 				 }
 			 }
 		});
-		// end:: 프로젝트 배정 Job 데이터테이블
+		
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-//Initialization
+
 $.osl.ready(function(){
 	OSLStm9300.init();
 });
 		
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

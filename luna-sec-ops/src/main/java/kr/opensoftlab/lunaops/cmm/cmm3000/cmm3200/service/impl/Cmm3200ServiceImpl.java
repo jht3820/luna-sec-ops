@@ -12,7 +12,6 @@ import egovframework.com.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.opensoftlab.lunaops.cmm.cmm3000.cmm3200.service.Cmm3200Service;
 import kr.opensoftlab.lunaops.stm.stm3000.stm3003.service.impl.Stm3003DAO;
-import kr.opensoftlab.sdf.util.TableMakePrimaryKey;
 
 
 
@@ -86,14 +85,12 @@ public class Cmm3200ServiceImpl extends EgovAbstractServiceImpl implements Cmm32
 			throw new Exception(egovMessageSource.getMessage("cmm3200.fail.authGroup.insert"));
 		}
 		
-		
-		String deptId = TableMakePrimaryKey.makeKeyId("DPT", 5, 1);
-		paramMap.put("deptId",deptId);
-		
 		String rootDeptInfo 		= cmm3200DAO.insertStm4001RootDeptInfo( paramMap );			
 		if( "".equals(EgovStringUtil.isNullToString(rootDeptInfo)) ){
 			throw new Exception(egovMessageSource.getMessage("cmm3200.fail.rootDept.insert"));
 		}
+		
+		
 		
 		paramMap.put("logState", "I");		
 		paramMap.put("pwChangeState", "N");	

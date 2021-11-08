@@ -29,10 +29,6 @@ public class Spr1100ServiceImpl extends EgovAbstractServiceImpl implements Spr11
     private Spr1100DAO spr1100DAO;
     
     
-    @Resource(name="spr1000DAO")
-    private Spr1000DAO spr1000DAO;
-    
-    
     @Resource(name="req4100DAO")
     private Req4100DAO req4100DAO;
     
