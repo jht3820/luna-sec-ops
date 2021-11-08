@@ -1238,7 +1238,7 @@
 			stmFileStrg = 0;
 		}
 
-		$.osl.confirm($.osl.lang("stm2101.update"),null,function(result){
+		$.osl.confirm($.osl.lang("stm2101.update"),{"html" : true},function(result){
 			if(result.value){
 				
 				var data = {

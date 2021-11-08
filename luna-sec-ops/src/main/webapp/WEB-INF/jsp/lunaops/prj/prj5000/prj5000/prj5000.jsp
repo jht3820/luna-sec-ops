@@ -326,7 +326,9 @@ var OSLPrj5000Popup = function () {
 					var data = {
 							"type" : "view",
 							"evtType": info.event.extendedProps.eventType,
-							"prjEvtId": info.event.extendedProps.prjId,
+				    		"paramPrjId": info.event.extendedProps.prjId,
+				    		"paramPrjGrpId": info.event.extendedProps.prjGrpId,
+							"paramPrjEvtId": info.event.extendedProps.reqId,
 							"selCalendarStartDate" : info.event.start.format("yyyy-MM-dd"),
 							"selCalendarEndDate" : evtEndDate.format("yyyy-MM-dd"),
 							"selCalendarStartTime" : info.event.start.format("HH:mm"),
@@ -336,13 +338,12 @@ var OSLPrj5000Popup = function () {
 							"eventPrjId": info.event.extendedProps.prjId
 						};
 					var options = {
-							
+							idKey: info.event.extendedProps.reqId,
 							modalTitle: $.osl.lang("prj5001.insert.title"),
 							closeConfirm: false,
 							autoHeight: false,
 							modalSize: 'md'
 						};
-					
 					
 					$.osl.layerPopupOpen('/prj/prj5000/prj5000/selectPrj5001View.do',data,options);
 					
@@ -364,7 +365,8 @@ var OSLPrj5000Popup = function () {
 				var data = {
 			    		"type" : paramType,
 			    		"evtType": info.event.extendedProps.eventType,
-			    		"paramPrjId": prjId,
+			    		"paramPrjId": info.event.extendedProps.prjId,
+			    		"paramPrjGrpId": info.event.extendedProps.prjGrpId,
 			    		"paramPrjEvtId": prjEvtId,
 						"selCalendarStartDate" : info.event.start.format("yyyy-MM-dd"),
 						"selCalendarEndDate" : evtEndDate.format("yyyy-MM-dd"),
@@ -387,6 +389,13 @@ var OSLPrj5000Popup = function () {
 			
 			eventDrop: function(info) {
 				var evtEndDate = info.event.endStr;
+
+				var loginUsrId = "${sessionScope.loginVO.usrId}";
+				if(info.event.extendedProps.usrId != loginUsrId){
+					$.osl.alert("등록자만 수정이 가능합니다.");
+					fnSelectEventList();
+					return;
+				}
 				
 				
 				if($.osl.isNull(evtEndDate)){
@@ -420,6 +429,13 @@ var OSLPrj5000Popup = function () {
 			
 			eventResize: function(info) {
 				var evtEndDate = info.event.endStr;
+				
+				var loginUsrId = "${sessionScope.loginVO.usrId}";
+				if(info.event.extendedProps.usrId != loginUsrId){
+					$.osl.alert("등록자만 수정이 가능합니다.");
+					fnSelectEventList();
+					return;
+				}
 				
 				
 				if($.osl.isNull(evtEndDate)){

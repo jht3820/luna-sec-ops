@@ -288,6 +288,14 @@
 		    <isNotEmpty property="dshReqProTypeCd">
 				AND	A.REQ_PRO_TYPE = #dshReqProTypeCd#
 			</isNotEmpty>
+		    <isNotEmpty property="dshProcess">
+				AND	A.PROCESS_ID = #processId#
+				AND	A.FLOW_ID = #flowId#
+				AND	A.USE_CD = '01'
+				<isNotEmpty property="usrId">
+					AND A.REQ_CHARGER_ID = #usrId#
+				</isNotEmpty>
+			</isNotEmpty>
 			<isNotEmpty property="atchFileIdNotNull">
 				AND A.ATCH_FILE_ID IS NOT NULL
 			</isNotEmpty>

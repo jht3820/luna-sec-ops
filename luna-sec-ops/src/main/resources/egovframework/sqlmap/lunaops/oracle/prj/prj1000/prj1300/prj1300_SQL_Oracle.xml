@@ -789,6 +789,7 @@
 	        AND	A.PRJ_ID		=	#prjId#
 	        AND	A.FLOW_ID		=	#flowId#
 	        AND	A.ITEM_ID		=	#itemId#
+	        AND	A.REQ_ID		=	#reqId#
 	]]>
 	</delete>
 	

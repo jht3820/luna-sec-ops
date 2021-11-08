@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <form class="kt-form" id="frPrj1401">
 	<input type="hidden" name="type" id="type" value="${param.type}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
+	<input type="hidden" name="sessionUsrId" id="sessionUsrId" value="${sessionScope.loginVO.usrId}">
 	<input type="hidden" name="startDt" id="startDt">
 	<input type="hidden" name="endDt" id="endDt">
 	<div class="kt-portlet">
@@ -128,6 +129,10 @@ var OSLPrj1401Popup = function () {
 	
 	var paramPrjId = $("#paramPrjId").val();
 	
+	
+	var regUsrId = $("#sessionUsrId").val();
+	var defaultSource = [];
+	
     
     var documentSetting = function () {
     	
@@ -162,7 +167,7 @@ var OSLPrj1401Popup = function () {
     		if (!form.valid()) {
     			return;
     		}
-    		$.osl.confirm($.osl.lang("prj1401."+type+".saveString"),null,function(result) {
+    		$.osl.confirm($.osl.lang("prj1401."+type+".saveString"),{html: true},function(result) {
     	        if (result.value) {
     	        	
     	        	saveFormAction();
@@ -171,12 +176,15 @@ var OSLPrj1401Popup = function () {
     	});
 		
 		
-    	datatableSetting();
-		
-		
 		if(type == "update"){
 			fnPrjGrpInfoSelect();
+		}else{
+			defaultSource = [$.osl.user.userInfo];
+			prjAuthUsrIdList.push($.osl.user.userInfo.usrId);
 		}
+		
+		
+    	datatableSetting();
 		
     };
     
@@ -226,7 +234,7 @@ var OSLPrj1401Popup = function () {
 				type:'local',
 				serverSorting: false,
 				serverPaging: false,
-				source: [],
+				source: defaultSource,
 				pageSize: 4
 			},
 			toolbar:{
@@ -519,7 +527,13 @@ var OSLPrj1401Popup = function () {
 			
 			if(!$.osl.isNull(dataSet)){
 				
+				
 				$.each(selDatas, function(idx, map){
+					
+					if(map.usrId == regUsrId){
+						$.osl.toastr("생성자는 담당자 목록에서 제외 할 수 없습니다.");
+						return true;
+					}
 					$.each(originalDataSet, function(dataIdx, dataMap){
 						if($.osl.isNull(dataMap)){
 							return true;
@@ -555,6 +569,9 @@ var OSLPrj1401Popup = function () {
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
    				var prjInfo = data.prjInfo;
+   				
+   				
+   				regUsrId = prjInfo.regUsrId;
    				
    				$.osl.setDataFormElem(prjInfo, formId, ["prjNm","useCd","ord","prjDesc","startDt","endDt"]);
    				

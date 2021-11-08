@@ -1,7 +1,7 @@
 package kr.opensoftlab.lunaops.com.vo;
 
 
-public abstract class DefaultVO{
+public class DefaultVO{
 
     private String regDtm;
     private String regUsrId;

@@ -738,45 +738,11 @@ var OSLCmm6201Popup = function () {
 							if(!$.osl.isNull(signUsrList) && signUsrList.length > 0){
 								$.each(signUsrList, function(idx, map){
 									
-									var signTypeStr = "";
-									if(map.type == "02"){
-										signTypeStr = 
-											'<div class="kt-widget__stat">'
-												+'<span class="kt-widget__value">'+$.osl.escapeHtml(map.ord)+'</span>'
-												+'<span class="kt-widget__caption">결재 순번</span>'
-											+'</div>';
+									if(map.ord == 0){
+										return true;
 									}
 									
-									
-									if(map.type == "02"){
-										signOrdListStr += 
-											'<div class="kt-widget__top" data-user-Id="'+map.usrId+'">'
-												+'<div class="kt-media kt-media--lg kt-media--circle">'
-													+'<img src="'+$.osl.user.usrImgUrlVal(map.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
-												+'</div>'
-												+'<div class="kt-widget__wrapper">'
-													+'<div class="kt-widget__label">'
-														+'<span class="kt-widget__title">'
-															+$.osl.escapeHtml(map.usrNm)
-														+'</span>'
-													+'</div>'
-													+'<div class="kt-widget__links">'
-														+'<div class="kt-widget__cont">'
-															+'<div class="kt-widget__link">'
-																+'<i class="flaticon2-send  kt-font-success"></i>'+$.osl.escapeHtml(map.email)+''
-															+'</div>'
-															+'<div class="kt-widget__link">'
-																+'<i class="fa fa-phone-square-alt kt-font-skype"></i>'+$.osl.escapeHtml(map.telno)+''
-															+'</div>'
-														+'</div>'
-													+'</div>'
-													+'<div class="kt-widget__stats">'
-														+signTypeStr
-													+'</div>'
-												+'</div>'
-											+'</div>';
-									}
-									
+									signOrdListStr += signUsrUiSetting(map);
 								});
 								$("#cmm6201SignOrdList").removeClass("kt-hide");
 							}else{
@@ -1026,7 +992,7 @@ var OSLCmm6201Popup = function () {
 				var ajaxObj = new $.osl.ajaxRequestAction(
 						{"url":"<c:url value='/prj/prj1000/prj1300/selectPrj1102AllItemListAjax.do'/>", "async":"false"}
 						,{prjId: paramPrjId, processId: paramProId, flowId: paramFlowId, reqId: paramReqId});
-				
+
 				
 				ajaxObj.setFnSuccess(function(data){
 					if(data.errorYn == "Y"){
@@ -1034,6 +1000,18 @@ var OSLCmm6201Popup = function () {
 					}else{
 						
 						basicItemList = data.itemList;
+						
+						var defaultItemList = new Array;
+						var newItemList = new Array;
+						$.each(basicItemList, function(idx, map){
+							if(map.reqId == paramReqId){
+								newItemList.push(map);
+							}else{
+								defaultItemList.push(map);
+							}
+						});
+						
+						
 						
 						var viewType=""
 						var readOnly=""
@@ -1044,11 +1022,39 @@ var OSLCmm6201Popup = function () {
 							viewType="preview";
 							readOnly=true;
 						}
-				    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+						
+				    	$.osl.customOpt.setting(defaultItemList,  "basicItemList",
 				    			
 				    			{
 									viewType: viewType,
 									readOnly: readOnly
+								}
+			    		); 
+				    	
+				    	$.osl.customOpt.setting(newItemList,  "basicItemList",
+				    			
+				    			{
+									viewType: viewType,
+									readOnly: readOnly,
+									htmlAppendType: true,
+									delAt: true,
+									actionFn:{
+										delete:function($this){
+											var targetId = $this.data("itemId");
+											$this.parents(".basicItemDiv:first").remove();
+											basicItemDelList.push({"itemId":targetId});
+					
+											var delIdx = ""
+											$.each(basicItemInsertList,function(idx, map){
+												if(map.itemId == targetId){
+														delIdx = idx;						
+												}
+											});
+											if(delIdx!==""){
+												basicItemInsertList.splice(delIdx,1);
+											}
+										}
+									}
 								}
 			    		); 
 					}
@@ -1075,20 +1081,6 @@ var OSLCmm6201Popup = function () {
  				}
  				
  				else{
- 					
- 					signRequiredCd = flowInfo.flowSignCd;
- 					
- 					
- 					if(flowInfo.flowSignCd == "01"){
- 						
- 						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
- 						
- 						
- 					}else{
- 						
- 						$("#"+formId+" .osl-flow-sign-hide").hide();
- 					}
- 						
 	 				
 					$.osl.date.daterangepicker($("#"+formId+" #reqStDtm"), {
 							singleDatePicker: true, 
@@ -1147,6 +1139,44 @@ var OSLCmm6201Popup = function () {
 					});
  				}
  				
+ 				
+				signRequiredCd = flowInfo.flowSignCd;
+				
+				
+				if(flowInfo.flowSignCd == "01"){
+					
+					modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
+					
+					
+					signUsrList = [];
+					var inSignUsrList = data.signUsrList;
+					if(!$.osl.isNull(inSignUsrList) && inSignUsrList.length > 0){
+						
+						var signOrdListStr = '';
+						
+						
+						$.each(inSignUsrList, function(idx, map){
+							
+							if(map.ord == 0){
+								return true;
+							}
+							
+							
+							signOrdListStr += signUsrUiSetting(map);
+							signUsrList.push(map);
+						});
+						$("#cmm6201SignOrdList").html(signOrdListStr);
+						$("#cmm6201SignOrdList").removeClass("kt-hide");
+					}else{
+						$("#cmm6201SignOrdList").addClass("kt-hide");
+						signUsrList = []; 
+					}
+					
+				}else{
+					
+					$("#"+formId+" .osl-flow-sign-hide").hide();
+				}
+				
  				
  				var modalId = $("#modalId").val();
  				$("#"+modalId+" .modal-header").prepend(modalHeaderStr);
@@ -1540,7 +1570,12 @@ var OSLCmm6201Popup = function () {
    			
    			fd.append("selFlowId",paramFlowId);
    		}
+		fd.append("signRequiredCd", signRequiredCd);
 		
+		
+		if(signRequiredCd == "01"){
+			fd.append("signUsrList",JSON.stringify(signUsrList));
+		}
 
    		
 		$.each(basicItemList, function(idx, map){
@@ -1576,6 +1611,15 @@ var OSLCmm6201Popup = function () {
 			}
 		});
 		
+		if(basicItemList.length>0){
+			var itemOrd = basicItemList[basicItemList.length-1].itemOrd;
+	   		
+			$.each(basicItemInsertList, function(idx, map){
+				map.itemOrd = itemOrd+idx+1;
+				basicItemInsertList[idx] = map;
+			});
+		}
+   		
 		fd.append("basicItemList",JSON.stringify(basicItemList));
 		fd.append("basicItemInsertList",JSON.stringify(basicItemInsertList));
 		fd.append("basicItemDelList",JSON.stringify(basicItemDelList));
@@ -1603,6 +1647,41 @@ var OSLCmm6201Popup = function () {
 		
 		
 		ajaxObj.send();
+	};
+	
+	
+	var signUsrUiSetting = function(usrInfo){
+		var signOrdListStr = 
+			'<div class="kt-widget__top" data-user-Id="'+usrInfo.usrId+'">'
+				+'<div class="kt-media kt-media--lg kt-media--circle">'
+					+'<img src="'+$.osl.user.usrImgUrlVal(usrInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
+				+'</div>'
+				+'<div class="kt-widget__wrapper">'
+					+'<div class="kt-widget__label">'
+						+'<span class="kt-widget__title">'
+							+$.osl.escapeHtml(usrInfo.usrNm)
+						+'</span>'
+					+'</div>'
+					+'<div class="kt-widget__links">'
+						+'<div class="kt-widget__cont">'
+							+'<div class="kt-widget__link">'
+								+'<i class="flaticon2-send  kt-font-success"></i>'+$.osl.escapeHtml(usrInfo.email)+''
+							+'</div>'
+							+'<div class="kt-widget__link">'
+								+'<i class="fa fa-phone-square-alt kt-font-skype"></i>'+$.osl.escapeHtml(usrInfo.telno)+''
+							+'</div>'
+						+'</div>'
+					+'</div>'
+					+'<div class="kt-widget__stats">'
+						+'<div class="kt-widget__stat">'
+							+'<span class="kt-widget__value">'+$.osl.escapeHtml(usrInfo.ord)+'</span>'
+							+'<span class="kt-widget__caption">결재 순번</span>'
+						+'</div>'
+					+'</div>'
+				+'</div>'
+			+'</div>';
+			
+		return signOrdListStr;
 	};
     return {
         
