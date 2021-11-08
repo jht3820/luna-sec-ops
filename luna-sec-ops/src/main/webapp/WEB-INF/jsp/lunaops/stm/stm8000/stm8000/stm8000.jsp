@@ -131,11 +131,11 @@
 					},
 					"delete":function(rowDatas, datatableId, type){
 						var data = {
-								deleteDataList : JSON.stringify(rowDatas),
+								dataList : JSON.stringify(rowDatas),
 							};
 						
 				    	var ajaxObj = new $.osl.ajaxRequestAction(
-				    			{"url":"<c:url value='/spr/spr2000/spr2000/deleteSpr2000MmtListAjax.do'/>"}
+				    			{"url":"<c:url value='/stm/stm8000/stm8000/deleteStm8000ServerInfoAjax.do'/>"}
 				    				, data);
 						
 				    	ajaxObj.setFnSuccess(function(data){
@@ -348,6 +348,11 @@
     	});
     	
 		ajaxObj.send();
+	};
+	
+	
+	var selectBtnClick = function(){
+		$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 	};
 	
 	return {
