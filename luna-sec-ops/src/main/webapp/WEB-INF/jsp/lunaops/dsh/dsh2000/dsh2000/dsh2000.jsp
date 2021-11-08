@@ -172,7 +172,7 @@
 							<div class="osl-datatable-search" data-datatable-id="reqChargeDplTable"></div>
 						</div>
 					</div>
-					
+					<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="reqChargeDplTable"></div>
 				</div>
 			</div>
 		</div>
@@ -182,712 +182,6 @@
 	
 	
 	<div id="processCard">
-	</div>
-	<div class="kt-portlet kt-portlet--mobile" data-target-div="process1" id="processPortlet1">
-		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
-			<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">
-				<h4 class="kt-font-boldest kt-font-brand">
-					<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 명 1
-				</h4>
-				<h5 class="kt-font-bolder kt-font-brand osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile-430">
-					<span class="kt-margin-l-10">
-						(생성일: <span>2020-11-06 14:31</span>)
-					</span>
-					<span class="kt-margin-l-20">
-						담당<span class="badge osl-badge-brand kt-margin-l-5 kt-margin-r-10">7</span>
-						전체<span class="badge osl-badge-brand kt-margin-l-5">7</span>
-					</span>
-				</h5>
-			</div>
-			<div class="col-lg-5 col-md-12 col-sm-12 col-12 text-right kt-padding-r-0">
-	            <div class="kt-portlet__head-group">
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process1" title="칸반 그리드 전환" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-						<i class="fas fa-columns"></i>
-					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-						<i class="fas fa-redo-alt"></i>
-					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-portlet-fullscreen-btn" title="영역 전체화면" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-						<i class="fas fa-expand"></i>
-					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
-	            </div>
-	         </div>
-		</div>
-		<div class="kt-portlet__body kt-padding-10">
-			<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">
-				
-				<div class="osl-dsh-flowchart kt-margin-20">
-				
-					
-					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
-						<div class="flowchart-operator-function">
-							<li class="fa fa-file-signature" title="결재"></li>
-							<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-							<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-							<li class="fa fa-code" title="리비전 저장유무"></li>
-							<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-						</div>
-						<div class="flowchart-operator-title">
-							<div class="flowchart-operator-title__lebel">작업흐름 명</div>
-							<div class="flowchart-operator-menu hide">
-								<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-bars kt-padding-r-0"></i>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item" data-flow-action="update">
-										<i class="fa fa fa-edit kt-font-primary"></i>수정
-									</div>
-									<div class="dropdown-item" data-flow-action="delete">
-										<i class="fa fa fa-trash kt-font-primary"></i>삭제
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="flowchart-operator-inputs-outputs kt-margin-0">
-							<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-						</div>
-					</div>
-					
-					
-					<i class="fa fa-arrow-right"></i>
-					
-					
-					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
-						<div class="flowchart-operator-function">
-							<li class="fa fa-file-signature" title="결재"></li>
-							<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-							<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-							<li class="fa fa-code" title="리비전 저장유무"></li>
-							<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-						</div>
-						<div class="flowchart-operator-title">
-							<div class="flowchart-operator-title__lebel">작업흐름 명</div>
-							<div class="flowchart-operator-menu hide">
-								<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-bars kt-padding-r-0"></i>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item" data-flow-action="update">
-										<i class="fa fa fa-edit kt-font-primary"></i>수정
-									</div>
-									<div class="dropdown-item" data-flow-action="delete">
-										<i class="fa fa fa-trash kt-font-primary"></i>삭제
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="flowchart-operator-inputs-outputs kt-margin-0">
-							<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-						</div>
-					</div>
-					
-					
-					<i class="fa fa-arrow-right"></i>
-					
-					
-					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
-						<div class="flowchart-operator-function">
-							<li class="fa fa-file-signature" title="결재"></li>
-							<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-							<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-							<li class="fa fa-code" title="리비전 저장유무"></li>
-							<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-						</div>
-						<div class="flowchart-operator-title">
-							<div class="flowchart-operator-title__lebel">작업흐름 명</div>
-							<div class="flowchart-operator-menu hide">
-								<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-bars kt-padding-r-0"></i>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item" data-flow-action="update">
-										<i class="fa fa fa-edit kt-font-primary"></i>수정
-									</div>
-									<div class="dropdown-item" data-flow-action="delete">
-										<i class="fa fa fa-trash kt-font-primary"></i>삭제
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="flowchart-operator-inputs-outputs kt-margin-0">
-							<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-						</div>
-					</div>
-					
-					
-					<i class="fa fa-arrow-right"></i>
-					
-					
-					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
-						<div class="flowchart-operator-function">
-							<li class="fa fa-file-signature" title="결재"></li>
-							<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-							<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-							<li class="fa fa-code" title="리비전 저장유무"></li>
-							<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-						</div>
-						<div class="flowchart-operator-title">
-							<div class="flowchart-operator-title__lebel">작업흐름 명</div>
-							<div class="flowchart-operator-menu hide">
-								<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-bars kt-padding-r-0"></i>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item" data-flow-action="update">
-										<i class="fa fa fa-edit kt-font-primary"></i>수정
-									</div>
-									<div class="dropdown-item" data-flow-action="delete">
-										<i class="fa fa fa-trash kt-font-primary"></i>삭제
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="flowchart-operator-inputs-outputs kt-margin-0">
-							<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-						</div>
-					</div>
-					
-					
-					<i class="fa fa-arrow-right"></i>
-					
-					
-					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
-						<div class="flowchart-operator-function">
-							<li class="fa fa-file-signature" title="결재"></li>
-							<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-							<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-							<li class="fa fa-code" title="리비전 저장유무"></li>
-							<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-						</div>
-						<div class="flowchart-operator-title">
-							<div class="flowchart-operator-title__lebel">작업흐름 명</div>
-							<div class="flowchart-operator-menu hide">
-								<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-bars kt-padding-r-0"></i>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item" data-flow-action="update">
-										<i class="fa fa fa-edit kt-font-primary"></i>수정
-									</div>
-									<div class="dropdown-item" data-flow-action="delete">
-										<i class="fa fa fa-trash kt-font-primary"></i>삭제
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="flowchart-operator-inputs-outputs kt-margin-0">
-							<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-						</div>
-					</div>
-					
-					
-					<i class="fa fa-arrow-right"></i>
-					
-					
-					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
-						<div class="flowchart-operator-function">
-							<li class="fa fa-file-signature" title="결재"></li>
-							<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-							<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-							<li class="fa fa-code" title="리비전 저장유무"></li>
-							<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-						</div>
-						<div class="flowchart-operator-title">
-							<div class="flowchart-operator-title__lebel">작업흐름 명</div>
-							<div class="flowchart-operator-menu hide">
-								<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-bars kt-padding-r-0"></i>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item" data-flow-action="update">
-										<i class="fa fa fa-edit kt-font-primary"></i>수정
-									</div>
-									<div class="dropdown-item" data-flow-action="delete">
-										<i class="fa fa fa-trash kt-font-primary"></i>삭제
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="flowchart-operator-inputs-outputs kt-margin-0">
-							<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-						</div>
-					</div>
-				</div>
-				
-
-				
-				<div class="osl-dsh-kanban kt-margin-20 kt-hide">
-					
-					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
-						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
-							<div class="col-12 border-bottom">
-								<div class="flowchart-operator-function">
-									<li class="fa fa-file-signature" title="결재"></li>
-									<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-									<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-									<li class="fa fa-code" title="리비전 저장유무"></li>
-									<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-								</div>
-							</div>
-							<div class="col-6 text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="col-6 text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-							<div class="col-12 text-center border-top kt-padding-10 font-border">작업흐름 명</div>
-						</div>
-						<div class="kt-portlet__body osl-kaban--card__body kt-scroll" processid="1">
-							
-							<div class="card kt-margin-t-10">
-								<div class="card-header kt-padding-10 kt-font-bolder">
-									요구사항 순번
-								</div>
-								<div class="card-body kt-padding-10">
-									<div class="row">
-										<div class="col-3">
-											<div class="kt-profile__main-pic kt-media osl-media">
-												<img id="usrImage" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000328">
-									    	</div>
-									    	<div class="w-100 text-center">홍길동</div>
-							    		</div>
-										<div class="col-9">
-											<h5 class="card-title">요구사항명</h5>
-											<p class="card-text">요청 내용</p>
-										</div>
-									</div>
-								</div>
-								<div class="card-footer kt-padding-0">
-									<div class="row kt-margin-0">
-										<div class="col-3 kt-padding-0">
-											<div class="badge badge-success float-left kt-margin-r-20 w-100"><i class="fas fa-clock kt-margin-r-5"></i><span>0</span>일</div>
-										</div>
-										<div class="col-9">
-											<div class="float-left text-center w-100 h-100 osl-line-height--23">2020-06-09 00:00:00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							
-							<div class="card kt-margin-t-10">
-								<div class="card-header kt-padding-10 kt-font-bolder">
-									요구사항 순번
-								</div>
-								<div class="card-body kt-padding-10">
-									<div class="row">
-										<div class="col-3">
-											<div class="kt-profile__main-pic kt-media osl-media">
-												<img id="usrImage" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000328">
-									    	</div>
-									    	<div class="w-100 text-center">홍길동</div>
-							    		</div>
-										<div class="col-9">
-											<h5 class="card-title">요구사항명</h5>
-											<p class="card-text">요청 내용</p>
-										</div>
-									</div>
-								</div>
-								<div class="card-footer kt-padding-0">
-									<div class="row kt-margin-0">
-										<div class="col-3 kt-padding-0">
-											<div class="badge badge-warning float-left kt-margin-r-20 w-100"><i class="fas fa-clock kt-margin-r-5"></i><span>0</span>일</div>
-										</div>
-										<div class="col-9">
-											<div class="float-left text-center w-100 h-100 osl-line-height--23">2020-06-09 00:00:00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							
-							<div class="card kt-margin-t-10">
-								<div class="card-header kt-padding-10 kt-font-bolder">
-									요구사항 순번
-								</div>
-								<div class="card-body kt-padding-10">
-									<div class="row">
-										<div class="col-3">
-											<div class="kt-profile__main-pic kt-media osl-media">
-												<img id="usrImage" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000328">
-									    	</div>
-									    	<div class="w-100 text-center">홍길동</div>
-							    		</div>
-										<div class="col-9">
-											<h5 class="card-title">요구사항명</h5>
-											<p class="card-text">요청 내용</p>
-										</div>
-									</div>
-								</div>
-								<div class="card-footer kt-padding-0">
-									<div class="row kt-margin-0">
-										<div class="col-3 kt-padding-0">
-											<div class="badge badge-danger float-left kt-margin-r-20 w-100"><i class="fas fa-clock kt-margin-r-5"></i><span>50</span>일</div>
-										</div>
-										<div class="col-9">
-											<div class="float-left text-center w-100 h-100 osl-line-height--23">2020-06-09 00:00:00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							
-							<div class="card kt-margin-t-10">
-								<div class="card-header kt-padding-10 kt-font-bolder">
-									요구사항 순번
-								</div>
-								<div class="card-body kt-padding-10">
-									<div class="row">
-										<div class="col-3">
-											<div class="kt-profile__main-pic kt-media osl-media">
-												<img id="usrImage" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000328">
-									    	</div>
-									    	<div class="w-100 text-center">홍길동</div>
-							    		</div>
-										<div class="col-9">
-											<h5 class="card-title">요구사항명</h5>
-											<p class="card-text">요청 내용</p>
-										</div>
-									</div>
-								</div>
-								<div class="card-footer kt-padding-0">
-									<div class="row kt-margin-0">
-										<div class="col-3 kt-padding-0">
-											<div class="badge badge-danger float-left kt-margin-r-20 w-100"><i class="fas fa-clock kt-margin-r-5"></i><span>50</span>일</div>
-										</div>
-										<div class="col-9">
-											<div class="float-left text-center w-100 h-100 osl-line-height--23">2020-06-09 00:00:00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					 
-					
-					<i class="fa fa-arrow-right"></i>
-					
-					
-					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
-						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
-							<div class="col-12 border-bottom">
-								<div class="flowchart-operator-function">
-									<li class="fa fa-file-signature" title="결재"></li>
-									<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-									<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-									<li class="fa fa-code" title="리비전 저장유무"></li>
-									<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-								</div>
-							</div>
-							<div class="col-6 text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="col-6 text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-							<div class="col-12 text-center border-top kt-padding-10 font-border">작업흐름 명</div>
-						</div>
-						<div class="kt-portlet__body osl-kaban--card__body kt-scroll"  processid="2">
-							
-							<div class="card kt-margin-t-10">
-								<div class="card-header kt-padding-10 kt-font-bolder">
-									요구사항 순번
-								</div>
-								<div class="card-body kt-padding-10">
-									<div class="row">
-										<div class="col-3">
-											<div class="kt-profile__main-pic kt-media osl-media">
-												<img id="usrImage" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000328">
-									    	</div>
-									    	<div class="w-100 text-center">홍길동</div>
-							    		</div>
-										<div class="col-9">
-											<h5 class="card-title">요구사항명</h5>
-											<p class="card-text">요청 내용</p>
-										</div>
-									</div>
-								</div>
-								<div class="card-footer kt-padding-0">
-									<div class="row kt-margin-0">
-										<div class="col-3 kt-padding-0">
-											<div class="badge badge-danger float-left kt-margin-r-20 w-100"><i class="fas fa-clock kt-margin-r-5"></i><span>50</span>일</div>
-										</div>
-										<div class="col-9">
-											<div class="float-left text-center w-100 h-100 osl-line-height--23">2020-06-09 00:00:00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-			
-			
-			<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 kt-hide" id="processReqTable_1"></div>
-			
-		</div>
-	</div>
-	
-	
-	
-	<div class="kt-portlet kt-portlet--mobile" data-target-div="process2" id="processPortlet2">
-		<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
-			<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">
-				<h4 class="kt-font-boldest kt-font-brand kt-margin-r-10">
-					<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 명 2
-				</h4>
-				<h5 class="kt-font-bolder kt-font-brand osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile-430">
-					<span class="kt-margin-r-20">
-						(생성일: <span>2020-11-06 14:31</span>)
-					</span>
-					<span>
-						담당<span class="badge osl-badge-brand kt-margin-l-5 kt-margin-r-10">7</span>
-						전체<span class="badge osl-badge-brand kt-margin-l-5">7</span>
-					</span>
-				</h5>
-			</div>
-			<div class="col-lg-5 col-md-12 col-sm-12 col-12 text-right kt-padding-r-0">
-	            <div class="kt-portlet__head-group">
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process2" title="칸반 그리드 전환" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-						<i class="fas fa-columns"></i>
-					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-						<i class="fas fa-redo-alt"></i>
-					</button>
-					<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-portlet-fullscreen-btn" title="영역 전체화면" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-						<i class="fas fa-expand"></i>
-					</button>
-	            	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
-	            </div>
-	         </div>
-		</div>
-		<div class="kt-portlet__body kt-padding-10">
-			<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">
-				
-				<div class="osl-dsh-flowchart kt-margin-20">
-					
-					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
-						<div class="flowchart-operator-function">
-							<li class="fa fa-file-signature" title="결재"></li>
-							<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-							<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-							<li class="fa fa-code" title="리비전 저장유무"></li>
-							<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-						</div>
-						<div class="flowchart-operator-title">
-							<div class="flowchart-operator-title__lebel">작업흐름 명</div>
-							<div class="flowchart-operator-menu hide">
-								<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-bars kt-padding-r-0"></i>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item" data-flow-action="update">
-										<i class="fa fa fa-edit kt-font-primary"></i>수정
-									</div>
-									<div class="dropdown-item" data-flow-action="delete">
-										<i class="fa fa fa-trash kt-font-primary"></i>삭제
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="flowchart-operator-inputs-outputs kt-margin-0">
-							<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-						</div>
-					</div>
-					<i class="fa fa-arrow-right"></i>
-					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
-						<div class="flowchart-operator-function">
-							<li class="fa fa-file-signature" title="결재"></li>
-							<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-							<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-							<li class="fa fa-code" title="리비전 저장유무"></li>
-							<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-						</div>
-						<div class="flowchart-operator-title">
-							<div class="flowchart-operator-title__lebel">작업흐름 명</div>
-							<div class="flowchart-operator-menu hide">
-								<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-bars kt-padding-r-0"></i>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item" data-flow-action="update">
-										<i class="fa fa fa-edit kt-font-primary"></i>수정
-									</div>
-									<div class="dropdown-item" data-flow-action="delete">
-										<i class="fa fa fa-trash kt-font-primary"></i>삭제
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="flowchart-operator-inputs-outputs kt-margin-0">
-							<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-						</div>
-					</div>
-					
-					
-					<i class="fa fa-arrow-right"></i>
-					
-					
-					<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">
-						<div class="flowchart-operator-function">
-							<li class="fa fa-file-signature" title="결재"></li>
-							<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-							<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-							<li class="fa fa-code" title="리비전 저장유무"></li>
-							<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-						</div>
-						<div class="flowchart-operator-title">
-							<div class="flowchart-operator-title__lebel">작업흐름 명</div>
-							<div class="flowchart-operator-menu hide">
-								<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-									<i class="fa fa-bars kt-padding-r-0"></i>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-item" data-flow-action="update">
-										<i class="fa fa fa-edit kt-font-primary"></i>수정
-									</div>
-									<div class="dropdown-item" data-flow-action="delete">
-										<i class="fa fa fa-trash kt-font-primary"></i>삭제
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="flowchart-operator-inputs-outputs kt-margin-0">
-							<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-						</div>
-					</div>
-				</div>
-				
-				
-				<div class="osl-dsh-kanban kt-margin-20 kt-hide">
-					
-					<div class="kt-portlet osl-w-px-300 border kt-margin-b-0">
-						<div class="kt-portlet__head row kt-margin-0 kt-padding-0">
-							<div class="col-12 border-bottom">
-								<div class="flowchart-operator-function">
-									<li class="fa fa-file-signature" title="결재"></li>
-									<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
-									<li class="fa fa-sign-out-alt" title="종료 분기"></li>
-									<li class="fa fa-code" title="리비전 저장유무"></li>
-									<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
-								</div>
-							</div>
-							<div class="col-6 text-center kt-padding-10 osl-cursor-pointer"> 담당 <span>1</span> </div>
-							<div class="col-6 text-center kt-padding-10 border-left osl-cursor-pointer"> 전체 <span>1</span> </div>
-							<div class="col-12 text-center border-top kt-padding-10 font-border">작업흐름 명</div>
-						</div>
-						<div class="kt-portlet__body osl-kaban--card__body kt-scroll" processid="3">
-							
-							
-							<div class="card kt-margin-t-10">
-								<div class="card-header kt-padding-10 kt-font-bolder">
-									요구사항 순번
-								</div>
-								<div class="card-body kt-padding-10">
-									<div class="row">
-										<div class="col-3">
-											<div class="kt-profile__main-pic kt-media osl-media">
-												<img id="usrImage" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000328">
-									    	</div>
-									    	<div class="w-100 text-center">홍길동</div>
-							    		</div>
-										<div class="col-9">
-											<h5 class="card-title">요구사항명</h5>
-											<p class="card-text">요청 내용</p>
-										</div>
-									</div>
-								</div>
-								<div class="card-footer kt-padding-0">
-									<div class="row kt-margin-0">
-										<div class="col-3 kt-padding-0">
-											<div class="badge badge-warning float-left kt-margin-r-20 w-100"><i class="fas fa-clock kt-margin-r-5"></i><span>0</span>일</div>
-										</div>
-										<div class="col-9">
-											<div class="float-left text-center w-100 h-100 osl-line-height--23">2020-06-09 00:00:00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							
-							<div class="card kt-margin-t-10">
-								<div class="card-header kt-padding-10 kt-font-bolder">
-									요구사항 순번
-								</div>
-								<div class="card-body kt-padding-10">
-									<div class="row">
-										<div class="col-3">
-											<div class="kt-profile__main-pic kt-media osl-media">
-												<img id="usrImage" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000328">
-									    	</div>
-									    	<div class="w-100 text-center">홍길동</div>
-							    		</div>
-										<div class="col-9">
-											<h5 class="card-title">요구사항명</h5>
-											<p class="card-text">요청 내용</p>
-										</div>
-									</div>
-								</div>
-								<div class="card-footer kt-padding-0">
-									<div class="row kt-margin-0">
-										<div class="col-3 kt-padding-0">
-											<div class="badge badge-danger float-left kt-margin-r-20 w-100"><i class="fas fa-clock kt-margin-r-5"></i><span>50</span>일</div>
-										</div>
-										<div class="col-9">
-											<div class="float-left text-center w-100 h-100 osl-line-height--23">2020-06-09 00:00:00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							
-							<div class="card kt-margin-t-10">
-								<div class="card-header kt-padding-10 kt-font-bolder">
-									요구사항 순번
-								</div>
-								<div class="card-body kt-padding-10">
-									<div class="row">
-										<div class="col-3">
-											<div class="kt-profile__main-pic kt-media osl-media">
-												<img id="usrImage" src="/cmm/fms/getImage.do?fileSn=0&amp;atchFileId=FILE_000000000000328">
-									    	</div>
-									    	<div class="w-100 text-center">홍길동</div>
-							    		</div>
-										<div class="col-9">
-											<h5 class="card-title">요구사항명</h5>
-											<p class="card-text">요청 내용</p>
-										</div>
-									</div>
-								</div>
-								<div class="card-footer kt-padding-0">
-									<div class="row kt-margin-0">
-										<div class="col-3 kt-padding-0">
-											<div class="badge badge-danger float-left kt-margin-r-20 w-100"><i class="fas fa-clock kt-margin-r-5"></i><span>50</span>일</div>
-										</div>
-										<div class="col-9">
-											<div class="float-left text-center w-100 h-100 osl-line-height--23">2020-06-09 00:00:00</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-			
-			
-			<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 kt-hide" id="processReqTable_2"></div>
-			
-		</div>
 	</div>
 	
 	
@@ -920,8 +214,6 @@ var OSLDsh2000Popup = function () {
 	var totalSprPoint = 0;
 	
 	var scrollArray = $('.osl-kaban--card__body.kt-scroll');
-	
-
 	
 	
 	var timerVarSel;
@@ -980,7 +272,6 @@ var OSLDsh2000Popup = function () {
 					parentPortlet.addClass('kt-portlet--collapse');
 				});
 			}
-			
 			
 			
 			
@@ -1184,9 +475,6 @@ var OSLDsh2000Popup = function () {
 				actionBtn:{
 					"dblClick" : "",
 					"refresh" : " kt-hide",
-				},
-				actionBtnIcon:{
-					"dblClick" : "fas fa-external-link-alt",
 				}
 			},
 		});
@@ -1254,7 +542,6 @@ var OSLDsh2000Popup = function () {
 		});
 		
 		
-		
 		$.osl.datatable.setting(dplDatatableId,{
 			data: {
 				source: {
@@ -1288,9 +575,8 @@ var OSLDsh2000Popup = function () {
 		 	},
 		 	columns: [
 				{field: 'rn', title: 'no.', textalign: 'center', width: 30, autohide: false, sortable: false},
-				{field: 'upPrjNm', title: '프로젝트 명', textalign: 'center', width: 150},
-				{field: 'nowSigntypenm', title: '결재 상태', textalign: 'center', width: 70, autohide: false, sortable: true, sortfield: "nowSignTypeCd", search:true, searchtype: "select", searchcd: "CMM00008", searchfield:"nowSignTypeCd"},
-				{field: 'signReqUsrId', title: '요청자', textalign: 'center', width: 100, sortable: true, search:true,
+				{field: 'nowSignTypeNm', title: '결재 상태', textalign: 'center', width: 70, autohide: false, search: true, searchType:"select", searchCd: "CMM00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"},
+				{field: 'signReqUsrId', title: '요청자', textalign: 'center', width: 100,  search:true, sortable: true,
 					template: function (row) {
 						return $.osl.user.usrImgSet(row.signDrfUsrImgId, row.signDrfUsrNm);
 					},
@@ -1300,10 +586,10 @@ var OSLDsh2000Popup = function () {
 				},
 				{field: 'lastSignUsrNm', title: '결재자', textalign: 'center', width: 100, sortable: true, autohide: false,
 					template: function (row) {
-						return $.osl.user.usrImgSet(row.signUsrImgId, row.signUsrNm);
+						return $.osl.user.usrImgSet(row.lastSignUsrImgId, row.lastSignUsrNm);
 					},
 					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.signUsrId);
+						$.osl.user.usrInfoPopup(rowData.lastSignUsrId);
 					}	
 				},
 				{field: 'signDtm', title: '결재 요청 일자', textalign: 'center', width: 100, sortable: true,
@@ -1313,9 +599,9 @@ var OSLDsh2000Popup = function () {
 		                return agoTimeStr.agoString;
 					}
 				},
-				{field: 'dplNm', title: '배포계획명', textalign: 'center', width: 150, autohide:false, sortable: true, search: true},
-				{field: 'signRes', title: '결재 의견', textalign: 'center', width: 200, sortable: false},
-				{field: 'dplUsrNm', title: '배포자', textalign: 'center', width: 150, sortable: true, search:true,
+				{field: 'dplNm', title: '배포계획명', textalign: 'center', width: 100, autohide:false, sortable: true, search: true},
+				{field: 'signRes', title: '결재 의견', textalign: 'center', width: 100, autohide:true, sortable: false},
+				{field: 'dplUsrNm', title: '배포자', textalign: 'center', width: 100, autohide:true,sortable: true, search:true,
 					template: function (row) {
 						return $.osl.user.usrImgSet(row.dplUsrImgId, row.dplUsrNm);
 					},
@@ -1328,15 +614,20 @@ var OSLDsh2000Popup = function () {
 				clickcheckbox: true
 			},
 			actionBtn:{
-				"dblClick": false,
+				"dblClick": true,
 				"refresh" : true,
 				"update": false,
 				"delete": false,
+				"signApr": true,
+				"signReject":true,
+				"width" : 150
 			},
 			actionTooltip:{
 				"title" : "상세",
 				"dblClick": "상세보기",
 				"refresh": "상세보기",
+				"signApr": "결재 승인",
+				"signReject": "결재 반려",
 			},
 			actionFn:{
 				"refresh": function(rowData, datatableId, type, rowNum){
@@ -1359,14 +650,178 @@ var OSLDsh2000Popup = function () {
 					
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
 				},
+				"signApr":function(rowData, datatableId, type, rowNum, elem){
+					var rowDatas = [];
+					
+					
+					if(type == "list"){
+						
+						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
+						
+						
+						if(selRecords.length == 0){
+							$.osl.alert($.osl.lang("dpl2100.action.sign.nonSelect"));
+							return true;
+						}
+						
+						rowDatas = rowData;
+						
+					
+					}else{
+						rowDatas.push(rowData);
+					}
+					
+
+					var usrId = $.osl.user.userInfo.usrId;
+					
+					
+					var usrSign = false;
+					
+					
+					$.each(rowDatas,function(idx,map){
+						
+						if(!(map.lastSignUsrId == usrId)){
+							usrSign = true;
+						}	
+					});
+					
+					if(usrSign){
+						$.osl.alert("결재 순서가 아닙니다.");
+						return;
+					}
+					
+					var data = {
+							type : "signApr"
+					};
+					
+					var options = {
+						modalTitle: $.osl.lang("dpl2100.modal.title.signAprRes"),
+						autoHeight: false,
+						modalSize: "md",
+						callback:[{
+							targetId: "cmm6602SaveSubmit",
+							actionFn: function(thisObj){
+								
+								
+					        	var signRes = OSLCmm6602Popup.getSignRes();
+								
+								
+								if($.osl.isNull(signRes)){
+									$.osl.alert("결재 사유를 입력해주세요.");
+									return true;
+								}
+								
+								$.osl.confirm($.osl.lang("dpl2100.message.confirm.signApr"),null,function(result) {
+							        if (result.value) {
+							        	
+							        	var type = OSLCmm6602Popup.getType();
+							        	
+							        	
+										$.osl.layerPopupClose();
+							        	
+							        	
+							        	signDpl(rowDatas,signRes,type);
+							        	
+							        	
+							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        }
+							    });
+							}
+						}]
+							
+					};
+					 
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6602View.do',data,options); 
+					
+				},
+				"signReject":function(rowData, datatableId, type, rowNum, elem){
+					var rowDatas = [];
+					
+					
+					if(type == "list"){
+						
+						var selRecords = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
+						
+						
+						if(selRecords.length == 0){
+							$.osl.alert($.osl.lang("dpl2100.action.sign.nonSelect"));
+							return true;
+						}
+						
+						rowDatas = rowData;
+						
+					
+					}else{
+						rowDatas.push(rowData);
+					}
+					
+					var usrId = $.osl.user.userInfo.usrId;
+					
+					
+					var usrSign = false;
+					
+					
+					$.each(rowDatas,function(idx,map){
+						
+						if(!(map.lastSignUsrId == usrId)){
+							usrSign = true;
+						}	
+					});
+					
+					if(usrSign){
+						$.osl.alert("결재 순서가 아닙니다.");
+						return;
+					}
+					
+					var data = {
+							type : "signRjt"
+					};
+					var options = {
+						modalTitle: $.osl.lang("dpl2100.modal.title.signRjtRes"),
+						autoHeight: false,
+						modalSize: "md",
+						callback:[{
+							targetId: "cmm6602SaveSubmit",
+							actionFn: function(thisObj){
+								
+					        	var signRes = OSLCmm6602Popup.getSignRes();
+								
+								
+								if($.osl.isNull(signRes)){
+									$.osl.alert("반려 사유를 입력해주세요.");
+									return true;
+								}
+								
+								$.osl.confirm($.osl.lang("dpl2100.message.confirm.signRjt"),null,function(result) {
+							        if (result.value) {
+							        	
+							        	var type = OSLCmm6602Popup.getType();
+							        	
+										$.osl.layerPopupClose();
+							        	
+							        	
+							        	signDpl(rowDatas,signRes,type);
+							        	
+							        	
+							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        }
+							    });
+								
+							}
+						}]
+							
+					};
+					 
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6602View.do',data,options); 
+				},
 			},
 			theme:{
 				actionBtn:{
-					"dblClick" : "",
 					"refresh" : " kt-hide",
 				},
 				actionBtnIcon:{
-					"dblClick" : "fas fa-external-link-alt",
+					"signApr": "fas fa-check-square",
+					"signReject":"fas fa-times",
 				}
 			},
 		});
@@ -1638,7 +1093,7 @@ var OSLDsh2000Popup = function () {
 									+'</div>'
 									+'<div class="kt-portlet__body">'
 										+'<div class="row">'
-											+ '<div class="col-4">'
+											+ '<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">'
 												+'<div class="d-flex kt-padding-l-15 align-items-center">'
 													+'<div class="kt-media kt-media--xl kt-media--circle '+sprTypeClass+' osl-margin-r-2rm">'
 														+'<span>'+sprTypeNm+'</span>'
@@ -1667,10 +1122,10 @@ var OSLDsh2000Popup = function () {
 													+'</div>'
 												+'</div>'
 											+'</div>'
-											+ '<div class="col-4">'
+											+ '<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">'
 												+ '<div class="osl-widget osl-flex-row-fluid flex-wrap">'
 													+ '<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer" data-spr-id="'+map.sprId+'" data-type="total">'
-														+ '<div class="osl-widget-info__item-icon">'
+														+ '<div class="osl-widget-info__item-icon d-block">'
 															+ '<img src="/media/osl/icon/reqAll.png">'
 														+ '</div>'
 													+ '<div class="osl-widget-info__item-info">'
@@ -1679,7 +1134,7 @@ var OSLDsh2000Popup = function () {
 														+ '</div>'
 													+ '</div>'
 													+ '<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer" data-spr-id="'+map.sprId+'" data-type="ongoing">'
-														+ '<div class="osl-widget-info__item-icon">'
+														+ '<div class="osl-widget-info__item-icon d-block">'
 															+ '<img src="/media/osl/icon/reqInProgress.png">'
 														+ '</div>'
 														+ '<div class="osl-widget-info__item-info">'
@@ -1690,7 +1145,7 @@ var OSLDsh2000Popup = function () {
 												+ '</div>'
 												+ '<div class="osl-widget osl-flex-row-fluid flex-wrap">'
 													+ '<div class="osl-widget-info__item osl-flex-row-fluid osl-spr-btn osl-cursor-pointer" data-spr-id="'+map.sprId+'" data-type="end">'
-														+ '<div class="osl-widget-info__item-icon">'
+														+ '<div class="osl-widget-info__item-icon d-block">'
 															+ '<img src="/media/osl/icon/reqDone.png">'
 														+ '</div>'
 														+ '<div class="osl-widget-info__item-info">'
@@ -1699,7 +1154,7 @@ var OSLDsh2000Popup = function () {
 														+ '</div>'
 													+ '</div>'
 													+ '<div class="osl-widget-info__item osl-flex-row-fluid">'
-														+ '<div class="osl-widget-info__item-icon">'
+														+ '<div class="osl-widget-info__item-icon d-block">'
 															+ '<img src="/media/osl/icon/reqPointer.png">'
 														+ '</div>'
 														+ '<div class="osl-widget-info__item-info">'
@@ -1709,7 +1164,7 @@ var OSLDsh2000Popup = function () {
 													+ '</div>'
 												+ '</div>'
 											+ '</div>'
-											+ '<div class="col-4">'
+											+ '<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">'
 												+'<div class="osl-card__data--empty osl-min-h-px--202" id="burnDownChart'+map.sprId+'">'
 												+'</div>'
 											+ '</div>'
@@ -1743,7 +1198,9 @@ var OSLDsh2000Popup = function () {
 					});
 					
 					KTApp.initTooltips();
-					$('[data-toggle-second="tooltip"]').tooltip();
+					$('[data-toggle-second="tooltip"]').tooltip({
+						template:'<div class="tooltip tooltip-brand" role="tooltip"><div class="tooltip-arrow arrow" style="left: 25px;"></div><div class="tooltip-inner"></div></div>'
+					});
 					
 					$("#spr1000Table .kt-datatable__table").css({visibility: "hidden", height: 0});
 					
@@ -1772,132 +1229,6 @@ var OSLDsh2000Popup = function () {
 			}
 		});
 		
-		$('.osl-view-type').click(function(){
-			var targetType = $(this).data('view-type');
-			var targetObj = $(this).data('target-process');
-			var targetDiv = $('div[data-target-div='+targetObj+']');
-			var targetParent = $(this).parents('.kt-portlet');
-			
-			if(targetType=='grid'){
-				
-				targetDiv.find(".osl-dsh-flowchart").addClass('kt-hide');
-				targetDiv.find(".osl-dsh-kanban").removeClass('kt-hide');
-				$(this).data('view-type','kaban');
-				
-				
-				$(targetParent).find('.kt_datatable').addClass('kt-hide');
-				return false;
-			}else if(targetType=='kaban'){
-				
-				targetDiv.find(".osl-dsh-kanban").addClass('kt-hide');
-				targetDiv.find(".osl-dsh-flowchart").removeClass('kt-hide');
-				$(this).data('view-type','grid');
-				return false;	
-			}
-		});
-		
-		$('.osl-portlet-fullscreen-btn').click(function(){
-			
-			var targetObj = $(this).parents('.kt-portlet');
-			
-			if(targetObj.hasClass('kt-portlet--fullscreen')){
-				
-				targetObj.stop().animate({top: '30%'},1000, function(){
-					targetObj.removeClass('kt-portlet--fullscreen');
-				});
-			}else{
-				
-				$('.kt-portlet').removeClass('kt-portlet--fullscreen');
-				
-				$('.kt-portlet').css({top:''});
-				
-				targetObj.addClass('kt-portlet--fullscreen');
-				
-				targetObj.stop().animate({top:'0%'},1000);
-			}
-		});
-		
-		
-		
-		$('.flowchart-operator-outputs,.flowchart-operator-inputs').click(function(){
-			
-			var target = $(this).parents('.kt-portlet__body');
-			$(target).children('.kt_datatable').removeClass('kt-hide');
-			
-			
-			var targetId = $(this).parents('.kt-portlet').data("target-div");
-			if(targetId=='process1'){
-				processTableSetting('1');
-			}else if(targetId=='process2'){
-				processTableSetting('2');
-			}
-		});
-				
-		
-		
-		new Sortable($('.osl-kaban--card__body[processid="1"]')[0], {
-			group:'shared',
-	        animation: 100,
-	        
-	        chosenClass: "chosen",
-	        
-	        onMove:function(evt,originalEvent){
-				var UserAgent = navigator.userAgent;
-				
-				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
-					return false;
-				}else{
-					return true;
-				}
-								
-			},
-	      	
-			onAdd:function(evt){
-				
-			}
-	    });
-		new Sortable($('.osl-kaban--card__body[processid="2"]')[0], {
-			group:'shared',
-	        animation: 100,
-	        
-	        chosenClass: "chosen",
-	        
-	        onMove:function(evt,originalEvent){
-				var UserAgent = navigator.userAgent;
-				
-				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
-					return false;
-				}else{
-					return true;
-				}
-				
-			},
-	      	
-			onAdd:function(evt){
-				
-			}
-	    });
-		new Sortable($('.osl-kaban--card__body[processid="3"]')[0], {
-			group:'shared',
-	        animation: 100,
-	        
-	        chosenClass: "chosen",
-	        
-	        onMove:function(evt,originalEvent){
-				var UserAgent = navigator.userAgent;
-				
-				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
-					return false;
-				}else{
-					return true;
-				}
-				
-			},
-	      	
-			onAdd:function(evt){
-				
-			}
-	    });
 	};
 	var sprReqTable = function(sprId, cate){
 		
@@ -2082,7 +1413,10 @@ var OSLDsh2000Popup = function () {
 			}else{
 				var processes = datas.data;
 				$.each(processes, function(idx, value){
-					var str = '<div class="kt-portlet kt-portlet--mobile" id="processPortlet'+idx+'" data-target-div="process'+idx+'" data-process-id="'+value.processId+'">'
+					
+					dshDatatableIdList.push("processReqTable_"+idx);
+					
+					var str = '<div class="kt-portlet kt-portlet--mobile process-div" id="processPortlet'+idx+'" data-target-div="process'+idx+'" data-process-id="'+value.processId+'">'
 								+ '<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">'
 									+ '<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">'
 										+ '<h4 class="kt-font-boldest kt-font-brand">'
@@ -2100,12 +1434,13 @@ var OSLDsh2000Popup = function () {
 									+ '</div>'
 									+ '<div class="col-lg-5 col-md-12 col-sm-12 col-12 text-right kt-padding-r-0">'
 										+ '<div class="kt-portlet__head-group">'
-											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process1" title="칸반 그리드 전환" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
-												+ '<i class="fas fa-columns"></i>'
+											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 invisible" data-datatable-id="processReqTable_'+idx+'" data-datatable-action="select" title="조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">'
+												+ '<i class="fas fa-redo-alt"></i>'
 											+ '</button>'
+											
 											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
 											+ '</button>'
-											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" title="영역 새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
+											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="processReqTable_'+idx+'" data-datatable-action="refresh" title="새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="refresh" tabindex="5">'
 												+ '<i class="fas fa-redo-alt"></i>'
 											+ '</button>'
 											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-portlet-fullscreen-btn" title="영역 전체화면" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
@@ -2123,9 +1458,16 @@ var OSLDsh2000Popup = function () {
 										+ '</div>'
 									+ '</div>'
 								+ '</div>'
+								+ '<div class="process-datatable-div kt-hide">'
+									+ '<div class="row">'
+										+ '<div class="col-lg-7 col-md-7 col-sm-8 col-8">'
+										+ '<div class="osl-datatable-search" data-datatable-id=processReqTable_'+idx+'"></div>'
+										+ '</div>'
+									+ '</div>'
+									+ '<div class="kt_datatable kt-padding-20 osl-datatable-footer__divide process-datatables" id="processReqTable_'+idx+'"></div>';
+								+ '</div>'
 							+ '</div>'
 						+ '</div>'
-						+ '<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0 kt-hide" id="processReqTable'+idx+'"></div>';
 					$("#processCard").append(str);
 				});
 				
@@ -2148,71 +1490,89 @@ var OSLDsh2000Popup = function () {
 				
 				$.osl.layerPopupClose();
 			}else{
-				console.log(data.flowList);
-				console.log(data.flowLinkList);
-				
-				var allProcessFlowList = {};
-				
-				
-				
-				
-				var flowList = data.flowList;
-				var flowLinkList = data.flowLinkList;
-				
-				
-				var processFlowList = [];
-				
-				var processFlowLinkList = [];
-				
-				
-				if(!$.osl.isNull(flowList)){
-					
-					
-					$.each(flowList, function(idx, map){
-						
-						var processId = map.processId;
-						
-						if($.osl.isNull(processFlowList[processId])){
-							
-							processFlowList[processId] = [];
-						}
-						
-						
-						processFlowList[processId].push(map); 
-					});
-				}
-				
-				
-				if(!$.osl.isNull(flowLinkList)){
-					
-					$.each(flowLinkList, function(idx, map){
-						
-						var processId = map.processId;
-						
-						if($.osl.isNull(processFlowLinkList[processId])){
-							
-							processFlowLinkList[processId] = [];
-						}
-						
-						
-						processFlowLinkList[processId].push(map); 
-					});
-				}
-				
-			}
-		});
-		
-		ajaxObj.send();	
+	           
+	           var allProcessFlowList = {};
+	           var flowList = data.flowList;
+	           var flowLinkList = data.flowLinkList;
+
+	           
+	           var processFlowList = {};
+	           
+	           var processFlowLinkList = {};
+	            
+	           
+	           if(!$.osl.isNull(flowList)){
+	               
+	              
+	              $.each(flowList, function(idx, map){
+	                  
+	                 var processId = map.processId;
+	                 
+	                 if($.osl.isNull(processFlowList[processId])){
+	                    
+	                    processFlowList[processId] = [];
+	                 }
+	                 
+	                 processFlowList[processId].push(map); 
+	              });
+	           }
+	            
+	           if(!$.osl.isNull(flowLinkList)){
+	               
+	              $.each(flowLinkList, function(idx, map){
+	                  
+	                 var processId = map.processId;
+	                 
+	                 if($.osl.isNull(processFlowLinkList[processId])){
+	                    
+	                    processFlowLinkList[processId] = [];
+	                 }
+	                  
+	                 
+	                 processFlowLinkList[processId].push(map); 
+	              });
+	           }
+	            
+	           $.each(processFlowList, function(processId, flowData){
+	               
+	              if($.osl.isNull(allProcessFlowList[processId])){
+	                 allProcessFlowList[processId] = [];
+	              }
+	               
+	              allProcessFlowList[processId]["flowList"] = flowData;
+	              allProcessFlowList[processId]["flowLinkList"] = processFlowLinkList[processId];
+	           });
+	           
+	           
+	           var index = 0;
+	           $.each(allProcessFlowList, function(porcessId, value){
+	        	   fnFlowChart(index, porcessId, value.flowList, value.flowLinkList);
+	        	   processTableSetting(index);
+	        	   index++;
+	           });
+	
+		   		
+		   		fnProcessEvt();
+	        }
+	     });
+	     
+	     ajaxObj.send();   
 	}
 	
 	
-	var fnFlowChart = function(flowList, flowLinkList){
+	var fnFlowChart = function(index, processId, flowList, flowLinkList){
 		
 		
 
 		if($.osl.isNull(flowList) || flowList.length == 0){
 			return true;
 		}
+		if($.osl.isNull(flowLinkList) || flowLinkList.length == 0){
+			return true;
+		}
+		
+		var list = [];
+		
 		
 	      
 	      var flowNextIdList = {};
@@ -2235,6 +1595,7 @@ var OSLDsh2000Popup = function () {
 	      var startFlowId;
 	      
 	      var doneFlowId;
+	      var doneFlow;
 	      
 	      
 	      var addFlowCheck = [];
@@ -2245,14 +1606,15 @@ var OSLDsh2000Popup = function () {
 	         if(map.flowStartCd == "01"){
 	            
 	            
-	            console.log(map.flowNm);
 	            
 	            startFlowId = map.flowId;
+	            list.push(map);
 	         }
 	         
 	         
 	         if(map.flowDoneCd == "01"){
 	            doneFlowId = map.flowId;
+	            doneFlow = map;
 	         }
 	         map["flowNextId"] = flowNextIdList[map.flowId];
 	         flowInfoList[map.flowId] = map;
@@ -2260,17 +1622,16 @@ var OSLDsh2000Popup = function () {
 	
 	      
 	      var innerFlowAppend = function(currentFlowId) {
+	    	  
 	         
 	         var flowInfo = flowInfoList[currentFlowId];
-	         
-	         
+	        
 	         
 	         var nextFlowIds = null;
 	         
-	         if(flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
+	         if(!$.osl.isNull(flowInfoList[currentFlowId]) && flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
 	        	 nextFlowIds = flowInfoList[currentFlowId]["flowNextId"];
 	         }
-	         
 	         
 	         if(!$.osl.isNull(nextFlowIds) && nextFlowIds.length == 0){
 	            return true;
@@ -2280,12 +1641,11 @@ var OSLDsh2000Popup = function () {
 	            return true;
 	         }
 	         
-	         
-	         if(flowInfo.flowStartCd == "02"){
+	         if(flowInfo.flowStartCd == "02" && flowInfo.flowDoneCd == "02"){
 	            
 	            
 	            addFlowCheck.push(currentFlowId);
-	            console.log(flowInfo.flowNm);
+	            list.push(flowInfo);
 	         }
 	         
 	         
@@ -2295,28 +1655,25 @@ var OSLDsh2000Popup = function () {
 	               innerFlowAppend(map);
 	            });
 	         };
-	            return true;
+	         return true;
 	      };
-	         
 	      
 	      
 	      innerFlowAppend(startFlowId);
 	      
 	      
-	      
-	      
+	      list.push(doneFlow);
 	      
 		
-		fnFlowChartDraw();
+		fnFlowChartDraw(list, processId);
 	};
 	
 	
 	var fnFlowChartDraw = function(list, processId){
-		
 		var str = '';
 		$.each(list, function(idx, value){
 			str += '<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">'
-					+ '<div class="flowchart-operator-function">';
+					+ '<div class="flowchart-operator-function osl-min-h-px--24">';
 				if(value.flowSignCd == "01"){
 					str += '<li class="fa fa-file-signature" title="결재"></li>';	
 				}
@@ -2351,19 +1708,19 @@ var OSLDsh2000Popup = function () {
 						+ '</div>'
 					+ '</div>'
 					+ '<div class="flowchart-operator-inputs-outputs kt-margin-0">'
-						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flowCharger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>1</span></div>'
-						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flowAllCharger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>1</span></div>'
+						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flow-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>1</span></div>'
+						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flow-all-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>1</span></div>'
 					+ '</div>'
 				+ '</div>';
 				
-			if(idx < list.length ){
+			if(idx < list.length-1 ){
 				
-				str += '<i class="fas fa-arrow-circle-right"></i>';
+				str += '<i class="fa fa-arrow-right"></i>';
 			}
 		});
 		
 		
-		var processRow = $("#processCard").children("div[data-process-id="+processId+"]").find("chartDiv");
+		var processRow = $("#processCard").children("div[data-process-id="+processId+"]").find(".chartDiv");
 		$(processRow).append(str);
 	}
 	
@@ -2373,11 +1730,10 @@ var OSLDsh2000Popup = function () {
 			data: {
 				source: {
 					read: {
-						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do"
+						url: "/req/req4000/req4100/selectReq4100ReqListAjax.do"
 					}
 				},
 				pageSize : 5,
-	
 			},
 			toolbar:{
 				 items:{
@@ -2398,45 +1754,265 @@ var OSLDsh2000Popup = function () {
 				 }
 		 	},
 			columns: [
-				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false},
-				{field: '', title: '순번', textAlign: 'center', width: 100},
-				{field: '', title: '처리 상태', textAlign: 'center', width: 100},
-				{field: '', title: '결재 상태', textAlign: 'center', width: 100},
-				{field: '', title: '결재자', textAlign: 'center', width: 100},
-				{field: '', title: '담당자', textAlign: 'center', width: 100},
-				{field: '', title: '요청 제목', textAlign: 'center', width: 150},
-				{field: '', title: '요청 내용', textAlign: 'center', width: 150},
-				{field: '', title: '작업 시작일자', textAlign: 'center', width: 130},
-				{field: '', title: '작업 종료일자', textAlign: 'center', width: 130},
-				{field: '', title: '작업 시작 예정일자', textAlign: 'center', width: 130},
-				{field: '', title: '작업 종료 예정일자', textAlign: 'center', width: 130},
-				{field: '', title: '요청일자', textAlign: 'center', width: 100},
-				{field: '', title: '요청자', textAlign: 'center', width: 100},
-				{field: '', title: '이메일', textAlign: 'center', width: 130},
-				{field: '', title: '연락처', textAlign: 'center', width: 130}
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
+				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, autoHide: false, search: true},
+				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
+				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false},
+				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
+				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 120, search: true,
+					template: function (row) {
+						if($.osl.isNull(row.reqUsrNm)){
+							row.reqUsrNm = "";
+						}
+						var usrData = {
+							html: row.reqUsrNm,
+							imgSize: "sm",
+							class:{
+								cardBtn: "osl-width__fit-content"
+							}
+						};
+						return $.osl.user.usrImgSet(row.reqUsrImgId, usrData);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.reqUsrId);
+					}
+				},
+				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
+					template: function (row) {
+						if($.osl.isNull(row.reqChargerNm)){
+							return row.reqChargerNm = "-";
+						}else{
+							var usrData = {
+								html: row.reqChargerNm,
+								imgSize: "sm",
+								class:{
+									cardBtn: "osl-width__fit-content"
+								}
+							};
+							return $.osl.user.usrImgSet(row.reqChargerImgId, usrData);
+						}
+					},
+					onclick: function(rowData){
+						if(rowData.reqChargerNm != "-"){
+							$.osl.user.usrInfoPopup(rowData.reqChargerId);
+						}
+					}
+				},
+				{field: 'reqUsrEmail', title:'요청자e-mail', textAlign: 'left', width: 180, search: true},
+				{field: 'reqUsrNum', title: '요청자 연락처', textAlign: 'center', width: 100, search: true},
 			],
+			searchColumns:[
+				{field: 'prjGrpNm', title: $.osl.lang("req4100.field.prjGrpNm"), searchOrd: 0},
+				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2},
+				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
+			],
+			rows:{
+				clickCheckbox: true,
+			},
 			actionBtn:{
-				"dblClick": false
+				"title" : "상세",
+				"width" : "30",
+				"dblClick": true,
+				"update": false,
+				"delete" : false,
+				"refresh": true,
 			},
 			actionTooltip:{
-				"update": "수정",
-				"delete": "삭제",
 				"dblClick": "상세보기"
 			},
 			actionFn:{
-				"insert":function(datatableId){
+				"refresh": function(rowData, datatableId, type, rowNum){
 					
+					searchReset(datatableId);
+					
+					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 				},
-				"update":function(rowData){
+				"dblClick":function(rowData, datatableId, type, rowNum){
+					var data = {
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId,
+							paramReqUsrId: rowData.reqUsrId
+						};
+					var options = {
+							idKey: rowData.reqId,
+							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							autoHeight: false,
+						};
 					
+					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
 				},
-				"delete":function(rowDataList){
-					
-					
+			},
+			theme : {
+				actionBtn: {
+					"dblClick" :  "",
+					"refresh" : " kt-hide"
+				},
+				actionBtnIcon:{
+					"dblClick" : "fas fa-external-link-alt"
+				}
+			},
+			callback:{
+				ajaxDone: function(evt, list){
 				}
 			}
 		});
 	}
+	
+	
+	var fnProcessEvt = function(){
+
+		
+		$('.osl-view-type').click(function(){
+			var targetType = $(this).data('view-type');
+			var targetObj = $(this).data('target-process');
+			var targetDiv = $('div[data-target-div='+targetObj+']');
+			var targetParent = $(this).parents('.kt-portlet');
+			
+			if(targetType=='grid'){
+				
+				targetDiv.find(".osl-dsh-flowchart").addClass('kt-hide');
+				targetDiv.find(".osl-dsh-kanban").removeClass('kt-hide');
+				$(this).data('view-type','kaban');
+				
+				
+				$(targetParent).find('.kt_datatable').addClass('kt-hide');
+				return false;
+			}else if(targetType=='kaban'){
+				
+				targetDiv.find(".osl-dsh-kanban").addClass('kt-hide');
+				targetDiv.find(".osl-dsh-flowchart").removeClass('kt-hide');
+				$(this).data('view-type','grid');
+				return false;	
+			}
+		});
+		
+		$('.osl-portlet-fullscreen-btn').click(function(){
+			
+			var targetObj = $(this).parents('.kt-portlet');
+			
+			if(targetObj.hasClass('kt-portlet--fullscreen')){
+				
+				targetObj.stop().animate({top: '30%'},1000, function(){
+					targetObj.removeClass('kt-portlet--fullscreen');
+				});
+			}else{
+				
+				$('.kt-portlet').removeClass('kt-portlet--fullscreen');
+				
+				$('.kt-portlet').css({top:''});
+				
+				targetObj.addClass('kt-portlet--fullscreen');
+				
+				targetObj.stop().animate({top:'0%'},1000);
+			}
+		});
+		
+		
+		$(".flow-charger").click(function(){
+			
+			var item = $(this).parents(".process-div");
+			var datatableId = $(item).children(".process-datatable-div").find(".process-datatables").attr("id");
+			console.log(datatableId);
+			var datatable = $.osl.datatable.list[datatableId].targetDt;
+			
+			datatable.setDataSourceParam("dshProcess", "Y");
+			datatable.setDataSourceParam("processId", $(this).data("processId"));
+			datatable.setDataSourceParam("flowId", $(this).data("flowId"));
+			datatable.setDataSourceParam("usrId", $.osl.user.userInfo.usrId);
+			
+			
+			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+			
+			
+			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
+		});
+		
+		
+		$(".flow-all-charger").click(function(){
+			
+			var item = $(this).parents(".process-div");
+			var datatableId = $(item).find(".process-datatables").attr("id");
+			var datatable = $.osl.datatable.list[datatableId].targetDt;
+			
+			datatable.setDataSourceParam("dshProcess", "Y");
+			datatable.setDataSourceParam("processId", $(this).data("processId"));
+			datatable.setDataSourceParam("flowId", $(this).data("flowId"));
+			datatable.setDataSourceParam("usrId", "");
+			
+			
+			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+		});
+				
+		
+		
+		new Sortable($('.osl-kaban--card__body[processid="1"]')[0], {
+			group:'shared',
+	        animation: 100,
+	        
+	        chosenClass: "chosen",
+	        
+	        onMove:function(evt,originalEvent){
+				var UserAgent = navigator.userAgent;
+				
+				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
+					return false;
+				}else{
+					return true;
+				}
+								
+			},
+	      	
+			onAdd:function(evt){
+				
+			}
+	    });
+		new Sortable($('.osl-kaban--card__body[processid="2"]')[0], {
+			group:'shared',
+	        animation: 100,
+	        
+	        chosenClass: "chosen",
+	        
+	        onMove:function(evt,originalEvent){
+				var UserAgent = navigator.userAgent;
+				
+				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
+					return false;
+				}else{
+					return true;
+				}
+				
+			},
+	      	
+			onAdd:function(evt){
+				
+			}
+	    });
+		new Sortable($('.osl-kaban--card__body[processid="3"]')[0], {
+			group:'shared',
+	        animation: 100,
+	        
+	        chosenClass: "chosen",
+	        
+	        onMove:function(evt,originalEvent){
+				var UserAgent = navigator.userAgent;
+				
+				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
+					return false;
+				}else{
+					return true;
+				}
+				
+			},
+	      	
+			onAdd:function(evt){
+				
+			}
+	    });
+		
+	};
+	
+	
 	
  	var drawChart = function(rowdata){
  		var ajaxObj = new $.osl.ajaxRequestAction(
@@ -3219,6 +2795,29 @@ var OSLDsh2000Popup = function () {
 		}else{
 			toast.push("변경된 항목 정보가 없습니다.");
 		}
+	};
+	
+	
+	
+	var signDpl = function(rowDatas, signRes, type){
+		
+		
+ 		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/cmm/cmm6000/cmm6600/insertCmm6601SignInfoAjax.do'/>"}
+				,{rowDatas: JSON.stringify(rowDatas), signRes:signRes, type:type});
+
+ 		
+ 		ajaxObj.setFnSuccess(function(data){
+ 			if(data.errorYn == "Y"){
+ 				$.osl.alert($.lang("cmm6601.sign.fail"),{type: 'error'});
+ 			}else{
+ 				
+ 				$.osl.toastr($.lang("cmm6601.sign.success"));
+ 			}
+ 		});
+ 		
+ 		
+ 		ajaxObj.send();
 	};
 	
 	

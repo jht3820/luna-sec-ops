@@ -265,16 +265,20 @@ var OSLSpr1003Popup = function () {
 		
 		wizard.on('change', function(wizardObj) {
 			
-			if($.osl.isNull($.osl.datatable.list['sprAssignReqTable'])){
-				$.osl.alert("스토리포인트 배정을 완료해주세요.",{type:"error"})
-				wizardObj.goTo(2);
-			}
 			
 			var totalStep = wizard.totalSteps;
 			
 			var checkThis = wizard.currentStep;
 			
 			var checking = totalStep - checkThis;
+			
+			if(checkThis != 2){
+				
+				if($.osl.isNull($.osl.datatable.list['sprAssignReqTable'])){
+					$.osl.alert("스토리포인트 배정을 완료해주세요.",{type:"error"})
+					wizardObj.goTo(2);
+				}
+			}
 			
 			if((checkThis-beforeStep) != 1){
 				
@@ -297,7 +301,7 @@ var OSLSpr1003Popup = function () {
 						$.osl.alert($.osl.lang("spr1003.alert.reqSprPoint",(reqListCnt-reqSprPointListCnt)),{type: 'error'});
 						wizardObj.goTo(2);
 					}
-					
+					var nonReqChargerCnt = $("input[name^=reqCharger_]").length;
 					var reqChargerList = wizardData["reqUsrList"];
 					var reqChargerListCnt = 0;
 					if(!$.osl.isNull(reqChargerList)){
@@ -307,9 +311,9 @@ var OSLSpr1003Popup = function () {
 							}
 						});
 					}
-					if(reqListCnt > reqChargerListCnt){
+					if(nonReqChargerCnt > reqChargerListCnt){
 						
-						$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(reqListCnt-reqChargerListCnt)),{type: 'error'});
+						$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(nonReqChargerCnt-reqChargerListCnt)),{type: 'error'});
 						wizardObj.goTo(3);
 					}
 				}
@@ -431,7 +435,7 @@ var OSLSpr1003Popup = function () {
 		
 		else if(wizardObj.currentStep == 3){
 			
-			var reqListCnt = wizardData["reqListCnt"];
+			var nonReqChargerCnt = $("input[name^=reqCharger_]").length;
 			var reqChargerList = wizardData["reqUsrList"];
 			var reqChargerListCnt = 0;
 			if(!$.osl.isNull(reqChargerList)){
@@ -441,9 +445,9 @@ var OSLSpr1003Popup = function () {
 					}
 				});
 			}
-			if(reqListCnt > reqChargerListCnt){
+			if(nonReqChargerCnt > reqChargerListCnt){
 				
-				$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(reqListCnt-reqChargerListCnt)),{type: 'error'});
+				$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(nonReqChargerCnt-reqChargerListCnt)),{type: 'error'});
 				return false;
 			}
 		}
@@ -756,15 +760,24 @@ var OSLSpr1003Popup = function () {
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 80, template:function(row){
 					var rtnVal = "";
 					
+					
+					if(row.reqChargerNm != null){
+						rtnVal = row.reqChargerNm;
+						return rtnVal;
+					}
+					
+					
 					if(wizardData["reqUsrList"].hasOwnProperty(row.reqId)){
 						rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;
+						return rtnVal;
 					}
 					
 					return '<input type="text" class="form-control kt-align-center" name="reqCharger_'+row.reqId+'" id="reqCharger_'+row.reqId+'" data-req-id="'+row.reqId+'" value="'+rtnVal+'" readonly="readonly" />';
 				}},
 			],
 			rows:{
-				clickCheckbox: true
+				clickCheckbox: true,
+				minHeight:50,
 			},
 			actionBtn:{
 				"update": false,

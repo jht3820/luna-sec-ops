@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<!-- begin page DOM -->
+
 <div class="kt-portlet kt-portlet--mobile ">
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -24,7 +24,7 @@
 			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="delete" title="그룹 요구사항 목록 삭제" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.delete" data-placement="bottom" data-auth-button="delete" tabindex="8">
 				<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
 			</button>
-			<!-- 미구현기능 -->
+			
 			<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="assign" title="그룹 요구사항 목록 엑셀" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.excel" data-placement="bottom" data-auth-button="excel" tabindex="">
 				<i class="fas fa-file-excel"></i><span data-lang-cd="datatable.button.excel">엑셀</span>
 			</button>
@@ -49,8 +49,8 @@
 	</div>
 </div>
 
-<!-- end DOM -->
-<!-- begin page script -->
+
+
 <script>
 "use strict";
 var OSLReq3000Popup = function () {
@@ -109,8 +109,7 @@ var OSLReq3000Popup = function () {
 		},
 		actionBtn:{
 			"dblClick":true,
-			/* "excel":true,
-			"print":true, */
+			
 			"insert":false,
 			"update":true,
 			"title": $.osl.lang("datatable.action.functionNm")
@@ -120,16 +119,7 @@ var OSLReq3000Popup = function () {
 			"update":$.osl.lang("req3000.datatable.action.update"),
 			"dblClick": $.osl.lang("req3000.datatable.action.dblClick"),
 			"delete": $.osl.lang("req3000.datatable.action.delete"),
-			/* "excel": $.osl.lang("req3000.datatable.action.excel"),
-			"print": $.osl.lang("req3000.datatable.action.print"), */
-		},
-		// 테마
-		theme:{
-			actionBtnIcon:{
-				"dblClick":"fa fa-list-alt",
-				/* "excel":"fa fa-file-excel",
-				"print":"fa fa-print" */
-			}
+			
 		},
 		actionFn:{
 			"insert":function(datatableId, type, rowNum){
@@ -144,7 +134,7 @@ var OSLReq3000Popup = function () {
 				
 				$.osl.layerPopupOpen('/req/req3000/req3000/selectReq3001View.do',data,options);
 			},"update":function(rowData, datatableId, type, rowNum, elem){
-				//데이터 전송
+				
 				var data = {
 						type:"update",
 						paramPrjGrpId : rowData.prjGrpId,
@@ -153,7 +143,7 @@ var OSLReq3000Popup = function () {
 						paramReqGrpUsrId : rowData.reqGrpUsrId,
 						paramReqGrpChargerId :rowData.reqGrpChargerId
 					};
-				//옵션
+				
 				var options = {
 						idKey: datatableId,
 						modalTitle: $.osl.lang("req3001.title"),
@@ -171,24 +161,24 @@ var OSLReq3000Popup = function () {
 						paramRowData:JSON.stringify(rowDatas),
 						datatableId:datatableId
 				};
-				//AJAX 설정
+				
 				var ajaxObj = new $.osl.ajaxRequestAction(
 						{"url":"<c:url value='/req/req3000/req3000/deleteReq3000ReqListAjax.do'/>"}
 						,{deleteDataList: JSON.stringify(rowDatas)});
-				//AJAX 전송 성공 함수
+				
 				ajaxObj.setFnSuccess(function(data){
 					if(data.errorYn == "Y"){
 		   				$.osl.alert(data.message,{type: 'error'});
 		   			}else{
-		   				//삭제 성공
+		   				
 		   				$.osl.toastr(data.message);
 		   				
-		   				//datatable 조회
+		   				
 		   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 		   			}
 				});
 				
-				//AJAX 전송
+				
 				ajaxObj.send();
 				
 			},"dblClick":function(rowData, datatableId, type, rowNum){
@@ -212,13 +202,13 @@ var OSLReq3000Popup = function () {
 				}
 			}
 		}
-		// begin:: 그룹 요구사항 관리 데이터테이블
+		
 		$.osl.datatable.setting("req3000Table", config);
-		// end:: 그룹 요구사항 관리 데이터테이블
+		
 		
 	}
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -230,5 +220,5 @@ $.osl.ready(function(){
 	OSLReq3000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

@@ -6,6 +6,8 @@
 	<input type="hidden" name="paramTargetCd" id="paramTargetCd" value="${param.targetCd}">
 	<input type="hidden" name="paramTargetNm" id="paramTargetNm" value="${param.targetNm}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.prjId}">
+	<input type="hidden" name="paramSubmitAction" id="paramSubmitAction" value="${param.paramSubmitAction}">
+	<input type="hidden" name="paramSignUsrList" id="paramSignUsrList" value='<c:out value="${param.paramSignUsrList}"/>'>
 	<div class="row">
 		<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 kt-margin-b-20-tablet kt-margin-b-20-mobile">
@@ -57,13 +59,15 @@
 	</div>
 </form>
 <div class="modal-footer">
+	<input type="hidden" name="cmm6601ModalCallbackBtn" id="cmm6601ModalCallbackBtn"/>
 	<button type="button" class="btn btn-brand" id="cmm6600SaveSignLine"><i class="fa fa-save"></i><span class="osl-resize__display--show">결재 요청</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
 "use strict";
 var OSLCmm6600Popup = function () {
-		
+	var formId = 'frCmm6600';
+	
 	
     var ord=1;
     
@@ -86,12 +90,25 @@ var OSLCmm6600Popup = function () {
 	var targetNm = $('#paramTargetNm').val();
 	
 	
+	var paramSubmitAction = $("#paramSubmitAction").val();
+	
+	
 	var type = '';
+	
+	
+	var signUsrInfs = [];
+	
+	
+	var usrDataList = {};
 	
     
     var documentSetting = function () {
-	   	
     	selectSignUsrInfList();
+    	
+    	
+    	if(paramSubmitAction == "false"){
+    		$("#cmm6600SaveSignLine > span").text("결재선 저장");
+    	}
     	
 	    
 	   	$("#cmm6600SignUsrInfo").on("click",".osl-sign-card",function(){
@@ -102,6 +119,123 @@ var OSLCmm6600Popup = function () {
 	   		}
 	   	});
 	    
+	  
+	   	$.osl.datatable.setting("stm3000UsrTable",{
+			data: {
+				source: {
+					read: {
+						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do"
+					}
+				},
+				pageSize: 8
+			},
+			toolbar:{
+				items:{
+					pagination:{
+						pageSizeSelect : [8, 10, 20, 30, 50, 100],
+						pages: {
+							desktop: {
+								layout: 'default',
+								pagesNumber: 5,
+							},
+							tablet: {
+								layout: 'compact',
+								pagesNumber: 3,
+							},
+						},
+					}
+				}
+			},
+			columns: [
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false, sortable: false},
+				{field: 'usrNm', title: '사용자 명', textAlign: 'left', width: 160, search: true, autoHide: false,
+					template: function (row) {
+						return $.osl.user.usrImgSet(row.usrImgId, row.usrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.usrId);
+					}
+				},
+				{field: 'email', title: '이메일', textAlign: 'left', width: 170, search: true},
+				{field: 'usrPositionNm', title: '직급', textAlign: 'center', width: 110, searchType:"select", searchCd: "ADM00007", searchField:"usrPositionCd", sortField: "usrPositionCd"},
+				{field: 'usrDutyNm', title: '직책', textAlign: 'center', width: 120, searchType:"select", searchCd: "ADM00008", searchField:"usrDutyCd", sortField: "usrDutyCd"},
+			],
+			searchColumns:[
+				{field: 'deptName', title: '조직명', searchOrd: 0,}
+			],
+			actionBtn:{
+				"title": "결재선 등록",
+				"signMoveRowBtn": true,
+				"dblClick": false,
+				"click": false,
+				"update": false,
+				"delete": false,
+			},
+			actionTooltip:{
+				"signMoveRowBtn": "결재선 등록"
+			},
+			theme:{
+				actionBtnIcon:{
+					"signMoveRowBtn": "fa fa-arrow-alt-circle-right",
+				}
+			},
+			rows:{
+				clickCheckbox: true,
+				beforeTemplate: function (row, data, index){
+					
+					if(selectUsrArray.indexOf(data.usrId) > -1){
+						row.addClass("osl-datatable__row-assign--none");
+					}
+				}
+			},
+			actionFn:{
+				"signMove":function(rowData,datatableId,type){
+					var rowDatas = rowData;
+					
+					
+					if(rowDatas.length == 0){
+						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
+						return true;
+					}
+					
+					$.osl.confirm($.osl.lang("common.user.auth.allUsrInsert",rowDatas.length),{html:true}, function(result){
+						
+						if (result.value) {
+							
+							fnAllUsrInsert(rowDatas);
+						}
+					});
+					
+				},
+				"signMoveRowBtn":function(rowData){
+					var rowDatas = [];
+					rowDatas.push(rowData);
+					fnAllUsrInsert(rowDatas);
+				},
+				"downMoveBtn":function(rowData){
+					moveUsrCard("down");
+					
+				},
+				"upMoveBtn":function(rowData){
+					moveUsrCard("up");
+				}
+			},
+			callback:{
+				ajaxDone: function(evt, list){
+					
+					if(list.length > 0){
+						$.each(list, function(idx, map){
+							
+							if(!usrDataList.hasOwnProperty(map.usrId)){
+								usrDataList[map.usrId] = map;
+							}
+						});
+					}
+				}
+			}
+		});
+	  
 	    
 	  	if(!(targetCd == '03')){
 	  		
@@ -152,84 +286,41 @@ var OSLCmm6600Popup = function () {
 					
 			
 			$("#signCardTable").parent().prepend(MyusrStr);
-			selectUsrArray.push(MyInfo.usrId);
+			
+			
+			var paramSignUsrList = $("#"+formId+" #paramSignUsrList").val();
+			var signUsrListJson;
+			
+			if(!$.osl.isNull(paramSignUsrList)){
+				signUsrListJson = JSON.parse(paramSignUsrList);
+			}
+			
+			if(!$.osl.isNull(signUsrListJson) && signUsrListJson.length > 0){
+				var signUsrList = [];
+				
+				
+				$.each(signUsrListJson, function(idx, map){
+					if(map.type == "02" || $.osl.isNull(map.type)){
+						signUsrList.push(map);
+					}
+				});
+				
+				
+				fnAllUsrInsert(signUsrList);	
+			}
 	  	}
 	    
 	    
 	    
 	    $('#cmm6600SaveSignLine').click(function(){
-	    	
-	    	
     		$.osl.confirm($.osl.lang("cmm6600.message.confirm.saveString"),null,function(result) {
     	        if (result.value) {
-					
    	        		
     	        	saveFormAction();
     	        }
     		});
 	    	
 	    });
-	    
-	    
-	    var saveFormAction = function(){
-			var signUsrInfs = [];
-	    	
-	    	var selSignUsrInfs = $('.osl-sign-card');
-	    	
-	    	if(selSignUsrInfs.length == 0){
-	    		
-	    		$.osl.alert("등록된 결재자가 없습니다.");
-	    		return false;
-	    		
-	    	}
-			
-	    	
-	    	if(!(targetCd == '03')){
-	    		
-		    	var myInf = {};
-		    	myInf.usrId = $.osl.user.userInfo.usrId;
-		    	myInf.ord = 0;
-		    	signUsrInfs.push(myInf);
-	    	}
-	    	
-	    	
-	    	$.each(selSignUsrInfs,function(idx, map){
-	    		
-	    		var signUsrInf = {};
-	    		signUsrInf.usrId = $(this).data("usr-id");
-	    		signUsrInf.ord = $(this).data("ord");
-	    		signUsrInfs.push(signUsrInf);
-	    	})
-	    	
-	    	
-    		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/cmm/cmm6000/cmm6600/saveCmm6600SignLineAjax.do'/>"}
-				,{signUsrInfList: JSON.stringify(signUsrInfs) , prjId : prjId, targetId : targetId, targetCd:targetCd,type:type,targetNm:targetNm});
-
-    		
-    		ajaxObj.setFnSuccess(function(data){
-    			if(data.errorYn == "Y"){
-    				$.osl.alert(data.message,{type: 'error'});
-    			}else{
-    				
-    				$.osl.toastr(data.message);
-    				
-    				
-    				$.osl.layerPopupClose();
-    				
-    				
-    				if(targetCd == '02'){
-
-			        	
-			        	$("button[data-datatable-id=dpl1000Table][data-datatable-action=select]").click();
-    				}
-    				
-    			}
-    		});
-    		
-    		
-    		ajaxObj.send();
-	    }
 	    
 	   	
 	   	KTUtil.scrollInit($("#signCardTable")[0], {
@@ -238,176 +329,6 @@ var OSLCmm6600Popup = function () {
 	           handleWindowResize: true, 
 	           height: 525
 	       });
-	   	
-	   	
-	   	$.osl.datatable.setting("stm3000UsrTable",{
-			data: {
-				source: {
-					read: {
-						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do"
-					}
-				},
-				pageSize: 8
-			},
-			toolbar:{
-				items:{
-					pagination:{
-						pageSizeSelect : [8, 10, 20, 30, 50, 100]
-					}
-				}
-			},
-			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
-				{field: 'rn', title: 'No.', textAlign: 'center', width: 30, autoHide: false, sortable: false, sortable: false},
-				{field: 'usrNm', title: '사용자 명', textAlign: 'left', width: 160, search: true, autoHide: false,
-					template: function (row) {
-						return $.osl.user.usrImgSet(row.usrImgId, row.usrNm);
-					},
-					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.usrId);
-					}
-				},
-				{field: 'email', title: '이메일', textAlign: 'left', width: 170, search: true},
-				{field: 'usrPositionNm', title: '직급', textAlign: 'center', width: 110, searchType:"select", searchCd: "ADM00007", searchField:"usrPositionCd", sortField: "usrPositionCd"},
-				{field: 'usrDutyNm', title: '직책', textAlign: 'center', width: 120, searchType:"select", searchCd: "ADM00008", searchField:"usrDutyCd", sortField: "usrDutyCd"},
-			],
-			searchColumns:[
-				{field: 'deptName', title: '조직명', searchOrd: 0,}
-			],
-			actionBtn:{
-				"title": "결재선 등록",
-				"signMoveRowBtn": true,
-				"dblClick": false,
-				"click": false,
-				"update": false,
-				"delete": false,
-			},
-			actionTooltip:{
-				"signMoveRowBtn": "결재선 등록"
-			},
-			theme:{
-				actionBtnIcon:{
-					"signMoveRowBtn": "fa fa-arrow-alt-circle-right",
-				}
-			},
-			rows:{
-				beforeTemplate: function (row, data, index){
-					
-					if(selectUsrArray.indexOf(data.usrId) > -1){
-						row.addClass("osl-datatable__row-assign--none");
-					}
-				}
-			},
-			actionFn:{
-				"signMove":function(rowData,datatableId,type){
-					var rowDatas = rowData;
-					
-					
-					if(rowDatas.length == 0){
-						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
-						return true;
-					}
-					
-					$.osl.confirm($.osl.lang("common.user.auth.allUsrInsert",rowDatas.length),{html:true}, function(result){
-						
-						if (result.value) {
-							
-							fnAllUsrInsert(rowDatas);
-						}
-					});
-					
-				},
-				"signMoveRowBtn":function(rowData){
-					var rowDatas = [];
-					rowDatas.push(rowData);
-					fnAllUsrInsert(rowDatas);
-				},
-				"downMoveBtn":function(rowData){
-					moveUsrCard("down");
-					
-				},
-				"upMoveBtn":function(rowData){
-					moveUsrCard("up");
-				}
-			}
-		});
-	   	
-	   	
-	   	var moveUsrCard= function(type){
-			 var selUsrCard = $(".osl-sign-card.selected");
-			
-			if(selUsrCard.length == 0){
-				
-				$.osl.alert("선택된 결재자가 없습니다.");
-				return false;
-			}
-			
-			
-			var moveCd = false;
-			
-			
-			if(type == "up"){
-				
-				$.each(selUsrCard,function(idx,map){
-				
-					var ord = parseInt($(this).attr("data-ord"));
-					
-					
-					if(moveCd){
-						return false;
-					}
-					
-					
-					if(ord == 1){
-						moveCd = true;
-						return true;
-					}
-					
-					
-					var beforeOrd = ord - 1;
-					var targetObj = $("div.osl-sign-card[data-ord="+beforeOrd+"]");
-					
-					targetObj.before($(this));
-					
-					targetObj.attr("data-ord",ord);
-					$(this).attr("data-ord",beforeOrd);
-					
-				});
-				
-				updateLastUsrCard();
-			}else if(type = "down"){
-				selUsrCard = selUsrCard.get().reverse();
-				
-				$.each(selUsrCard,function(idx,map){
-					
-					var ord = parseInt($(this).attr("data-ord"));
-					
-					
-					if(moveCd){
-						return false;
-					}
-					
-					
-					if(ord == $("#signCardTable .osl-sign-card").length){
-						moveCd = true;
-						return true;
-					}
-					
-					
-					var afterOrd = ord + 1;
-					var targetObj = $("div.osl-sign-card[data-ord="+afterOrd+"]");
-					
-					targetObj.after($(this));
-					
-					targetObj.attr("data-ord",ord);
-					$(this).attr("data-ord",afterOrd);
-					
-				});
-				
-				updateLastUsrCard();
-			}
-			
-		 }
 	   	
 	   	
 	   	$('button[data-datatable-action="signRemove"]').click(function(){
@@ -463,13 +384,89 @@ var OSLCmm6600Popup = function () {
 	
 	};
    
+	
+   	var moveUsrCard= function(type){
+		 var selUsrCard = $(".osl-sign-card.selected");
+		
+		if(selUsrCard.length == 0){
+			
+			$.osl.alert("선택된 결재자가 없습니다.");
+			return false;
+		}
+		
+		
+		var moveCd = false;
+		
+		
+		if(type == "up"){
+			
+			$.each(selUsrCard,function(idx,map){
+			
+				var ord = parseInt($(this).attr("data-ord"));
+				
+				
+				if(moveCd){
+					return false;
+				}
+				
+				
+				if(ord == 1){
+					moveCd = true;
+					return true;
+				}
+				
+				
+				var beforeOrd = ord - 1;
+				var targetObj = $("div.osl-sign-card[data-ord="+beforeOrd+"]");
+				
+				targetObj.before($(this));
+				
+				targetObj.attr("data-ord",ord);
+				$(this).attr("data-ord",beforeOrd);
+				
+			});
+			
+			updateLastUsrCard();
+		}else if(type = "down"){
+			selUsrCard = selUsrCard.get().reverse();
+			
+			$.each(selUsrCard,function(idx,map){
+				
+				var ord = parseInt($(this).attr("data-ord"));
+				
+				
+				if(moveCd){
+					return false;
+				}
+				
+				
+				if(ord == $("#signCardTable .osl-sign-card").length){
+					moveCd = true;
+					return true;
+				}
+				
+				
+				var afterOrd = ord + 1;
+				var targetObj = $("div.osl-sign-card[data-ord="+afterOrd+"]");
+				
+				targetObj.after($(this));
+				
+				targetObj.attr("data-ord",ord);
+				$(this).attr("data-ord",afterOrd);
+				
+			});
+			
+			updateLastUsrCard();
+		}
+		
+	 };
+	 
     
 	var selectSignUsrInfList = function(){
-    	
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 			{"url":"<c:url value='/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do'/>"}
-			, {prjId : prjId, targetId : targetId});
+			, {prjId : prjId, targetId : targetId, targetCd : targetCd});
 
 		
 		ajaxObj.setFnSuccess(function(data){
@@ -521,6 +518,7 @@ var OSLCmm6600Popup = function () {
 				usrIdDupleList++;
 				return true;
 			}
+
     		
 			userSetting(map);
     		
@@ -562,7 +560,7 @@ var OSLCmm6600Popup = function () {
 		datatable.reload();
 		
 		$("div.tooltip.show").remove();
-    }
+    };
     
   	
    	function userSetting(userInfo){
@@ -622,7 +620,7 @@ var OSLCmm6600Popup = function () {
 		
 		
 		updateLastUsrCard();
-   	}
+   	};
   	
   	
     var updateLastUsrCard = function(){
@@ -644,18 +642,95 @@ var OSLCmm6600Popup = function () {
 			}
     		
     	});
-    }
+    };
   	
 	
 	var fnJobDivOrdModify = function(item, newIndex, oldIndex){
 		
 		updateLastUsrCard();
-	}
+	};
 	
+	
+    var saveFormAction = function(){
+    	signUsrInfs = [];
+    	
+    	var selSignUsrInfs = $('.osl-sign-card');
+    	
+    	if(selSignUsrInfs.length == 0){
+    		
+    		$.osl.alert("등록된 결재자가 없습니다.");
+    		return false;
+    		
+    	}
+		
+    	
+    	if(!(targetCd == '03')){
+    		
+    		var myInfo = $.extend({},$.osl.user.userInfo);
+    		myInfo["ord"] = 0;
+    		myInfo["type"] = "01";
+    		
+	    	signUsrInfs.push(myInfo);
+    	}
+    	
+    	
+    	$.each(selSignUsrInfs,function(idx, map){
+    		var usrId = $(this).data("usr-id");
+    		var ord = $(this).data("ord");
+    		
+    		
+    		var signUsrInf = $.extend({},usrDataList[usrId]);
+    		signUsrInf["ord"] = ord;
+    		signUsrInf["type"] = "02";
+    		
+    		signUsrInfs.push(signUsrInf);
+    	})
+    	
+    	
+    	if($.osl.isNull(paramSubmitAction) || paramSubmitAction == "true"){
+        	
+    		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/cmm/cmm6000/cmm6600/saveCmm6600SignLineAjax.do'/>"}
+				,{signUsrInfList: JSON.stringify(signUsrInfs) , prjId : prjId, targetId : targetId, targetCd:targetCd,type:type,targetNm:targetNm});
+
+    		
+    		ajaxObj.setFnSuccess(function(data){
+    			if(data.errorYn == "Y"){
+    				$.osl.alert(data.message,{type: 'error'});
+    			}else{
+    				
+    				$.osl.toastr(data.message);
+    				
+    				
+    				$.osl.layerPopupClose();
+    				
+    				
+    				if(targetCd == '02'){
+
+			        	
+			        	$("button[data-datatable-id=dpl1000Table][data-datatable-action=select]").click();
+    				}
+    				
+    			}
+    		});
+    		
+    		
+    		ajaxObj.send();
+    	}else{
+    		
+    		$("#cmm6601ModalCallbackBtn").click();
+    		
+    		
+			$.osl.layerPopupClose();
+    	}
+    };
     return {
         
         init: function() {
         	documentSetting();
+        },
+        getSignUsrInfs: function(){
+        	return JSON.stringify(signUsrInfs);
         }
     };
 }();

@@ -104,7 +104,7 @@
 	        WHERE 1 = 1
 			AND A.LIC_GRP_ID = #licGrpId#
 	  	) C
-		GROUP BY C.LIC_GRP_ID, C.MENU_ID, C.STM_TYPE_CD, C.STM_TYPE_NM, C.STM_NM, C.STM_DS_TYPE_CD, C.STM_DS_TYPE_NM
+		WHERE 1 = 1
 		<isNotEmpty property="searchTargetData">
 			<isNotEmpty property="searchTargetId">
 				<isEqual property="searchTargetId" compareValue="stmTypeCd">
@@ -115,6 +115,7 @@
 				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
+		GROUP BY C.LIC_GRP_ID, C.MENU_ID, C.STM_TYPE_CD, C.STM_TYPE_NM, C.STM_NM, C.STM_DS_TYPE_CD, C.STM_DS_TYPE_NM
 		<isNotEmpty property="paramSortFieldId">
 			<isNotEmpty property="sortDirection">
 				ORDER BY $paramSortFieldId$
