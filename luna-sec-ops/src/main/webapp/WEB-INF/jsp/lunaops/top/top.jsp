@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="ui" uri="http:
+<%@ taglib prefix="fn" uri="http:
+<%@ taglib prefix="spring" uri="http:
+<%@ taglib prefix="form" uri="http:
+<%@ taglib prefix="fmt" uri="http:
 	</head>
 	
 	
@@ -158,6 +158,15 @@
 						
 						<div class="kt-header__topbar kt-grid__item kt-grid__item--fluid">
 							
+							<!-- 
+							<div class="kt-header__topbar-item kt-header__topbar-item--search dropdown" data-toggle="kt-tooltip" data-skin="brand" title="검색">
+								<div class="kt-header__topbar-wrapper" id="kt_offcanvas_toolbar_search_toggler_btn">
+									<span class="kt-header__topbar-icon"><i class="flaticon2-search"></i></span>
+								</div>
+							</div>
+ -->
+							
+							
 							
 							<div class="kt-header__topbar-item">
 								<div class="kt-header__topbar-wrapper" id="kt_offcanvas_toolbar_mypage_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="마이페이지" onclick="$.osl.user.usrMyPagePopUp('${sessionScope.loginVO.usrId}');">
@@ -237,7 +246,7 @@
 								<div class="kt-header__topbar-username">
 									${sessionScope.loginVO.usrNm}
 								</div>
-								<div class="kt-header__topbar-wrapper">
+								<div class="kt-header__topbar-wrapper osl-btn__cursor--default">
 									<img alt="Pic" src="/cmm/fms/getImage.do?fileSn=0&atchFileId=${sessionScope.loginVO.usrImgId}" onerror="this.src='/media/users/default.jpg'"/>
 								</div>
 							</div>
