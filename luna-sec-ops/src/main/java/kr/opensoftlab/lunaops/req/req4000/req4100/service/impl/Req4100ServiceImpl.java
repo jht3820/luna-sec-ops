@@ -427,7 +427,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			}
 			
 			
-			if(convertParamMap.get("reqGrpId") != null || !"".equals(convertParamMap.get("reqGrpId"))) {
+			if(convertParamMap.get("reqGrpId") == null || !"".equals(convertParamMap.get("reqGrpId"))) {
 				
 				
 				req3000DAO.deleteReq3001ReqCon(convertParamMap);
