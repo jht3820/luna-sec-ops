@@ -150,6 +150,9 @@
 			<isNotEmpty property="prjGrpId">
 				AND Z.PRJ_GRP_ID = #prjGrpId#
 			</isNotEmpty>
+			<isNotEmpty property="prjId">
+				AND Z.PRJ_ID = #prjId#
+			</isNotEmpty>
     </select>
     
     

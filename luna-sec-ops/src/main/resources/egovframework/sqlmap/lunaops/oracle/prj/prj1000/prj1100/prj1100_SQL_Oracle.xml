@@ -674,7 +674,7 @@
 			(
 				#prjId#,				#processId#,				#newFlowId#
 				,#flowNm#,				NVL(#flowLeft#,20),			NVL(#flowTop#,20),		#flowStartCd#
-				,#flowDownCd#,			#flowSignCd#
+				,#flowDoneCd#,			#flowSignCd#
 				,#flowSignStopCd#,		#flowEndCd#,				#flowWorkCd#
 				,#flowRevisionCd#,		#flowDplCd#,				#flowAuthCd#
 				,#flowTitleBgColor#,	#flowTitleColor#,			'01'

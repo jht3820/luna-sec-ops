@@ -177,7 +177,7 @@ var OSLPrj5000Popup = function () {
 			
 			editable: true,
 			
-			dayMaxEventRows:true,
+			dayMaxEventRows: true,
 			
 			navLinks: true,
 			
@@ -230,7 +230,10 @@ var OSLPrj5000Popup = function () {
 			
 			views: {
 				dayGridMonth: {
-					dayMaxEventRows: 6
+					dayMaxEventRows: 4
+				},
+				timeGrid: {
+					dayMaxEventRows: 10
 				},
 				timeGridFourDay: {
 					type: 'timeGrid',
