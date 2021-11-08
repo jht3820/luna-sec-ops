@@ -32,13 +32,6 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
     @Resource(name = "prj1300Service")
     private Prj1300Service prj1300Service;
     
-    
-   	@Resource(name="fileMngService")
-   	private FileMngService fileMngService;
-   	
-   	@Resource(name = "egovFileIdGnrService")
-	private EgovIdGnrService idgenService;
-
 	
 	@SuppressWarnings("rawtypes")
 	public int  selectPrj1100ProcessListCnt(Map paramMap) throws Exception {
@@ -232,7 +225,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    			if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(flowNextId)) {
 		    				flowNextId = (String) newFlowIdList.get(flowNextId);
 		    			}
-		    			System.out.println(paramMap.get("flowId"));
+		    			
 		    			paramMap.put("flowNextId", flowNextId);
 		    		
 		    			
