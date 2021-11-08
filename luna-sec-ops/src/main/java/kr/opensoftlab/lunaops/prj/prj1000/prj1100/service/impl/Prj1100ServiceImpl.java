@@ -155,6 +155,20 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 				newMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
 				newMap.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
 				
+				
+			    if(startFlowId.equals(key)) {
+			    	newMap.put("flowStartCd", "01");
+			    }else {
+			    	newMap.put("flowStartCd", "02");
+			    }
+			    
+			    
+			    if(endFlowId.equals(key)) {
+			    	newMap.put("flowDoneCd", "01");
+			    }else {
+			    	newMap.put("flowDoneCd", "02");
+			    }
+				
 				String newFlowId = prj1100DAO.insertPrj1101FlowInfo(newMap);
 				
 				if(newFlowProp.has("basicItemList")) {
