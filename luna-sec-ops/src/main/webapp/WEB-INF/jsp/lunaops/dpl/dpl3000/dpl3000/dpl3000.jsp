@@ -298,8 +298,8 @@
 		<div class="kt-portlet__head-toolbar">
 			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5"><i class="fa fa-list"></i><span>조회</span></button>
 			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="execute" title="배포 실행" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="7"><i class="far fa-play-circle"></i><span>실행</span></button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="stop" title="배포 중지" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="8"><i class="far fa-stop-circle"></i><span>중지</span></button>
-			
+			<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="stop" title="배포 중지" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="8"><i class="far fa-stop-circle"></i><span>중지</span></button>
+			begin :: dropdown 버튼
 			<div class="dropdown dropdown-inline">
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-spinner kt-margin-r-5"></i> 배포 실행 중(<span>2</span>)
@@ -318,7 +318,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		
 	</div>
