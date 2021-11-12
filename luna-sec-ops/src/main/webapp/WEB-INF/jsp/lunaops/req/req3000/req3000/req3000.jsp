@@ -87,7 +87,7 @@ var OSLReq3000Popup = function () {
 			},
 			{field: 'reqGrpUsrEmail', title: '요청자 e-mail', textAlign: 'left', width: 150, search: true, sortable: true,searchOrd: 3},
 			{field: 'reqGrpUsrDeptNm', title: '요청자 조직', textAlign: 'left', width: 300, sortable: false, search: false},
-			{field: 'reqGrpUsrNum', title: '요청자 연락처', textAlign: 'left', width: 100, search: true, sortable: false, search: true,searchOrd: 4},
+			{field: 'reqGrpUsrNum', title: '요청자 연락처', textAlign: 'left', width: 100, search: true, sortable: false,searchOrd: 4},
 			{field: 'regGrpChargerNm', title: '담당자 명', textAlign: 'left', width: 150, search: true,sortable: false,searchOrd: 5,
 				template: function (row) {
 					return $.osl.user.usrImgSet(row.reqGrpChargerImgId, row.reqGrpChargerNm);
@@ -109,7 +109,8 @@ var OSLReq3000Popup = function () {
 		},
 		actionBtn:{
 			"dblClick":true,
-			
+			/* "excel":true,
+			"print":true, */
 			"insert":false,
 			"update":true,
 			"title": $.osl.lang("datatable.action.functionNm")
@@ -119,7 +120,8 @@ var OSLReq3000Popup = function () {
 			"update":$.osl.lang("req3000.datatable.action.update"),
 			"dblClick": $.osl.lang("req3000.datatable.action.dblClick"),
 			"delete": $.osl.lang("req3000.datatable.action.delete"),
-			
+			/* "excel": $.osl.lang("req3000.datatable.action.excel"),
+			"print": $.osl.lang("req3000.datatable.action.print"), */
 		},
 		actionFn:{
 			"insert":function(datatableId, type, rowNum){
@@ -134,7 +136,7 @@ var OSLReq3000Popup = function () {
 				
 				$.osl.layerPopupOpen('/req/req3000/req3000/selectReq3001View.do',data,options);
 			},"update":function(rowData, datatableId, type, rowNum, elem){
-				
+				//데이터 전송
 				var data = {
 						type:"update",
 						paramPrjGrpId : rowData.prjGrpId,
@@ -143,7 +145,7 @@ var OSLReq3000Popup = function () {
 						paramReqGrpUsrId : rowData.reqGrpUsrId,
 						paramReqGrpChargerId :rowData.reqGrpChargerId
 					};
-				
+				//옵션
 				var options = {
 						idKey: datatableId,
 						modalTitle: $.osl.lang("req3001.title"),
@@ -161,24 +163,24 @@ var OSLReq3000Popup = function () {
 						paramRowData:JSON.stringify(rowDatas),
 						datatableId:datatableId
 				};
-				
+				//AJAX 설정
 				var ajaxObj = new $.osl.ajaxRequestAction(
 						{"url":"<c:url value='/req/req3000/req3000/deleteReq3000ReqListAjax.do'/>"}
 						,{deleteDataList: JSON.stringify(rowDatas)});
-				
+				//AJAX 전송 성공 함수
 				ajaxObj.setFnSuccess(function(data){
 					if(data.errorYn == "Y"){
 		   				$.osl.alert(data.message,{type: 'error'});
 		   			}else{
-		   				
+		   				//삭제 성공
 		   				$.osl.toastr(data.message);
 		   				
-		   				
+		   				//datatable 조회
 		   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 		   			}
 				});
 				
-				
+				//AJAX 전송
 				ajaxObj.send();
 				
 			},"dblClick":function(rowData, datatableId, type, rowNum){
@@ -202,13 +204,13 @@ var OSLReq3000Popup = function () {
 				}
 			}
 		}
-		
+		// begin:: 그룹 요구사항 관리 데이터테이블
 		$.osl.datatable.setting("req3000Table", config);
-		
+		// end:: 그룹 요구사항 관리 데이터테이블
 		
 	}
 	return {
-        
+        // public functions
         init: function() {
         	documentSetting();
         }
