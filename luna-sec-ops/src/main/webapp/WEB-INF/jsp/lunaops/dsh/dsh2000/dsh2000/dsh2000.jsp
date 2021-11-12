@@ -251,8 +251,8 @@ var OSLDsh2000Popup = function () {
 		portletAll.push(new KTPortlet('newReq', $.osl.lang("portlet")));
 		portletAll.push(new KTPortlet('reqChargeSign', $.osl.lang("portlet")));
 		portletAll.push(new KTPortlet('reqChargeDpl', $.osl.lang("portlet")));
-		portletAll.push(new KTPortlet('processPortlet1', $.osl.lang("portlet")));	
-		portletAll.push(new KTPortlet('processPortlet2', $.osl.lang("portlet")));	
+		//portletAll.push(new KTPortlet('processPortlet1', $.osl.lang("portlet")));	
+		//portletAll.push(new KTPortlet('processPortlet2', $.osl.lang("portlet")));	
 		//portletAll.push(new KTPortlet('sprPortlet1', $.osl.lang("portlet")));	
 		
 		$('#allPortletClose').click(function(){
@@ -1461,7 +1461,7 @@ var OSLDsh2000Popup = function () {
 											+ '</span>'
 											+ '<span class="kt-margin-l-20">'
 												+ '담당<span class="badge osl-badge-brand kt-margin-l-5 kt-margin-r-10 chargerBadge">0</span>'
-												+ '전체<span class="badge osl-badge-brand kt-margin-l-5" allBadge>0</span>'
+												+ '전체<span class="badge osl-badge-brand kt-margin-l-5 allBadge" >0</span>'
 											+ '</span>'
 										+ '</h5>'
 									+ '</div>'
@@ -1473,14 +1473,14 @@ var OSLDsh2000Popup = function () {
 											/* + '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-view-type" data-view-type="grid" data-target-process="process'+idx+'" title="칸반 그리드 전환" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
 												+ '<i class="fas fa-columns"></i>'
 											+ '</button>' */
-											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
-											+ '</button>'
+											/* + '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
+											+ '</button>' */
 											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="processReqTable_'+idx+'" data-datatable-action="refresh" title="새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="refresh" tabindex="5">'
 												+ '<i class="fas fa-redo-alt"></i>'
 											+ '</button>'
-											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-portlet-fullscreen-btn" title="영역 전체화면" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
+											/* + '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-portlet-fullscreen-btn" title="영역 전체화면" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
 												+ '<i class="fas fa-expand"></i>'
-											+ '</button>'
+											+ '</button>' */
 											+ '<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>'
 										+ '</div>'
 									+ '</div>'
@@ -1587,6 +1587,9 @@ var OSLDsh2000Popup = function () {
 	        	   fnFlowChart(index, processId, value.flowList, value.flowLinkList);
 	        	   //데이터 테이블 아이디에 붙는 index, 첫번째 processId, flowId 임시 전달
 	        	   processTableSetting(index, processId, value.flowList[0].flowId);
+	        	   //포틀렛 세팅 
+					portletAll.push(new KTPortlet('processPortlet'+index, $.osl.lang("portlet")));	
+		
 	        	   index++;
 	           });
 	
@@ -1912,25 +1915,18 @@ var OSLDsh2000Popup = function () {
 					var datatableId = "processReqTable_"+tablenum;
 					var datatable = $.osl.datatable.list[datatableId].targetDt;
 					
-					//프로세스 담당, 전체 수 가져오기
+					//프로세스 담당, 전체 수 넣기
 					var flowCntList = datatable.lastResponse.meta.flowCntList;
-					//console.log("flowCnt : ", flowCntList);
 					if($.osl.isNull(flowCntList[0])){
 						$("#processPortlet"+tablenum).find(".chargerBadge").text('0');
 						$("#processPortlet"+tablenum).find(".allBadge").text('0');
 					}else{
-						/* 
-						//console.log("있다.");
-						//console.log($("#processPortlet"+tablenum).find(".chargerBadge"));
-						//console.log(flowCntList[0].reqChargerTotalCnt);
-						//console.log(flowCntList[0].reqTotalCnt);
-						 */
 						$("#processPortlet"+tablenum).find(".chargerBadge").text(flowCntList[0].reqChargerTotalCnt);
 						$("#processPortlet"+tablenum).find(".allBadge").text(flowCntList[0].reqTotalCnt);
 					}
 					
+					//단계에 담당, 전체 수 넣기
 					var chargerSpans = $("#processPortlet"+tablenum).find(".flow-charger");
-					
 					$.each(chargerSpans, function(index, value){
 						$.each(flowCntList, function(idx, item){
 							if($(value).data("flowId") == item.flowId){
@@ -1949,7 +1945,6 @@ var OSLDsh2000Popup = function () {
 	* function 설명 : 프로세스 클릭 이벤트 적용
 	*/
 	var fnProcessEvt = function(){
-		/* 
 		//그리드 형, 칸반형
 		$('.osl-view-type').click(function(){
 			var targetType = $(this).data('view-type');
@@ -1974,7 +1969,7 @@ var OSLDsh2000Popup = function () {
 				return false;	
 			}
 		});
-		 */
+		 
 		$('.osl-portlet-fullscreen-btn').click(function(){
 			//fullscreen대상 div
 			var targetObj = $(this).parents('.kt-portlet');
@@ -1998,7 +1993,6 @@ var OSLDsh2000Popup = function () {
 		
 		//담당 버튼 클릭 시
 		$(".flow-charger").click(function(){
-			//console.log("담당 클릭");
 			//해당 데이터 테이블 id가져오기
 			var item = $(this).parents(".process-div");
 			var datatableId = $(item).children(".process-datatable-div").find(".process-datatables").attr("id");
@@ -2018,7 +2012,6 @@ var OSLDsh2000Popup = function () {
 		
 		//전체 버튼 클릭 시
 		$(".flow-all-charger").click(function(){
-			//console.log("전체 클릭");
 			//해당 데이터 테이블 id가져오기
 			var item = $(this).parents(".process-div");
 			var datatableId = $(item).find(".process-datatables").attr("id");
