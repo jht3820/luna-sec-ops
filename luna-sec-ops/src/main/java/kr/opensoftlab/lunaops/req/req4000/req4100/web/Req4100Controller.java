@@ -29,6 +29,7 @@ import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1000.service.Prj1000Service;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.Prj1100Service;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.Prj1300Service;
 import kr.opensoftlab.lunaops.req.req3000.req3000.service.Req3000Service;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.Req4100Service;
 import kr.opensoftlab.lunaops.req.req6000.req6000.service.Req6000Service;
@@ -64,7 +65,11 @@ public class Req4100Controller {
 	
 	@Resource(name = "stm3000Service")
 	private Stm3000Service stm3000Service;
+
 	
+    @Resource(name = "prj1300Service")
+    private Prj1300Service prj1300Service;
+    
 	
 	@Resource(name = "prj1000Service")
 	private Prj1000Service prj1000Service;
@@ -1195,6 +1200,11 @@ public class Req4100Controller {
     		
     		String flowSignCd = (String)flowInfo.get("flowSignCd");
     		
+    		paramMap.put("processId", (String) flowInfo.get("processId"));
+    		paramMap.put("flowId", (String) flowInfo.get("flowId"));
+    		
+    		
+    		List<Map> itemList = prj1300Service.selectPrj1102AllItemList(paramMap);
     		
     		
     		List<Map> signUsrList = null;
@@ -1263,7 +1273,9 @@ public class Req4100Controller {
     		model.addAttribute("flowList", flowList);
     		model.addAttribute("flowInfo", flowInfo);
     		model.addAttribute("flowLinkList", flowLinkList);
-        	
+
+    		model.addAttribute("itemList", itemList);
+    		
 			model.addAttribute("fileList",fileList);
 			model.addAttribute("fileListCnt",fileCnt);
 			
