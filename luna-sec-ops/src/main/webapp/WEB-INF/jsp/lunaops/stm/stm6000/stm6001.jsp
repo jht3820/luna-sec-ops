@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frStm6001">
 	<input type="hidden" name="type" id="type" value="${requestScope.type}">
-	<input type="hidden" id="lvl" name="lvl" value="${param.lvl}"
+	<input type="hidden" id="lvl" name="lvl" value="${param.lvl}"//>
 	<div class="kt-portlet">
 		<div class="kt-portlet__body">
 			<div class="form-group">
@@ -175,6 +175,7 @@ var OSLStm6001Popup = function () {
 	    				$.osl.layerPopupClose();
 	    				
 	    				
+	    				$("button[data-tree-id=stm6000DeptTree][data-tree-action=select]").click();
 	    			}
 	    		});
 	    		
@@ -217,6 +218,7 @@ var OSLStm6001Popup = function () {
 	    				$.osl.layerPopupClose();
 
 	    				
+	    				$("button[data-tree-id=stm6000DeptTree][data-tree-action=select]").click();
 	    			}
 	    		});
 	    		

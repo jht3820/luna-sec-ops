@@ -1,91 +1,88 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="kt-portlet kt-portlet--mobile">
-	<input type="hidden" id="callPage" name="callPage" val="${param.callPage}">
-	<div class="kt-portlet__body">
-		<div class="row">
-			
-			<div class="col-xl-4">
-				<div class="kt-portlet osl-content__border--light kt-margin-b-20" id="prj1300TemplateTreeMenu">
-					<div class="kt-portlet__head kt-portlet__head--lg">
-						<div class="kt-portlet__head-label">
-							<h5 class="kt-font-boldest kt-font-brand">
-								<i class="fas fa-copy kt-margin-r-5"></i>대상 목록
-							</h5>
-						</div>
-						
-						<div class="kt-portlet__head-toolbar">
-							<div class="kt-portlet__head-wrapper">
-								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj1300TemplateTree" data-tree-action="select" title="템플릿 메뉴 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="템플릿 메뉴 목록 조회">
-									<i class="fa fa-list"></i><span>조회</span>
-								</button>
-							</div>
-							<div class="kt-portlet__head-group">
-								<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="prj1300TemplateTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a> 
-								<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="prj1300TemplateTree" data-tree-action="allNodeClose"> <i class="fa fa-minus"></i> </a> 
-							</div>
-						</div>
-						
-					</div>
-
-					<div class="kt-portlet__body">
-						<div class="row">
-							<div class="col-12">
-								<div class="osl-tree-search" data-tree-id="prj1300TemplateTree"></div>
-							</div>
-						</div>
-						<div class="row kt-margin-t-20">
-							<div class="col-12">
-								<div class="osl-tree kt-scroll" data-height="410" id="prj1300TemplateTree"></div>
-							</div>
-						</div>
-					</div>
+<input type="hidden" id="callPage" name="callPage" val="${param.callPage}">
+<div class="row">
+	
+	<div class="col-xl-4">
+		<div class="kt-portlet osl-content__border--light kt-margin-b-20" id="prj1300TemplateTreeMenu">
+			<div class="kt-portlet__head kt-portlet__head--lg">
+				<div class="kt-portlet__head-label">
+					<h5 class="kt-font-boldest kt-font-brand">
+						<i class="fas fa-copy kt-margin-r-5"></i>대상 목록
+					</h5>
 				</div>
-			</div>
-			
-			
-			<div class="col-xl-8">
 				
-				<div class="kt-portlet--contain osl-content__border--light">
-					<div class="kt-blog-grid">
-						<div class="kt-portlet__head kt-portlet__head--lg">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fas fa-file-signature kt-margin-r-5"></i>기본 항목 목록
-								</h5>
-							</div>
-							
-							<div class="kt-portlet__head-toolbar">
-								<div class="kt-portlet__head-wrapper">
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1304PrjTable" data-datatable-action="itemSelect" title="기본항목 선택" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="기본항목 선택">
-										<i class="fa flaticon2-check-mark"></i><span>선택</span>
-									</button>
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1304PrjTable" data-datatable-action="select" title="기본항목 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="2" data-original-title="기본항목 조회">
-										<i class="fa fa-list"></i><span>조회</span>
-									</button>
-								</div>
-							</div>
-							
-						</div>
-
-						<div class="kt-portlet__body">
-							<div class="row">
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="osl-datatable-search" data-datatable-id="prj1304PrjTable"></div>
-								</div>
-							</div>
-							<div class="kt_datatable" id="prj1304PrjTable"></div>
-						</div>
+				<div class="kt-portlet__head-toolbar">
+					<div class="kt-portlet__head-wrapper">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj1300TemplateTree" data-tree-action="select" title="템플릿 메뉴 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="템플릿 메뉴 목록 조회">
+							<i class="fa fa-list"></i><span>조회</span>
+						</button>
+					</div>
+					<div class="kt-portlet__head-group">
+						<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="prj1300TemplateTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a> 
+						<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="prj1300TemplateTree" data-tree-action="allNodeClose"> <i class="fa fa-minus"></i> </a> 
 					</div>
 				</div>
 				
 			</div>
-			
+			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-12">
+						<div class="osl-tree-search" data-tree-id="prj1300TemplateTree"></div>
+					</div>
+				</div>
+				<div class="row kt-margin-t-20">
+					<div class="col-12">
+						<div class="osl-tree kt-scroll" data-height="410" id="prj1300TemplateTree"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+	
+	
+	<div class="col-xl-8">
+		
+		<div class="kt-portlet osl-content__border--light">
+			<div class="kt-portlet__head kt-portlet__head--lg">
+				<div class="kt-portlet__head-label">
+					<h5 class="kt-font-boldest kt-font-brand">
+						<i class="fas fa-file-signature kt-margin-r-5"></i>기본 항목 목록
+					</h5>
+				</div>
+				
+				<div class="kt-portlet__head-toolbar">
+					<div class="kt-portlet__head-wrapper">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1304PrjTable" data-datatable-action="itemSelect" title="기본항목 선택" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="기본항목 선택">
+							<i class="fa fa-external-link-alt"></i><span>선택</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1304PrjTable" data-datatable-action="select" title="기본항목 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="2" data-original-title="기본항목 조회">
+							<i class="fa fa-list"></i><span>조회</span>
+						</button>
+					</div>
+				</div>
+				
+			</div>
+			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-12">
+						<div class="osl-datatable-search" data-datatable-id="prj1304PrjTable"></div>
+					</div>
+				</div>
+				<div class="kt_datatable" id="prj1304PrjTable"></div>
+			</div>
+		</div>
+		
+	</div>
+	
 </div>
-<button type="button" id="prj1304ModalCallBackBtn" name="prj1304ModalCallBackBtn"/>
+<button type="button" class="kt-hide" id="prj1304ModalCallBackBtn" name="prj1304ModalCallBackBtn"></button>
+<div class="modal-footer">
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">
+		<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
+	</button>
+</div>
 <script>
 "use strict";
 var OSLPrj1304Popup = function () {
@@ -222,7 +219,7 @@ var OSLPrj1304Popup = function () {
 					"itemSelect" : ""
 				},
 				actionBtnIcon:{
-					"itemSelect" : "fa flaticon2-check-mark",
+					"itemSelect" : "fa fa-external-link-alt",
 				}
 			}
 		});

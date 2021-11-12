@@ -237,11 +237,6 @@ var OSLPrj1400Popup = function () {
 						newForm.submit();
 					},
 				},
-				theme:{
-					actionBtnIcon:{
-						"dblClick":"fa fa-list-alt"
-					}
-				},
 				callback:{
 					initComplete: function(evt,config){
 						fnViewerChange();
@@ -338,7 +333,7 @@ var OSLPrj1400Popup = function () {
 										+'</div>'
 										+'<div class="kt-portlet__head-toolbar">'
 											+'<div class="kt-portlet__head-wrapper">'
-												+'<button type="button" class="btn btn-outline-primary btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" title="test" tabindex="1">'
+												+'<button type="button" class="btn btn-outline-primary btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" data-toggle-second="tooltip" title="test" tabindex="1">'
 													+'<i class="fa fa-bars osl-padding-r0"></i>'
 												+'</button>'
 												+'<div class="dropdown-menu dropdown-menu-right" data-datatable-rownum="'+idx+'">'
@@ -428,12 +423,20 @@ var OSLPrj1400Popup = function () {
 						
 						
 						$("#prj1400CardTable").html(prjGrpStr);
+						
+						
+						KTApp.initTooltips();
+						$('[data-toggle-second="tooltip"]').tooltip({
+							template:'<div class="tooltip tooltip-primary bs-tooltip-bottom" role="tooltip"><div class="tooltip-arrow arrow" style="left: 25px;"></div><div class="tooltip-inner"></div></div>'
+						});
 					}
 				}
 			};
 		
 		
 		$.osl.datatable.setting("prj1400PrjTable", config);
+		
+		
 		
 		
 		$(".btn-view-type").click(function(){

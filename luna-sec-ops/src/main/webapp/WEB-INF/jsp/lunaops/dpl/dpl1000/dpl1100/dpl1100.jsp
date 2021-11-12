@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -39,8 +39,8 @@
 				<div class="kt_datatable" id="dpl1000DplTable"></div>
 			</div>
 		</div>
-	</div> <!-- 배포계획 목록 끝 -->
-	<!-- 우측 -->
+	</div> 
+	
 	<div class="col-lg-7 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head kt-portlet__head--lg">
@@ -68,7 +68,7 @@
 				</div>
 				<div class="kt_datatable" id="req1100AssTable"></div>
 			</div>
-		</div> <!-- 요구사항배정목록 끝 -->
+		</div> 
 		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
@@ -96,9 +96,9 @@
 				<div class="kt_datatable" id="req1100NonTable"></div>
 			</div>
 		</div>
-	</div> <!-- 요구사항 미배정목록 끝 -->
+	</div> 
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLDpl1100Popup = function () {
@@ -210,12 +210,7 @@ var OSLDpl1100Popup = function () {
 					
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
 				}
-			},
-			theme: {
-				 actionBtnIcon:{
-					 "dblClick": "fa fa-info-circle"
-				 }
-			 }
+			}
 		});
 
 		
@@ -456,5 +451,5 @@ $.osl.ready(function(){
 	OSLDpl1100Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />
