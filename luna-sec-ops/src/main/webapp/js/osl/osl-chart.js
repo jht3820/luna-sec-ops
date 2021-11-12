@@ -37,9 +37,15 @@ var OSLCoreChartSetting = function () {
 						
 						
 					},
+					keyType:{
+						
+						
+					},
 					chartType: "",
 					
 					dataArr:[],
+					
+					xKeyArr:[],
 				},
 				type: "remote"
 			},
@@ -47,7 +53,23 @@ var OSLCoreChartSetting = function () {
 				width:"100%",
 				height:360,
 				
-				toolbar:{},
+				toolbar : {
+					show: true,
+					offsetX: 0,
+					offsetY: 0,
+					tools: {
+						download: true,
+						selection: true,
+						zoom: false,
+						zoomin: '<i class="fa fa-plus-circle osl-icon-transform__scale--150"></i>',
+						zoomout: '<i class="fa fa-minus-circle osl-icon-transform__scale--150"></i>',
+						pan: '<i class="fa fa-expand-arrows-alt osl-icon-transform__scale--150"></i>',
+						reset: '<i class="fa flaticon2-refresh-1"></i>',
+						customIcons: [
+							
+						]
+					}
+				},
 				
 				colors:[],
 				
@@ -187,23 +209,7 @@ var OSLCoreChartSetting = function () {
 					width: targetConfig.chart.width,
 					height: targetConfig.chart.height,
 					type: targetConfig.data.param.chartType, 
-					toolbar : {
-						show: true,
-						offsetX: 0,
-						offsetY: 0,
-						tools: {
-							download: true,
-							selection: true,
-							zoom: false,
-							zoomin: '<i class="fa fa-plus-circle osl-icon-transform__scale--150"></i>',
-							zoomout: '<i class="fa fa-minus-circle osl-icon-transform__scale--150"></i>',
-							pan: '<i class="fa fa-expand-arrows-alt osl-icon-transform__scale--150"></i>',
-							reset: '<i class="fa flaticon2-refresh-1"></i>',
-							customIcons: [
-								
-							]
-						}
-					},
+					toolbar : targetConfig.chart.toolbar,
 					events:{
 						
 						beforeMount: targetConfig.actionFn.beforeMount,
@@ -211,7 +217,17 @@ var OSLCoreChartSetting = function () {
 						mounted: targetConfig.actionFn.mounted,
 						
 						click: targetConfig.actionFn.click,
-					}
+					},
+					locales: [{
+						"name": "en",
+						"options": {
+							"toolbar": {
+								"exportToCSV": "CSV로 다운로드",
+								"exportToSVG": "SVG로 다운로드",
+								"exportToPNG": "PNG로 다운로드",
+							}
+					  }
+					}]
 				},
 				grid:{
 					show: false
@@ -223,16 +239,14 @@ var OSLCoreChartSetting = function () {
 					offsetX: 0,
 					offsetY: 0,
 				},
-				fill:{
-					type : "gradient",
-					gradient : {
-						shadeIntensity: 1,
-						opacityFrom: 0.7,
-						opacityTo: 0.9,
-						stops: [0, 90, 100]
-					}
-				},
+				
+				dataLabels:targetConfig.chart.dataLabels,
+				
+				markers:targetConfig.chart.markers,
+				stroke: targetConfig.chart.stroke,
 				xaxis: targetConfig.chart.xaxis,
+				
+				grid: targetConfig.chart.grid,
 				yaxis: targetConfig.chart.yaxis,
 				
 				title: targetConfig.chart.title,
@@ -287,6 +301,19 @@ var OSLCoreChartSetting = function () {
 				}
 			});
 			
+			var notShowTools = {
+				download: false,
+				selection: false,
+				zoom: false,
+				zoomin: false,
+				zoomout: false,
+				pan: false,
+				reset: false,
+			}
+			if(targetConfig.chart.toolbar.show == "false"){
+				targetConfig.chart.toolbar.tools = notShowTools;
+			}
+			
 			
 			var apexEvt = $.extend(true, {}, chartEvt, {
 				"area": function(array){
@@ -328,6 +355,8 @@ var OSLCoreChartSetting = function () {
 					
 					if(!$.osl.isNull(config.data.param.xKey)){
 						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}else if(!$.osl.isNull(config.data.param.xKeyArr)){
+						targetConfig.xaxis.categories = config.data.param.xKeyArr;
 					}
 					if(!$.osl.isNull(config.data.param.yKey)){
 						targetConfig.yaxis.categories = chartArrays[config.data.param.yKey ];
@@ -454,6 +483,8 @@ var OSLCoreChartSetting = function () {
 					
 					if(!$.osl.isNull(config.data.param.xKey)){
 						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}else if(!$.osl.isNull(config.data.param.xKeyArr)){
+						targetConfig.xaxis.categories = config.data.param.xKeyArr;
 					}
 					
 					if(!$.osl.isNull(config.data.param.yKey)){
@@ -462,9 +493,48 @@ var OSLCoreChartSetting = function () {
 				},
 				"colum": function(array){
 					targetConfig.chart.type="bar";
-					targetConfig.yaxis = {show:true};
+					
 					
 					$.each(array, function(idx, value){
+						targetConfig.series[idx] = [];
+						
+						targetConfig.series[idx].name = value[config.data.param.key.key1];
+						if(!$.osl.isNull(value[config.data.param.key.key2] )){
+							targetConfig.series[idx].data=value[config.data.param.key.key2 ];
+						}else{
+							targetConfig.series[idx].data=[];
+						}
+						
+						if(!$.osl.isNull(config.data.param.xKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+								chartArrays[config.data.param.xKey]=[];
+							}
+							chartArrays[config.data.param.xKey].push( value[config.data.param.xKey] );
+						}
+						if(!$.osl.isNull(config.data.param.yKey)){
+							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
+								chartArrays[config.data.param.yKey]=[];
+							}
+							chartArrays[config.data.param.yKey].push( value[config.data.param.yKey] );
+						}
+					});
+					
+					
+					if(!$.osl.isNull(config.data.param.xKey)){
+						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}else if(!$.osl.isNull(config.data.param.xKeyArr)){
+						targetConfig.xaxis.categories = config.data.param.xKeyArr;
+					}
+					
+					if(!$.osl.isNull(config.data.param.yKey)){
+						targetConfig.yaxis.categories = chartArrays[config.data.param.yKey ];
+					}
+				},
+				"mix": function(array){
+					targetConfig.chart.type="line";
+					
+					$.each(array, function(idx, value){
+						
 						for(var idx = 1; idx <= Object.keys(config.data.param.key).length ;idx++){
 							if(!chartArrays.hasOwnProperty(config.data.param.key["key"+idx])){
 								chartArrays[config.data.param.key["key"+idx]]=[]
@@ -491,6 +561,7 @@ var OSLCoreChartSetting = function () {
 						targetConfig.series[idx]={name:config.data.param.keyNm["keyNm"+(idx+1)]};
 						if(!$.osl.isNull(chartArrays[config.data.param.key["key"+(idx+1)] ])){
 							targetConfig.series[idx].data=chartArrays[config.data.param.key["key"+(idx+1)] ];
+							targetConfig.series[idx].type=config.data.param.keyType["keyType"+(idx+1)];
 						}else{
 							targetConfig.series[idx].data=[];
 						}
@@ -499,6 +570,8 @@ var OSLCoreChartSetting = function () {
 					
 					if(!$.osl.isNull(config.data.param.xKey)){
 						targetConfig.xaxis.categories = chartArrays[config.data.param.xKey ];
+					}else if(!$.osl.isNull(config.data.param.xKeyArr)){
+						targetConfig.xaxis.categories = config.data.param.xKeyArr;
 					}
 					
 					if(!$.osl.isNull(config.data.param.yKey)){

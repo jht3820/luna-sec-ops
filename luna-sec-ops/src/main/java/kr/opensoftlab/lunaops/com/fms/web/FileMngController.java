@@ -480,7 +480,7 @@ public class FileMngController {
 				
 				hisLogParamMap.put("fileActionType", "del");
 				
-				req6000Service.insertReq6000ModifyHistoryList(hisLogParamMap);
+				
 			}
 			
 			model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
@@ -502,6 +502,7 @@ public class FileMngController {
 	public ModelAndView insertAtchFileIdInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		
 		try{
+
 			
 			String atchFileIdString = idgenService.getNextStringId();
 			fileMngService.insertFileMasterInfo(atchFileIdString);

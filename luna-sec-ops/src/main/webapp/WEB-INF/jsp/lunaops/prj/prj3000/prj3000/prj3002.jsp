@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <form class="kt-form" id="frPrj3002">
-	<input type="hidden" name="type" id="type" value="${param.type}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 		<div class="kt-portlet">
 			<div class="kt-portlet__head kt-portlet__head--lg">
@@ -96,6 +95,9 @@
 						</div>
 						<div class="kt-portlet__head-toolbar">
 							<div class="kt-portlet__head-wrapper">
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj3002PrjConTable" data-datatable-action="reset" title="초기화" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="reset" tabindex="1" id="prj3002PrjConReset">
+									<span>연결 해제</span><i class="fa fa-arrow-alt-circle-right osl-padding-r0 osl-padding-l05"></i>
+								</button>
 								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj3002PrjConTable" data-datatable-action="selConTargetDelete" title="선택 연결 대상 해제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="1" id="prj3002PrjConDelete">
 									<span>연결 해제</span><i class="fa fa-arrow-alt-circle-right osl-padding-r0 osl-padding-l05"></i>
 								</button>
@@ -137,8 +139,8 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="prj3002SaveSubmit"><i class="fa fa-save"></i><span>완료</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-brand" id="prj3002SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 <script>
 "use strict";
@@ -152,10 +154,13 @@ var OSLPrj1004Popup = function () {
 	var docId = $('#docId').val();
 	
 	//type
-	var type = $("#type").val();
+	var type = 'insert';
 	
 	//산출물 연결 중복체크
 	var prjConDocIdList = [];
+	
+	//산출물 연결 오리지널 데이터
+	var prjDocConOriginalData = [];
 	
 	//프로젝트 ID
 	var dtParamPrjId = $("#dtParamPrjId").val();
@@ -182,11 +187,11 @@ var OSLPrj1004Popup = function () {
     		});
     	});
 		
+    	//데이터 테이블 세팅
+    	datatableSetting();
+    	
 		//산출물 데이터 세팅
     	selectDocInfo();
-		
-		//데이터 테이블 세팅
-    	datatableSetting();
 		
     };
     
@@ -194,7 +199,12 @@ var OSLPrj1004Popup = function () {
     var saveFormAction = function() {
     	//formData
    		var fd = $.osl.formDataToJsonArray(formId);
+
+    	var docId = $("#docId").val();
     	
+    	fd.append("nowDocId",docId);
+		fd.append("type",type);
+		
     	//추가된 산출물 연결 목록
     	var DocConList = $.osl.datatable.list["prj3002PrjConTable"].targetDt.originalDataSet;
     	if(!$.osl.isNull(DocConList) && DocConList.length > 0){
@@ -205,6 +215,8 @@ var OSLPrj1004Popup = function () {
     		fd.append("targetIdList",JSON.stringify(targetIdList));
     	}
 		
+    	
+    	
     	//AJAX 설정
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/prj/prj3000/prj3000/insertPrj3002DocConInfo.do'/>", "async": true,"contentType":false,"processData":false ,"cache":false, "loadingShow": false},fd);
     	 $.osl.showLoadingBar(true,{target: "#frPrj3002", message: "산출물 정보를 연결중입니다.</br>잠시만 기다려주세요."});
@@ -277,6 +289,33 @@ var OSLPrj1004Popup = function () {
 			    	// 비고 값 div영역에 세팅
 					$("#docDesc").html(docDesc.replace(/\n/g, '<br/>'));
 				}
+				
+				//연결 정보 있을 경우 데이터 세팅
+				if(data.docConList.length > 0){
+					//수정
+					type = 'update';
+					
+   					//원본 데이터 저장
+					prjDocConOriginalData = data.docConList;
+	   				//대상 데이터 테이블
+	   				var datatable = $.osl.datatable.list["prj3002PrjConTable"].targetDt;
+	   			
+	   				$.each(data.docConList, function(idx, map){
+		   				//담당자 배정 목록 추가
+						//datatable.dataSet.push(map);
+						datatable.originalDataSet.push(map);
+						
+						//중복체크 추가
+						prjConDocIdList.push(map.targetId);
+	   				});
+					
+					//데이터 추가
+					datatable.insertData();
+					
+					//데이터테이블 재 조회
+					datatable.reload();
+					$.osl.datatable.list["prj3002PrjConTargetTable"].targetDt.reload();
+   				}
 				
 			}
 		});
@@ -378,6 +417,31 @@ var OSLPrj1004Popup = function () {
 							fnAllUsrDelete(rowDatas);
 						}
 					});
+				},
+				"reset": function(rowData, datatableId, type, rownum, elem){
+					var datatable = $.osl.datatable.list[datatableId].targetDt;
+					
+					//데이터 초기화
+					datatable.dataSet = [];
+					datatable.originalDataSet = [];
+					prjConDocIdList = [];
+					
+					//원본데이터 있는경우
+					if(prjDocConOriginalData.length > 0){
+						$.each(prjDocConOriginalData, function(idx, map){
+			   				//담당자 배정 목록 추가
+			   				datatable.dataSet.push(map);
+							datatable.originalDataSet.push(map);
+							
+							//중복체크 추가
+							prjConDocIdList.push(map.targetId);
+		   				});
+					}
+					//데이터 추가
+					datatable.insertData();
+					//데이터테이블 재 조회
+					datatable.reload();
+					$.osl.datatable.list["prj3002PrjConTargetTable"].targetDt.reload();
 				}
 			}
 		});
@@ -516,10 +580,12 @@ var OSLPrj1004Popup = function () {
 			//출력 메시지 세팅
 			var toastrMsg = "";
 			var toastrType = "success";
+			
 			if(selDatas.length > targetIdDupleList){
 				toastrMsg += $.osl.lang("prj3002.insert.saveMsg",(selDatas.length-targetIdDupleList));
 			}
-			if(prjConDocIdList > 0){
+			
+			if(targetIdDupleList > 0){
 				//이미 추가된 메시지 있는 경우 </br>
 				if(toastrMsg.length > 0){
 					toastrMsg += "</br>";
@@ -528,7 +594,7 @@ var OSLPrj1004Popup = function () {
 				toastrType = "warning";
 			}
 			//모든 사용자가 배정되있는 경우
-			if(prjConDocIdList == selDatas.length){
+			if(targetIdDupleList == selDatas.length){
 				toastrMsg = $.osl.lang("prj3002.insert.saveAllDupleMsg",targetIdDupleList);
 				toastrType = "error";
 			}

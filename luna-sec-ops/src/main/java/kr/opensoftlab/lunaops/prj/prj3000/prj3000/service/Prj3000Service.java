@@ -93,8 +93,6 @@ public interface Prj3000Service {
 	
 	@SuppressWarnings("rawtypes")
 	List selectPrj3000RootMenuList(Map paramMap) throws Exception;
-
-	
 	
 
 	

@@ -62,15 +62,15 @@
 					AND	REGEXP_REPLACE(T1.MMR_DESC, '<[^>]*>', '') LIKE '%'|| #searchTargetData# ||'%'
 				]]>
 				</isEqual>
-				<isEqual property="searchTargetId" compareValue="mmrUsrId">
-					AND	T1.USR_ID LIKE '%'|| #searchTargetData# ||'%'
+				<isEqual property="searchTargetId" compareValue="mmrUsrNm">
+					AND	T1.MRR_USR_NM LIKE '%'|| #searchTargetData# ||'%'
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="mmrDtm">
 					<isNotEmpty property="searchStartDt">
-						AND	TO_CHAR(T1.MMR_DTM, 'YYYY-MM-DD') &gt;= TO_DATE(#searchStartDt#, 'YYYY-MM-DD')
+						AND	TO_DATE(T1.MMR_DTM, 'YYYY-MM-DD HH24:MI:SS') &gt;= TO_DATE(#searchStartDt#, 'YYYY-MM-DD' HH24:MI:SS)
 					</isNotEmpty>
 					<isNotEmpty property="searchEndDt">
-						AND	TO_CHAR(T1.MMR_DTM, 'YYYY-MM-DD') &lt;=  TO_DATE(#searchEndDt#, 'YYYY-MM-DD')
+						AND	TO_DATE(T1.MMR_DTM, 'YYYY-MM-DD HH24:MI:SS') &lt;=  TO_DATE(#searchEndDt#, 'YYYY-MM-DD HH24:MI:SS')
 					</isNotEmpty>
 				</isEqual>
 			</isNotEmpty>

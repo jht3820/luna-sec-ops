@@ -53,22 +53,22 @@
 			<div class="kt-inbox__toolbar kt-inbox__toolbar--extended">
 				<div class="kt-inbox__actions kt-inbox__actions--expanded">
 					<div class="kt-inbox__panel">
-						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="Zoom reset" data-zoom="reset">
+						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="확대 초기화" data-zoom="reset">
 							<i class="flaticon2-refresh-button"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="Zoom in" data-zoom="in">
+						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="확대" data-zoom="in">
 							<i class="fa fa-search-plus"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="Zoom out" data-zoom="out">
+						<button type="button" class="kt-inbox__icon" data-flow-action="zommCtrl" data-toggle="kt-tooltip" title="축소" data-zoom="out">
 							<i class="fa fa-search-minus"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="insert" data-toggle="kt-tooltip" title="Create">
+						<button type="button" class="kt-inbox__icon" data-flow-action="insert" data-toggle="kt-tooltip" title="단계 생성">
 							<i class="flaticon2-add-square"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="update" data-toggle="kt-tooltip" title="Update">
+						<button type="button" class="kt-inbox__icon" data-flow-action="update" data-toggle="kt-tooltip" title="단계 수정">
 							<i class="flaticon2-writing"></i>
 						</button>
-						<button type="button" class="kt-inbox__icon" data-flow-action="delete" data-toggle="kt-tooltip" title="Delete">
+						<button type="button" class="kt-inbox__icon" data-flow-action="delete" data-toggle="kt-tooltip" title="단계 삭제">
 							<i class="flaticon2-rubbish-bin"></i>
 						</button>
 						<!-- <button type="button" class="kt-inbox__icon" data-flow-action="detail" data-toggle="kt-tooltip" title="Detail">
@@ -181,7 +181,6 @@ var OSLPrj1100Popup = function () {
 	var processChgCheck = {_flag: false};
 	
 	//zoom
-	
 	var currentZoom = 2;
 	
 	//프로세스 - true일때 링크 데이터 검증
@@ -371,7 +370,7 @@ var OSLPrj1100Popup = function () {
 				};
 				var options = {
 					autoHeight: false,
-					modalSize: "md",
+					modalSize: "xl",
 					idKey: selProcessId,
 					modalTitle: $.osl.lang("prj1102.update.title"),
 					closeConfirm: false,
@@ -419,7 +418,7 @@ var OSLPrj1100Popup = function () {
 				};
 				var options = {
 					autoHeight: false,
-					modalSize: "md",
+					modalSize: "xl",
 					idKey: selProcessId,
 					modalTitle: $.osl.lang("prj1102.insert.title"),
 					closeConfirm: false,
@@ -448,7 +447,7 @@ var OSLPrj1100Popup = function () {
 			}
 		});
 		
-		zoomObj = panzoom($("#flowChartDiv")[0],{
+		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
 		});
@@ -496,8 +495,8 @@ var OSLPrj1100Popup = function () {
 				 }
 			},
 			columns: [
-				{field: 'processId', title: 'ID', textAlign: 'center', width: 150, search: true},
-				{field: 'processNm', title: '이름 ', textAlign: 'center', width: 100, search: true},
+				{field: 'processId', title: '프로세스 ID', textAlign: 'center', width: 150, search: true},
+				{field: 'processNm', title: '프로세스명', textAlign: 'center', width: 100, search: true},
 			],
 			actionBtn:{
 				"update": false,
@@ -546,6 +545,9 @@ var OSLPrj1100Popup = function () {
 			   				//삭제 성공
 			   				$.osl.toastr(data.message);
 			   				
+			   				//ajax로 작업흐름 데이터 조회하기
+							fnSelectFlowList();
+			   			
 			   				//datatable 조회
 			   				if(!$.osl.isNull($.osl.datatable.list[datatableId])){
 				   				$.osl.datatable.list[datatableId].targetDt.reload();
@@ -573,9 +575,9 @@ var OSLPrj1100Popup = function () {
 						
 						//mask 제거
 						$("#flowMaskDiv").hide();
-						
+						 
 						//플로우차트 div 열기
-						$("#flowChartDiv").removeClass("kt-hidden");
+						flowChart.removeClass("kt-hidden");
 						
 						//zoom reset
 						fnFlowChartZoom("reset");
@@ -645,8 +647,8 @@ var OSLPrj1100Popup = function () {
 							'<li class="kt-nav__item osl-datatable__card" data-datatable-rownum="'+idx+'">'
 								+'<a href="#" class="kt-nav__link" data-action="list" data-type="inbox" title="'+$.osl.escapeHtml(map.processNm)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'
 									+'<i class="kt-nav__link-icon fa '+useIcon+' osl-process-use__button"></i>'
-									+'<span class="kt-nav__link-text">'+$.osl.escapeHtml(map.processNm)+'</span>'
-									+'<div class="dropdown dropdown-inline">'
+									+'<span class="kt-nav__link-text osl-max-w-px-120">'+$.osl.escapeHtml(map.processNm)+'</span>'
+									+'<div class="dropdown dropdown-inline osl-display__flex-r">'
 										//+'<span class="kt-badge kt-badge--unified-success kt-badge--md kt-badge--rounded kt-badge--boldest">'+map.reqCnt+'</span>'
 										+'<button type="button" class="kt-inbox__icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
 											+'<i class="flaticon-more kt-font-lg"></i>'
@@ -880,6 +882,8 @@ var OSLPrj1100Popup = function () {
 			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
+   				flowChart.flowchart("setData",{});
+   				
    				//작업흐름 데이터
    				var flowList = data.flowList;
    				var flowLinkList = data.flowLinkList;
@@ -918,19 +922,19 @@ var OSLPrj1100Popup = function () {
    								outputs: {output_1: {label: '다음'}},
    								flowTitleBgColor: map.flowTitleBgColor,
    								flowTitleColor: map.flowTitleColor,
-   								flowEssentialCd: map.flowEssentialCd,
    								flowSignCd: map.flowSignCd,
    								flowSignStopCd: map.flowSignStopCd,
    								flowStartCd: map.flowStartCd,
-   								flowEndCd: map.flowEndCd,
+   								flowDoneCd: map.flowDoneCd,
    								flowWorkCd: map.flowWorkCd,
    								flowRevisionCd: map.flowRevisionCd,
    								flowDplCd: map.flowDplCd,
-   								flowAuthCd: map.flowAuthCd
+   								flowAuthCd: map.flowAuthCd,
+   								basicItemList: map.basicItemList
    							}
    						};
    		   				
-   		   				$("#flowChartDiv").flowchart('createOperator', map.flowId, operatorData);
+   		   			flowChart.flowchart('createOperator', map.flowId, operatorData);
    					});
    					
    					//작업흐름 연결 데이터
@@ -946,7 +950,7 @@ var OSLPrj1100Popup = function () {
    		   							toSubConnector: 0
    		   						};
    							
-   							$("#flowChartDiv").flowchart('createLink', idx, linkData);
+   							flowChart.flowchart('createLink', idx, linkData);
    						});
    					}
    				}

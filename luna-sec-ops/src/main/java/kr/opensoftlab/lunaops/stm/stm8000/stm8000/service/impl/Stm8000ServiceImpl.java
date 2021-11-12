@@ -4,7 +4,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -13,16 +12,17 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 import org.tmatesoft.svn.core.SVNAuthenticationException;
 import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -92,6 +92,19 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	}
 	
 	
+	@SuppressWarnings( "rawtypes" )
+	public Map selectStm8000AuthCheck(Map<String, String> paramMap) throws Exception {
+		Map<String, String> result = new HashMap<>();
+		String resultRevision = stm8000DAO.selectStm8000AuthRevisionCheck(paramMap);
+		String resultFileCode = stm8000DAO.selectStm8000AuthFileCodeCheck(paramMap);
+		
+		result.put("resultRevision", resultRevision);
+		result.put("resultFileCode", resultFileCode);
+		return result;
+	}
+
+	
+	@SuppressWarnings("unchecked")
 	public Map<String, String> selectStm8000ServerInfo(Map<String, String> paramMap) throws Exception {
 		return  stm8000DAO.selectStm8000ServerInfo(paramMap);
 	}
@@ -127,8 +140,26 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void deleteStm8000ServerInfo(Map<String, String> paramMap) throws Exception {
-		stm8000DAO.deleteStm8000ServerInfo(paramMap);
+		String deleteDataList = (String) paramMap.get("dataList");
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONArray jsonArray = (JSONArray) jsonParser.parse(deleteDataList);
+		
+		for(int i=0;i<jsonArray.size();i++) {
+			JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+			
+			
+			Map infoMap = new Gson().fromJson(jsonObj.toJSONString(), new HashMap().getClass());
+		
+			
+			infoMap.put("licGrpId", paramMap.get("licGrpId"));
+			infoMap.put("prjGrpId", paramMap.get("prjGrpId"));
+			infoMap.put("prjId", paramMap.get("prjId"));
+			stm8000DAO.deleteStm8000ServerInfo(infoMap);
+		}
 	}
 	
 	
@@ -170,9 +201,9 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 				
 				
 				svnConnector.close(repository);
-			}else {
-				
 			}
+			
+			
 			
 		}catch(Exception ex) {
 			if(ex instanceof SVNAuthenticationException ){
@@ -280,7 +311,6 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		String searchFilePath = (String)paramMap.get("filePath");
 		
 		String[] filePath = new String[] {};
-		
 		
 		if(searchFilePath != null && !"".equals(searchFilePath)) {
 			filePath = new String[] {searchFilePath};
@@ -530,7 +560,6 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 					for (Map map : revisionFileList) {
 						
 						String path = (String) map.get("path");
-						path = path.substring(0, path.lastIndexOf("/"));
 						if(path.indexOf(paramMap.get("filePath"))==0) {
 							fileList.add(map);
 						}
@@ -646,9 +675,9 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 			
 			svnConnector.close(repository);
 			
-		}else {
-			
 		}
+		
+		
 		
 		return content;
 	}

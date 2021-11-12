@@ -66,6 +66,7 @@
 		) T1
 	</sql>
 	
+	
 	<select id="stm8000DAO.selectStm8000ServerListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
 	    
 		SELECT
@@ -96,6 +97,66 @@
 			<include refid="selectStm8000List"/>
 		) Z
 		WHERE 1 = 1
+	</select>
+	
+	
+    <select id="stm8000DAO.selectStm8000AuthRevisionCheck" parameterClass="java.util.Map"  resultClass="java.lang.String">
+	    
+	    SELECT
+	    	(CASE WHEN B.CNT = 0 
+	   			  THEN 'Y' ELSE (
+	   			  	SELECT
+						NVL2( C.AUTH_TARGET_ID, 'Y', 'N') AS YN
+					FROM STM8110 C
+					WHERE 1 = 1
+					AND C.LIC_GRP_ID = #licGrpId#
+					AND C.PRJ_ID = #prjId#
+					AND C.STRG_REP_ID = #strgRepId#
+					AND ( 
+						( C.AUTH_TYPE_CD = '01' AND C.AUTH_TARGET_ID = #authGrpId# AND C.PRJ_GRP_ID = #prjGrpId# )
+						OR ( C.AUTH_TYPE_CD = '02' AND C.AUTH_TARGET_ID = #usrId# )
+					)
+			      )
+			END) AS YN
+	    FROM (
+			SELECT
+				COUNT(*) AS CNT
+			FROM STM8110 A
+			WHERE 1 = 1
+			AND A.LIC_GRP_ID = #licGrpId#
+			AND A.PRJ_ID = #prjId#
+			AND A.STRG_REP_ID = #strgRepId#
+		) B
+	</select>
+	
+	
+    <select id="stm8000DAO.selectStm8000AuthFileCodeCheck" parameterClass="java.util.Map"  resultClass="java.lang.String">
+	    
+	    SELECT
+	    	(CASE WHEN B.CNT = 0 
+	   			  THEN 'Y' ELSE (
+	   			  	SELECT
+						NVL2( C.AUTH_TARGET_ID, 'Y', 'N') AS YN
+					FROM STM8120 C
+					WHERE 1 = 1
+					AND C.LIC_GRP_ID = #licGrpId#
+					AND C.PRJ_ID = #prjId#
+					AND C.STRG_REP_ID = #strgRepId#
+					AND ( 
+						( C.AUTH_TYPE_CD = '01' AND C.AUTH_TARGET_ID = #authGrpId# AND C.PRJ_GRP_ID = #prjGrpId# )
+						OR ( C.AUTH_TYPE_CD = '02' AND C.AUTH_TARGET_ID = #usrId# )
+					)
+			      )
+			END) AS YN
+	    FROM (
+			SELECT
+				COUNT(*) AS CNT
+			FROM STM8120 A
+			WHERE 1 = 1
+			AND A.LIC_GRP_ID = #licGrpId#
+			AND A.PRJ_ID = #prjId#
+			AND A.STRG_REP_ID = #strgRepId#
+		) B
 	</select>
 	
 	

@@ -153,6 +153,12 @@ public class Prj3000DAO extends ComOslitsAbstractDAO {
 	}
 
 	
+	public void deletePrj3002DocConList(Map<String, String> paramMap) throws Exception {
+		delete("prj3000DAO.deletePrj3002DocConList", paramMap);
+		
+	}
+
+	
 
 	
 

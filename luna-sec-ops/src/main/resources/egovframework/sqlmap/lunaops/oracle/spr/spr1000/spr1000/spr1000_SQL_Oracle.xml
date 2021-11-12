@@ -6,6 +6,79 @@
 	
 	<typeAlias alias="egovMap"	 	type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	
+	 <resultMap id="resultMapSpr1000List" class="egovMap">
+	 	<result property="rn"					column="RN"/>
+    	<result property="licGrpId"				column="LIC_GRP_ID"/>
+		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
+		<result property="prjId"				column="PRJ_ID"/>
+		<result property="sprId"				column="SPR_ID"/>
+		<result property="sprNm"				column="SPR_NM"/>
+		<result property="sprDesc"				column="SPR_DESC" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="sprTypeCd"			column="SPR_TYPE_CD"/>
+		<result property="sprTypeNm"			column="SPR_TYPE_NM"/>
+		<result property="sprStDt"				column="SPR_ST_DT"/>
+		<result property="sprEdDt"				column="SPR_ED_DT"/>
+		<result property="ord"					column="ORD"/>
+		<result property="useCd"				column="USE_CD"/>
+		<result property="useNm"				column="USE_NM"/>
+		<result property="delCd"				column="DEL_CD"/>
+		<result property="reqAllCnt"			column="REQ_ALL_CNT"/>
+		<result property="reqDoneCnt"			column="REQ_DONE_CNT"/>
+		<result property="reqProgressCnt"		column="REQ_PROGRESS_CNT"/>
+		<result property="restDay"				column="REST_DAY"/>
+    </resultMap>
+	
+	 <resultMap id="resultMapSpr1000ReqList" class="egovMap">
+		<result property="rn"					column="RN"/>
+		<result property="prjId"				column="PRJ_ID"/>
+		<result property="prjNm"				column="PRJ_NM"/>
+		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
+		<result property="prjGrpNm"				column="PRJ_GRP_NM"/>
+		<result property="reqId"				column="REQ_ID"/>
+		<result property="reqOrd"				column="REQ_ORD"/>
+		<result property="reqClsId"				column="REQ_CLS_ID"/>
+		<result property="reqClsNm"				column="REQ_CLS_NM"/>
+		<result property="reqUsrId"				column="REQ_USR_ID"/>
+		<result property="reqUsrNm"				column="REQ_USR_NM"/>
+		<result property="reqDtm"				column="REQ_DTM"/>
+		<result property="reqUsrDeptId"			column="REQ_USR_DEPT_ID"/>
+		<result property="reqUsrDeptNm"			column="REQ_USR_DEPT_NM"/>
+		<result property="reqUsrDeptNm"			column="REQ_USR_DEPT_NM"/>
+		<result property="reqUsrEmail"			column="REQ_USR_EMAIL"/>
+		<result property="reqUsrNum"			column="REQ_USR_NUM"/>
+		<result property="reqUsrImgId"			column="REQ_USR_IMG_ID"/>
+		<result property="reqNm"				column="REQ_NM"/>
+		<result property="reqPw"				column="REQ_PW"/>
+		<result property="reqChargerId"			column="REQ_CHARGER_ID"/>
+		<result property="reqChargerNm"			column="REQ_CHARGER_NM"/>
+		<result property="reqChargerImgID"		column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqStDtm"				column="REQ_ST_DTM"/>
+		<result property="reqEdDtm"				column="REQ_ED_DTM"/>
+		<result property="reqStDuDtm"			column="REQ_ST_DU_DTM"/>
+		<result property="reqEdDuDtm"			column="REQ_ED_DU_DTM"/>
+		<result property="endTimeRequired"		column="END_TIME_REQUIRED"/>
+		<result property="notEndTimeRequired"	column="NOT_END_TIME_REQUIRED"/>
+		<result property="reqProType"			column="REQ_PRO_TYPE"/>
+		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
+		<result property="reqNewType"			column="REQ_NEW_TYPE"/>
+		<result property="reqNewTypeNm"			column="REQ_NEW_TYPE_NM"/>
+		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="reqTypeCd"			column="REQ_TYPE_CD"/>
+		<result property="reqTypeNm"			column="REQ_TYPE_NM"/>
+		<result property="atchFileid"			column="ATCH_FILE_ID"/>
+		<result property="cbAtchFileid"			column="CB_ATCH_FILE_ID"/>
+		<result property="useCd"				column="USE_CD"/>
+		<result property="reqKey"				column="REQ_KEY"/>
+		<result property="sprPoint"				column="SPR_POINT"/>	
+		<result property="reqResultDescLen"		column="REQ_RESULT_DESC_LEN"/>	
+		<result property="regDtm"				column="REG_DTM"/>	
+		<result property="regDtmDay"			column="REG_DTM_DAY"/>	
+		<result property="regUsrId"				column="REG_USR_ID"/>	
+		<result property="regUsrIp"				column="REG_USR_IP"/>	
+		<result property="modifyDtm"			column="MODIFY_DTM"/>	
+		<result property="modifyUsrId"			column="MODIFY_USR_ID"/>	
+		<result property="modifyUsrIp"			column="MODIFY_USR_IP"/>	
+    </resultMap>
 	
 	
 	<sql id="selectSpr1000List">
@@ -28,6 +101,7 @@
 			, T1.REQ_ALL_CNT
 			, T1.REQ_DONE_CNT
 			, T1.REQ_PROGRESS_CNT
+			, T1.REST_DAY 
 		FROM
 		(
 			SELECT
@@ -56,6 +130,9 @@
 		            FROM SPR1100 Z INNER JOIN REQ4100 Y ON(Z.PRJ_ID = Y.PRJ_ID AND Z.REQ_ID = Y.REQ_ID AND Y.REQ_PRO_TYPE = '02')
 		            WHERE Z.LIC_GRP_ID = A.LIC_GRP_ID AND Z.PRJ_GRP_ID = A.PRJ_GRP_ID AND Z.PRJ_ID = A.PRJ_ID AND Z.SPR_ID = A.SPR_ID
 		        ) AS REQ_PROGRESS_CNT
+		        <![CDATA[
+		        , CASE WHEN TRUNC(A.SPR_ED_DT - SYSDATE) < 0 THEN 0 ELSE TRUNC(A.SPR_ED_DT - SYSDATE) END AS REST_DAY
+		        ]]>
 		    FROM SPR1000 A
 		    WHERE 1=1
 		    AND A.LIC_GRP_ID = #licGrpId#
@@ -96,6 +173,25 @@
 				<isEqual property="searchTargetId" compareValue="sprTypeCd">
 					AND	T1.SPR_TYPE_CD = #searchTargetData#
 				</isEqual>
+				<isEqual property="searchTargetId" compareValue="useCd">
+					AND A.USE_CD = #useCd#
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="sprStDt">
+					<isNotEmpty property="searchStartDt">
+						AND	TO_DATE(T1.SPR_ST_DT, 'YYYY-MM-DD') &gt;= TO_DATE(SUBSTR(#searchStartDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+					<isNotEmpty property="searchEndDt">
+						AND	TO_DATE(T1.SPR_ST_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="sprEdDt">
+					<isNotEmpty property="searchStartDt">
+						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &gt;= TO_DATE(SUBSTR(#searchStartDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+					<isNotEmpty property="searchEndDt">
+						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
+					</isNotEmpty>
+				</isEqual>
 				<isEqual property="searchTargetId" compareValue="sprDtm">
 					<isNotEmpty property="searchStartDt">
 						AND	TO_DATE(T1.SPR_ST_DT, 'YYYY-MM-DD') &gt;= TO_DATE(SUBSTR(#searchStartDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
@@ -104,6 +200,7 @@
 						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
 					</isNotEmpty>
 				</isEqual>
+				
 			</isNotEmpty>
 		</isNotEmpty>
 	</sql>
@@ -137,7 +234,8 @@
   		   	, 	SUBT2.REQ_ED_DTM
 			, 	SUBT2.REQ_ST_DU_DTM
 			, 	SUBT2.REQ_ED_DU_DTM
-			,	SUBT2.TIME_REQUIRED
+			,	SUBT2.END_TIME_REQUIRED
+			,	SUBT2.NOT_END_TIME_REQUIRED
 			,	SUBT2.REQ_PRO_TYPE
 			,   SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', SUBT2.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
 			,	SUBT2.REQ_NEW_TYPE
@@ -179,10 +277,10 @@
 					,	B.REQ_NM
 					,	NVL2(B.REQ_PW, 'Y', 'N') AS REQ_PW
 					,	B.REQ_CHARGER_ID
-					, 	NVL2(B.REQ_ST_DTM, TO_CHAR(B.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
-	   		   		, 	NVL2(B.REQ_ED_DTM, TO_CHAR(B.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
-	   		   		, 	NVL2(B.REQ_ED_DTM, ROUND((B.REQ_ED_DTM-B.REQ_ST_DTM)*24) , '') TIME_REQUIRED
-	   		   		
+					, 	NVL2(B.REQ_ST_DTM, TO_CHAR(B.REQ_ST_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DTM
+	   		   		, 	NVL2(B.REQ_ED_DTM, TO_CHAR(B.REQ_ED_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ED_DTM
+	   		   		, 	NVL2(B.REQ_ED_DTM, TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24) , 0) END_TIME_REQUIRED
+	   		   		, 	NVL2(B.REQ_ED_DTM, TRUNC((SYSDATE-B.REQ_ST_DTM)*24) , 0) NOT_END_TIME_REQUIRED
 					, 	NVL2(B.REQ_ST_DU_DTM, TO_CHAR(B.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
 					, 	NVL2(B.REQ_ED_DU_DTM, TO_CHAR(B.REQ_ED_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ED_DU_DTM
 					,	B.REQ_PRO_TYPE
@@ -288,7 +386,7 @@
     </select>
     
     
-    <select id="spr1000DAO.selectSpr1000SprList" parameterClass="java.util.Map"  resultClass="egovMap">
+    <select id="spr1000DAO.selectSpr1000SprList" parameterClass="java.util.Map"  resultMap="resultMapSpr1000List">
 	    
 		SELECT 
 			Z.*
@@ -354,11 +452,11 @@
 			<isNotEmpty property="sprDesc">
 				,	SPR_DESC		= #sprDesc#     			
      		</isNotEmpty>
-			<isNotEmpty property="startDt">
-				,	SPR_ST_DT		= REPLACE(#startDt#, '-', '')
+			<isNotEmpty property="sprStDt">
+				,	SPR_ST_DT		= REPLACE(#sprStDt#, '-', '')
      		</isNotEmpty>
-			<isNotEmpty property="endDt">
-				,	SPR_ED_DT		= REPLACE(#endDt#, '-', '')
+			<isNotEmpty property="sprEdDt">
+				,	SPR_ED_DT		= REPLACE(#sprEdDt#, '-', '')
      		</isNotEmpty>
 			<isNotEmpty property="ord">
 				,	ORD		= #ord#
@@ -397,7 +495,7 @@
 	</update>
 	
 	
-	<select id="spr1000DAO.selectSpr1000SprInfo" parameterClass="java.util.Map" resultClass="egovMap">
+	<select id="spr1000DAO.selectSpr1000SprInfo" parameterClass="java.util.Map" resultMap="resultMapSpr1000List">
 		
 		SELECT T1.*
 		FROM
@@ -421,7 +519,7 @@
     </select>
     
     
-    <select id="spr1000DAO.selectSpr1000SprReqList" parameterClass="java.util.Map"  resultClass="egovMap">
+    <select id="spr1000DAO.selectSpr1000SprReqList" parameterClass="java.util.Map"  resultMap="resultMapSpr1000ReqList">
 	    
 		SELECT 
 			Z.*
@@ -448,25 +546,77 @@
     
     <select id="spr1000DAO.selectSpr1000SprInfoStat" parameterClass="java.util.Map"  resultClass="egovMap">
 	    
-		SELECT
-			NVL(SUM(T.ALL_CNT),0) AS ALL_CNT_SUM
-		  , NVL(SUM(T.END_CNT),0) AS END_CNT_SUM
-		  , NVL(SUM(T.NOT_END_CNT),0) AS NOT_END_CNT_SUM
-		  , NVL(SUM(T.TIME_REQUIRED),0) AS TIME_REQUIRED_SUM
-		FROM (
-		    SELECT
-		        1 AS ALL_CNT
-		      , CASE WHEN B.REQ_PRO_TYPE='04' THEN 1 ELSE 0 END AS END_CNT
-		      , CASE WHEN B.REQ_PRO_TYPE!='04' THEN 1 ELSE 0 END AS NOT_END_CNT
-		      , NVL2(B.REQ_ED_DTM, ROUND((B.REQ_ED_DTM-B.REQ_ST_DTM)*24) , 0) AS TIME_REQUIRED
-		    FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
-		    WHERE 	1=1
-				AND A.LIC_GRP_ID = #licGrpId#
-				AND A.PRJ_ID = #prjId#
-				AND A.SPR_ID = #sprId#
-		) T
+	   	SELECT 	DECODE(T2.END_CNT_SUM, 0, 0, T2.END_TIME_REQUIRED / T2.END_CNT_SUM) AS AVG_END_TIME_REQUIRED
+	   			, T2.ALL_CNT_SUM AS ALL_CNT_SUM
+	   			, T2.END_CNT_SUM AS END_CNT_SUM
+	   			, T2.SPR_POINT AS SPR_POINT
+	   			, T2.END_SPR_POINT AS END_SPR_POINT
+	   			, T2.NOT_END_CNT_SUM AS NOT_END_CNT_SUM
+	   			, T2.END_TIME_REQUIRED AS TOTAL_END_TIME
+		FROM
+		(
+			SELECT
+				NVL(SUM(T.ALL_CNT),0) AS ALL_CNT_SUM
+			  , NVL(SUM(T.END_CNT),0) AS END_CNT_SUM
+			  , NVL(SUM(T.NOT_END_CNT),0) AS NOT_END_CNT_SUM
+			  , NVL(SUM(T.SPR_POINT), 0) AS SPR_POINT
+			  , NVL(SUM(T.END_SPR_POINT), 0) AS END_SPR_POINT
+			  , NVL(SUM(T.END_TIME_REQUIRED), 0) AS END_TIME_REQUIRED
+			  , NVL(SUM(T.NOT_END_TIME_REQUIRED), 0) AS NOT_END_TIME_REQUIRED
+			FROM (
+			    SELECT
+			        1 AS ALL_CNT
+			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN 1 ELSE 0 END AS END_CNT
+			      , CASE WHEN B.REQ_PRO_TYPE='02' THEN 1 ELSE 0 END AS NOT_END_CNT
+			      , CASE WHEN B.REQ_PRO_TYPE!='04' THEN NVL2(B.REQ_ED_DTM, TRUNC((SYSDATE - B.REQ_ST_DTM)*24,1),0) ELSE 0 END AS NOT_END_TIME_REQUIRED 
+			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL2(B.REQ_ED_DTM,TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24,1) , 0) ELSE 0 END AS END_TIME_REQUIRED
+			      , NVL(A.SPR_POINT,0) AS SPR_POINT
+			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL(A.SPR_POINT,0) ELSE 0  END AS END_SPR_POINT
+			    FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
+			    WHERE 	1=1
+					AND A.LIC_GRP_ID = #licGrpId#
+					AND A.PRJ_ID = #prjId#
+					AND A.SPR_ID = #sprId#
+			) T
+		)T2
     </select>
     
+    
+    <select id="spr1000DAO.selectSpr1000ReqRealSpdTime" parameterClass="java.util.Map" resultClass="egovMap">
+    	
+    	SELECT 
+		  A.REQ_ST_DTM AS REQ_ST_DTM,
+		  A.REQ_ED_DTM AS REQ_ED_DTM
+		FROM REQ4100 A
+		WHERE 	1 = 1
+		AND		A.PRJ_GRP_ID = #prjGrpId#
+		AND 	A.PRJ_ID = #prjId#
+		AND		A.REQ_ID = #reqId#
+    </select>
+    
+    <select id="spr1000DAO.selectSpr1000ChartInfo" parameterClass="java.util.Map" resultClass="egovMap">
+    		
+    	SELECT 
+    		 T.REQ_ED_DTM AS REQ_ED_DTM
+        	, T.END_REQ_CNT AS END_REQ_CNT
+            , SUM(T.SPR_POINT) OVER(ORDER BY REQ_ED_DTM) AS CUM_SPR_POINT
+            , T.TIME_REQUIRED AS TIME_REQUIRED
+    	FROM
+    	(
+	    	SELECT
+				  NVL(TO_CHAR(REQ_ED_DTM, 'YYYY-MM-DD'),0) AS REQ_ED_DTM
+	 			, COUNT(*) AS END_REQ_CNT
+	        	, SUM(SPR_POINT) AS SPR_POINT
+	        	, SUM(NVL2(B.REQ_ED_DTM, TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24) , 0)) AS TIME_REQUIRED
+			    FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
+			    WHERE 	1=1
+					AND A.LIC_GRP_ID = #licGrpId#
+					AND A.PRJ_ID = #prjId#
+					AND A.SPR_ID = #sprId#
+					AND B.REQ_PRO_TYPE = '04'
+	        GROUP BY TO_CHAR(REQ_ED_DTM, 'YYYY-MM-DD')
+	    ) T
+    </select> 
     
 	<insert id="spr1000DAO.insertSpr1003SprProcessList" parameterClass="java.util.Map">
 		
@@ -485,4 +635,30 @@
         )		
 		]]>
 	</insert>
+	
+	<select id="spr1000DAO.selectSpr1000SprTerm" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT 	TRUNC(A.SPR_ED_DT - A.SPR_ST_DT) AS DISTANCE
+				,A.SPR_ED_DT AS SPR_ED_DT
+				,A.SPR_ST_DT AS SPR_ST_DT
+		FROM SPR1000 A
+		WHERE 	1=1
+		AND A.LIC_GRP_ID = #licGrpId#
+		AND A.PRJ_ID = #prjId#
+		AND A.SPR_ID = #data#
+	</select>
+		
+	<select id="spr1000DAO.selectSpr1000VelocityChartInfo" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT SUM(A.SPR_POINT) AS SPR_POINT
+		FROM SPR1100 A 
+			INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
+			INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
+		WHERE 	1=1
+		AND A.LIC_GRP_ID = #licGrpId#
+		AND A.PRJ_ID = #prjId#
+		AND A.SPR_ID = #data#
+		AND B.REQ_PRO_TYPE = '04'
+        AND B.REQ_ED_DTM BETWEEN TO_DATE(#startD#, 'YYYY-MM-DD') AND TO_DATE(#endD#, 'YYYY-MM-DD') 
+	</select>
 </sqlMap>

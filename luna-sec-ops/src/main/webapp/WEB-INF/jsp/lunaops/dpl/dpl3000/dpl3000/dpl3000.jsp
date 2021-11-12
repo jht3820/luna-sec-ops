@@ -4,20 +4,16 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<!-- begin page DOM -->
+
 <div class="kt-portlet kt-portlet--mobile">
-	<!-- begin :: head -->
-	<!-- begin :: 타이틀 + 카드형,데이터테이블형 변환 버튼 -->
+<!-- 카드형, 그리드형 보기 주석 
 	<div class="kt-portlet__head kt-portlet__head--lg">
-		<!-- begin :: 타이틀  -->
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
 				<i class="fa fa-th-large kt-margin-r-5"></i>
 				<c:out value="${sessionScope.selMenuNm}" />
 			</h4>
 		</div>
-		<!-- end :: 타이틀  -->
-		<!-- begin :: 카드형,데이터테이블형 변환 버튼 -->
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-wrapper">
 				<div class="btn-group" role="group">
@@ -40,42 +36,19 @@
 				</div>
 			</div>
 		</div>
-		<!-- end :: 카드형,데이터테이블형 변환 버튼 -->
 	</div>
-	<!-- end :: 타이틀 + 카드형,데이터테이블형 변환 버튼 -->
-	<!-- begin :: 내용 CRUD관련 영역 -->
 	<div
 		class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block ">
-		<!-- begin :: 검색 영역 -->
 		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
-			<div class="osl-datatable-search" data-datatable-id="dpl3000Table"></div>
+			<div class="osl-datatable-search" data-datatable-id="dpl3000DplTable"></div>
 		</div>
-		<!-- end :: 검색 영역 -->
-		<!-- begin :: 조회 등록 수정 삭제 시작 종료 버튼 영역 -->
-		<div
-			class="col-lg-9 col-md-12 col-sm-12 text-right osl-mobile-text--left kt-padding-r-0">
-			<button type="button"
-				class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air"
-				data-datatable-id="dpl3000Table" data-datatable-action="select"
-				title="배포 실행 관리 조회" data-toggle="kt-tooltip" data-skin="brand"
-				data-placement="bottom" data-auth-button="select" tabindex="5">
-				<i class="fa fa-list"></i><span>조회</span>
+		<div class="col-lg-9 col-md-12 col-sm-12 text-right osl-mobile-text--left kt-padding-r-0">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5"><i class="fa fa-list"></i><span>조회</span>
 			</button>
-			<button type="button"
-				class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air"
-				data-datatable-id="dpl3000Table" data-datatable-action="update"
-				title="배포 실행 관리 수정" data-toggle="kt-tooltip" data-skin="brand"
-				data-placement="bottom" data-auth-button="update" tabindex="7">
-				<i class="fas fa-play-circle"></i><span>실행</span>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="execute" title="배포 실행" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="7"><i class="far fa-play-circle"></i><span>실행</span>
 			</button>
-			<button type="button"
-				class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air"
-				data-datatable-id="dpl3000Table" data-datatable-action="delete"
-				title="배포 실행 관리 삭제" data-toggle="kt-tooltip" data-skin="brand"
-				data-placement="bottom" data-auth-button="delete" tabindex="8">
-				<i class="fas fa-stop-circle"></i><span>중지</span>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="stop" title="배포 중지" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="8"><i class="far fa-stop-circle"></i><span>중지</span>
 			</button>
-			<!-- begin :: dropdown 버튼 -->
 			<div class="dropdown dropdown-inline">
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-spinner kt-margin-r-5"></i> 배포 실행 중(<span>2</span>)
@@ -95,32 +68,29 @@
 					</div>
 				</div>
 			</div>
-			<!-- end :: dropdown 버튼-->
 		</div>
-		<!-- end :: 조회 등록 수정 삭제 시작 종료 버튼 영역 -->
 	</div>
-	<!-- end :: 내용 CRUD관련 영역 -->
-	<!-- end :: head -->
 </div>
-<!-- begin :: 카드형 -->
-<div id="dpl3000CardTable">
+ -->
+
+<div id="dpl3000CardTable" class="kt-hide">
 	<div class="row">
 		<div class="col-lg-6 col-md-6 col-sm-12 col-12">
-			<!-- begin :: 카드 -->
+			
 			<div class="kt-portlet kt-portlet--mobile border">
-				<!-- begin :: 카드 상단 영역-->
+				
 				<div class="kt-portlet__head kt-portlet__head--lg border-bottom-0 osl-ribbon osl-ribbon__clip osl-ribbon__right ">
-					<!-- begin :: 배포 실행 이름-->
+					
 					<div class="kt-portlet__head-label">
 						<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid">
 							<input type="checkbox" value="'+idx+'" name="prjGrpCheckbox"
 							id="prjGrpCheckbox_'+map.prjId+'"
-							data-datatable-id="dpl3000Table">&nbsp;<span></span>
+							data-datatable-id="dpl3000DplTable">&nbsp;<span></span>
 						</label>
 						<h4 class="kt-padding-l-10 font-weight-bold">배포 실행 이름</h4>
 					</div>
-					<!-- end :: 배포 실행 이름-->
-					<!-- begin :: 리본 버튼 -->
+					
+					
 					<div class="kt-portlet__head-toolbar">
 						<div class="kt-user-card-v2 btn kt-margin-r-100">
 							<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
@@ -139,25 +109,25 @@
 							</div>
 						</div>
 					</div>
-					<!-- end :: 리본 버튼-->
+					
 				</div>
 
 				<div class="kt-portlet__body kt-padding-t-0">
 					<div class="row">
-						<!-- begin :: 배포 실행 설명 -->
+						
 						<div
 							class="kt-padding-l-50 kt-padding-b-15 col-lg-4 col-md-4 col-sm-12 osl-mobile-padding-l-10">
 							<div class="kt-padding-b-5">
 								<h5>배포 실행 설명</h5>
 							</div>
 						</div>
-						<!-- end :: 배포 실행 설명 -->
+						
 					</div>
-					<!-- end :: 카드  상단 영역 -->
+					
 
-					<!-- begin :: 카드  하단 영역 -->
+					
 					<div class="row kt-margin-t-20">
-						<!-- start :: 배정 JOB 개수 표출 영역 -->
+						
 						<div class="col-lg-6 col-md-6 col-sm-6 col-6">
 							<div class="osl-widget">
 								<div class="osl-widget-info__item">
@@ -188,11 +158,11 @@
 								</div>
 							</div>
 						</div>
-						<!-- end :: 배정 JOB 개수 표출 영역 -->
+						
 					</div>
 					
 					
-					<!-- begin :: 배포 진행률 -->
+					
 					<div class="kt-margin-t-20">
 						<div class="osl-progress">
 							<div class="kt-padding-b-5">
@@ -204,29 +174,27 @@
 							</div>
 						</div>
 					</div>
-					<!-- end :: 배포 진행률 -->
+					
 				</div>
-				<!-- end :: 카드 하단 영역 -->
+				
 			</div>
-			<!-- end :: 카드 -->
+			
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-12 col-12">
-			<!-- begin :: 카드 -->
+			
 			<div class="kt-portlet kt-portlet--mobile border">
-				<!-- begin :: 카드 상단 영역-->
+				
 				<div class="kt-portlet__head kt-portlet__head--lg border-bottom-0  osl-ribbon osl-ribbon__clip osl-ribbon__right">
-					<!-- begin :: 배포 실행 이름-->
+					
 					<div class="kt-portlet__head-label">
 						<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid">
-							<input type="checkbox" value="'+idx+'" name="prjGrpCheckbox"
-							id="prjGrpCheckbox_'+map.prjId+'"
-							data-datatable-id="dpl3000Table">&nbsp;<span></span>
+							<input type="checkbox" value="'+idx+'" name="prjGrpCheckbox" id="prjGrpCheckbox_'+map.prjId+'" data-datatable-id="dpl3000DplTable">&nbsp;<span></span>
 						</label>
 						<h4 class="kt-padding-l-10 font-weight-bold">배포 실행 이름</h4>
 					</div>
-					<!-- end :: 배포 실행 이름-->
 					
-					<!-- begin :: 리본 버튼 -->
+					
+					
 					<div class="kt-portlet__head-toolbar">
 						<div class="kt-user-card-v2 btn kt-margin-r-100">
 							<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">
@@ -245,25 +213,25 @@
 							</div>
 						</div>
 					</div>
-					<!-- end :: 리본 버튼-->
+					
 				</div>
 
 				<div class="kt-portlet__body kt-padding-t-0">
 					<div class="row">
-						<!-- begin :: 배포 실행 설명 -->
+						
 						<div
 							class="kt-padding-l-50 kt-padding-b-15 col-lg-4 col-md-4 col-sm-12 osl-mobile-padding-l-10">
 							<div class="kt-padding-b-5">
 								<h5>배포 실행 설명</h5>
 							</div>
 						</div>
-						<!-- end :: 배포 실행 설명 -->
+						
 					</div>
-					<!-- end :: 카드  상단 영역 -->
+					
 
-					<!-- begin :: 카드  하단 영역 -->
+					
 					<div class="row kt-margin-t-20">
-						<!-- start :: 배정 JOB 개수 표출 영역 -->
+						
 						<div class="col-lg-6 col-md-6 col-sm-6 col-6">
 							<div class="osl-widget">
 								<div class="osl-widget-info__item">
@@ -294,10 +262,10 @@
 								</div>
 							</div>
 						</div>
-						<!-- end :: 배정 JOB 개수 표출 영역 -->
+						
 					</div>
 					
-					<!-- begin :: 배포 진행률 -->
+					
 					<div class="kt-margin-t-20">
 						<div class="osl-progress">
 							<div class="kt-padding-b-5">
@@ -309,121 +277,278 @@
 							</div>
 						</div>
 					</div>
-					<!-- end :: 배포 진행률 -->
+					
 				</div>
-				<!-- end :: 카드 하단 영역 -->
+				
 			</div>
-			<!-- end :: 카드 -->
+			
 		</div>
 	</div>
 </div>
-<!-- end :: 카드형 -->
-<!-- begin :: 데이터테이블형 -->
-<div class="kt_datatable osl-datatable-footer__divide" id="dpl3000Table"></div>
-<!-- end :: 데이터테이블형 -->
-<!-- end DOM -->
-<!-- begin page script -->
+
+
+	
+	<div class="kt-portlet__head kt-portlet__head--lg">
+		<div class="kt-portlet__head-label">
+			<h4 class="kt-font-boldest kt-font-brand">
+				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
+			</h4>
+		</div>
+		
+		<div class="kt-portlet__head-toolbar">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5"><i class="fa fa-list"></i><span>조회</span></button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="execute" title="배포 실행" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="7"><i class="far fa-play-circle"></i><span>실행</span></button>
+			<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl3000DplTable" data-datatable-action="stop" title="배포 중지" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="8"><i class="far fa-stop-circle"></i><span>중지</span></button>
+			begin :: dropdown 버튼
+			<div class="dropdown dropdown-inline">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-spinner kt-margin-r-5"></i> 배포 실행 중(<span>2</span>)
+				</button>
+				<div class="dropdown-menu dropdown-menu-right kt-padding-0">
+					<div class="dropdown-item kt-padding-5 border-bottom osl-action-plan-btn" id="">
+						<div class="progress osl-prj-group-md w-100 position-relative">
+							<div class="progress-bar progress-bar-striped kt-bg-brand osl-gradient-brand-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="position-absolute kt-font-md w-100 text-center kt-font-bolder kt-padding-t-5"><span>배포계획 C</span> (<span>50</span>%)</div>
+						</div>
+					</div>
+					<div class="dropdown-item kt-padding-5 osl-action-plan-btn" id="">
+						<div class="progress osl-prj-group-md w-100 position-relative">
+							<div class="progress-bar progress-bar-striped kt-bg-brand osl-gradient-brand-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="position-absolute kt-font-md w-100 text-center kt-font-bolder kt-padding-t-5"><span>배포계획 D</span> (<span>70</span>%)</div>
+						</div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		
+	</div>
+	<div class="kt-portlet__body">
+		
+		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
+			<div class="osl-datatable-search" data-datatable-id="dpl3000DplTable"></div>
+		</div>
+		<div class="kt_datatable osl-datatable-footer__divide" id="dpl3000DplTable"></div>
+		
+	</div>
+</div>
+
+
+
 <script>
 "use strict";
 var OSLDpl3000Popup = function () {
+	
 	var documentSetting = function(){
-		var currentViewType = "01";
+		
+		
+		var currentViewType = "02";
 		var popupViewType;
-		$.osl.datatable.setting("dpl3000Table",{
+		
+		$.osl.datatable.setting("dpl3000DplTable",{
 			data: {
 				source: {
 					read: {
-						url: "/req/req1000/req1000/selectReq1000ListAjaxView.do"
+						url: "/dpl/dpl1000/dpl1000/selectDpl1000DplListAjax.do"
 					}
 				},
 			},
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
-				{field: 'prjNm', title: '결재 상태', textAlign: 'left', width: 70, search: true},
-				{field: 'reqOrd', title: '배포 상태', textAlign: 'left', width: 70, autoHide: false},
-				{field: 'reqProTypeNm', title: '배포 버전', textAlign: 'left', width: 70, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortField: "reqProTypeCd"},
-				{field: 'reqNm', title: '배포 명', textAlign: 'left', width: 300, search: true},
-				{field: 'reqDtm', title: '배포 방법', textAlign: 'center', width: 50, search: true, searchType:"date"},
-				{field: 'reqDtm', title: '배포 일자', textAlign: 'center', width: 100, search: true, searchType:"date"},
-				{field: 'reqDtm', title: '배포자', textAlign: 'center', width: 70, search: true, searchType:"date"},
-				{field: 'reqDtm', title: '배포 설명', textAlign: 'center', width: 100, search: true, searchType:"date"},
+				{field: 'dplSignUseNm', title: '결재 사용 유무', textAlign: 'center', width: 120, search: true, searchType:"select", searchCd: "CMM00001", searchField:"dplSignUseCd", sortField: "dplSignUseCd"},
+				{field: 'nowSignTypeNm', title: '결재 상태', textAlign: 'center', width: 90, search: true, searchType:"select", searchCd: "REQ00008", searchField:"nowSignTypeCd", sortField: "nowSignTypeCd"
+					,template: function(row){
+						var nowSignTypeNm = row.nowSignTypeNm
+						if($.osl.isNull(nowSignTypeNm)){
+							nowSignTypeNm = "-";
+						}
+						return nowSignTypeNm;
+					}
+				},
+				{field: 'lastSignUsrNm', title: '결재자', textAlign: 'center', width: 100, search: true
+					,template: function(row){
+						var lastSignUsrNm = row.lastSignUsrNm
+						
+						if($.osl.isNull(lastSignUsrNm)){
+							lastSignUsrNm = "-";
+						}else{
+							
+							lastSignUsrNm = $.osl.user.usrImgSet(row.lastSignUsrId, row.lastSignUsrNm);
+						}
+						return lastSignUsrNm;
+					},
+					onclick: function(rowData){
+						
+						if(!$.osl.isNull(rowData.lastSignUsrId)){
+							
+							$.osl.user.usrInfoPopup(rowData.lastSignUsrId);
+						}
+					}
+				},
+				{field: 'dplStsNm', title: '배포 상태', textAlign: 'center', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "DPL00001", searchField:"dplStsCd", sortField: "dplStsCd"},
+				{field: 'dplVer', title: '배포 버전', textAlign: 'center', width: 100, search: true},
+				{field: 'dplNm', title: '배포 명', textAlign: 'left', width: 300, autoHide: false, search: true},
+				{field: 'dplTypeNm', title: '배포 방법', textAlign: 'center', width: 70, autoHide: false, search: true, searchType:"select", searchCd: "DPL00003", searchField:"dplTypeCd", sortField: "dplTypeCd"},
+				{field: 'dplRevisionNum', title: '배포 리비전 번호', textAlign: 'center', width: 100
+					,template: function(row){
+						var dplRevisionNum = row.dplRevisionNum;
+						
+						if($.osl.isNull(dplRevisionNum)){
+							dplRevisionNum = "Last Revision";
+						}
+						return dplRevisionNum;
+					}
+				},
+				{field: 'dplDt', title: '배포 일자', textAlign: 'center', width: 100, search: true, searchType:"daterange"},
+				{field: 'dplUsrNm', title: '배포자', textAlign: 'center', width: 100, search: true
+					,template: function (row) {
+						return $.osl.user.usrImgSet(row.dplUsrImgId, row.dplUsrNm);
+					},
+					onclick: function(rowData){
+						$.osl.user.usrInfoPopup(rowData.dplUsrId);
+					}
+				},
 			],
+			rows:{
+				clickCheckbox: true
+			},
 			actionBtn:{
-				"dblClick": true 
+				"title":"기능 버튼",
+				"width" : 120,
+				"insert":false,
+				"update":false,
+				"delete":false,
+				"execute":true,
+				"dblClick": true,
+				"buildHistory": true
 			},
 			actionTooltip:{
-				"update": "요구사항 수정",
-				"delete": "요구사항 삭제"
+				"execute":"배포 실행",
+				"dblClick": "배포 계획 상세 보기",
+				"buildHistory": "실행 이력 보기"
 			},
+			searchColumns:[
+				{field: 'dplDesc', title:"배포 설명", searchOrd: 8}
+			],
 			actionFn:{
-				"insert":function(datatableId, type, rowNum){
-					var data = {type:"insert"};
-					var options = {
-							idKey: datatableId,
-							modalTitle: $.osl.lang("req1001.title"),
-							closeConfirm: false,
-						};
-					
-					//$.osl.layerPopupOpen('/req/req1000/req1000/selectReq1001View.do',data,options);
-				},
 				
-				"update":function(rowData, datatableId, type, rowNum, elem){
-					if(rowData.reqProType != "01"){
-						$.osl.alert('접수 요청중인 요구사항만 수정 가능합니다.');
+				"execute":function(rowDatas, datatableId, type, rowNum, elem){
+					
+					var rowDataList = [];
+					
+					
+					if(type == "info"){
+						rowDataList.push(rowDatas);
+					}else if(type == "list"){
+						rowDataList = rowDatas;
+					}
+					
+					if($.osl.isNull(rowDataList) || rowDataList.length == 0){
+						$.osl.alert("실행할 배포 계획을 선택하세요.", {type: "warning"});
 						return false;
 					}
+					
+					if(rowDataList.length > 1){
+						$.osl.alert("1건의 배포 계획만 선택해주세요.", {type: "warning"});
+						return false;
+					}
+					
+					var selDplData = rowDataList[0];
+					
+					
+					var dplTypeCd = selDplData.dplTypeCd;
+					
+					if(dplTypeCd == "01"){
+						$.osl.alert("수동 배포인 배포계획만 선택해 주세요.", {type: "warning"});
+						return false;
+					}
+					
+					
+					var dplSignUseCd = selDplData.dplSignUseCd;
+					if(dplSignUseCd == "01"){
+						
+						var signCd = selDplData.nowSignTypeCd;
+						
+						if(signCd != "03"){
+							$.osl.alert("결재 승인된 배포 계획만 배포 실행 가능합니다.", {type: "warning"});
+							return false;
+						}
+					}
+					
+					var prjId = selDplData.prjId;
+					var dplId = selDplData.dplId;
+					var dplUsrId = selDplData.dplUsrId;
+					var dplNm = selDplData.dplNm;
+					
+					
 					var data = {
-							type:"update",
-							paramPrjId: rowData.prjId,
-							paramReqId: rowData.reqId,
-							paramReqUsrId: rowData.reqUsrId
-						};
+							paramPrjId: prjId,
+							paramDplId: dplId,
+							paramDplUsrId: dplUsrId
+					};
+						
 					var options = {
-							idKey: rowData.reqId,
-							modalTitle: $.osl.lang("req1001.title"),
-							closeConfirm: false
-						};
-					
-					//$.osl.layerPopupOpen('/req/req1000/req1000/selectReq1001View.do',data,options);
-				},
-				"delete":function(rowDatas, datatableId, type, rowNum, elem){
-					//AJAX 설정
-					var ajaxObj = new $.osl.ajaxRequestAction(
-							{"url":"<c:url value='/req/req1000/req1000/deleteReq1001ReqListAjax.do'/>"}
-							,{deleteDataList: JSON.stringify(rowDatas)});
-					//AJAX 전송 성공 함수
-					ajaxObj.setFnSuccess(function(data){
-						if(data.errorYn == "Y"){
-			   				$.osl.alert(data.message,{type: 'error'});
-			   			}else{
-			   				//삭제 성공
-			   				$.osl.toastr(data.message);
-			   				
-			   				//datatable 조회
-			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
-			   			}
-					});
-					
-					//AJAX 전송
-					ajaxObj.send();
+						idKey: prjId+"_"+dplId,
+						modalTitle: "["+ dplNm +"] "+'배포 계획 실행',
+						modalSize: 'xl',
+						autoHeight: false,
+						closeConfirm: false
+					};
+						
+					$.osl.layerPopupOpen('/dpl/dpl3000/dpl3000/selectDpl3001View.do',data,options);
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
 					var data = {
-							type:"update",
-							paramPrjId: rowData.prjId,
-							paramReqId: rowData.reqId,
-							paramReqUsrId: rowData.reqUsrId
+							paramPrjId : rowData.prjId,
+							paramDplId : rowData.dplId
 						};
 					var options = {
-							idKey: rowData.reqId,
-							modalTitle: $.osl.lang("req1001.title"),
-							closeConfirm: false
+							idKey: datatableId +"_"+ rowData.dplId,
+							modalTitle: "["+rowData.dplNm +"] "+ "상세 정보",
+							autoHeight: false,
+							modalSize: 'xl'
 						};
 					
-					//$.osl.layerPopupOpen('/req/req1000/req1000/selectReq1002View.do',data,options);
+					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1002View.do',data,options);
+				},
+				
+				"stop":function(rowDatas, datatableId, type, rowNum, elem){
+					
+					if(rowDatas.length == 0){
+						$.osl.alert("중지할 배포 계획을 선택하세요.");
+						return false;
+					}
+				},
+				
+				"buildHistory":function(rowData, datatableId, type, rowNum, elem){
+					
+					var paramPrjId = rowData.prjId;
+					var paramDplId = rowData.dplId;
+					var paramDplNm = rowData.dplNm;
+					
+					
+					var data = {
+							paramPrjId: paramPrjId,
+							paramDplId: paramDplId
+					};
+						
+					var options = {
+						idKey: paramPrjId+"_"+paramDplId+"_bldHistory",
+						modalTitle: "["+ paramDplNm +"] "+'배포 계획 실행 이력',
+						modalSize: 'xl',
+						autoHeight: false,
+						closeConfirm: false
+					};
+						
+					$.osl.layerPopupOpen('/dpl/dpl3000/dpl3000/selectDpl3002View.do',data,options);
 				}
 			},
+			theme: {
+				 actionBtnIcon:{
+					 "execute" : "far fa-play-circle",
+					 "buildHistory": "far fa-file-code"
+				 }
+			 },
 			callback:{
 				initComplete: function(evt,config){
 					fnViewerChange();
@@ -431,30 +556,30 @@ var OSLDpl3000Popup = function () {
 			}
 		});
 		
-		//뷰 변경 이벤트
+		
 		$(".btn-view-type").click(function(){
 			var viewType = $(this).data("view-type");
 			
-			//active 교체
+			
 			$(".btn-view-type.active").removeClass("active");
 			$(this).addClass("active");
 			
 			currentViewType = viewType;
-			//뷰어 변경
+			
 			fnViewerChange();
 		});
 
-		//카드형, 목록형
+		
 		var fnViewerChange = function(){
-			//현재 viewType에 따라 show/hide
-			//카드 형식
+			
+			
 			if(currentViewType == "01"){
-				$("#dpl3000Table .kt-datatable__table").css({visibility: "hidden", height: 0});
+				$("#dpl3000DplTable .kt-datatable__table").css({visibility: "hidden", height: 0});
 				$("#dpl3000CardTable").show();
-			//데이터테이블 형식
+			
 			}else{	
 				$("#dpl3000CardTable").hide();
-				$("#dpl3000Table .kt-datatable__table").css({visibility: "visible",height: "auto"});
+				$("#dpl3000DplTable .kt-datatable__table").css({visibility: "visible",height: "auto"});
 			}
 		}	
 		
@@ -468,7 +593,7 @@ var OSLDpl3000Popup = function () {
 			btnPopupOpen();
 		});
 		
-		//팝업
+		
 		var btnPopupOpen = function(){
 			
 			if(popupViewType == "01"){
@@ -496,7 +621,7 @@ var OSLDpl3000Popup = function () {
 	
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -508,5 +633,5 @@ $.osl.ready(function(){
 	OSLDpl3000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

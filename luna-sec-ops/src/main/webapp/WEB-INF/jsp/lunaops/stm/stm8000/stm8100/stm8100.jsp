@@ -17,14 +17,14 @@
 	</div>
 </div>
 <div class="row">
-	<!-- begin:: 프로젝트 목록 트리 영역 -->
+	
 	<div class="col-lg-3 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile  kt-margin-b-0">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
-					<h4 class="kt-font-boldest kt-font-brand">
-						<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="">전체 프로젝트 목록</span>
-					</h4>
+					<h5 class="kt-font-boldest kt-font-brand">
+						<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="stm8100.title.allProjectList">전체 프로젝트 목록</span>
+					</h5>
 				</div>
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-group">
@@ -35,7 +35,7 @@
 							<i class="fa fa-minus"></i>
 						</a>
 						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md">
-							<i class="la la-angle-down"></i>
+							<i class="fa fa-chevron-down"></i>
 						</a>
 					</div>
 				</div>
@@ -55,97 +55,105 @@
 			</div>
 		</div>
 	</div> 
-	<!-- end:: 프로젝트 목록 트리 영역 -->
 	
-	<!-- begin::우측 배정/미배정 소스 저장소목록 영역 -->
+	
+	
 	<div class="col-lg-9 col-md-12 col-sm-12 col-12">
-		<!-- begin:: 배정 소스 저장소 목록-->
+		
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
 					<h5 class="kt-font-boldest kt-font-brand">
-						<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="">소스 저장소 배정 목록</span>
+						<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="stm8100.title.assRepList">소스 저장소 배정 목록</span>
 					</h5>
 				</div>
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-wrapper">
-						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="stm8100AssignStrgTable"></div>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100AssignStrgTable" data-datatable-action="select" title="소스 저장소 배정 목록 조회" data-title-lang-cd="stm8100.toolTip.searchAssignStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100AssignStrgTable" data-datatable-action="select" title="소스 저장소 배정 목록 조회" data-title-lang-cd="stm8100.toolTip.selectAssignStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100AssignStrgTable" data-datatable-action="removeStrg" title="소스 저장소 배정 제외" data-title-lang-cd="stm8100.toolTip.removeStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="removeStrg" tabindex="2">
-							<i class="fa fa-arrow-alt-circle-down"></i><span data-lang-cd="stm8100.common.notAssign">제외</span>
+							<i class="fa fa-arrow-alt-circle-down"></i><span data-lang-cd="stm8100.actionBtn.removeBtn">제외</span>
 						</button>
 						<div class="btn-group" role="group">
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100AssignStrgTable" data-datatable-action="authSetting" title="권한 설정" data-title-lang-cd="" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="authSetting" tabindex="3">
-							<i class="fas fa-users-cog"></i><span data-lang-cd="">권한 설정</span>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100AssignStrgTable" data-datatable-action="authSetting" title="리비전 및 소스코드 열림 권한 설정" data-title-lang-cd="stm8100.toolTip.authSetting" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="authSetting" tabindex="3">
+							<i class="fas fa-users-cog"></i><span data-lang-cd="stm8100.actionBtn.authSetting">권한 설정</span>
 						</button>
 					</div>
 					</div>
 				</div>
 			</div>
-			<div class="kt-portelt__body">
+			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-lg-6 col-md-7 col-sm-12 col-12">
+						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="stm8100AssignStrgTable"></div>
+					</div>
+				</div>
 				<div class="kt_datatable" id="stm8100AssignStrgTable"></div>
 			</div>
 		</div>
-		<!-- end:: 배정 job 목록-->
-		<!-- begin:: 미배정 job 목록-->
+		
+		
 		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
 					<h5 class="kt-font-boldest kt-font-brand">
-						<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="stm8100.title.notAssignStrgList">소스 저장소 미배정 목록</span>
+						<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="stm8100.title.nonAssRepList">소스 저장소 미배정 목록</span>
 					</h5>
 				</div>
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-wrapper">
-						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="stm8100NotAssignStrgTable"></div>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100NotAssignStrgTable" data-datatable-action="select" title="소스 저장소 미배정 목록 조회" data-title-lang-cd="stm8100.toolTip.searchNotAssignStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100NonAssignStrgTable" data-datatable-action="select" title="소스 저장소 미배정 목록 조회" data-title-lang-cd="stm8100.toolTip.selectNonAssignStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100NotAssignStrgTable" data-datatable-action="addStrg" title="소스 저장소 배정" data-title-lang-cd="stm8100.toolTip.addStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="addStrg" tabindex="2">
-							<i class="fa fa-arrow-alt-circle-up"></i><span data-lang-cd="stm8100.common.assign">배정</span>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100NonAssignStrgTable" data-datatable-action="addStrg" title="소스 저장소 배정" data-title-lang-cd="stm8100.toolTip.addStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="addStrg" tabindex="2">
+							<i class="fa fa-arrow-alt-circle-up"></i><span data-lang-cd="stm8100.actionBtn.addBtn">배정</span>
 						</button>
 					</div>
 				</div>
 			</div>
-			<div class="kt-portelt__body">
-				<div class="kt_datatable" id="stm8100NotAssignStrgTable"></div>
+			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-lg-6 col-md-7 col-sm-12 col-12">
+						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="stm8100NonAssignStrgTable"></div>
+					</div>
+				</div>
+				<div class="kt_datatable" id="stm8100NonAssignStrgTable"></div>
 			</div>
 		</div>
-		<!-- begin:: 미배정 소스 저장소 목록-->
+		
 	</div> 
-	<!-- end::우측 배정/미배정 소스 저장소 목록 영역 -->
+	
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLStm8100 = function () {
-	//트리
-	var treetableId = "stm8100LicPrjTree";
-	//배정 목록 테이블
-	var strgAssDatatableId = "stm8100AssignStrgTable";
-	//미배정 목록 테이블
-	var strgNonAssDatatableId = "stm8100NotAssignStrgTable";
 	
-	// 프로젝트 트리
+	var treetableId = "stm8100LicPrjTree";
+	
+	var strgAssDatatableId = "stm8100AssignStrgTable";
+	
+	var strgNonAssDatatableId = "stm8100NonAssignStrgTable";
+	
+	
 	var prjTreeObj;
 	
-	//현재 선택 프로젝트 Id
+	
 	var selPrjId;
-	//현재 선택 프로젝트 이름
+	
 	var selPrjNm;
-	// 현재 선택 프로젝트의 그룹 Id
+	
 	var selPrjGrpId;
 	
-	//배정 리스트
+	
 	var assList = [];
-	//미배정 리스트
+	
 	var nonAssList = [];
 	
 	var documentSetting = function(){
 		
-		// 프로젝트 tree 세팅
+		
 		prjTreeObj = $.osl.tree.setting(treetableId,{
 			data:{
 				url:"<c:url value='/stm/stm1000/stm1000/selectStm1000LicencePrjAllListAjax.do'/>",
@@ -154,46 +162,57 @@ var OSLStm8100 = function () {
 				labelKey: "prjNm"
 			},
 			search:{
-				//대소문자 구분
+				
 				case_insensitive : true,
-				//검색 결과 노드만 표시
+				
 				show_only_matches: true,
-				//show_only_matches: true 일때 하위 노드도 같이 표시 할건지
+				
 				show_only_matches_children: true,
 			},
 			callback:{
 				onclick: function(treeObj,selNode){
 					
 					if($.osl.isNull(selNode) || $.osl.isNull(selNode.original)){
-						$.osl.alert($.osl.lang("stm9200.message.alert.treeNodeSelect"));
+						$.osl.alert($.osl.lang("stm8100.message.alert.treeNodeSelect"));
 						return false;
 					}
 					
-					// 프로젝트 그룹 코드
+					
 					var prjGrpCd = selNode.original.prjGrpCd;
 
-					// 프로젝트 그룹 선택 시 알림
+					
 					if(prjGrpCd == "01"){
-						$.osl.toastr($.osl.lang("stm9200.message.toastr.projectSelect"));
+						$.osl.toastr($.osl.lang("stm8100.message.toastr.projectSelect"));
 						return false;
 					}
 					
-					// 선택한 노드에서 프로젝트 그룹 ID, 프로젝트 Id를 가져온다.
+					
 					selPrjId = selNode.original.prjId;
 					selPrjNm = selNode.original.prjNm;
 					selPrjGrpId = selNode.original.prjGrpId;
 					
-					// 배정 데이터 테이블
+					
+					
+					searchReset(strgAssDatatableId);
+					
+					$("button[data-datatable-id="+strgAssDatatableId+"][data-datatable-action=select]").click();
+					
+					searchReset(strgNonAssDatatableId);
+					
+					$("button[data-datatable-id="+strgNonAssDatatableId+"][data-datatable-action=select]").click();
+					
+					
+					
 					var assDataTableTarget = $.osl.datatable.list[strgAssDatatableId].targetDt;
-					// 미배정 데이터 테이블
+					
 					var notAssDataTableTarget = $.osl.datatable.list[strgNonAssDatatableId].targetDt;
 					
-					// 배정 조회
+					
 					assDataTableTarget.setDataSourceParam("prjGrpId", selPrjGrpId);
 					assDataTableTarget.setDataSourceParam("prjId", selPrjId);
 					$("button[data-datatable-id="+strgAssDatatableId+"][data-datatable-action=select]").click();
 					
-					// 미배정 조회
+					
 					notAssDataTableTarget.setDataSourceParam("prjGrpId", selPrjGrpId);
 					notAssDataTableTarget.setDataSourceParam("prjId", selPrjId);
 					$("button[data-datatable-id="+strgNonAssDatatableId+"][data-datatable-action=select]").click();
@@ -201,7 +220,7 @@ var OSLStm8100 = function () {
 			}
 		});
 		
-		//퍼펙트 스크롤 적용
+		
 		KTUtil.scrollInit($("#"+treetableId)[0], {
 	        disableForMobile: true, 
 	        resetHeightOnDestroy: true, 
@@ -209,9 +228,9 @@ var OSLStm8100 = function () {
 	        height: 566
 	    });
 		
-		// datatable 세팅 -----------------------
 		
-		// 소스 저장소 배정 테이블 셋팅
+		
+		
 		$.osl.datatable.setting(strgAssDatatableId,{
 			data:{
 				source:{
@@ -239,7 +258,8 @@ var OSLStm8100 = function () {
 				clickCheckbox: true
 			},
 			actionBtn:{
-				"title" : "제외",
+				"title" : $.osl.lang("stm8100.assignStrgTable.actionBtn.title"),
+				"width" : 50,
 				"dblClick": true,
 				"removeStrg" : true,
 				"authSetting" : true,
@@ -248,36 +268,43 @@ var OSLStm8100 = function () {
 				"lastPush": false
 			},
 			actionTooltip:{
-				"dblClick" : "제외",
-				"removeStrg" : "제외",
-				"authSetting" : "리비전 확인 권한 설정",
+				"dblClick" : $.osl.lang("stm8100.assignStrgTable.tooltip.dblClick"),
+				"removeStrg" : $.osl.lang("stm8100.assignStrgTable.tooltip.dblClick"),
+				"authSetting" : $.osl.lang("stm8100.assignStrgTable.tooltip.authSetting"),
 			},
 			actionFn:{
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
-					assList.push(rowData);
-					deleteRepo(selPrjId, JSON.stringify(assList));
+					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), {"html" : true}, function(result){
+						if(result.value){
+							assList.push(rowData);
+							deleteRepo(selPrjId, JSON.stringify(assList));
+						}
+					});
 				},
 				"removeStrg": function(rowData, datatableId, type, rowNum, elem){
-					assList = rowData;
-					deleteRepo(selPrjId, JSON.stringify(assList));
+					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), {"html" : true}, function(result){
+						if(result.value){
+							assList = rowData;
+							deleteRepo(selPrjId, JSON.stringify(assList));
+						}
+					});
 				},
 				"authSetting": function(rowData, datatableId, type, rowNum, elem){
-					
 					var strgRepData;
 					if(type=="list"){
 						if(rowNum == 0){
-							$.osl.alert("리비전 열람, 소스 열람 권한 설정을 위한 소스 저장소를 하나 선택하세요.");
+							$.osl.alert($.osl.lang("stm8100.assignStrgTable.message.selectRep"));
 							return false;
 						}else if(rowNum ==1){
 							strgRepData = rowData[0];
 						}else{
-							$.osl.alert("단건만 선택하세요");
+							$.osl.alert($.osl.lang("stm8100.assignStrgTable.message.selectOnlyOne"));
 							return false;
 						}
 					}else{
 						strgRepData = rowData;
 					}
-					//권한 배정 팝업 호출
+					
 					var data = {
 							prjGrpId : selPrjGrpId,
 							prjId : selPrjId,
@@ -286,11 +313,12 @@ var OSLStm8100 = function () {
 					};
 					var options = {
 							idKey: datatableId,
-							modalTitle: $.osl.escapeHtml(selPrjNm) + $.osl.escapeHtml(rowData.strgRepTitle) +" 권한팝업",
+							modalTitle: $.osl.escapeHtml(selPrjNm) + $.osl.escapeHtml(rowData.strgRepTitle) +" "+ $.osl.lang("stm8100.assignStrgTable.title.authPop"),
 							closeConfirm: false,
 							autoHeight:false,
+							ftScrollUse: false
 						};
-					$.osl.layerPopupOpen('/stm/stm8000/stm8200/selectStm8200View.do',data,options);
+					$.osl.layerPopupOpen('/stm/stm8000/stm8100/selectStm8101View.do',data,options);
 				},
 			},
 			theme:{
@@ -304,7 +332,7 @@ var OSLStm8100 = function () {
 			},
 		});
 		
-		//소스 저장소 미배정 테이블 셋팅
+		
 		$.osl.datatable.setting(strgNonAssDatatableId,{
 			data:{
 				source:{
@@ -332,7 +360,8 @@ var OSLStm8100 = function () {
 				clickCheckbox: true
 			},
 			actionBtn:{
-				"title" : "배정",
+				"title" : $.osl.lang("stm8100.nonAssignStrgTable.actionBtn.title"),
+				"width" : 50,
 				"dblClick": true,
 				"addStrg" : true,
 				"delete":false,
@@ -340,8 +369,8 @@ var OSLStm8100 = function () {
 				"lastPush": false
 			},
 			actionTooltip:{
-				"dblClick" : "소스 저장소 배정",
-				"addStrg" : "소스 저장소 배정",
+				"dblClick" : $.osl.lang("stm8100.nonAssignStrgTable.tooltip.dblClick"),
+				"addStrg" : $.osl.lang("stm8100.nonAssignStrgTable.tooltip.dblClick"),
 			},
 			actionFn:{
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
@@ -364,40 +393,33 @@ var OSLStm8100 = function () {
 		});
 	};
 	
-	/**
-	* selectBtnClick : 소스 저장소 배정/미배정 목록 조회 버튼 클릭
-	*/
+	
 	var selectBtnClick = function(){
-		//소스 저장소 배정목록 조회
+		
 		$.osl.datatable.list[strgAssDatatableId].targetDt.setDataSourceParam("prjId", selPrjId);
 		$("button[data-datatable-id="+strgAssDatatableId+"][data-datatable-action=select]").click();
-		//소스 저장소 미배정 목록 조회
+		
 		$.osl.datatable.list[strgNonAssDatatableId].targetDt.setDataSourceParam("prjId", selPrjId);
 		$("button[data-datatable-id="+strgNonAssDatatableId+"][data-datatable-action=select]").click();
 	};
 	
 		
-	/**
-	 * function 명 	: insertRepo
-	 * function 설명	: 프로젝트에 소스 저장소 배정
-	 * param : 선택된 프로젝트 ID
-	 * param : JSON.Stringify(선택된 소스 저장소 목록)
-	 */
+	
 	var insertRepo = function(prjId, list){
 		 var data = {
 				selStrRepList : list,
 				prjId : prjId
 		};
 
-		//ajax 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
     			{"url":"<c:url value='/stm/stm8000/stm8100/insertStm8100ServerListAjax.do'/>"}
 				, data);
-		//ajax 전송 성공 함수
+		
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				if(list.length>0){
@@ -407,31 +429,26 @@ var OSLStm8100 = function () {
 				selectBtnClick();
 			}
     	});
-		//ajax 전송
+		
     	ajaxObj.send();
 	};
 		
-	/**
-	 * function 명 	: deleteRepo
-	 * function 설명	: 프로젝트에 소스 저장소 배정 제외
-	 * param : 선택된 프로젝트 ID
-	 * param : JSON.Stringify(선택된 소스 저장소 목록)
-	 */
+	
 	var deleteRepo = function(prjId, list){
 		 var data = {
 				selStrRepList : list,
 				prjId : prjId
 		};
 		
-		//ajax 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
     			{"url":"<c:url value='/stm/stm8000/stm8100/deleteStm8100ServerListAjax.do'/>"}
 				, data);
-		//ajax 전송 성공 함수
+		
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				if(list.length>0){
@@ -441,17 +458,47 @@ var OSLStm8100 = function () {
 				selectBtnClick();
 			}
     	});
-		//ajax 전송
+		
     	ajaxObj.send();
 	};
 	
+	
+	var searchReset = function(datatableId){
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
+		
+		
+		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
+		
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
+		
+		
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
+		
+		
+		$("#searchData_"+datatableId).removeAttr("readonly");
+		
+		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
+		
+		
+		$("#searchData_"+datatableId).val("");
+
+		
+		
+		$("#searchData_"+datatableId).attr("disabled","disabled");
+	};
+	
+	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         },
         reload:function(){
-			//datatable 조회
+			
 			$("button[data-datatable-id="+strgAssDatatableId+"][data-datatable-action=select]").click();
 			$("button[data-datatable-id="+strgNonAssDatatableId+"][data-datatable-action=select]").click();
         }
@@ -462,5 +509,5 @@ $.osl.ready(function(){
 	OSLStm8100.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

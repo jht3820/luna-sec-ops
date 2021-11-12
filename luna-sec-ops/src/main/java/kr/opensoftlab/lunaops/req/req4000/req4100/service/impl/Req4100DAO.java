@@ -76,10 +76,27 @@ public class Req4100DAO  extends ComOslitsAbstractDAO {
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes" })
+	public void updateReq4100ReqRejectInfo(Map paramMap) throws Exception{
+		update("req4100DAO.updateReq4100ReqRejectInfo",paramMap);
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes" })
+	public void updateReq4100ReqAcceptInfo(Map paramMap) throws Exception{
+		update("req4100DAO.updateReq4100ReqAcceptInfo",paramMap);
+	}
+	
 	
 	@SuppressWarnings({ "rawtypes" })
 	public void updateReq4101ReqSubInfo(Map paramMap) throws Exception{
 		update("req4100DAO.updateReq4101ReqSubInfo",paramMap);
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes" })
+	public void updateReq4101ReqProcessInfo(Map paramMap) throws Exception{
+		update("req4100DAO.updateReq4101ReqProcessInfo",paramMap);
 	}
 	
 	
@@ -174,4 +191,10 @@ public class Req4100DAO  extends ComOslitsAbstractDAO {
 		return  (List<Map>) list("req4100DAO.selectReq4100ChargeReqList", paramMap);
 	}
 	
+
+	
+	@SuppressWarnings("rawtypes")
+	public Map selectReq4100FlowInfoAjax(Map paramMap) throws Exception {
+		return	(Map) select("req4100DAO.selectReq4100FlowInfoAjax", paramMap);
+	}
 }

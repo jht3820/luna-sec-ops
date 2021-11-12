@@ -189,9 +189,8 @@ public class PageVO extends DefaultVO{
 						sb.append(  key + "=>" + EgovStringUtil.nullConvert(exp.getValue()) );
 						sb.append("\n");
 					} catch (Exception e) {
-						System.out.println(e.getMessage());
-						//e.printStackTrace();
-					};
+						e.getMessage();
+					}
 				}
 			}
 		}

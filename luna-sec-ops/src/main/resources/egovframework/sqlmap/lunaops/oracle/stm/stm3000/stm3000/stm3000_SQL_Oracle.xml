@@ -451,13 +451,12 @@
 	</select>
 	    
     
-	<select id="stm3000DAO.selectPRJ2001ExistUsrInProject" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	<select id="stm3000DAO.selectPrj2001ExistUsrInProject" parameterClass="java.util.Map" resultClass="java.lang.Integer">
 		
 		<![CDATA[
 		SELECT COUNT(*) AS CNT
 		FROM PRJ2001
 		WHERE	1=1
-			AND	LIC_GRP_ID 	= #licGrpId#
 			AND	USR_ID = #usrId#
 		]]>
 	</select>

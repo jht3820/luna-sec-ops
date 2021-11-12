@@ -32,10 +32,15 @@ import egovframework.com.cmm.service.impl.FileManageDAO;
 import egovframework.com.utl.sim.service.EgovFileScrty;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl.Prj1100DAO;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.Prj1300Service;
 import kr.opensoftlab.lunaops.req.req3000.req3000.service.impl.Req3000DAO;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.Req4100Service;
+import kr.opensoftlab.lunaops.req.req6000.req6000.service.Req6000Service;
+import kr.opensoftlab.lunaops.req.req6000.req6000.vo.Req6001VO;
 import kr.opensoftlab.sdf.util.CommonScrty;
 
 @Service("req4100Service")
@@ -48,7 +53,23 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
     
     @Resource(name="req3000DAO")
     private Req3000DAO req3000DAO;
+    
+    
+    @Resource(name="prj1100DAO")
+    private Prj1100DAO prj1100DAO;
 
+	
+    @Resource(name = "prj1300Service")
+    private Prj1300Service prj1300Service;
+    
+	
+	@Resource(name = "req6000Service")
+	private Req6000Service req6000Service;
+
+	
+	@Resource(name = "cmm6600Service")
+	Cmm6600Service cmm6600Service;
+	
 	@Resource(name = "FileManageDAO")
 	private FileManageDAO fileMngDAO;
 	
@@ -406,7 +427,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			}
 			
 			
-			if(convertParamMap.get("reqGrpId") != null || !"".equals(convertParamMap.get("reqGrpId"))) {
+			if(convertParamMap.get("reqGrpId") == null || !"".equals(convertParamMap.get("reqGrpId"))) {
 				
 				
 				req3000DAO.deleteReq3001ReqCon(convertParamMap);
@@ -588,6 +609,178 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateReq4100ReqRejectList(Map paramMap) throws Exception{
+		
+		String licGrpId = (String) paramMap.get("licGrpId");
+		String regUsrId = (String) paramMap.get("regUsrId");
+		String regUsrIp = (String) paramMap.get("regUsrIp");
+		
+		
+		String paramRejectContents = (String) paramMap.get("paramRejectContents");
+		paramMap.put("reqAcceptTxt", paramRejectContents);
+		
+		
+		String paramRejectReqList = (String) paramMap.get("paramRejectReqList");
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONArray jsonArray = (JSONArray) jsonParser.parse(paramRejectReqList);
+		for(int i=0;i<jsonArray.size();i++) {
+			JSONObject reqInfo = (JSONObject) jsonArray.get(i);
+			
+			
+			String prjId = (String) reqInfo.get("prjId");
+			String reqId = (String) reqInfo.get("reqId");
+			
+			
+			paramMap.put("prjId", prjId);
+			paramMap.put("reqId", reqId);
+			req4100DAO.updateReq4100ReqRejectInfo(paramMap);
+			
+			
+			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "04");
+			req6001Vo.setChgUsrId(regUsrId);
+			req6001Vo.setRegUsrId(regUsrId);
+			req6001Vo.setRegUsrIp(regUsrIp);
+			req6001Vo.setModifyUsrId(regUsrId);
+			req6001Vo.setModifyUsrIp(regUsrIp);
+			
+			paramMap.put("req6001Vo", req6001Vo);
+			req6000Service.insertReq6001ReqChgInfo(paramMap);
+			
+		}
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateReq4100ReqAcceptList(Map paramMap) throws Exception{
+		
+		String licGrpId = (String) paramMap.get("licGrpId");
+		String regUsrId = (String) paramMap.get("regUsrId");
+		
+		
+		String defaultSwitchCd = (String) paramMap.get("defaultSwitchCd");
+		
+		String selReqChargerId = (String) paramMap.get("selReqChargerId");
+		
+		
+		if("02".equals(defaultSwitchCd)) {
+			
+			if(selReqChargerId != null && !"".equals(selReqChargerId)) {
+				paramMap.put("reqChargerId", selReqChargerId);
+			}
+		}
+		
+		
+		String processId = (String) paramMap.get("selProcessId");
+		
+		
+		paramMap.put("processId", processId);
+		paramMap.put("flowStartCd", "01");
+		Map startFlowInfo = prj1100DAO.selectPrj1101FlowInfo(paramMap);
+		
+		
+		if(startFlowInfo == null || startFlowInfo.isEmpty()) {
+			throw new UserDefineException("프로세스 데이터 조회에 실패했습니다.");
+		}
+		
+		
+		String flowId = (String) startFlowInfo.get("flowId");
+		paramMap.put("flowId", flowId);
+		
+		
+		String reqAcceptTxt = (String) paramMap.get("reqAcceptTxt");
+		paramMap.put("reqAcceptTxt", reqAcceptTxt);
+		
+		
+		String paramSelReqInfoList = (String) paramMap.get("paramSelReqInfoList");
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONArray jsonArray = (JSONArray) jsonParser.parse(paramSelReqInfoList);
+		for(int i=0;i<jsonArray.size();i++) {
+			JSONObject reqInfo = (JSONObject) jsonArray.get(i);
+			
+			
+			String prjId = (String) reqInfo.get("prjId");
+			String reqId = (String) reqInfo.get("reqId");
+			
+			
+			paramMap.put("prjId", prjId);
+			paramMap.put("reqId", reqId);
+			
+			
+			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "03");
+			req6001Vo.setChgProcessId(processId);
+			req6001Vo.setChgFlowId(flowId);
+			req6001Vo.setChgUsrId(regUsrId);
+			
+			
+			if("02".equals(defaultSwitchCd)) {
+				req6001Vo.setChgChargerId(selReqChargerId);
+			}
+			
+			else {
+				
+				Map selReqInfo = req4100DAO.selectReq4100ReqInfo(paramMap);
+				if(selReqInfo != null) {
+					String reqChargerId = (String) selReqInfo.get("reqChargerId");
+					req6001Vo.setChgChargerId(reqChargerId);
+					paramMap.put("reqChargerId", reqChargerId);
+				}
+			}
+			
+			
+			req4100DAO.updateReq4100ReqAcceptInfo(paramMap);
+			
+			paramMap.put("req6001Vo", req6001Vo);
+			req6000Service.insertReq6001ReqChgInfo(paramMap);
+			
+
+			
+			
+			String basicItemList = (String) paramMap.get("basicItemList");
+			String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+			
+			
+			
+			JSONArray basicItemJsonArray = (JSONArray) jsonParser.parse(basicItemList);
+			JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+			
+			
+			
+			for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+				JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+				Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("processId", processId);
+    			itemMap.put("flowId", paramMap.get("selFlowId"));
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqId);
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+				prj1300Service.savePrj1103ItemAjax(itemMap);
+			}
+			
+			
+			for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+				JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+				Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("processId", processId);
+    			itemMap.put("flowId", paramMap.get("selFlowId"));
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqId);
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "02");
+
+    			prj1300Service.savePrj1102ItemAjax(itemMap);
+    			prj1300Service.savePrj1103ItemAjax(itemMap);
+			}
+			
+			
+		}
+	}
+	
+	
 	@SuppressWarnings({ "rawtypes" })
 	public void updateReq4101ReqSubInfo(Map paramMap) throws Exception{
 		req4100DAO.updateReq4101ReqSubInfo(paramMap);
@@ -636,4 +829,168 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	public List<Map>  selectReq4100ChargeReqList(Map paramMap) throws Exception {
 		return  req4100DAO.selectReq4100ChargeReqList(paramMap);
 	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void saveReq4100ReqProcessActionInfo(Map paramMap) throws Exception {
+		
+		String licGrpId = (String) paramMap.get("licGrpId");
+		String prjId = (String) paramMap.get("prjId");
+		String reqId = (String) paramMap.get("reqId");
+		String regUsrId = (String) paramMap.get("regUsrId");
+		String regUsrIp = (String) paramMap.get("regUsrIp");
+
+		JSONParser jsonParser = new JSONParser();
+
+		
+		
+		String basicItemList = (String) paramMap.get("basicItemList");
+		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+		String basicItemDelList = (String) paramMap.get("basicItemDelList");
+		
+		
+		JSONArray basicItemJsonArray = (JSONArray) jsonParser.parse(basicItemList);
+		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
+		
+		
+		String signRequiredCd = (String) paramMap.get("signRequiredCd");
+		
+		
+		Map beforeReqInfo = req4100DAO.selectReq4100ReqInfo(paramMap);
+		
+		
+		String beforeReqChargerId = (String) beforeReqInfo.get("reqChargerId");
+		
+		String beforeFlowId = (String) beforeReqInfo.get("flowId");
+		
+		
+		String processId = (String) paramMap.get("processId");
+		
+		String selFlowId = (String) paramMap.get("selFlowId");
+		paramMap.put("processId", processId);
+		paramMap.put("flowId", selFlowId);
+		
+		
+		Map selFlowInfo = prj1100DAO.selectPrj1101FlowInfo(paramMap);
+		
+		
+		String selFlowDoneCd = (String) selFlowInfo.get("flowDoneCd");
+		
+		if("01".equals(selFlowDoneCd)) {
+			
+			paramMap.put("reqProType", "04");
+		}
+		
+		
+		String reqChargerId = (String) paramMap.get("reqChargerId");
+		
+		
+		if(!reqChargerId.equals(beforeReqChargerId)) {
+			
+			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "02", beforeReqChargerId, reqChargerId, regUsrId);
+			req6001Vo.setRegUsrId(regUsrId);
+			req6001Vo.setRegUsrIp(regUsrIp);
+			req6001Vo.setModifyUsrId(regUsrId);
+			req6001Vo.setModifyUsrIp(regUsrIp);
+			
+			paramMap.put("req6001Vo", req6001Vo);
+			req6000Service.insertReq6001ReqChgInfo(paramMap);
+		}
+		
+		
+		if(!beforeFlowId.equals(selFlowId)) {
+			
+			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "01", beforeFlowId, selFlowId, regUsrId);
+			req6001Vo.setPreProcessId(processId);
+			req6001Vo.setChgProcessId(processId);
+			req6001Vo.setRegUsrId(regUsrId);
+			req6001Vo.setRegUsrIp(regUsrIp);
+			req6001Vo.setModifyUsrId(regUsrId);
+			req6001Vo.setModifyUsrIp(regUsrIp);
+			
+			paramMap.put("req6001Vo", req6001Vo);
+			req6000Service.insertReq6001ReqChgInfo(paramMap);
+		}else {
+			
+			for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
+				JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
+				Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+				itemMap.put("processId", processId);
+				itemMap.put("flowId", paramMap.get("selFlowId"));
+				itemMap.put("prjId", prjId);
+				itemMap.put("reqId", reqId);
+				itemMap.put("licGrpId", paramMap.get("licGrpId"));
+				prj1300Service.deletePrj1103ItemAjax(itemMap);
+				prj1300Service.deletePrj1102ItemInfoAjax(itemMap);
+			}
+		}
+		
+		
+		if("01".equals(signRequiredCd)) {
+			Map newMap = new HashMap<>();
+			
+			
+			if(beforeFlowId.equals(selFlowId)) {
+				
+				newMap.put("type", "update");
+			}
+			
+			newMap.put("signUsrInfList", paramMap.get("signUsrList"));
+			newMap.put("targetId", beforeReqInfo.get("reqId"));
+			newMap.put("targetCd", "01");	
+			newMap.put("targetNm", beforeReqInfo.get("reqNm"));
+			newMap.put("subTargetFstId", processId);
+			newMap.put("subTargetScdId", beforeFlowId);
+
+			
+			newMap.put("licGrpId", licGrpId);
+			newMap.put("prjId", prjId);
+			newMap.put("regUsrId", regUsrId);
+			newMap.put("regUsrIp", regUsrIp);
+			newMap.put("modifyUsrId", regUsrId);
+			newMap.put("modifyUsrIp", regUsrIp);
+			
+			
+			cmm6600Service.saveCmm6600SignLine(newMap);
+		}
+		
+		
+		req4100DAO.updateReq4101ReqProcessInfo(paramMap);
+		
+		
+		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("processId", processId);
+			itemMap.put("flowId", paramMap.get("selFlowId"));
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", reqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			prj1300Service.savePrj1103ItemAjax(itemMap);
+		}
+		
+		
+		for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("processId", processId);
+			itemMap.put("flowId", paramMap.get("selFlowId"));
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", reqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			itemMap.put("itemDivision", "02");
+
+			prj1300Service.savePrj1102ItemAjax(itemMap);
+			prj1300Service.savePrj1103ItemAjax(itemMap);
+		}
+		
+	}
+
+	
+	@SuppressWarnings("rawtypes")
+	public Map selectReq4100FlowInfoAjax(Map paramMap) throws Exception{
+		return req4100DAO.selectReq4100FlowInfoAjax(paramMap);
+	}
+	
 }

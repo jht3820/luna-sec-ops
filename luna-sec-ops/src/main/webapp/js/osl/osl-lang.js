@@ -1,11 +1,8 @@
-/**
- 	* function 명 	: OSLCoreLangSetting
-	* function 설명	: core에서 사용되는 언어 데이터를 세팅한다.
-	*/
+
 var OSLCoreLangSetting = function () {
-	//언어 세팅 데이터
+	
 	var lang = {};
-	//한국어
+	
 	lang["ko"] = {
 		fromValidate:{
 			messages: {
@@ -185,7 +182,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  // The week that contains Jan 4th is the first week of the year.
+		            doy : 4  
+								
 		        }
 		    },
 		    agoTime:{
@@ -210,8 +208,8 @@ var OSLCoreLangSetting = function () {
 					usrId: "아이디를 입력해주세요.",
 					usrPw: "비밀번호를 입력해주세요.",
 					usrPwIndexOfUsrId: "비밀번호에는 사용자 아이디를 포함할 수 없습니다.",
-					usrPwContinue: "비밀번호는 같은 문자를 3번 이상 연속해서<br/> 사용하실 수 없습니다.",
-					usrPwContinueMatch: "비밀번호는 연속된 문자열(123, abc 등)을<br/> ${1}자 이상 사용 할 수 없습니다.",
+					usrPwContinue: "비밀번호는 같은 문자를 3번 이상 연속해서</br> 사용하실 수 없습니다.",
+					usrPwContinueMatch: "비밀번호는 연속된 문자열(123, abc 등)을</br> ${1}자 이상 사용 할 수 없습니다.",
 				},
 				myPage:{
 					title:"개인정보 수정",
@@ -252,7 +250,7 @@ var OSLCoreLangSetting = function () {
 				closeAlert: "팝업 창을 닫으시겠습니까?"
 			}
 		},
-		/* 페이지 언어 */
+		
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -272,7 +270,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "답장",
 				checkBtn : "읽음",
 			},
-			/*검색 바 메뉴 추가한 경우 */
+			
 			field: {
 				sendUsrId : "보낸 사람 ID",
 				sendUsrEmail : "보낸 사람 e-mail",
@@ -290,7 +288,7 @@ var OSLCoreLangSetting = function () {
 			alert :{
 				message : {
 					selectMessage : "답장할 메시지를 선택하세요.",
-					selectOneMessage : "1개의 메시지만 선택하세요.<br/>${1}개의 메시지가 선택되었습니다.",
+					selectOneMessage : "1개의 메시지만 선택하세요. </br>${1}개의 메시지가 선택되었습니다.",
 				}
 			}
 		},
@@ -323,9 +321,9 @@ var OSLCoreLangSetting = function () {
 			},
 			title :"메시지 답장"
 		},
-		cmm15000:{
+		cmm6401:{
 			field: {
-				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
+				
 				usrNm : "사용자명",
 			},
 			actionBtn : {
@@ -333,8 +331,63 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "선택",
 			},
 		},
-		cmm16000:{
+		cmm6206:{
 			title: "요구사항 선택"
+		},
+		dpl1001:{
+			label:{
+				dplStatus : "배포 상태",
+				dplVersion : "배포 버전",
+				dplName : "배포 명",
+				dplDate: "배포 일자",
+				dplUser : "배포자",
+				dplSignUse : "결재 사용 유무",
+				dplRevisionNum : "배포 리비전",
+				dplType : "배포 방법",
+				dplFailAction : "실패 후 처리",
+				dplAutoTime : "자동 실행 시간",
+				dplRestoreType : "원복 타입",
+				dplSignText : "결재 요청 의견",
+				dplDesc : "배포 설명",
+				autoTimeCompl : "적용",
+				autoTimeCancel : "취소"	
+			},
+			button:{
+				searchBtn : "검색",
+				insertBtn : "작성 완료",
+				updateBtn : "수정 완료",
+				deleteBtn : "삭제",
+				upMoveBtn : "위로",
+				downMoveBtn : "아래로",
+				assignBtn : "배정"
+			},
+			tooltip:{
+				upMoveBtnTooltip : "JOB 순서 위로",
+				downMoveBtnTooltip : "JOB 순서 아래로",
+				deleteBtnTooltip : "배정 JOB 삭제",
+				assignBtnTooltip : "JOB 배정"
+			},
+			modal:{
+				title:{
+					dplUserSelect : "배포자 선택",
+					dplJobAssign : "JOB 배정",
+				}
+			},
+			message:{
+				confirm:{
+					insert:"신규 JENKINS를 등록하시겠습니까?",
+					update:"JENKINS 정보를 수정하시겠습니까?"
+				},
+				alert:{
+					delJob : "삭제할 JOB에 체크해주세요.",
+					jobAssign : "배포 계획에 배정된 JOB이 없습니다. JOB을 배정해주세요.",
+					jobMove : "이동할 JOB을 선택해 주세요.",
+					selectOneJob : "1개의 JOB만 선택하세요."
+				},
+				warning:{
+					notDplUsr : "배포자를 검색하여 입력해주세요."
+				}
+			}
 		},
 		dpl1100:{
 			title : {
@@ -360,14 +413,100 @@ var OSLCoreLangSetting = function () {
 					removeToolTip :"요구사항 배정 제외",
 					addToolTip :"요구사항 배정",
 				},
+			},
+			message : {
+				alert:{
+					notAssignedReq : "배포 상태가 대기인 배포 계획에만 요구사항 배정을 할 수 있습니다."
+				}
 			}
-		},cmm17000:{
+		},
+		dpl2100:{
+			modal : {
+				title : {
+					signAprRes : "결재 의견",
+					signRjtRes : "반려 사유"
+				}
+			},
+			action : {
+				sign : {
+					nonSelect : "결재하려는 데이터를 선택해주세요."
+				}
+			},
+			message : {
+				confirm : {
+					signApr : "결재 승인 하시겠습니까?",
+					signRjt : "결재 반려 하시겠습니까?"
+				}
+			}
+		},
+		dpl4000:{
+			dpl:{
+				title: "배포 계획 목록",
+				button:{
+					tooltip:{
+						selectTooltip: "배포 계획 조회",
+						detailTooltip : "배포 계획 상세"
+					},
+					detailBtn : "상세"
+				},
+				addSearch : {
+					"dplDesc" : "배포 설명",
+				},
+				actionBtn : {
+					title : "기능 버튼",
+					tooltip : {
+						detailTooltip : "배포 계획 상세 보기",
+					},
+					modalTitle : "[${1}] 상세 정보"
+				}
+			},
+			req:{
+				title: "요구사항 배정 목록",
+				button:{
+					tooltip:{
+						selectTooltip: "배정 요구사항 조회",
+						detailTooltip : "요구사항 상세"
+					},
+					detailBtn : "상세"
+				},
+				actionBtn : {
+					title : "기능 버튼",
+					tooltip : {
+						detailTooltip : "요구사항 상세 보기",
+					},
+					modalTitle : "[${1}] 요구사항 상세 정보"
+				}
+			},
+			job:{
+				title: "JOB 배정 목록",
+				button:{
+					tooltip:{
+						selectTooltip: "배정 JOB 조회",
+						detailTooltip : "JOB 상세"
+					},
+					detailBtn : "상세"
+				},
+				actionBtn : {
+					title : "기능 버튼",
+					tooltip : {
+						detailTooltip : "JOB 상세 보기",
+					},
+					modalTitle : "JOB 상세 정보"
+				}
+			},
+			message : {
+				selectOneDpl : "${1}건의 배포 계획이 선택되었습니다. </br>1건의 배포 계획 정보를 선택하세요.",
+				selectOneReq : "${1}건의 요구사항이 선택되었습니다. </br>1건의 요구사항 정보를 선택하세요.",
+				selectOneJob : "${1}건의 JOB이 선택되었습니다. </br>1건의 JOB 정보를 선택하세요.",
+			}
+		},
+		cmm6000:{
 			title:{
 				mainPrjSetting:"메인프로젝트 설정",
 				searchPrj:"프로젝트 검색",
 			},
 			field: {
-				/*외부 search bar 검색, 데이터테이블과 일치시키기*/
+				
 				prjNm : "프로젝트 명",
 				
 			},
@@ -376,19 +515,93 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "선택",
 			},
 		},
-		cmm25000:{
+		cmm6600:{
 			message : {
 				confirm : {
 					saveString : "결재선 정보를 저장 하시겠습니까?"
 				}
 			}
 		},
-		cmm25100:{
+		cmm6601:{
 			infomation : {
 				cannotUpdate : "결재 대기 파일이 존재할 경우 결재선을 수정할 수 없습니다."
+			},
+			sign : {
+				success : "결재 성공",
+				fail : "결재 실패"
+			}
+		
+		},
+		cmm6602:{
+			label : {
+				signApr : "결재 의견",
+				signRjt : "반려 사유"
+			},
+			button : {
+				signApr : "결재 승인",
+				signRjt : "결재 반려"
 			}
 		},
-		prj1000:{
+		cmm6800 :{
+			title :{
+				revision : "리비전 목록",
+				file :"파일 목록",
+				actionTitle : {
+					revisionFile : "상세",
+					repository : "선택",
+				},
+			},
+			label : {
+				revisionNum : "리비전 번호",
+			},
+			revisionFile : {
+				actionTitle : "선택",
+				actionTooltip : {
+					dblClickTooltip : "파일 소스보기",
+					diffTooltip : "파일 비교"
+				},
+				message : {
+					selectOne : "${1}개가 선택되었습니다. </br>한개의 파일만 선택하세요."
+				}
+			},
+			repository:{
+				actionTooltip : {
+					chooseTooltip : "리비전 선택",
+				}
+			},
+			dirTree:{
+				message:{
+					selectRevision : "리비전을 선택하세요.",
+				}
+			},
+			placeholder : {
+				revision : {
+					start : "시작",
+					end : "종료",
+				}
+			},
+			actionBtn:{
+				selectTooltip :"리비전 조회",
+				selectFileTooltip : "리비전 파일 목록 조회",
+				chooseTooltip : "리비전 선택 완료",
+				chooseBtn : "선택 완료",
+				detailTooltip : "소스보기",
+				detailBtn : "상세",
+				diffTooltip : "파일 비교",
+				diffBtn : "DIFF"
+			},
+			message :{
+				selectRevision : "리비전을 선택하세요.",
+				auth: "접근 권한이 없습니다."
+			}
+		},
+		cmm6801:{
+			message :{
+				selectRevision : "리비전을 선택하세요.",
+				auth: "접근 권한이 없습니다."
+			}
+		},
+		prj1400:{
 			startDate: "시작일",
 			endDate: "종료일",
 			completedRatio: "진척률",
@@ -428,7 +641,7 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
-		prj1001:{
+		prj1000:{
 			startDate: "시작일",
 			endDate: "종료일",
 			completedRatio: "진척률",
@@ -447,37 +660,7 @@ var OSLCoreLangSetting = function () {
 				prjDelete: "${1}건의 프로젝트를 완전 삭제하시겠습니까?</br>삭제된 프로젝트는 복구 할 수 없습니다."
 			}
 		},
-		prj1002:{
-			complete: "완료",
-			insert:{
-				title: "신규 프로젝트 그룹 생성",
-				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
-				saveBtnString: "등록 완료",
-				saveMsg: "${1}명의 사용자가 배정되었습니다.",
-				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
-				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
-			},
-			update:{
-				title: "프로젝트 그룹 수정",
-				saveString: "프로젝트 그룹을 수정하시겠습니까?",
-				saveBtnString: "수정 완료"
-			}
-		},
-		prj1003:{
-			title: "프로젝트 그룹 상세정보",
-			insert:{
-				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
-				saveBtnString: "등록 완료",
-				saveMsg: "${1}명의 사용자가 배정되었습니다.",
-				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
-				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
-			},
-			update:{
-				saveString: "프로젝트 그룹을 수정하시겠습니까?",
-				saveBtnString: "수정 완료"
-			}
-		},
-		prj1004:{
+		prj1001:{
 			complete: "완료",
 			insert:{
 				title: "신규 프로젝트 생성",
@@ -509,6 +692,36 @@ var OSLCoreLangSetting = function () {
 				searchEmpty: "검색하려는 단계명을 입력하세요.",
 				processUseCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
 				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다."
+			}
+		},
+		prj1401:{
+			complete: "완료",
+			insert:{
+				title: "신규 프로젝트 그룹 생성",
+				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?</br>그룹 생성자는 프로젝트 그룹 담당자에</br>기본 배정됩니다.",
+				saveBtnString: "등록 완료",
+				saveMsg: "${1}명의 사용자가 배정되었습니다.",
+				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
+				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
+			},
+			update:{
+				title: "프로젝트 그룹 수정",
+				saveString: "프로젝트 그룹을 수정하시겠습니까?</br>그룹 생성자는 프로젝트 그룹 담당자에</br>기본 배정됩니다.",
+				saveBtnString: "수정 완료"
+			}
+		},
+		prj1402:{
+			title: "프로젝트 그룹 상세정보",
+			insert:{
+				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
+				saveBtnString: "등록 완료",
+				saveMsg: "${1}명의 사용자가 배정되었습니다.",
+				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
+				saveAllDupleMsg: "이미 배정중인 사용자입니다. (${1}명)"
+			},
+			update:{
+				saveString: "프로젝트 그룹을 수정하시겠습니까?",
+				saveBtnString: "수정 완료"
 			}
 		},
 		prj1101:{
@@ -550,6 +763,83 @@ var OSLCoreLangSetting = function () {
 				valType: "설정 값 타입",
 				prjSetVal: "설정값",
 				useCd: "사용유무"
+			}
+		},
+
+		prj1300 : {
+			label : {
+				templateId : "템플릿 ID",
+				templateNm : "템플릿 명",
+				templateDesc : "비고"
+			},
+			message : {
+				alert : {
+					treeSelect : "왼쪽 트리에서 템플릿을 선택해주세요.",
+					notUsedTemplate : "미사용 템플릿에는 하위 템플릿을 추가할 수 없습니다.",
+					notRootDelete : "최상위 템플릿(ROOT)은 삭제할 수 없습니다.",
+				},
+				confirm:{
+					deleteTemplate:"템플릿 정보 삭제 시 선택한 템플릿 정보 및 하위 템플릿 정보가 모두 삭제됩니다. 선택한 템플릿 정보를 삭제 하시겠습니까?",
+				} 
+			},
+			modal : {
+				title : {
+					insertTemplate : "신규 템플릿 등록",
+					updateTemplate : "템플릿 수정",
+					insertItem : "기본항목 등록",
+					updateItem : "기본항목 수정",
+				}
+			},
+			contextmenu : {
+				insert : "하위 템플릿 등록",
+				update : "템플릿 수정",
+				delete : "템플릿 삭제"
+			}
+		},
+		prj1301 : {
+			label : {
+				upperTemplateId : "상위 템플릿 ID",
+				upperTemplateNm : "상위 템플릿 명",
+				templateId : "템플릿 ID",
+				templateNm : "템플릿 명",
+				templateDesc : "비고"
+				
+			},
+			button : {
+				insert : "작성 완료",
+				update : "수정 완료"
+			},
+			message : {
+				confirm : {
+					insert : "템플릿 정보를 추가 하시겠습니까?",
+					update : "템플릿 정보를 수정 하시겠습니까?"
+				}
+			}
+		},
+		prj1302 : {
+			label : {
+				itemNm : "항목 명",
+				itemCode : "항목 분류",
+				itemType : "항목 타입",
+				itemPcRowNum : "데스크탑 열 넓이",
+				itemTabletRowNum : "테블릿 열 넓이",
+				itemMobileRowNum : "모바일 열 넓이",
+				itemOrd : "순서",
+				itemCommonCode : "공통코드",
+				itemLength : "길이제한",
+				itemEssentialCd : "필수 유무",
+				
+			},
+			button : {
+				insert : "작성 완료",
+				update : "수정 완료"
+			},
+			message : {
+				confirm : {
+					insert : "기본항목을 추가 하시겠습니까?",
+					update : "기본항목을 수정 하시겠습니까?",
+					itemNotSelect : "기본항목을 1개 이상 선택해주세요.",
+				}
 			}
 		},
 		prj2100:{
@@ -799,11 +1089,46 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
 			},
 		},
+		req1002:{
+			label : {
+				reqUser : {
+					title : "요청자 정보", 
+					usrNm : "요청자 이름",
+					email : "요청자 e-mail",
+					deptNm : "요청자 소속",
+					telNo : "요청자 연락처",
+				},
+				group:{
+					groupReqInfo : "그룹 요구사항 정보",
+					groupReqId : "그룹 요구사항 번호",
+					groupReq : "그룹 요구 사항",
+					groupReqDesc : "그룹 요구사항 내용",
+				},
+				prjNm : "프로젝트",
+				reqDtm : "요청일",
+				reqId: "요구사항 ID",
+				reqOrd : "요구사항 순번",
+				reqProTypeNm : "처리 유형",
+				processNm : "프로세스명",
+				flowNm:"단계명",
+				reqNm : "요청 제목",
+				reqDesc : "요청 내용",
+				attachments : "파일 첨부",
+				requestDefaultOptNm : "접수 기본항목 입력"
+			},
+			message:{
+				notGroupReqNo : "없음",
+				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
+				notProcess : "배정된 프로세스 없음",
+				notStep : "없음"
+			},
+		},
 		req3000:{
+			allReqInDelete:"${1}건의 요구사항을 연결 해제하시겠습니까?",
 			insert:{
-				saveMsg:"연결에 성공했습니다.",
-				saveDupleMsg:"이미 연결된 요구사항입니다.",
-				saveAllDupleMsg:"모든 요구사항이 연결되었습니다.",
+				saveMsg: "${1}개의 요구사항이 연결되었습니다.",
+				saveDupleMsg: "이미 연결된 ${1}개의 요구사항 제외",
+				saveAllDupleMsg: "이미 연결중인 요구사항입니다. (${1}개)"
 			},
 			alert:{
 				checkUsrId:"요청자 명을 검색하여 입력해주세요. \n 해당 요청자의 소속을 알아야합니다.",
@@ -839,9 +1164,11 @@ var OSLCoreLangSetting = function () {
 				requestAccept: "접수"
 			},
 			field:{
-				/*외부 주입 search bar 인 경우 사용*/
+				
 				prjGrpNm: "프로젝트 그룹명",
 				reqGrpNm: "그룹 요구사항 명",
+				reqGrpNo : "그룹 요구사항 번호",
+				reqDesc : "요구사항 내용"
 			},
 			actionBtn:{
 				title : "수정 / 삭제 / 상세 / 복사",
@@ -864,10 +1191,13 @@ var OSLCoreLangSetting = function () {
 			},
 			alert:{
 				updateMsg : "접수 요청중인 요구사항만 수정 가능합니다.",
-				multiPwMsg : "패스워드 확인이 필요한 요구사항이 ${1}건 있습니다.<br/> 잠금된 요구사항을 제외 후 삭제 또는 잠금 요구사항은 단건 삭제하세요.",
+				multiPwMsg : "패스워드 확인이 필요한 요구사항이 ${1}건 있습니다. </br> 잠금된 요구사항을 제외 후 삭제 또는 잠금 요구사항은 단건 삭제하세요.",
 				selectData : "요구사항을 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
 				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
+			},
+			message : {
+				nothing : "없음",
 			}
 		},
 		req4101:{
@@ -875,6 +1205,7 @@ var OSLCoreLangSetting = function () {
 			saveString :{
 				insertStr : "요구사항을 등록하시겠습니까?",
 				updateStr : "요구사항 수정을 완료하시겠습니까?",
+				copyStr : "요구사항 복사를 완료하시겠습니까?",
 			},
 			label : {
 				reqUser : {
@@ -946,9 +1277,43 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
 			},
 		},
+		req4102:{
+			label : {
+				reqUser : {
+					title : "요청자 정보", 
+					usrNm : "요청자 이름",
+					email : "요청자 e-mail",
+					deptNm : "요청자 소속",
+					telNo : "요청자 연락처",
+				},
+				group:{
+					groupReqInfo : "그룹 요구사항 정보",
+					groupReqId : "그룹 요구사항 번호",
+					groupReq : "그룹 요구 사항",
+					groupReqDesc : "그룹 요구사항 내용",
+				},
+				prjNm : "프로젝트",
+				reqDtm : "요청일",
+				reqId: "요구사항 ID",
+				reqOrd : "요구사항 순번",
+				reqProTypeNm : "처리 유형",
+				processNm : "프로세스명",
+				flowNm:"단계명",
+				reqNm : "요청 제목",
+				reqDesc : "요청 내용",
+				attachments : "파일 첨부",
+				requestDefaultOptNm : "접수 기본항목 입력"
+			},
+			message:{
+				notGroupReqNo : "없음",
+				notGroupReqInfo : "그룹 요구사항이 연결되어 있지 않습니다.",
+				notProcess : "배정된 프로세스 없음",
+				notStep : "없음"
+			},
+		},
 		req4103:{
-			passwordMiss : "비밀번호가 틀렸습니다.<br/> 다시 입력하세요.",
-			text: "잠긴 요구사항입니다.<br/> 비밀번호를 입력하세요.",
+			passwordMiss : "비밀번호가 틀렸습니다. </br> 다시 입력하세요.",
+			text: "잠긴 요구사항입니다. </br> 비밀번호를 입력하세요.",
 			button:{
 				submit : "확인",
 			}
@@ -957,6 +1322,9 @@ var OSLCoreLangSetting = function () {
 			field:{
 				reqGrpNm:"그룹 요구사항 명",
 			},
+			actionBtn:{
+				title:"선택"
+			}
 		},
 		spr1000:{
 			nonSelect: "스프린트를 선택해주세요.",
@@ -1043,7 +1411,8 @@ var OSLCoreLangSetting = function () {
 				reqSprPoint: "모든 요구사항의 스토리포인트를 입력해주세요.</br>미 입력 요구사항 ${1}건",
 				saveProcessMsg: "${1}개의 프로세스가 배정되었습니다.",
 				saveProcessDupleMsg: "이미 배정된 ${1}개의 프로세스 제외",
-				saveProcessAllDupleMsg: "이미 배정중인 프로세스입니다. (${1}개)"
+				saveProcessAllDupleMsg: "이미 배정중인 프로세스입니다. (${1}개)",
+				reqCharger:"모든 요구사항의 담당자를 입력해주세요.</br>미 배정 요구사항 ${1}건",
 			}
 		},
 		spr1004:{
@@ -1158,11 +1527,11 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		stm2100:{
-			selectStmInfoCnt : "1건의 게시판만 선택하세요.<br/> ${1}건의 게시판이 선택되었습니다." ,
+			selectStmInfoCnt : "1건의 게시판만 선택하세요. </br> ${1}건의 게시판이 선택되었습니다." ,
 			notAuthority : {
 					basic : "해당 게시판에 대한 권한이 없습니다.",
 			},
-			/*카드형 그리기로 인해 선언, 데이터 테이블 필드명과 동일하게 지정*/
+			
 			field:{
 				stmTypeNm: "유형",
 				stmNm: "게시판명",
@@ -1211,10 +1580,10 @@ var OSLCoreLangSetting = function () {
 		stm2101:{
 			update: "게시판 정보를 수정하시겠습니까?",
 			formCheck:{
-				fileCntMessage : "첨부파일 갯수는 최소 1부터 10까지 가능합니다<br/> 첨부파일 갯수를 최솟값인 1로 변경합니다.",
-				fileMaxCntMessage : "첨부파일 가능한 갯수를 초과합니다.<br/> 최대 수로 적용됩니다.",
-				fileMaxStrgMessage : "게시판 유형에 따라<br/> 최대 첨부파일 용량으로 지정됩니다.",
-				fileMaxStrgOutMessage : "최대 첨부파일 용량을 초과합니다<br/> 최대용량(${1})으로 변경됩니다.",
+				fileCntMessage : "첨부파일 갯수는 최소 1부터 10까지 가능합니다</br> 첨부파일 갯수를 최솟값인 1로 변경합니다.",
+				fileMaxCntMessage : "첨부파일 가능한 갯수를 초과합니다. </br> 최대 수로 적용됩니다.",
+				fileMaxStrgMessage : "게시판 유형에 따라</br> 최대 첨부파일 용량으로 지정됩니다.",
+				fileMaxStrgOutMessage : "최대 첨부파일 용량을 초과합니다</br> 최대용량(${1})으로 변경됩니다.",
 			},
 			label:{
 				name: "게시판 명",
@@ -1420,14 +1789,15 @@ var OSLCoreLangSetting = function () {
 			},
 			message:{
 				connect : {
-					selectCount : "${1}개가 선택되었습니다.<br/>접속 확인할 저장소를 선택하세요.",
+					selectCount : "${1}개가 선택되었습니다. </br>접속 확인할 저장소를 선택하세요.",
 					fail : {
 						auth : "접속 실패 : ID 또는 PW를 확인하세요.",
 						url : "접속 실패 : 유효한 URL이 아닙니다.",
 						common : "접속 실패",
 					},
 					success : "접속 성공"
-				}
+				},
+				auth : "접근 권한이 없습니다."
 			}
 		},
 		stm8001:{
@@ -1452,53 +1822,9 @@ var OSLCoreLangSetting = function () {
 				strgKey : "GIT TOKEN",
 			}
 		},
-		stm8002 :{
-			title :{
-				revision : "리비전 목록",
-				file :"파일 목록",
-				actionTitle : {
-					revisionFile : "상세",
-					repository : "선택",
-				},
-			},
-			revisionFile : {
-				actionTitle : "상세",
-				actionTooltip : {
-					dblClickTooltip : "파일 소스보기",
-					diffTooltip : "파일 비교"
-				},
-				message : {
-					diff : "${1}개가 선택되었습니다.<br/>한개의 파일만 선택하세요."
-				}
-			},
-			repository:{
-				actionTooltip : {
-					"clickTooltip" : "리비전 선택",
-				}
-			},
-			dirTree:{
-				message:{
-					selectRevision : "리비전을 선택하세요.",
-				}
-			},
-			placeholder : {
-				revision : {
-					start : "시작",
-					end : "종료",
-				}
-			},
-			actionBtn:{
-				selectTooltip :"리비전 조회",
-				selectFileTooltip : "리비전 파일 목록 조회",
-				diffTooltip : "파일 비교",
-				diffBtn : "DIFF"
-			},
-			message :{
-				selectRevision : "리비전을 선택하세요.",
-			}
-		},
-		stm8004:{
+		stm8002:{
 			title : "파일 리비전 목록",
+			revisionNum : "리비전 번호",
 			actionBtn : {
 				title : "선택",
 				selectTooltip : "파일 리비전 조회",
@@ -1512,9 +1838,98 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectFile : "${1}개가 선택되었습니다.<br/>두개의 파일을 선택하세요.",
-				selectFiles: "${1}개가 선택되었습니다.<br/>두개의 파일만 선택하세요.",
+				selectFile : "${1}개가 선택되었습니다. </br>한의 파일을 선택하세요.",
 			}
+		},
+		stm8100:{
+			title : {
+				allProjectList : "전체 프로젝트 목록",
+				assRepList : "소스 저장소 배정 목록",
+				nonAssRepList : "소스 저장소 미배정 목록"
+			},
+			toolTip : {
+				selectAssignStrg : "소스 저장소 배정 목록 조회",
+				selectNonAssignStrg : "소스 저장소 미배정 목록 조회",
+				removeStrg : "소스 저장소 배정 제외",
+				addStrg : "소스 저장소 배정",
+				authSetting : "리비전 및 소스코드 열림 권한 설정"
+			},
+			actionBtn : {
+				removeBtn : "제외",
+				addBtn : "배정",
+				authSetting : "권한 설정"
+			},
+			message:{
+				alert:{
+					treeNodeSelect : "왼쪽 트리에서 프로젝트를 선택해주세요.",
+				},
+				toastr:{
+					projectSelect : "프로젝트 그룹이 아닌 프로젝트를 선택해주세요."
+				},
+			},
+			assignStrgTable : {
+				actionBtn : {
+					title : "제외",
+				},
+				tooltip : {
+					dblClick : "소스 저장소 배정 제외",
+					authSetting : "리비전 및 소스 열람 권한 설정"
+				},
+				message : {
+					remove : "배정 제외 시 권한 설정 값도 초기화 됩니다.</br>그래도 제외하시겠습니까?",
+					selectRep : "리비전 및 소스 열람 권한 설정을 위한</br>소스 저장소를 하나 선택하세요.",
+					selectOnlyOne : "단건만 선택하세요",
+				},
+				title :{
+					authPop : "권한 팝업"
+				}
+			},
+			nonAssignStrgTable :{
+				actionBtn : {
+					title : "배정",
+				},
+				tooltip : {
+					dblClick : "소스 저장소 배정",
+					authSetting : "리비전 및 소스 열람 권한 설정"
+				},
+			}
+		},
+		stm8101:{
+			complete : "저장",
+			label : {
+				revision : "리비전 열람 권한",
+				fileCode : "소스 열람 권한",
+				message : "소스 열람 권한은 리비전 열람 권한이 있어야 합니다.",
+				nonAssList : "미배정 권한 그룹 및 사용자"
+			},
+			button : {
+				equalBtn : "리비전 열람 권한 동일",
+				resetBtn : "초기화",
+				searchBtn : "검색",
+			},
+			select : {
+				authGrpNm: "권한그룹 명",
+				usrId : "사용자 ID",
+				usrNm : "사용자 명"
+			},
+			draw : {
+				revisionBtn : "리비전 열람",
+				fileCodeBtn : "소스 열람",
+				badge : {
+					authGrp : "권한그룹",
+					user : "사용자"
+				}
+			},
+			message : {
+				remove : "소스 열람 권한은 리비전 열람 권한이 있어야 가능합니다. </br>리비전 열람 권한이 제거됨에 따라 같이 제거됩니다.",
+				add : "소스 열람을 위해선 리비전 열람 권한도 필요합니다. </br>리비전 열람 권한에도 배정됩니다.",
+				link : "리비전 열람 권한 목록은 있으나 소스 열람 권한에 배정된 항목이 없습니다. </br>리비전 열람 권한과 동기화 됩니다."
+			}
+		},
+		stm8200:{
+			actionBtn:{
+				selectTooltip :"전체 현황 조회",
+			},
 		},
 		stm9000: {
 			title : {
@@ -1770,7 +2185,7 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		bad1000:{
-			selectBadInfoCnt : "1건의 게시글을 선택하세요.<br/> ${1}건의 게시글이 선택되었습니다." ,
+			selectBadInfoCnt : "1건의 게시글을 선택하세요. </br> ${1}건의 게시글이 선택되었습니다." ,
 			notAuthority : {
 					basic : "해당 게시글에 대한 권한이 없습니다.",
 					insertMessage : "게시글 등록 권한이 없습니다.",
@@ -1786,9 +2201,9 @@ var OSLCoreLangSetting = function () {
 				noticeBadge: "공지",
 			},
 			field:{
-				/*태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기*/
+				
 				tagNm:"태그",
-				/*외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정*/
+				
 				badContent: "내용",
 				badNtcCheck : "공지유무",
 				delCd:"삭제유무",
@@ -1909,11 +2324,11 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		bad1004:{
-			passwordMiss : "비밀번호가 틀렸습니다.<br/> 다시 입력하세요.",
+			passwordMiss : "비밀번호가 틀렸습니다. </br> 다시 입력하세요.",
 			title:{
 				detail:"게시글 상세보기",
 			},
-			text : "이 글은 비밀글입니다.<br/> 비밀번호를 입력하세요.",
+			text : "이 글은 비밀글입니다. </br> 비밀번호를 입력하세요.",
 			button:{
 				submit: "확인",
 			}
@@ -1929,7 +2344,7 @@ var OSLCoreLangSetting = function () {
 		}
 	};
 	
-	//영어
+	
 	lang["en"] = {
 		fromValidate:{
 			messages: {
@@ -2041,7 +2456,14 @@ var OSLCoreLangSetting = function () {
 				placeholder: "After entering, please press enter key",
 				allTitle: "All"
 			},
-			/* 추가된 datatable별로 언어 지정 */
+			
+			arm1000ArmTable:{
+				checkCd : "Read",
+				sendUsrNm : "Send User",
+				usrNm : "Recive User",
+				armTitle : "Title",
+				sendDtm : "Date"
+			},
 			arm1000CmmTable:{
 				sendUsrNm : "From User Name",
 				armTitle : "Title",
@@ -2064,14 +2486,24 @@ var OSLCoreLangSetting = function () {
 				content:"Comment",
 				writeDate : "Date"
 			},
-			cmm15000Table:{
+			cmm6401Table:{
 				usrNm : "User Name",
 				usrId : "Id",
 				email : "E-mail",
 				tel : "Contact",
 				deptName: "Department",
 			},
-			cmm17000PrjTable:{
+			cmm6800RevisionFileTable:{
+				type : "Type",
+				name : "File Name",
+			},
+			cmm6800RepTable:{
+				revision : "Revision",
+				comment : "Commit Log",
+				author : "Commiter ID",
+				logDate : "Date"
+			},
+			cmm6000PrjTable:{
 				upPrjNm:"Project Group Name",
 				prjId:"Project ID",
 				prjNm:"Project Name",
@@ -2085,6 +2517,31 @@ var OSLCoreLangSetting = function () {
 				dplVer:"Deploy Version",
 				dplTypeNm:"Deploy Type",
 				dplDesc:"Deploy Description",
+			},
+			dpl4000DplTable:{
+				dplSignUseNm: "Approval Used Check",
+				nowSignTypeNm: "Approval Status",
+				lastSignUsrNm : "Approver",
+				dplStsNm: "Deploy Status",
+				dplVer: "Deploy Version",
+				dplNm: "Deploy Name",
+				dplTypeNm : "Deploy Type",
+				dplRevisionNum : "Deploy Revision Number",
+				dplDt : "Deploy Date",
+				dplUsrNm : "Deployer"
+			},
+			dpl4000AssReqTable:{
+				reqNm : "Request Title",
+				reqOrd : "Request Number",
+				reqProTypeNm : "Processing Status",
+				reqDtm : "Request Date",
+			},
+			dpl4000AssJobTable:{
+				jobTypeNm : "Job Type",
+				jobId : "JOB ID",
+				jobRestoreId : "Restore JOB ID",
+				bldResultMsg :"Build Result",
+				jobParameter :"Job Parameter"
 			},
 			req1000ReqTable:{
 				prjNm: "Project Name",
@@ -2205,21 +2662,32 @@ var OSLCoreLangSetting = function () {
 				strgTxt : "Repository Description",
 				strgRepUrl : "Repository URL",
 			},
-			stm8002RevisionFileTable:{
-				type : "Type",
-				name : "File Name",
-			},
-			stm8002RepTable:{
+			stm8002FileTable:{
 				revision : "Revision",
 				comment : "Commit Log",
 				author : "Commiter ID",
 				logDate : "Date"
 			},
-			stm8004FileTable:{
-				revision : "Revision",
-				comment : "Commit Log",
-				author : "Commiter ID",
-				logDate : "Date"
+			stm8100AssignStrgTable:{
+				strgTypeNm : "Type",
+				strgRepTitle : "Repository Title",
+				strgTxt : "Repository Description",
+				strgRepUrl : "Repository URL",
+			},
+			stm8100NotAssignStrgTable : {
+				strgTypeNm : "Type",
+				strgRepTitle : "Repository Title",
+				strgTxt : "Repository Description",
+				strgRepUrl : "Repository URL",
+			},
+			stm8200RepTable:{
+				useNm : "Used",
+				prjGrpNm : "Project Group Name",
+				prjNm : "Project Name",
+				strgTypeNm : "Type",
+				strgRepTitle : "Repository Title",
+				strgTxt : "Repository Description",
+				strgRepUrl : "Repository URL",
 			},
 			stm9000JenkinsTable:{
 				result : "Connection check",
@@ -2343,7 +2811,8 @@ var OSLCoreLangSetting = function () {
 		        dayOfMonthOrdinalParse: /\d{1,2}(er|)/,
 		        week : {
 		            dow : 0,
-		            doy : 4  // The week that contains Jan 4th is the first week of the year.
+		            doy : 4  
+								
 		        }
 		    },
 		    agoTime:{
@@ -2368,12 +2837,12 @@ var OSLCoreLangSetting = function () {
 					usrId: "Please enter your ID.",
 					usrPw: "Please enter your password.",
 					usrPwIndexOfUsrId: "Your password cannot contain your user ID.",
-					usrPwContinue: "You can't use the same character <br/> more than 3 times consecutively in the same password.",
-					usrPwContinueMatch: "Password cannot use more than <br/> ${1} characters in consecutive strings (123, abc, etc.)",
+					usrPwContinue: "You can't use the same character </br> more than 3 times consecutively in the same password.",
+					usrPwContinueMatch: "Password cannot use more than </br> ${1} characters in consecutive strings (123, abc, etc.)",
 				},
 				myPage:{
 					title:"Update personal information",
-					error:"Since there is no user information,<br/> you cannot go to the personal information modification screen."
+					error:"Since there is no user information,</br> you cannot go to the personal information modification screen."
 				}
 			},
 			error:{
@@ -2398,7 +2867,7 @@ var OSLCoreLangSetting = function () {
 				cancel: "Cancel"
 			}
 		},
-		/* 페이지 언어 */
+		
 		arm1000:{
 			label:{
 				title : "MESSAGE",
@@ -2418,7 +2887,7 @@ var OSLCoreLangSetting = function () {
 				reInsertBtn : "Reply",
 				checkBtn : "Read Check"
 			},
-			/*검색 바 메뉴 추가한 경우 */
+			
 			field: {
 				sendUsrId : "From User Id",
 				sendUsrEmail : "From User E-mail",
@@ -2436,7 +2905,7 @@ var OSLCoreLangSetting = function () {
 			alert :{
 				message : {
 					selectMessage : "Select a message to reply to.",
-					selectOneMessage : "Please select only 1 message.<br/>${1} messages have been selected.",
+					selectOneMessage : "Please select only 1 message. </br>${1} messages have been selected.",
 				}
 			}
 		},
@@ -2469,7 +2938,7 @@ var OSLCoreLangSetting = function () {
 			},
 			title :"Reply Message"
 		},
-		cmm17000:{
+		cmm6000:{
 			title:{
 				mainPrjSetting:"Main Project Setting",
 				searchPrj:"Project Search",
@@ -2484,9 +2953,9 @@ var OSLCoreLangSetting = function () {
 				search:"Search"
 			},
 		},
-		cmm15000:{
+		cmm6401:{
 			field: {
-				/*외부 검색과 동일한지 확인하기 위해 사용, 데이터 테이블과 일치시키기*/
+				
 				usrNm : "User Name",
 			},
 			actionBtn : {
@@ -2494,42 +2963,159 @@ var OSLCoreLangSetting = function () {
 				clickBtn : "Select",
 			},
 		},
-		cmm25000:{
+		cmm6600:{
 			message : {
 				confirm : {
 					saveString : "Do you want to save the approval line information?"
 				}
 			}
 		},
-		cmm25100:{
+		cmm6601:{
 			infomation : {
 				cannotUpdate : "If there is a file waiting for approval, the approval line cannot be modified."
 			}
 		},
-		dpl1100:{
-			title : {
-				deploy : "Deploy List",
-				assignment : "Assignment Request List",
-				unassigned : "Unassigned Request List",
+		cmm6602:{
+			label : {
+				signApr : "approval opinion",
+				signRjt : "Reasons for rejection"
 			},
-			button:{
-				removeBtn: "Remove",
-				addBtn:"Add"
+			button : {
+				signApr : "approval",
+				signRjt : "return of approval"
+			}
+		},
+		cmm6800 :{
+			title :{
+				revision : "Revision List",
+				file :"File List",
+				actionTitle : {
+					revisionFile : "Detail",
+					repository : "Select",
+				},
 			},
-			actionBtn :{
-				title :{
-					selectBtn : "Select",
-					removeBtn :"Remove",
-					addBtn :"Add",
-					dplSelect : "Select Deploy List",
-					assSelect : "Select Assignment Request",
-					nonSelect : "Select Unassigned Request",
+			label : {
+				revisionNum : "Revision Number",
+			},
+			revisionFile : {
+				actionTitle : "Select",
+				actionTooltip : {
+					dblClickTooltip : "Code View",
+					diffTooltip : "Code Diff"
 				},
-				tooltip :{
-					clickToolTip : "Select Sprint",
-					removeToolTip :"Remove Request",
-					addToolTip :"Add Request",
+				message : {
+					selectOne : "Please, select only 1 file. </br>${1} file have been selected."
+				}
+			},
+			repository:{
+				actionTooltip : {
+					"chooseTooltip" : "Select Revision",
+				}
+			},
+			dirTree:{
+				message:{
+					selectRevision : "Please, select revision.",
+				}
+			},
+			placeholder : {
+				revision : {
+					start : "Start",
+					end : "End",
+				}
+			},
+			actionBtn:{
+				selectTooltip :"Select Revision",
+				selectFileTooltip : "Select Revision File List",
+				chooseTooltip : "Revision Selection Complete",
+				chooseBtn : "Complete",
+				detailTooltip : "Code View",
+				detailBtn : "View",
+				diffTooltip : "Code Diff",
+				diffBtn : "DIFF"
+			},
+			message :{
+				selectRevision : "Please, select revision.",
+				auth : "You don't have access rights."
+			}
+		},
+		dpl2100:{
+			modal : {
+				title : {
+					signAprRes : "approval opinion",
+					signRjtRes : "Reasons for rejection"
+				}
+			},
+			action : {
+				sign : {
+					nonSelect : "Please select the data you want to approval"
+				}
+			},
+			message : {
+				confirm : {
+					signApr : "Would you like to approve?",
+					signRjt : "Would you like to return of approval?"
+				}
+			}
+		},
+		dpl4000:{
+			dpl:{
+				title: "Deployment Plan List",
+				button:{
+					tooltip:{
+						selectTooltip: "Select Deployment Plan",
+						detailTooltip : "Deployment Plan Info"
+					},
+					detailBtn : "Detail"
 				},
+				addSearch : {
+					dplDesc : "Deployment Description",
+				},
+				actionBtn : {
+					title : "Detail",
+					tooltip : {
+						detailTooltip : "Deployment Plan Info",
+					},
+					modalTitle : "[${1}] Detail Info"
+				}
+			},
+			req:{
+				title: "Request List",
+				button:{
+					tooltip:{
+						selectTooltip: "Select Request List",
+						detailTooltip : "Request Info"
+					},
+					detailBtn : "Detail"
+				},
+				actionBtn : {
+					title : "Detail",
+					tooltip : {
+						detailTooltip : "Request Info",
+					},
+					modalTitle : "[${1}] Request Detail Info"
+				}
+			},
+			job:{
+				title: "JOB List",
+				button:{
+					tooltip:{
+						selectTooltip: "Select JOB List ",
+						detailTooltip : "JOB Info"
+					},
+					detailBtn : "Detail"
+				},
+				actionBtn : {
+					title : "Detail",
+					tooltip : {
+						detailTooltip : "Job Info",
+					},
+					modalTitle : "Job Detail Info"
+				}
+			},
+			message : {
+				selectOneDpl : "Please, select only 1 deployment data. </br>${1} deployment datas have been selected.",
+				selectOneReq : "Please, select only 1 request data. </br>${1} request datas have been selected.",
+				selectOneJob : "Please, select only 1 job data. </br>${1} job datas have been selected.",
 			}
 		},
 		prj1000:{
@@ -2853,7 +3439,42 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "The entered passwords are different.",
 			},
 		},
+		req1002:{
+			label : {
+				reqUser : {
+					title : "Requester Information",
+					usrNm : "Name",
+					email : "E-mail",
+					deptNm : "Department",
+					telNo : "Contact",
+				},
+				group:{
+					groupReqInfo : "Group Request Information",
+					groupReqId : "Group Request Num",
+					groupReq : "Group Request",
+					groupReqDesc : "Group Request Content",
+				},
+				prjNm : "Project",
+				reqDtm : "Request Date",
+				reqId: "Request ID",
+				reqOrd : "Request Ord.",
+				reqProTypeNm : "Process Type Name",
+				processNm : "Process",
+				flowNm:"Step",
+				reqNm : "Title",
+				reqDesc : "Content",
+				attachments : "Attachments",
+				requestDefaultOptNm : "Enter basic items for application"
+			},
+			message:{
+				notGroupReqNo : "Noting",
+				notGroupReqInfo : "Group requirements are not linked.",
+				notProcess : "No process assigned.",
+				notStep : "Nothing"
+			},
+		},
 		req3000:{
+			allReqInDelete:"Are you sure you want to exclude ${1} requests?",
 			insert:{
 				saveMsg:"Connection success",
 				saveDupleMsg:"That connection is already connected",
@@ -2935,9 +3556,11 @@ var OSLCoreLangSetting = function () {
 				copyBtn : "Copy"
 			},
 			field:{
-				/*외부 주입 search bar에서 사용*/
+				
 				prjGrpNm: "Project Group Name",
-				reqGrpNm: "Requirement Group Name",
+				reqGrpNm: "Request Group Name",
+				reqGrpNo : "Group Request Number",
+				reqDesc : "Request Description"
 			},
 			actionBtn:{
 				title : "Udp / Del / Det / Cop",
@@ -2959,10 +3582,13 @@ var OSLCoreLangSetting = function () {
 			},
 			alert:{
 				updateMsg : "You can only modify requirements whose processing status is being requested.",
-				multiPwMsg : "There are ${1} requirements that require password verification.<br/> You can delete locked requirements after excluding them, or you can delete locked requirements as a single item.",
+				multiPwMsg : "There are ${1} requirements that require password verification. </br> You can delete locked requirements after excluding them, or you can delete locked requirements as a single item.",
 				selectData : "Choose your data.",
 				LockData : "Locked requirements cannot be copied.",
 				selectCopyData : "Copying is only possible for 1 copy. Currently ${1} are selected.",
+			},
+			message : {
+				nothing : "Nothing",
 			}
 		},
 		req4101:{
@@ -2970,6 +3596,7 @@ var OSLCoreLangSetting = function () {
 			saveString :{
 				insertStr : "Would you like to register your requirements?",
 				updateStr : "Would you like to modify your requirements?",
+				copyStr : "Would you like to copy your requirements?",
 			},
 			label : {
 				reqUser : {
@@ -3041,9 +3668,43 @@ var OSLCoreLangSetting = function () {
 				passwordMatching : "The entered passwords are different.",
 			},
 		},
+		req4102:{
+			label : {
+				reqUser : {
+					title : "Requester Information",
+					usrNm : "Name",
+					email : "E-mail",
+					deptNm : "Department",
+					telNo : "Contact",
+				},
+				group:{
+					groupReqInfo : "Group Request Information",
+					groupReqId : "Group Request Num",
+					groupReq : "Group Request",
+					groupReqDesc : "Group Request Content",
+				},
+				prjNm : "Project",
+				reqDtm : "Request Date",
+				reqId: "Request ID",
+				reqOrd : "Request Ord.",
+				reqProTypeNm : "Process Type Name",
+				processNm : "Process",
+				flowNm:"Step",
+				reqNm : "Title",
+				reqDesc : "Content",
+				attachments : "Attachments",
+				requestDefaultOptNm : "Enter basic items for application"
+			},
+			message:{
+				notGroupReqNo : "Noting",
+				notGroupReqInfo : "Group requirements are not linked.",
+				notProcess : "No process assigned.",
+				notStep : "Nothing"
+			},
+		},
 		req4103:{
-			passwordMiss : "It doesn’t match the password for this post.<br/> Please try again.",
-			text: "This is secret request.<br/> You must entered password.",
+			passwordMiss : "It doesn’t match the password for this post. </br> Please try again.",
+			text: "This is secret request. </br> You must entered password.",
 			button:{
 				submit : "Submit",
 			}
@@ -3159,7 +3820,7 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		stm2100:{
-			selectStmInfoCnt : "Please, select only 1 board.<br/> ${1} boards have been selected." ,
+			selectStmInfoCnt : "Please, select only 1 board. </br> ${1} boards have been selected." ,
 			notAuthority : {
 					basic : "You don’t have authority for that this board",
 			},
@@ -3211,10 +3872,10 @@ var OSLCoreLangSetting = function () {
 		stm2101:{
 			update: "Would you like to update this board setting?",
 			formCheck:{
-				fileCntMessage : "The number of attachments is 1 to 10.<br/> Change to minimum 1.",
-				fileMaxCntMessage : "The number of attachments is over.<br/> Change to maximum 10.",
+				fileCntMessage : "The number of attachments is 1 to 10. </br> Change to minimum 1.",
+				fileMaxCntMessage : "The number of attachments is over. </br> Change to maximum 10.",
 				fileMaxStrgMessage : "Change to maximum storage by board type.",
-				fileMaxStrgOutMessage : "Maximum storage is over.<br/> Change to maximum storage(${1}).",
+				fileMaxStrgOutMessage : "Maximum storage is over. </br> Change to maximum storage(${1}).",
 			},
 			label:{
 				name: "Board Name",
@@ -3420,14 +4081,15 @@ var OSLCoreLangSetting = function () {
 			},
 			message:{
 				connect : { 
-					selectCount : "Please, select repository for connection check.<br/> ${1} repository have been selected.",
+					selectCount : "Please, select repository for connection check. </br> ${1} repository have been selected.",
 					fail : {
 						auth : "Connection Fail : Please checking ID or Password.",
 						url : "Connection Fail  : Please checking URL.",
 						common : "Connection Fail ",
 					},
 					success : "Connection Success"
-				}
+				},
+				auth : "You don't have access rights."
 			}
 		},
 		stm8001:{
@@ -3452,53 +4114,9 @@ var OSLCoreLangSetting = function () {
 				strgKey : "GIT TOKEN",
 			}
 		},
-		stm8002 :{
-			title :{
-				revision : "Revision List",
-				file :"File List",
-				actionTitle : {
-					revisionFile : "Detail",
-					repository : "Select",
-				},
-			},
-			revisionFile : {
-				actionTitle : "Detail",
-				actionTooltip : {
-					dblClickTooltip : "Code View",
-					diffTooltip : "Code Diff"
-				},
-				message : {
-					diff : "Please, select only 1 file.<br/>${1} file have been selected."
-				}
-			},
-			repository:{
-				actionTooltip : {
-					"clickTooltip" : "Select Revision",
-				}
-			},
-			dirTree:{
-				message:{
-					selectRevision : "Please, select revision.",
-				}
-			},
-			placeholder : {
-				revision : {
-					start : "Start",
-					end : "End",
-				}
-			},
-			actionBtn:{
-				selectTooltip :"Select Revision",
-				selectFileTooltip : "Select Revision File List",
-				diffTooltip : "Code Diff",
-				diffBtn : "DIFF"
-			},
-			message :{
-				selectRevision : "Please, select revision.",
-			}
-		},
-		stm8004:{
+		stm8002:{
 			title : "File Revision List",
+			revisionNum : "Revision Number",
 			actionBtn : {
 				title : "Select",
 				selectTooltip : "Select File Revision",
@@ -3512,9 +4130,98 @@ var OSLCoreLangSetting = function () {
 				}
 			},
 			message : {
-				selectFile : "Please, select 2 file.<br/>${1} file have been selected.",
-				selectFiles: "Please, select only 2 file.<br/>${1} file have been selected.",
+				selectFile : "Please, select 1 file. </br>${1} file have been selected.",
 			}
+		},
+		stm8100:{
+			title : {
+				allProjectList : "All Project List",
+				assRepList : "Assign Repository List",
+				nonAssRepList : "Non-assign Repository List"
+			},
+			toolTip : {
+				selectAssignStrg : "Select Assign Repository List",
+				selectNonAssignStrg : "Select Non-assign Repository List",
+				removeStrg : "Send from Assign List to Non-assign List",
+				addStrg : "Send from Non-assign List to Assign List",
+				authSetting : "Setting authority for revision and file code"
+			},
+			actionBtn : {
+				removeBtn : "Remove",
+				addBtn : "Add",
+				authSetting : "Setting Authority"
+			},
+			message:{
+				alert:{
+					treeNodeSelect : "Select project from left tree table.",
+				},
+				toastr:{
+					projectSelect : "Please, select project not project group."
+				},
+			},
+			assignStrgTable : {
+				actionBtn : {
+					title : "Remove",
+				},
+				tooltip : {
+					dblClick : "Send from Assign List to Non-assign List",
+					authSetting : "Setting authority for revision and file code"
+				},
+				message : {
+					remove : "If you send form Assign List to non-assign List </br>then reset authority list. That's Ok?",
+					selectRep : "Please, select only one repository </br>for authority setting to revision and file code.",
+					selectOnlyOne : "Please, select only one repository.",
+				},
+				title :{
+					authPop : "Setting Authority"
+				}
+			},
+			nonAssignStrgTable :{
+				actionBtn : {
+					title : "Add",
+				},
+				tooltip : {
+					dblClick : "Send from  Non-assign List to Assign List",
+					authSetting : "Setting authority for revision and file code"
+				},
+			}
+		},
+		stm8101:{
+			complete : "Save",
+			label : {
+				revision : "Revision Authority",
+				fileCode : "File Code Authority",
+				message : "To setting authority for open file code,</br>must have set authority for open revision.",
+				nonAssList : "Non-assign Authority group and Users"
+			},
+			button : {
+				equalBtn : "Equals Revision Authority",
+				resetBtn : "Reset",
+				searchBtn : "Search",
+			},
+			select : {
+				authGrpNm: "Authority Group Name",
+				usrId : "User ID",
+				usrNm : "User Name"
+			},
+			draw : {
+				revisionBtn : "Revision Authority",
+				fileCodeBtn : "File Code Authority",
+				badge : {
+					authGrp : "Authority Group",
+					user : "User"
+				}
+			},
+			message : {
+				remove : "To setting authority for open file code, must have set authority for open revision. </br>As revision authority is removed, file code authority is also removed.",
+				add : "To setting authority for open file code, must have set authority for open revision. </br>Revision authority is also added.",
+				link : "There is a list of Revision Authority, but no list of File Code Authority. </br>Synchronize with Revision Authority list.",
+			}
+		},
+		stm8200:{
+			actionBtn:{
+				selectTooltip :"View all status",
+			},
 		},
 		stm9000:{
 			title:{
@@ -3589,7 +4296,7 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		bad1000:{
-			selectBadInfoCnt : "Please, select only 1 post.<br/> ${1} posts have been selected" ,
+			selectBadInfoCnt : "Please, select only 1 post. </br> ${1} posts have been selected" ,
 			notAuthority : {
 					basic : "You don’t have authority for that this post",
 					insertMessage : "You don’t have authority for insert the post.",
@@ -3604,9 +4311,9 @@ var OSLCoreLangSetting = function () {
 				deleteBadge: "Delete",
 				noticeBadge: "Notice",
 			},
-			field:{ /*태그 검색 시 search bar 일치 확인용, 데이터 테이블 필드와 동일하게 지정하기*/
+			field:{ 
 				tagNm:"Tag",
-				/*외부 주입 search bar field인 경우 데이터 테이블 필드명으로 지정되지 않으므로 따로 지정*/
+				
 				badContent: "Content",
 				badNtcCheck : "Notice",
 				delCd:"Delete",
@@ -3727,11 +4434,11 @@ var OSLCoreLangSetting = function () {
 			}
 		},
 		bad1004:{
-			passwordMiss : "It doesn’t match the password for this post.<br/> Please try again.",
+			passwordMiss : "It doesn’t match the password for this post. </br> Please try again.",
 			title:{
 				detail:"Detail Post",
 			},
-			text : "This is secret post.<br/> You must entered password.",
+			text : "This is secret post. </br> You must entered password.",
 			button:{
 				submit: "Submit",
 			}
@@ -3747,12 +4454,12 @@ var OSLCoreLangSetting = function () {
 		}
 	};
     return {
-        // public functions
+        
         init: function() {
-        	//언어팩 목록
+        	
     		var langList = ["ko","en"];
     		
-    		//언어 데이터
+    		
     		var langData = {};
     		
     		$.each(langList, function(idx, map){
@@ -3761,7 +4468,7 @@ var OSLCoreLangSetting = function () {
     		
     		$.osl.langData = langData;
     		
-    		//datepicker 언어 처리
+    		
     		$.osl.date.init();
         }
     };
