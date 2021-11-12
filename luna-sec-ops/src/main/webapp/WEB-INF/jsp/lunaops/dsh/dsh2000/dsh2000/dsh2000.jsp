@@ -120,8 +120,7 @@
 	
 	
 	
-	<div class="row">
-		
+	<!-- <div class="row">
 		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeSign">
 				<div class="kt-portlet__head kt-portlet__head--lg">
@@ -144,8 +143,6 @@
 				</div>
 			</div>
 		</div>
-		
-		
 		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeDpl">
 				<div class="kt-portlet__head kt-portlet__head--lg">
@@ -176,8 +173,7 @@
 				</div>
 			</div>
 		</div>
-		
-	</div>
+	</div> -->
 	
 	
 	
@@ -1814,7 +1810,8 @@ var OSLDsh2000Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
 				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, autoHide: false, search: true},
-				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
+				{field: 'reqOrd', title: '요구사항 순번', textAlign: 'left', width: 120, autoHide: false},
+				{field: 'reqProTypeNm', title: '결재 상태', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
 				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 120, search: true,
@@ -1868,15 +1865,17 @@ var OSLDsh2000Popup = function () {
 				clickCheckbox: true,
 			},
 			actionBtn:{
-				"title" : "상세",
-				"width" : "30",
+				"title" : "기능 버튼",
+				"width" : "120",
 				"dblClick": true,
 				"update": false,
 				"delete" : false,
 				"refresh": true,
+				"detail":true
 			},
 			actionTooltip:{
-				"dblClick": "상세보기"
+				"dblClick": "업무 처리",
+				"detail" : "상세 보기"
 			},
 			actionFn:{
 				"refresh": function(rowData, datatableId, type, rowNum){
@@ -1886,6 +1885,32 @@ var OSLDsh2000Popup = function () {
 					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum){
+					
+					// TODO
+					
+					var reqProType = rowData.reqProType;
+                    var reqId = rowData.reqId;
+                    var prjId = rowData.prjId;
+                    var reqNm = rowData.reqNm;
+                    
+                    if(reqProType != "02"){
+                       $.osl.alert("처리중인 요구사항만 업무 처리가 가능합니다.");
+                       return false;
+                    }
+
+                    var data = {
+                          paramPrjId: prjId,
+                          paramReqId: reqId
+                    };
+                    var options = {
+                       modalSize: "fs",
+                       idKey: "reqProcess"+reqId,
+                       modalTitle: "["+reqNm+"] 요구사항 업무 처리",
+                       closeConfirm: false,
+                    };
+                    $.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6201View.do',data,options);
+				},
+				"detail": function(rowData, datatableId, type, rowNum){ console.log(rowData);
 					var data = {
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId,
@@ -1898,7 +1923,7 @@ var OSLDsh2000Popup = function () {
 						};
 					
 					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
-				},
+				}
 			},
 			theme : {
 				actionBtn: {
@@ -1906,7 +1931,8 @@ var OSLDsh2000Popup = function () {
 					"refresh" : " kt-hide"
 				},
 				actionBtnIcon:{
-					"dblClick" : "fas fa-external-link-alt"
+					"dblClick" : "fa fa-chalkboard-teacher",
+					"detail" : "fas fa-external-link-alt"
 				}
 			},
 			callback:{
@@ -2014,7 +2040,7 @@ var OSLDsh2000Popup = function () {
 		$(".flow-all-charger").click(function(){
 			//해당 데이터 테이블 id가져오기
 			var item = $(this).parents(".process-div");
-			var datatableId = $(item).find(".process-datatables").attr("id");
+			var datatableId = $(item).children(".process-datatable-div").find(".process-datatables").attr("id");
 			var datatable = $.osl.datatable.list[datatableId].targetDt;
 			//param 넣기
 			datatable.setDataSourceParam("dshProcess", "Y");
@@ -2024,6 +2050,9 @@ var OSLDsh2000Popup = function () {
 			//조회하기
 			//데이터 테이블 재조회
 			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+			
+			//데이터 div 보이기
+			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
 		});
 				
 		/*칸반 sortable*/
