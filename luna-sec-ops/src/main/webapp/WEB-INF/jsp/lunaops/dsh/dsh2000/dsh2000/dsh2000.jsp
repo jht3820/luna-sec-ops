@@ -1756,8 +1756,8 @@ var OSLDsh2000Popup = function () {
 						+ '</div>'
 					+ '</div>'
 					+ '<div class="flowchart-operator-inputs-outputs kt-margin-0">'
-						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flow-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>1</span></div>'
-						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flow-all-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>1</span></div>'
+						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flow-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>0</span></div>'
+						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flow-all-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>0</span></div>'
 					+ '</div>'
 				+ '</div>';
 				
@@ -1914,11 +1914,17 @@ var OSLDsh2000Popup = function () {
 					
 					//프로세스 담당, 전체 수 가져오기
 					var flowCntList = datatable.lastResponse.meta.flowCntList;
-					console.log("flowCnt : ", flowCntList);
+					//console.log("flowCnt : ", flowCntList);
 					if($.osl.isNull(flowCntList[0])){
 						$("#processPortlet"+tablenum).find(".chargerBadge").text('0');
 						$("#processPortlet"+tablenum).find(".allBadge").text('0');
 					}else{
+						/* 
+						//console.log("있다.");
+						//console.log($("#processPortlet"+tablenum).find(".chargerBadge"));
+						//console.log(flowCntList[0].reqChargerTotalCnt);
+						//console.log(flowCntList[0].reqTotalCnt);
+						 */
 						$("#processPortlet"+tablenum).find(".chargerBadge").text(flowCntList[0].reqChargerTotalCnt);
 						$("#processPortlet"+tablenum).find(".allBadge").text(flowCntList[0].reqTotalCnt);
 					}
@@ -1992,7 +1998,7 @@ var OSLDsh2000Popup = function () {
 		
 		//담당 버튼 클릭 시
 		$(".flow-charger").click(function(){
-			console.log("담당 클릭");
+			//console.log("담당 클릭");
 			//해당 데이터 테이블 id가져오기
 			var item = $(this).parents(".process-div");
 			var datatableId = $(item).children(".process-datatable-div").find(".process-datatables").attr("id");
@@ -2012,7 +2018,7 @@ var OSLDsh2000Popup = function () {
 		
 		//전체 버튼 클릭 시
 		$(".flow-all-charger").click(function(){
-			console.log("전체 클릭");
+			//console.log("전체 클릭");
 			//해당 데이터 테이블 id가져오기
 			var item = $(this).parents(".process-div");
 			var datatableId = $(item).find(".process-datatables").attr("id");
