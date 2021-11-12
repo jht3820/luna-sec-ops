@@ -22,16 +22,6 @@ import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 @Service("cmm6600Service")
 public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm6600Service {
 
-	
-   	@Resource(name="fileMngService")
-   	private FileMngService fileMngService;
-   	
-	@Resource(name = "FileManageDAO")
-	private FileManageDAO fileMngDAO;
-	
-   	@Resource(name = "egovFileIdGnrService")
-	private EgovIdGnrService idgenService;
-
    	@Resource(name = "cmm6600DAO")
    	private Cmm6600DAO cmm6600DAO;
    	
@@ -301,7 +291,12 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	public Map selectCmm6601SignInfo(Map<String, String> paramMap) throws Exception {
 		return cmm6600DAO.selectCmm6601SignInfo(paramMap);
 	}
-
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Map selectCmm6600NextOrdInfo(Map paramMap) throws Exception {
+		return cmm6600DAO.selectCmm6600NextOrdInfo(paramMap);
+	}
 }
 
 
