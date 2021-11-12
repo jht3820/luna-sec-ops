@@ -15,7 +15,7 @@
 					<i class="fa fa-list"></i><span>조회</span>
 				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1003PrjJobTable" data-datatable-action="selectJob" title="JOB 선택" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
-					<i class="fa flaticon2-check-mark"></i><span>선택</span>
+					<i class="fa fa-external-link-alt"></i><span>선택</span>
 				</button>
 			</div>
 		</div>
@@ -27,7 +27,7 @@
 
 
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 
 
@@ -81,7 +81,8 @@ var OSLDpl1003Popup = function () {
 							row.addClass("osl-datatable__row-assign--none");
 						}
 					});
-				}
+				},
+				minHeight: 50
 			},
 			columns:[
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},

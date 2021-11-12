@@ -26,10 +26,11 @@
 		<result property="reqUsrImgId"			column="REQ_USR_IMG_ID"/>
 		<result property="reqNm"				column="REQ_NM"/>
 		<result property="reqDesc"				column="REQ_DESC" jdbcType="CLOB" javaType="java.lang.String"/>
-		<result property="reqPw"					column="REQ_PW"/>
+		<result property="reqPw"				column="REQ_PW"/>
 		<result property="reqChargerId"			column="REQ_CHARGER_ID"/>
 		<result property="reqChargerNm"			column="REQ_CHARGER_NM"/>
-		<result property="reqChargerImgId"			column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqChargerImgId"		column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqChargerEmail"		column="REQ_CHARGER_EMAIL"/>
 		<result property="reqCompleteRatio"		column="REQ_COMPLETE_RATIO"/>
 		<result property="reqFp"				column="REQ_FP"/>
 		<result property="reqExFp"				column="REQ_EX_FP"/>
@@ -82,6 +83,7 @@
 		<result property="reqChargerId"			column="REQ_CHARGER_ID"/>
 		<result property="reqChargerNm"			column="REQ_CHARGER_NM"/>
 		<result property="reqChargerImgId"			column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqChargerEmail"		column="REQ_CHARGER_EMAIL"/>
 		<result property="reqStDtm"				column="REQ_ST_DTM"/>
 		<result property="reqEdDtm"				column="REQ_ED_DTM"/>
 		<result property="reqStDuDtm"			column="REQ_ST_DU_DTM"/>
@@ -132,6 +134,7 @@
 		<result property="reqChargerId"			column="REQ_CHARGER_ID"/>
 		<result property="reqChargerNm"			column="REQ_CHARGER_NM"/>
 		<result property="reqChargerImgId"			column="REQ_CHARGER_IMG_ID"/>
+		<result property="reqChargerEmail"		column="REQ_CHARGER_EMAIL"/>
 		<result property="reqStDtm"				column="REQ_ST_DTM"/>
 		<result property="reqEdDtm"				column="REQ_ED_DTM"/>
 		<result property="reqStDuDtm"			column="REQ_ST_DU_DTM"/>
@@ -187,6 +190,7 @@
 			,	T1.REQ_CHARGER_ID
 			,	T1.REQ_CHARGER_NM
 			,	T1.REQ_CHARGER_IMG_ID
+			,	T1.REQ_CHARGER_EMAIL
 			, 	T1.REQ_ST_DTM
   		   	, 	T1.REQ_ED_DTM
 			, 	T1.REQ_ST_DU_DTM
@@ -243,6 +247,7 @@
 					,	A.REQ_CHARGER_ID
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
 					, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
     		   		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
 					, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
@@ -280,10 +285,22 @@
 			LEFT JOIN PRJ1101 E
 				ON ( E.PRJ_ID = A.PRJ_ID AND E.PROCESS_ID = A.PROCESS_ID AND E.FLOW_ID = A.FLOW_ID )
 		    WHERE 1=1
+		    <isNotEmpty property="dshReqProTypeCd">
+				AND	A.REQ_PRO_TYPE = #dshReqProTypeCd#
+			</isNotEmpty>
+		    <isNotEmpty property="dshProcess">
+				AND	A.PROCESS_ID = #processId#
+				AND	A.FLOW_ID = #flowId#
+				AND	A.USE_CD = '01'
+				<isNotEmpty property="usrId">
+					AND A.REQ_CHARGER_ID = #usrId#
+				</isNotEmpty>
+			</isNotEmpty>
 			<isNotEmpty property="atchFileIdNotNull">
 				AND A.ATCH_FILE_ID IS NOT NULL
 			</isNotEmpty>
 			<isEmpty property="selReqInfoList">
+				AND A.PRJ_GRP_ID = #prjGrpId#
 				AND A.PRJ_ID = #prjId#
 			</isEmpty>
 			<isNotEmpty property="selReqInfoList">
@@ -360,6 +377,12 @@
 						AND	T1.REQ_DTM &lt;=   TO_DATE(#searchEndDt#, 'YYYY-MM-DD HH24:MI:SS')
 					</isNotEmpty>
 				</isEqual>
+				<isEqual property="searchTargetId" compareValue="reqChargerNm">
+					AND	T1.REQ_CHARGER_NM LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
+				<isEqual property="searchTargetId" compareValue="reqOrd">
+					AND	T1.REQ_ORD LIKE '%'|| #searchTargetData# ||'%'
+				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
 	</sql>
@@ -392,6 +415,7 @@
 			,	T1.REQ_CHARGER_ID
 			,	T1.REQ_CHARGER_NM
 			,	T1.REQ_CHARGER_IMG_ID
+			,	T1.REQ_CHARGER_EMAIL
 			, 	T1.REQ_ST_DTM
   		   	, 	T1.REQ_ED_DTM
 			, 	T1.REQ_ST_DU_DTM
@@ -450,6 +474,7 @@
 					,	A.REQ_CHARGER_ID
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
 					, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
     		   		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
 					, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
@@ -575,6 +600,7 @@
 					,	A.REQ_CHARGER_ID
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
 					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+					,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
 					, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') AS REQ_ST_DTM
     		   		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') AS REQ_ED_DTM
 					, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') AS  REQ_ST_DU_DTM
@@ -728,6 +754,7 @@
 		,	A.REQ_CHARGER_ID
 		,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
 		,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+		,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
 		, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
  		, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
 		, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
@@ -940,6 +967,31 @@
 		    ,	MODIFY_DTM		= SYSDATE
 		    ,	MODIFY_USR_ID	= #modifyUsrId#
 		    ,	MODIFY_USR_IP	= #modifyUsrIp#
+		WHERE	1=1
+		AND		A.PRJ_ID = #prjId#
+		AND		A.REQ_ID = #reqId#
+	</update>
+	
+	
+	<update id="req4100DAO.updateReq4101ReqProcessInfo" parameterClass="java.util.Map">
+		 
+		UPDATE 	REQ4100 A
+		SET		
+		    	A.MODIFY_DTM		= SYSDATE
+		    ,	A.MODIFY_USR_ID	= #modifyUsrId#
+		    ,	A.MODIFY_USR_IP	= #modifyUsrIp#
+		    <isNotEmpty property="reqChargerId">
+		    	,	A.REQ_CHARGER_ID = #reqChargerId#
+		    </isNotEmpty>
+		    <isNotEmpty property="reqProType">
+		    	,	A.REQ_PRO_TYPE = #reqProType#
+		    </isNotEmpty>
+		    	,	REQ_ST_DTM			= TO_DATE(REPLACE(#reqStDtm#, '-'), 'YYYYMMDD HH24:MI')
+			    ,	REQ_ED_DTM			= TO_DATE(REPLACE(#reqEdDtm#, '-'), 'YYYYMMDD HH24:MI')
+			    ,	REQ_ST_DU_DTM		= TO_DATE(REPLACE(#reqStDuDtm#, '-'), 'YYYYMMDD')
+			    ,	REQ_ED_DU_DTM		= TO_DATE(REPLACE(#reqEdDuDtm#, '-') || '23:59', 'YYYYMMDDHH24:MI')
+		    	,	A.PROCESS_ID = #processId#
+		    	,	A.FLOW_ID = #flowId#
 		WHERE	1=1
 		AND		A.PRJ_ID = #prjId#
 		AND		A.REQ_ID = #reqId#
@@ -1187,4 +1239,18 @@
 		AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
     </select>
     
+    
+	<select id="req4100DAO.selectReq4100FlowInfoAjax" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		<![CDATA[
+			SELECT 
+					A.FLOW_ID
+			FROM 
+				PRJ1101 A
+			WHERE 	1=1
+				AND A.PRJ_ID 			= #prjId#
+				AND A.PROCESS_ID 		= #processId#
+				AND A.FLOW_START_CD		= '01'
+		]]>
+	</select>
 </sqlMap>

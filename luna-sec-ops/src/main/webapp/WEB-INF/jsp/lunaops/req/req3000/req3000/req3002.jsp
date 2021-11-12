@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!-- begin page DOM -->
+
 <form class="kt-form" id="frReq3002">
 	<input type="hidden" name="type" id="type" value="${param.type}">
 	<input type="hidden" name="prjId" id="prjId" value="${param.paramPrjId}">
@@ -119,88 +119,7 @@
 							</div>
 						</div>				
 						<label class="kt-padding-l-10 kt-padding-r-10 kt-margin-t-20"><i class="fas fa-stream kt-margin-r-5"></i><span data-lang-cd="req3000.label.linkedReqInfo">연결 요구사항 정보</span></label>
-						<div class="col-lg-12 col-md-12 col-sm-12 card">
-							<div class="col-lg-12 col-md-12 col-sm-12">
-								<div class="col-lg-12 col-md-12 col-sm-12 card-hader osl-margin-t-1rm">
-									<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-										<div class="kt-portlet__head">
-											<div class="kt-portlet__head-label">
-												<span data-lang-cd="">접수 요청</span>
-											</div>
-											<div class="kt-portlet__head-toolbar">
-												<span data-lang-cd="">인사 공통 코드 조회 기능 구현</span>
-											</div>
-										</div>
-										<div class="kt-portlet__body">
-											<div class="row">
-												<div class="col-lg-4 ">
-													<div class="card">
-														<div class="card-header">
-															<div class="card-title">
-																<i class="fa flaticon2-writing kt-margin-l-5">
-																</i>
-															</div>
-														</div>
-														<div class="card-body">
-															<div class="row osl-align-center--imp">
-																접수요청
-															</div>
-															<div class="row osl-align-center--imp">
-																정형택
-															</div>
-														</div>
-														<div class="card-footer">
-															<div class="osl-align-center--imp">
-																2020-10-22 04:16
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12 col-sm-12 card-hader osl-margin-t-1rm">
-									<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-										<div class="kt-portlet__head">
-											<div class="kt-portlet__head-label">
-												<span data-lang-cd="">접수 요청</span>
-											</div>
-											<div class="kt-portlet__head-toolbar">
-												<span data-lang-cd="">인사 공통 코드 조회 기능 구현</span>
-											</div>
-										</div>
-										<div class="kt-portlet__body">
-											<div class="row">
-												<div class="col-lg-4 ">
-													<div class="card">
-														<div class="card-header">
-															<div class="card-title">
-																<i class="fa flaticon2-writing kt-margin-l-5">
-																</i>
-															</div>
-														</div>
-														<div class="card-body">
-															<div class="row osl-align-center--imp">
-																접수요청
-															</div>
-															<div class="row osl-align-center--imp">
-																정형택
-															</div>
-														</div>
-														<div class="card-footer">
-															<div class="osl-align-center--imp">
-																2020-10-22 04:16
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<div id="req3002ConnectReqTable"></div>
 					</div>
 				</div>
 			</div>
@@ -209,32 +128,33 @@
 </form>
 <div class="modal-footer">
 	<button type="button" class="btn btn-outline-brand"	data-dismiss="modal">
-		<span data-lang-cd="modal.close">닫기</span>
+		<i class="fa fa-window-close"></i>
+		<span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 	</button>
 </div>
-<!-- end DOM -->
-<!-- begin page script -->
+
+
 <script>
 "use strict";
 
-//파일업로드 셋팅
+
 var fileUploadObj;
 var OSLReq3002Popup = function () {
 	var formId = 'frReq3002'
 	
-	//edit 목록
+	
 	var formEditList = [];
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
 	var documentSetting = function(){
 		
-		//포틀릿셋팅
+		
 		var portlet = new KTPortlet('req3000ReqGrpInfo', $.osl.lang("portlet"));
 		portlet.expand();
 		
-		//edit 세팅
+		
     	formEditList.push($.osl.editorSetting("reqGrpDesc", {
     		toolbar: false,
 			disableResizeEditor: false,
@@ -243,7 +163,7 @@ var OSLReq3002Popup = function () {
 			height:260
     	}));
     	
-    	//파일 업로드 세팅
+    	
     	fileUploadObj = $.osl.file.uploadSet("fileListDiv",{
     		maxFileSize: "${requestScope.fileSumMaxSize}",
     		meta: {"atchFileId": $("#atchFileId").val(), "fileSn": 0},
@@ -254,14 +174,61 @@ var OSLReq3002Popup = function () {
     		
     	});
     	fileUploadObj.reset();
-    	//그룹 요구사항 정보 조회
+    	
     	selectReqGrpInfo();
+    	
+    	$.osl.datatable.setting("req3002ConnectReqTable",{
+			data: {
+				source: {
+					read: {
+						url: "/req/req3000/req3000/selectReq3001ListAjaxView.do",
+						params:{
+							reqGrpId: $("#reqGrpId").val()
+    					},
+					}
+				},
+			},
+			columns: [
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'rn', title:"No.", textAlign: 'center', width: 25, autoHide: false, sortable: false, autoHide: false},
+				{field: 'prjNm', title: '프로젝트 명', textAlign: 'left', width: 150, search:true, autoHide: false, sortable: false},	
+				{field: 'reqOrd', title: '요구사항 번호', textAlign: 'left', width: 100, search:true, autoHide: false },
+				{field: 'reqNm', title: '요구사항 명', textAlign: 'left', width: 100 , search:true, autoHide: false, sortable: false}
+			],
+			searchColumns:[
+				{field: 'reqUsrNm', title: '요청자', searchOrd: 5},
+				{field: 'reqChargerNm', title: '담당자', searchOrd: 6},
+				{field: 'reqProType', title: '처리유형', searchOrd: 7, searchType:"select", searchCd:"REQ00001"},
+			],
+			actionBtn:{
+				"dblClick":true,
+				"update":false,
+				"delete":false
+			},
+			actionFn:{
+				"dblClick":function(rowData,datatableId, type, rowNum){
+					var data = {
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId,
+							paramReqUsrId: rowData.reqUsrId
+						};
+					var options = {
+							idKey: rowData.reqId,
+							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							autoHeight: false,
+					
+							
+						};
+					
+					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+					
+				},
+			}
+		});
     	
 	}
 	
-	/**
-	 * 	그룹 요구사항 정보 조회
-	*/
+	
     var selectReqGrpInfo = function(){
 		
     	var data = {
@@ -269,36 +236,33 @@ var OSLReq3002Popup = function () {
     			prjId: $("#prjId").val(),
     			reqGrpId: $("#reqGrpId").val()
     	}
-    	//Ajax 설정
+    	
     	var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req3000/req3000/selectReq3000ReqInfoAjax.do'/>", "async":"true"}
 				,data);
-    	//Ajax 전송 성공 함수
+    	
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 				
 			}else{
-				//요구사항 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.reqInfoMap,"frReq3000");
 				
 		    	$("#reqGrpChargerNm").val(data.reqInfoMap.reqGrpChargerNm);
 		    	$("#reqGrpUsrNm").val(data.reqInfoMap.reqGrpUsrNm);
 		    	$("#reqGrpNo").val(data.reqInfoMap.reqGrpNo);
 		    	$("#reqGrpDesc").summernote("code",data.reqInfoMap.reqGrpDesc);
-		    	//$("#reqGrpDesc").val(data.reqInfoMap.reqGrpDesc);
+		    	
 		    	$("#reqGrpNm").val(data.reqInfoMap.reqGrpNm);
 		    	$("#reqGrpLinkCnt").text(data.reqInfoMap.reqGrpLinkCnt);
 				
-		    	/* var _oriText = $("#reqGrpDesc").val();
-		    	var newText = _oriText.replace(/<br>/gi,"");
-		    	console.log(newText);
-		    	$("#reqGrpDesc").val(newText); */
 		    	
-		    	//완료된 프로젝트 수 세기
+		    	
+		    	
 		    	var endReqCnt = 0;
 		    	$.each(data.reqGrpConList, function(index, item){
 		    		if(item.reqProType == "4"){
@@ -308,7 +272,7 @@ var OSLReq3002Popup = function () {
 		    	$("#reqOngoing").text(data.reqInfoMap.reqGrpLinkCnt - endReqCnt);
 		    	$("#reqEnd").text(endReqCnt);
 		    	
-		    	//edit 세팅
+		    	
 		    	formEditList.push($.osl.editorSetting("reqGrpDesc", {
 		    		toolbar: false,
 	    			disableResizeEditor: false,
@@ -317,16 +281,16 @@ var OSLReq3002Popup = function () {
 	    			height:260
 		    	}));
 		    	
-		    	//파일Sn넣기
+		    	
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
-		    	//파일 목록 세팅
+		    	
 		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
 		    	
 			}
     	});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
     };
     
@@ -357,7 +321,7 @@ var OSLReq3002Popup = function () {
    	});
     
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -369,4 +333,4 @@ $.osl.ready(function(){
 	OSLReq3002Popup.init();
 });
 </script>
-<!-- end script -->
+

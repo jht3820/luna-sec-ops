@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <form class="kt-form" id="frSpr1004">
 	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}">
 	<input type="hidden" name="paramPrjGrpId" id="paramPrjGrpId" value="${param.paramPrjGrpId}">
@@ -84,7 +83,7 @@
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="form-group">
 							<label class="required"><i class="fa fa-edit kt-margin-r-5"></i>회고록 제목</label>
-							<input type="text" name="mmrNm" id="mmrNm" class="form-control" maxlength="99" required>
+							<input type="text" name="mmrNmInput" id="mmrNmInput" class="form-control" maxlength="99" required>
 						</div>
 					</div>
 				</div>
@@ -92,7 +91,7 @@
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<div class="form-group form-group-last">
 							<label class="required"><i class="fa fa-edit kt-margin-r-5"></i>회고록 내용</label>
-							<textarea class="form-control" name="mmrDesc" id="mmrDesc" required></textarea>
+							<textarea class="form-control" name="mmrDescInput" id="mmrDescInput" required></textarea>
 						</div>
 					</div>
 				</div>
@@ -152,7 +151,7 @@
 				</div>
 				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 ">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
-						<div class="border osl-min-h-px--140" id="velocityChart"></div>
+						<div class="border osl-min-h-px--140 osl-card__data--empty" id="velocityChart"></div>
 					</div>
 				</div>
 				
@@ -186,8 +185,8 @@
 	</div>
 
 	<div class="modal-footer">
-		<button class="btn btn-outline-brand"	data-dismiss="modal">
-			<i class="fa fa-window-close"></i><span data-lang-cd="modal.close">닫기</span>
+		<button class="btn btn-outline-brand" data-dismiss="modal">
+			<i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 		</button>
 	</div>
 </form>
@@ -228,7 +227,7 @@ var OSLSpr1004Popup = function () {
 	
 	var documentSetting = function(){
 		
-    	formEditList.push($.osl.editorSetting("mmrDesc", {formValidate: formValidate,'minHeight': 220, disableResizeEditor: false}));
+    	formEditList.push($.osl.editorSetting("mmrDescInput", {formValidate: formValidate,'minHeight': 220, disableResizeEditor: false}));
 		
     	
 		datatableInitFlag[1] = 
@@ -433,7 +432,6 @@ var OSLSpr1004Popup = function () {
 		
 		var wizard = new KTWizard('kt_wizard_v3', {
 			startStep: 1, 
-			clickableSteps: false, 		
 		});
 		
 		
@@ -445,12 +443,28 @@ var OSLSpr1004Popup = function () {
 			}
 			if(reqEndCnt != '0'){
 				wizardObj.stop();
-				$.osl.toastr($.osl.lang("spr1004.alert.reqEndCnt",reqEndCnt),{"type":"error"});
+				$.osl.alert($.osl.lang("spr1004.alert.reqEndCnt",reqEndCnt),{"type":"error"});
 			};
 		});
 		
 		
 		wizard.on('change', function(wizardObj) {
+			
+			var totalStep = wizard.totalSteps;
+			
+			var checkThis = wizard.currentStep;
+			
+			var checking = totalStep - checkThis;
+			
+			if(checking == 0 && checkThis == 3){
+				var mmrDesc = $("#mmrDescInput").val();
+				var mmrNm = $("#mmrNmInput").val();
+				
+				if($.osl.isNull(mmrDesc) || $.osl.isNull(mmrNm)){
+					$.osl.alert("회고록 작성을 마무리해주세요.");
+					wizardObj.goPrev();
+				}
+			}
 			if(datatableInitFlag.hasOwnProperty(wizardObj.currentStep)){
 				
 				if(!datatableInitFlag[wizardObj.currentStep]){
@@ -494,6 +508,10 @@ var OSLSpr1004Popup = function () {
 		$('#frSpr1004 [data-ktwizard-type="action-submit"]').click(function(){
 	       	
 	   		var fd = $.osl.formDataToJsonArray(formId);
+	       	
+	       	fd.append("mmrNm", $("#mmrNmInput").val());
+	       	
+	       	fd.append("mmrDesc", $("#mmrDescInput").val());
 	       	
 	   		
 	   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/spr/spr1000/spr1000/updateSpr1003SprEnd.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
@@ -593,6 +611,7 @@ var OSLSpr1004Popup = function () {
  				var endDt  = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
  				
  				var seriesData = getDataRangeData(paramSprStDt, endDt, "1", chartData);
+ 				
  				if(chartData.length == 0){
  					$("#burnDownChart").text("데이터 없음")
  					$("#burnUpChart").text("데이터 없음")
@@ -604,13 +623,15 @@ var OSLSpr1004Popup = function () {
  				}
  				
  				if(chartData.length == 0){
-					endSprPoint = 0	 					
+					endSprPoint = 0
+					$("#velocityChart").text("데이터 없음")
  				}else{
 	 				
 	 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
+	 				
+					drawVelocityChart();
  				}
  				
-				drawVelocityChart();
  			}	
  		});
  		ajaxObj.send();
@@ -668,7 +689,7 @@ var OSLSpr1004Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
@@ -759,7 +780,7 @@ var OSLSpr1004Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
@@ -856,6 +877,10 @@ var OSLSpr1004Popup = function () {
 				 type: "remote"
 			},
 			chart:{
+				title: {
+					text: "벨로시티 차트",
+					align: "center",
+				},
 				
 				colors: ["#ffb822","#840ad9", "#ffb822","#840ad9"],
 			    yaxis: {
@@ -879,6 +904,7 @@ var OSLSpr1004Popup = function () {
 					$(".apexcharts-toolbar").addClass("kt-margin-10");
 					$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
 					$(".apexcharts-toolbar").removeAttr("style[padding]");
+					$(".apexcharts-menu-item").addClass("osl-min-width-70");
 				}
 			}
 		});

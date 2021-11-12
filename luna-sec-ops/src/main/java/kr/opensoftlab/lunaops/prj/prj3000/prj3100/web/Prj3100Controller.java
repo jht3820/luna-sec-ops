@@ -41,6 +41,7 @@ import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovBasicLogger;
 import egovframework.com.cmm.util.EgovResourceCloseHelper;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
@@ -78,6 +79,80 @@ public class Prj3100Controller {
 	
 	@Resource(name = "prj3000Service")
 	private Prj3000Service prj3000Service;
+	
+	
+	@Resource(name = "egovFileIdGnrService")
+	private EgovIdGnrService idgenService;
+	
+	
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/prj/prj3000/prj3100/selectPrj3100DocListAjax.do")
+    public ModelAndView selectPrj3000DocListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+    	
+    	try{
+        	
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+        	
+    		
+			String paramPrjId = (String) paramMap.get("dtParamPrjId");
+        	
+        	
+    		HttpSession ss = request.getSession();
+    		
+    		
+    		if(paramPrjId == null || "".equals(paramPrjId)){
+    			paramPrjId = (String)ss.getAttribute("selPrjId");
+    		}
+    		
+    		paramMap.put("prjId", paramPrjId);
+        	
+    		List<Map> baseDocList = null;
+    		
+			
+			baseDocList = (List) prj3100Service.selectPrj3100DocList(paramMap);
+			
+			
+			if(baseDocList.size() == 0) {
+				
+				
+				String docFormConfFileId = idgenService.getNextStringId();
+				paramMap.put("docFormConfFileId", docFormConfFileId);
+				
+				
+				String docFormFileId = idgenService.getNextStringId();
+				paramMap.put("docFormFileId", docFormFileId);
+				
+				
+				String docAtchFileId = idgenService.getNextStringId();
+				paramMap.put("docAtchFileId", docAtchFileId);
+				
+				
+				String docWaitFileId = idgenService.getNextStringId();
+				paramMap.put("docWaitFileId", docWaitFileId);
+				
+				
+				prj3000Service.insertPrj3000RootMenuInfo(paramMap);
+				
+				
+				baseDocList = (List) prj3100Service.selectPrj3100DocList(paramMap);
+			}
+			
+        	model.addAttribute("baseDocList", baseDocList);
+        	
+        	
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	return new ModelAndView("jsonView", paramMap);
+    	}
+    	catch(Exception ex){
+    		Log.error("selectPrj3000DocListAjax()", ex);
+    		
+    		
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		return new ModelAndView("jsonView");
+    	}
+    }
 	
 	
 	@RequestMapping(value="/prj/prj3000/prj3100/selectPrj3100View.do")

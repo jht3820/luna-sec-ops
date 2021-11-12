@@ -24,7 +24,7 @@ var OSLCoreCustomOptionSetting = function () {
 		var readonlyFileIdList = [];
 
 		
-		var essentialCdFileIdList = [];
+		var fileIdList = [];
 		
 		
 		var commonPopup_charger = [];
@@ -35,92 +35,28 @@ var OSLCoreCustomOptionSetting = function () {
 		
 		var defaultConfig = {
 				
+				"viewType": "default",
+				
+				"delAt": false,
+				
+				"readOnly": false,
+				
+				"actionFn":{},	
+				
+				"htmlAppendType":false,
+				
 				"classNm":{
-					
-					"option_half": "option_half",
-					
-					
-					"option_all": "option_all",
-					
-					
-					"option_clear": "option_clear",
-					
-					
-					"option_desc": "option_desc",
-					
-					
-					"option_file": "option_file",
-					
-					
-					"option_fileBtn": "option_fileBtn",
-					
+					"preview_readonly": "osl-preview-readonly",
+					"preview_hide": "osl-preview-hide",
 					
 					"option_readonly": "option_readonly",
-					
-					
-					"option_input_text": "option_input_text",
-					
-					
-					"option_textarea": "option_textarea",
-					
-					
-					"option_checkbox": "option_checkbox",
-					
-					
-					"option_input_date": "option_input_date",
-					
-					
-					"option_select": "option_select",
-					
-					
-					"option_optCharger": "option_optCharger",
-					
-					
-					"option_cls": "option_cls",
-					
-					
-					"option_dept": "option_dept",
-					
-					
-					"option_title": "option_title",
-					
-					
-					"option_deploy": "option_deploy"
 				},
-				
-				"optType":{
-					"option_select": "02",
-					"option_optCharger": "03",
-					"option_cls": "04",
-					"option_deploy": "05",
-					"option_dept": "06"
-				},
-				
-				
-				"optTarget": "02",
-				
-				
-				"optInitReadonly": false,
-				
-				
-				"optFileUploadFunction": $.noop,
-				
-				
-				"optLayoutPreview": false,
-				
-				
-				"optEmptyAppend": true,
-				
-				"prjId": null,
 		};
 		
 		
 		var config = $.extend(true,defaultConfig, usrConfig);
 
 		
-		
-		
-		var removeEventArr = ["dragenter", "dragover", "drop"];
 		
 		
 		var rtnStrArr = [];
@@ -130,20 +66,13 @@ var OSLCoreCustomOptionSetting = function () {
 		if(!$.osl.isNull(optList) && optList.length > 0){
 			
 			
-			var optAtchFileChk = false;
 			
 			
-			var dragAndDropListTmp = [];
+			
+			
 			
 			
 			$.each(optList,function(idx, map){
-				
-				
-				var optionWidthSize = '';
-				
-				
-				var optionTitleClass = '';
-				var optionDefaultWidthSize = '';
 				
 				
 				var optionPcWidthSize = "col-lg-"+map.itemPcRowNum;
@@ -155,9 +84,23 @@ var OSLCoreCustomOptionSetting = function () {
 				
 				var optContentLabel = '';
 				
+				var requiredLabelTxt = "";
 				var requiredTxt = "";
+				var previewReadOnlyClass="";
+				var previewHideClass="";
+				if(config.viewType=="preview"){
+					previewReadOnlyClass = config.classNm.preview_readonly;
+					previewHideClass = config.classNm.preview_hide;
+				}
+				
 				if(map.itemEssentialCd=='01'){
-					requiredTxt = "required";
+					requiredLabelTxt = "required";
+					if(config.viewType=="preview"){
+						requiredTxt = "";
+					}else{
+						requiredTxt = "required";
+					}
+					
 				}
 				
 				
@@ -168,9 +111,7 @@ var OSLCoreCustomOptionSetting = function () {
 				
 				
 				var itemValue = '';
-				
-				
-				var optTarget = config.optTarget;
+				var itemValueNm = '';
 				
 				
 				var optReadOnlyChk = false;
@@ -178,44 +119,23 @@ var OSLCoreCustomOptionSetting = function () {
 				var optAddClass = config.classNm.option_readonly;
 				
 				
-				if(map.itemRowNum == "01"){ 
-					optionDefaultWidthSize = config.classNm.option_half;
-					
-				}else if(map.itemRowNum == "02"){ 
-					optionDefaultWidthSize = config.classNm.option_all;
-					optionTitleClass = config.classNm.option_clear;
-				}
-				
-
-				
-				if(map.itemCode == "01"){
-					if(map.itemType == "02"){ 
-						
-						optionTitleClass = optionWidthSize = config.classNm.option_desc;
-					}
-				}
-				else if(map.itemCode == "03"){ 
-					
-					optionTitleClass = optionWidthSize = config.classNm.option_file;
-				}
-				
-				
-				if(config.optInitReadonly){
+				if(config.readOnly){
 					optReadOnlyChk = true;
-				
-				}
-				
-				
-				if(!$.osl.isNull(config.optLayoutPreview) && config.optLayoutPreview){
-					optReadOnlyChk = false;
 				}
 				
 				
 				if(!$.osl.isNull(map.itemValue)){
 					itemValue = map.itemValue;
 					
-					
 					itemValue = $.osl.escapeHtml(itemValue);
+				}
+				
+				
+				if(!$.osl.isNull(map.itemValueNm)){
+					itemValueNm = map.itemValueNm;
+					
+					
+					itemValueNm = $.osl.escapeHtml(itemValueNm);
 				}
 				
 				
@@ -225,8 +145,9 @@ var OSLCoreCustomOptionSetting = function () {
 							
 							optReadOnly = optAddClass = '';
 						}
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
-						optContentData = '<input type="text" class="form-control" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" maxlength="'+map.itemLength+'" value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
+						
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentData = '<input type="text" class="form-control '+previewReadOnlyClass+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" maxlength="'+map.itemLength+'" value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
 					}else if(map.itemType == "02"){ 
 						if(!optReadOnlyChk){
 							
@@ -235,8 +156,8 @@ var OSLCoreCustomOptionSetting = function () {
 					
 						
 						itemValue = itemValue.replace(/<br>/gi,"\n").replace(/<\/br>/gi,"\n");
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
-						optContentData = '<textarea class="form-control osl-min-h-px--220 osl-textarea__resize--none '+config.classNm.option_textarea+' '+optAddClass+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" '+optReadOnly+' '+requiredTxt+'>'+itemValue+'</textarea>';
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentData = '<textarea class="form-control osl-min-h-px--220 osl-textarea__resize--none '+previewReadOnlyClass+' '+optAddClass+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" '+optReadOnly+' '+requiredTxt+'>'+itemValue+'</textarea>';
 					}else if(map.itemType == "03"){ 
 						if(!optReadOnlyChk){
 							optReadOnly = optAddClass = '';
@@ -247,56 +168,54 @@ var OSLCoreCustomOptionSetting = function () {
 							optChkVal = " checked";
 						}
 						
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 						optContentData = 
-							 '<div class="form-group kt-margin-b-10"><label class="kt-checkbox kt-checkbox--bold kt-checkbox--success"><input type="checkbox" id="'+map.itemId+'" name="'+map.itemId+'" '+optChkVal+' '+optReadOnly+' '+requiredTxt+'/>'
+							 '<div class="form-group kt-margin-b-10"><label class="kt-checkbox kt-checkbox--bold kt-checkbox--success"><input type="checkbox" class="'+previewReadOnlyClass+'" id="'+map.itemId+'" name="'+map.itemId+'" '+optChkVal+' '+optReadOnly+' '+requiredTxt+'/>'
 							+'<span></span></label></div>';
 					}else if(map.itemType == "04"){ 
-						if(optReadOnlyChk){
-							optReadOnly = 'disabled="disabled"';
-						}else{
+						if(!optReadOnlyChk){
 							optAddClass = '';
 							
 							dateObjList.push(map.itemId);
+							previewReadOnlyClass="osl-input-readonly-none";
 						}
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
-						optContentData = '<input type="text" class="form-control" placeholder="'+itemNm+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentData = '<input type="text" class="form-control '+previewReadOnlyClass+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
 					}else if(map.itemType == "05"){ 
-						if(optReadOnlyChk){
-							optReadOnly = 'disabled="disabled"';
-						}else{
+						if(!optReadOnlyChk){
 							optAddClass = '';
 							
 							dateTimeObjList.push(map.itemId);
+							previewReadOnlyClass="osl-input-readonly-none";
 						}
 						
-						optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
-						optContentData = '<input type="text" class="form-control" placeholder="'+itemNm+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentData = '<input type="text" class="form-control '+previewReadOnlyClass+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
 					}
 				}else if(map.itemCode == "02"){ 
 					if(optReadOnlyChk){
 						optReadOnly = 'disabled="disabled"';
 					}else{
 						optAddClass = '';
+						
+						selectObjList.push({targetId:map.itemId, commCode : map.itemCommonCode});
 					}
-					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
-					optContentData = '<select class="form-control kt-select2" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" opttype="-1" '+optReadOnly+' '+requiredTxt+'></select>';
+					optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+					optContentData = '<select class="form-control kt-select2 '+previewReadOnlyClass+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" opttype="-1" data-osl-value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'></select>';
 					
-					
-					selectObjList.push({targetId:map.itemId, commCode : map.itemCommonCode});
 				}else if(map.itemCode == "03"){ 
 					
-					
-					
-					
-					
-					if(optReadOnlyChk){
-						optFileReadOnlyCss = " fileReadOnly";
+					if(!optReadOnlyChk){
+						fileIdList.push(map.itemId);
 					}
 					
-					
-					
-					
+					optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-file-upload kt-margin-r-5"></i>'+itemNm+'<button type="button" class="btn btn-sm btn-danger d-none kt-margin-l-10" id="fileRemoveResetBtn">삭제 초기화</button></label>'
+					optContentData = 
+						 '<div class="kt-uppy osl-max-h-px-260 fileReadonly" name="'+map.itemId+'FileDiv" id="'+map.itemId+'FileDiv" '+requiredTxt+'>'
+						+	'<input type="hidden" id="'+map.itemId+'" name="'+map.itemId+'">'
+						+	'<div class="kt-uppy__dashboard"></div>'
+						+	'<div class="kt-uppy__progress"></div>'
+						+'</div>';
 				}else if(map.itemCode == "04"){ 
 					var popupBtnStr = '';
 					if(!optReadOnlyChk){
@@ -305,12 +224,12 @@ var OSLCoreCustomOptionSetting = function () {
 						
 						commonPopup_charger.push(map.itemId);
 					}
-					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+					optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 					optContentData = 
 						'<div class="input-group">'
-						+'		<input type="text" class="form-control kt-hide" placeholder="'+itemNm+'" name="'+map.itemId+'" id="'+map.itemId+'" opttype="-1" '+optReadOnly+'>'
-						+'		<input type="text" class="form-control" placeholder="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" opttype="-1" '+optReadOnly+'>'
-						+'		<button type="button" class="btn btn-brand input-group-append" id="'+map.itemId+'Btn" name="'+map.itemId+'Btn"><i class="fa fa-search"></i><span>검색</span></button>'
+						+'		<input type="text" class="form-control kt-hide" placeholder="'+itemNm+'" name="'+map.itemId+'" id="'+map.itemId+'" value="'+itemValue+'" opttype="-1" '+optReadOnly+'>'
+						+'		<input type="text" class="form-control '+previewReadOnlyClass+'" placeholder="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" value="'+itemValueNm+'" opttype="-1" '+optReadOnly+'>'
+						+'		<button type="button" class="btn btn-brand input-group-append '+config.classNm.preview_hide+'" id="'+map.itemId+'Btn" name="'+map.itemId+'Btn"><i class="fa fa-search"></i><span>검색</span></button>'
 						+'</div>' ;
 				}else if(map.itemCode == "05"){ 
 					var popupBtnStr = '';
@@ -320,10 +239,10 @@ var OSLCoreCustomOptionSetting = function () {
 						
 						
 						commonPopup_cls.push(map.itemId);
-						popupBtnStr = '<span class="button_normal2 fl '+config.classNm.option_cls+'" id="btn_cls_select_'+map.itemId+'"><li class="fa fa-search"></li></span>';
+						popupBtnStr = '<span class="button_normal2 fl" id="btn_cls_select_'+map.itemId+'"><li class="fa fa-search"></li></span>';
 					}
-					optContentData = '<input type="text" name="'+map.itemId+'" id="'+map.itemId+'" title="'+itemNm+'" opttype="'+config.optType.option_cls+'"  value="'+itemValue+'" style="display:none;"/>'
-										+'<input type="text" class="'+config.classNm.option_input_text+' '+config.classNm.option_cls+' '+optAddClass+'" title="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" modifyset="02" value="'+$.trim(map.itemValueNm)+'" readonly="readonly"/>'
+					optContentData = '<input type="text" name="'+map.itemId+'" id="'+map.itemId+'" title="'+itemNm+'" value="'+itemValue+'" style="display:none;"/>'
+										+'<input type="text" class="'+optAddClass+'" title="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" modifyset="02" value="'+$.trim(map.itemValueNm)+'" readonly="readonly"/>'
 										+popupBtnStr;
 				}else if(map.itemCode == "06"){ 
 					var popupBtnStr = '';
@@ -336,21 +255,28 @@ var OSLCoreCustomOptionSetting = function () {
 					
 					
 					
-					optContentLabel = '<label class="'+requiredTxt+'"><i class="fa fa-id-card kt-margin-r-5"></i><span>'+itemNm+'</span></label>';
+					optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-id-card kt-margin-r-5"></i><span>'+itemNm+'</span></label>';
 
 					optContentData = 
 						'<div class="input-group">'
-						+'		<input type="text" class="form-control kt-hide" placeholder="'+itemNm+'" name="'+map.itemId+'" id="'+map.itemId+'" opttype="-1" '+optReadOnly+'>'
-						+'		<input type="text" class="form-control" placeholder="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" opttype="-1" '+optReadOnly+'>'
-						+'		<button type="button" class="btn btn-brand input-group-append" id="'+map.itemId+'Btn" name="'+map.itemId+'Btn"><i class="fa fa-search"></i><span>부서검색</span></button>'
+						+'		<input type="text" class="form-control kt-hide" placeholder="'+itemNm+'" name="'+map.itemId+'" id="'+map.itemId+'" value="'+itemValue+'" opttype="-1" '+optReadOnly+'>'
+						+'		<input type="text" class="form-control '+previewReadOnlyClass+'" placeholder="'+itemNm+'" name="'+map.itemId+'Nm" id="'+map.itemId+'Nm" value="'+itemValueNm+'" opttype="-1" '+optReadOnly+'>'
+						+'		<button type="button" class="btn btn-brand input-group-append '+previewHideClass+'" id="'+map.itemId+'Btn" name="'+map.itemId+'Btn"><i class="fa fa-search"></i><span>부서검색</span></button>'
 						+'</div>' ;
 					
 				}
+				var delBtn = "";
+				
+				
+				if(config.delAt){
+					delBtn = "<button type='button' class='osl-uppy__right close itemDelete' data-item-id='"+map.itemId+"'><i class='fa fa-window-close'></i></button>";
+				}
 				
 				var optCompleData =
-							'<div class="'+optionPcWidthSize+' '+optionTabletWidthSize+' '+optionMobileWidthSize+'">'
+							'<div class="'+optionPcWidthSize+' '+optionTabletWidthSize+' '+optionMobileWidthSize+' basicItemDiv">'
 							+'	<div class="form-group">'
 							+		optContentLabel
+							+		delBtn
 							+		optContentData
 							+'	</div>'
 							+'</div>';
@@ -362,114 +288,35 @@ var OSLCoreCustomOptionSetting = function () {
 			
 			if(rtnStrArr.length > 0){
 				
-				$("#"+htmlTargetObj).html(rtnStrValue);
-				
-				
-				if(!$.osl.isNull(config.optEmptyAppend) && config.optEmptyAppend){
-					
-					var targetElem = $("#"+htmlTargetObj).children("div."+config.classNm.option_title);
-					
-					
-					$.each(targetElem,function(idx, map){
-						
-						
-						var $nextDiv = $(map).next("div");
-						
-						var $nextNextDiv  = $nextDiv.next("div").next("div");
-		
-						
-						var optionAll = $nextDiv.hasClass(config.classNm.option_all);
-						var optionDesc = $(map).hasClass(config.classNm.option_desc);
-		
-						
-						var nextOptionAll = $nextNextDiv.hasClass(config.classNm.option_all);
-						
-						var nextDesc = $nextDiv.next("div").hasClass(config.classNm.option_desc);
-		
-						
-						if(!optionAll){
-							
-							
-							if(optionDesc){
-								
-								if(halfCnt%2 == 1){
-									
-									if( nextOptionAll || (!nextOptionAll && !nextDesc) ){
-										
-										$nextDiv.after('<div class="'+config.classNm.option_title+' '+config.classNm.option_desc+'" optflowid="'+hlafFlowId+'"></div>'
-												+'<div class="'+config.classNm.option_half+' '+config.classNm.option_desc+'" optflowid="'+hlafFlowId+'"></div>');
-										
-									}
-								}
-								
-							
-							}else{
-								
-								if(halfCnt%2 == 1){
-									
-									if( nextOptionAll || (!nextOptionAll && nextDesc) ){
-										
-										$nextDiv.after('<div class="'+config.classNm.option_title+'" optflowid="'+hlafFlowId+'"></div>'
-												+'<div class="'+config.classNm.option_half+'" optflowid="'+hlafFlowId+'"></div>');
-										
-									}
-								}
-							}
-						}
-		
-						
-						if(targetElem.length == (idx+1)){
-							
-							
-							if(halfCnt%2 == 1){	
-								
-								if(optionDesc){
-									
-									$nextDiv.after('<div class="'+config.classNm.option_title+' '+config.classNm.option_desc+'" optflowid="'+hlafFlowId+'"></div>'
-											+'<div class="'+config.classNm.option_half+' '+config.classNm.option_desc+'" optflowid="'+hlafFlowId+'"></div>');
-								
-								
-								}else{
-									
-									$nextDiv.after('<div class="'+config.classNm.option_title+'" optflowid="'+hlafFlowId+'"></div>'
-											+'<div class="'+config.classNm.option_half+'" optflowid="'+hlafFlowId+'"></div>');
-								}
-							}
-							return false;
-						}
-					});
-				}
-			}
-			
-			if(optAtchFileChk && dragAndDropListTmp.length > 0){
-				
-				if($.osl.isNull(config.optLayoutPreview) || !config.optLayoutPreview){
-					
-					if($.osl.isNull(config.optInitReadonly) || !config.optInitReadonly){
-						var dragAndDropList = [];
-						
-						$.each(dragAndDropListTmp, function(idx, map){
-							dragAndDropList.push({auth:"opt", obj:$("#fileDiv_"+map), rtnFunc: config.optFileUploadFunction});
-						});
-						
-						fnDragAndDropEventSet(dragAndDropList);	
-					}
-					
+				if(!config.htmlAppendType){
+					$("#"+htmlTargetObj).html(rtnStrValue);
+				}else{
+					$("#"+htmlTargetObj).append(rtnStrValue);
 				}
 			}
 			
 			
-			var removeArr = removeEventArr.slice();
-			
-			removeArr.push("click");
-			
-			$.each(readonlyFileIdList,function(idx, fileId){
-				
-				$.each(removeArr,function(arrIdx, delEvent){
-					
-					$(".opt_drop_file[fileid="+fileId+"]").off(delEvent);
-				});
+			$(".itemDelete").off();
+			$(".itemDelete").click(function(){
+				if(config.actionFn.hasOwnProperty("delete")){
+					config.actionFn.delete($(this));
+				}else{
+					$(this).parents(".basicItemDiv:first").remove();
+				}
 			});
+			
+			
+			if(!$.osl.isNull(fileIdList)){
+				
+				$.each(fileIdList,function(idx, map){
+					
+					
+					
+				});
+			};
+			
+			
+			
 			
 			
 			if(!$.osl.isNull(dateObjList)){
@@ -497,8 +344,6 @@ var OSLCoreCustomOptionSetting = function () {
 			
 			
 			if(!$.osl.isNull(selectObjList)){
-				var arrObj = [];
-				
 				
 				$.each(selectObjList,function(idx, map){
 					var commonCodeArr = [
@@ -506,7 +351,10 @@ var OSLCoreCustomOptionSetting = function () {
 					];
 		   	
 					
-					$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
+					$.osl.getMulticommonCodeDataForm(commonCodeArr , false);
+
+					
+					$('#'+map.targetId).select2();
 				});
 			}
 			
@@ -517,7 +365,7 @@ var OSLCoreCustomOptionSetting = function () {
 				$.each(commonPopup_charger,function(idx, map){
 					$("#"+map+"Btn").click(function(){
 			    		var data = {
-			    				usrNm : $("#"+map).val()
+			    				usrNm : $("#"+map+"Nm").val()
 			    		};
 			    		var options = {
 			    				idKey: "searchUsr",
@@ -545,46 +393,82 @@ var OSLCoreCustomOptionSetting = function () {
 				});
 			}
 
-			if(!$.osl.isNull(commonPopup_cls)){
+			
+			
+			
+			
+			var selectDeptInfo = function(targetItem, searchDeptNm){
+		    	
+			   var ajaxObj = new $.osl.ajaxRequestAction({"url":"/stm/stm6000/stm6000/selectStm6000BeforeCmmDeptList.do", 
+					"loadingShow": false}, {"searchDeptNm":$.trim(searchDeptNm)});
 				
-				$.each(commonPopup_cls,function(idx, map){
-					$("#btn_cls_select_"+map).click(function() {
-						gfnCommonClsPopup(function(reqClsId,reqClsNm){
-							$('#'+map).val(reqClsId);
-							$('#'+map+'Nm').val(reqClsNm);
-						}, {prjId: config.prjId});
-					});
+				ajaxObj.setFnSuccess(function(data){
+					if(data.errorYn == "Y"){
+						$.osl.alert(data.message,{type: 'error'});
+					}else{
+						var deptList = data.deptList;
+						if(deptList.length == 1){
+							
+							var deptId = deptList[0].deptId;
+							var deptNm = deptList[0].deptName;
+							
+							if(!$.osl.isNull(deptId) && !$.osl.isNull(deptNm)){
+	                    		$("#"+targetItem).val(deptId);
+	                    		$("#"+targetItem+"Nm").val(deptNm);
+	                    	}
+						}else{
+							
+							callCommonDeptPopup(targetItem, searchDeptNm);
+						}
+					}
 				});
-			}
+				
+				
+				ajaxObj.send();
+		    	
+		   	};
+		   	
+		   	
+			var callCommonDeptPopup = function(targetItem, searchDeptNm){
+				var data = {deptName:searchDeptNm};
+    			var options = {
+    					idKey: "cmm6500",
+    					modalSize: 'xl',
+    					modalTitle: "조직 검색",
+    					closeConfirm: false,
+    					callback:[{
+    	                    targetId: "cmm6500SelDept",
+    	                    actionFn: function(thisObj){
+    	                		var deptId = $(thisObj).data("dept-id");
+    	                		var deptNm = $(thisObj).data("dept-nm");
+
+    	                		if(!$.osl.isNull(deptId) && !$.osl.isNull(deptNm)){
+    	                    		$("#"+targetItem).val(deptId);
+    	                    		$("#"+targetItem+"Nm").val(deptNm);
+    	                    	}
+    	                    }
+    	                 }]
+    				};
+    			
+    			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6500/selectCmm6500View.do',data,options);
+			};
 			
 			if(!$.osl.isNull(commonPopup_dept)){
 				
 				$.each(commonPopup_dept,function(idx, map){
 					$("#"+map+"Btn").click(function(){
 			    		var searchDeptNm = $.trim($("#"+map+"Nm").val());
-		    			if(searchDeptNm.lastIndexOf(">") > 0){
-		    				
-		    				searchDeptNm = searchDeptNm.substring(searchDeptNm.lastIndexOf(">")+1);
-		    			}
-		    			var data = {deptName:searchDeptNm};
-		    			var options = {
-		    					idKey: "cmm6500",
-		    					modalSize: 'xl',
-		    					modalTitle: "조직 검색",
-		    					closeConfirm: false,
-		    					callback:[{
-		    	                    targetId: "cmm6500SelDept",
-		    	                    actionFn: function(thisObj){
-							        	var deptInfo = JSON.parse(thisObj);
-							        	
-							        	$("#"+map).val(deptInfo.deptId);
-							        	$("#"+map+"Nm").val(deptInfo.deptNm);
-		    	                    }
-		    	                 }]
-		    				};
-		    			
-		    			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6500/selectCmm6500View.do',data,options);
-			    		
+			    		if($.osl.isNull(searchDeptNm)){
+			    			
+			    			callCommonDeptPopup(map);  			
+			    		}else{
+			    			if(searchDeptNm.lastIndexOf(">") > 0){
+			    				
+			    				searchDeptNm = searchDeptNm.substring(searchDeptNm.lastIndexOf(">")+1);
+			    			}
+				    		
+				    		selectDeptInfo(map, searchDeptNm);
+			    		}
 			    	});
 				});
 			}

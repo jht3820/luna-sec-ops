@@ -3,19 +3,19 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<!-- begin page DOM -->
+
 <div class="kt-portlet kt-portlet--mobile">
-<!-- begin :: head -->
-	<!-- begin :: 타이틀 + 카드형,데이터테이블형 변환 버튼 -->
+
+	
 	<div class="kt-portlet__head kt-portlet__head--lg">
-		<!-- begin :: 타이틀  -->
+		
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
 				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
 			</h4>
 		</div>
-		<!-- end :: 타이틀  -->
-		<!-- begin :: 카드형,데이터테이블형 변환 버튼 -->
+		
+		
 		<div class="kt-portlet__head-toolbar">
 			<div class="kt-portlet__head-wrapper">
 				<div class="btn-group" role="group">
@@ -28,17 +28,17 @@
 				</div>
 			</div>
 		</div>
-		<!-- end :: 카드형,데이터테이블형 변환 버튼 -->
+		
 	</div>
-	<!-- end :: 타이틀 + 카드형,데이터테이블형 변환 버튼 -->
-	<!-- begin :: 내용 CRUD관련 영역 -->
+	
+	
 	<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block ">
-		<!-- begin :: 검색 영역 -->
+		
 		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
 			<div class="osl-datatable-search" data-datatable-id="spr1000Table"></div>
 		</div>
-		<!-- end :: 검색 영역 -->
-		<!-- begin :: 조회 등록 수정 삭제 시작 종료 버튼 영역 -->
+		
+		
 		<div class="col-lg-9 col-md-12 col-sm-12 text-right osl-mobile-text--left kt-padding-r-0">
 			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="spr1000Table" data-datatable-action="select" title="스프린트 관리 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
 				<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
@@ -59,19 +59,19 @@
 				<i class="fas fa-stop-circle"></i><span data-lang-cd="spr1000.button.sprEnd">종료</span>
 			</button>
 		</div>
-		<!-- end :: 조회 등록 수정 삭제 시작 종료 버튼 영역 -->
+		
 	</div>
-	<!-- end :: 내용 CRUD관련 영역 -->
-<!-- end :: head -->
+	
+
 </div>
-<!-- begin :: 카드형 -->
+
 <div id="spr1000CardTable"></div>
-<!-- end :: 카드형 -->
-<!-- begin :: 데이터테이블형 -->
+
+
 <div class="kt_datatable osl-datatable-footer__divide" id="spr1000Table"></div>
-<!-- end :: 데이터테이블형 -->
-<!-- end DOM -->
-<!-- begin page script -->
+
+
+
 <script>
 "use strict";
 var OSLSpr1000Popup = function () {
@@ -79,7 +79,7 @@ var OSLSpr1000Popup = function () {
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
-		// begin:: 그룹 요구사항 관리 데이터테이블
+		// begin:: 스프린트 관리 데이터테이블
 		$.osl.datatable.setting("spr1000Table",{
 			cardUiTarget: $("#spr1000CardTable"),
 			data: {
@@ -166,11 +166,16 @@ var OSLSpr1000Popup = function () {
 				},
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
 					var data = {
-							paramSprId:rowData.sprId,
-							paramSprStDt:rowData.sprStDt,
-							paramSprEdDt:rowData.sprEdDt,
-							paramSprDesc:rowData.sprDesc,
-							paramSprTypeCd:rowData.sprTypeCd
+							paramSprId : rowData.sprId,
+							paramSprStDt : rowData.sprStDt,
+							paramSprEdDt : rowData.sprEdDt,
+							paramSprNm: rowData.sprNm,
+							paramSprDesc : rowData.sprDesc,
+							paramRestDay : rowData.restDay,
+							paramSprEndPercent : Math.trunc(rowData.sprEndPercent),
+							paramSprTypeNm : rowData.sprTypeNm,
+							paramSprTypeCd : rowData.sprTypeCd,
+							paramUseCd: rowData.useCd,
 						};
 					
 					var options = {
@@ -211,6 +216,7 @@ var OSLSpr1000Popup = function () {
 							paramPrjGrpId: sprInfo.prjGrpId
 							,paramPrjId: sprInfo.prjId
 							,paramSprId: sprInfo.sprId
+							,paramSprNm: sprInfo.sprNm
 							,paramStartDt: sprInfo.sprStDt
 							,paramEndDt: sprInfo.sprEdDt
 						};
@@ -297,22 +303,28 @@ var OSLSpr1000Popup = function () {
 						if(rowCnt == 0){
 							sprintStr += '<div class="row">';
 						}
-						
+						var restDay = 0;
+						//종료일 경우 남은 일 수 0
+						if(map.sprTypeCd == "03"){
+							restDay = 0;
+						}else{
+							restDay = $.osl.escapeHtml(map.restDay);
+						}
 						//카드 UI
 						sprintStr +=
 							'<div class="col-lg-6 col-md-12 col-sm-12">'
-								//<!-- begin :: 카드 -->
+								//
 								+'<div class="kt-portlet kt-portlet--mobile">'
-									//<!-- begin :: 카드 상단 영역-->
+									//
 									+'<div class="kt-portlet__head kt-portlet__head--lg">'
-										//<!-- begin :: 스프린트 이름-->'
+										//'
 										+'<div class="kt-portlet__head-label">'
 											+'<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"><input type="checkbox" value="'+idx+'" data-datatable-id="spr1000Table">&nbsp;<span></span></label>'
 											+'<h5 class="kt-font-boldest"><span class="badge badge-primary kt-margin-r-10">No. '+map.rn+'</span></h5>'
 											+'<h5><span class="badge badge-primary" title="스프린트 기간" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><i class="far fa-calendar-alt kt-margin-r-10"></i>'+map.sprStDt+' ~ '+map.sprEdDt+'</span></h5>'
 										+'</div>'
-										//<!-- end :: 스프린트 이름-->
-										//<!-- begin :: dropdown 버튼 -->
+										//
+										//
 										+'<div class="kt-portlet__head-toolbar">'
 											+'<div class="dropdown dropdown-inline">'
 												+'<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
@@ -334,7 +346,7 @@ var OSLSpr1000Popup = function () {
 												+'</div>'
 											+'</div>'
 										+'</div>'
-										//<!-- end :: dropdown 버튼-->
+										//
 									+'</div>'
 									
 									+'<div class="kt-portlet__body">'
@@ -355,6 +367,10 @@ var OSLSpr1000Popup = function () {
 											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
 												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1000.endDate")+'</span>'
 												+'<h5><span class="badge badge-danger">'+$.osl.escapeHtml(map.sprEdDt)+'</span></h5>'
+											+'</div>'
+											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
+												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>남은 일수</span>'
+												+'<h5><span class="badge badge-warning osl-min-width-85">'+restDay+'</span></h5>'
 											+'</div>'
 											+'<div class="osl-flex-row-fluid osl-margin-b-175rm">'
 												+'<div class="osl-progress">'
@@ -406,9 +422,9 @@ var OSLSpr1000Popup = function () {
 											+'</div>'
 										+'</div>'
 									+'</div>'
-									//<!-- end :: 카드 하단 영역 -->
+									//
 								+'</div>'
-								//<!-- end :: 카드 -->
+								//
 							+'</div>';
 						
 						rowCnt++;
@@ -424,6 +440,7 @@ var OSLSpr1000Popup = function () {
 					$.each(list, function(idx, map){
 						drawChart(map);
 					})
+					
 					//툴팁시작
 					KTApp.initTooltips();
 				}
@@ -515,6 +532,9 @@ var OSLSpr1000Popup = function () {
 					type:false
 				},
 				chart:{
+					toolbar: {
+						show:false
+					},
 					height:180,
 					//라인 색상
 					colors: ["#ffb822","#840ad9"],
@@ -532,7 +552,7 @@ var OSLSpr1000Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		//해당 데이터가 x라벨에 존재할 경우 표출 아니면 미표출
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
@@ -568,31 +588,15 @@ var OSLSpr1000Popup = function () {
 					yaxis: {
 						show:true
 		        	},
-		        	toolbar:{
-		        		tools:{
-		        			pan:false
-		        		}
-		        	},
 		        	grid:{
 		        		show:true
 		        	}
-				},
-				callback:{
-					//차트가 작성 후 실행
-					initComplete: function(chartContext, config){
-						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
-						$(".apexcharts-reset-icon").addClass("kt-margin-0");
-						$(".apexcharts-toolbar").addClass("kt-margin-10");
-						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
-						$(".apexcharts-toolbar").removeAttr("style[padding]");
-					}
 				}
 			});
 		 }
  	//차트 데이터 정제
  	var getDataRangeData = function(sttDt, endDT, type, data){
  		//이상적인 번업라인 데이터 만들기
-
  		if(data.length!=0){
 	 		//누적 스토리포인트 날짜:스토리포인트 형태로 변환
 	 		var sprPoint = [];
@@ -602,7 +606,6 @@ var OSLSpr1000Popup = function () {
 	 			sprPoint.push(_series);
 	 		});
  		}
- 		
  		//시작일자와 종료일자 사이의 날짜를 일별로 자르기.
  		if(type=='1'){
  			var resDay = [];
@@ -695,5 +698,5 @@ $.osl.ready(function(){
 	OSLSpr1000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

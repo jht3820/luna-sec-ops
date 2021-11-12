@@ -589,6 +589,7 @@
 										var key = config.data.key;
 										var pKey = config.data.pKey;
 										var labelKey = config.data.labelKey;
+										var type = config.data.type;
 										
 										
 										$.each(treeDataList, function(idx, map){
@@ -598,6 +599,11 @@
 										
 										
 										$.each(treeDataList, function(idx, map){
+											
+											if(!$.osl.isNull(type) && map.hasOwnProperty(type)){
+												map["type"] = map[type];
+											}
+											
 											
 											if(tmpMap[map[pKey]] && map[key] != map[pKey]){
 												
@@ -709,7 +715,8 @@
 								
 								pKey:"",
 								
-								labelKey: ""
+								labelKey: "",
+								type:""
 							},
 				            'plugins': ["contextmenu", "types", "search"],
 				            'core': {
@@ -1029,7 +1036,6 @@
 				    return typeof mainArgu[idx] != 'undefined' ? mainArgu[idx] : match;
 				});
 			}
-			
 			return rtnLangStr;
 		}
 		
@@ -1773,7 +1779,7 @@
 	        				
 	        			});
 	        		}
-
+	        		
 	        		
         			$.osl.datatable.setting("notificationsTable",{
         				data: {
@@ -1811,6 +1817,8 @@
         						$("#notificationsCardTable").show();
         					},
         					ajaxDone: function(evt, list){
+        						mssArmLoad(); 
+        						
         						var ntfStr = '';
         						var cardMsg = '';
         						$.each(list, function(idx, map){
@@ -2841,10 +2849,10 @@
 								"dblClick": ""
 							},
 							actionBtnIcon:{
-								"update": "la la-edit",
-								"delete": "la la-trash",
-								"click": "la la-check-square",
-								"dblClick": "la la-external-link"
+								"update": "fa fa-edit",
+								"delete": "far fa-trash-alt",
+								"click": "fa fa-check-square",
+								"dblClick": "fa fa-external-link-alt"
 							}
 						},
 						callback:{

@@ -40,7 +40,7 @@
 					<div class="form-group">
 						<c:choose>
 							<c:when test="${param.lvl >= '3'}">
-								<!-- 소메뉴일 경우 메뉴 경로 필수입력 -->
+								
 								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i>메뉴 경로</label>
 								<input type="text" class="form-control" placeholder="메뉴 경로" name="menuPath" id="menuPath" maxlength="250" required>
 							</c:when>
@@ -55,7 +55,7 @@
 					<div class="form-group">
 						<c:choose>
 							<c:when test="${param.lvl >= '3'}">
-								<!-- 소메뉴일 경우 메뉴 URL 필수입력 -->
+								
 								<label class="required"><i class="fa fa-edit kt-margin-r-5"></i>메뉴 URL</label>
 								<input type="text" class="form-control" placeholder="메뉴 URL" name="menuUrl" id="menuUrl" maxlength="250" required>
 							</c:when>
@@ -68,7 +68,7 @@
 				</div>
 			</div>
 			<c:if test="${param.lvl == '2'}">
-				<!-- 2레벨 메뉴는 아이콘 지정 가능 -->
+				
 				<div class="row">
 					<div class="col-xl-6">
 						<div class="form-group">
@@ -133,8 +133,9 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="stm2001SaveSubmit">완료</button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">Close</button>
+	<button type="button" class="btn btn-brand" id="stm2001SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close"
+	>Close</span></button>
 </div>
 
 <script>
@@ -300,7 +301,8 @@ var OSLStm2001Popup = function () {
 	    				//모달 창 닫기
 	    				$.osl.layerPopupClose();
 	    				
-	    				// 트리 재조회 추가
+	    				// 트리 재조회
+	    				$("button[data-tree-id=stm2000MenuTree][data-tree-action=select]").click();
 	    			}
 	    		});
 	    		
@@ -345,7 +347,8 @@ var OSLStm2001Popup = function () {
 	    				//모달 창 닫기
 	    				$.osl.layerPopupClose();
 
-	    				// 트리 재조회 추가
+	    				// 트리 재조회
+	    				$("button[data-tree-id=stm2000MenuTree][data-tree-action=select]").click();
 	    			}
 	    		});
 	    		

@@ -74,18 +74,18 @@
 						</h5>
 					</div>
 				</div>
-				<!-- begin::job 목록 영역 -->
+				
 				<div class="kt-portlet__body kt-pl15 kt-pr15 kt-pb-10">
 					<div class="kt-scroll" id="jobListInfo">
 					</div>
 				</div>
-				<!-- end::job 목록 영역 -->
+				
 			</div>
 		</div>
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal">Close</button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 
 <script>
@@ -367,6 +367,19 @@ var OSLStm9002Popup = function () {
     		
     	// job 상세보기	
     	}else if(action == "detail"){
+    		
+    		var data = {
+					paramJenId: jenId,
+					paramJobId: jobId
+			};
+			var options = {
+					idKey: "stm9002_"+jenId +"_"+ jobId,
+					modalTitle: "["+ jobId + "]  상세보기",
+					closeConfirm: false,
+					modalSize: "xl"
+				};
+			
+			$.osl.layerPopupOpen('/stm/stm9000/stm9100/selectStm9102View.do',data,options);
     		
     	}else if(action == "jobListMove"){
     		

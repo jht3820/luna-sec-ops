@@ -39,9 +39,9 @@
 <div class="modal-footer">
 
 	<c:if test="${param.type ne 'view'}">
-		<button type="button" class="btn btn-brand" id="stm2201SaveSubmit"><span>완료</span></button>
+		<button type="button" class="btn btn-brand" id="stm2201SaveSubmit"><i class="fa fa-save"></i><span class="osl-resize__display--show">완료</span></button>
 	</c:if>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><span data-lang-cd="modal.close">Close</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 
 <script>
@@ -50,10 +50,10 @@ var OSLStm2201Popup = function () {
 	var formId = 'frStm2201';
 	var type = $("#type").val();
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
-	//type별 데이터
+	
 	var pageTypeData = {
 			"insert":{
 				"saveString": "신규 시스템 권한 그룹을 등록하시겠습니까?",
@@ -69,10 +69,10 @@ var OSLStm2201Popup = function () {
 			}
 	};
 	
-    // Private functions
+    
     var documentSetting = function () {
     	if(type != "view"){
-	    	//문구 세팅
+	    	
 	    	$("#stm2201SaveSubmit").text(pageTypeData[type]["saveBtnString"]);
 	    	$("#stm2201SaveSubmit > span").text($.osl.lang("stm2201."+type+".saveBtnString"));
     	}else{
@@ -85,102 +85,102 @@ var OSLStm2201Popup = function () {
     	}
     	
     	
-    	// stm2201 팝업 공통코드 select 세팅
+    	
 		var commonCodeArr = [
-			{mstCd: "ADM00004", useYn: "Y",targetObj: "#usrTyp", comboType:"OS"},	 	// 사용자유형
-			{mstCd: "CMM00001", useYn: "Y",targetObj: "#acceptUseCd", comboType:"OS"}, 	// 접수권한 사용유무
-			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"} 		// 사용유무
+			{mstCd: "ADM00004", useYn: "Y",targetObj: "#usrTyp", comboType:"OS"},	 	
+			{mstCd: "CMM00001", useYn: "Y",targetObj: "#acceptUseCd", comboType:"OS"}, 	
+			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"} 		
 		];
 
-  		//공통코드 채우기
+  		
 		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
     	
-  		// 접수권한 유무[예]로 변경 시 알림메시지 표시
+  		
   		$("#acceptUseCd").change(function(){
   			if($(this).val() == "01"){
   				$.osl.alert(pageTypeData["common"]["acceptUse"], {text:pageTypeData["common"]["acceptMenu"]});
   			}
   		});
 
-		// textarea 자동 사이즈 조절 설정
+		
     	autosize($("#authGrpDesc"));
   		
-		//수정인경우
+		
     	if(type == "update"){
-    		// 시스템 권한그룹 정보 조회
+    		
     		selectStmAuthInfo();
     	}
-		//조회인경우
+		
     	else if(type == "view"){
-       		// 시스템 권한그룹 정보 조회
+       		
        		selectStmAuthInfo();
        	}
 	
-    	// 등록&수정 버튼 클릭
+    	
     	$("#stm2201SaveSubmit").click(function(){
     		
     		var form = $('#'+formId);
     		
-    		//폼 유효 값 체크
+    		
     		if (!form.valid()) {
     			return;
     		}
     		
-        	// 권한그룹 등록&수정
+        	
         	submitSaveAction();
     	});
     	
     };
 
     
-    // 시스템 권한그룹 단건 조회
+    
 	var selectStmAuthInfo = function() {
     	
     	var paramAuthGrpId = $("#authGrpId").val();
     	
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/stm/stm2000/stm2200/selectStm2200StmAuthGrpInfoAjax.do'/>", "async": false}
 				,{"authGrpId":paramAuthGrpId});
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
-				// 권한그룹 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.stmAuthGrpInfoMap,"frStm2201", ["authGrpId", "authGrpNm", "ord", "authGrpDesc"]);
 				
-		    	// combobox selected setting
+		    	
 		    	$("#useCd").attr("data-osl-value", data.stmAuthGrpInfoMap.useCd);
 				$("#acceptUseCd").attr("data-osl-value", data.stmAuthGrpInfoMap.acceptUseCd);
 				$("#usrTyp").attr("data-osl-value", data.stmAuthGrpInfoMap.usrTyp);
 				
-				// textarea 입력된 내용에 따라 size 조정
+				
 				autosize.update($("#authGrpDesc"));
 			}	
 			
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
     
     
-  	// 시스템 권한그룹 등록&수정
+  	
     var submitSaveAction = function(){
     	
     	var form = $('#'+formId);
   		
-    	// url 세팅
+    	
     	var url = "<c:url value='/stm/stm2000/stm2200/insertStm2200StmAuthGrpInfoAjax.do'/>";
     	if(type == "update"){
     		url = "<c:url value='/stm/stm2000/stm2200/updateStm2200StmAuthGrpInfoAjax.do'/>"
     	}
     	
-		//폼 유효 값 체크
+		
 		if (!form.valid()) {
 			return;
 		}
@@ -190,36 +190,36 @@ var OSLStm2201Popup = function () {
 	        	
 	        	var formData = form.serializeArray();
 	        	
-	    		//AJAX 설정
+	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction({"url":url, "loadingShow": false}, formData);
 
-	    		//AJAX 전송 성공 함수
+	    		
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    				//모달 창 닫기
+	    				
 						$.osl.layerPopupClose();
 	    			}else{
-	    				// 등록&수정 성공
+	    				
 	    				$.osl.toastr(data.message);
 
-	    				//모달 창 닫기
+	    				
 	    				$.osl.layerPopupClose();
 	    				
 	    				if(type == "insert"){
-		    				//datatable 조회 - 등록일 경우
+		    				
 		    				$("button[data-datatable-id=stm2200AuthTable][data-datatable-action=select]").click();
 	    				}else{
-	    					// 수정시 현재페이지 유지한채로 재조회
+	    					
 	    					$.osl.datatable.list["stm2200AuthTable"].targetDt.reload();	
 	    				}
 	    				
-	    				// 등록,수정 이후 folding 영역에 권한그룹 목록 재조회
+	    				
 	    				OSLStm2200.selectFoldingAuthList();
 	    			}
 	    		});
 	    		
-	    		//AJAX 전송
+	    		
 	    		ajaxObj.send();
 	        }
 	    });
@@ -227,7 +227,7 @@ var OSLStm2201Popup = function () {
     };
 	
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -235,7 +235,7 @@ var OSLStm2201Popup = function () {
     };
 }();
 
-//Initialization
+
 $.osl.ready(function(){
 	OSLStm2201Popup.init();
 });

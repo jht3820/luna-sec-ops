@@ -142,8 +142,6 @@
 										if(notRead.get>0){
 											$("#kt_offcanvas_toolbar_message_toggler_btn").find(".pulse-ring").removeClass("kt-hide");
 											$("#kt_offcanvas_toolbar_message_toggler_btn").find(".kt-badge.kt-badge--brand").removeClass("kt-hide");
-											
-											
 										
 										}else{
 											$("#kt_offcanvas_toolbar_message_toggler_btn").find(".pulse-ring").addClass("kt-hide");
@@ -179,10 +177,10 @@
 							
 							
 							<div class="kt-header__topbar-item">
-								<div class="kt-header__topbar-wrapper pulse pulse-success" id="kt_offcanvas_toolbar_message_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="메시지" onclick="$.osl.layerPopupOpen('/arm/arm1000/arm1000/selectArm1000View.do',null,{idKey:'message', modalSize:'fs', modalTitle:'MESSAGE'})">
+								<div class="kt-header__topbar-wrapper pulse pulse-success" id="kt_offcanvas_toolbar_message_toggler_btn" data-toggle="kt-tooltip" data-skin="brand" title="메시지" onclick="$.osl.layerPopupOpen('/arm/arm1000/arm1000/selectArm1000View.do',null,{idKey:'message', modalSize:'xl', modalTitle:'MESSAGE'})">
 									<span class="kt-header__topbar-icon"><i class="flaticon-email-black-circular-button"></i></span>
-									<span class="pulse-ring"></span>
-									<span class="kt-badge kt-badge--brand"></span>
+									<span class="pulse-ring kt-hide"></span>
+									<span class="kt-badge kt-badge--brand kt-hide"></span>
 								</div>
 							</div>
 							
@@ -248,7 +246,7 @@
 								<div class="kt-header__topbar-username">
 									${sessionScope.loginVO.usrNm}
 								</div>
-								<div class="kt-header__topbar-wrapper">
+								<div class="kt-header__topbar-wrapper osl-btn__cursor--default">
 									<img alt="Pic" src="/cmm/fms/getImage.do?fileSn=0&atchFileId=${sessionScope.loginVO.usrImgId}" onerror="this.src='/media/users/default.jpg'"/>
 								</div>
 							</div>

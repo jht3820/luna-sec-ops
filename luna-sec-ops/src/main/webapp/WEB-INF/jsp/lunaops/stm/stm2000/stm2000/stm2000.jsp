@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 <div class="row">
-	<div class="col-xl-4">
+	<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
 		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
@@ -17,7 +17,7 @@
 					<div class="kt-portlet__head-group">
 						<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="stm2000MenuTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a>
 						<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="stm2000MenuTree" data-tree-action="allNodeClose"><i class="fa fa-minus"></i></a>
-						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 					</div>
 				</div>
 			</div>
@@ -36,8 +36,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-8 ">
-		<div class="kt-portlet kt-portlet--mobile" id="stm2000MenuTreeInfo">
+	<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+		<div class="kt-portlet kt-portlet--mobile">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
 					<h4 class="kt-font-boldest kt-font-brand">
@@ -45,24 +45,24 @@
 					</h4>
 				</div>
 				<div class="kt-portlet__head-toolbar">
-					<!-- begin::메뉴 버튼 영역 -->
+					
 					<div class="kt-portlet__head-wrapper kt-margin-r-10">
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-tree-id="stm2000MenuTree" data-tree-action="select" title="메뉴 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm2000MenuTree" data-tree-action="select" title="메뉴 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span>조회</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-tree-id="stm2000MenuTree" data-tree-action="insert" title="메뉴 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm2000MenuTree" data-tree-action="insert" title="메뉴 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
 							<i class="fa fa-plus"></i><span>추가</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-tree-id="stm2000MenuTree" data-tree-action="update" title="메뉴 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm2000MenuTree" data-tree-action="update" title="메뉴 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
 							<i class="fa fa-edit"></i><span>수정</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-tree-id="stm2000MenuTree" data-tree-action="delete" title="메뉴 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm2000MenuTree" data-tree-action="delete" title="메뉴 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
 							<i class="fa fa-trash-alt"></i><span>삭제</span>
 						</button>
 					</div>
-					<!-- end::메뉴 버튼 영역 -->
+					
 					<div class="kt-portlet__head-group">
-						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="la la-angle-down"></i></a>
+						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 					</div>
 				</div>
 			</div>
@@ -172,31 +172,116 @@
 		</div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
-var treeObj;
 var OSLStm2000 = function () {
 	
 	var formId = "frStm2000";
+	var treeObj;
 	
 	var documentSetting = function(){
   		
-		// 조직 tree 세팅
+		// 메뉴 tree 세팅
 		treeObj = $.osl.tree.setting("stm2000MenuTree",{
 			data:{
 				url:"<c:url value='/stm/stm2000/stm2000/selectStm2000MenuListAjax.do'/>",
 				key: "menuId",
 				pKey: "upperMenuId",
-				labelKey: "menuNm"
+				labelKey: "menuNm",
+				type: "useCd"
 			},
+			types : {
+                "02" : {"icon" : " fa fa-eye-slash"}
+            },
 			search:{
 				//대소문자 구분
 				case_insensitive : true,
 				//검색 결과 노드만 표시
 				show_only_matches: true,
 				//show_only_matches: true 일때 하위 노드도 같이 표시 할건지
-				show_only_matches_children: true,
+				show_only_matches_children: true
+			},
+			actionFn:{
+				"insert" : function(treeObj, nodeData){
+					
+					if($.osl.isNull(nodeData)){
+						$.osl.alert("메뉴를 선택해주세요.");
+						return false;
+					}
+					
+					// 선택 메뉴가 3레벨일 경우
+					if(nodeData.lvl >= 3){
+						$.osl.alert("3레벨 이상 메뉴를 추가할 수 없습니다.");
+						return false;
+					}
+					
+					// 선택한 메뉴가 미사용일경우
+					if(nodeData.useCd == "02"){
+						$.osl.alert("미사용 메뉴에는 하위 메뉴를 추가할 수 없습니다.");
+						return false;
+					}
+					
+					// 등록 팝업 호출
+					var data = {
+							type:"insert",
+							upperMenuId : nodeData.menuId,
+							upMenuNm : nodeData.menuNm,
+							lvl : nodeData.lvl +1, // 새로 추가하는 메뉴의 레벨은 상위메뉴 레벨+1로 자동 세팅
+							moduleType : nodeData.moduleType
+					};
+					var options = {
+							idKey: nodeData.menuId,
+							modalTitle: "신규 메뉴 등록",
+							closeConfirm: false
+					};
+					
+					$.osl.layerPopupOpen('/stm/stm2000/stm2000/selectStm2001View.do',data, options);
+				},
+				"update": function(treeObj, nodeData){
+					
+					if($.osl.isNull(nodeData)){
+						$.osl.alert("수정할 메뉴를 선택해주세요.");
+						return false;
+					}
+					
+					// 수정 팝업 호출
+					var data = {
+							type:"update",
+							menuId : nodeData.menuId,
+							lvl : nodeData.lvl
+					};
+					var options = {
+							idKey: nodeData.menuId,
+							modalTitle: "메뉴 수정",
+							closeConfirm: false
+					};
+					
+					$.osl.layerPopupOpen('/stm/stm2000/stm2000/selectStm2001View.do',data,options);
+				},
+				"delete": function(treeObj, nodeData){
+					
+					//선택한 트리 노드 없으면 튕기기
+					var selectNodeIds = treeObj.jstree("get_selected");
+					if($.osl.isNull(selectNodeIds)){
+						$.osl.alert("삭제할 메뉴를 선택해주세요.");
+						return false;
+					}
+					
+					// 선택노드
+					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
+					
+					// root 삭제불가
+					if(nodeData.lvl == 0 || $.osl.isNull(nodeData.upperMenuId)){
+						$.osl.alert("최상위 메뉴(root)는 삭제할 수 없습니다.");
+					// 하위메뉴 존재시 상위메뉴 삭제불가
+					}else if(!$.osl.isNull(selectNode.children)){
+						$.osl.alert("하위 메뉴가 존재하기때문에 삭제할 수 없습니다. <br/>하위메뉴를 먼저 삭제해주세요.");
+					}else{
+						// 메뉴 삭제
+						deleteMenuInfo(nodeData);
+					}
+				}
 			},
 			callback:{
 				onclick: function(treeObj,selNode){
@@ -204,13 +289,13 @@ var OSLStm2000 = function () {
 					selectMenuInfo(selNode.original.menuId);
 				},
 				init: function(treeObj,data){
-					//console.log(treeObj,data);
+					
 				}
 			}
 		});
 		
 		
-		// (임시) 버튼클릭 이벤트  - 등록, 수정, 삭제 
+		/* // (임시) 버튼클릭 이벤트  - 등록, 수정, 삭제 
 		// tree 외부 action button 추가 후 변경
 		$("#stm2000MenuTreeInfo").find("button[data-tree-id='stm2000MenuTree']").click(function(){
 			
@@ -293,7 +378,7 @@ var OSLStm2000 = function () {
 				}
 			}
 		
-		});
+		}); */
 		
 		//퍼펙트 스크롤 적용
 		KTUtil.scrollInit($("#stm2000MenuTree")[0], {
@@ -378,7 +463,8 @@ var OSLStm2000 = function () {
 	    				//삭제 성공
 	    				$.osl.toastr(data.message);
 	    				
-	    				// 트리 재조회 추가
+	    				// 트리 재조회
+	    				$("button[data-tree-id=stm2000MenuTree][data-tree-action=select]").click();
 	    			}
 	    		});
 	    		
@@ -401,7 +487,7 @@ $.osl.ready(function(){
 	OSLStm2000.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />
 
 

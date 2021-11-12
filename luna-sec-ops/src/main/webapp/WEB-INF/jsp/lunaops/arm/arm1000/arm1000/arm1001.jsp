@@ -46,8 +46,8 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="arm1001InsertSubmit"><i class="fa fa-check-square"></i><span data-lang-cd="arm1001.button.submit">보내기</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span data-lang-cd="modal.close">Close</span></button>
+	<button type="button" class="btn btn-brand" id="arm1001InsertSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="arm1001.button.submit">보내기</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 
 <script>
@@ -206,7 +206,7 @@ var OSLArm1001Popup = function () {
 				return false;
 			}
 
-			$.osl.confirm($.osl.lang("arm1001.message.send"),null,function(result) {
+			$.osl.confirm($.osl.lang("arm1001.message.send"),{"html" : true},function(result) {
     	        if (result.value) {
     	        	fileUploadObj.upload();
     	        }

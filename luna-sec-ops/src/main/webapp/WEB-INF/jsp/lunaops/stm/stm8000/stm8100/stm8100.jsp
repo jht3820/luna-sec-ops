@@ -22,9 +22,9 @@
 		<div class="kt-portlet kt-portlet--mobile  kt-margin-b-0">
 			<div class="kt-portlet__head kt-portlet__head--lg">
 				<div class="kt-portlet__head-label">
-					<h4 class="kt-font-boldest kt-font-brand">
+					<h5 class="kt-font-boldest kt-font-brand">
 						<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="stm8100.title.allProjectList">전체 프로젝트 목록</span>
-					</h4>
+					</h5>
 				</div>
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-group">
@@ -35,7 +35,7 @@
 							<i class="fa fa-minus"></i>
 						</a>
 						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md">
-							<i class="la la-angle-down"></i>
+							<i class="fa fa-chevron-down"></i>
 						</a>
 					</div>
 				</div>
@@ -69,7 +69,6 @@
 				</div>
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-wrapper">
-						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="stm8100AssignStrgTable"></div>
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100AssignStrgTable" data-datatable-action="select" title="소스 저장소 배정 목록 조회" data-title-lang-cd="stm8100.toolTip.selectAssignStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
@@ -84,7 +83,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="kt-portelt__body">
+			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-lg-6 col-md-7 col-sm-12 col-12">
+						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="stm8100AssignStrgTable"></div>
+					</div>
+				</div>
 				<div class="kt_datatable" id="stm8100AssignStrgTable"></div>
 			</div>
 		</div>
@@ -99,7 +103,6 @@
 				</div>
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-wrapper">
-						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="stm8100NonAssignStrgTable"></div>
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8100NonAssignStrgTable" data-datatable-action="select" title="소스 저장소 미배정 목록 조회" data-title-lang-cd="stm8100.toolTip.selectNonAssignStrg" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
@@ -109,7 +112,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="kt-portelt__body">
+			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-lg-6 col-md-7 col-sm-12 col-12">
+						<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="stm8100NonAssignStrgTable"></div>
+					</div>
+				</div>
 				<div class="kt_datatable" id="stm8100NonAssignStrgTable"></div>
 			</div>
 		</div>
@@ -184,6 +192,17 @@ var OSLStm8100 = function () {
 					selPrjGrpId = selNode.original.prjGrpId;
 					
 					
+					
+					searchReset(strgAssDatatableId);
+					
+					$("button[data-datatable-id="+strgAssDatatableId+"][data-datatable-action=select]").click();
+					
+					searchReset(strgNonAssDatatableId);
+					
+					$("button[data-datatable-id="+strgNonAssDatatableId+"][data-datatable-action=select]").click();
+					
+					
+					
 					var assDataTableTarget = $.osl.datatable.list[strgAssDatatableId].targetDt;
 					
 					var notAssDataTableTarget = $.osl.datatable.list[strgNonAssDatatableId].targetDt;
@@ -255,7 +274,7 @@ var OSLStm8100 = function () {
 			},
 			actionFn:{
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
-					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), null, function(result){
+					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), {"html" : true}, function(result){
 						if(result.value){
 							assList.push(rowData);
 							deleteRepo(selPrjId, JSON.stringify(assList));
@@ -263,7 +282,7 @@ var OSLStm8100 = function () {
 					});
 				},
 				"removeStrg": function(rowData, datatableId, type, rowNum, elem){
-					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), null, function(result){
+					$.osl.confirm($.osl.lang("stm8100.assignStrgTable.message.remove"), {"html" : true}, function(result){
 						if(result.value){
 							assList = rowData;
 							deleteRepo(selPrjId, JSON.stringify(assList));
@@ -442,6 +461,36 @@ var OSLStm8100 = function () {
 		
     	ajaxObj.send();
 	};
+	
+	
+	var searchReset = function(datatableId){
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
+		
+		
+		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
+		
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
+		
+		
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
+		
+		
+		$("#searchData_"+datatableId).removeAttr("readonly");
+		
+		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
+		
+		
+		$("#searchData_"+datatableId).val("");
+
+		
+		
+		$("#searchData_"+datatableId).attr("disabled","disabled");
+	};
+	
 	
 	return {
         
