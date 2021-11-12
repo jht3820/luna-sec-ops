@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <form class="kt-form" id="frReq4102" autocomplete="off">
 	<input type="hidden" name="type" id="type" value="<c:out value='${param.type}'/>">
 	<input type="hidden" name="reqUsrId" id="reqUsrId" value="<c:out value='${param.paramReqUsrId}'/>">
@@ -154,7 +154,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="kt-portlet kt-portlet--collapsed" data-ktportlet="true" id="req4102NewRequestOpt">
+	<div class="kt-portlet kt-portlet--collapsed kt-hide" data-ktportlet="true" id="req4102NewRequestOpt">
 		<div class="kt-portlet__head">
 			<div class="kt-portlet__head-label">
 				<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4102.label.requestDefaultOptNm">접수 기본항목 입력</span>
@@ -208,7 +208,9 @@ var OSLReq4102Popup = function () {
     	
 		selectReqInfo();
     };
-    
+    /**
+	 * 	요구사항 정보 조회
+	 */
 	 var selectReqInfo = function() {
     	var data = {
     			prjId :  $("#reqPrjId").val(),
