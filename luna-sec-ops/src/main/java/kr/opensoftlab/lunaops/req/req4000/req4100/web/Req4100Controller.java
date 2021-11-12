@@ -1208,6 +1208,8 @@ public class Req4100Controller {
     		
     		
     		List<Map> signUsrList = null;
+    		Map currentSignUsrInfo = null;
+    		String reqSignOrd = "-1";
     		
     		
     		if("01".equals(flowSignCd)) {
@@ -1216,8 +1218,17 @@ public class Req4100Controller {
         		paramMap.put("targetCd", "01");
         		paramMap.put("subTargetFstId", (String) reqInfo.get("processId"));
         		paramMap.put("subTargetScdId", (String) reqInfo.get("flowId"));
+
         		
     			signUsrList = cmm6600Service.selectCmm6600SignUsrList(paramMap);
+    			
+    			
+    			reqSignOrd = String.valueOf(reqInfo.get("reqSignOrd"));
+    			
+    			paramMap.put("ord", String.valueOf(reqSignOrd));
+    			
+    			
+    			currentSignUsrInfo = (Map)cmm6600Service.selectCmm6600NextOrdInfo(paramMap);
     		}
     		
     		
@@ -1259,7 +1270,14 @@ public class Req4100Controller {
     		if(!reqProcessAuthFlag) {
     			
     			if(signUsrList != null) {
-    				
+    				for(Map signUsrInfo : signUsrList) {
+    					
+    					String signUsrId = (String) signUsrInfo.get("signUsrId");
+    					if(usrId.equals(signUsrId)) {
+    						reqProcessAuthFlag = true;
+        					break;
+    					}
+    				}
     			}
     		}
     		
@@ -1285,6 +1303,8 @@ public class Req4100Controller {
 			model.addAttribute("reqChgList", reqChgList);
 			
 			model.addAttribute("signUsrList", signUsrList);
+			model.addAttribute("currentSignUsrInfo", currentSignUsrInfo);
+			model.addAttribute("reqSignOrd", reqSignOrd);
 			
 			model.addAttribute("reqProcessAuthFlag", reqProcessAuthFlag);
 			

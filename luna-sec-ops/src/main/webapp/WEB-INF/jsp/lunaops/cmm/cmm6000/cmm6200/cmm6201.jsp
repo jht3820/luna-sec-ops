@@ -296,7 +296,7 @@
 											<label class="required"></label>
 										</div>
 										<div class="kt-portlet__head-toolbar">
-											<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" name="cmm6201SignFlowBtn" id="cmm6201SignFlowBtn" title="결재선 지정" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+											<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-preview-hide" name="cmm6201SignFlowBtn" id="cmm6201SignFlowBtn" title="결재선 지정" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 												<i class="fa fa-file-signature"></i><span data-lang-cd="datatable.button.select">결재선 지정</span>
 											</button>
 											<div class="kt-portlet__head-group">
@@ -466,6 +466,8 @@
 </form>
 <div class="modal-footer">
 	<input type="hidden" name="cmm6201ModalCallbackBtn" id="cmm6201ModalCallbackBtn"/>
+	<button type="button" class="btn btn-outline-primary kt-hide" id="cmm6201SignAcceptSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">결재 승인</span></button>
+	<button type="button" class="btn btn-outline-danger kt-hide" id="cmm6201SignRejectSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">결재 반려</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
@@ -914,6 +916,14 @@ var OSLCmm6201Popup = function () {
  				
  				//요구사항 정보
 				var reqInfo = data.reqInfo;
+ 				var reqSignCd = reqInfo.reqSignCd;
+ 				var reqSignNm = reqInfo.reqSignNm;
+ 				
+ 				//요구사항이 결재중인경우 읽기 전용으로 변경
+ 				if(!$.osl.isNull(reqSignCd)){
+ 					reqProcessAuthFlag = false;
+ 				}
+ 				
  				
  				//현재 작업흐름 정보
  				var flowInfo = data.flowInfo;
@@ -1127,8 +1137,22 @@ var OSLCmm6201Popup = function () {
 				
 				//작업흐름에 결재 정보 있는지 체크
 				if(flowInfo.flowSignCd == "01"){
-					//상단 결재 필수 추가
-					modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
+					if($.osl.isNull(reqSignCd)){
+						//상단 결재 필수 추가
+						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
+					}else{
+						//결재 진행중인경우 진행중인 명칭
+						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 '+reqSignNm+'</div>'
+						
+						//현재 결재자 정보
+						var currentSignUsrInfo = data.currentSignUsrInfo;
+						
+						//로그인 사용자가 결재자인경우 결재승인, 결재 반려 버튼 보이기
+						var loginUsrId = $.osl.user.userInfo.usrId;
+						if(currentSignUsrInfo.signUsrId == loginUsrId){
+							$("#cmm6201SignAcceptSubmit, #cmm6201SignRejectSubmit").removeClass("kt-hide");
+						}
+					}
 					
 					//결재선 목록 세팅
 					signUsrList = [];
