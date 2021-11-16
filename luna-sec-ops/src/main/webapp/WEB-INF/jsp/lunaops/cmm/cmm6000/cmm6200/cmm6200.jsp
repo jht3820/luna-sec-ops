@@ -618,7 +618,7 @@ var OSLCmm6200Popup = function () {
 		    		};
 		    		var options = {
 		    				idKey: "cmm6209SubmitBtn",
-							modalTitle: $.osl.lang("req4101.modalTitle.userSearch"),
+							modalTitle: "접수 반려",
 							closeConfirm: true,
 							autoHeight:false,
 							modalSize: "xl",
