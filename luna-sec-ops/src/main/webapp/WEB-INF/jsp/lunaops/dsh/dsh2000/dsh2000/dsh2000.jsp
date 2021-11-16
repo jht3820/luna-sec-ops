@@ -245,8 +245,7 @@ var OSLDsh2000Popup = function () {
 		
 		portletAll.push(new KTPortlet('prjTopInfo', $.osl.lang("portlet")));
 		portletAll.push(new KTPortlet('newReq', $.osl.lang("portlet")));
-		portletAll.push(new KTPortlet('reqChargeSign', $.osl.lang("portlet")));
-		portletAll.push(new KTPortlet('reqChargeDpl', $.osl.lang("portlet")));
+		
 		
 		$('#allPortletClose').click(function(){
 			var parentPortlet = $(this).parents('.kt-portlet');
@@ -343,7 +342,7 @@ var OSLDsh2000Popup = function () {
 				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqUsrNm)){
-							row.reqUsrNm = "";
+							row.reqUsrNm = "-";
 						}
 						var usrData = {
 							html: row.reqUsrNm,
@@ -355,16 +354,25 @@ var OSLDsh2000Popup = function () {
 						return $.osl.user.usrImgSet(row.reqUsrImgId, usrData);
 					},
 					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.reqUsrId);
+						if($.osl.isNull(rowData.reqUsrId)){
+							$.osl.alert("없는 사용자입니다.");
+							return false;
+						}else{
+							$.osl.user.usrInfoPopup(rowData.reqUsrId);
+						}
 					}
 				},
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
-						if($.osl.isNull(row.reqChargerNm)){
+						if($.osl.isNull(row.reqChargerId)){
 							return row.reqChargerNm = "-";
 						}else{
+							var chargerNm = row.reqChargerNm;
+							if($.osl.isNull(row.reqChargerNm)){
+								chargerNm = '-';
+							}
 							var usrData = {
-								html: row.reqChargerNm,
+								html: chargerNm,
 								imgSize: "sm",
 								class:{
 									cardBtn: "osl-width__fit-content"
@@ -374,7 +382,9 @@ var OSLDsh2000Popup = function () {
 						}
 					},
 					onclick: function(rowData){
-						if(rowData.reqChargerNm != "-"){
+						if($.osl.isNull(rowData.reqChargerId)){
+							return false;
+						}else{
 							$.osl.user.usrInfoPopup(rowData.reqChargerId);
 						}
 					}
@@ -1610,7 +1620,7 @@ var OSLDsh2000Popup = function () {
 	        	   
 	        	   processTableSetting(index, processId, value.flowList[0].flowId);
 	        	   
-					portletAll.push(new KTPortlet('processPortlet'+index, $.osl.lang("portlet")));	
+				   portletAll.push(new KTPortlet('processPortlet'+index, $.osl.lang("portlet")));	
 		
 	        	   index++;
 	           });
@@ -1929,7 +1939,7 @@ var OSLDsh2000Popup = function () {
                     };
                     $.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6201View.do',data,options);
 				},
-				"detail": function(rowData, datatableId, type, rowNum){ console.log(rowData);
+				"detail": function(rowData, datatableId, type, rowNum){
 					var data = {
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId,
@@ -1987,6 +1997,7 @@ var OSLDsh2000Popup = function () {
 	
 	
 	var fnProcessEvt = function(){
+		
 		
 		$('.osl-view-type').click(function(){
 			var targetType = $(this).data('view-type');

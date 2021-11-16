@@ -134,7 +134,6 @@ var OSLReq4100Popup = function () {
 					},
 					onclick: function(rowData){
 						if($.osl.isNull(rowData.reqChargerId)){
-							$.osl.alert("없는 사용자입니다.");
 							return false;
 						}else{
 							$.osl.user.usrInfoPopup(rowData.reqChargerId);
