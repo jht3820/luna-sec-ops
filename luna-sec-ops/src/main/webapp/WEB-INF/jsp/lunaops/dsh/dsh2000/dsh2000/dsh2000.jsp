@@ -270,6 +270,11 @@ var OSLDsh2000Popup = function () {
 			}
 			
 			
+			$(".flowchart-operator-outputs--active").removeClass("flowchart-operator-outputs--active");
+			
+			$(".process-datatable-div").addClass("kt-hide");
+			
+			
 			
 		});
 		
@@ -1512,18 +1517,18 @@ var OSLDsh2000Popup = function () {
 								+ '<div class="kt-portlet__body kt-padding-10">'
 									+ '<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">'
 										
-										+ '<div class="osl-dsh-flowchart kt-margin-20 chartDiv">'
+										+ '<div class="osl-dsh-flowchart kt-margin-20 chart-div">'
 											
 										+ '</div>'
 									+ '</div>'
-								+ '</div>'
-								+ '<div class="process-datatable-div kt-hide">'
-									+ '<div class="row">'
-										+ '<div class="col-lg-7 col-md-7 col-sm-8 col-8">'
-										+ '<div class="osl-datatable-search" data-datatable-id=processReqTable_'+idx+'"></div>'
+									+ '<div class="process-datatable-div kt-hide" id="processReqTable_'+idx+'">'
+										+ '<div class="row">'
+											+ '<div class="col-lg-7 col-md-7 col-sm-8 col-8">'
+											+ '<div class="osl-datatable-search" data-datatable-id=processReqTable_'+idx+'"></div>'
+											+ '</div>'
 										+ '</div>'
+										+ '<div class="kt_datatable kt-padding-20 osl-datatable-footer__divide process-datatables" id="processReqTable_'+idx+'"></div>';
 									+ '</div>'
-									+ '<div class="kt_datatable kt-padding-20 osl-datatable-footer__divide process-datatables" id="processReqTable_'+idx+'"></div>';
 								+ '</div>'
 							+ '</div>'
 						+ '</div>'
@@ -1785,7 +1790,7 @@ var OSLDsh2000Popup = function () {
 		});
 		
 		
-		var processRow = $("#processCard").children("div[data-process-id="+processId+"]").find(".chartDiv");
+		var processRow = $("#processCard").children("div[data-process-id="+processId+"]").find(".chart-div");
 		$(processRow).append(str);
 	}
 	
@@ -2035,8 +2040,8 @@ var OSLDsh2000Popup = function () {
 		
 		$(".flow-charger").click(function(){
 			
-			var item = $(this).parents(".process-div");
-			var datatableId = $(item).children(".process-datatable-div").find(".process-datatables").attr("id");
+			var item = $(this).parents(".kt-portlet__body");
+			var datatableId = $(item).find(".process-datatable-div").attr("id");
 			var datatable = $.osl.datatable.list[datatableId].targetDt;
 			
 			datatable.setDataSourceParam("dshProcess", "Y");
@@ -2049,13 +2054,18 @@ var OSLDsh2000Popup = function () {
 			
 			
 			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
+			
+			
+			$(this).parents(".chart-div").find(".flowchart-operator-outputs--active").removeClass("flowchart-operator-outputs--active");
+			
+			$(this).addClass("flowchart-operator-outputs--active");
 		});
 		
 		
 		$(".flow-all-charger").click(function(){
 			
-			var item = $(this).parents(".process-div");
-			var datatableId = $(item).children(".process-datatable-div").find(".process-datatables").attr("id");
+			var item = $(this).parents(".kt-portlet__body");
+			var datatableId = $(item).find(".process-datatable-div").attr("id");
 			var datatable = $.osl.datatable.list[datatableId].targetDt;
 			
 			datatable.setDataSourceParam("dshProcess", "Y");
@@ -2068,6 +2078,11 @@ var OSLDsh2000Popup = function () {
 			
 			
 			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
+			
+			
+			$(this).parents(".chart-div").find(".flowchart-operator-outputs--active").removeClass("flowchart-operator-outputs--active");
+			
+			$(this).addClass("flowchart-operator-outputs--active");
 		});
 				
 		
