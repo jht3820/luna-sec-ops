@@ -666,23 +666,27 @@ var OSLCmm6600Popup = function () {
     	
     	if(!(targetCd == '03')){
     		
-    		var myInfo = $.extend({},$.osl.user.userInfo);
+    		var myInfo = $.extend({}, $.osl.user.userInfo);
     		myInfo["ord"] = 0;
     		myInfo["type"] = "01";
     		
 	    	signUsrInfs.push(myInfo);
     	}
     	
-    	
     	$.each(selSignUsrInfs,function(idx, map){
     		var usrId = $(this).data("usr-id");
     		var ord = $(this).data("ord");
     		
     		
-    		var signUsrInf = $.extend({},usrDataList[usrId]);
+    		var signUsrInf = $.extend({}, usrDataList[usrId]);
+    		
+    		
+    		if($.osl.user.userInfo.usrId == usrId){
+    			signUsrInf = $.extend({}, $.osl.user.userInfo);
+    		}
+    		
     		signUsrInf["ord"] = ord;
     		signUsrInf["type"] = "02";
-    		
     		signUsrInfs.push(signUsrInf);
     	})
     	

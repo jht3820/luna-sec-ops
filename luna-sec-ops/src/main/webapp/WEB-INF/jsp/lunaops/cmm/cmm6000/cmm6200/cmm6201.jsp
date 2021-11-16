@@ -530,6 +530,12 @@ var OSLCmm6201Popup = function () {
 	
 	var signUsrList;
 	
+	
+	var reqSignOrd = -1;
+	
+	
+	var currentSignUsrInfo;
+	
     
     var documentSetting = function () {
 
@@ -667,6 +673,54 @@ var OSLCmm6201Popup = function () {
     	$("#cmm6201SaveSubmit").click(function(){
     		
     		fnReqProcessCheck("current");
+    	});
+    	
+    	
+    	$("#cmm6201SignAcceptSubmit").click(function(){
+    		$.osl.confirm("요구사항을 결재 승인 처리하시겠습니까?",{"html" : true},function(result) {
+		        if (result.value) {
+		        	
+		        	reqSignAccept();
+		        }
+		    });
+    	});
+    	
+    	
+    	$("#cmm6201SignRejectSubmit").click(function(){
+    		var data = {
+			};
+			var options = {
+				modalTitle: "결재 반려",
+				autoHeight: false,
+				modalSize: "md",
+				callback:[{
+					targetId: "cmm6602SaveSubmit",
+					actionFn: function(thisObj){
+						
+			        	var signRejectTxt = OSLCmm6602Popup.getSignRes();
+						
+						
+						if($.osl.isNull(signRes)){
+							$.osl.alert("반려 사유를 입력해주세요.");
+							return true;
+						}
+						
+						$.osl.confirm("요구사항을 결재 반려 처리하시겠습니까?",{"html" : true},function(result) {
+					        if (result.value) {
+					        	
+					        	var type = OSLCmm6602Popup.getType();
+					        	
+					        	
+					        	reqSignReject(signRejectTxt);
+					        	
+					        }
+					    });
+					}
+				}]
+					
+			};
+			 
+			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6602View.do',data,options); 
     	});
     	
     	
@@ -918,9 +972,11 @@ var OSLCmm6201Popup = function () {
 				var reqInfo = data.reqInfo;
  				var reqSignCd = reqInfo.reqSignCd;
  				var reqSignNm = reqInfo.reqSignNm;
+ 				reqSignOrd = data.reqSignOrd;
+ 				currentSignUsrInfo = data.currentSignUsrInfo;
  				
  				
- 				if(!$.osl.isNull(reqSignCd)){
+ 				if(!$.osl.isNull(reqSignCd) && reqSignCd != "03"){
  					reqProcessAuthFlag = false;
  				}
  				
@@ -1137,7 +1193,8 @@ var OSLCmm6201Popup = function () {
 				
 				
 				if(flowInfo.flowSignCd == "01"){
-					if($.osl.isNull(reqSignCd)){
+					
+					if($.osl.isNull(reqSignCd) || reqSignCd == "03"){
 						
 						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
 					}else{
@@ -1145,11 +1202,8 @@ var OSLCmm6201Popup = function () {
 						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 '+reqSignNm+'</div>'
 						
 						
-						var currentSignUsrInfo = data.currentSignUsrInfo;
-						
-						
 						var loginUsrId = $.osl.user.userInfo.usrId;
-						if(currentSignUsrInfo.signUsrId == loginUsrId){
+						if(!$.osl.isNull(currentSignUsrInfo) && currentSignUsrInfo.signUsrId == loginUsrId){
 							$("#cmm6201SignAcceptSubmit, #cmm6201SignRejectSubmit").removeClass("kt-hide");
 						}
 					}
@@ -1536,7 +1590,7 @@ var OSLCmm6201Popup = function () {
 		var addConfirmMsgStr = '';
 		
 		
-		if(nextType == "next"){
+		if(nextType == "next"){ 
     		
     		var currentFlowInfo = flowChart.flowchart("getOperatorData",selFlowId);
     		
@@ -1552,6 +1606,10 @@ var OSLCmm6201Popup = function () {
     		
     		if(paramFlowId == selFlowId){
     			addConfirmMsgStr += "같은 단계 진행 시 </br>입력 항목 정보만 저장됩니다.</br></br>";
+    		}
+    		
+    		else if(signRequiredCd == "01"){
+    			addConfirmMsgStr += "지정된 결재선으로 결재 처리가 진행됩니다.</br></br>";
     		}
 		}else{
 			addConfirmMsgStr += "같은 단계 진행 시 </br>입력 항목 정보만 저장됩니다.</br></br>";
@@ -1658,8 +1716,13 @@ var OSLCmm6201Popup = function () {
 	
 	
 	var signUsrUiSetting = function(usrInfo){
+		var currentSignBadge = '결재 순번';
+		
+		if(!$.osl.isNull(currentSignUsrInfo) && usrInfo.usrId == currentSignUsrInfo.signUsrId){
+			currentSignBadge = '<div class="flowchart-operator-title__lebel badge badge-primary d-inline-block text-truncate">결재 차례</div>';
+		}
 		var signOrdListStr = 
-			'<div class="kt-widget__top" data-user-Id="'+usrInfo.usrId+'">'
+			'<div class="kt-widget__top" data-user-Id="'+usrInfo.usrId+'" data-ord="'+usrInfo.ord+'">'
 				+'<div class="kt-media kt-media--lg kt-media--circle">'
 					+'<img src="'+$.osl.user.usrImgUrlVal(usrInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 				+'</div>'
@@ -1682,7 +1745,7 @@ var OSLCmm6201Popup = function () {
 					+'<div class="kt-widget__stats">'
 						+'<div class="kt-widget__stat">'
 							+'<span class="kt-widget__value">'+$.osl.escapeHtml(usrInfo.ord)+'</span>'
-							+'<span class="kt-widget__caption">결재 순번</span>'
+							+'<span class="kt-widget__caption">'+currentSignBadge+'</span>'
 						+'</div>'
 					+'</div>'
 				+'</div>'
@@ -1690,6 +1753,54 @@ var OSLCmm6201Popup = function () {
 			
 		return signOrdListStr;
 	};
+	
+	
+	var reqSignAccept = function(){
+		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/req/req4000/req4100/updateReq4100ReqSignAcceptInfo.do'/>"}
+					,{prjId: paramPrjId, reqId: paramReqId}); 
+		
+		
+		ajaxObj.setFnSuccess(function(data){
+			if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+			}else{
+				$.osl.alert("요구사항의 결재 승인 처리되었습니다.");
+
+				
+				$.osl.layerPopupClose();
+			}
+		});
+		
+		
+		ajaxObj.send();
+	};
+	
+	
+	var reqSignReject = function(reqSignRejectTxt){
+		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/req/req4000/req4100/updateReq4100ReqSignRejectInfo.do'/>"}
+					,{prjId: paramPrjId, reqId: paramReqId, signRes: reqSignRejectTxt, ord: reqSignOrd});
+		
+		
+		ajaxObj.setFnSuccess(function(data){
+			if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+			}else{
+				$.osl.alert("요구사항의 결재 반려 처리되었습니다.");
+
+				
+				$.osl.layerPopupClose();
+
+				
+				$.osl.layerPopupClose();
+			}
+		});
+		
+		
+		ajaxObj.send();
+	};
+	
     return {
         
         init: function() {
