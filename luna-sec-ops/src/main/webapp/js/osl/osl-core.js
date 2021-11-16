@@ -151,7 +151,10 @@
 					shortcut.push("Alt");
 				}
 				
-				shortcut.push(event.key.toUpperCase());
+				if(!$.osl.isNull(event.key.toUpperCase())){
+					
+					shortcut.push(event.key.toUpperCase());
+				}
 				
 				shortcut = shortcut.join(" + ");
 				
@@ -343,6 +346,52 @@
 					maxNumberOfFiles: 10,
 					minNumberOfFiles: 0,
 					allowedFileTypes: null,	
+					locale:Uppy.locales.ko_KR,
+					meta: {},
+					onBeforeUpload: $.noop,
+					onBeforeFileAdded: $.noop,
+				};
+				
+				
+				config = $.extend(true, defaultConfig, config);
+				
+				var targetObj = $("#"+targetId);
+				if(targetObj.length > 0){
+					rtnObject = Uppy.Core({
+						targetId: targetId,
+						autoProceed: config.autoProceed,
+						restrictions: {
+							maxFileSize: ((1024*1024)*parseInt(config.maxFileSize)),
+							maxNumberOfFiles: config.maxNumberOfFiles,
+							minNumberOfFiles: config.minNumberOfFiles,
+							allowedFileTypes: config.allowedFileTypes
+						},
+						locale:config.locale,
+						meta: config.meta,
+						onBeforeUpload: function(files){
+							return config.onBeforeUpload(files);
+						},
+						onBeforeFileAdded: function(currentFile, files){
+							
+							if(currentFile.source != "database" && config.fileReadonly){
+								$.osl.toastr($.osl.lang("file.error.fileReadonly"),{type:"warning"});
+								return false;
+							}
+							return config.onBeforeFileAdded(currentFile, files);
+						},
+						debug: config.debug,
+						logger: config.logger,
+						fileDownload: config.fileDownload
+					});
+					
+					rtnObject.use(Uppy.Dashboard, config);
+					rtnObject.use(Uppy.XHRUpload, { endpoint: config.url,formData: true });
+				}
+				
+				return rtnObject;
+			},
+			
+			
 			makeAtchfileId: function(callback){
 				
 				var ajaxObj = new $.osl.ajaxRequestAction(
@@ -1822,6 +1871,11 @@
         						var ntfStr = '';
         						var cardMsg = '';
         						$.each(list, function(idx, map){
+        	 						
+        	 						var paramDatetime = new Date(map.sendDtm);
+        			                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd HH:mm:ss"});
+        			                var chgDtm = agoTimeStr.agoString;
+        			                
         							
         							var cardUi = map.armSendTypeNm;
         							
@@ -1857,6 +1911,7 @@
 										+'		<div class="kt-notification-v2__item-desc">'
 										+'			'+$.osl.escapeHtml(map.armContent)+''
 										+'		</div>'
+										+'		<div class="flowchart-operator-chg__dtm kt-notification-v2__item-desc"><i class="fa fa-clock kt-margin-r-5"></i>'+chgDtm+'</div>'
 										+'	</div>'
 										+'</a>';
 										
@@ -2046,8 +2101,8 @@
 										+'				'+$.osl.user.usrImgSet(map.reqUsrImgId, usrData)+''
 										+'			</div>'
 										+'			<div class="osl-charge-requirements__footer-toolbar" style="display: flex;align-content: flex-end;">'
-										+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light">업무화면</a>'
-										+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light">상세보기</a>'
+										+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqProcessBtn" data-prj-id="'+map.prjId+'" data-req-pro-type="'+map.reqProType+'" data-req-nm="'+map.reqNm+'" data-req-id="'+map.reqId+'">업무화면</a>'
+										+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqDetailBtn" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">상세보기</a>'
 										+'			</div>'
 										+'		</div>'
 										+'	</div>';
@@ -2057,6 +2112,49 @@
         						
         						$("#chargeReqCardTable").html(prjGrpStr);
         						KTApp.initTooltips();
+        						
+        						
+        						$(".osl-charge-requirements .chargeReqProcessBtn").click(function(){
+        							var reqProType = $(this).data("reqProType");
+        							var reqId = $(this).data("reqId");
+        							var prjId = $(this).data("prjId");
+        							var reqNm = $(this).data("reqNm");
+        							
+        							if(reqProType != "02"){
+        								$.osl.alert("처리중인 요구사항만 업무 처리가 가능합니다.");
+        								return false;
+        							}
+
+        							var data = {
+        									paramPrjId: prjId,
+        									paramReqId: reqId
+        							};
+        							var options = {
+        								modalSize: "fs",
+        								idKey: "reqProcess"+reqId,
+        								modalTitle: "["+reqNm+"] 요구사항 업무 처리",
+        								closeConfirm: false,
+        							};
+        							$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6201View.do',data,options);
+        						});
+        						
+        						
+        						$(".osl-charge-requirements .chargeReqDetailBtn").click(function(){
+        							var reqId = $(this).data("reqId");
+        							var prjId = $(this).data("prjId");
+        							
+        							var data = {
+        									paramPrjId: prjId,
+        									paramReqId: reqId,
+        								};
+        							var options = {
+        									idKey: "reqDetail"+reqId,
+        									modalTitle: $.osl.lang("req4100.title.detailTitle"),
+        									autoHeight: false,
+        								};
+        							$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+        						});
+        						
         					}
         				}
         			});
