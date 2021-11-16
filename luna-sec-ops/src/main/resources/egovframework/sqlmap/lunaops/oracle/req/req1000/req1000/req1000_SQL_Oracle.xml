@@ -37,7 +37,7 @@
 		<result property="reqProTypeNm"			column="REQ_PRO_TYPE_NM"/>
 		<result property="reqNewType"			column="REQ_NEW_TYPE"/>
 		<result property="reqNewTypeNm"			column="REQ_NEW_TYPE_NM"/>	
-		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT"/>
+		<result property="reqAcceptTxt"			column="REQ_ACCEPT_TXT" jdbcType="CLOB" javaType="java.lang.String"/>
 		<result property="reqTypeCd"			column="REQ_TYPE_CD"/>
 		<result property="atchFileId"			column="ATCH_FILE_ID"/>
 		<result property="cbAtchFileId"			column="CB_ATCH_FILE_ID"/>

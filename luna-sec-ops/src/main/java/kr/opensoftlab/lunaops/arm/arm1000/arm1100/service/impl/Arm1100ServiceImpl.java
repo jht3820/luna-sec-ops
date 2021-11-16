@@ -23,8 +23,8 @@ public class Arm1100ServiceImpl extends EgovAbstractServiceImpl implements Arm11
     @Resource(name="arm1100DAO")
     private Arm1100DAO arm1100DAO;
     
-    @Resource(name = "FileManageDAO")
-	private FileManageDAO fileMngDAO;
+    
+	
     
     
    	@Resource(name = "egovMessageSource")

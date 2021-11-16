@@ -650,6 +650,8 @@ var OSLReq4101Popup = function () {
     		
         	$.osl.setDataFormElem($.osl.user.userInfo,"frReq4101", ["usrNm","email","telno","deptName","deptId","usrImgId"]);
 			
+			$("#reqUsrId").val($.osl.user.userInfo.usrId);
+			
 	    	
 	    	$("#reqDtm").val(new Date().format("yyyy-MM-dd"));
 	    	
@@ -675,6 +677,7 @@ var OSLReq4101Popup = function () {
     		selectReqInfo();
     	}
     	
+    	 
     	
     	$("#reqGrpNm").focus(function(){
     		
@@ -691,6 +694,16 @@ var OSLReq4101Popup = function () {
 				$("#searchUsrNmBtn").click();
 			}
 		});
+    	
+		$("#usrNm").on("propertychange paste input", function (e) {
+			var self = $(this);
+			if($.osl.isNull($("#usrNm").val())){
+				
+				
+				$("#reqUsrId").val("");
+			}
+		});
+		
     	
     	$("#reqGrpNm").keydown(function(e){
 			if(e.keyCode=='13'){

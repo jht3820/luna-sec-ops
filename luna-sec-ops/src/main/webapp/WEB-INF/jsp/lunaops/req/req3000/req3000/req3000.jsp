@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<!-- begin page DOM -->
+
 <div class="kt-portlet kt-portlet--mobile ">
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -24,7 +24,7 @@
 			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="delete" title="그룹 요구사항 목록 삭제" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.delete" data-placement="bottom" data-auth-button="delete" tabindex="8">
 				<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
 			</button>
-			<!-- 미구현기능 -->
+			
 			<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req3000Table" data-datatable-action="assign" title="그룹 요구사항 목록 엑셀" data-toggle="kt-tooltip" data-skin="brand" data-title-lang-cd="req3000.datatable.button.title.excel" data-placement="bottom" data-auth-button="excel" tabindex="">
 				<i class="fas fa-file-excel"></i><span data-lang-cd="datatable.button.excel">엑셀</span>
 			</button>
@@ -49,8 +49,8 @@
 	</div>
 </div>
 
-<!-- end DOM -->
-<!-- begin page script -->
+
+
 <script>
 "use strict";
 var OSLReq3000Popup = function () {
@@ -87,7 +87,7 @@ var OSLReq3000Popup = function () {
 			},
 			{field: 'reqGrpUsrEmail', title: '요청자 e-mail', textAlign: 'left', width: 150, search: true, sortable: true,searchOrd: 3},
 			{field: 'reqGrpUsrDeptNm', title: '요청자 조직', textAlign: 'left', width: 300, sortable: false, search: false},
-			{field: 'reqGrpUsrNum', title: '요청자 연락처', textAlign: 'left', width: 100, search: true, sortable: false, search: true,searchOrd: 4},
+			{field: 'reqGrpUsrNum', title: '요청자 연락처', textAlign: 'left', width: 100, search: true, sortable: false,searchOrd: 4},
 			{field: 'regGrpChargerNm', title: '담당자 명', textAlign: 'left', width: 150, search: true,sortable: false,searchOrd: 5,
 				template: function (row) {
 					return $.osl.user.usrImgSet(row.reqGrpChargerImgId, row.reqGrpChargerNm);
@@ -122,14 +122,6 @@ var OSLReq3000Popup = function () {
 			"delete": $.osl.lang("req3000.datatable.action.delete"),
 			/* "excel": $.osl.lang("req3000.datatable.action.excel"),
 			"print": $.osl.lang("req3000.datatable.action.print"), */
-		},
-		// 테마
-		theme:{
-			actionBtnIcon:{
-				"dblClick":"fa fa-list-alt",
-				/* "excel":"fa fa-file-excel",
-				"print":"fa fa-print" */
-			}
 		},
 		actionFn:{
 			"insert":function(datatableId, type, rowNum){
@@ -230,5 +222,5 @@ $.osl.ready(function(){
 	OSLReq3000Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

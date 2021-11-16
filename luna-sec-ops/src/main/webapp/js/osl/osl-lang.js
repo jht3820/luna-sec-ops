@@ -1322,6 +1322,9 @@ var OSLCoreLangSetting = function () {
 			field:{
 				reqGrpNm:"그룹 요구사항 명",
 			},
+			actionBtn:{
+				title:"선택"
+			}
 		},
 		spr1000:{
 			nonSelect: "스프린트를 선택해주세요.",

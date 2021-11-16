@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!DOCTYPE sqlMap PUBLIC "-
 
 <sqlMap namespace="dpl1000DAO">
 
@@ -284,6 +284,7 @@
 		    AND B.USE_CD = '01'
 		    AND C.USE_CD = '01'
 		) SUB1
+		WHERE 1 = 1
 		<isNotEmpty property="searchTargetData">
 			<isNotEmpty property="searchTargetId">
 				<isEqual property="searchTargetId" compareValue="jenNm">
