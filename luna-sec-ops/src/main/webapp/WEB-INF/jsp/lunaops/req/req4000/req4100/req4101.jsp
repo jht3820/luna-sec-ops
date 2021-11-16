@@ -42,7 +42,7 @@
 						<div class="col-xl-5">
 							<div class="form-group">
 								<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
-								<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="email" autocomplete="off">
+								<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="email" autocomplete="off" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -50,14 +50,14 @@
 						<div class="col-xl-7">
 							<div class="form-group">
 								<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
-								<input type="text" class="form-control" name="reqUsrDeptNm"placeholder="요청자 소속"  id="deptName" autocomplete="off">
+								<input type="text" class="form-control" name="reqUsrDeptNm"placeholder="요청자 소속"  id="deptName" autocomplete="off" readonly="readonly">
 								<input type="hidden" name="reqUsrDeptId" id="deptId" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-xl-5">
 							<div class="form-group">
 								<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.tel">요청자 연락처</span></label>
-								<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="telno" autocomplete="off">
+								<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="telno" autocomplete="off" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -674,7 +674,6 @@ var OSLReq4101Popup = function () {
     		
     		selectReqInfo();
     	}
-    	/* 
     	
     	$("#usrNm").focus(function(){
     		
@@ -686,7 +685,6 @@ var OSLReq4101Popup = function () {
     		$("#deptId").val("");
     		$("#usrImgId").val(""); 
     	});
-    	 */
     	
     	$("#reqGrpNm").focus(function(){
     		
@@ -725,6 +723,20 @@ var OSLReq4101Popup = function () {
    			}
    		});
     	*/
+    	
+   		$("#usrNm").blur(function(){
+   			
+   			if($("#usrNm").val()!=""){
+   				
+   				if($("#email").val()!=""){
+   					return;
+   				}else{
+		   			
+  					$("#searchUsrNmBtn").click();
+   				}
+   			}
+   		});
+    	
     	
     	$("#searchUsrNmBtn").click(function(){
     		var data = {
@@ -801,20 +813,7 @@ var OSLReq4101Popup = function () {
     		if (!form.valid()) {
     			return;
     		}
-    		/* 
-    		
-    		if($("#reqPwCheckbox").is(":checked")==true){
-    			if(pw!="Y"){
-    				
-    				
-    				if($("#reqPw").val()==""){
-    					$.osl.alert($.osl.lang("req4101.formCheck.passwordMessage"));
-    					$("#reqPw").focus();
-   						return false;
-    				}
-    			}
-        	}
-    		*/
+
     		$.osl.confirm($.osl.lang("req4101.saveString."+type+"Str"),{"html" : true},function(result) {
     	        if (result.value) {
     	        	fileUploadObj.upload();
