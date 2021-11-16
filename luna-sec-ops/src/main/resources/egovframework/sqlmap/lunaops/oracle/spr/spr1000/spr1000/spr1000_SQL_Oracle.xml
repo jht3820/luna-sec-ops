@@ -202,6 +202,11 @@
 				</isEqual>
 			</isNotEmpty>
 		</isNotEmpty>
+		<isNotEmpty property="location">
+			<isEqual property="location" compareValue="spr1100">
+				AND T1.SPR_TYPE_CD != '03'
+			</isEqual>
+		</isNotEmpty>
 	</sql>
 	
 	
