@@ -363,6 +363,14 @@ var OSLCoreCustomOptionSetting = function () {
 			if(!$.osl.isNull(commonPopup_charger)){
 				
 				$.each(commonPopup_charger,function(idx, map){
+
+			    	
+			    	$("#"+map+"Nm").keypress(function(e){
+			    		if (e.which === 13){
+			    			$("#"+map+"Btn").click();
+						}
+			    	});
+			    	
 					$("#"+map+"Btn").click(function(){
 			    		var data = {
 			    				usrNm : $("#"+map+"Nm").val()
@@ -456,6 +464,12 @@ var OSLCoreCustomOptionSetting = function () {
 			if(!$.osl.isNull(commonPopup_dept)){
 				
 				$.each(commonPopup_dept,function(idx, map){
+			    	
+			    	$("#"+map+"Nm").keypress(function(e){
+			    		if (e.which === 13){
+			    			$("#"+map+"Btn").click();
+						}
+			    	});
 					$("#"+map+"Btn").click(function(){
 			    		var searchDeptNm = $.trim($("#"+map+"Nm").val());
 			    		if($.osl.isNull(searchDeptNm)){

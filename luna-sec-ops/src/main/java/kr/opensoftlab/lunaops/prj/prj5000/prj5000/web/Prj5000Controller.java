@@ -74,9 +74,24 @@ public class Prj5000Controller {
 			
 			
 			LoginVO loginVo = (LoginVO) ss.getAttribute("loginVO");
+			
+
+    		
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			String paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
+        	
+    		
+    		if(paramPrjId == null || "".equals(paramPrjId)){
+    			paramPrjId = (String)ss.getAttribute("selPrjId");
+    		}
+
+    		if(paramPrjGrpId == null || "".equals(paramPrjGrpId)){
+    			paramPrjGrpId = (String)ss.getAttribute("selPrjGrpId");
+    		}
+    		
 			paramMap.put("licGrpId", loginVo.getLicGrpId());
-			paramMap.put("prjGrpId", (String) ss.getAttribute("selPrjGrpId"));
-			paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
+			paramMap.put("prjGrpId", paramPrjGrpId);
+			paramMap.put("prjId", paramPrjId);
 			
 			
 			if("insert".equals(type)) {
@@ -132,13 +147,25 @@ public class Prj5000Controller {
 		try{
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMap(request, true);
-			System.out.println(paramMap.get("prjEvtId"));
 	       	
 	       	HttpSession ss = request.getSession();
 			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+    		
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			String paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
+        	
+    		
+    		if(paramPrjId == null || "".equals(paramPrjId)){
+    			paramPrjId = (String)ss.getAttribute("selPrjId");
+    		}
+
+    		if(paramPrjGrpId == null || "".equals(paramPrjGrpId)){
+    			paramPrjGrpId = (String)ss.getAttribute("selPrjGrpId");
+    		}
+    		
 			paramMap.put("licGrpId", loginVO.getLicGrpId());
-			paramMap.put("prjGrpId", (String) ss.getAttribute("selPrjGrpId"));
-			paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
+			paramMap.put("prjGrpId", paramPrjGrpId);
+			paramMap.put("prjId", paramPrjId);
 			
 			Map evtInfo = prj5000Service.selectPrjEvt5000Info(paramMap);
 			
@@ -186,21 +213,30 @@ public class Prj5000Controller {
         	
 			List holiList = adm5000Service.selectAdm5000HoliList(paramMap);
 			
-			
-			String prjGrpId = (String) ss.getAttribute("selPrjGrpId");
-			String prjId = (String) ss.getAttribute("selPrjId");
-			
+    		
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			String paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
+        	
+    		
+    		if(paramPrjId == null || "".equals(paramPrjId)){
+    			paramPrjId = (String)ss.getAttribute("selPrjId");
+    		}
+
+    		if(paramPrjGrpId == null || "".equals(paramPrjGrpId)){
+    			paramPrjGrpId = (String)ss.getAttribute("selPrjGrpId");
+    		}
+    		
 			
 			String target = (String) paramMap.get("target");
 			
 			
-			paramMap.put("prjId", prjId);
+			paramMap.put("prjId", paramPrjId);
 			paramMap.put("usrId", loginVO.getUsrId());
 			paramMap.put("target", target);
 			
 			
 			if(!"usrId".equals(target)) {
-				paramMap.put("prjGrpId", prjGrpId);
+				paramMap.put("prjGrpId", paramPrjGrpId);
 			}
 			
 			List evtReqList = prj5000Service.selectPrj5000ReqList(paramMap);
@@ -210,7 +246,7 @@ public class Prj5000Controller {
         	
         	
         	evtList.addAll(evtReqList);
-			model.addAttribute("selPrjId", prjId);
+			model.addAttribute("selPrjId", paramPrjId);
 			model.addAttribute("evtList", evtList);
 			model.addAttribute("holiList", holiList);
 			
@@ -241,9 +277,23 @@ public class Prj5000Controller {
 			
 			
 			LoginVO loginVo = (LoginVO) ss.getAttribute("loginVO");
+
+    		
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			String paramPrjGrpId = (String) paramMap.get("paramPrjGrpId");
+        	
+    		
+    		if(paramPrjId == null || "".equals(paramPrjId)){
+    			paramPrjId = (String)ss.getAttribute("selPrjId");
+    		}
+
+    		if(paramPrjGrpId == null || "".equals(paramPrjGrpId)){
+    			paramPrjGrpId = (String)ss.getAttribute("selPrjGrpId");
+    		}
+    		
 			paramMap.put("licGrpId", loginVo.getLicGrpId());
-			paramMap.put("prjGrpId", (String) ss.getAttribute("selPrjGrpId"));
-			paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
+			paramMap.put("prjGrpId", paramPrjGrpId);
+			paramMap.put("prjId", paramPrjId);
 			
 			Map prjEvtInfo = null;
 			if(paramMap.get("evtType").equals("04")) {

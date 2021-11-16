@@ -155,7 +155,16 @@ public class Prj1400Controller {
 		try{
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			String paramPrjId = (String) paramMap.get("paramPrjId");
 			HttpSession ss = request.getSession();
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			paramMap.put("prjId", paramPrjId);
+			
 			String type = (String) paramMap.get("type");
 			
 			

@@ -79,8 +79,8 @@ public class Stm3000DAO extends ComOslitsAbstractDAO {
 	}
 	
 	
-	public int selectAdm1300ExistUsrInProject(Map<String, String> paramMap) throws Exception {
-		return (int)select("stm3000DAO.selectAdm1300ExistUsrInProject", paramMap);
+	public int selectPrj2001ExistUsrInProject(Map<String, String> paramMap) throws Exception {
+		return (int)select("stm3000DAO.selectPrj2001ExistUsrInProject", paramMap);
 	}
 
 	

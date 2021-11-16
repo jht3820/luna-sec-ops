@@ -71,12 +71,7 @@ var OSLCmm6401Popup = function () {
     				temp = rowData;
     				$("#selectUsr").click();
     			}
-    		},
-    		theme:{
-    			actionBtnIcon:{
-    				"click": "fa flaticon2-check-mark",
-    			}
-    		},
+    		}
     	});
     	
     	

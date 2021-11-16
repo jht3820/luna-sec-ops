@@ -145,10 +145,10 @@ var OSLStm2001Popup = function () {
 	var formId = 'frStm2001';
 	var type = $("#type").val();
 	
-	
+	//form validate 주입
 	var formValidate = $.osl.validate(formId);
 	
-	
+	//type별 데이터
 	var pageTypeData = {
 			"insert":{
 				"saveString": "신규 메뉴를 등록하시겠습니까?",
@@ -160,37 +160,37 @@ var OSLStm2001Popup = function () {
 			}
 	};
 	
-    
+    // Private functions
     var documentSetting = function () {
     	
-    	
+    	//문구 세팅
     	$("#stm2001SaveSubmit").text(pageTypeData[type]["saveBtnString"]);
 
-    	
+    	// stm2001 팝업 공통코드 select 세팅
 		var commonCodeArr = [
-			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"}, 
-			{mstCd: "ADM00001", useYn: "Y",targetObj: "#menuTypeCd", comboType:"OS"}, 
-			{mstCd: "ADM00006", useYn: "Y",targetObj: "#prjType", comboType:"OS"} 
+			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"}, // 사용유무
+			{mstCd: "ADM00001", useYn: "Y",targetObj: "#menuTypeCd", comboType:"OS"}, // 메뉴 타입
+			{mstCd: "ADM00006", useYn: "Y",targetObj: "#prjType", comboType:"OS"} // 프로젝트 유형
 		];
 
-  		
+  		//공통코드 채우기
 		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
     	
-		
+		// textarea 자동 사이즈 조절 설정
     	autosize($("#menuDesc"));
   		
-    	
+    	//수정인경우
     	if(type == "update"){
-    		
+    		// 메뉴 단건 조회
     		selectMenuInfo();
     		
-    	
+    	// 등록인 경우 메뉴 레벨에 따라 메뉴 타입 자동 선택	
     	}else if(type == "insert"){
     		
     		var menuTypeCd = "01";
     		var menuLvl = $("#lvl").val();
     		if(menuLvl >= 3){
-    			
+    			// 메뉴 레벨이 3일 경우 메뉴타입 기본으로 화면 선택
     			menuTypeCd = "02";
     		}
     		
@@ -198,12 +198,12 @@ var OSLStm2001Popup = function () {
     	}
     	
     	
-    	
+    	// 등록 버튼 클릭
     	$("#stm2001SaveSubmit").click(function(){
     		
     		var form = $('#'+formId);
     		
-    		
+    		//폼 유효 값 체크
     		if (!form.valid()) {
     			return;
     		}
@@ -218,57 +218,64 @@ var OSLStm2001Popup = function () {
     };
 
     
-    
+    /**
+	 * function 명 	: selectMenuInfo
+	 * function 설명	: 선택한 메뉴의 상세정보를 조회하여 화면에 세팅한다.
+	 * @param deptId : 선택한 메뉴 ID
+	 */
 	var selectMenuInfo = function() {
     	
 		var menuId = $("#menuId").val();
 		 
-		
+		//AJAX 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/stm/stm2000/stm2000/selectStm2000MenuInfoAjax.do'/>", "async": false}
 				,{"menuId": menuId});
-		
+		//AJAX 전송 성공 함수
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 			}else{
 				
-				
+				// 메뉴 정보 세팅
 		    	$.osl.setDataFormElem(data.menuInfoMap,"frStm2001", ["upperMenuId", "upMenuNm", "menuId", "menuNm", "menuPath", "menuUrl", "menuImgUrl", "lvl", "ord", "moduleType", "menuIcon", "menuDesc"]);
 			
-				
+				// 상위메뉴 Id 없을경우
 				if($.osl.isNull(data.menuInfoMap.upperMenuId)){
 					$("#upperMenuId").val("-");
 				}
 				
-				
+				// 상위 메뉴 명 없을경우
 				if($.osl.isNull(data.menuInfoMap.upMenuNm)){
 					$("#upMenuNm").val("-");
 				}
 		    	
-				
+				// 공통코드 선택값 추가
 				$("#useCd").attr("data-osl-value", data.menuInfoMap.useCd);
 				$("#menuTypeCd").attr("data-osl-value", data.menuInfoMap.menuTypeCd);
 				$("#prjType").attr("data-osl-value", data.menuInfoMap.prjType);
 				
-				
+				// textarea 입력된 내용에 따라 size 조정
 				autosize.update($("#menuDesc"));
 				
 			}
 		});
 		
-		
+		//AJAX 전송
 		ajaxObj.send();
 	};
     
     
-   
+   /**
+ 	* function 명 	: submitInsertAction
+	* function 설명	: 신규 메뉴를 등록한다.
+	*/
     var submitInsertAction = function(){
     	
     	var form = $('#'+formId);
     	
-		
+		//폼 유효 값 체크
 		if (!form.valid()) {
 			return;
 		}
@@ -278,39 +285,43 @@ var OSLStm2001Popup = function () {
 	        	
 	        	var formData = form.serializeArray();
 	        	
-	    		
+	    		//AJAX 설정
 	    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/stm/stm2000/stm2000/insertStm2000MenuInfoAjax.do'/>", "loadingShow": false}, formData);
 
-	    		
+	    		//AJAX 전송 성공 함수
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    				
+	    				//모달 창 닫기
 						$.osl.layerPopupClose();
 	    			}else{
-	    				
+	    				// 등록 성공
 	    				$.osl.toastr(data.message);
 
-	    				
+	    				//모달 창 닫기
 	    				$.osl.layerPopupClose();
 	    				
-	    				
+	    				// 트리 재조회
+	    				$("button[data-tree-id=stm2000MenuTree][data-tree-action=select]").click();
 	    			}
 	    		});
 	    		
-	    		
+	    		//AJAX 전송
 	    		ajaxObj.send();
 	        }
 	    });
     };
     
     
-   
+   /**
+ 	* function 명 	: submitUpdateAction
+	* function 설명	: 메뉴 정보를 수정한다.
+	*/
     var submitUpdateAction = function(){
     	
     	var form = $('#'+formId);
   		
-		
+		//폼 유효 값 체크
 		if (!form.valid()) {
 			return;
 		}
@@ -320,27 +331,28 @@ var OSLStm2001Popup = function () {
 	        	
 	        	var formData = form.serializeArray();
 	        	
-	    		
+	    		//AJAX 설정
 	    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/stm/stm2000/stm2000/updateStm2000MenuInfoAjax.do'/>", "loadingShow": false}, formData);
 
-	    		
+	    		//AJAX 전송 성공 함수
 	    		ajaxObj.setFnSuccess(function(data){
 	    			if(data.errorYn == "Y"){
 	    				$.osl.alert(data.message,{type: 'error'});
-	    				
+	    				//모달 창 닫기
 						$.osl.layerPopupClose();
 	    			}else{
-	    				
+	    				//수정 성공
 	    				$.osl.toastr(data.message);
 
-	    				
+	    				//모달 창 닫기
 	    				$.osl.layerPopupClose();
 
-	    				
+	    				// 트리 재조회
+	    				$("button[data-tree-id=stm2000MenuTree][data-tree-action=select]").click();
 	    			}
 	    		});
 	    		
-	    		
+	    		//AJAX 전송
 	    		ajaxObj.send();
 	        }
 	    });
@@ -349,7 +361,7 @@ var OSLStm2001Popup = function () {
     
 	
     return {
-        
+        // public functions
         init: function() {
         	documentSetting();
         }
@@ -357,7 +369,7 @@ var OSLStm2001Popup = function () {
     };
 }();
 
-
+//Initialization
 $.osl.ready(function(){
 	OSLStm2001Popup.init();
 });
