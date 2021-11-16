@@ -76,7 +76,7 @@
 "use strict";
 var OSLSpr1000Popup = function () {
 	
-	var totalSprPoint = 0;
+	var totalSprPoint = null;
 	
 	var totalOngoingSprCnt = 0;
 	var documentSetting = function(){
@@ -293,10 +293,12 @@ var OSLSpr1000Popup = function () {
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
 						
+						totalOngoingSprCnt = 0;
 						
 						if(map.sprTypeCd == '02'){
 							totalOngoingSprCnt += 1;	
 						} 
+						
 						
 						var sprTypeClass = "kt-media--primary";
 						var sprTypeNm = map.sprTypeNm;

@@ -776,7 +776,6 @@ var OSLSpr1003Popup = function () {
 				}},
 			],
 			rows:{
-				clickCheckbox: true,
 				minHeight:50,
 			},
 			actionBtn:{
@@ -900,7 +899,6 @@ var OSLSpr1003Popup = function () {
 						if(unActive === false){
 							$(this).addClass("active");
 							
-							
 							var targetElem = $(".osl-widget-draggable.active");
 							
 							var datatable = $.osl.datatable.list['sprAssignReqUsrTable'].targetDt;
@@ -925,6 +923,8 @@ var OSLSpr1003Popup = function () {
 									    
 									    
 									    wizardData["reqUsrList"][targetReqId] = {usrId: targetUsrId, usrNm: targetUsrNm};
+									    
+									    target.prop("checked",false);
 									}
 								}
 							}
