@@ -346,52 +346,6 @@
 					maxNumberOfFiles: 10,
 					minNumberOfFiles: 0,
 					allowedFileTypes: null,	
-					locale:Uppy.locales.ko_KR,
-					meta: {},
-					onBeforeUpload: $.noop,
-					onBeforeFileAdded: $.noop,
-				};
-				
-				
-				config = $.extend(true, defaultConfig, config);
-				
-				var targetObj = $("#"+targetId);
-				if(targetObj.length > 0){
-					rtnObject = Uppy.Core({
-						targetId: targetId,
-						autoProceed: config.autoProceed,
-						restrictions: {
-							maxFileSize: ((1024*1024)*parseInt(config.maxFileSize)),
-							maxNumberOfFiles: config.maxNumberOfFiles,
-							minNumberOfFiles: config.minNumberOfFiles,
-							allowedFileTypes: config.allowedFileTypes
-						},
-						locale:config.locale,
-						meta: config.meta,
-						onBeforeUpload: function(files){
-							return config.onBeforeUpload(files);
-						},
-						onBeforeFileAdded: function(currentFile, files){
-							
-							if(currentFile.source != "database" && config.fileReadonly){
-								$.osl.toastr($.osl.lang("file.error.fileReadonly"),{type:"warning"});
-								return false;
-							}
-							return config.onBeforeFileAdded(currentFile, files);
-						},
-						debug: config.debug,
-						logger: config.logger,
-						fileDownload: config.fileDownload
-					});
-					
-					rtnObject.use(Uppy.Dashboard, config);
-					rtnObject.use(Uppy.XHRUpload, { endpoint: config.url,formData: true });
-				}
-				
-				return rtnObject;
-			},
-			
-			
 			makeAtchfileId: function(callback){
 				
 				var ajaxObj = new $.osl.ajaxRequestAction(
@@ -2069,7 +2023,16 @@
         							
         							if(map.fvrUseCd == '01'){
     									fvrUse = 'osl-favorites--active';
-    								}        							
+    								}       
+        							
+        							var usrDetailEvt = "";
+        							if($.osl.isNull(map.reqUsrId)){
+        								usrDetailEvt = "$.osl.alert('시스템에 등록되지 않은 사용자 입니다.');"
+        							}else{
+        								usrDetailEvt = '$.osl.user.usrInfoPopup(\''+map.reqUsrId+'\');'
+        							}
+        							
+        									
         							
         							prjGrpStr +=
         								 '	<div class="kt-portlet osl-charge-requirements '+cardUi+'" data-prj-grp-id="'+map.prjGrpId+'" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">'
@@ -2097,7 +2060,7 @@
 										+'			</div>'
 										+'		</div>'
 										+'		<div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right" style="display: flex;justify-content: space-between;">'
-										+'			<div class="osl-charge-requirements__footer-label" style="display: flex;align-items: center;-webkit-box-align: center;" onclick="$.osl.user.usrInfoPopup(\''+map.reqUsrId+'\');">'
+										+'			<div class="osl-charge-requirements__footer-label" style="display: flex;align-items: center;-webkit-box-align: center;" onclick="'+usrDetailEvt+'">'
 										+'				'+$.osl.user.usrImgSet(map.reqUsrImgId, usrData)+''
 										+'			</div>'
 										+'			<div class="osl-charge-requirements__footer-toolbar" style="display: flex;align-content: flex-end;">'
