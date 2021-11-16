@@ -248,9 +248,6 @@ var OSLDsh2000Popup = function () {
 		portletAll.push(new KTPortlet('reqChargeSign', $.osl.lang("portlet")));
 		portletAll.push(new KTPortlet('reqChargeDpl', $.osl.lang("portlet")));
 		
-		
-		
-		
 		$('#allPortletClose').click(function(){
 			var parentPortlet = $(this).parents('.kt-portlet');
 			
@@ -1295,7 +1292,6 @@ var OSLDsh2000Popup = function () {
 				}
 			}
 		});
-		
 	};
 	var sprReqTable = function(sprId, cate){
 		
