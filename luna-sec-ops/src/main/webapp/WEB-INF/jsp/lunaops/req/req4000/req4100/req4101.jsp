@@ -693,15 +693,8 @@ var OSLReq4101Popup = function () {
 				
 				$("#searchUsrNmBtn").click();
 			}
-		});
-    	
-		$("#usrNm").on("propertychange paste input", function (e) {
-			var self = $(this);
-			if($.osl.isNull($("#usrNm").val())){
-				
-				
-				$("#reqUsrId").val("");
-			}
+			
+			$("#reqUsrId").val("");
 		});
 		
     	
@@ -710,7 +703,10 @@ var OSLReq4101Popup = function () {
 				
 				$("#searchReqGrpBtn").click();
 			}
+			
+			
 		});
+
     	
     	
     	$("#searchUsrNmBtn").click(function(){
