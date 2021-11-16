@@ -27,7 +27,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="kt-portlet__body osl-min-h-px--535 kt-padding-10"">
+				<div class="kt-portlet__body osl-min-h-px--555 kt-padding-10"">
 					
 					<div class="kt_datatable" id="dpl3001AssignJobTable"></div>
 				</div>
@@ -233,23 +233,9 @@ var OSLDpl3001Popup = function () {
 			actionFn:{
 				
 				"click":function(rowData, datatableId, type, rowNum, elem){
-
-					
-					$("#mainJobBldLog").removeClass("kt-hide");
-					$("#mainJobBldLog").addClass("active");
-					$("#mainJobBldLog").data("jobid", rowData.jobId);
-					$("#mainJobBldLog").find("span").text(rowData.jobId);
 					
 					
-					if(rowData.jobRestoreId){
-						$("#subJobBldLog").removeClass("kt-hide");
-						$("#subJobBldLog").data("jobid", rowData.jobId);
-						$("#subJobBldLog").find("span").text(rowData.jobRestoreId);
-					}else{
-						$("#subJobBldLog").addClass("kt-hide");
-						$("#subJobBldLog").data("jobid", "");
-						$("#subJobBldLog").find("span").text("");
-					}
+					fnJobLogBtnView(rowData);
 					
 					
 					if(!$.osl.isNull(buildJobInfo.jobData)){
@@ -289,6 +275,9 @@ var OSLDpl3001Popup = function () {
 						$.osl.alert("실행(빌드)하려는 JOB을 선택해주세요.", {type: "warning"});
 						return false;
 					}
+					
+					
+					fnJobLogBtnView(selRowData);
 					
 					
 					fnSelectJobConsoleLog(selRowData);
@@ -359,6 +348,29 @@ var OSLDpl3001Popup = function () {
 	};
 	
 	
+	
+	var fnJobLogBtnView = function(selectJobData){
+		
+		
+		$("#mainJobBldLog").removeClass("kt-hide");
+		$("#mainJobBldLog").addClass("active");
+		$("#mainJobBldLog").data("jobid", selectJobData.jobId);
+		$("#mainJobBldLog").find("span").text(selectJobData.jobId);
+		
+		
+		if(selectJobData.jobRestoreId){
+			$("#subJobBldLog").removeClass("kt-hide");
+			$("#subJobBldLog").data("jobid", selectJobData.jobId);
+			$("#subJobBldLog").find("span").text(selectJobData.jobRestoreId);
+		}else{
+			$("#subJobBldLog").addClass("kt-hide");
+			$("#subJobBldLog").data("jobid", "");
+			$("#subJobBldLog").find("span").text("");
+		}
+		
+	}
+	
+	
 	var fnSelJobDeployExcute = function(selJobData, rowNum){
 		
 		
@@ -427,7 +439,7 @@ var OSLDpl3001Popup = function () {
 					ajaxObj.setFnSuccess(function(data){
 						
 						
-						$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.reload();
+						
 						
 						if(data.errorYn == "Y"){
 							
