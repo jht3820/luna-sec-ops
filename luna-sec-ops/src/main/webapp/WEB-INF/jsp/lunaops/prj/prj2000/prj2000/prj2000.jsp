@@ -10,164 +10,159 @@
 				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
 			</h4>
 		</div>
-		<div class="kt-portlet__head-toolbar">
-			<div class="kt-portlet__head-wrapper">
-				
+	</div>
+</div>
+
+<div class="kt-portlet kt-portlet--mobile" id="prj2000PrjAuthInfo">
+	<div class="kt-portlet__head kt-portlet__head--lg">
+		<div class="kt-portlet__head-label">
+			<div class="osl-font-lg kt-font-boldest kt-font-brand kt-margin-l-0 kt-margin-r-10 kt-margin-t-10 kt-margin-b-10" id="authGrp-content__title">
+				<h5 class="kt-font-boldest kt-font-brand">
+					<i class="fa fa-user kt-margin-r-5"></i>권한 그룹
+				</h5>
 			</div>
+			
+			<div class="osl-collapsed__content" id="authGrp-content__authList" style="display:none;">
+				<ul class="nav nav-pills kt-margin-l-0 kt-margin-r-10 kt-margin-t-10 kt-margin-b-10" role="tablist">
+                </ul>
+			</div>
+			
+		</div>
+		<div class="kt-portlet__head-toolbar">
+			
+			<div class="kt-portlet__head-wrapper kt-margin-r-10" id="authGrp-table-btn">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj2000AuthTable" data-datatable-action="select" title="권한그룹 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+					<i class="fa fa-list"></i><span>조회</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj2000AuthTable" data-datatable-action="insert" title="권한그룹 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
+					<i class="fa fa-plus"></i><span>추가</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj2000AuthTable" data-datatable-action="update" title="권한그룹 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
+					<i class="fa fa-edit"></i><span>수정</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj2000AuthTable" data-datatable-action="delete" title="권한그룹 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
+					<i class="fa fa-trash-alt"></i><span>삭제</span>
+				</button>
+			</div>
+			
+			
+			
+			<div class="kt-portlet__head-group">
+				<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md on" id="authFoldingBtn"><i class="fa fa-chevron-down"></i></a>
+			</div>
+			
 		</div>
 	</div>
 	<div class="kt-portlet__body">
+		<div class="row">
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="osl-datatable-search" data-datatable-id="prj2000AuthTable"></div>
+			</div>
+		</div>
+		<div class="kt_datatable" id="prj2000AuthTable"></div>
+	</div>
+</div>
+
 	
-		
-		<div class="kt-portlet kt-portlet--mobile" id="prj2000PrjAuthInfo">
-			<div class="kt-portlet__head kt-portlet__head--lg">
-				<div class="kt-portlet__head-label">
-					<div class="osl-font-lg kt-font-boldest kt-font-brand kt-margin-l-0 kt-margin-r-10 kt-margin-t-10 kt-margin-b-10" id="authGrp-content__title">
-						<i class="fa fa-user kt-margin-r-5"></i>권한 그룹
-					</div>
-					
-					<div class="osl-collapsed__content" id="authGrp-content__authList" style="display:none;">
-						<ul class="nav nav-pills kt-margin-l-0 kt-margin-r-10 kt-margin-t-10 kt-margin-b-10" role="tablist">
-		                </ul>
-					</div>
-					
-				</div>
-				<div class="kt-portlet__head-toolbar">
-					
-					<div class="kt-portlet__head-wrapper kt-margin-r-10" id="authGrp-table-btn">
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj2000AuthTable" data-datatable-action="select" title="권한그룹 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-							<i class="fa fa-list"></i><span>조회</span>
-						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj2000AuthTable" data-datatable-action="insert" title="권한그룹 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
-							<i class="fa fa-plus"></i><span>추가</span>
-						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj2000AuthTable" data-datatable-action="update" title="권한그룹 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
-							<i class="fa fa-edit"></i><span>수정</span>
-						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj2000AuthTable" data-datatable-action="delete" title="권한그룹 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
-							<i class="fa fa-trash-alt"></i><span>삭제</span>
-						</button>
-					</div>
-					
-					
-					
-					<div class="kt-portlet__head-group">
-						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md on" id="authFoldingBtn"><i class="fa fa-chevron-down"></i></a>
-					</div>
-					
-				</div>
-			</div>
-			<div class="kt-portlet__body">
-				<div class="row">
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="osl-datatable-search" data-datatable-id="prj2000AuthTable"></div>
-					</div>
-				</div>
-				<div class="kt_datatable" id="prj2000AuthTable"></div>
+
+<div class="kt-portlet kt-portlet--mobile">
+	
+	<div class="kt-portlet__head kt-portlet__head--lg">
+		<div class="kt-portlet__head-label">
+			<div class="osl-font-lg kt-font-boldest kt-font-brand kt-margin-l-0 kt-margin-r-10 kt-margin-t-10 kt-margin-b-10">
+				<h5 class="kt-font-boldest kt-font-brand">
+					<i class="fa fa-stream kt-margin-r-10"></i><span id="authGrpNameTitle"></span> 시스템 메뉴 권한
+				</h5>
 			</div>
 		</div>
-		
-		
-		
-		<div class="kt-portlet kt-portlet--mobile">
-			
-			<div class="kt-portlet__head kt-portlet__head--lg">
-				<div class="kt-portlet__head-label">
-					<div class="osl-font-lg kt-font-boldest kt-font-brand kt-margin-l-0 kt-margin-r-10 kt-margin-t-10 kt-margin-b-10">
-						<i class="fa fa-stream kt-margin-r-10"></i><span id="authGrpNameTitle"></span> 시스템 메뉴 권한
-					</div>
-				</div>
-				<div class="kt-portlet__head-toolbar">
-					<div class="kt-portlet__head-wrapper kt-margin-r-5">
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" title="메뉴 권한 저장" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" tabindex="5" data-auth-button="update" id="authGrp-menu-save">
-							<i class="fa fa-plus"></i><span>저장</span>
-						</button>
-					</div>
-				</div>
-			</div>
-			
-			<div class="kt-portlet__body">
-				
-				<div class="table-responsive">
-					<form id="frPrj2000MenuAuth" name="frPrj2000MenuAuth">
-						<input type="hidden" id="prjId" name="prjId" >
-						<input type="hidden" id="authGrpId" name="authGrpId" >
-						<input type="hidden" id="slectedMainMenuId" name="slectedMainMenuId" > 
-						<input type="hidden" id="mainMenuId" name="mainMenuId" >
-						
-						<table class="table table-bordered kt-align-center">
-							<thead>
-								<tr>
-									<th class="osl-min-width--6rem font-weight-bold">대 메뉴명</th>
-									<th class="osl-min-width--11rem font-weight-bold">중 메뉴명 > 소 메뉴명</th>
-									<th>메인</th>
-									<th class="osl-min-width--5rem font-weight-bold">
-										<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-accessYn">
-											<input type="checkbox" title="전체 체크" name="accessYn" id="menuAuthAll-accessYn"/>
-											<span></span>
-										</label>
-										<span>접근</span>
-									</th>
-									<th class="osl-min-width--5rem font-weight-bold">
-										<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-selectYn">
-											<input type="checkbox" title="전체 체크" name="selectYn" id="menuAuthAll-selectYn"/>
-											<span></span>
-										</label>
-										<span>조회</span>
-									</th>
-									<th class="osl-min-width--5rem font-weight-bold">
-										<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-regYn">
-											<input type="checkbox" title="전체 체크" name="regYn" id="menuAuthAll-regYn"/>
-											<span></span>
-										</label>
-										<span>등록</span>
-									</th>
-									<th class="osl-min-width--5rem font-weight-bold">
-										<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-modifyYn">
-											<input type="checkbox" title="전체 체크" name="modifyYn" id="menuAuthAll-modifyYn"/>
-											<span></span>
-										</label>
-										<span>수정</span>
-									</th>
-									<th class="osl-min-width--5rem font-weight-bold">
-										<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-delYn">
-											<input type="checkbox" title="전체 체크" name="delYn" id="menuAuthAll-delYn"/>
-											<span></span>
-										</label>
-										<span>삭제</span>
-									</th>
-									<th class="osl-min-width--5rem font-weight-bold">
-										<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-excelYn">
-											<input type="checkbox" title="전체 체크" name="excelYn" id="menuAuthAll-excelYn"/>
-											<span></span>
-										</label>
-										<span>엑셀</span>
-									</th>
-									<th class="osl-min-width-5rem font-weight-bold">
-										<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-printYn">
-											<input type="checkbox" title="전체 체크" name="printYn" id="menuAuthAll-printYn"/>
-											<span></span>
-										</label>
-										<span>출력</span>
-									</th>
-									<th>전체 체크</th>
-								</tr>
-							</thead>
-							
-							<tbody id="menuAuth-list">
-							</tbody>
-							
-						</table>
-						
-					</form>
-				</div>
-				
+		<div class="kt-portlet__head-toolbar">
+			<div class="kt-portlet__head-wrapper kt-margin-r-5">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" title="메뉴 권한 저장" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" tabindex="5" data-auth-button="update" id="authGrp-menu-save">
+					<i class="fa fa-plus"></i><span>저장</span>
+				</button>
 			</div>
 		</div>
+	</div>
+	
+	<div class="kt-portlet__body">
 		
+		<div class="table-responsive">
+			<form id="frPrj2000MenuAuth" name="frPrj2000MenuAuth">
+				<input type="hidden" id="prjId" name="prjId" >
+				<input type="hidden" id="authGrpId" name="authGrpId" >
+				<input type="hidden" id="slectedMainMenuId" name="slectedMainMenuId" > 
+				<input type="hidden" id="mainMenuId" name="mainMenuId" >
+				
+				<table class="table table-bordered kt-align-center">
+					<thead>
+						<tr>
+							<th class="osl-min-width--6rem font-weight-bold">대 메뉴명</th>
+							<th class="osl-min-width--11rem font-weight-bold">중 메뉴명 > 소 메뉴명</th>
+							<th>메인</th>
+							<th class="osl-min-width--5rem font-weight-bold">
+								<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-accessYn">
+									<input type="checkbox" title="전체 체크" name="accessYn" id="menuAuthAll-accessYn"/>
+									<span></span>
+								</label>
+								<span>접근</span>
+							</th>
+							<th class="osl-min-width--5rem font-weight-bold">
+								<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-selectYn">
+									<input type="checkbox" title="전체 체크" name="selectYn" id="menuAuthAll-selectYn"/>
+									<span></span>
+								</label>
+								<span>조회</span>
+							</th>
+							<th class="osl-min-width--5rem font-weight-bold">
+								<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-regYn">
+									<input type="checkbox" title="전체 체크" name="regYn" id="menuAuthAll-regYn"/>
+									<span></span>
+								</label>
+								<span>등록</span>
+							</th>
+							<th class="osl-min-width--5rem font-weight-bold">
+								<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-modifyYn">
+									<input type="checkbox" title="전체 체크" name="modifyYn" id="menuAuthAll-modifyYn"/>
+									<span></span>
+								</label>
+								<span>수정</span>
+							</th>
+							<th class="osl-min-width--5rem font-weight-bold">
+								<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-delYn">
+									<input type="checkbox" title="전체 체크" name="delYn" id="menuAuthAll-delYn"/>
+									<span></span>
+								</label>
+								<span>삭제</span>
+							</th>
+							<th class="osl-min-width--5rem font-weight-bold">
+								<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-excelYn">
+									<input type="checkbox" title="전체 체크" name="excelYn" id="menuAuthAll-excelYn"/>
+									<span></span>
+								</label>
+								<span>엑셀</span>
+							</th>
+							<th class="osl-min-width-5rem font-weight-bold">
+								<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-margin-b-0" for="menuAuthAll-printYn">
+									<input type="checkbox" title="전체 체크" name="printYn" id="menuAuthAll-printYn"/>
+									<span></span>
+								</label>
+								<span>출력</span>
+							</th>
+							<th>전체 체크</th>
+						</tr>
+					</thead>
+					
+					<tbody id="menuAuth-list">
+					</tbody>
+					
+				</table>
+				
+			</form>
+		</div>
 		
 	</div>
 </div>
+
 
 <script>
 "use strict";

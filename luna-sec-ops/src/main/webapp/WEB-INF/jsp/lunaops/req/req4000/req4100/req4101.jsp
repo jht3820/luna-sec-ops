@@ -674,7 +674,6 @@ var OSLReq4101Popup = function () {
     		
     		selectReqInfo();
     	}
-    	 
     	
     	$("#usrNm").focus(function(){
     		
@@ -686,7 +685,6 @@ var OSLReq4101Popup = function () {
     		$("#deptId").val("");
     		$("#usrImgId").val(""); 
     	});
-    	 
     	
     	$("#reqGrpNm").focus(function(){
     		
@@ -710,7 +708,21 @@ var OSLReq4101Popup = function () {
 				$("#searchReqGrpBtn").click();
 			}
 		});
+    	/*
     	
+   		$("#usrNm").blur(function(){
+   			
+   			if($("#usrNm").val()!=""){
+   				
+   				if($("#email").val()!=""){
+   					return;
+   				}else{
+		   			
+  					$("#searchUsrNmBtn").click();
+   				}
+   			}
+   		});
+    	*/
     	
    		$("#usrNm").blur(function(){
    			
@@ -772,7 +784,18 @@ var OSLReq4101Popup = function () {
     		};
     		$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,options);
     	});
+    	/* 
     	
+    	$("#reqPwCheckbox").click(function(){
+    		if($("#reqPwCheckbox").is(":checked")==true){
+    			
+    			$("#pwOption").removeClass("kt-hide");
+    		}else{
+    			
+    			$("#pwOption").addClass("kt-hide");
+    		}
+    	});
+    	 */
     	
     	$("#reqNm").on("propertychange paste input", function(e){
     		txt = $(this).val();
@@ -790,7 +813,7 @@ var OSLReq4101Popup = function () {
     		if (!form.valid()) {
     			return;
     		}
-    		
+
     		$.osl.confirm($.osl.lang("req4101.saveString."+type+"Str"),{"html" : true},function(result) {
     	        if (result.value) {
     	        	fileUploadObj.upload();
@@ -799,7 +822,9 @@ var OSLReq4101Popup = function () {
     	});
     };
     
-    
+    /**
+	 * 	요구사항 정보 조회
+	 */
 	 var selectReqInfo = function() {
     	var data = {
     			prjId :  $("#reqPrjId").val(),
@@ -869,7 +894,18 @@ var OSLReq4101Popup = function () {
 		    	
 		    	
 				$.osl.date.datepicker($("#reqDtm"), {});
+		    	/* 
 		    	
+		    	if(!$.osl.isNull(data.reqInfoMap.reqPw)){
+		    		$("#reqPwCheckbox").attr("checked", true);
+		    		$("#pwOption").removeClass("kt-hide");
+		    		pw = "Y";
+		    		
+					$("#reqPw").val("");
+					$("#reqPw").attr("placeholder",$.osl.lang("req4101.placeholder.nullPassword"));
+					$("#reqPwCheck").attr("placeholder",$.osl.lang("req4101.placeholder.nullPassword"));
+		    	}
+		     */
 		    	
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
@@ -1041,7 +1077,10 @@ var OSLReq4101Popup = function () {
 		
     };
     
-    
+    /*
+	 * function : viewTypeChange
+	 * function 설명 : 화면 출력 타입 변경(카드형, 그리드형)
+	 */
 	 var viewTypeChange = function(){
 		
 		if(currentViewType == "01"){	

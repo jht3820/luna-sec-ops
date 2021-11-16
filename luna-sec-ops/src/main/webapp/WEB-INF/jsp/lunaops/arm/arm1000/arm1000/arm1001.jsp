@@ -206,7 +206,7 @@ var OSLArm1001Popup = function () {
 				return false;
 			}
 
-			$.osl.confirm($.osl.lang("arm1001.message.send"),null,function(result) {
+			$.osl.confirm($.osl.lang("arm1001.message.send"),{"html" : true},function(result) {
     	        if (result.value) {
     	        	fileUploadObj.upload();
     	        }
