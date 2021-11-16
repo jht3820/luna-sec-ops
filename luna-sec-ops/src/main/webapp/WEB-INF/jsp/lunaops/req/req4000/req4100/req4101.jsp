@@ -18,7 +18,7 @@
 						<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">요청자 정보</span>
 					</div>
 					<div class="kt-portlet__head-toolbar">
-						<div class="kt-portlet__head-group"> 
+						<div class="kt-portlet__head-group">
 							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 						</div>
 					</div>
@@ -42,7 +42,7 @@
 						<div class="col-xl-5">
 							<div class="form-group">
 								<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
-								<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="email" autocomplete="off">
+								<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="email" autocomplete="off" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -50,14 +50,14 @@
 						<div class="col-xl-7">
 							<div class="form-group">
 								<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
-								<input type="text" class="form-control" name="reqUsrDeptNm"placeholder="요청자 소속"  id="deptName" autocomplete="off">
+								<input type="text" class="form-control" name="reqUsrDeptNm"placeholder="요청자 소속"  id="deptName" autocomplete="off" readonly="readonly">
 								<input type="hidden" name="reqUsrDeptId" id="deptId" autocomplete="off">
 							</div>
 						</div>
 						<div class="col-xl-5">
 							<div class="form-group">
 								<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.tel">요청자 연락처</span></label>
-								<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="telno" autocomplete="off">
+								<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="telno" autocomplete="off" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -147,7 +147,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="kt-portlet kt-portlet--collapsed" data-ktportlet="true" id="req4101NewRequestOpt">
+			<div class="kt-portlet kt-portlet--collapsed kt-hide" data-ktportlet="true" id="req4101NewRequestOpt">
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
 						<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.requestDefaultOptNm">접수 기본항목 입력</span>
@@ -675,6 +675,16 @@ var OSLReq4101Popup = function () {
     		selectReqInfo();
     	}
     	
+    	$("#usrNm").focus(function(){
+    		
+    		$("#reqUsrId").val("");
+    		$("#usrNm").val("");
+    		$("#email").val("");
+    		$("#telno").val("");
+    		$("#deptName").val("");
+    		$("#deptId").val("");
+    		$("#usrImgId").val(""); 
+    	});
     	
     	$("#reqGrpNm").focus(function(){
     		
@@ -698,6 +708,34 @@ var OSLReq4101Popup = function () {
 				$("#searchReqGrpBtn").click();
 			}
 		});
+    	/*
+    	
+   		$("#usrNm").blur(function(){
+   			
+   			if($("#usrNm").val()!=""){
+   				
+   				if($("#email").val()!=""){
+   					return;
+   				}else{
+		   			
+  					$("#searchUsrNmBtn").click();
+   				}
+   			}
+   		});
+    	*/
+    	
+   		$("#usrNm").blur(function(){
+   			
+   			if($("#usrNm").val()!=""){
+   				
+   				if($("#email").val()!=""){
+   					return;
+   				}else{
+		   			
+  					$("#searchUsrNmBtn").click();
+   				}
+   			}
+   		});
     	
     	
     	$("#searchUsrNmBtn").click(function(){
@@ -746,7 +784,18 @@ var OSLReq4101Popup = function () {
     		};
     		$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,options);
     	});
+    	/* 
     	
+    	$("#reqPwCheckbox").click(function(){
+    		if($("#reqPwCheckbox").is(":checked")==true){
+    			
+    			$("#pwOption").removeClass("kt-hide");
+    		}else{
+    			
+    			$("#pwOption").addClass("kt-hide");
+    		}
+    	});
+    	 */
     	
     	$("#reqNm").on("propertychange paste input", function(e){
     		txt = $(this).val();
@@ -764,8 +813,8 @@ var OSLReq4101Popup = function () {
     		if (!form.valid()) {
     			return;
     		}
-    		
-    		$.osl.confirm($.osl.lang("req4101.saveString."+type+"Str"),null,function(result) {
+
+    		$.osl.confirm($.osl.lang("req4101.saveString."+type+"Str"),{"html" : true},function(result) {
     	        if (result.value) {
     	        	fileUploadObj.upload();
     	        }
@@ -773,7 +822,9 @@ var OSLReq4101Popup = function () {
     	});
     };
     
-    
+    /**
+	 * 	요구사항 정보 조회
+	 */
 	 var selectReqInfo = function() {
     	var data = {
     			prjId :  $("#reqPrjId").val(),
@@ -843,7 +894,18 @@ var OSLReq4101Popup = function () {
 		    	
 		    	
 				$.osl.date.datepicker($("#reqDtm"), {});
+		    	/* 
 		    	
+		    	if(!$.osl.isNull(data.reqInfoMap.reqPw)){
+		    		$("#reqPwCheckbox").attr("checked", true);
+		    		$("#pwOption").removeClass("kt-hide");
+		    		pw = "Y";
+		    		
+					$("#reqPw").val("");
+					$("#reqPw").attr("placeholder",$.osl.lang("req4101.placeholder.nullPassword"));
+					$("#reqPwCheck").attr("placeholder",$.osl.lang("req4101.placeholder.nullPassword"));
+		    	}
+		     */
 		    	
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
@@ -1015,7 +1077,10 @@ var OSLReq4101Popup = function () {
 		
     };
     
-    
+    /*
+	 * function : viewTypeChange
+	 * function 설명 : 화면 출력 타입 변경(카드형, 그리드형)
+	 */
 	 var viewTypeChange = function(){
 		
 		if(currentViewType == "01"){	

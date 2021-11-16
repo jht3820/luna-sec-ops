@@ -52,7 +52,7 @@ var OSLReq4100Popup = function () {
 	
 	var reqAuth = false;
 	var datatableId = "req4100ReqTable";
-	var prjRequestAcceptCd = "02";
+	
 	
 	var reqDatatable;
 	
@@ -93,7 +93,7 @@ var OSLReq4100Popup = function () {
 				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqUsrNm)){
-							row.reqUsrNm = "";
+							return row.reqUsrNm = "-";
 						}
 						var usrData = {
 							html: row.reqUsrNm,
@@ -105,7 +105,9 @@ var OSLReq4100Popup = function () {
 						return $.osl.user.usrImgSet(row.reqUsrImgId, usrData);
 					},
 					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.reqUsrId);
+						if(rowData.reqUsrNm != "-"){
+							$.osl.user.usrInfoPopup(rowData.reqUsrId);
+						}
 					}
 				},
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
