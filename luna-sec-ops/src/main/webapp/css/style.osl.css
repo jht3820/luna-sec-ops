@@ -2385,6 +2385,10 @@ form#frCmm6201 .osl-process__flow-container {
 .flowchart-operator-outputs .flowchart-operator-connector {
     text-align: right;
 }
+.flowchart-operator-outputs--active{
+    background-color: #efefef;
+    font-weight: bold;
+}
 .osl-flowchart-preview {
     width: 100%;
     height: 125px;
