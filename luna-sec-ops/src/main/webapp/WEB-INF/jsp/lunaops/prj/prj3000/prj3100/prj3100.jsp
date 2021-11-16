@@ -1456,7 +1456,7 @@ var OSLPrj3000Popup = function () {
 			
 			}else if(targetType.hasClass("atch-file")){ 
 				atchFileId = $('#docAtchFileId').val();
-				fileType = "waitType";
+				fileType = "atchFile";
 				
 			}
 			
