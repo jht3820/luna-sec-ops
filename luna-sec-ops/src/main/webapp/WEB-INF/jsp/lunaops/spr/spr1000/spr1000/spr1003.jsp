@@ -280,6 +280,7 @@ var OSLSpr1003Popup = function () {
 				}
 			}
 			
+			
 			if((checkThis-beforeStep) != 1){
 				
 				if(checking < checkThis){
@@ -301,7 +302,7 @@ var OSLSpr1003Popup = function () {
 						$.osl.alert($.osl.lang("spr1003.alert.reqSprPoint",(reqListCnt-reqSprPointListCnt)),{type: 'error'});
 						wizardObj.goTo(2);
 					}
-					
+					var nonReqChargerCnt = $("input[name^=reqCharger_]").length;
 					var reqChargerList = wizardData["reqUsrList"];
 					var reqChargerListCnt = 0;
 					if(!$.osl.isNull(reqChargerList)){
@@ -311,9 +312,9 @@ var OSLSpr1003Popup = function () {
 							}
 						});
 					}
-					if(reqListCnt > reqChargerListCnt){
+					if(nonReqChargerCnt > reqChargerListCnt){
 						
-						$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(reqListCnt-reqChargerListCnt)),{type: 'error'});
+						$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(nonReqChargerCnt-reqChargerListCnt)),{type: 'error'});
 						wizardObj.goTo(3);
 					}
 				}
@@ -435,7 +436,7 @@ var OSLSpr1003Popup = function () {
 		
 		else if(wizardObj.currentStep == 3){
 			
-			var reqListCnt = wizardData["reqListCnt"];
+			var nonReqChargerCnt = $("input[name^=reqCharger_]").length;
 			var reqChargerList = wizardData["reqUsrList"];
 			var reqChargerListCnt = 0;
 			if(!$.osl.isNull(reqChargerList)){
@@ -445,9 +446,9 @@ var OSLSpr1003Popup = function () {
 					}
 				});
 			}
-			if(reqListCnt > reqChargerListCnt){
+			if(nonReqChargerCnt > reqChargerListCnt){
 				
-				$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(reqListCnt-reqChargerListCnt)),{type: 'error'});
+				$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(nonReqChargerCnt-reqChargerListCnt)),{type: 'error'});
 				return false;
 			}
 		}
@@ -760,6 +761,13 @@ var OSLSpr1003Popup = function () {
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 80, template:function(row){
 					var rtnVal = "";
 					
+					
+					if(row.reqChargerNm != null){
+						rtnVal = row.reqChargerNm;
+						return rtnVal;
+					}
+					
+					
 					if(wizardData["reqUsrList"].hasOwnProperty(row.reqId)){
 						rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;
 					}
@@ -768,7 +776,8 @@ var OSLSpr1003Popup = function () {
 				}},
 			],
 			rows:{
-				clickCheckbox: true
+				clickCheckbox: true,
+				minHeight:50,
 			},
 			actionBtn:{
 				"update": false,

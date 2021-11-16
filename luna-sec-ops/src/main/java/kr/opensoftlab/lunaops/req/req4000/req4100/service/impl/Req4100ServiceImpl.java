@@ -427,7 +427,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			}
 			
 			
-			if(convertParamMap.get("reqGrpId") != null || !"".equals(convertParamMap.get("reqGrpId"))) {
+			if(convertParamMap.get("reqGrpId") == null || !"".equals(convertParamMap.get("reqGrpId"))) {
 				
 				
 				req3000DAO.deleteReq3001ReqCon(convertParamMap);
@@ -839,6 +839,19 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		String reqId = (String) paramMap.get("reqId");
 		String regUsrId = (String) paramMap.get("regUsrId");
 		String regUsrIp = (String) paramMap.get("regUsrIp");
+
+		JSONParser jsonParser = new JSONParser();
+
+		
+		
+		String basicItemList = (String) paramMap.get("basicItemList");
+		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+		String basicItemDelList = (String) paramMap.get("basicItemDelList");
+		
+		
+		JSONArray basicItemJsonArray = (JSONArray) jsonParser.parse(basicItemList);
+		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
 		
 		
 		String signRequiredCd = (String) paramMap.get("signRequiredCd");
@@ -886,7 +899,8 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		}
 		
 		
-		if(!beforeFlowId.equals(selFlowId)) {
+		
+		if(!beforeFlowId.equals(selFlowId) && !"01".equals(signRequiredCd)) {
 			
 			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "01", beforeFlowId, selFlowId, regUsrId);
 			req6001Vo.setPreProcessId(processId);
@@ -905,11 +919,13 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			Map newMap = new HashMap<>();
 			
 			
-			if(beforeFlowId.equals(selFlowId)) {
+			if(!beforeFlowId.equals(selFlowId)) {
 				
-				newMap.put("type", "update");
+				paramMap.put("reqSignCd", "01");
+				paramMap.put("reqSignOrd", "1");
 			}
 			
+			newMap.put("type", "update");
 			newMap.put("signUsrInfList", paramMap.get("signUsrList"));
 			newMap.put("targetId", beforeReqInfo.get("reqId"));
 			newMap.put("targetCd", "01");	
@@ -927,31 +943,23 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			
 			cmm6600Service.saveCmm6600SignLine(newMap);
+			
+			
+			paramMap.put("reqSignProcessId", processId);
+			paramMap.put("reqSignFlowId", selFlowId);
+			paramMap.remove("processId");
+			paramMap.remove("flowId");
 		}
 		
 		
 		req4100DAO.updateReq4101ReqProcessInfo(paramMap);
 		
 		
-		
-		
-		String basicItemList = (String) paramMap.get("basicItemList");
-		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
-		String basicItemDelList = (String) paramMap.get("basicItemDelList");
-		
-		JSONParser jsonParser = new JSONParser();
-		
-		
-		JSONArray basicItemJsonArray = (JSONArray) jsonParser.parse(basicItemList);
-		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
-		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
-		
-		
 		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
 			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
 			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
 			itemMap.put("processId", processId);
-			itemMap.put("flowId", paramMap.get("selFlowId"));
+			itemMap.put("flowId", beforeFlowId);
 			itemMap.put("prjId", prjId);
 			itemMap.put("reqId", reqId);
 			itemMap.put("licGrpId", paramMap.get("licGrpId"));
@@ -963,7 +971,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
 			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
 			itemMap.put("processId", processId);
-			itemMap.put("flowId", paramMap.get("selFlowId"));
+			itemMap.put("flowId", beforeFlowId);
 			itemMap.put("prjId", prjId);
 			itemMap.put("reqId", reqId);
 			itemMap.put("licGrpId", paramMap.get("licGrpId"));
@@ -972,9 +980,19 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			prj1300Service.savePrj1102ItemAjax(itemMap);
 			prj1300Service.savePrj1103ItemAjax(itemMap);
 		}
+
 		
-		
-		
+		for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("processId", processId);
+			itemMap.put("flowId", beforeFlowId);
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", reqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			prj1300Service.deletePrj1103ItemAjax(itemMap);
+			prj1300Service.deletePrj1102ItemInfoAjax(itemMap);
+		}
 	}
 
 	

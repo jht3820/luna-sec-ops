@@ -285,6 +285,9 @@ input:-webkit-autofill,
 .osl-min-h-px--550 {
   min-height: 550px; 
 }
+.osl-min-h-px--555 {
+  min-height: 555px; 
+}
 .osl-min-h-px--575 {
   min-height: 575px; 
 }
@@ -351,6 +354,9 @@ input:-webkit-autofill,
 }
 .osl-min-w-px-35{
 	min-width: 35px !important;
+}
+.osl-max-w-px-120{
+	max-width: 120px !important;
 }
 .osl-min-w-px-130{
 	min-width: 130px;
@@ -1094,6 +1100,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper .kt-widget__label{
 	flex-basis: 100%;
 }
+.kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper .kt-widget__label,
 .kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper .kt-widget__links{
 	-webkit-box-pack: start;
     -ms-flex-pack: start;
@@ -1106,6 +1113,9 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 }
 .kt-widget.kt-widget--general-3:not(.kt-widget--fit) .kt-widget__top {
     padding: 5px 25px;
+}
+.kt-widget.kt-widget--general-3 .kt-widget__top .kt-widget__wrapper .kt-widget__stats .kt-widget__stat{
+	padding: 0.35rem 0.8rem;
 }
 
 .kt-datatable__body > .kt-datatable__row > td.kt-datatable__cell--left.kt-datatable__cell > span {
@@ -1442,7 +1452,7 @@ label.required:after {
 .uppy-size--md .osl-uppy-DashboardItem-action--download{
 	font-size: 4rem;
 }
-.uppy-DashboardItem{
+.uppy-Dashboard-Item{
 	position:relative;
 }
 .fileReadonly button.uppy-DashboardContent-addMore,
@@ -1450,7 +1460,7 @@ label.required:after {
 .fileReadonly .uppy-DashboardTabs,
 .fileReadonly .uppy-Dashboard-dropFilesHereHint,
 .fileReadonly .uppy-Dashboard-AddFiles-title,
-.fileReadonly button.uppy-DashboardItem-action--remove {
+.fileReadonly button.uppy-Dashboard-Item-action--remove {
     display: none;
 }
 
@@ -2377,6 +2387,10 @@ form#frCmm6201 .osl-process__flow-container {
 }
 .flowchart-operator-outputs .flowchart-operator-connector {
     text-align: right;
+}
+.flowchart-operator-outputs--active{
+    background-color: #efefef;
+    font-weight: bold;
 }
 .osl-flowchart-preview {
     width: 100%;

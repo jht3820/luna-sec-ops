@@ -250,6 +250,12 @@ public class Prj1100DAO  extends ComOslitsAbstractDAO {
 	
 	
 	@SuppressWarnings("rawtypes")
+	public List selectPrj1100FlowChargerCntList(Map paramMap) throws Exception {
+		return (List) list("prj1100DAO.selectPrj1100FlowChargerCntList", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
 	public int selectPrj1105FlowAuthGrpCnt(Map paramMap) throws Exception {
 		return (int) select("prj1100DAO.selectPrj1105FlowAuthGrpCnt", paramMap);
 	}

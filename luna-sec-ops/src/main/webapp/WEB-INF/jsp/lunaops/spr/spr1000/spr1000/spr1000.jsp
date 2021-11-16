@@ -75,7 +75,10 @@
 <script>
 "use strict";
 var OSLSpr1000Popup = function () {
+	
 	var totalSprPoint = 0;
+	
+	var totalOngoingSprCnt = 0;
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
@@ -156,7 +159,6 @@ var OSLSpr1000Popup = function () {
 			   				
 			   				$.osl.toastr(data.message);
 			   				
-			   				
 			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			   			}
 					});
@@ -190,6 +192,11 @@ var OSLSpr1000Popup = function () {
 				},
 				
 				"sprStart": function(rowData, datatableId, type){
+					
+					if(totalOngoingSprCnt != 0){
+						$.osl.alert("이미 진행중인 스프린트가 존재합니다.", {type:"error"})
+						return;			
+					}
 					var rowDatas = rowData;
 					
 					
@@ -286,6 +293,11 @@ var OSLSpr1000Popup = function () {
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
 						
+						
+						if(map.sprTypeCd == '02'){
+							totalOngoingSprCnt += 1;	
+						} 
+						
 						var sprTypeClass = "kt-media--primary";
 						var sprTypeNm = map.sprTypeNm;
 						
@@ -303,7 +315,13 @@ var OSLSpr1000Popup = function () {
 						if(rowCnt == 0){
 							sprintStr += '<div class="row">';
 						}
+						var restDay = 0;
 						
+						if(map.sprTypeCd == "03"){
+							restDay = 0;
+						}else{
+							restDay = $.osl.escapeHtml(map.restDay);
+						}
 						
 						sprintStr +=
 							'<div class="col-lg-6 col-md-12 col-sm-12">'
@@ -360,7 +378,7 @@ var OSLSpr1000Popup = function () {
 											+'</div>'
 											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
 												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>남은 일수</span>'
-												+'<h5><span class="badge badge-warning osl-min-width-85">'+$.osl.escapeHtml(map.restDay)+'</span></h5>'
+												+'<h5><span class="badge badge-warning osl-min-width-85">'+restDay+'</span></h5>'
 											+'</div>'
 											+'<div class="osl-flex-row-fluid osl-margin-b-175rm">'
 												+'<div class="osl-progress">'

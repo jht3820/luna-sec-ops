@@ -117,6 +117,9 @@ var OSLDpl3001Popup = function () {
 	
 	var buildCompFlag = false;
 	
+	
+	var selJobInfo;
+	
 	var documentSetting = function(){
 
 		
@@ -154,8 +157,6 @@ var OSLDpl3001Popup = function () {
 				}
 			},
 			columns: [
-				
-				
 				
 				{field: 'jobStartOrd', title: "실행 순번", textAlign: 'center', width: 60, autoHide: false},
 				{field: 'bldResultMsg', title: "실행 결과", textAlign: 'center', width: 130, search: false
@@ -209,6 +210,8 @@ var OSLDpl3001Popup = function () {
 						return bldRestoreResultMsg;
 					}
 				},
+				{field: 'jenNm', title: "Jenkins 명", textAlign: 'center', width: 140, search: true, sortable: true, sortField: "jenNm"},
+				{field: 'jenUrl', title: "Jenkins URL", textAlign: 'center', width: 200, search: true, sortable: false}
 				
 			],
 			rows:{
@@ -261,6 +264,9 @@ var OSLDpl3001Popup = function () {
 					}
 					
 					
+					selJobInfo = rowData;
+					
+					
 					fnSelectJobConsoleLog(rowData);
 					
 				},
@@ -268,12 +274,24 @@ var OSLDpl3001Popup = function () {
 				"jobExcute":function(rowDatas , datatableId, type, rowNum, elem){
 					
 					
-					var selRowData = $.osl.datatable.list["dpl3001AssignJobTable"].targetDt.dataSet[rowNum];
+					var selRowData = rowDatas;
+					
+					
+					if($.osl.isNull(selRowData)){
+						
+						selRowData = selJobInfo;
+					}
+					
+					
+					
 					
 					if($.osl.isNull(selRowData)){
 						$.osl.alert("실행(빌드)하려는 JOB을 선택해주세요.", {type: "warning"});
 						return false;
 					}
+					
+					
+					fnSelectJobConsoleLog(selRowData);
 					
 					
 					fnSelJobDeployExcute(selRowData, rowNum);
@@ -282,7 +300,7 @@ var OSLDpl3001Popup = function () {
 			theme: {
 				 actionBtnIcon:{
 					 
-					 "jobExcute": "fas fa-play-circle"
+					 "jobExcute": "far fa-play-circle"
 				 }
 			},
 			callback:{
@@ -350,6 +368,9 @@ var OSLDpl3001Popup = function () {
 		}
 		
 		
+		buildJobInfo = {};
+		
+		
 		$.osl.confirm("선택 JOB("+selJobData.jobId+")을 수동 실행 하시겠습니까?", null,function(result) {
 	        if (result.value) {
 	        	
@@ -406,7 +427,7 @@ var OSLDpl3001Popup = function () {
 					ajaxObj.setFnSuccess(function(data){
 						
 						
-						
+						$.osl.datatable.list["dpl3001AssignJobTable"].targetDt.reload();
 						
 						if(data.errorYn == "Y"){
 							
@@ -687,7 +708,7 @@ var OSLDpl3001Popup = function () {
 								return false;
 							}
 							
-							else if(!gfnIsNull(map.jobRestoreId) && map.jobRestoreId != "-" && map.jobRestoreId == localBldInfo.jobId){
+							else if(!$.osl.isNull(map.jobRestoreId) && map.jobRestoreId != "-" && map.jobRestoreId == localBldInfo.jobId){
 								
 								var selJobInfo = targetJobInfo;
 								targetJobInfo["bldRestoreResult"] = localBldInfo.bldResult;

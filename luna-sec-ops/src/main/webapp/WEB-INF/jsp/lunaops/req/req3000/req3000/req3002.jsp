@@ -191,8 +191,7 @@ var OSLReq3002Popup = function () {
 			columns: [
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title:"No.", textAlign: 'center', width: 25, autoHide: false, sortable: false, autoHide: false},
-				{field: 'prjNm', title: '프로젝트 명', textAlign: 'left', width: 150, search:true, autoHide: false, sortable: false},	
-				{field: 'reqOrd', title: '요구사항 번호', textAlign: 'left', width: 100, search:true, autoHide: false },
+				{field: 'reqOrd', title: '요구사항 번호', textAlign: 'left', width: 80, search:true, autoHide: false },
 				{field: 'reqNm', title: '요구사항 명', textAlign: 'left', width: 100 , search:true, autoHide: false, sortable: false}
 			],
 			searchColumns:[
@@ -201,6 +200,7 @@ var OSLReq3002Popup = function () {
 				{field: 'reqProType', title: '처리유형', searchOrd: 7, searchType:"select", searchCd:"REQ00001"},
 			],
 			actionBtn:{
+				"title":"선택",
 				"dblClick":true,
 				"update":false,
 				"delete":false

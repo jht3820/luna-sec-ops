@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib prefix="c" uri="http:
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -201,15 +201,22 @@ var OSLStm6000Popup = function () {
 					$.osl.layerPopupOpen('/stm/stm6000/stm6000/selectStm6001View.do',data,options);
 				},
 				"delete": function(treeObj, nodeData){
-					if($.osl.isNull(nodeData)){
+					
+					
+					var selectNodeIds = treeObj.jstree("get_selected");
+					if($.osl.isNull(selectNodeIds)){
 						$.osl.alert($.osl.lang("stm6000.message.alert.treeSelect"));
 						return false;
 					}
-
+					
 					
 					if(nodeData.lvl == 0 || $.osl.isNull(nodeData.upperDeptId)){
 						$.osl.alert($.osl.lang("stm6000.message.alert.notRootDelete"));
 					}else{
+						
+						
+						var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
+						
 						
 						deleteDeptList(nodeData, selectNode.children_d);
 					}
@@ -330,6 +337,7 @@ var OSLStm6000Popup = function () {
 	    				$("#"+formId)[0].reset();
 	    				
 	    				
+	    				$("button[data-tree-id=stm6000DeptTree][data-tree-action=select]").click();
 	    			}
 	    		});
 	    		

@@ -698,7 +698,7 @@ var OSLCoreLangSetting = function () {
 			complete: "완료",
 			insert:{
 				title: "신규 프로젝트 그룹 생성",
-				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?",
+				saveString: "신규 프로젝트 그룹을 생성하시겠습니까?</br>그룹 생성자는 프로젝트 그룹 담당자에</br>기본 배정됩니다.",
 				saveBtnString: "등록 완료",
 				saveMsg: "${1}명의 사용자가 배정되었습니다.",
 				saveDupleMsg: "이미 배정된 ${1}명의 사용자 제외",
@@ -706,7 +706,7 @@ var OSLCoreLangSetting = function () {
 			},
 			update:{
 				title: "프로젝트 그룹 수정",
-				saveString: "프로젝트 그룹을 수정하시겠습니까?",
+				saveString: "프로젝트 그룹을 수정하시겠습니까?</br>그룹 생성자는 프로젝트 그룹 담당자에</br>기본 배정됩니다.",
 				saveBtnString: "수정 완료"
 			}
 		},
@@ -1322,6 +1322,9 @@ var OSLCoreLangSetting = function () {
 			field:{
 				reqGrpNm:"그룹 요구사항 명",
 			},
+			actionBtn:{
+				title:"선택"
+			}
 		},
 		spr1000:{
 			nonSelect: "스프린트를 선택해주세요.",

@@ -296,7 +296,7 @@
 											<label class="required"></label>
 										</div>
 										<div class="kt-portlet__head-toolbar">
-											<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" name="cmm6201SignFlowBtn" id="cmm6201SignFlowBtn" title="결재선 지정" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+											<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-preview-hide" name="cmm6201SignFlowBtn" id="cmm6201SignFlowBtn" title="결재선 지정" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 												<i class="fa fa-file-signature"></i><span data-lang-cd="datatable.button.select">결재선 지정</span>
 											</button>
 											<div class="kt-portlet__head-group">
@@ -466,6 +466,8 @@
 </form>
 <div class="modal-footer">
 	<input type="hidden" name="cmm6201ModalCallbackBtn" id="cmm6201ModalCallbackBtn"/>
+	<button type="button" class="btn btn-outline-primary kt-hide" id="cmm6201SignAcceptSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">결재 승인</span></button>
+	<button type="button" class="btn btn-outline-danger kt-hide" id="cmm6201SignRejectSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">결재 반려</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
@@ -897,7 +899,7 @@ var OSLCmm6201Popup = function () {
     	
  		var ajaxObj = new $.osl.ajaxRequestAction(
  				{"url":"<c:url value='/req/req4000/req4100/selectReq4100RequestProcessData.do'/>"},
- 				{paramPrjId: paramPrjId, paramReqId: paramReqId});
+ 				{prjId: paramPrjId, paramReqId: paramReqId});
  		
  		
  		ajaxObj.setFnSuccess(function(data){
@@ -914,6 +916,14 @@ var OSLCmm6201Popup = function () {
  				
  				
 				var reqInfo = data.reqInfo;
+ 				var reqSignCd = reqInfo.reqSignCd;
+ 				var reqSignNm = reqInfo.reqSignNm;
+ 				
+ 				
+ 				if(!$.osl.isNull(reqSignCd)){
+ 					reqProcessAuthFlag = false;
+ 				}
+ 				
  				
  				
  				var flowInfo = data.flowInfo;
@@ -989,40 +999,63 @@ var OSLCmm6201Popup = function () {
 		    	
 		    	
 		    	
-				var ajaxObj = new $.osl.ajaxRequestAction(
-						{"url":"<c:url value='/prj/prj1000/prj1300/selectPrj1102AllItemListAjax.do'/>", "async":"false"}
-						,{prjId: paramPrjId, processId: paramProId, flowId: paramFlowId, reqId: paramReqId});
+				basicItemList = data.itemList;
 				
-				
-				ajaxObj.setFnSuccess(function(data){
-					if(data.errorYn == "Y"){
-						$.osl.alert(data.message,{type: 'error'});
+				var defaultItemList = new Array;
+				var newItemList = new Array;
+				$.each(basicItemList, function(idx, map){
+					if(map.reqId == paramReqId){
+						newItemList.push(map);
 					}else{
-						
-						basicItemList = data.itemList;
-						
-						var viewType=""
-						var readOnly=""
-						if(reqProcessAuthFlag){
-							viewType="default";
-							readOnly=false;
-						}else{
-							viewType="preview";
-							readOnly=true;
-						}
-				    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
-				    			
-				    			{
-									viewType: viewType,
-									readOnly: readOnly
-								}
-			    		); 
+						defaultItemList.push(map);
 					}
 				});
 				
 				
-				ajaxObj.send();
+				var viewType=""
+				var readOnly=""
+				if(reqProcessAuthFlag){
+					viewType="default";
+					readOnly=false;
+				}else{
+					viewType="preview";
+					readOnly=true;
+				}
+				
+		    	$.osl.customOpt.setting(defaultItemList,  "basicItemList",
+		    			
+		    			{
+							viewType: viewType,
+							readOnly: readOnly
+						}
+	    		); 
 		    	
+		    	$.osl.customOpt.setting(newItemList,  "basicItemList",
+		    			
+		    			{
+							viewType: viewType,
+							readOnly: readOnly,
+							htmlAppendType: true,
+							delAt: true,
+							actionFn:{
+								delete:function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemInsertList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemInsertList.splice(delIdx,1);
+									}
+								}
+							}
+						}
+	    		); 
 		    	
  				
  				if(reqProcessAuthFlag == false){
@@ -1104,8 +1137,22 @@ var OSLCmm6201Popup = function () {
 				
 				
 				if(flowInfo.flowSignCd == "01"){
-					
-					modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
+					if($.osl.isNull(reqSignCd)){
+						
+						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
+					}else{
+						
+						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 '+reqSignNm+'</div>'
+						
+						
+						var currentSignUsrInfo = data.currentSignUsrInfo;
+						
+						
+						var loginUsrId = $.osl.user.userInfo.usrId;
+						if(currentSignUsrInfo.signUsrId == loginUsrId){
+							$("#cmm6201SignAcceptSubmit, #cmm6201SignRejectSubmit").removeClass("kt-hide");
+						}
+					}
 					
 					
 					signUsrList = [];
@@ -1571,6 +1618,15 @@ var OSLCmm6201Popup = function () {
 			}
 		});
 		
+		if(basicItemList.length>0){
+			var itemOrd = basicItemList[basicItemList.length-1].itemOrd;
+	   		
+			$.each(basicItemInsertList, function(idx, map){
+				map.itemOrd = itemOrd+idx+1;
+				basicItemInsertList[idx] = map;
+			});
+		}
+   		
 		fd.append("basicItemList",JSON.stringify(basicItemList));
 		fd.append("basicItemInsertList",JSON.stringify(basicItemInsertList));
 		fd.append("basicItemDelList",JSON.stringify(basicItemDelList));

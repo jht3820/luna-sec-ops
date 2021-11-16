@@ -303,7 +303,7 @@ var OSLBad1002Popup = function () {
           		}
           		
       			
-          		$.osl.confirm($.osl.lang("bad1002.insert"),null,function(result) {
+          		$.osl.confirm($.osl.lang("bad1002.insert"),{"html" : true},function(result) {
           	        if (result.value) {
           	        	data = localData;
           	        	data.menuId = $("#menuId").val();
@@ -316,7 +316,7 @@ var OSLBad1002Popup = function () {
   	        	data.menuId = $("#menuId").val();
 	   			
 	   			
-	   			$.osl.confirm($.osl.lang("bad1002.insert"),null,function(result){
+	   			$.osl.confirm($.osl.lang("bad1002.insert"),{"html" : true},function(result){
 	   				if(result.value){
 						submitInsertAction();
 	   				}
