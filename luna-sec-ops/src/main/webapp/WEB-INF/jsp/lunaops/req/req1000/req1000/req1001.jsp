@@ -299,7 +299,9 @@ var OSLReq1001Popup = function () {
     	}else{
     		
         	$.osl.setDataFormElem($.osl.user.userInfo,"frReq1001", ["usrNm","email","telno","deptName","deptId","usrImgId"]);
-			
+        	
+			$("#reqUsrId").val($.osl.user.userInfo.usrId);
+        	
 	    	
 	    	$("#reqDtm").val(new Date().format("yyyy-MM-dd"));
     	}

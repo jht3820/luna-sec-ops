@@ -93,7 +93,7 @@ var OSLReq4100Popup = function () {
 				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqUsrNm)){
-							return row.reqUsrNm = "-";
+							row.reqUsrNm = "-";
 						}
 						var usrData = {
 							html: row.reqUsrNm,
@@ -105,18 +105,25 @@ var OSLReq4100Popup = function () {
 						return $.osl.user.usrImgSet(row.reqUsrImgId, usrData);
 					},
 					onclick: function(rowData){
-						if(rowData.reqUsrNm != "-"){
+						if($.osl.isNull(rowData.reqUsrId)){
+							$.osl.alert("없는 사용자입니다.");
+							return false;
+						}else{
 							$.osl.user.usrInfoPopup(rowData.reqUsrId);
 						}
 					}
 				},
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
-						if($.osl.isNull(row.reqChargerNm)){
+						if($.osl.isNull(row.reqChargerId)){
 							return row.reqChargerNm = "-";
 						}else{
+							var chargerNm = row.reqChargerNm;
+							if($.osl.isNull(row.reqChargerNm)){
+								chargerNm = '-';
+							}
 							var usrData = {
-								html: row.reqChargerNm,
+								html: chargerNm,
 								imgSize: "sm",
 								class:{
 									cardBtn: "osl-width__fit-content"
@@ -126,7 +133,10 @@ var OSLReq4100Popup = function () {
 						}
 					},
 					onclick: function(rowData){
-						if(rowData.reqChargerNm != "-"){
+						if($.osl.isNull(rowData.reqChargerId)){
+							$.osl.alert("없는 사용자입니다.");
+							return false;
+						}else{
 							$.osl.user.usrInfoPopup(rowData.reqChargerId);
 						}
 					}
