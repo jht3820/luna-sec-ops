@@ -420,11 +420,19 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
+		dpl2000:{
+			modal : {
+				title : {
+					dplDetail : "[${1}] 상세정보"
+				}
+			}
+		},
 		dpl2100:{
 			modal : {
 				title : {
 					signAprRes : "결재 의견",
-					signRjtRes : "반려 사유"
+					signRjtRes : "반려 사유",
+					dplDetail : "[${1}] 상세정보"
 				}
 			},
 			action : {
@@ -517,6 +525,9 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6600:{
 			message : {
+				alert : {
+					notRgsSignUsr : "등록된 결재자가 없습니다."
+				},
 				confirm : {
 					saveString : "결재선 정보를 저장 하시겠습니까?"
 				}
@@ -540,6 +551,13 @@ var OSLCoreLangSetting = function () {
 			button : {
 				signApr : "결재 승인",
 				signRjt : "결재 반려"
+			},
+			message : {
+				alert:{
+					notSignOrd : "결재 순서가 아닙니다.",
+					notEnterAprRes : "결재 사유를 입력해주세요.",
+					notEnterRjtRes : "반려 사유를 입력해주세요.",
+				}
 			}
 		},
 		cmm6800 :{
@@ -683,7 +701,7 @@ var OSLCoreLangSetting = function () {
 				selNoneFlow: "단계를 선택 하세요.",
 				saveCancel: "저장이 취소되었습니다.",
 				saveBefore: "변경된 데이터가 있습니다.</br> 저장하지 않고 진행하시겠습니까?",
-				processSave: "시작 단계: ${1}</br>종료 단계: ${2}</br></br>프로세스 데이터를 저장하시겠습니까?",
+				processSave: "시작 단계: ${1}</br></br>프로세스 데이터를 저장하시겠습니까?",
 				manyStartFlow: "${1}개의 시작 단계가 발견되었습니다.",
 				manyEndFlow: "${1}개의 종료 단계가 발견되었습니다.",
 				flowLinkCheck: "</br>단계 연결 데이터를 확인하세요.",
@@ -691,7 +709,11 @@ var OSLCoreLangSetting = function () {
 				deleteReqCheck: "${1}건의 진행중인 요구사항이 있습니다.</br>요구사항의 단계 진행을 완료해야 삭제가 가능합니다.",
 				searchEmpty: "검색하려는 단계명을 입력하세요.",
 				processUseCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
-				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다."
+				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다.",
+				flowDoneLinkChk: "마지막 단계는 최종완료 단계에 연결되어야합니다.",
+				flowSizeChk: "작업흐름이 생성되지 않았습니다.",
+				flowDoneDelErr: "최종 완료 단계는 삭제가 불가능합니다.",
+				flowDoneUpdateErr: "최종 완료 단계는 수정이 불가능합니다."
 			}
 		},
 		prj1401:{
@@ -950,7 +972,7 @@ var OSLCoreLangSetting = function () {
 					notCheckedFile : "선택된 파일이 없습니다."
 				},
 				confirm:{
-					deleteFormFile:"산출물 양식 파일을 삭제 하시겠습니까?",
+					deleteFormFile:"산출물 파일을 삭제 하시겠습니까?",
 					signAtchFile : "선택된 파일들을 결재 하시겠습니까?"
 				} 
 			},
@@ -1161,7 +1183,8 @@ var OSLCoreLangSetting = function () {
 		req4100:{
 			button:{
 				copyBtn : "복사",
-				requestAccept: "접수"
+				requestAcceptBtn: "접수",
+				detailBtn : "상세",
 			},
 			field:{
 				
@@ -1182,7 +1205,7 @@ var OSLCoreLangSetting = function () {
 				deleteTooltip : "요구사항 삭제",
 				detailTooltip : "요구사항 상세",
 				copyTooltip : "요구사항 복사",
-				requestAcceptToolip: "요구사항 접수",
+				requestAcceptTooltip: "요구사항 접수",
 			},
 			title:{
 				insertTitle : "신규 요구사항 등록",
@@ -1193,6 +1216,7 @@ var OSLCoreLangSetting = function () {
 				updateMsg : "접수 요청중인 요구사항만 수정 가능합니다.",
 				multiPwMsg : "패스워드 확인이 필요한 요구사항이 ${1}건 있습니다. </br> 잠금된 요구사항을 제외 후 삭제 또는 잠금 요구사항은 단건 삭제하세요.",
 				selectData : "요구사항을 선택해주세요.",
+				selectDatas : "${1}건의 요구사항이 선택되었습니다.</br>1건의 요구사항만 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
 				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
 			},
@@ -2965,6 +2989,9 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6600:{
 			message : {
+				alert : {
+					notRgsSignUsr : "There are no registered approvers."
+				},
 				confirm : {
 					saveString : "Do you want to save the approval line information?"
 				}
@@ -2983,6 +3010,13 @@ var OSLCoreLangSetting = function () {
 			button : {
 				signApr : "approval",
 				signRjt : "return of approval"
+			},
+			message : {
+				alert:{
+					notSignOrd : "It is not your order of approval.",
+					notEnterAprRes : "Please enter the reason for the approval.",
+					notEnterRjtRes : "Please enter the reason for the rejection.",
+				}
 			}
 		},
 		cmm6800 :{
@@ -3038,11 +3072,19 @@ var OSLCoreLangSetting = function () {
 				auth : "You don't have access rights."
 			}
 		},
+		dpl2000:{
+			modal : {
+				title : {
+					dplDetail : "[${1}] Detail Info"
+				}
+			}
+		},
 		dpl2100:{
 			modal : {
 				title : {
 					signAprRes : "approval opinion",
-					signRjtRes : "Reasons for rejection"
+					signRjtRes : "Reasons for rejection",
+					dplDetail : "[${1}] Detail Info"
 				}
 			},
 			action : {
@@ -3553,7 +3595,8 @@ var OSLCoreLangSetting = function () {
 		},
 		req4100:{
 			button:{
-				copyBtn : "Copy"
+				copyBtn : "Copy",
+				requestAcceptBtn : "Acception"
 			},
 			field:{
 				
@@ -3573,7 +3616,8 @@ var OSLCoreLangSetting = function () {
 				updateTooltip : "Update Request",
 				deleteTooltip : "Delete Request",
 				detailTooltip : "Detail Request",
-				copyTooltip : "Copy Request"
+				copyTooltip : "Copy Request",
+				requestAcceptTooltip : "Acception Request"
 			},
 			title:{
 				insertTitle : "Insert New Request",
@@ -3584,6 +3628,7 @@ var OSLCoreLangSetting = function () {
 				updateMsg : "You can only modify requirements whose processing status is being requested.",
 				multiPwMsg : "There are ${1} requirements that require password verification. </br> You can delete locked requirements after excluding them, or you can delete locked requirements as a single item.",
 				selectData : "Choose your data.",
+				selectDatas : "There are ${1} requirements.</br>Select only 1 request.",
 				LockData : "Locked requirements cannot be copied.",
 				selectCopyData : "Copying is only possible for 1 copy. Currently ${1} are selected.",
 			},

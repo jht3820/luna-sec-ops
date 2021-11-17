@@ -40,8 +40,9 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 		fileVo.setFileSn(paramMap.get("fileSn"));
 		fileVo = fileMngDAO.selectFileInf(fileVo);
 		
+		String fileType = paramMap.get("fileType");
 		
-		if("atchFile".equals(paramMap.get("fileType"))) {
+		if("atchFile".equals(fileType)) {
 			
 			
 			Map<String, String> fileMap = prj3100DAO.selectPrj3001CngInf(paramMap);
@@ -58,7 +59,7 @@ public class Prj3100ServiceImpl extends EgovAbstractServiceImpl implements Prj31
 		
 		
 		fileMngDAO.deleteFileInf(fileVo);
-
+		
 		
 		String fileDeletePath = fileVo.getFileStreCours() + fileVo.getStreFileNm();
 		EgovFileMngUtil.deleteFile(fileDeletePath);

@@ -54,9 +54,9 @@
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="select" title="요구사항 배정 조회" data-title-lang-cd="spr1100.actionBtn.title.assSelect" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 							<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 						</button>
-						<!-- <button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="removeReq" title="요구사항 배정 제외" data-title-lang-cd="spr1100.actionBtn.tooltip.removeToolTip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="removeReq" tabindex="2">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req1100AssTable" data-datatable-action="removeReq" title="요구사항 배정 제외" data-title-lang-cd="spr1100.actionBtn.tooltip.removeToolTip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="removeReq" tabindex="2">
 							<i class="fa fa-arrow-alt-circle-down"></i><span data-lang-cd="spr1100.button.removeBtn">제외</span>
-						</button> -->
+						</button>
 					</div>
 				</div>
 			</div>
@@ -109,6 +109,7 @@ var OSLSpr1100Popup = function () {
 	
 	var reqNonDatatableId = "req1100NonTable";
 	
+	var sprTypeCd = 0;
 	
 	var assList = [];
 	
@@ -120,7 +121,10 @@ var OSLSpr1100Popup = function () {
 			data:{
 				source:{
 					read:{
-						url: "/spr/spr1000/spr1000/selectSpr1000SprListAjax.do"
+						url: "/spr/spr1000/spr1000/selectSpr1000SprListAjax.do",
+						params:{
+							location:"spr1100"
+						}
 					}
 				}
 			},
@@ -203,7 +207,7 @@ var OSLSpr1100Popup = function () {
 				"click": function(rowData){
 					$("#sprId").val(rowData.sprId);
 					selectBtnClick();
-					
+					sprTypeCd = rowData.sprTypeCd;
 					
 					
 					searchReset(reqAssDatatableId);
@@ -238,14 +242,7 @@ var OSLSpr1100Popup = function () {
 			columns:[
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 80, sortField: "rn"},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 450, autoHide: false, sortField: "reqNm", search:true,
-					template: function(row){
-						var resultStr = $.osl.escapeHtml(row.reqNm);
-						
-						if(row.reqPw == "Y"){
-							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
-						}
-						return resultStr;
-					}	
+					
 				},
 				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80, search:true},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 80, sortField: "reqProTypeCd", search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortable: true, sortField:"reqProTypeCd"},
@@ -261,10 +258,41 @@ var OSLSpr1100Popup = function () {
 				minHeight:50,
 			}, 
 			actionBtn:{
-				
+				"title" : $.osl.lang("spr1100.actionBtn.title.removeBtn"),
 				"delete":false,
 				"update":false,
+				"removeReq":true,
+				"dblClick":true,
 			},
+			actionTooltip:{
+				"dblClick" : $.osl.lang("spr1100.actionBtn.tooltip.removeToolTip")
+			},
+			actionFn:{
+				"dblClick": function(rowData){
+					if(sprTypeCd != "01"){
+						 $.osl.alert("대기중인 스프린트의 요구사항만 제외할 수 있습니다.",{type:"error"});
+						 return
+					 }
+					assList.push(rowData);
+					deleteReq($("#sprId").val(), JSON.stringify(assList));
+				},
+				 "removeReq":function(rowData, datatableId, type){
+					 if(sprTypeCd != "01"){
+						 $.osl.alert("대기중인 스프린트의 요구사항만 제외할 수 있습니다.",{type:"error"});
+						 return
+					 }
+					assList = rowData;
+					deleteReq($("#sprId").val(), JSON.stringify(assList));
+				}, 
+			},
+			 theme:{
+				actionBtn:{
+					"removeReq" : " kt-hide"
+				},
+				actionBtnIcon:{
+					dblClick: "fa fa-arrow-alt-circle-down",
+				}
+			},  
 		});
 		
 		
@@ -288,14 +316,7 @@ var OSLSpr1100Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 80, sortField: "rn"},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 450, autoHide: false, sortField: "reqNm", search:true,
-					template: function(row){
-						var resultStr = $.osl.escapeHtml(row.reqNm);
-						
-						if(row.reqPw == "Y"){
-							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
-						}
-						return resultStr;
-					}	
+					
 				},
 				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 80 ,search:true},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 80, sortField: "reqProTypeCd", search:true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortable: true, sortField:"reqProTypeCd"},

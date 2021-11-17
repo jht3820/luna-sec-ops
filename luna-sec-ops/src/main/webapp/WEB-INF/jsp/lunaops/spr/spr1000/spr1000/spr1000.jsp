@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -75,7 +75,9 @@
 <script>
 "use strict";
 var OSLSpr1000Popup = function () {
-	var totalSprPoint = 0;
+	
+	var totalSprPoint = null;
+	
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
@@ -156,7 +158,6 @@ var OSLSpr1000Popup = function () {
 			   				
 			   				$.osl.toastr(data.message);
 			   				
-			   				
 			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			   			}
 					});
@@ -190,6 +191,7 @@ var OSLSpr1000Popup = function () {
 				},
 				
 				"sprStart": function(rowData, datatableId, type){
+					
 					var rowDatas = rowData;
 					
 					
@@ -197,6 +199,7 @@ var OSLSpr1000Popup = function () {
 						$.osl.alert($.osl.lang("spr1000.nonSelect"));
 						return true;
 					}
+					
 					
 					else if(rowDatas.length > 1){
 						$.osl.alert($.osl.lang("spr1000.manySelect"));
@@ -286,6 +289,10 @@ var OSLSpr1000Popup = function () {
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
 						
+						if(map.sprTypeCd == '02'){
+						} 
+						
+						
 						var sprTypeClass = "kt-media--primary";
 						var sprTypeNm = map.sprTypeNm;
 						
@@ -303,7 +310,13 @@ var OSLSpr1000Popup = function () {
 						if(rowCnt == 0){
 							sprintStr += '<div class="row">';
 						}
+						var restDay = 0;
 						
+						if(map.sprTypeCd == "03"){
+							restDay = 0;
+						}else{
+							restDay = $.osl.escapeHtml(map.restDay);
+						}
 						
 						sprintStr +=
 							'<div class="col-lg-6 col-md-12 col-sm-12">'
@@ -360,7 +373,7 @@ var OSLSpr1000Popup = function () {
 											+'</div>'
 											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
 												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>남은 일수</span>'
-												+'<h5><span class="badge badge-warning osl-min-width-85">'+$.osl.escapeHtml(map.restDay)+'</span></h5>'
+												+'<h5><span class="badge badge-warning osl-min-width-85">'+restDay+'</span></h5>'
 											+'</div>'
 											+'<div class="osl-flex-row-fluid osl-margin-b-175rm">'
 												+'<div class="osl-progress">'

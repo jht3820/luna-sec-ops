@@ -285,6 +285,9 @@ input:-webkit-autofill,
 .osl-min-h-px--550 {
   min-height: 550px; 
 }
+.osl-min-h-px--555 {
+  min-height: 555px; 
+}
 .osl-min-h-px--575 {
   min-height: 575px; 
 }
@@ -337,6 +340,9 @@ input:-webkit-autofill,
 	width: 300px;
 }
 
+.osl-min-width-48{
+	min-width: 48px;
+}
 .osl-min-width-70{
 	min-width: 70px;
 }
@@ -351,6 +357,9 @@ input:-webkit-autofill,
 }
 .osl-min-w-px-35{
 	min-width: 35px !important;
+}
+.osl-max-w-px-120{
+	max-width: 120px !important;
 }
 .osl-min-w-px-130{
 	min-width: 130px;
@@ -1446,7 +1455,7 @@ label.required:after {
 .uppy-size--md .osl-uppy-DashboardItem-action--download{
 	font-size: 4rem;
 }
-.uppy-DashboardItem{
+.uppy-Dashboard-Item{
 	position:relative;
 }
 .fileReadonly button.uppy-DashboardContent-addMore,
@@ -1454,7 +1463,7 @@ label.required:after {
 .fileReadonly .uppy-DashboardTabs,
 .fileReadonly .uppy-Dashboard-dropFilesHereHint,
 .fileReadonly .uppy-Dashboard-AddFiles-title,
-.fileReadonly button.uppy-DashboardItem-action--remove {
+.fileReadonly button.uppy-Dashboard-Item-action--remove {
     display: none;
 }
 
@@ -2381,6 +2390,10 @@ form#frCmm6201 .osl-process__flow-container {
 }
 .flowchart-operator-outputs .flowchart-operator-connector {
     text-align: right;
+}
+.flowchart-operator-outputs--active{
+    background-color: #efefef;
+    font-weight: bold;
 }
 .osl-flowchart-preview {
     width: 100%;
