@@ -351,6 +351,7 @@ var OSLPrj5001Popup = function () {
    		    	}
    		    	
 		    	$("#evtType").attr("data-osl-value", prjEvtInfo.evtType);
+		    	$("#evtUseCd").attr("data-osl-value", prjEvtInfo.evtUseCd);
 		    	
 				var commonCodeArr = [
 		 			{mstCd: "PRJ00020", useYn: "Y",targetObj: "#evtType", comboType:"OS"}, 
