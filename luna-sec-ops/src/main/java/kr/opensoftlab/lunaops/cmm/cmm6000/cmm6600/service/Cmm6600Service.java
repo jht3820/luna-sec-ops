@@ -33,4 +33,15 @@ public interface Cmm6600Service {
 	
 	@SuppressWarnings("rawtypes")
 	Map selectCmm6601SignInfo(Map<String, String> paramMap) throws Exception;
+	
+
+	
+	@SuppressWarnings("rawtypes")
+	Map selectCmm6600NextOrdInfo(Map paramMap) throws Exception;
+	
+	void insertCmm6601SignLogInfo(Map<String, String> paramMap) throws Exception;
+	
+	
+	@SuppressWarnings("rawtypes")
+	int select6600MaxOrd(Map paramMap) throws Exception;
 }

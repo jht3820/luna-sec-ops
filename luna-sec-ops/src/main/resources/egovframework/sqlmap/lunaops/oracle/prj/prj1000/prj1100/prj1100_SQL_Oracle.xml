@@ -1341,4 +1341,54 @@
 			AND B.ITEM_CODE = '03'
 		]]>
 	</select>
+	
+	
+	<select id="prj1100DAO.selectPrj1100FlowChargerCntList" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT 
+			A.PRJ_ID
+		    , A.PROCESS_ID
+		    , A.FLOW_ID
+		    ,( SELECT
+		          COUNT(*)
+		      FROM REQ4100 B
+		      WHERE 1 = 1
+		      AND B.PRJ_ID = A.PRJ_ID
+		      AND B.PROCESS_ID = A.PROCESS_ID
+		      AND B.USE_CD = '01'
+		      AND B.REQ_CHARGER_ID = #usrId#
+		      AND B.FLOW_ID = A.FLOW_ID
+		      ) AS REQ_CHARGER_CNT
+		     ,( SELECT
+		         COUNT(*)
+		     FROM REQ4100 C
+		     WHERE 1 = 1
+		     AND C.PRJ_ID = A.PRJ_ID
+		     AND C.PROCESS_ID = A.PROCESS_ID
+		     AND C.USE_CD = '01'
+             AND C.REQ_CHARGER_ID = #usrId#
+		     ) AS REQ_CHARGER_TOTAL_CNT
+		    ,( SELECT
+		          COUNT(*)
+		      FROM REQ4100 D
+		      WHERE 1 = 1
+		      AND D.PRJ_ID = A.PRJ_ID
+		      AND D.PROCESS_ID = A.PROCESS_ID
+		      AND D.USE_CD = '01'
+		      AND D.FLOW_ID = A.FLOW_ID
+		      ) AS REQ_FLOW_CNT 
+		    ,( SELECT
+		          COUNT(*)
+		      FROM REQ4100 E
+		      WHERE 1 = 1
+		      AND E.PRJ_ID = A.PRJ_ID
+		      AND E.PROCESS_ID = A.PROCESS_ID
+		      AND E.USE_CD = '01'
+		      ) AS REQ_TOTAL_CNT 
+		FROM REQ4100 A
+		WHERE 1 = 1
+		AND A.PROCESS_ID = #processId#
+        AND A.FLOW_ID IS NOT NULL
+        GROUP BY A.PRJ_ID, A.PROCESS_ID, A.FLOW_ID
+	</select>
 </sqlMap>

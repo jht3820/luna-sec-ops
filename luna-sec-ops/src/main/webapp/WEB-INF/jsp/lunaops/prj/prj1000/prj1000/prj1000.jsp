@@ -33,12 +33,14 @@
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-12">
+					<!-- 
 						<div class="osl-progress">
 							<div class="kt-padding-b-5"><i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i><span>진척률</span></div>
 							<div class="progress osl-prj-group-md">
 								<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">78%</div>
 							</div>
 						</div>
+						 -->
 					</div>
 				</div>
 			</div>
@@ -439,14 +441,7 @@ var OSLPrj1000Popup = function () {
 												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1000.endDate")+'</span>'
 												+'<h5><span class="badge badge-danger">'+$.osl.escapeHtml(map.endDt)+'</span></h5>'
 											+'</div>'
-											+'<div class="osl-flex-row-fluid osl-margin-b-175rm">'
-												+'<div class="osl-progress">'
-													+'<div class="osl-margin-b-1rm"><i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i><span>'+$.osl.lang("prj1000.completedRatio")+'</span></div>'
-													+'<div class="progress osl-prj-group-md">'
-														+'<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">78%</div>'
-													+'</div>'
-												+'</div>'
-											+'</div>'
+											
 										+'</div>'
 										+'<div class="d-flex flex-wrap">'
 											+'<div class="osl-widget osl-flex-row-fluid flex-wrap">'

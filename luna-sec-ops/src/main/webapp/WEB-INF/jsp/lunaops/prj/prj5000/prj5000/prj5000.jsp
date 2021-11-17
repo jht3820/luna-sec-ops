@@ -232,9 +232,6 @@ var OSLPrj5000Popup = function () {
 				dayGridMonth: {
 					dayMaxEventRows: 4
 				},
-				timeGrid: {
-					dayMaxEventRows: 10
-				},
 				timeGridFourDay: {
 					type: 'timeGrid',
 					duration: { days: 4 },

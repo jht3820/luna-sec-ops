@@ -163,7 +163,7 @@
 		<isNotEmpty property="searchTargetData">
 			<isNotEmpty property="searchTargetId">
 				<isEqual property="searchTargetId" compareValue="sprNm">
-					AND	T1.SPR_NM LIKE '%'|| #searchTargetData# ||'%'
+					AND	UPPER(T1.SPR_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="sprDesc">
 				<![CDATA[
@@ -200,8 +200,12 @@
 						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
 					</isNotEmpty>
 				</isEqual>
-				
 			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="location">
+			<isEqual property="location" compareValue="spr1100">
+				AND T1.SPR_TYPE_CD != '03'
+			</isEqual>
 		</isNotEmpty>
 	</sql>
 	
@@ -314,16 +318,16 @@
 						AND	SUBT1.REQ_PRO_TYPE = #searchTargetData#
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="prjNm">
-						AND	SUBT1.PRJ_NM LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(SUBT1.PRJ_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqOrd">
 						AND	SUBT1.REQ_ORD LIKE '%'|| #searchTargetData# ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="prjGrpNm">
-						AND	SUBT1.PRJ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(SUBT1.PRJ_GRP_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqNm">
-						AND	SUBT1.REQ_NM LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(SUBT1.REQ_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqDesc">
 					<![CDATA[
@@ -395,6 +399,10 @@
 		) Z
 		WHERE 1 = 1
 		AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+		ORDER BY 
+			CASE WHEN SPR_TYPE_CD = '02' THEN 1 ELSE 2 END ASC,
+			SPR_ST_DT ASC
+		
     </select>
     
 	

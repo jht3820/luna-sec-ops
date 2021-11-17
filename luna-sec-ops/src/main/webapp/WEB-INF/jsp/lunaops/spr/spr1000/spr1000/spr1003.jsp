@@ -280,6 +280,7 @@ var OSLSpr1003Popup = function () {
 				}
 			}
 			
+			
 			if((checkThis-beforeStep) != 1){
 				
 				if(checking < checkThis){
@@ -769,14 +770,12 @@ var OSLSpr1003Popup = function () {
 					
 					if(wizardData["reqUsrList"].hasOwnProperty(row.reqId)){
 						rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;
-						return rtnVal;
 					}
 					
 					return '<input type="text" class="form-control kt-align-center" name="reqCharger_'+row.reqId+'" id="reqCharger_'+row.reqId+'" data-req-id="'+row.reqId+'" value="'+rtnVal+'" readonly="readonly" />';
 				}},
 			],
 			rows:{
-				clickCheckbox: true,
 				minHeight:50,
 			},
 			actionBtn:{
@@ -900,7 +899,6 @@ var OSLSpr1003Popup = function () {
 						if(unActive === false){
 							$(this).addClass("active");
 							
-							
 							var targetElem = $(".osl-widget-draggable.active");
 							
 							var datatable = $.osl.datatable.list['sprAssignReqUsrTable'].targetDt;
@@ -925,6 +923,8 @@ var OSLSpr1003Popup = function () {
 									    
 									    
 									    wizardData["reqUsrList"][targetReqId] = {usrId: targetUsrId, usrNm: targetUsrNm};
+									    
+									    target.prop("checked",false);
 									}
 								}
 							}
