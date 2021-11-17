@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -78,7 +78,6 @@ var OSLSpr1000Popup = function () {
 	
 	var totalSprPoint = null;
 	
-	var totalOngoingSprCnt = 0;
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
@@ -193,10 +192,6 @@ var OSLSpr1000Popup = function () {
 				
 				"sprStart": function(rowData, datatableId, type){
 					
-					if(totalOngoingSprCnt != 0){
-						$.osl.alert("이미 진행중인 스프린트가 존재합니다.", {type:"error"})
-						return;			
-					}
 					var rowDatas = rowData;
 					
 					
@@ -204,6 +199,7 @@ var OSLSpr1000Popup = function () {
 						$.osl.alert($.osl.lang("spr1000.nonSelect"));
 						return true;
 					}
+					
 					
 					else if(rowDatas.length > 1){
 						$.osl.alert($.osl.lang("spr1000.manySelect"));
@@ -293,10 +289,7 @@ var OSLSpr1000Popup = function () {
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
 						
-						totalOngoingSprCnt = 0;
-						
 						if(map.sprTypeCd == '02'){
-							totalOngoingSprCnt += 1;	
 						} 
 						
 						
