@@ -420,11 +420,19 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
+		dpl2000:{
+			modal : {
+				title : {
+					dplDetail : "[${1}] 상세정보"
+				}
+			}
+		},
 		dpl2100:{
 			modal : {
 				title : {
 					signAprRes : "결재 의견",
-					signRjtRes : "반려 사유"
+					signRjtRes : "반려 사유",
+					dplDetail : "[${1}] 상세정보"
 				}
 			},
 			action : {
@@ -517,6 +525,9 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6600:{
 			message : {
+				alert : {
+					notRgsSignUsr : "등록된 결재자가 없습니다."
+				},
 				confirm : {
 					saveString : "결재선 정보를 저장 하시겠습니까?"
 				}
@@ -540,6 +551,13 @@ var OSLCoreLangSetting = function () {
 			button : {
 				signApr : "결재 승인",
 				signRjt : "결재 반려"
+			},
+			message : {
+				alert:{
+					notSignOrd : "결재 순서가 아닙니다."
+					notEnterAprRes : "결재 사유를 입력해주세요.",
+					notEnterRjtRes : "반려 사유를 입력해주세요.",
+				}
 			}
 		},
 		cmm6800 :{
@@ -2967,6 +2985,9 @@ var OSLCoreLangSetting = function () {
 		},
 		cmm6600:{
 			message : {
+				alert : {
+					notRgsSignUsr : "There are no registered approvers."
+				},
 				confirm : {
 					saveString : "Do you want to save the approval line information?"
 				}
@@ -2981,10 +3002,16 @@ var OSLCoreLangSetting = function () {
 			label : {
 				signApr : "approval opinion",
 				signRjt : "Reasons for rejection"
-			},
 			button : {
 				signApr : "approval",
 				signRjt : "return of approval"
+			},
+			message : {
+				alert:{
+					notSignOrd : "It is not your order of approval.",
+					notEnterAprRes : "Please enter the reason for the approval.",
+					notEnterRjtRes : "Please enter the reason for the rejection.",
+				}
 			}
 		},
 		cmm6800 :{
@@ -3040,11 +3067,19 @@ var OSLCoreLangSetting = function () {
 				auth : "You don't have access rights."
 			}
 		},
+		dpl2000:{
+			modal : {
+				title : {
+					dplDetail : "[${1}] Detail Info"
+				}
+			}
+		},
 		dpl2100:{
 			modal : {
 				title : {
 					signAprRes : "approval opinion",
-					signRjtRes : "Reasons for rejection"
+					signRjtRes : "Reasons for rejection",
+					dplDetail : "[${1}] Detail Info"
 				}
 			},
 			action : {
