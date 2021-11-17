@@ -14,7 +14,6 @@
 					</h5>
 				</div>
 			</div>
-			
 			<div class="kt-portlet__body kt-padding-15">
 				<div class="row">
 					<div class="col-lg-6 col-md-12 col-sm-12">
@@ -68,7 +67,7 @@
 					<div class="kt-portlet__head kt-portlet__head--lg">
 						<div class="kt-portlet__head-label">
 							<h5 class="kt-font-boldest kt-font-brand">
-								<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 담당 목록 <label class="require"></label>
+								<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 담당 목록 <label class="required"></label>
 							</h5>
 						</div>
 						<div class="kt-portlet__head-toolbar">

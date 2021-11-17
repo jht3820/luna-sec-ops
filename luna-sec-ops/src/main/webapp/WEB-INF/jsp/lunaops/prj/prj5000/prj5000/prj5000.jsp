@@ -667,12 +667,20 @@ var OSLPrj5000Popup = function () {
 			  				
 			  				
 			  				if(map.evtType == "03"){
-			  					if(map.evtUseCd == "01"){
+			  					if(map.usrId == loginUsrId){
 				  					map.evtNm = "["+map.usrNm+"] "+map.evtNm;
 				  					if(loginUsrId!=map.usrId){
 						  				map.display=false;
 				  					}
 					  				evtUsrDataMap[map.usrId].push(map);
+			  					}else{
+				  					if(map.evtUseCd == "01"){
+					  					map.evtNm = "["+map.usrNm+"] "+map.evtNm;
+					  					if(loginUsrId!=map.usrId){
+							  				map.display=false;
+					  					}
+						  				evtUsrDataMap[map.usrId].push(map);
+				  					}
 			  					}
 			  				}
 			  				
@@ -704,9 +712,14 @@ var OSLPrj5000Popup = function () {
 			  				}
 			  				
 			  				if(map.evtType == "03"){
-			  					if(map.evtUseCd == "01"){
-			  						
-					  				evtDataMap[evtYearVal][evtMonthVal].push(map);
+
+			  					if(map.usrId == loginUsrId){
+			  						evtDataMap[evtYearVal][evtMonthVal].push(map);
+			  					}else{
+				  					if(map.evtUseCd == "01"){
+				  						
+				  						evtDataMap[evtYearVal][evtMonthVal].push(map);
+				  					}
 			  					}
 			  				}else{
 			  					
@@ -720,6 +733,7 @@ var OSLPrj5000Popup = function () {
 		  			$("#eventGroupList").html(eventHolidayList+eventPrjList+eventReqList+eventLoginUsr+eventPrjUsrList);
 		  			
 		  			fnEvtdayDataSetting();
+		  			console.log(evtUsrDataMap);
 		  		}
 		  		$.osl.toastr(data.message);
 		  	}else{
