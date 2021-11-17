@@ -103,11 +103,14 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		prj1100DAO.updatePrj1100ProcessInfo(paramMap);
 		
 		
-		prj1100DAO.deletePrj1100ProcessAuthInfo(paramMap);
-		
-		
 		String usrIdList = (String) paramMap.get("usrIdList");
+				
+				
+		
 		if(usrIdList != null && !"[]".equals(usrIdList)) {
+			
+			prj1100DAO.deletePrj1100ProcessAuthInfo(paramMap);
+			
 			
 			JSONArray jsonArray = new JSONArray(usrIdList);
 			
