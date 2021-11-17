@@ -219,7 +219,7 @@ var OSLPrj1304Popup = function () {
 					"itemSelect" : ""
 				},
 				actionBtnIcon:{
-					"itemSelect" : "fa flaticon2-check-mark",
+					"itemSelect" : "fa fa-external-link-alt",
 				}
 			}
 		});

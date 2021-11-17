@@ -72,5 +72,10 @@ public class Cmm6600DAO extends ComOslitsAbstractDAO {
 	public Map selectCmm6600NextOrdInfo(Map<String, String> paramMap) throws Exception{
 		return (Map) select("cmm6600DAO.selectCmm6600NextOrdInfo", paramMap);
 	}
+	
+	
+	public int select6600MaxOrd(Map paramMap) throws Exception{
+		return (int) select("cmm6600DAO.selectCmm6600MaxOrd", paramMap);
+	}
 
 }

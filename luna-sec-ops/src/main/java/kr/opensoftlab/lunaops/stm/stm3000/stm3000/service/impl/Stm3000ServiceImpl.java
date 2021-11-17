@@ -212,7 +212,7 @@ public class Stm3000ServiceImpl extends EgovAbstractServiceImpl implements Stm30
 			}
 			
 			
-			int cnt = stm3000DAO.selectAdm1300ExistUsrInProject(userMap);
+			int cnt = stm3000DAO.selectPrj2001ExistUsrInProject(userMap);
 			if(cnt > 0){
 				prjUsrCnt++;
 				prjUsrList.add((String)userMap.get("usrNm"));
