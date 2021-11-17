@@ -554,7 +554,7 @@ var OSLCoreLangSetting = function () {
 			},
 			message : {
 				alert:{
-					notSignOrd : "결재 순서가 아닙니다."
+					notSignOrd : "결재 순서가 아닙니다.",
 					notEnterAprRes : "결재 사유를 입력해주세요.",
 					notEnterRjtRes : "반려 사유를 입력해주세요.",
 				}
@@ -701,7 +701,7 @@ var OSLCoreLangSetting = function () {
 				selNoneFlow: "단계를 선택 하세요.",
 				saveCancel: "저장이 취소되었습니다.",
 				saveBefore: "변경된 데이터가 있습니다.</br> 저장하지 않고 진행하시겠습니까?",
-				processSave: "시작 단계: ${1}</br>종료 단계: ${2}</br></br>프로세스 데이터를 저장하시겠습니까?",
+				processSave: "시작 단계: ${1}</br></br>프로세스 데이터를 저장하시겠습니까?",
 				manyStartFlow: "${1}개의 시작 단계가 발견되었습니다.",
 				manyEndFlow: "${1}개의 종료 단계가 발견되었습니다.",
 				flowLinkCheck: "</br>단계 연결 데이터를 확인하세요.",
@@ -709,7 +709,11 @@ var OSLCoreLangSetting = function () {
 				deleteReqCheck: "${1}건의 진행중인 요구사항이 있습니다.</br>요구사항의 단계 진행을 완료해야 삭제가 가능합니다.",
 				searchEmpty: "검색하려는 단계명을 입력하세요.",
 				processUseCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
-				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다."
+				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다.",
+				flowDoneLinkChk: "마지막 단계는 최종완료 단계에 연결되어야합니다.",
+				flowSizeChk: "작업흐름이 생성되지 않았습니다.",
+				flowDoneDelErr: "최종 완료 단계는 삭제가 불가능합니다.",
+				flowDoneUpdateErr: "최종 완료 단계는 수정이 불가능합니다."
 			}
 		},
 		prj1401:{
@@ -3002,6 +3006,7 @@ var OSLCoreLangSetting = function () {
 			label : {
 				signApr : "approval opinion",
 				signRjt : "Reasons for rejection"
+			},
 			button : {
 				signApr : "approval",
 				signRjt : "return of approval"
