@@ -280,6 +280,7 @@ var OSLSpr1003Popup = function () {
 				}
 			}
 			
+			
 			if((checkThis-beforeStep) != 1){
 				
 				if(checking < checkThis){
@@ -300,21 +301,6 @@ var OSLSpr1003Popup = function () {
 						
 						$.osl.alert($.osl.lang("spr1003.alert.reqSprPoint",(reqListCnt-reqSprPointListCnt)),{type: 'error'});
 						wizardObj.goTo(2);
-					}
-					var nonReqChargerCnt = $("input[name^=reqCharger_]").length;
-					var reqChargerList = wizardData["reqUsrList"];
-					var reqChargerListCnt = 0;
-					if(!$.osl.isNull(reqChargerList)){
-						$.each(reqChargerList, function(idx, map){
-							if(!$.osl.isNull(map)){
-								reqChargerListCnt++;	
-							}
-						});
-					}
-					if(nonReqChargerCnt > reqChargerListCnt){
-						
-						$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(nonReqChargerCnt-reqChargerListCnt)),{type: 'error'});
-						wizardObj.goTo(3);
 					}
 				}
 			}
@@ -435,21 +421,6 @@ var OSLSpr1003Popup = function () {
 		
 		else if(wizardObj.currentStep == 3){
 			
-			var nonReqChargerCnt = $("input[name^=reqCharger_]").length;
-			var reqChargerList = wizardData["reqUsrList"];
-			var reqChargerListCnt = 0;
-			if(!$.osl.isNull(reqChargerList)){
-				$.each(reqChargerList, function(idx, map){
-					if(!$.osl.isNull(map)){
-						reqChargerListCnt++;	
-					}
-				});
-			}
-			if(nonReqChargerCnt > reqChargerListCnt){
-				
-				$.osl.alert($.osl.lang("spr1003.alert.reqCharger",(nonReqChargerCnt-reqChargerListCnt)),{type: 'error'});
-				return false;
-			}
 		}
 		
 		else if(wizardObj.currentStep == 4){
@@ -517,7 +488,7 @@ var OSLSpr1003Popup = function () {
  	var selectUsrList = function(){
  		
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr2000/spr2000/selectSpr2001MmtUsrListAjax.do'/>", "async":"true"});
+ 				{"url":"<c:url value='/spr/spr2000/spr2000/selectSpr2001MmtUsrListAjax.do'/>", "async":"true"}, {location:"spr1003"});
  		
  		
  		ajaxObj.setFnSuccess(function(data){
@@ -769,21 +740,40 @@ var OSLSpr1003Popup = function () {
 					
 					if(wizardData["reqUsrList"].hasOwnProperty(row.reqId)){
 						rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;
-						return rtnVal;
 					}
 					
 					return '<input type="text" class="form-control kt-align-center" name="reqCharger_'+row.reqId+'" id="reqCharger_'+row.reqId+'" data-req-id="'+row.reqId+'" value="'+rtnVal+'" readonly="readonly" />';
 				}},
 			],
 			rows:{
-				clickCheckbox: true,
 				minHeight:50,
 			},
 			actionBtn:{
+				"title":"해제",
 				"update": false,
 				"delete": false,
-				"dblClick": false
-			}
+				"dblClick": false,
+				"clearCharger":true,
+			},
+			actionFn:{
+				"clearCharger":function(rowData, datatableId, type, rowNum){
+					
+					var datatable = $.osl.datatable.list['sprAssignReqUsrTable'].targetDt;
+					
+					var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
+					
+					
+					var target = targetCheckRow.find("input[type=text]");
+					target.val("");
+					
+					delete wizardData["reqUsrList"][rowData.reqId]
+				},
+			},
+			theme:{
+				actionBtnIcon:{
+					clearCharger: "fa fa-ban",
+				}
+			},
 		});
 		
 		
@@ -793,7 +783,10 @@ var OSLSpr1003Popup = function () {
 			data: {
 				source: {
 					read: {
-						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do"
+						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do",
+						params:{
+							location:"spr1003",
+						}
 					}
 				},
 				pageSize : 4
@@ -830,11 +823,6 @@ var OSLSpr1003Popup = function () {
 				"update": false,
 				"delete": false,
 				"click": false,
-			},
-			actionFn:{
-				"click":function(rowData, datatableId, type, rowNum){
-					
-				},
 			},
 			callback:{
 				initComplete: function(evt,config){
@@ -900,7 +888,6 @@ var OSLSpr1003Popup = function () {
 						if(unActive === false){
 							$(this).addClass("active");
 							
-							
 							var targetElem = $(".osl-widget-draggable.active");
 							
 							var datatable = $.osl.datatable.list['sprAssignReqUsrTable'].targetDt;
@@ -925,6 +912,8 @@ var OSLSpr1003Popup = function () {
 									    
 									    
 									    wizardData["reqUsrList"][targetReqId] = {usrId: targetUsrId, usrNm: targetUsrNm};
+									    
+									    target.prop("checked",false);
 									}
 								}
 							}

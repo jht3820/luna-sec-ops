@@ -1,5 +1,7 @@
 package kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl;
 
+import java.util.ArrayList;
+
 
 
 import java.util.HashMap;
@@ -394,7 +396,27 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 			param.put("prjId", map.get("prjId"));
 			param.put("flowId", map.get("flowId"));
 			
-			map.put("basicItemList", prj1300Service.selectPrj1102AllItemList(param));
+			flowList.set(i, map);
+		}
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("licGrpId", paramMap.get("licGrpId"));
+		param.put("processId", paramMap.get("processId"));
+		param.put("prjId", paramMap.get("prjId"));
+		
+		List<Map<String, Object>> itemList = prj1300Service.selectPrj1102AllItemList(param);
+		for(int i=0;i<flowList.size();i++) {
+			Map<String, Object> map =  (Map<String, Object>) flowList.get(i);
+			List<Map<String, Object>> basicItemList = new ArrayList<>();
+			
+			for(int j=0;j<itemList.size();j++) {
+				Map<String, Object> itemMap =  (Map<String, Object>) itemList.get(j);
+				if(itemMap.get("flowId").equals(map.get("flowId"))) {
+					basicItemList.add(itemMap);
+				}
+			}
+			map.put("basicItemList", basicItemList);
+			
 			flowList.set(i, map);
 		}
 		return flowList;
@@ -770,6 +792,12 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 	@SuppressWarnings("rawtypes")
 	public int selectPrj1105FlowAuthGrpCnt(Map paramMap) throws Exception {
 		return prj1100DAO.selectPrj1105FlowAuthGrpCnt(paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public List selectPrj1100FlowChargerCntList(Map paramMap) throws Exception {
+		return prj1100DAO.selectPrj1100FlowChargerCntList(paramMap);
 	}
 
 	

@@ -75,7 +75,10 @@
 <script>
 "use strict";
 var OSLSpr1000Popup = function () {
-	var totalSprPoint = 0;
+	
+	var totalSprPoint = null;
+	
+	var totalSprOngoingCnt = 0;
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
@@ -156,7 +159,6 @@ var OSLSpr1000Popup = function () {
 			   				
 			   				$.osl.toastr(data.message);
 			   				
-			   				
 			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			   			}
 					});
@@ -190,6 +192,7 @@ var OSLSpr1000Popup = function () {
 				},
 				
 				"sprStart": function(rowData, datatableId, type){
+					
 					var rowDatas = rowData;
 					
 					
@@ -197,6 +200,7 @@ var OSLSpr1000Popup = function () {
 						$.osl.alert($.osl.lang("spr1000.nonSelect"));
 						return true;
 					}
+					
 					
 					else if(rowDatas.length > 1){
 						$.osl.alert($.osl.lang("spr1000.manySelect"));
@@ -212,6 +216,12 @@ var OSLSpr1000Popup = function () {
 						return true;
 					}
 					
+					
+					if(totalSprOngoingCnt != 0){
+						$.osl.alert("이미 진행중인 스프린트가 존재합니다.\n 프로젝트당 스프린트는 1건만 진행가능합니다.");
+						return;
+					}
+					
 					var data = {
 							paramPrjGrpId: sprInfo.prjGrpId
 							,paramPrjId: sprInfo.prjId
@@ -220,6 +230,7 @@ var OSLSpr1000Popup = function () {
 							,paramStartDt: sprInfo.sprStDt
 							,paramEndDt: sprInfo.sprEdDt
 						};
+					
 					var options = {
 							modalTitle: "스프린트 시작",
 							autoHeight: false,
@@ -228,8 +239,8 @@ var OSLSpr1000Popup = function () {
 							closeConfirm: false,
 							ftScrollUse: false
 						};
-					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
 					
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
 					
 				},
 				
@@ -286,7 +297,14 @@ var OSLSpr1000Popup = function () {
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
 						
+						
+						if(map.sprTypeCd == '02'){
+							totalSprOngoingCnt = map.sprOngoingCnt;
+						} 
+						
+						
 						var sprTypeClass = "kt-media--primary";
+						
 						var sprTypeNm = map.sprTypeNm;
 						
 						if(map.sprTypeCd == "02"){
@@ -303,7 +321,13 @@ var OSLSpr1000Popup = function () {
 						if(rowCnt == 0){
 							sprintStr += '<div class="row">';
 						}
+						var restDay = 0;
 						
+						if(map.sprTypeCd == "03"){
+							restDay = 0;
+						}else{
+							restDay = $.osl.escapeHtml(map.restDay);
+						}
 						
 						sprintStr +=
 							'<div class="col-lg-6 col-md-12 col-sm-12">'
@@ -360,7 +384,7 @@ var OSLSpr1000Popup = function () {
 											+'</div>'
 											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
 												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>남은 일수</span>'
-												+'<h5><span class="badge badge-warning osl-min-width-85">'+$.osl.escapeHtml(map.restDay)+'</span></h5>'
+												+'<h5><span class="badge badge-warning osl-min-width-85">'+restDay+'</span></h5>'
 											+'</div>'
 											+'<div class="osl-flex-row-fluid osl-margin-b-175rm">'
 												+'<div class="osl-progress">'

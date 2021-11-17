@@ -441,7 +441,7 @@
 	</delete>
 	
 	
-	<select id = "cmm6600DAO.selectCmm6600MaxOrd" parameterClass = "java.util.Map" resultClass = "int">
+	<select id = "cmm6600DAO.selectCmm6600MaxOrd" parameterClass = "java.util.Map" resultClass = "java.lang.Integer">
 		
 		SELECT	MAX(ORD) AS MAXORD
 		FROM	CMM6600

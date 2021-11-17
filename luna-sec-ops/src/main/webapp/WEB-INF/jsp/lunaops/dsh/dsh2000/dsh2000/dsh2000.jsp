@@ -110,7 +110,10 @@
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-3 col-3 kt-align-right">
 					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air kt-hide" data-datatable-id="req4100ReqTable" data-datatable-action="requestAccept" title="요구사항 접수" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="5">
-						<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAccept">접수</span>
+						<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAcceptBtn">접수</span>
+					</button>
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="detail" title="요구사항 상세" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="detail" tabindex="5">
+						<i class="fas fa-external-link-alt"></i><span data-lang-cd="req4100.button.detailBtn">상세</span>
 					</button>
 				</div>
 			</div>
@@ -120,8 +123,7 @@
 	
 	
 	
-	<div class="row">
-		
+	<!-- <div class="row">
 		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeSign">
 				<div class="kt-portlet__head kt-portlet__head--lg">
@@ -144,8 +146,6 @@
 				</div>
 			</div>
 		</div>
-		
-		
 		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile" id="reqChargeDpl">
 				<div class="kt-portlet__head kt-portlet__head--lg">
@@ -176,8 +176,7 @@
 				</div>
 			</div>
 		</div>
-		
-	</div>
+	</div> -->
 	
 	
 	
@@ -249,10 +248,6 @@ var OSLDsh2000Popup = function () {
 		
 		portletAll.push(new KTPortlet('prjTopInfo', $.osl.lang("portlet")));
 		portletAll.push(new KTPortlet('newReq', $.osl.lang("portlet")));
-		portletAll.push(new KTPortlet('reqChargeSign', $.osl.lang("portlet")));
-		portletAll.push(new KTPortlet('reqChargeDpl', $.osl.lang("portlet")));
-		portletAll.push(new KTPortlet('processPortlet1', $.osl.lang("portlet")));	
-		portletAll.push(new KTPortlet('processPortlet2', $.osl.lang("portlet")));	
 		
 		
 		$('#allPortletClose').click(function(){
@@ -272,6 +267,11 @@ var OSLDsh2000Popup = function () {
 					parentPortlet.addClass('kt-portlet--collapse');
 				});
 			}
+			
+			
+			$(".flowchart-operator-outputs--active").removeClass("flowchart-operator-outputs--active");
+			
+			$(".process-datatable-div").addClass("kt-hide");
 			
 			
 			
@@ -345,7 +345,7 @@ var OSLDsh2000Popup = function () {
 				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqUsrNm)){
-							row.reqUsrNm = "";
+							row.reqUsrNm = "-";
 						}
 						var usrData = {
 							html: row.reqUsrNm,
@@ -357,16 +357,25 @@ var OSLDsh2000Popup = function () {
 						return $.osl.user.usrImgSet(row.reqUsrImgId, usrData);
 					},
 					onclick: function(rowData){
-						$.osl.user.usrInfoPopup(rowData.reqUsrId);
+						if($.osl.isNull(rowData.reqUsrId)){
+							$.osl.alert("없는 사용자입니다.");
+							return false;
+						}else{
+							$.osl.user.usrInfoPopup(rowData.reqUsrId);
+						}
 					}
 				},
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
-						if($.osl.isNull(row.reqChargerNm)){
+						if($.osl.isNull(row.reqChargerId)){
 							return row.reqChargerNm = "-";
 						}else{
+							var chargerNm = row.reqChargerNm;
+							if($.osl.isNull(row.reqChargerNm)){
+								chargerNm = '-';
+							}
 							var usrData = {
-								html: row.reqChargerNm,
+								html: chargerNm,
 								imgSize: "sm",
 								class:{
 									cardBtn: "osl-width__fit-content"
@@ -376,7 +385,9 @@ var OSLDsh2000Popup = function () {
 						}
 					},
 					onclick: function(rowData){
-						if(rowData.reqChargerNm != "-"){
+						if($.osl.isNull(rowData.reqChargerId)){
+							return false;
+						}else{
 							$.osl.user.usrInfoPopup(rowData.reqChargerId);
 						}
 					}
@@ -392,14 +403,16 @@ var OSLDsh2000Popup = function () {
 				clickCheckbox: true
 			},
 			actionBtn:{
-				"title" : "상세",
+				"title" : "기능 버튼",
 				"update" : false,
 				"delete" : false,
 				"dblClick": true,
 				"refresh" : true,
+				"detail":true
 			},
 			actionTooltip:{
-				"dblClick" : $.osl.lang("req4100.actionBtn.detailBtn"),
+				"dblClick" : $.osl.lang("req4100.actionBtn.requestAcceptTooltip"),
+				"detail" : $.osl.lang("req4100.actionBtn.detailTooltip")
 			},
 			actionFn:{
 				"refresh": function(rowData, datatableId, type, rowNum){
@@ -409,20 +422,72 @@ var OSLDsh2000Popup = function () {
 					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum){
-					var data = {
-							paramPrjId: rowData.prjId,
-							paramReqId: rowData.reqId,
-							paramReqUsrId: rowData.reqUsrId
-						};
-					var options = {
-							idKey: rowData.reqId,
-							modalTitle: $.osl.lang("req4100.title.detailTitle"),
-							autoHeight: false,
+					if(prjRequestAcceptCd == "01"){
+						
+						var rowDatas = [];
+						rowDatas.push(rowData);
+						
+						if(rowDatas == 0){
+							$.osl.alert($.osl.lang("req4100.alert.selectData"));
+							return false;
+						}else{
 							
 							
-						};
-					
-					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+							var selReqInfoList = [];
+							
+							
+							var reqProChkCnt = 0;
+							
+							$.each(rowDatas, function(idx, map){
+								
+								if(map.reqProType == "01"){
+									selReqInfoList.push({prjId: map.prjId, reqId: map.reqId});
+								}else{
+									reqProChkCnt++;
+									return true;
+								}
+							});
+							
+							var data = {
+									paramSelReqInfoList: JSON.stringify(selReqInfoList)
+							};
+							var options = {
+								autoHeight: false,
+								modalSize: "xl",
+								idKey: datatableId,
+								modalTitle: $.osl.lang("prj1102.update.title"),
+								closeConfirm: false,
+							};
+
+							
+							if(rowDatas.length == reqProChkCnt){
+								$.osl.alert("접수 가능한 요구사항이 선택되지 않았습니다.");
+								return false;
+							}
+							
+							$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6200View.do',data,options);
+							
+							if(reqProChkCnt > 0){
+								$.osl.alert(reqProChkCnt+"건의 접수대기가 아닌 요구사항을 제외했습니다.");
+							}
+						}
+					}else{
+						
+						var data = {
+								paramPrjId: rowData.prjId,
+								paramReqId: rowData.reqId,
+								paramReqUsrId: rowData.reqUsrId
+							};
+						var options = {
+								idKey: rowData.reqId,
+								modalTitle: $.osl.lang("req4100.title.detailTitle"),
+								autoHeight: false,
+								
+								
+							};
+						
+						$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+					}
 				},
 				"requestAccept": function(rowDatas, datatableId, type, rowNum){
 					if(rowDatas == 0){
@@ -469,16 +534,60 @@ var OSLDsh2000Popup = function () {
 							$.osl.alert(reqProChkCnt+"건의 접수대기가 아닌 요구사항을 제외했습니다.");
 						}
 					}
+				},
+				"detail":function(rowDatas, datatableId, type, rowNum){
+					var rowData;
+					
+					if(type == "list"){
+						if(rowNum == 0){
+							$.osl.alert($.osl.lang("req4100.alert.selectData"));
+							return false;
+						}else if(rowNum == 1){
+							rowData = rowDatas[0];
+						}else{
+							$.osl.alert($.osl.lang("req4100.alert.selectDatas", rowNum));
+							return false;
+						}						
+					}else{
+						rowData = rowDatas;
+					}
+					
+					var data = {
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId,
+							paramReqUsrId: rowData.reqUsrId
+						};
+					var options = {
+							idKey: rowData.reqId,
+							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							autoHeight: false,
+							
+							
+						};
+					
+					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
 				}
 			},
 			theme:{
 				actionBtn:{
 					"dblClick" : "",
 					"refresh" : " kt-hide",
+					"detail" : ""
+				},
+				actionBtnIcon:{
+					"dblClick" : "fa fa-vote-yea",
+					"detail" : "fas fa-external-link-alt"
 				}
 			},
 		});
 		
+		
+		$("#"+reqDatatableId).on("kt-datatable--on-layout-updated", function(){
+			if(prjRequestAcceptCd == "02"){
+				
+				$("#"+reqDatatableId).find("a[data-datatable-action=dblClick]").addClass("kt-hide");
+			}
+		});
 
 		
 		$.osl.datatable.setting("reqChargeSignTable",{
@@ -723,7 +832,7 @@ var OSLDsh2000Popup = function () {
 							        	signDpl(rowDatas,signRes,type);
 							        	
 							        	
-							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        	$("button[data-datatable-id="+dplDatatableId+"][data-datatable-action=select]").click();
 							        }
 							    });
 							}
@@ -803,7 +912,7 @@ var OSLDsh2000Popup = function () {
 							        	signDpl(rowDatas,signRes,type);
 							        	
 							        	
-							        	$("button[data-datatable-id="+dpl2100DatatableId+"][data-datatable-action=select]").click();
+							        	$("button[data-datatable-id="+dplDatatableId+"][data-datatable-action=select]").click();
 							        }
 							    });
 								
@@ -1058,6 +1167,14 @@ var OSLDsh2000Popup = function () {
 							sprTypeNm = "미 사용";
 						}
 						
+						var restDay = 0;
+						
+						if(map.sprTypeCd == "03"){
+							restDay = 0;
+						}else{
+							restDay = $.osl.escapeHtml(map.restDay);
+						}
+						
 						
 						sprintStr +=
 								
@@ -1067,7 +1184,7 @@ var OSLDsh2000Popup = function () {
 										
 										+'<div class="kt-portlet__head-label">'
 											+'<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"><input type="checkbox" value="'+idx+'" data-datatable-id="spr1000Table">&nbsp;<span></span></label>'
-											+'<h5 class="kt-font-boldest"><span class="osl-badge-brand kt-margin-r-10">D - ' + $.osl.escapeHtml(map.restDay) + '</span></h5>'
+											+'<h5 class="kt-font-boldest"><span class="osl-badge-brand kt-margin-r-10">D - ' + restDay + '</span></h5>'
 											+'<h4 class="kt-font-brand kt-font-boldest" title="'+$.osl.escapeHtml(map.sprNm)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'+$.osl.escapeHtml(map.sprNm)+'</h4>'
 										+'</div>'
 										+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md kt-margin-r-10 invisible" data-datatable-id="sprReqTable_'+map.sprId+'" data-datatable-action="select" title="조회" data-auth-button="select" tabindex="5">'
@@ -1228,7 +1345,6 @@ var OSLDsh2000Popup = function () {
 				}
 			}
 		});
-		
 	};
 	var sprReqTable = function(sprId, cate){
 		
@@ -1413,10 +1529,12 @@ var OSLDsh2000Popup = function () {
 			}else{
 				var processes = datas.data;
 				$.each(processes, function(idx, value){
+					if(dshDatatableIdList.indexOf("processReqTable_"+idx)<0){
+						
+						dshDatatableIdList.push("processReqTable_"+idx);
+					}
 					
-					dshDatatableIdList.push("processReqTable_"+idx);
-					
-					var str = '<div class="kt-portlet kt-portlet--mobile process-div" id="processPortlet'+idx+'" data-target-div="process'+idx+'" data-process-id="'+value.processId+'">'
+					var str = '<div class="kt-portlet kt-portlet--mobile process-div" id="processPortlet'+idx+'" data-target-div="process'+idx+'">'
 								+ '<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">'
 									+ '<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">'
 										+ '<h4 class="kt-font-boldest kt-font-brand">'
@@ -1427,8 +1545,8 @@ var OSLDsh2000Popup = function () {
 												+ '(생성일: <span>'+value.regDtm+'</span>)'
 											+ '</span>'
 											+ '<span class="kt-margin-l-20">'
-												+ '담당<span class="badge osl-badge-brand kt-margin-l-5 kt-margin-r-10 chargerBadge">0</span>'
-												+ '전체<span class="badge osl-badge-brand kt-margin-l-5" allBadge>0</span>'
+												+ '담당<span class="badge osl-badge-brand kt-margin-l-5 kt-margin-r-10 charger-badge">0</span>'
+												+ '전체<span class="badge osl-badge-brand kt-margin-l-5 all-badge" >0</span>'
 											+ '</span>'
 										+ '</h5>'
 									+ '</div>'
@@ -1438,14 +1556,11 @@ var OSLDsh2000Popup = function () {
 												+ '<i class="fas fa-redo-alt"></i>'
 											+ '</button>'
 											
-											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-title--all-view-content on" title="빈 작업 흐름 숨기기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
-											+ '</button>'
+											
 											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="processReqTable_'+idx+'" data-datatable-action="refresh" title="새로고침" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="refresh" tabindex="5">'
 												+ '<i class="fas fa-redo-alt"></i>'
 											+ '</button>'
-											+ '<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 osl-portlet-fullscreen-btn" title="영역 전체화면" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">'
-												+ '<i class="fas fa-expand"></i>'
-											+ '</button>'
+											
 											+ '<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>'
 										+ '</div>'
 									+ '</div>'
@@ -1453,25 +1568,25 @@ var OSLDsh2000Popup = function () {
 								+ '<div class="kt-portlet__body kt-padding-10">'
 									+ '<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">'
 										
-										+ '<div class="osl-dsh-flowchart kt-margin-20 chartDiv">'
+										+ '<div class="osl-dsh-flowchart kt-margin-20 chart-div">'
 											
 										+ '</div>'
 									+ '</div>'
-								+ '</div>'
-								+ '<div class="process-datatable-div kt-hide">'
-									+ '<div class="row">'
-										+ '<div class="col-lg-7 col-md-7 col-sm-8 col-8">'
-										+ '<div class="osl-datatable-search" data-datatable-id=processReqTable_'+idx+'"></div>'
+									+ '<div class="process-datatable-div kt-hide" id="processReqTable_'+idx+'">'
+										+ '<div class="row">'
+											+ '<div class="col-lg-7 col-md-7 col-sm-8 col-8">'
+											+ '<div class="osl-datatable-search" data-datatable-id=processReqTable_'+idx+'"></div>'
+											+ '</div>'
 										+ '</div>'
+										+ '<div class="kt_datatable kt-padding-20 osl-datatable-footer__divide process-datatables" id="processReqTable_'+idx+'"></div>';
 									+ '</div>'
-									+ '<div class="kt_datatable kt-padding-20 osl-datatable-footer__divide process-datatables" id="processReqTable_'+idx+'"></div>';
 								+ '</div>'
 							+ '</div>'
 						+ '</div>'
 					$("#processCard").append(str);
 				});
 				
-				fnGetProcessFlow();
+				fnGetAllProcessFlow();
 			}
     	});
 		
@@ -1479,10 +1594,11 @@ var OSLDsh2000Popup = function () {
 	};
 	
 	
-	var fnGetProcessFlow = function(){
+	var fnGetAllProcessFlow = function(){
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
-    			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAjax.do'/>", "async": true});
+    			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAndChargerCntAjax.do'/>", "async": true}
+    			,{"usrId" : $.osl.user.userInfo.usrId});
 		
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
@@ -1545,9 +1661,12 @@ var OSLDsh2000Popup = function () {
 	           
 	           
 	           var index = 0;
-	           $.each(allProcessFlowList, function(porcessId, value){
-	        	   fnFlowChart(index, porcessId, value.flowList, value.flowLinkList);
-	        	   processTableSetting(index);
+	           $.each(allProcessFlowList, function(processId, value){
+	        	   fnFlowChart(index, processId, value.flowList, value.flowLinkList);
+	        	   
+	        	   processTableSetting(index, processId, value.flowList[0].flowId);
+	        	   
+	        	   portletAll.push(new KTPortlet('processPortlet'+index, $.osl.lang("portlet")));	
 	        	   index++;
 	           });
 	
@@ -1559,119 +1678,148 @@ var OSLDsh2000Popup = function () {
 	     ajaxObj.send();   
 	}
 	
+
 	
-	var fnFlowChart = function(index, processId, flowList, flowLinkList){
+	var fnGetProcessFlow = function(index, processId){
 		
+		var ajaxObj = new $.osl.ajaxRequestAction(
+    			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAndChargerCntAjax.do'/>", "async": true}
+    			,{"paramProcessId": processId, "usrId" : $.osl.user.userInfo.usrId});
 		
+    	ajaxObj.setFnSuccess(function(data){
+    		if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+				
+				$.osl.layerPopupClose();
+			}else{
+	      		var flowList = data.flowList;
+	      		var flowLinkList = data.flowLinkList;
+
+	        	
+	        	fnFlowChart(index, processId, flowList, flowLinkList);
+
+		   		
+		   		fnProcessEvt();
+	        }
+	     });
+	     
+	     ajaxObj.send();   
+	}
+	
+	
+	var fnFlowChart = function(num, processId, flowList, flowLinkList){
 
 		if($.osl.isNull(flowList) || flowList.length == 0){
 			return true;
 		}
-		if($.osl.isNull(flowLinkList) || flowLinkList.length == 0){
-			return true;
-		}
-		
 		var list = [];
 		
 		
+	    
+	    var flowNextIdList = {};
+	    
+	    
+	    if(!$.osl.isNull(flowLinkList) && flowLinkList.length > 0){
+	       $.each(flowLinkList, function(idx, map){
+	          
+	          if(!flowNextIdList.hasOwnProperty(map.flowId)){
+	             flowNextIdList[map.flowId] = [];
+	          }
+	          flowNextIdList[map.flowId].push(map.flowNextId);
+	       });
+	    }
+	     
+	    
+	    var flowInfoList = {};
 	      
-	      var flowNextIdList = {};
+	    
+	    var startFlowId;
+	    
+	    var doneFlowId;
+	    var doneFlow;
 	      
-	      
-	      if(!$.osl.isNull(flowLinkList) && flowLinkList.length > 0){
-	         $.each(flowLinkList, function(idx, map){
-	            
-	            if(!flowNextIdList.hasOwnProperty(map.flowId)){
-	               flowNextIdList[map.flowId] = [];
-	            }
-	            flowNextIdList[map.flowId].push(map.flowNextId);
-	         });
-	      }
-	      
-	      
-	      var flowInfoList = {};
-	      
-	      
-	      var startFlowId;
-	      
-	      var doneFlowId;
-	      var doneFlow;
-	      
-	      
-	      var addFlowCheck = [];
-	      
-	      
-	      $.each(flowList, function(idx, map){
-	         
-	         if(map.flowStartCd == "01"){
-	            
-	            
-	            
-	            startFlowId = map.flowId;
-	            list.push(map);
-	         }
-	         
-	         
-	         if(map.flowDoneCd == "01"){
-	            doneFlowId = map.flowId;
-	            doneFlow = map;
-	         }
-	         map["flowNextId"] = flowNextIdList[map.flowId];
-	         flowInfoList[map.flowId] = map;
-	      });
-	
-	      
-	      var innerFlowAppend = function(currentFlowId) {
-	    	  
-	         
-	         var flowInfo = flowInfoList[currentFlowId];
+	    
+	    var addFlowCheck = [];
+	     
+	    
+	    $.each(flowList, function(idx, map){
+	       
+	       if(map.flowStartCd == "01"){
+	          
+	          
+	          
+	          startFlowId = map.flowId;
+	          list.push(map);
+	       }
 	        
-	         
-	         var nextFlowIds = null;
-	         
-	         if(!$.osl.isNull(flowInfoList[currentFlowId]) && flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
-	        	 nextFlowIds = flowInfoList[currentFlowId]["flowNextId"];
-	         }
-	         
-	         if(!$.osl.isNull(nextFlowIds) && nextFlowIds.length == 0){
-	            return true;
-	         }
-	         
-	         else if(addFlowCheck.indexOf(currentFlowId) != -1){
-	            return true;
-	         }
-	         
-	         if(flowInfo.flowStartCd == "02" && flowInfo.flowDoneCd == "02"){
-	            
-	            
-	            addFlowCheck.push(currentFlowId);
-	            list.push(flowInfo);
-	         }
-	         
-	         
-	         if(!$.osl.isNull(nextFlowIds)){
-	            
-	            $.each(nextFlowIds, function(idx, map){
-	               innerFlowAppend(map);
-	            });
-	         };
-	         return true;
-	      };
+	       
+	       if(map.flowDoneCd == "01"){
+	          doneFlowId = map.flowId;
+	          doneFlow = map;
+	       }
+	       map["flowNextId"] = flowNextIdList[map.flowId];
+	       flowInfoList[map.flowId] = map;
+	    });
+	
+	    
+	    var innerFlowAppend = function(currentFlowId) {
+	    	  
+	       
+	       var flowInfo = flowInfoList[currentFlowId];
 	      
+	       
+	       var nextFlowIds = null;
+	       
+	       if(!$.osl.isNull(flowInfoList[currentFlowId]) && flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
+	    	   nextFlowIds = flowInfoList[currentFlowId]["flowNextId"];
+	       }
+	       
+	       if($.osl.isNull(nextFlowIds)){
+	    	   return true;
+	       }
+	       else if(!$.osl.isNull(nextFlowIds) && nextFlowIds.length == 0){
+	    	   return true;
+	       }
+	       
+	       else if(addFlowCheck.indexOf(currentFlowId) != -1){
+	          return true;
+	       }
+	       
+	       if(flowInfo.flowStartCd == "02" && flowInfo.flowDoneCd == "02"){
+	          
+	          
+	          addFlowCheck.push(currentFlowId);
+	          list.push(flowInfo);
+	       }
+	       
+	       
+	       if(!$.osl.isNull(nextFlowIds)){
+	          
+	          $.each(nextFlowIds, function(idx, map){
+	             innerFlowAppend(map);
+	          });
+	       };
+	       return true;
+	    };
 	      
-	      innerFlowAppend(startFlowId);
+	    
+	    innerFlowAppend(startFlowId);
 	      
-	      
-	      list.push(doneFlow);
-	      
+	    
+	    list.push(doneFlow);
+	    
 		
-		fnFlowChartDraw(list, processId);
+		fnFlowChartDraw(num, list, processId);
 	};
 	
 	
-	var fnFlowChartDraw = function(list, processId){
+	var fnFlowChartDraw = function(num, list, processId){
+		
 		var str = '';
 		$.each(list, function(idx, value){
+			if($.osl.isNull(value)){
+				return true;
+			}
 			str += '<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">'
 					+ '<div class="flowchart-operator-function osl-min-h-px--24">';
 				if(value.flowSignCd == "01"){
@@ -1708,8 +1856,8 @@ var OSLDsh2000Popup = function () {
 						+ '</div>'
 					+ '</div>'
 					+ '<div class="flowchart-operator-inputs-outputs kt-margin-0">'
-						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flow-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>1</span></div>'
-						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flow-all-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>1</span></div>'
+						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flow-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>'+value.reqChargerCnt+'</span></div>'
+						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flow-all-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>'+value.reqFlowCnt+'</span></div>'
 					+ '</div>'
 				+ '</div>';
 				
@@ -1720,17 +1868,24 @@ var OSLDsh2000Popup = function () {
 		});
 		
 		
-		var processRow = $("#processCard").children("div[data-process-id="+processId+"]").find(".chartDiv");
+		var processRow = $("#processCard").children("div[data-target-div=process"+num+"]").find(".chart-div");
+		$(processRow).empty();
 		$(processRow).append(str);
 	}
 	
 	
-	var processTableSetting = function(tablenum){
+	var processTableSetting = function(tablenum, paramProcessId, paramStartFlowId){
 		$.osl.datatable.setting("processReqTable_"+tablenum,{
 			data: {
 				source: {
 					read: {
-						url: "/req/req4000/req4100/selectReq4100ReqListAjax.do"
+						url: "/req/req4000/req4100/selectReq4100ReqFlowListAjax.do",
+						params : {
+							"dshProcess" : "Y",
+							"processId" : paramProcessId,
+							"flowId" : paramStartFlowId,
+							"usrId" : $.osl.user.userInfo.usrId
+						}
 					}
 				},
 				pageSize : 5,
@@ -1757,7 +1912,8 @@ var OSLDsh2000Popup = function () {
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
 				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, autoHide: false, search: true},
-				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
+				{field: 'reqOrd', title: '요구사항 순번', textAlign: 'left', width: 120, autoHide: false},
+				{field: 'reqProTypeNm', title: '결재 상태', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
 				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 120, search: true,
@@ -1811,24 +1967,62 @@ var OSLDsh2000Popup = function () {
 				clickCheckbox: true,
 			},
 			actionBtn:{
-				"title" : "상세",
-				"width" : "30",
+				"title" : "기능 버튼",
+				"width" : "120",
 				"dblClick": true,
 				"update": false,
 				"delete" : false,
 				"refresh": true,
+				"detail":true
 			},
 			actionTooltip:{
-				"dblClick": "상세보기"
+				"dblClick": "업무 처리",
+				"detail" : "상세 보기"
 			},
 			actionFn:{
 				"refresh": function(rowData, datatableId, type, rowNum){
 					
-					searchReset(datatableId);
-					
-					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+					$("#processPortlet"+tablenum).find(".chart-div").empty();
+					fnGetProcessFlow(tablenum, paramProcessId);
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum){
+					var reqProType = rowData.reqProType;
+                    var reqId = rowData.reqId;
+                    var prjId = rowData.prjId;
+                    var reqNm = rowData.reqNm;
+                    
+                    if(reqProType != "02"){
+                       $.osl.alert("처리중인 요구사항만 업무 처리가 가능합니다.");
+                       return false;
+                    }
+
+                    var data = {
+                          paramPrjId: prjId,
+                          paramReqId: reqId
+                    };
+                    var options = {
+                       modalSize: "fs",
+                       idKey: "reqProcess"+reqId,
+                       modalTitle: "["+reqNm+"] 요구사항 업무 처리",
+                       closeConfirm: false,
+                       callback:[{
+	   						targetId: "cmm6201SaveSubmit",
+	   						actionFn: function(thisObj){
+	   							console.log("callback");
+	   							
+	   							
+								$("#processPortlet"+tablenum).find(".chart-div").empty();
+								fnGetProcessFlow(tablenum, paramProcessId);
+								
+	   							
+	   							$("#"+datatableId).addClass("kt-hide");
+	   							$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+	   						} 
+	   					}]
+                    };
+                    $.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6201View.do',data,options);
+				},
+				"detail": function(rowData, datatableId, type, rowNum){
 					var data = {
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId,
@@ -1841,7 +2035,7 @@ var OSLDsh2000Popup = function () {
 						};
 					
 					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
-				},
+				}
 			},
 			theme : {
 				actionBtn: {
@@ -1849,11 +2043,30 @@ var OSLDsh2000Popup = function () {
 					"refresh" : " kt-hide"
 				},
 				actionBtnIcon:{
-					"dblClick" : "fas fa-external-link-alt"
+					"dblClick" : "fa fa-chalkboard-teacher",
+					"detail" : "fas fa-external-link-alt"
 				}
 			},
 			callback:{
-				ajaxDone: function(evt, list){
+				ajaxDone: function(evt, list, datatableInfo){
+					
+					var datatableId = "processReqTable_"+tablenum;
+					var datatable = $.osl.datatable.list[datatableId].targetDt;
+					
+					var totalCharger = 0;
+					var totalAll = 0;
+					
+					
+					var chargerSpans = $("#processPortlet"+tablenum).find(".flow-charger");
+					$.each(chargerSpans, function(index, value){
+						totalCharger += Number($(value).children().text());
+						totalAll +=  Number($(value).siblings(".flow-all-charger").children().text());
+					});
+					
+					
+					$("#processPortlet"+tablenum).find(".charger-badge").text(totalCharger);
+					$("#processPortlet"+tablenum).find(".all-badge").text(totalAll);
+
 				}
 			}
 		});
@@ -1861,59 +2074,12 @@ var OSLDsh2000Popup = function () {
 	
 	
 	var fnProcessEvt = function(){
-
-		
-		$('.osl-view-type').click(function(){
-			var targetType = $(this).data('view-type');
-			var targetObj = $(this).data('target-process');
-			var targetDiv = $('div[data-target-div='+targetObj+']');
-			var targetParent = $(this).parents('.kt-portlet');
-			
-			if(targetType=='grid'){
-				
-				targetDiv.find(".osl-dsh-flowchart").addClass('kt-hide');
-				targetDiv.find(".osl-dsh-kanban").removeClass('kt-hide');
-				$(this).data('view-type','kaban');
-				
-				
-				$(targetParent).find('.kt_datatable').addClass('kt-hide');
-				return false;
-			}else if(targetType=='kaban'){
-				
-				targetDiv.find(".osl-dsh-kanban").addClass('kt-hide');
-				targetDiv.find(".osl-dsh-flowchart").removeClass('kt-hide');
-				$(this).data('view-type','grid');
-				return false;	
-			}
-		});
-		
-		$('.osl-portlet-fullscreen-btn').click(function(){
-			
-			var targetObj = $(this).parents('.kt-portlet');
-			
-			if(targetObj.hasClass('kt-portlet--fullscreen')){
-				
-				targetObj.stop().animate({top: '30%'},1000, function(){
-					targetObj.removeClass('kt-portlet--fullscreen');
-				});
-			}else{
-				
-				$('.kt-portlet').removeClass('kt-portlet--fullscreen');
-				
-				$('.kt-portlet').css({top:''});
-				
-				targetObj.addClass('kt-portlet--fullscreen');
-				
-				targetObj.stop().animate({top:'0%'},1000);
-			}
-		});
 		
 		
 		$(".flow-charger").click(function(){
 			
-			var item = $(this).parents(".process-div");
-			var datatableId = $(item).children(".process-datatable-div").find(".process-datatables").attr("id");
-			console.log(datatableId);
+			var item = $(this).parents(".kt-portlet__body");
+			var datatableId = $(item).find(".process-datatable-div").attr("id");
 			var datatable = $.osl.datatable.list[datatableId].targetDt;
 			
 			datatable.setDataSourceParam("dshProcess", "Y");
@@ -1922,17 +2088,22 @@ var OSLDsh2000Popup = function () {
 			datatable.setDataSourceParam("usrId", $.osl.user.userInfo.usrId);
 			
 			
-			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			
+			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();			
 			
 			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
+
+			
+			$(this).parents(".chart-div").find(".flowchart-operator-outputs--active").removeClass("flowchart-operator-outputs--active");
+			
+			$(this).addClass("flowchart-operator-outputs--active");
 		});
 		
 		
 		$(".flow-all-charger").click(function(){
 			
-			var item = $(this).parents(".process-div");
-			var datatableId = $(item).find(".process-datatables").attr("id");
+			var item = $(this).parents(".kt-portlet__body");
+			var datatableId = $(item).find(".process-datatable-div").attr("id");
 			var datatable = $.osl.datatable.list[datatableId].targetDt;
 			
 			datatable.setDataSourceParam("dshProcess", "Y");
@@ -1942,73 +2113,17 @@ var OSLDsh2000Popup = function () {
 			
 			
 			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+			
+			
+			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
+			
+			
+			$(this).parents(".chart-div").find(".flowchart-operator-outputs--active").removeClass("flowchart-operator-outputs--active");
+			
+			$(this).addClass("flowchart-operator-outputs--active");
 		});
 				
 		
-		
-		new Sortable($('.osl-kaban--card__body[processid="1"]')[0], {
-			group:'shared',
-	        animation: 100,
-	        
-	        chosenClass: "chosen",
-	        
-	        onMove:function(evt,originalEvent){
-				var UserAgent = navigator.userAgent;
-				
-				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
-					return false;
-				}else{
-					return true;
-				}
-								
-			},
-	      	
-			onAdd:function(evt){
-				
-			}
-	    });
-		new Sortable($('.osl-kaban--card__body[processid="2"]')[0], {
-			group:'shared',
-	        animation: 100,
-	        
-	        chosenClass: "chosen",
-	        
-	        onMove:function(evt,originalEvent){
-				var UserAgent = navigator.userAgent;
-				
-				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
-					return false;
-				}else{
-					return true;
-				}
-				
-			},
-	      	
-			onAdd:function(evt){
-				
-			}
-	    });
-		new Sortable($('.osl-kaban--card__body[processid="3"]')[0], {
-			group:'shared',
-	        animation: 100,
-	        
-	        chosenClass: "chosen",
-	        
-	        onMove:function(evt,originalEvent){
-				var UserAgent = navigator.userAgent;
-				
-				if (UserAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || UserAgent.match(/LG|SAMSUNG|Samsung/) != null){
-					return false;
-				}else{
-					return true;
-				}
-				
-			},
-	      	
-			onAdd:function(evt){
-				
-			}
-	    });
 		
 	};
 	
@@ -2232,6 +2347,9 @@ var OSLDsh2000Popup = function () {
 		secondTime = (timerVarSel*60);
 		clearInterval(timer);
 		timer = setInterval(printTime,1000);
+		
+		
+		fnGetAllProcessFlow();
 		
 		
 		$.each(dshDatatableIdList, function(idx, value){

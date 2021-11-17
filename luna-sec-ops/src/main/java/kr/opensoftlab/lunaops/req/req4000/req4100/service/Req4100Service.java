@@ -54,6 +54,14 @@ public interface Req4100Service {
 	
 	@SuppressWarnings({ "rawtypes" })
 	void updateReq4100ReqAcceptList(Map paramMap) throws Exception;
+
+	
+	@SuppressWarnings({ "rawtypes" })
+	void updateReq4100ReqSignRejectInfo(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings({ "rawtypes" })
+	void updateReq4100ReqSignAcceptInfo(Map paramMap) throws Exception;
 	
 	
 	@SuppressWarnings("rawtypes")
