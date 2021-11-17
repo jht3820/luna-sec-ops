@@ -950,7 +950,7 @@ var OSLCoreLangSetting = function () {
 					notCheckedFile : "선택된 파일이 없습니다."
 				},
 				confirm:{
-					deleteFormFile:"산출물 양식 파일을 삭제 하시겠습니까?",
+					deleteFormFile:"산출물 파일을 삭제 하시겠습니까?",
 					signAtchFile : "선택된 파일들을 결재 하시겠습니까?"
 				} 
 			},
