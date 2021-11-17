@@ -2017,8 +2017,6 @@ var OSLDsh2000Popup = function () {
 	   							
 	   							$("#"+datatableId).addClass("kt-hide");
 	   							$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
-	   							
-	   							
 	   						} 
 	   					}]
                     };

@@ -762,8 +762,11 @@ var OSLSpr1003Popup = function () {
 					
 					var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
 					
+					
 					var target = targetCheckRow.find("input[type=text]");
 					target.val("");
+					
+					delete wizardData["reqUsrList"][rowData.reqId]
 				},
 			},
 			theme:{

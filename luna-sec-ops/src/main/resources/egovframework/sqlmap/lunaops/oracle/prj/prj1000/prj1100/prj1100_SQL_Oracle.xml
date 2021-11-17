@@ -1346,10 +1346,16 @@
 	<select id="prj1100DAO.selectPrj1100FlowChargerCntList" parameterClass="java.util.Map" resultClass="egovMap">
 		
 		SELECT 
-			A.PRJ_ID
-		    , A.PROCESS_ID
-		    , A.FLOW_ID
-		    ,( SELECT
+			A.PRJ_ID,					A.PROCESS_ID,			A.FLOW_ID,					A.FLOW_NM
+			,A.FLOW_LEFT,				A.FLOW_TOP,				A.FLOW_START_CD,			A.FLOW_DONE_CD
+		    ,A.FLOW_SIGN_CD,			A.FLOW_SIGN_STOP_CD,		A.FLOW_END_CD
+		    ,A.FLOW_WORK_CD,			A.FLOW_REVISION_CD,		A.FLOW_DPL_CD,				A.FLOW_AUTH_CD
+		    ,A.FLOW_TITLE_BG_COLOR,		A.FLOW_TITLE_COLOR,		A.USE_CD
+		    ,TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REG_DTM
+			,A.REG_USR_ID,				A.REG_USR_IP
+			,TO_CHAR(A.MODIFY_DTM, 'YYYY-MM-DD HH24:MI:SS') AS MODIFY_DTM
+			,A.MODIFY_USR_ID,			A.MODIFY_USR_IP
+			,( SELECT
 		          COUNT(*)
 		      FROM REQ4100 B
 		      WHERE 1 = 1
@@ -1359,36 +1365,22 @@
 		      AND B.REQ_CHARGER_ID = #usrId#
 		      AND B.FLOW_ID = A.FLOW_ID
 		      ) AS REQ_CHARGER_CNT
-		     ,( SELECT
-		         COUNT(*)
-		     FROM REQ4100 C
-		     WHERE 1 = 1
-		     AND C.PRJ_ID = A.PRJ_ID
-		     AND C.PROCESS_ID = A.PROCESS_ID
-		     AND C.USE_CD = '01'
-             AND C.REQ_CHARGER_ID = #usrId#
-		     ) AS REQ_CHARGER_TOTAL_CNT
-		    ,( SELECT
+		      ,( SELECT
 		          COUNT(*)
-		      FROM REQ4100 D
+		      FROM REQ4100 C
 		      WHERE 1 = 1
-		      AND D.PRJ_ID = A.PRJ_ID
-		      AND D.PROCESS_ID = A.PROCESS_ID
-		      AND D.USE_CD = '01'
-		      AND D.FLOW_ID = A.FLOW_ID
+		      AND C.PRJ_ID = A.PRJ_ID
+		      AND C.PROCESS_ID = A.PROCESS_ID
+		      AND C.USE_CD = '01'
+		      AND C.FLOW_ID = A.FLOW_ID
 		      ) AS REQ_FLOW_CNT 
-		    ,( SELECT
-		          COUNT(*)
-		      FROM REQ4100 E
-		      WHERE 1 = 1
-		      AND E.PRJ_ID = A.PRJ_ID
-		      AND E.PROCESS_ID = A.PROCESS_ID
-		      AND E.USE_CD = '01'
-		      ) AS REQ_TOTAL_CNT 
-		FROM REQ4100 A
-		WHERE 1 = 1
-		AND A.PROCESS_ID = #processId#
+		FROM PRJ1101 A
+        WHERE 1=1
+		AND A.PRJ_ID = #prjId#
+		<isNotEmpty property="processId">
+			AND A.PROCESS_ID = #processId#
+        </isNotEmpty>
         AND A.FLOW_ID IS NOT NULL
-        GROUP BY A.PRJ_ID, A.PROCESS_ID, A.FLOW_ID
+	    AND A.USE_CD = '01'
 	</select>
 </sqlMap>

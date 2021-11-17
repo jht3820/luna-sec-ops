@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -78,6 +78,7 @@ var OSLSpr1000Popup = function () {
 	
 	var totalSprPoint = null;
 	
+	var totalSprOngoingCnt = 0;
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
@@ -215,6 +216,12 @@ var OSLSpr1000Popup = function () {
 						return true;
 					}
 					
+					
+					if(totalSprOngoingCnt != 0){
+						$.osl.alert("이미 진행중인 스프린트가 존재합니다.\n 프로젝트당 스프린트는 1건만 진행가능합니다.");
+						return;
+					}
+					
 					var data = {
 							paramPrjGrpId: sprInfo.prjGrpId
 							,paramPrjId: sprInfo.prjId
@@ -223,6 +230,7 @@ var OSLSpr1000Popup = function () {
 							,paramStartDt: sprInfo.sprStDt
 							,paramEndDt: sprInfo.sprEdDt
 						};
+					
 					var options = {
 							modalTitle: "스프린트 시작",
 							autoHeight: false,
@@ -231,8 +239,8 @@ var OSLSpr1000Popup = function () {
 							closeConfirm: false,
 							ftScrollUse: false
 						};
-					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
 					
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
 					
 				},
 				
@@ -289,11 +297,14 @@ var OSLSpr1000Popup = function () {
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
 						
+						
 						if(map.sprTypeCd == '02'){
+							totalSprOngoingCnt = map.sprOngoingCnt;
 						} 
 						
 						
 						var sprTypeClass = "kt-media--primary";
+						
 						var sprTypeNm = map.sprTypeNm;
 						
 						if(map.sprTypeCd == "02"){
