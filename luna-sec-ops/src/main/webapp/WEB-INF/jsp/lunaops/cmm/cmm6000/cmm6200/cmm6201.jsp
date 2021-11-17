@@ -976,7 +976,7 @@ var OSLCmm6201Popup = function () {
  				currentSignUsrInfo = data.currentSignUsrInfo;
  				
  				
- 				if(!$.osl.isNull(reqSignCd) && reqSignCd != "03"){
+ 				if(!$.osl.isNull(reqSignCd) && reqSignCd != "03" && reqSignCd != "04"){
  					reqProcessAuthFlag = false;
  				}
  				
@@ -1194,7 +1194,7 @@ var OSLCmm6201Popup = function () {
 				
 				if(flowInfo.flowSignCd == "01"){
 					
-					if($.osl.isNull(reqSignCd) || reqSignCd == "03"){
+					if($.osl.isNull(reqSignCd) || reqSignCd == "03" || reqSignCd == "04"){
 						
 						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
 					}else{
@@ -1587,6 +1587,14 @@ var OSLCmm6201Popup = function () {
 			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
 		}
 
+		
+		if(signRequiredCd == "01"){
+			if($("#cmm6201SignOrdList > .kt-widget__top").length == 0){
+				$.osl.alert("결재선 등록이 필요합니다.");
+				return false;
+			}
+		}
+		
 		var addConfirmMsgStr = '';
 		
 		
@@ -1767,6 +1775,9 @@ var OSLCmm6201Popup = function () {
 			}else{
 				$.osl.alert("요구사항의 결재 승인 처리되었습니다.");
 
+				
+				$("#cmm6201ModalCallbackBtn").click();
+				
 				
 				$.osl.layerPopupClose();
 			}
