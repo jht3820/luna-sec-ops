@@ -340,6 +340,9 @@ input:-webkit-autofill,
 	width: 300px;
 }
 
+.osl-min-width-48{
+	min-width: 48px;
+}
 .osl-min-width-70{
 	min-width: 70px;
 }
