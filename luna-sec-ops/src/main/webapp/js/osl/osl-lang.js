@@ -1161,7 +1161,8 @@ var OSLCoreLangSetting = function () {
 		req4100:{
 			button:{
 				copyBtn : "복사",
-				requestAccept: "접수"
+				requestAcceptBtn: "접수",
+				detailBtn : "상세",
 			},
 			field:{
 				
@@ -1182,7 +1183,7 @@ var OSLCoreLangSetting = function () {
 				deleteTooltip : "요구사항 삭제",
 				detailTooltip : "요구사항 상세",
 				copyTooltip : "요구사항 복사",
-				requestAcceptToolip: "요구사항 접수",
+				requestAcceptTooltip: "요구사항 접수",
 			},
 			title:{
 				insertTitle : "신규 요구사항 등록",
@@ -1193,6 +1194,7 @@ var OSLCoreLangSetting = function () {
 				updateMsg : "접수 요청중인 요구사항만 수정 가능합니다.",
 				multiPwMsg : "패스워드 확인이 필요한 요구사항이 ${1}건 있습니다. </br> 잠금된 요구사항을 제외 후 삭제 또는 잠금 요구사항은 단건 삭제하세요.",
 				selectData : "요구사항을 선택해주세요.",
+				selectDatas : "${1}건의 요구사항이 선택되었습니다.</br>1건의 요구사항만 선택해주세요.",
 				LockData : "잠긴 요구사항은 복사할 수 없습니다.",
 				selectCopyData : "복사는 1건에 대해서만 가능합니다. 현재 ${1}건 선택되었습니다."
 			},
@@ -3553,7 +3555,8 @@ var OSLCoreLangSetting = function () {
 		},
 		req4100:{
 			button:{
-				copyBtn : "Copy"
+				copyBtn : "Copy",
+				requestAcceptBtn : "Acception"
 			},
 			field:{
 				
@@ -3573,7 +3576,8 @@ var OSLCoreLangSetting = function () {
 				updateTooltip : "Update Request",
 				deleteTooltip : "Delete Request",
 				detailTooltip : "Detail Request",
-				copyTooltip : "Copy Request"
+				copyTooltip : "Copy Request",
+				requestAcceptTooltip : "Acception Request"
 			},
 			title:{
 				insertTitle : "Insert New Request",
@@ -3584,6 +3588,7 @@ var OSLCoreLangSetting = function () {
 				updateMsg : "You can only modify requirements whose processing status is being requested.",
 				multiPwMsg : "There are ${1} requirements that require password verification. </br> You can delete locked requirements after excluding them, or you can delete locked requirements as a single item.",
 				selectData : "Choose your data.",
+				selectDatas : "There are ${1} requirements.</br>Select only 1 request.",
 				LockData : "Locked requirements cannot be copied.",
 				selectCopyData : "Copying is only possible for 1 copy. Currently ${1} are selected.",
 			},
