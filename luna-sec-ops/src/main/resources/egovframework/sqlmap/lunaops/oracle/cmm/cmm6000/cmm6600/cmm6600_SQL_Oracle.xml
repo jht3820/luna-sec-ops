@@ -180,7 +180,7 @@
 						AND	T.NOW_SIGN_TYPE_CD = #searchTargetData#
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="lastSignUsrNm">
-						AND	T.LAST_SIGN_USR_NM = #searchTargetData#
+						AND	T.LAST_SIGN_USR_NM = '%'||#searchTargetData#||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="signDtm">
 						<isNotEmpty property="searchStartDt">
@@ -441,7 +441,7 @@
 	</delete>
 	
 	
-	<select id = "cmm6600DAO.selectCmm6600MaxOrd" parameterClass = "java.util.Map" resultClass = "int">
+	<select id = "cmm6600DAO.selectCmm6600MaxOrd" parameterClass = "java.util.Map" resultClass = "java.lang.Integer">
 		
 		SELECT	MAX(ORD) AS MAXORD
 		FROM	CMM6600

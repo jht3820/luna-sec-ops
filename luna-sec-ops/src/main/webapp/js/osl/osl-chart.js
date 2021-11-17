@@ -323,7 +323,12 @@ var OSLCoreChartSetting = function () {
 							if(!chartArrays.hasOwnProperty(config.data.param.key["key"+idx])){
 								chartArrays[config.data.param.key["key"+idx]]=[]
 							}
-							chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+							
+							if($.osl.isNull(value[config.data.param.key["key"+idx]])){
+								chartArrays[config.data.param.key["key"+idx]].push(null);
+							}else{
+								chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+							}
 						}
 						
 						
@@ -451,7 +456,13 @@ var OSLCoreChartSetting = function () {
 							if(!chartArrays.hasOwnProperty(config.data.param.key["key"+idx])){
 								chartArrays[config.data.param.key["key"+idx]]=[]
 							}
-							chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+							
+							if($.osl.isNull(value[config.data.param.key["key"+idx]])){
+								chartArrays[config.data.param.key["key"+idx]].push(null);
+							}else{
+								chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+							}
+							
 						}
 						
 						
@@ -459,7 +470,9 @@ var OSLCoreChartSetting = function () {
 							if(!chartArrays.hasOwnProperty(config.data.param.xKey)){
 								chartArrays[config.data.param.xKey]=[];
 							}
+							
 							chartArrays[config.data.param.xKey].push( value[config.data.param.xKey] );
+							
 						}
 						
 						if(!$.osl.isNull(config.data.param.yKey)){
@@ -490,6 +503,7 @@ var OSLCoreChartSetting = function () {
 					if(!$.osl.isNull(config.data.param.yKey)){
 						targetConfig.yaxis.categories = chartArrays[config.data.param.yKey ];
 					}
+					console.log(chartArrays);
 				},
 				"colum": function(array){
 					targetConfig.chart.type="bar";
@@ -539,7 +553,12 @@ var OSLCoreChartSetting = function () {
 							if(!chartArrays.hasOwnProperty(config.data.param.key["key"+idx])){
 								chartArrays[config.data.param.key["key"+idx]]=[]
 							}
-							chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+							
+							if($.osl.isNull(value[config.data.param.key["key"+idx]])){
+								chartArrays[config.data.param.key["key"+idx]].push(null);
+							}else{
+								chartArrays[config.data.param.key["key"+idx]].push( value[config.data.param.key["key"+idx]] );
+							}
 						}
 						
 						if(!$.osl.isNull(config.data.param.xKey)){
