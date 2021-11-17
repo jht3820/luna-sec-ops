@@ -936,7 +936,6 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     justify-content: center;
 }
 .osl-req__process-mask__flow {
-    width: 200px;
     height: auto;
     min-height: 160px;
     background: #FAFAFA;
@@ -995,6 +994,62 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 }
 .kt-user-card-v2 .kt-user-card-v2__details .kt-user-card-v2__name{
 	max-width: 300px;
+}
+.osl-planing-poker-portlet>.osl-planing-poker-portlet__body{
+	width: 215px;
+	padding: 0px 20px 20px 20px;
+	background-color: #efefef;
+}
+.osl-planing-poker-portlet .card{
+    width: 45px;
+    height: 70px;
+    line-height: 70px;
+    margin-right: 20px;
+    float: left;
+    font-weight: 800;
+    margin-top: 20px;
+    border: 2px solid #6c9a8c;
+    transform: rotateY(180deg);
+    transform-style: preserve-3d;
+    transition: all 1s;
+    box-shadow: 4px 4px 4px 0px #d0c7c7;
+    cursor: pointer;
+    font-size: 1.5rem;
+    position: relative;
+}
+.osl-planing-poker-portlet .card>i{
+	line-height: 63px;
+	font-size: 1.2rem;
+}
+.osl-planing-poker-portlet .card:nth-child(3n){
+	margin-right: 0;
+}
+.osl-point-text{
+	width: 15px;
+    height: 15px;
+    background-color: #6c9a8c;
+    border-radius: 3px;
+    color: #fff;
+    line-height: 15px;
+	position: absolute;
+	font-size: 0.8rem;
+    left: -2px;
+    top: -2px;
+    font-weight: 500;
+}
+.osl-small-text--top,.osl-small-text-bottom{
+	position: absolute;
+	line-height: 1;
+	font-size: 0.8rem;
+	color: #777;
+}
+.osl-small-text--top{
+	top: 2px;
+	left: 2px;
+}
+.osl-small-text-bottom{
+	bottom: 2px;
+	right: 2px;
 }
 .osl-tab-content{
 	background-color: #eeeef4;
