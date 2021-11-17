@@ -708,7 +708,7 @@ var OSLCoreLangSetting = function () {
 				deleteFlow: "${1} 단계를 삭제하시겠습니까?</br>업무 처리에 문제가 발생 할 수 있습니다.",
 				deleteReqCheck: "${1}건의 진행중인 요구사항이 있습니다.</br>요구사항의 단계 진행을 완료해야 삭제가 가능합니다.",
 				searchEmpty: "검색하려는 단계명을 입력하세요.",
-				processUseCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
+				processConfirmCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
 				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다.",
 				flowDoneLinkChk: "마지막 단계는 최종완료 단계에 연결되어야합니다.",
 				flowSizeChk: "작업흐름이 생성되지 않았습니다.",

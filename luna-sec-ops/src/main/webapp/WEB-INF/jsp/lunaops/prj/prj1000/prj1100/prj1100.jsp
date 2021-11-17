@@ -5,12 +5,20 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 <div class="kt-grid kt-grid--desktop kt-grid--ver-desktop  kt-inbox" id="kt_inbox">
 	<div class="kt-grid__item kt-portlet kt-inbox__aside" id="kt_inbox_aside">
-		<div class="btn-group" role="group">
+		<div class="btn-group kt-margin-b-5" role="group">
 			<button type="button" class="btn btn-outline-brand btn-bold btn-elevate btn-elevate-air" data-datatable-id="prj1100PrjTable" data-datatable-action="select" title="데이터 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 				<i class="fa fa-list"></i><span class="osl-resize__display--show">조회</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand btn-bold btn-elevate btn-elevate-air" data-datatable-id="prj1100PrjTable" data-datatable-action="insert" title="프로세스 생성" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="2">
 				<i class="fa fa-plus"></i><span class="osl-resize__display--show">생성</span>
+			</button>
+		</div>
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-elevate btn-elevate-air" data-datatable-id="prj1100PrjTable" data-datatable-action="update" title="선택 프로세스 수정" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+				<i class="fa fa-edit"></i><span class="osl-resize__display--show">수정</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-elevate btn-elevate-air" data-datatable-id="prj1100PrjTable" data-datatable-action="delete" title="선택  프로세스 삭제" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="2">
+				<i class="fa fa-trash-alt"></i><span class="osl-resize__display--show">삭제</span>
 			</button>
 		</div>
 		<div class="osl-datatable-search osl-datatable-search__btn-title--none kt-margin-t-15" data-datatable-id="prj1100PrjTable"></div>
@@ -81,7 +89,7 @@
 						<i class="fa fa-bars"></i>
 					</button>
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Search" name="flowNmSearchInput" id="flowNmSearchInput">
+						<input type="text" class="form-control" placeholder="단계명을 입력해주세요." name="flowNmSearchInput" id="flowNmSearchInput">
 						<div class="input-group-append">
 							<span class="input-group-text">
 								<i class="fa fa-search"></i>
@@ -90,10 +98,10 @@
 					</div>
 				</div>
 				<div class="kt-inbox__controls">
-					<button type="button" class="kt-inbox__icon" data-flow-action="reload" data-toggle="kt-tooltip" title="reload">
+					<button type="button" class="kt-inbox__icon" data-flow-action="reload" data-toggle="kt-tooltip" title="데이터 원복">
 							<i class="fa fa-history"></i>
 						</button>
-					<button type="button" class="kt-inbox__icon pulse pulse-success kt-margin-0" data-flow-action="save" data-toggle="kt-tooltip" title="Save" id="processSaveBtn">
+					<button type="button" class="kt-inbox__icon pulse pulse-success kt-margin-0" data-flow-action="save" data-toggle="kt-tooltip" title="데이터 저장" id="processSaveBtn">
 						<span class="pulse-ring kt-margin-0 kt-hide"></span>
 						<i class="fa fa-save"></i>
 					</button>
@@ -324,12 +332,13 @@ var OSLPrj1100Popup = function () {
 		$("#processFlowLayerMain").on("click",".osl-flowchart__operator .flowchart-operator-menu .dropdown-menu .dropdown-item, button[data-flow-action]",function(){
 			var flowAction = $(this).data("flow-action");
 			
+			if($.osl.isNull(selProcessId)){
+				$.osl.alert($.osl.lang("prj1100.alert.selNoneProcess"));
+				return false;
+			}
+			
+			
 			if(flowAction == "save"){
-				if($.osl.isNull(selProcessId)){
-					$.osl.alert($.osl.lang("prj1100.alert.selNoneProcess"));
-					return false;
-				}
-				
 				
 				var rtnValue = fnFlowDoneCheck();
 				if(rtnValue === false){
@@ -349,11 +358,6 @@ var OSLPrj1100Popup = function () {
 			}
 			
 			else if(flowAction == "update"){
-				if($.osl.isNull(selProcessId)){
-					$.osl.alert($.osl.lang("prj1100.alert.selNoneProcess"));
-					return false;
-				}
-				
 				var selFlowId = flowChart.flowchart("getSelectedOperatorId");
 				if($.osl.isNull(selFlowId)){
 					$.osl.alert($.osl.lang("prj1100.alert.selNoneFlow"));
@@ -412,10 +416,6 @@ var OSLPrj1100Popup = function () {
 			}
 			
 			else if(flowAction == "insert"){
-				if($.osl.isNull(selProcessId)){
-					$.osl.alert($.osl.lang("prj1100.alert.selNoneProcess"));
-					return false;
-				}
 				var data = {
 						type:"insert",
 						paramPrjGrpId: $.osl.selPrjGrpId,
@@ -500,6 +500,7 @@ var OSLPrj1100Popup = function () {
 				 }
 			},
 			columns: [
+				{field: 'processId', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'processId', title: '프로세스 ID', textAlign: 'center', width: 150, search: true},
 				{field: 'processNm', title: '프로세스명', textAlign: 'center', width: 100, search: true},
 			],
@@ -594,11 +595,20 @@ var OSLPrj1100Popup = function () {
 						flowAddList = [];
 						
 						
-						$(elem).parent().find(".osl-datatable__card.active").removeClass("active");
+						prj1100Datatable.targetDt.setActive(rowData.processId);
+						
+						
+						var beforeSelProcess = $(elem).parent().find(".osl-datatable__card.active");
+						var beforeProcessId = beforeSelProcess.data("process-id");
+						prj1100Datatable.targetDt.setInactive(beforeProcessId);
+						
+						
+						beforeSelProcess.removeClass("active");
 						$(elem).addClass("active");
 						
 						processChgCheck.flag = false;
 					}
+					
 					
 					if($(".osl-datatable__card.active").length > 0 && processEditMode && processChgCheck.flag){
 						
@@ -642,15 +652,15 @@ var OSLPrj1100Popup = function () {
 						
 						
 						var useIcon = "fa-eye osl-favorites--active";
-						if(map.useCd == "02"){
+						if(map.processConfirmCd == "01"){
 							useIcon = "fa-eye-slash";
 						}
 						
 						
 						processStr +=
-							'<li class="kt-nav__item osl-datatable__card" data-datatable-rownum="'+idx+'">'
+							'<li class="kt-nav__item osl-datatable__card" data-datatable-rownum="'+idx+'" data-process-id="'+map.processId+'">'
 								+'<a href="#" class="kt-nav__link" data-action="list" data-type="inbox" title="'+$.osl.escapeHtml(map.processNm)+'" data-toggle="kt-tooltip" data-skin="brand" data-placement="top">'
-									+'<i class="kt-nav__link-icon fa '+useIcon+' osl-process-use__button"></i>'
+									+'<i class="kt-nav__link-icon fa '+useIcon+' osl-process-confirm__button"></i>'
 									+'<span class="kt-nav__link-text osl-max-w-px-120">'+$.osl.escapeHtml(map.processNm)+'</span>'
 									+'<div class="dropdown dropdown-inline osl-display__flex-r">'
 										
@@ -672,7 +682,7 @@ var OSLPrj1100Popup = function () {
 					$("#prj1100CardTable").html(processStr);
 					
 					
-					$(".osl-datatable__card i.osl-process-use__button").click(function(event){
+					$(".osl-datatable__card i.osl-process-confirm__button").click(function(event){
 						
 						event.cancelable = true;
 						event.stopPropagation();
@@ -687,21 +697,21 @@ var OSLPrj1100Popup = function () {
 						var processInfo = prj1100Datatable.targetDt.lastResponse.data[rownum];
 						
 						
-						var useCd = processInfo.useCd;
+						var processConfirmCd = processInfo.processConfirmCd;
 						
-						var confirmMsg = $.osl.lang("prj1100.alert.processUseCdChg",processInfo.processNm);
+						var confirmMsg = $.osl.lang("prj1100.alert.processConfirmCdChg",processInfo.processNm);
 						
 						
-						if(useCd == "01"){
-							confirmMsg += $.osl.lang("prj1100.alert.processNoneUse");	
+						if(processConfirmCd == "02"){
+							confirmMsg += $.osl.lang("prj1100.alert.processNoneUse");
 						}
-						var chgUseCd = (useCd == "01")?"02":"01";
+						var chgProcessConfirmCd = (processConfirmCd == "01")?"02":"01";
 						
 						$.osl.confirm(confirmMsg,{html: true},function(result) {
 			    	        if (result.value) {
 			    	        	
 			    	       		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/prj/prj1000/prj1100/savePrj1100ProcessInfoAjax.do'/>"}
-			    	       		,{paramPrjGrpId: processInfo.prjId, paramProcessId: processInfo.processId, useCd: chgUseCd, type: "update"});
+			    	       		,{paramPrjGrpId: processInfo.prjId, paramProcessId: processInfo.processId, processConfirmCd: chgProcessConfirmCd, type: "update"});
 			    	        	
 			    	       		
 			    	       		ajaxObj.setFnSuccess(function(data){
