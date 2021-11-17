@@ -130,10 +130,15 @@
 				,	A.MODIFY_USR_ID
 				,	A.MODIFY_USR_IP
 		   FROM	STM3000 A
+		   ]]>
+		   <isNotEmpty property="location">
+		   		<isEqual property="location" compareValue="spr1003">
+		   			INNER JOIN (select distinct(USR_ID), PRJ_ID from prj2001 WHERE PRJ_ID = #prjId#) B ON(A.USR_ID = B.USR_ID)
+		   		</isEqual>
+		   </isNotEmpty>
 		   WHERE 1=1 
 		   AND A.LIC_GRP_ID = #licGrpId#
 		   AND A.DEL_CD = '02'
-		   ]]>
 		   <isNotEmpty property="useCd">
 				 AND A.USE_CD = #useCd#
 			</isNotEmpty>
