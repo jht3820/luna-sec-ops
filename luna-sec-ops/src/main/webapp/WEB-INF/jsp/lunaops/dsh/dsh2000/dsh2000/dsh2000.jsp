@@ -110,7 +110,10 @@
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-3 col-3 kt-align-right">
 					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air kt-hide" data-datatable-id="req4100ReqTable" data-datatable-action="requestAccept" title="요구사항 접수" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="5">
-						<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAccept">접수</span>
+						<i class="fa fa-vote-yea"></i><span data-lang-cd="req4100.button.requestAcceptBtn">접수</span>
+					</button>
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="req4100ReqTable" data-datatable-action="detail" title="요구사항 상세" data-title-lang-cd="req4100.actionBtn.requestAcceptTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="detail" tabindex="5">
+						<i class="fas fa-external-link-alt"></i><span data-lang-cd="req4100.button.detailBtn">상세</span>
 					</button>
 				</div>
 			</div>
@@ -408,8 +411,8 @@ var OSLDsh2000Popup = function () {
 				"detail":true
 			},
 			actionTooltip:{
-				"dblClick" : "요구사항 접수",
-				"detail" : "상세 정보"
+				"dblClick" : $.osl.lang("req4100.actionBtn.requestAcceptTooltip"),
+				"detail" : $.osl.lang("req4100.actionBtn.detailTooltip")
 			},
 			actionFn:{
 				"refresh": function(rowData, datatableId, type, rowNum){
@@ -419,55 +422,72 @@ var OSLDsh2000Popup = function () {
 					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum){
-					
-					var rowDatas = [];
-					rowDatas.push(rowData);
-					
-					if(rowDatas == 0){
-						$.osl.alert($.osl.lang("req4100.alert.selectData"));
-						return false;
+					if(prjRequestAcceptCd == "01"){
+						
+						var rowDatas = [];
+						rowDatas.push(rowData);
+						
+						if(rowDatas == 0){
+							$.osl.alert($.osl.lang("req4100.alert.selectData"));
+							return false;
+						}else{
+							
+							
+							var selReqInfoList = [];
+							
+							
+							var reqProChkCnt = 0;
+							
+							$.each(rowDatas, function(idx, map){
+								
+								if(map.reqProType == "01"){
+									selReqInfoList.push({prjId: map.prjId, reqId: map.reqId});
+								}else{
+									reqProChkCnt++;
+									return true;
+								}
+							});
+							
+							var data = {
+									paramSelReqInfoList: JSON.stringify(selReqInfoList)
+							};
+							var options = {
+								autoHeight: false,
+								modalSize: "xl",
+								idKey: datatableId,
+								modalTitle: $.osl.lang("prj1102.update.title"),
+								closeConfirm: false,
+							};
+
+							
+							if(rowDatas.length == reqProChkCnt){
+								$.osl.alert("접수 가능한 요구사항이 선택되지 않았습니다.");
+								return false;
+							}
+							
+							$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6200View.do',data,options);
+							
+							if(reqProChkCnt > 0){
+								$.osl.alert(reqProChkCnt+"건의 접수대기가 아닌 요구사항을 제외했습니다.");
+							}
+						}
 					}else{
 						
-						
-						var selReqInfoList = [];
-						
-						
-						var reqProChkCnt = 0;
-						
-						$.each(rowDatas, function(idx, map){
-							
-							if(map.reqProType == "01"){
-								selReqInfoList.push({prjId: map.prjId, reqId: map.reqId});
-							}else{
-								reqProChkCnt++;
-								return true;
-							}
-						});
-						
 						var data = {
-								paramSelReqInfoList: JSON.stringify(selReqInfoList)
-						};
+								paramPrjId: rowData.prjId,
+								paramReqId: rowData.reqId,
+								paramReqUsrId: rowData.reqUsrId
+							};
 						var options = {
-							autoHeight: false,
-							modalSize: "xl",
-							idKey: datatableId,
-							modalTitle: $.osl.lang("prj1102.update.title"),
-							closeConfirm: false,
-						};
-
+								idKey: rowData.reqId,
+								modalTitle: $.osl.lang("req4100.title.detailTitle"),
+								autoHeight: false,
+								
+								
+							};
 						
-						if(rowDatas.length == reqProChkCnt){
-							$.osl.alert("접수 가능한 요구사항이 선택되지 않았습니다.");
-							return false;
-						}
-						
-						$.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6200View.do',data,options);
-						
-						if(reqProChkCnt > 0){
-							$.osl.alert(reqProChkCnt+"건의 접수대기가 아닌 요구사항을 제외했습니다.");
-						}
+						$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
 					}
-					
 				},
 				"requestAccept": function(rowDatas, datatableId, type, rowNum){
 					if(rowDatas == 0){
@@ -515,7 +535,23 @@ var OSLDsh2000Popup = function () {
 						}
 					}
 				},
-				"detail":function(rowData, datatableId, type, rowNum){
+				"detail":function(rowDatas, datatableId, type, rowNum){
+					var rowData;
+					
+					if(type == "list"){
+						if(rowNum == 0){
+							$.osl.alert($.osl.lang("req4100.alert.selectData"));
+							return false;
+						}else if(rowNum == 1){
+							rowData = rowDatas[0];
+						}else{
+							$.osl.alert($.osl.lang("req4100.alert.selectDatas", rowNum));
+							return false;
+						}						
+					}else{
+						rowData = rowDatas;
+					}
+					
 					var data = {
 							paramPrjId: rowData.prjId,
 							paramReqId: rowData.reqId,
@@ -539,11 +575,18 @@ var OSLDsh2000Popup = function () {
 					"detail" : ""
 				},
 				actionBtnIcon:{
-					"refresh" : " kt-hide",
 					"dblClick" : "fa fa-vote-yea",
 					"detail" : "fas fa-external-link-alt"
 				}
 			},
+		});
+		
+		
+		$("#"+reqDatatableId).on("kt-datatable--on-layout-updated", function(){
+			if(prjRequestAcceptCd == "02"){
+				
+				$("#"+reqDatatableId).find("a[data-datatable-action=dblClick]").addClass("kt-hide");
+			}
 		});
 
 		
