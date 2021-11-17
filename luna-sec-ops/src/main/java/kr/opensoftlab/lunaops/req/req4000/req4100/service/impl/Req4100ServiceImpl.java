@@ -848,6 +848,16 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			paramMap.put("flowId", reqSignFlowId);
 			
 			
+			Map selFlowInfo = prj1100DAO.selectPrj1101FlowInfo(paramMap);
+			
+			
+			String selFlowDoneCd = (String) selFlowInfo.get("flowDoneCd");
+			if("01".equals(selFlowDoneCd)) {
+				
+				paramMap.put("reqProType", "04");
+			}
+			
+			
 			String reqChargerId = (String) reqInfo.get("reqChargerId");
 			
 			
@@ -964,7 +974,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		
 		String selFlowDoneCd = (String) selFlowInfo.get("flowDoneCd");
 		
-		if("01".equals(selFlowDoneCd)) {
+		if("01".equals(selFlowDoneCd) && !"01".equals(signRequiredCd)) {
 			
 			paramMap.put("reqProType", "04");
 		}
