@@ -5100,7 +5100,6 @@
 				});
 			}
 		
-			
 			return {
 				sec: secAgo,
 				min: minAgo,
