@@ -1392,4 +1392,173 @@
         AND A.FLOW_ID IS NOT NULL
 	    AND A.USE_CD = '01'
 	</select>
+	
+	<insert id="prj1100DAO.insertPrj1100SnapShot" parameterClass="java.util.Map">
+	
+		INSERT INTO PRJ1100_SNP
+			SELECT  (SELECT LIC_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS LIC_GRP_ID,  
+			(SELECT PRJ_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS PRJ_GRP_ID, 
+			A.PRJ_ID, 
+			(SELECT SPR_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS SPR_ID, 
+			A.PROCESS_ID, 
+			A.PROCESS_NM, 
+			A.PROCESS_DESC, 
+			A.PROCESS_TRANSFER_CD, 
+			A.PROCESS_DISABLED_CD, 
+			A.USE_CD, 
+			A.DEL_CD, 
+			A.PROCESS_ORD, 
+			A.REG_DTM, 
+			A.REG_USR_ID, 
+			A.REG_USR_IP, 
+			A.MODIFY_DTM,  
+			A.MODIFY_USR_ID, 
+			A.MODIFY_USR_IP
+		  FROM PRJ1100 A
+		  WHERE PRJ_ID = #prjId#
+		  AND PROCESS_ID = #processId#
+		  AND USE_CD = '01'
+		  AND DEL_CD = '02'
+	</insert>
+	
+	<insert id="prj1100DAO.insertPrj1101SnapShot" parameterClass="java.util.Map">
+	
+	INSERT INTO PRJ1101
+		SELECT 
+			(SELECT LIC_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS LIC_GRP_ID, 
+			(SELECT PRJ_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS PRJ_GRP_ID, 
+			A.PRJ_ID, 
+			(SELECT SPR_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS SPR_ID, 
+			A.PROCESS_ID,
+			A.FLOW_ID,
+			A.FLOW_NM,
+			A.FLOW_LEFT,
+			A.FLOW_TOP,
+			A.FLOW_START_CD,
+			A.FLOW_DONE_CD,
+			A.FLOW_ESSENTIAL_CD,
+			A.FLOW_SIGN_CD,
+			A.FLOW_SIGN_STOP_CD,
+			A.FLOW_END_CD,
+			A.FLOW_WORK_CD,
+			A.FLOW_REVISION_CD,
+			A.FLOW_DPL_CD,
+			A.FLOW_AUTH_CD,
+			A.FLOW_TITLE_BG_COLOR,
+			A.FLOW_TITLE_COLOR,
+			A.USE_CD,
+			A.REG_DTM,
+			A.REG_USR_ID,
+			A.REG_USR_IP,
+			A.MODIFY_DTM,
+			A.MODIFY_USR_ID,
+			A.MODIFY_USR_IP
+			FROM prj1101 A
+			WHERE 1 = 1 
+			AND PRJ_ID = #prjId#
+			AND PROCESS_ID = #processId#
+			AND USE_CD = '01'
+	</insert>
+	
+	<insert id="prj1100DAO.insertPrj1102SnapShot" parameterClass="java.util.Map">
+	
+		INSERT INTO PRJ1102_SNP
+			SELECT 	(SELECT LIC_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS LIC_GRP_ID,
+				 	(SELECT PRJ_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS PRJ_GRP_ID,
+			   		A.PRJ_ID, 
+			   		(SELECT SPR_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS SPR_ID, 
+			   		A.PROCESS_ID, 
+			   		A.FLOW_ID, 
+			   		A.ITEM_ID, 
+			   		A.REQ_ID, 
+			   		A.ITEM_DIVISION, 
+			   		A.ITEM_NM,
+			   		A.ITEM_CODE, 
+			   		A.ITEM_COMMON_CODE, 
+			   		A.ITEM_PC_ROW_NUM,
+			   		A.ITEM_TABLET_ROW_NUM,
+			   		A.ITEM_MOBILE_ROW_NUM, 
+			   		A.ITEM_TYPE, 
+			   		A.ITEM_LENGTH, 
+			   		A.ITEM_ESSENTIAL_CD, 
+			   		A.ITEM_ACCEPT_CD, 
+			   		A.ITEM_ORD, 
+			   		A.USE_CD, 
+			   		A.REG_DTM, 
+			   		A.REG_USR_ID, 
+			   		A.REG_USR_IP, 
+			   		A.MODIFY_DTM, 
+			   		A.MODIFY_USR_ID, 
+			   		A.MODIFY_USR_IP 
+			FROM prj1102 A 
+			WHERE 1 = 1
+			AND	PRJ_ID = #prjId# 
+			AND USE_CD = '01'
+	</insert>
+	
+	<insert id="prj1100DAO.insertPrj1103SnapShot" parameterClass="java.util.Map">
+	
+		INSERT INTO PRJ1103_SNP
+			SELECT  (SELECT LIC_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS LIC_GRP_ID,
+				(SELECT PRJ_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS PRJ_GRP_ID,
+			   	A.PRJ_ID, 
+			   	(SELECT SPR_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS SPR_ID, 
+			   	A.PROCESS_ID, 
+			   	A.FLOW_ID, 
+			   	A.ITEM_ID, 
+			   	A.REQ_ID, 
+			   	A.ITEM_VALUE, 
+			   	A.ITEM_VALUE_NM, 
+			   	A.REG_DTM, 
+			   	A.REG_USR_ID, 
+			   	A.REG_USR_IP, 
+			   	A.MODIFY_DTM, 
+			   	A.MODIFY_USR_ID, 
+			   	A.MODIFY_USR_IP
+			FROM PRJ1103 A 
+			WHERE REQ_ID = #reqId#
+	</insert>
+ 	
+ 	<insert id="prj1100DAO.insertPrj1106SnapShot" parameterClass="java.util.Map">
+ 	
+	 	INSERT INTO PRJ1106_SNP
+			SELECT  (SELECT LIC_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS LIC_GRP_ID,
+				 	(SELECT PRJ_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS PRJ_GRP_ID,
+			   		A.PRJ_ID, 
+			   		(SELECT SPR_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS SPR_ID, 
+			   		A.PROCESS_ID, 
+			   		A.PROCESS_AUTH_TYPE_CD, 
+			   		A.PROCESS_AUTH_TARGET_ID, 
+			   		A.REG_DTM, A.REG_USR_ID, 
+			   		A.REG_USR_IP, 
+			   		A.MODIFY_DTM, 
+			   		A.MODIFY_USR_ID, 
+			   		A.MODIFY_USR_IP
+			FROM PRJ1106 A
+			WHERE 1 = 1
+			AND PRJ_ID = #prjId#
+			AND PROCESS_ID = #processId#
+ 	</insert>
+ 	
+ 	<insert id="prj1100DAO.insertPrj1107SnapShot" parameterClass="java.util.Map">
+ 	
+ 	INSERT INTO PRJ1107_SNP
+		SELECT  (SELECT LIC_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS LIC_GRP_ID,
+			 	(SELECT PRJ_GRP_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS PRJ_GRP_ID,
+		   		A.PRJ_ID, 
+		   		(SELECT SPR_ID FROM SPR1000 WHERE SPR_ID = #sprId#) AS SPR_ID,
+		   		A.PROCESS_ID, 
+		   		A.FLOW_ID, 
+		   		A.FLOW_NEXT_ID, 
+		   		A.REG_DTM, 
+		   		A.REG_USR_ID, 
+		   		A.REG_USR_IP, 
+		   		A.MODIFY_DTM, 
+		   		A.MODIFY_USR_ID, 
+		   		A.MODIFY_USR_IP
+		FROM PRJ1107 A
+		WHERE 1 = 1
+		AND PRJ_ID = #prjId#
+		AND	PROCESS_ID = #processId#
+ 	</insert>
 </sqlMap>

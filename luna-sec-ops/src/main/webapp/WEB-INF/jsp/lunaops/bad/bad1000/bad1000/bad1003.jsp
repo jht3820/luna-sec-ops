@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http:
 
 <form class="kt-form" id="bad1003Info">
 	<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
@@ -8,7 +7,6 @@
 			<input type="hidden" id="stmDsTypeCd" name="stmDsTypeCd" value='${param.stmDsTypeCd}'/>
 			<input type="hidden" id="stmRootYn" name="stmRootYn" value='${param.stmRootYn}'/>
 			<input type="hidden" name="paramRow" id="paramRow" value='${param.paramRow }' />
-			
 			<div class="kt-portlet__head-label" name="writerDiv" id="writerDiv"></div>
 		</div>
 		
@@ -196,11 +194,11 @@ var OSLBad1003Popup = function () {
         	
         	
     		maxStrg = rowData.stmFileStrg;
-    		if(maxStrg == null || maxStrg == ""){
+    		if($.osl.isNull(maxStrg)){
     			maxStrg = 0;			
     		}
     		maxCnt = parseInt(rowData.stmFileCnt);
-    		if(maxStrg == null || maxStrg == ""){
+    		if($.osl.isNull(maxStrg)){
     			maxCnt = 0;
     		}
     		
@@ -233,7 +231,7 @@ var OSLBad1003Popup = function () {
     				var uploadFiles = {};
     				
     				
-    				if(rowData.atchFileId==null || rowData.atchFileId==""){
+    				if($.osl.isNull(rowData.atchFileId)){
     					
     					$.osl.file.makeAtchfileId(function(data){
     						
@@ -472,10 +470,10 @@ var OSLBad1003Popup = function () {
     	});
 		
 		
-	   $("#tagWriter").on("propertychange paste input", function (e) {
+	   $("#tagWriter").on("propertychange change keyup paste input", function (e) {
 	        var self = $(this);
 	        
-	        if (e.key == "Enter" || e.keyCode == 32) {
+	        if ( e.keyCode == 13 || e.keyCode == 32) {
 	            var tagValue = self.val();
 	            
 	            if (tagValue != "") {
@@ -504,7 +502,7 @@ var OSLBad1003Popup = function () {
 	        }
 	    });
 	   
-	 
+		
 		$("#tagBtn").click(function(e){
 			var tagValue = $("#tagWriter").val();
 	            

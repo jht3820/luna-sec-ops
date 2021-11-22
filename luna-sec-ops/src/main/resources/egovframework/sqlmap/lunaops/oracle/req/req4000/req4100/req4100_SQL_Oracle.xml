@@ -1322,4 +1322,59 @@
 				AND A.FLOW_START_CD		= '01'
 		]]>
 	</select>
+	
+	<insert id="req4100DAO.insertReq4100SnapShot" parameterClass="java.util.Map">
+		INSERT INTO REQ4100_SNP
+			SELECT	#prjGrpId# AS PRJ_GRP_ID,
+					A.PRJ_GRP_ID, 
+					A.PRJ_ID, 
+					#sprId# AS SPR_ID, 
+					A.REQ_ID, 
+					A.REQ_CLS_ID, 
+					A.REQ_ORD, 
+					A.REQ_USR_ID, 
+					A.REQ_USR_NM, 
+					A.REQ_DTM, 
+					A.REQ_USR_DEPT_ID, 
+					A.REQ_USR_DEPT_NM, 
+					A.REQ_USR_EMAIL, 
+					A.REQ_USR_NUM, 
+					A.REQ_USR_IMG_ID, 
+					A.REQ_NM,
+					A.REQ_DESC, 
+					A.REQ_PW, 
+					A.REQ_CHARGER_ID, 
+					A.REQ_ST_DTM, 
+					A.REQ_ED_DTM, 
+					A.REQ_ST_DU_DTM, 
+					A.REQ_ED_DU_DTM, 
+					A.REQ_PRO_TYPE, 
+					A.REQ_NEW_TYPE, 
+					A.REQ_ACCEPT_TXT, 
+					A.REQ_TYPE_CD, 
+					A.ATCH_FILE_ID, 
+					A.CB_ATCH_FILE_ID, 
+					A.MILESTONE_ID, 
+					A.PROCESS_ID, 
+					A.FLOW_ID, 
+					A.USE_CD, 
+					A.REQ_KEY, 
+					A.REQ_MIDDLE_DONE_TXT, 
+					A.REQ_SIGN_CD, 
+					A.REQ_SIGN_PROCESS_ID, 
+					A.REQ_SIGN_FLOW_ID, 
+					A.REQ_SIGN_ORD, 
+					A.REG_DTM, 
+					A.REG_USR_ID, 
+					A.REG_USR_IP, 
+					A.MODIFY_DTM, 
+					A.MODIFY_USR_ID, 
+					A.MODIFY_USR_IP
+  			FROM REQ4100 A JOIN SPR1100 B
+		    ON (A.REQ_ID = B.REQ_ID AND A.PRJ_ID = B.PRJ_ID AND A.PRJ_GRP_ID = B.PRJ_GRP_ID AND B.LIC_GRP_ID = #licGrpId#)
+		    WHERE 1=1
+		    AND A.PRJ_GRP_ID = #prjGrpId#
+			AND A.PRJ_ID = #prjId#
+			AND B.SPR_ID = #sprId#
+	</insert>
 </sqlMap>

@@ -271,4 +271,35 @@ public class Prj1100DAO  extends ComOslitsAbstractDAO {
 	public List selectPrj1102FlwOptExistFileIdList(Map paramMap) throws Exception {
 		return (List) list("prj1100DAO.selectPrj1102FlwOptExistFileIdList", paramMap);
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1100SnapShot(Map paramMap) throws Exception {
+		insert("prj1100DAO.insertPrj1100SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1101SnapShot(Map paramMap) throws Exception {
+		insert("prj1100DAO.insertPrj1101SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1102SnapShot(Map paramMap) throws Exception {
+		insert("prj1100DAO.insertPrj1102SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1103SnapShot(Map paramMap) throws Exception {
+		insert("prj1100DAO.insertPrj1103SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1106SnapShot(Map paramMap) throws Exception {
+		insert("prj1100DAO.insertPrj1106SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1107SnapShot(Map paramMap) throws Exception {
+		insert("prj1100DAO.insertPrj1107SnapShot", paramMap);
+	}
+	
 }

@@ -199,7 +199,7 @@ input:-webkit-autofill,
   min-height: 30px !important; 
 }
 .osl-h-px-34{
-	height: 34px;
+	height: 34px !important;
 }
 .osl-h-px-35{
 	height: 35px;
@@ -207,8 +207,14 @@ input:-webkit-autofill,
 .osl-h-px-38{
 	height: 38px;
 }
+.osl-h-px-300{
+	height: 300px;
+}
 .osl-min-h-px--24 {
   min-height: 24px; 
+}
+.osl-min-h-px--32 {
+  min-height: 32px; 
 }
 .osl-min-h-px--50 {
   min-height: 50px; 
@@ -337,10 +343,11 @@ input:-webkit-autofill,
 }
 
 
-
-
 .osl-w-px-300{
 	width: 300px;
+}
+.osl-w-px-345{
+	width: 345px !important;
 }
 
 .osl-min-width-48{
@@ -366,6 +373,9 @@ input:-webkit-autofill,
 }
 .osl-min-w-px-130{
 	min-width: 130px;
+}
+.osl-w-px-34{
+	width: 34px !important;
 }
 .osl-w-px-70{
 	width: 70px !important;
@@ -401,6 +411,9 @@ input:-webkit-autofill,
 }
 
 
+.osl-line-height--30{
+	line-height: 30px !important;
+}
 .osl-line-height--38{
 	line-height: 38px;
 }
@@ -774,6 +787,12 @@ select[id^=usrOpt_] {
     overflow: hidden;
     transition-duration: 1s;
 }
+.osl-margin-3{
+	margin : 3px;
+}
+.osl-margin-auto{
+	margin: auto;
+}
 .osl-tab-content__folding-btn{
 	cursor: pointer;
 	height: 100%;
@@ -1082,8 +1101,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 }
 .flowchart-operator-mask.status03 {
     border: 2px outset #5867dd;
-    color: #5867dd;
-    opacity: 0.8;
+    color: #7985e4;
     font-size: 4rem;
 }
 .flowchart-operator-mask~.flowchart-operator-title > .flowchart-operator-menu {
@@ -2017,6 +2035,9 @@ label.required:after {
 .osl-outline--secondary-t-1{
 	border-top: 1px solid #e1e1ef;
 }
+.osl-outline--secondary-b-1{
+	border-bottom: 1px solid #e1e1ef;
+}
 .osl-outline--secondary-b{
 	border-bottom: 2px solid #e1e1ef;
 }
@@ -2039,6 +2060,20 @@ label.required:after {
 	width: 0;
 }
 
+.osl-gallery-img{
+	width: 100%;
+	height: 100%;
+ 	max-width: 300px; 
+	max-height: 300px;
+}
+.osl-gallery-img__item>img{
+	width: 100%;
+	height : auto !important;
+	max-width: -webkit-fill-available !important;
+}
+.osl-tag__list-div{
+	overflow: hidden;
+}
 .osl-icon-transform__scale--150{
 	transform: scale(1.5);
 }
@@ -2061,7 +2096,7 @@ label.required:after {
 	width: 40%;
 	line-height: 42px;
 	float:left;
-	text-align: center;
+	
 }
 .osl-portlet__head-label>div:nth-child(2){
 	text-align: right;

@@ -651,6 +651,17 @@
 		]]>
 	</insert>
 	
+	<select id="spr1000DAO.selectSpr1003SprProcessList" parameterClass="java.util.Map">
+		
+		SELECT *
+		FROM SPR1200
+		WHERE 	1 = 1
+		AND 	LIC_GRP_ID 	= #licGrpId#
+		AND		PRJ_GRP_ID	= #prjGrpId#
+		AND 	PRJ_ID		= #prjId#
+		AND		SPR_ID 		= #sprId#
+	</select>
+	
 	<select id="spr1000DAO.selectSpr1000SprTerm" parameterClass="java.util.Map" resultClass="egovMap">
 		
 		SELECT 	TRUNC(A.SPR_ED_DT - A.SPR_ST_DT) AS DISTANCE
