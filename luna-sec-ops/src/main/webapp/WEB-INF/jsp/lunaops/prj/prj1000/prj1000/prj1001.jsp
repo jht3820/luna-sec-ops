@@ -813,7 +813,7 @@ var OSLPrj1001Popup = function () {
 					
 					datatable.insertData();
 					
-					
+					datatable.reload();
 					$.osl.datatable.list["prj1001PrjAuthNoneUsrTable"].targetDt.reload();
 					
    				}
