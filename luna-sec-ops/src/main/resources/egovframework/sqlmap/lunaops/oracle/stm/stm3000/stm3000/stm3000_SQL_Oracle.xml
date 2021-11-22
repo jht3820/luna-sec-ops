@@ -360,8 +360,8 @@
 		  	USR_IMG_ID			= #usrImgId#,
 		  	REQ_MAIN_COLOR		= #reqMainColor#,
 			REQ_FONT_COLOR		= #reqFontColor#,
-			ABS_ST_DTM			= #absStDtm#
-			ABS_ED_DTM			= #absEdDtm#
+			ABS_ST_DTM			= #absStDtm#,
+			ABS_ED_DTM			= #absEdDtm#,
 		]]>
 		<isNotEmpty property="enUsrPw">
 			USR_PW				= #enUsrPw#,

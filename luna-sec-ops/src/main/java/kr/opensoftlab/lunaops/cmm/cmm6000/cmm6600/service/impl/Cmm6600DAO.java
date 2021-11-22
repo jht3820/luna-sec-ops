@@ -87,7 +87,13 @@ public class Cmm6600DAO extends ComOslitsAbstractDAO {
 	
 	
 	@SuppressWarnings("rawtypes")
-	public Map selectCmm6600CmmInfo(Map paramMap) throws Exception{
-		return (Map) select("cmm6600DAO.selectCmm6600CmmInfo", paramMap);
+	public Map selectCmm6601CmmInfo(Map paramMap) throws Exception{
+		return (Map) select("cmm6600DAO.selectCmm6601CmmInfo", paramMap);
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectCmm6600SignLineList(Map paramMap) throws Exception{
+		return (List<Map>) list("cmm6600DAO.selectCmm6600SignLineList", paramMap);
 	}
 }
