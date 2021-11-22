@@ -15,27 +15,25 @@
 			</div>
 		</div>
 		<div class="kt-portlet__body">
-		<div class="row">
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-				<input type="text" class="form-control" id="armTitle" name="armTitle" autocomplete="off" readonly="readonly">
+			<div class="form-group kt-margin-b-10">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text" data-lang-cd="arm1002.label.title">제목</span> 
+					</div>
+					<input type="text" class="form-control" id="armTitle" name="armTitle" autocomplete="off" readonly="readonly">
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="form-group">
 				<textarea class="kt-hide" name="armContent" id="armContent"></textarea>
 			</div>
-		</div>
-		<div class="row" id="fileDiv" name="fileDiv">
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-				<div class="form-group kt-margin-t-10 form-group-last">
-					<label>
-						<i class="fa fa-file-upload kt-margin-r-5"></i>
-						<span data-lang-cd="arm1002.label.attachments">첨부 파일</span> 
-					</label>
-					<div class="kt-uppy osl-max-h-px-260 fileReadonly" name="fileListDiv" id="fileListDiv">
-						<div class="kt-uppy__dashboard"></div>
-						<div class="kt-uppy__progress"></div>
-					</div>
+			<div class="form-group-last " id="fileDiv" name="fileDiv">
+				<label>
+					<i class="fa fa-file-upload kt-margin-r-5"></i>
+					<span data-lang-cd="arm1002.label.attachments">첨부 파일</span> 
+				</label>
+				<div class="kt-uppy osl-max-h-px-260 fileReadonly" name="fileListDiv" id="fileListDiv">
+					<div class="kt-uppy__dashboard"></div>
+					<div class="kt-uppy__progress"></div>
 				</div>
 			</div>
 		</div>
@@ -158,10 +156,12 @@ var OSLArm1002Popup = function () {
 				
 		    	
 				formEditList.push($.osl.editorSetting("armContent", {
+					formValidate: formValidate,
 					toolbar: false,
+					disableResizeEditor: false,
 					disableDragAndDrop: true,
+					disabledEditor: true,
 					'minHeight': 190,
-					disableResizeEditor: false
 					}
 				));
 		    	
@@ -171,7 +171,7 @@ var OSLArm1002Popup = function () {
 		    	fileUploadObj = $.osl.file.uploadSet("fileListDiv",{
 		    		maxFileSize: "${requestScope.fileSumMaxSize}",
 		    		meta: {"atchFileId": atchFileId, "fileSn": 0},
-		    		height: 190,
+		    		height: 260,
 		    		isDraggingOver: false,
 		    		fileDownload: true,
 		    		fileReadonly: true

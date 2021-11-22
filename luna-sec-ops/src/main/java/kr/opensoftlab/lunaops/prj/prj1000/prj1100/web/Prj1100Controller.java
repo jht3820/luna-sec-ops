@@ -18,11 +18,9 @@ import egovframework.com.cmm.EgovMessageSource;
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import kr.opensoftlab.lunaops.cmm.cmm4000.cmm4000.service.Cmm4000Service;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.Prj1100Service;
 import kr.opensoftlab.lunaops.stm.stm4000.stm4000.service.Stm4000Service;
-import kr.opensoftlab.sdf.util.ModuleUseCheck;
 import kr.opensoftlab.sdf.util.OslStringUtil;
 import kr.opensoftlab.sdf.util.PagingUtil;
 import kr.opensoftlab.sdf.util.RequestConvertor;
@@ -529,7 +527,6 @@ public class Prj1100Controller {
 	}
 	
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/prj/prj1000/prj1100/savePrj1100ProcessDataInfo.do")
 	public ModelAndView savePrj1100ProcessDataInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 

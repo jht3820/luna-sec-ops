@@ -15,6 +15,8 @@
 				SUBT1.PROCESS_ID,
 				SUBT1.PROCESS_NM,
 				SUBT1.PROCESS_DESC,
+				SUBT1.PROCESS_CONFIRM_CD,
+				SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'FLW00005', SUBT1.PROCESS_CONFIRM_CD, '1') AS PROCESS_CONFIRM_NM,
 				SUBT1.PROCESS_TRANSFER_CD,
 				SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'CMM00005', SUBT1.PROCESS_TRANSFER_CD, '1') AS PROCESS_TRANSFER_NM,
 				SUBT1.PROCESS_DISABLED_CD,
@@ -40,6 +42,7 @@
 					A.PROCESS_ID,
 					A.PROCESS_NM,
 					A.PROCESS_DESC,
+					A.PROCESS_CONFIRM_CD,
 					A.PROCESS_TRANSFER_CD,
 					A.PROCESS_DISABLED_CD,
 					A.USE_CD,
@@ -75,6 +78,9 @@
 				</isNotEmpty>
 				<isNotEmpty property="delCd">
 					AND A.DEL_CD = #delCd#
+				</isNotEmpty>
+				<isNotEmpty property="processConfirmCd">
+					AND A.PROCESS_CONFIRM_CD = #processConfirmCd#
 				</isNotEmpty>
 				<isNotEmpty property="processTransferCd">
 					AND A.PROCESS_TRANSFER_CD = #processTransferCd#
@@ -451,7 +457,7 @@
 			INSERT INTO PRJ1100
 			(
 				PRJ_ID,					PROCESS_ID
-				,PROCESS_NM,			PROCESS_DESC
+				,PROCESS_NM,			PROCESS_DESC,			PROCESS_CONFIRM_CD
 				,PROCESS_TRANSFER_CD,	PROCESS_DISABLED_CD
 				,USE_CD,				DEL_CD,					PROCESS_ORD
 				,REG_DTM,				REG_USR_ID,				REG_USR_IP
@@ -460,7 +466,7 @@
 			VALUES
 			(
 				#prjId#,				#newProcessId#
-				,#processNm#,			#processDesc#
+				,#processNm#,			#processDesc#,			#processConfirmCd#
 				,#processTransferCd#,	'02'
 				,'01',					'02',					#processOrd#
 				,SYSDATE,				#regUsrId#,				#regUsrIp#
@@ -490,6 +496,9 @@
 			</isNotEmpty>
 			<isNotEmpty property="useCd">
 				, A.USE_CD = #useCd#
+			</isNotEmpty>
+			<isNotEmpty property="processConfirmCd">
+				, A.PROCESS_CONFIRM_CD = #processConfirmCd#	
 			</isNotEmpty>
 			<isNotEmpty property="processTransferCd">
 				, A.PROCESS_TRANSFER_CD = #processTransferCd#	

@@ -192,7 +192,7 @@
 						closeConfirm: false,
 						modalSize: "lg",
 					};
-					$.osl.layerPopupOpen("/usr/usr1000/usr1100/selectUsr1003View.do",data,options);
+					$.osl.layerPopupOpen("/usr/usr1000/usr1000/selectUsr1003View.do",data,options);
 					break;
 					
 				
@@ -3382,39 +3382,63 @@
 					
 					
 					$(ktDatatableTarget).on("kt-datatable--on-layout-updated",function(evt,config){
+						var targetFieldStr = '';
+						var targetFieldFn = {};
+						
 						
 						$.each(targetConfig.columns, function(idx, map){
 							
 							if(map.hasOwnProperty("onclick")){
-								var targetObj = $("#"+targetId+" td.kt-datatable__cell[data-field="+map.field+"]");
 								
-								
-								targetObj.off("click");
-								targetObj.click(function(event){
-									
-									if(typeof map.onclick == "function"){
-										
-										event.cancelable = true;
-										event.stopPropagation();
-										event.preventDefault();
-										event.returnValue = false;
-										
-										
-										var rowNum = $(this).parent("tr").data("row");
-										var rowData = null;
-										try{
-											rowData = datatableInfo.getDataSet()[rowNum];
-										}catch(e){
-											
-											console.log(e);
-										}
-										
-										
-										map.onclick(rowData, event);
+								if(typeof map.onclick == "function"){
+									if(!$.osl.isNull(targetFieldStr)){
+										targetFieldStr += ',';
 									}
-								});
+									targetFieldStr += "td.kt-datatable__cell[data-field="+map.field+"] ";
+									targetFieldFn[map.field] = map.onclick;
+								}
 							}
 						});
+						var targetObj = $("#"+targetId);
+						
+						if(!$.osl.isNull(targetFieldStr)){
+							
+							targetObj.off("click",targetFieldStr);
+							targetObj.on("click",targetFieldStr, function(event){
+								
+								event.cancelable = true;
+								event.stopPropagation();
+								event.preventDefault();
+								event.returnValue = false;
+								
+								
+								var fieldId = $(this).data("field");
+								
+								
+								var rowNum = $(this).parent("tr").data("row");
+								
+								
+								var detailElem = $(this).parents(".kt-datatable__row-detail");
+								if(detailElem.length > 0){
+									rowNum = $(this).parents(".kt-datatable__row-detail").prev(".kt-datatable__row").data("row");
+								}
+								
+								var rowData = null;
+								try{
+									rowData = datatableInfo.getDataSet()[rowNum];
+								}catch(e){
+									
+									console.log(e);
+								}
+								
+								
+								if(targetFieldFn.hasOwnProperty(fieldId)){
+									targetFieldFn[fieldId](rowData, event);
+								}
+								
+							});
+						}
+						
 						
 						if(!$.osl.isNull(targetConfig.cardUiTarget)){
 							var targetElem = targetConfig.cardUiTarget.find("input[type=checkbox]:checked");

@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import egovframework.rte.fdl.idgnr.EgovIdGnrService;
-import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.Prj1100Service;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.Prj1300Service;
 
@@ -59,6 +57,25 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		paramMap.put("processId", processId);
 		
 		
+		paramMap.put("flowNm", "최종 완료");
+		paramMap.put("flowLeft", "20");
+		paramMap.put("flowTop", "20");
+		paramMap.put("flowStartCd", "02");
+		paramMap.put("flowDoneCd", "01");
+		paramMap.put("flowEssentialCd", "02");
+		paramMap.put("flowSignCd", "02");
+		paramMap.put("flowSignStopCd", "02");
+		paramMap.put("flowEndCd", "02");
+		paramMap.put("flowWorkCd", "02");
+		paramMap.put("flowRevisionCd", "02");
+		paramMap.put("flowDplCd", "02");
+		paramMap.put("flowAuthCd", "02");
+		paramMap.put("flowTitleBgColor", "02");
+		paramMap.put("flowTitleColor", "02");
+		paramMap.put("useCd", "02");
+		prj1100DAO.insertPrj1101FlowInfo(paramMap);
+		
+		
 		String usrIdList = (String) paramMap.get("usrIdList");
 		if(usrIdList != null && !"[]".equals(usrIdList)) {
 			
@@ -86,11 +103,14 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		prj1100DAO.updatePrj1100ProcessInfo(paramMap);
 		
 		
-		prj1100DAO.deletePrj1100ProcessAuthInfo(paramMap);
-		
-		
 		String usrIdList = (String) paramMap.get("usrIdList");
+				
+				
+		
 		if(usrIdList != null && !"[]".equals(usrIdList)) {
+			
+			prj1100DAO.deletePrj1100ProcessAuthInfo(paramMap);
+			
 			
 			JSONArray jsonArray = new JSONArray(usrIdList);
 			

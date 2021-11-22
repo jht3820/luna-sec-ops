@@ -9,10 +9,10 @@ if (!('remove' in Element.prototype)) {
 }
 
 jQuery(function ($) {
-
-
+// the widget definition, where "custom" is the namespace,
+// "colorize" the widget name
     $.widget("flowchart.flowchart", {
-        
+        // default options
         options: {
             canUserEditLinks: true,
             canUserMoveOperators: true,
@@ -75,7 +75,7 @@ jQuery(function ($) {
         positionRatio: 1,
         globalId: null,
 
-        
+        // the constructor
         _create: function () {
             if (typeof document.__flowchartNumber == 'undefined') {
                 document.__flowchartNumber = 0;
@@ -94,7 +94,10 @@ jQuery(function ($) {
             this.objs.layers.links = $('<svg class="flowchart-links-layer"></svg>');
             this.objs.layers.links.appendTo(this.element);
 
-            
+            /**
+             * 2020-11-09 진주영
+             * - 작업흐름 이동 제한 유무에 따른 class 추가
+             */
             var canUserMoveOperatorsClass = 'flowchart-operators-move--dsiabled';
             if(this.options.canUserMoveOperators){
             	canUserMoveOperatorsClass = "flowchart-operators-move--enabled";
@@ -106,7 +109,7 @@ jQuery(function ($) {
             this.objs.layers.temporaryLink = $('<svg class="flowchart-temporary-link-layer"></svg>');
             this.objs.layers.temporaryLink.appendTo(this.element);
 
-            var shape = document.createElementNS("http:
+            var shape = document.createElementNS("http://www.w3.org/2000/svg", "line");
             shape.setAttribute("x1", "0");
             shape.setAttribute("y1", "0");
             shape.setAttribute("x2", "0");
@@ -379,18 +382,18 @@ jQuery(function ($) {
             linkData.internal.els.fromSmallConnector = fromSmallConnector;
             linkData.internal.els.toSmallConnector = toSmallConnector;
 
-            var overallGroup = document.createElementNS("http:
+            var overallGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
             this.objs.layers.links[0].appendChild(overallGroup);
             linkData.internal.els.overallGroup = overallGroup;
 
-            var mask = document.createElementNS("http:
+            var mask = document.createElementNS("http://www.w3.org/2000/svg", "mask");
             var maskId = "fc_mask_" + this.globalId + "_" + this.maskNum;
             this.maskNum++;
             mask.setAttribute("id", maskId);
 
             overallGroup.appendChild(mask);
 
-            var shape = document.createElementNS("http:
+            var shape = document.createElementNS("http://www.w3.org/2000/svg", "rect");
             shape.setAttribute("x", "0");
             shape.setAttribute("y", "0");
             shape.setAttribute("width", "100%");
@@ -399,24 +402,24 @@ jQuery(function ($) {
             shape.setAttribute("fill", "white");
             mask.appendChild(shape);
 
-            var shape_polygon = document.createElementNS("http:
+            var shape_polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
             shape_polygon.setAttribute("stroke", "none");
             shape_polygon.setAttribute("fill", "black");
             mask.appendChild(shape_polygon);
             linkData.internal.els.mask = shape_polygon;
 
-            var group = document.createElementNS("http:
+            var group = document.createElementNS("http://www.w3.org/2000/svg", "g");
             group.setAttribute('class', 'flowchart-link');
             group.setAttribute('data-link_id', linkId);
             overallGroup.appendChild(group);
 
-            var shape_path = document.createElementNS("http:
+            var shape_path = document.createElementNS("http://www.w3.org/2000/svg", "path");
             shape_path.setAttribute("stroke-width", this.options.linkWidth.toString());
             shape_path.setAttribute("fill", "none");
             group.appendChild(shape_path);
             linkData.internal.els.path = shape_path;
 
-            var shape_rect = document.createElementNS("http:
+            var shape_rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
             shape_rect.setAttribute("stroke", "none");
             shape_rect.setAttribute("mask", "url(#" + maskId + ")");
             group.appendChild(shape_rect);
@@ -523,53 +526,63 @@ jQuery(function ($) {
             var $operator = $('<div class="flowchart-operator" data-operator-id="'+operatorData.properties.id+'"></div>');
             $operator.addClass(infos.class);
             
-            
+            /*
+            ** OSL-추가 스크립트
+            * - 작업흐름 데이터로 아이콘 추가 기능 표시 - 2020-10-26 진주영
+            * - 타이틀 배경,글씨 색상 - 2020-11-04 진주영
+            * - 작업흐름 mask status 작업 - 2020-11-09 진주영 
+            */
             var flowTitleBgColor = operatorData.properties.flowTitleBgColor;
             var flowTitleColor = operatorData.properties.flowTitleColor;
             
-            
+            //옵션
             var flowSignCd = operatorData.properties.flowSignCd;
             var flowSignStopCd = operatorData.properties.flowSignStopCd;
             var flowRevisionCd = operatorData.properties.flowRevisionCd;
             var flowDplCd = operatorData.properties.flowDplCd;
+            var flowDoneCd = operatorData.properties.flowDoneCd;
             
-            
+            //status
             var flowStatus = operatorData.properties.flowStatus;
             
             var flowIconStr = '';
             var flowHideClass = '';
             
-            
+            //결재
             if(flowSignCd == "01"){
             	flowIconStr += "<li class='fa fa-file-signature' title='결재'></li>";
             }
-            
+            //결재 반려종료 유무
 			if(flowSignStopCd == "01"){
 				flowIconStr += '<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>';
 			}
-            
+            //리비전
             if(flowRevisionCd == "01"){
             	flowIconStr += "<li class='fa fa-code' title='리비전 저장유무'></li>";
             }
-            
+            //배포계획 체크
 			if(flowDplCd == "01"){
 				flowIconStr += '<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>';
+			}
+			//최종완료
+			if(flowDoneCd == "01"){
+				flowIconStr += '<li class="fa fa-flag-checkered" title="최종 완료 단계"></li>';
 			}
 			
             if(flowIconStr == ''){
             	flowHideClass = 'kt-hide';
             }
             
-            
+            //status에 따라 mask 추가하기 (01 - 선택 가능 작업흐름, 02 - 변경 이력 있는 작업흐름, 03 - 현재 작업흐름, 04 - 이동 불가 작업흐름)
             if(!$.osl.isNull(flowStatus) && flowStatus != "01"){
             	var $operator_mask = $('<div class="flowchart-operator-mask status'+flowStatus+'"></div>');
             	var operator_mask_html = '';
             	
-            	
+            	//현재 작업흐름 마커
             	if(flowStatus == "03"){
             		operator_mask_html = '<i class="fa fa-hand-point-up"></i>';
             	}
-            	
+            	//진행 불가 mask
             	else if(flowStatus == "04"){
             		operator_mask_html = '';
             	}
@@ -578,7 +591,7 @@ jQuery(function ($) {
             	$operator_mask.appendTo($operator);
             }
             
-            
+            //선택 시 아이콘 띄우기
             var $operator_nextIcon = $('<div class="flowchart-operator-nextIcon"></div>');
         	var operator_nextIcon_html = '';
         	$operator_nextIcon.html('<i class="fa fa-angle-double-right"></i>');
@@ -589,23 +602,24 @@ jQuery(function ($) {
             $operator_function.appendTo($operator);
             
             var $operator_title = $('<div class="flowchart-operator-title" style="background-color:'+flowTitleBgColor+';color:'+flowTitleColor+';"></div>');
-            var dropdownEditMenuList = '';
+            var dropdownEditMenu = '';
 
-            
-            if(operatorData.properties.hasOwnProperty("editable") && operatorData.properties.editable === true){
-            	dropdownEditMenuList = 
-	            		'<div class="dropdown-item" data-flow-action="update"><i class="fa fa fa-edit kt-font-primary"></i>'+$.osl.lang("process.menu.update")+'</div>'
-	            		+'<div class="dropdown-item" data-flow-action="delete"><i class="fa fa fa-trash kt-font-primary"></i>'+$.osl.lang("process.menu.delete")+'</div>';
-            }
-            $operator_title.html(
-            		'<div class="flowchart-operator-title__lebel">'+infos.title+'</div>'
-	            	+'<div class="flowchart-operator-menu">'
+            //edit인경우 dropdown class //최종완료인경우 삭제 없음
+            if(operatorData.properties.hasOwnProperty("editable") && operatorData.properties.editable === true && flowDoneCd != "01"){
+            	dropdownEditMenu = 
+            		'<div class="flowchart-operator-menu">'
 						+'<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" style="background-color:'+flowTitleBgColor+';color:'+flowTitleColor+';" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1"><i class="fa fa-bars osl-padding-r0"></i></button>'
 						+'<div class="dropdown-menu dropdown-menu-right">'
-							+dropdownEditMenuList
-							+'<div class="dropdown-item" data-flow-action="detail"><i class="fa fa fa-info-circle kt-font-primary"></i>'+$.osl.lang("process.menu.detail")+'</div>'
+	            			+'<div class="dropdown-item" data-flow-action="update"><i class="fa fa fa-edit kt-font-primary"></i>'+$.osl.lang("process.menu.update")+'</div>'
+	            			+'<div class="dropdown-item" data-flow-action="delete"><i class="fa fa fa-trash kt-font-primary"></i>'+$.osl.lang("process.menu.delete")+'</div>'
+			            	+'<div class="dropdown-item" data-flow-action="detail"><i class="fa fa fa-info-circle kt-font-primary"></i>'+$.osl.lang("process.menu.detail")+'</div>'
 						+'</div>'
-					+'</div>'
+					+'</div>';
+            }
+            
+            $operator_title.html(
+            		'<div class="flowchart-operator-title__lebel">'+infos.title+'</div>'
+					+dropdownEditMenu
             );
             $operator_title.appendTo($operator);
 
@@ -615,13 +629,18 @@ jQuery(function ($) {
                 $operator_body.appendTo($operator);
             }
 
-            
+            /*//////////////////////////////////////////*/
             var $operator_inputs_outputs = $('<div class="flowchart-operator-inputs-outputs"></div>');
 
             var $operator_inputs = $('<div class="flowchart-operator-inputs"></div>');
 
             var $operator_outputs = $('<div class="flowchart-operator-outputs"></div>');
 
+            //최종완료인경우 output없음
+            if(flowDoneCd == "01"){
+            	$operator_outputs = $('');
+            }
+            
             if (this.options.verticalConnection) {
                 $operator_inputs.prependTo($operator);
                 $operator_outputs.appendTo($operator);
@@ -693,7 +712,7 @@ jQuery(function ($) {
             $operator_connector.data('sub_connector', subConnector);
 
             var $operator_connector_label = $('<div class="flowchart-operator-connector-label osl-flowchart__label"></div>');
-            
+            //$operator_connector_label.text(connectorInfos.label.replace('(:i)', subConnector + 1));
             $operator_connector_label.html('<i class="fa fa-arrow-right"></i>');
             $operator_connector_label.appendTo($operator_connector);
 
@@ -766,8 +785,8 @@ jQuery(function ($) {
                 }
             }
 
-            
-            
+            // Small fix has been added in order to manage eventual zoom
+            // http://stackoverflow.com/questions/2930092/jquery-draggable-with-zoom-problem
             if (this.options.canUserMoveOperators) {
                 var pointerX;
                 var pointerY;
@@ -822,7 +841,7 @@ jQuery(function ($) {
         _connectorClicked: function (operator, connector, subConnector, connectorCategory) {
             if (connectorCategory == 'outputs') {
                 var d = new Date();
-                
+                // var currentTime = d.getTime();
                 this.lastOutputConnectorClicked = {
                     operator: operator,
                     connector: connector,
@@ -959,7 +978,7 @@ jQuery(function ($) {
             return this.selectedLinkId;
         },
 
-        
+        // Found here : http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
         _shadeColor: function (color, percent) {
             var f = parseInt(color.slice(1), 16), t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = f >> 16, G = f >> 8 & 0x00FF, B = f & 0x0000FF;
             return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);

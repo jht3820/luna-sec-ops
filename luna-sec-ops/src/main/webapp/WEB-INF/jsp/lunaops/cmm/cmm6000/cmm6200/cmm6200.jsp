@@ -530,6 +530,9 @@ var OSLCmm6200Popup = function () {
 		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
+			beforeWheel: function(e) {
+		    	return true;
+			}
 		});
 		
 		
@@ -931,6 +934,7 @@ var OSLCmm6200Popup = function () {
 						params:{
 							paramPrjId: "",
 							useCd: "01",
+							processConfirmCd: "02",
 							isFlowCnt: true
 						}
 					}
@@ -958,11 +962,7 @@ var OSLCmm6200Popup = function () {
 				clickCheckbox: true
 			},
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false,
-    				template: function(row){
-    					return row.processId;
-    				}	
-    			},
+				{field: 'processId', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'processNm', title: '프로세스명', textAlign: 'center', width: 100, search: true},
 				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"date",
 					template: function (row) {
