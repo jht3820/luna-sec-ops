@@ -13,10 +13,8 @@ import javax.annotation.Resource;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -248,7 +246,6 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			{
 				String reqId = reqKey.next().toString();
 				JSONObject usrInfo = reqUsrList.getJSONObject(reqId);
-				
 				paramMap.put("reqId", reqId);
 				paramMap.put("reqChargerId", usrInfo.getString("usrId"));
 				req4100DAO.updateReq4101ReqSubInfo(paramMap);
@@ -314,58 +311,19 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		
 		paramMap.put("spr", dateformat.format(today));
 		spr1000DAO.updateSpr1000Info(paramMap);
-		JSONParser jsonParse = new JSONParser();
 
 		
-		org.json.simple.JSONArray reqInfo = (org.json.simple.JSONArray) jsonParse.parse((String) paramMap.get("reqInfo"));
-		
-		String licGrpId = (String) paramMap.get("licGrpId");
-		
-		String prjGrpId = (String) paramMap.get("prjGrpId");
-		
-		String prjId = (String) paramMap.get("prjId");
-		
-		String sprId = (String) paramMap.get("sprId");
-		
-		List<String> reqIdList = new ArrayList();
 		
 		
 		spr1000DAO.insertStm3000SnapShot(paramMap);
 		
-		for(int i = 0 ; i < reqInfo.size(); i++) {
-			org.json.simple.JSONObject req = (org.json.simple.JSONObject) reqInfo.get(i);
-			Map mapReq = new ObjectMapper().readValue(req.toString(), Map.class);
-			mapReq.put("licGrpId", licGrpId);
-			mapReq.put("prjGrpId", prjGrpId);
-			mapReq.put("prjId", prjId);
-			mapReq.put("sprId", sprId);
-			
-			
-			spr1000DAO.insertReq4100SnapShot(mapReq);
-			
-			spr1000DAO.insertReq6001SnapShot(mapReq);
-			reqIdList.add((String) mapReq.get("reqId"));
-		}
+		spr1000DAO.insertReq4100SnapShot(paramMap);
 		
+		spr1000DAO.insertReq6001SnapShot(paramMap);
 		
-		List<Map> reqGrpList = req3000DAO.selectReq3000ReqIsInReqGrp(reqIdList);
+		spr1000DAO.insertReq3000SnapShot(paramMap);
 		
-		if(reqGrpList != null) {
-			for(Map reqGrp: reqGrpList) {
-				reqGrp.put("licGrpId", licGrpId);
-				reqGrp.put("prjGrpId", prjGrpId);
-				reqGrp.put("prjId", prjId);
-				reqGrp.put("sprId", sprId);
-				
-				if(reqGrp != null) {
-					
-					spr1000DAO.insertReq3000SnapShot(reqGrp);
-					
-					spr1000DAO.insertReq3001SnapShot(reqGrp);
-				}
-			}
-		}
-		
+		spr1000DAO.insertReq3001SnapShot(paramMap);
 		
 		spr1000DAO.insertPrj1100SnapShot(paramMap);
 		
@@ -378,6 +336,8 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		spr1000DAO.insertPrj1106SnapShot(paramMap);
 		
 		spr1000DAO.insertPrj1107SnapShot(paramMap);
+		
+		
 		
 		return rtnValue;
 	}

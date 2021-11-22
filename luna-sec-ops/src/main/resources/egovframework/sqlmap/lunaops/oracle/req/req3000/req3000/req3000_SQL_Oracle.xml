@@ -691,6 +691,7 @@
 		AND		REQ_GRP_ID = #reqGrpId#
 	</delete>
 	
+	
 	<select id="req3000DAO.selectReq3000ReqIsInReqGrp" parameterClass="java.util.List" resultClass="egovMap">
 	
 		SELECT A.REQ_GRP_ID 
