@@ -312,9 +312,16 @@
 				    ,	TO_CHAR(B.MODIFY_DTM, 'YYYY-MM-DD HH24:MI:SS') AS MODIFY_DTM
 				    ,	B.MODIFY_USR_ID
 				    ,	B.MODIFY_USR_IP
-				FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+				FROM SPR1100 A 
+				<isEqual property="sprType" compareValue="03">
+					INNER JOIN SNP_REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+				</isEqual>
+				<isNotEqual property="sprType" compareValue="03">
+					INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+				</isNotEqual>
 				WHERE 1=1
 				AND A.LIC_GRP_ID = #licGrpId#
+				AND A.PRJ_GRP_ID = #prjGrpId#
 				AND A.PRJ_ID = #prjId#
 				AND A.SPR_ID = #sprId#
 			) SUBT1
@@ -587,9 +594,17 @@
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL2(B.REQ_ED_DTM,TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24,1) , 0) ELSE 0 END AS END_TIME_REQUIRED
 			      , NVL(A.SPR_POINT,0) AS SPR_POINT
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL(A.SPR_POINT,0) ELSE 0  END AS END_SPR_POINT
-			    FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
+			    FROM SPR1100 A 
+			    <isEqual property="sprType" compareValue="03">
+			    	INNER JOIN SNP_REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
+			    </isEqual>
+			    <isNotEqual property="sprType" compareValue="03">
+			    	INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+			    </isNotEqual>
+			    INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
 			    WHERE 	1=1
 					AND A.LIC_GRP_ID = #licGrpId#
+					AND A.PRJ_GRP_ID = #prjGrpId#
 					AND A.PRJ_ID = #prjId#
 					AND A.SPR_ID = #sprId#
 			) T
@@ -609,6 +624,7 @@
 		AND		A.REQ_ID = #reqId#
     </select>
     
+    
     <select id="spr1000DAO.selectSpr1000ChartInfo" parameterClass="java.util.Map" resultClass="egovMap">
     		
     	SELECT 
@@ -623,7 +639,14 @@
 	 			, COUNT(*) AS END_REQ_CNT
 	        	, SUM(SPR_POINT) AS SPR_POINT
 	        	, SUM(NVL2(B.REQ_ED_DTM, TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24) , 0)) AS TIME_REQUIRED
-			    FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
+			    FROM SPR1100 A 
+			   <isEqual property="sprType" compareValue="03">
+			    	INNER JOIN SNP_REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
+			    </isEqual>
+			    <isNotEqual property="sprType" compareValue="03">
+			    	INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+			    </isNotEqual>
+			    INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
 			    WHERE 	1=1
 					AND A.LIC_GRP_ID = #licGrpId#
 					AND A.PRJ_ID = #prjId#
@@ -632,6 +655,7 @@
 	        GROUP BY TO_CHAR(REQ_ED_DTM, 'YYYY-MM-DD')
 	    ) T
     </select> 
+    
     
 	<insert id="spr1000DAO.insertSpr1003SprProcessList" parameterClass="java.util.Map">
 		
@@ -673,13 +697,18 @@
 		AND A.PRJ_ID = #prjId#
 		AND A.SPR_ID = #data#
 	</select>
-		
+	
 	<select id="spr1000DAO.selectSpr1000VelocityChartInfo" parameterClass="java.util.Map" resultClass="egovMap">
 		
 		SELECT SUM(A.SPR_POINT) AS SPR_POINT
 		FROM SPR1100 A 
-			INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
-			INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
+		<isEqual property="sprType" compareValue="03">
+		    	INNER JOIN SNP_REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
+	    </isEqual>
+	    <isNotEqual property="sprType" compareValue="03">
+		    	INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+		</isNotEqual> 
+		INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
 		WHERE 	1=1
 		AND A.LIC_GRP_ID = #licGrpId#
 		AND A.PRJ_ID = #prjId#
