@@ -6,7 +6,9 @@
 	<input type="hidden" name="type" id="type" value="${param.type}">
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" name="prjEvtId" id="prjEvtId" value="${param.paramPrjEvtId}">
+	<c:if test="${param.type eq 'view'}">
 	<input type="hidden" name="evtType" id="evtType" value="${param.evtType}">
+	</c:if>
 	
 	<input type="hidden" name="evtStartDate" id="evtStartDate" value="${param.selCalendarStartDate}"/>
 	<input type="hidden" name="evtEndDate" id="evtEndDate" value="${param.selCalendarEndDate}"/>
@@ -29,6 +31,20 @@
 					</div>
 				</div>
 				<c:if test="${param.type ne 'view'}">
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<div class="form-group">
+							<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj5001.label.evtType">프로젝트 일정 분류</span></label>
+							<select class="form-control kt-select2" id="evtType" name="evtType" opttype="-1" required>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<div class="form-group">
+							<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i><span data-lang-cd="prj5001.label.evtUseCd">개인 일정 공개여부</span></label>
+							<select class="form-control kt-select2" id="evtUseCd" name="evtUseCd" opttype="-1" required disabled>
+							</select>
+						</div>
+					</div>
 					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="form-group">
 							<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj5001.label.guideColor">가이드 색상</span></label>
@@ -165,6 +181,14 @@ var OSLPrj5001Popup = function () {
 			disabled = true;
 			$("#evtNm").prop("readonly",true);
 			$("#evtDesc").prop("readonly",true);
+		}else{
+			$("#evtType").change(function(){
+				if( $(this).val() == "03" ){
+					$("#evtUseCd").prop("disabled", false);
+				}else{
+					$("#evtUseCd").prop("disabled", true);
+				}
+			});
 		}
  		
 		
@@ -203,6 +227,13 @@ var OSLPrj5001Popup = function () {
 		    		});
 		    	});
 			}
+		}else if(type != "view"){
+			var commonCodeArr = [
+	 			{mstCd: "PRJ00020", useYn: "Y",targetObj: "#evtType", comboType:"OS"}, 
+	 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#evtUseCd", comboType:"OS"}, 
+			];
+			
+			$.osl.getMulticommonCodeDataForm(commonCodeArr , false);
 		}
     };
     
@@ -315,6 +346,21 @@ var OSLPrj5001Popup = function () {
    				
    				$.osl.setDataFormElem(prjEvtInfo, formId);
    		    	
+   		    	if(prjEvtInfo.evtType=="03"){
+   		    		$("#evtUseCd").prop("disabled", false);
+   		    	}
+   		    	
+		    	$("#evtType").attr("data-osl-value", prjEvtInfo.evtType);
+		    	$("#evtUseCd").attr("data-osl-value", prjEvtInfo.evtUseCd);
+		    	
+				var commonCodeArr = [
+		 			{mstCd: "PRJ00020", useYn: "Y",targetObj: "#evtType", comboType:"OS"}, 
+		 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#evtUseCd", comboType:"OS"}, 
+				];
+		   	
+				
+				$.osl.getMulticommonCodeDataForm(commonCodeArr , false);
+				
    				
    				$("#evtRange").val(prjEvtInfo.evtStartFullDate+" ~ "+prjEvtInfo.evtEndFullDate);
    				if(type == "update"){

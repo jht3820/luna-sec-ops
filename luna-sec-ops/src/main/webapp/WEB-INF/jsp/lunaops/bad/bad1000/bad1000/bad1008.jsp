@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<form class="kt-form" id="bad1002Info" autocomplete="off">
+<form class="kt-form" id="bad1008Info">
 	<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 		<div class="kt-portlet__head kt-portlet__head--lg">
 			<input type="hidden" id="stmDsTypeCd" name="stmDsTypeCd" value='${param.stmDsTypeCd}'/>
@@ -16,17 +16,29 @@
 			<input type="hidden" name="atchFileId" id="atchFileId" value="" /> 
 			<div class="kt-portlet__head-label col-6 row" name="writerDiv" id="writerDiv"></div>
 		</div>
-		<div class="kt-portlet__body">
-			<div class="row kt-margin-0">
+		<div class="kt-portlet__body kt-padding-b-10">
+			<div class="row">
 				
 				<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12" name="leftDiv" id="leftDiv">
-					<div name="badTitleDiv" id="badTitleDiv" class="kt-margin-b-10">
-						<label class="required"><i class="fa flaticon2-open-text-book kt-margin-r-5"></i><span data-lang-cd="bad1002.label.title">제목</span></label>
+					<div name="badTitleDiv" id="badTitleDiv" class="kt-margin-b-20">
+						<label class="required"><i class="fa flaticon2-open-text-book kt-margin-r-5"></i><span data-lang-cd="bad1008.label.title">제목</span></label>
 						<input type="text" class="form-control" name="badTitle" id="badTitle" autocomplete="off" required />
 					</div>
-					<div name="badContentDiv" id="badContentDiv" class="kt-margin-b-10">
-						<label class="required"><i class="fa flaticon2-edit kt-margin-r-5"></i><span data-lang-cd="bad1002.label.content">내용</span></label>
-						<textarea class="kt-hide" name="badContent" id="badContent" autocomplete="off" required></textarea>
+					
+					
+					<div class="form-group row kt-margin-b-15 kt-hide" name="badFileOption" id="badFileOption">
+						<div class="col-4 kt-font-bolder">
+							<label class="required"><i class="fa fa-file-upload kt-margin-r-5"></i><span data-lang-cd="bad1008.label.attachments">파일 첨부</span></label>
+						</div>
+						<div class="col-12 kt-padding-r-10 kt-uppy" style="max-height: 180px;" name="bad1008FileUpload" id="bad1008FileUpload"  required>
+							<div class='kt-uppy__dashboard'></div>
+							<div class='kt-uppy__progress'></div>
+						</div>
+					</div>
+					
+					<div name="badContentDiv" id="badContentDiv" class="kt-margin-b-15">
+						<label class="kt-margin-0"><i class="fa flaticon2-edit kt-margin-r-5"></i><span data-lang-cd="bad1008.label.content">내용</span></label>
+						<textarea class="kt-hide" name="badContent" id="badContent" autocomplete="off"></textarea>
 					</div>
 				</div>
 				
@@ -36,12 +48,12 @@
 						<label class="kt-checkbox kt-checkbox--bold kt-checkbox--success"><input type="checkbox" name="badNtcYnCd" id="badNtcYnCd">
 							<span></span>
 						</label>
-						<span data-lang-cd="bad1002.label.noticeCheck">공지사항 사용</span>
+						<span data-lang-cd="bad1008.label.noticeCheck">공지사항 사용</span>
 				 	</div>
 			 		
 				 	<div class="kt-margin-l-35 form-group kt-hide osl-bad_box" name="ntcOption" id="ntcOption">
 				 		<div class="input-group kt-input-icon pull-right">
-					 		<label class="input-group-addon kt-margin-5 kt-padding-5"><span data-lang-cd="bad1002.label.noticeDate">공지 기간</span></label>
+					 		<label class="input-group-addon kt-margin-5 kt-padding-5"><span data-lang-cd="bad1008.label.noticeDate">공지 기간</span></label>
 					 		<div class="input-group">
 					 			<input type="text" class="form-control small" autocomplete="off" name="badNtcRange" id="badNtcRange">
 					 			<div class="input-group-append">
@@ -55,7 +67,7 @@
 					 		<label class="kt-checkbox kt-checkbox--bold kt-checkbox--success"><input type="checkbox" name="badNtcTopYnCd" id="badNtcTopYnCd">
 								<span></span>
 							</label>
-							<span data-lang-cd="bad1002.label.noticeDateIgnore">공지기간 무시</span>
+							<span data-lang-cd="bad1008.label.noticeDateIgnore">공지기간 무시</span>
 				 		</div>
 				 	</div>
 				 	
@@ -63,16 +75,16 @@
 				 		<label class="kt-checkbox kt-checkbox--bold kt-checkbox--success"><input type="checkbox" name="badPwYnCd" id="badPwYnCd">
 							<span></span>
 						</label>
-						<span data-lang-cd="bad1002.label.secretCheck">비밀글 사용</span>
+						<span data-lang-cd="bad1008.label.secretCheck">비밀글 사용</span>
 				 	</div>
 				 	
 				 	<div class="kt-margin-l-35 kt-margin-b-10  kt-hide osl-bad_box" name="pwOption" id="pwOption">
 				 		<div class="input-group kt-margin-b-10">
-					 		<label class='input-group-addon mt-auto mb-auto osl-min-width-80 required'><span data-lang-cd="bad1003.label.password">PW</span></label>
+					 		<label class='input-group-addon mt-auto mb-auto osl-min-width-80 required'><span data-lang-cd="bad1008.label.password">PW</span></label>
 				 			<input type="password" class="form-control" name="badPw" id="badPw" autocomplete="new-password" regexstr="^[a-z0-9]{4,12}$" maxlength="12" regexalert="알파벳과 숫자 조합 4-12자 이내" required/> 
 				 		</div>
 				 		<div class="input-group">
-					 		<label class='input-group-addon mt-auto mb-auto osl-min-width-80 required'><span data-lang-cd="bad1003.label.passwordCheck">PW 확인</span></label>
+					 		<label class='input-group-addon mt-auto mb-auto osl-min-width-80 required'><span data-lang-cd="bad1008.label.passwordCheck">PW 확인</span></label>
 				 			<input type="password" class="form-control" name="badPwCheck" id="badPwCheck" autocomplete="new-password" regexstr="^[a-z0-9]{4,12}$" maxlength="12" regexalert="알파벳과 숫자 조합 4-12자 이내" equalTo="#badPw" required/>
 			 			</div>
 				 	</div>
@@ -81,22 +93,12 @@
 				 		<label class="kt-checkbox kt-checkbox--bold kt-checkbox--success"><input type="checkbox" name="badCmtYnCd" id="badCmtYnCd">
 							<span></span>
 						</label>
-						<span data-lang-cd="bad1002.label.commentCheck">댓글 허용</span>
+						<span data-lang-cd="bad1008.label.commentCheck">댓글 허용</span>
 				 	</div>
-				 	
-					<div class="form-group row kt-hide" name="badFileOption" id="badFileOption">
-						<div class="col-4 kt-font-bolder kt-padding-l-20">
-							<i class="fa fa-file-upload kt-margin-r-5"></i><span data-lang-cd="bad1002.label.attachFile">파일 첨부</span>
-						</div>
-						<div class="col-12 kt-margin-t-10 kt-padding-l-20 kt-padding-r-10 kt-uppy osl-max-height--260" name="bad1002FileUpload" id="bad1002FileUpload">
-							<div class='kt-uppy__dashboard'></div>
-							<div class='kt-uppy__progress'></div>
-						</div>
-					</div>
 					
 					<div class="form-group row kt-margin-b-10 kt-hide" name="badTagOption" id="badTagOption">
 						<div class="col-4 kt-font-bolder kt-padding-l-20">
-							<i class="fa fa-hashtag kt-margin-r-5"></i><span data-lang-cd="bad1002.label.tag">태그</span>
+							<i class="fa fa-hashtag kt-margin-r-5"></i><span data-lang-cd="bad1008.label.tag">태그</span>
 						</div>
 						<div class="input-group kt-margin-t-10 kt-margin-l-20 kt-margin-r-10">
 							<div class="input-group-prepend">
@@ -104,7 +106,7 @@
 							</div>
 							<input type="text" class="form-control col-5" autocomplete="off" name="tagWriter" id="tagWriter" maxlength="30" />
 							<div class="input-group-prepend">
-								<span class="input-group-button btn btn-brand" id="tagBtn" name="tagBtn"><span data-lang-cd="bad1002.button.submit">등록</span></span>
+								<span class="input-group-button btn btn-brand" id="tagBtn" name="tagBtn"><span data-lang-cd="bad1008.button.submit">등록</span></span>
 							</div>
 						</div>
 						
@@ -115,7 +117,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-brand" id="bad1002InsertSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="bad1002.button.insertSubmit">등록</span></button>
+			<button type="button" class="btn btn-brand" id="bad1008InsertSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="bad1008.button.insertSubmit">등록</span></button>
 			<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 		</div>
 	</div>
@@ -123,8 +125,8 @@
 
 <script>
 "use strict";
-var OSLBad1002Popup = function () {
-	var formId = 'bad1002Info';
+var OSLBad1008Popup = function () {
+	var formId = 'bad1008Info';
 
 	
 	var formValidate = $.osl.validate(formId);
@@ -141,192 +143,32 @@ var OSLBad1002Popup = function () {
 	
 	var fileUploadObj;
     var documentSetting = function () {
-		
     	
-    	$("#bad1002InsertSubmit > span").text($.osl.lang("bad1002.button.insertSubmit"));
+    	
+    	$("#bad1008InsertSubmit > span").text($.osl.lang("bad1008.button.insertSubmit"));
     	$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
     	
     	
-		$("#badTitle").attr("placeholder",$.osl.lang("bad1002.placeholder.badTitle"));
-		$("#badContent").attr("placeholder",$.osl.lang("bad1002.placeholder.badContent"));
-		$("#badPw").attr("placeholder",$.osl.lang("bad1002.placeholder.password"));
-		$("#badPwCheck").attr("placeholder",$.osl.lang("bad1002.placeholder.password"));
+		$("#badTitle").attr("placeholder",$.osl.lang("bad1008.placeholder.badTitle"));
+		$("#badContent").attr("placeholder",$.osl.lang("bad1008.placeholder.badContent"));
+		$("#badPw").attr("placeholder",$.osl.lang("bad1008.placeholder.password"));
+		$("#badPwCheck").attr("placeholder",$.osl.lang("bad1008.placeholder.password"));
 		
 		
-		$("#badPw").attr("regexerrorstr", $.osl.lang("bad1002.regex.password"));
-		$("#badPwCheck").attr("regexerrorstr", $.osl.lang("bad1002.regex.password"));
+		$("#badPw").attr("regexerrorstr", $.osl.lang("bad1008.regex.password"));
+		$("#badPwCheck").attr("regexerrorstr", $.osl.lang("bad1008.regex.password"));
     	
-    	
-    	if($("#paramStmOptionCnt").val() == "" || $("#paramStmOptionCnt").val()==0){
-    		$("#leftDiv").attr("style","width:100% !important");
+		
+		if($("#paramStmOptionCnt").val() == '0'){
+			$("#leftDiv").removeClass("col-xl-6");
+    		$("#leftDiv").addClass("col-xl-12");
     		$("#rightDiv").addClass("kt-hide");
-    	}
-    	var maxStrg = $("#paramStmFileStrg").val();
-		if(maxStrg == null || maxStrg == ""){
-			maxStrg = 0;			
 		}
-		var maxCnt = parseInt($("#paramStmFileCnt").val());
-		if(maxStrg == null || maxStrg == ""){
-			maxCnt = 0;
-		}
+
 		
-		fileUploadObj = $.osl.file.uploadSet("bad1002FileUpload",{
-			url: '/bad/bad1000/bad1000/insertBad1002BadAtchFileInfo.do',
-			meta: {"atchFileId": $("#atchFileId").val(), "fileSn": 0},
-			maxFileSize: maxStrg,
-			maxNumberOfFiles: maxCnt,
-			height: 260,
-			
-			
-			onBeforeUpload: function(files){
-				var rtnValue = files;
-				var uploadFiles = {};
-				
-				
-				$.osl.file.makeAtchfileId(function(data){
-					if(data.errorYn == "Y"){
-						$.osl.toastr(data.message);
-						rtnValue = [];
-					}else{
-						$("#atchFileId").val(data.atchFileIdString);
-					 	fileUploadObj.setMeta({atchFileId: data.atchFileIdString});
-					 
-						
-	    				$.each(files, function(idx, map){
-	    					map.meta.atchFileId = data.atchFileIdString;
-	    					
-	    					var jsonTmp = {};
-							jsonTmp[map.id] = map;
-							uploadFiles = $.extend(uploadFiles, jsonTmp);
-	    				});
-						
-	    				rtnValue = uploadFiles;
-	    				
-						
-						submitInsertAction();
-					}
-				});
-			},
-			
-			onBeforeFileAdded: function(currentFile, files){
-				if(currentFile.source != "database" && currentFile.source != "remove"){
-					var newNm = new Date().format("ssms")+"_"+currentFile.name;
-					currentFile.name = newNm;
-					currentFile.meta.name = newNm;
-					currentFile.meta.atchFileId = $("#atchFileId").val();
-					
-	    			
-	    			var fileSn = fileUploadObj.getState().meta.fileSn;
-	    			
-	    			currentFile.meta.fileSn = fileSn;
-	    			fileUploadObj.setMeta({fileSn: (fileSn+1)});
-				}
-			}
-		});
-    	
-    	
-   		setOption();
-
-    	
-    	$("#bad1002InsertSubmit").click(function(){
-    		var form = $('#'+formId);    		
-    		
-    		if (!form.valid()) {
-    			return;
-    		}
-    		
-    		
-    		var badTitle = $("#badTitle").val().trim();
-    		if(badTitle == null || badTitle == ""){
-    			$("#badTitle").val("");
-    			$("#badTitle").focus();
-    			return;
-    		}
-    		
-    		
-			if($(".uppy-Dashboard-files").children("li").length > Number($("#paramStmFileCnt").val())){
-				$.osl.alert($.osl.lang("bad1002.formCheck.fileCntMessage", $("#paramStmFileCnt").val()), {"type":"warning"});
-				return;
-			}
-    					
-     		var localData = {};
-     		
-     		
-     		localData.badTitle = $("#badTitle").val();
-     		localData.badContent = $("#badContent").val();
-     		
-   			if($("#paramStmOptionCnt").val() > 0){
-           		
-          		if($("#badNtcYnCd").is(":checked")==true){
-          			
-          			var stdtm = ($("#badNtcRange").val()).split(" - ")[0];
-          			var eddtm = ($("#badNtcRange").val()).split(" - ")[1];
-      	    		
-          			localData.badNtcStdtm = stdtm;
-          			localData.badNtcEddtm = eddtm;
-          				
-          			
-      	    		if($("#badNtcTopYnCd").is(":checked")==true){
-      	    			localData.badNtcType = '03';
-      	    		}else{
-      	    			localData.badNtcType = '02';
-      	    		}
-      			}
-          		
-          		
-          		if($("#badPwYnCd").is(":checked")==true){
-          			if($("#badPw").val() != null && $("#badPw").val() != ""){
-          				if($("#badPw").val()==$("#badPwCheck").val()){
-              				localData.badPw = $("#badPw").val();
-              			}else{
-              				$.osl.alert($.osl.lang("bad1002.formCheck.passwordMatching"));
-              				$("#badPw").val("");
-              				$("#badPwCheck").val("");
-              				$("#badPw").focus();
-              				return false;
-              			}
-          			}else{
-          				$.osl.alert($.osl.lang("bad1002.formCheck.passwordMessage"));
-          				$("#badPw").focus();
-          				return false;
-          			}
-          		}
-
-          		
-          		localData.tagList = JSON.stringify(tag);
-          		
-      			
-          		if($("#badCmtYnCd").is(":checked")==true){
-          			localData.badCmtYn = "01";
-          		}else{
-          			localData.badCmtYn = "02";
-          		}
-          		
-      			
-          		$.osl.confirm($.osl.lang("bad1002.insert"),{"html" : true},function(result) {
-          	        if (result.value) {
-          	        	data = localData;
-          	        	data.menuId = $("#menuId").val();
-          	        	fileUploadObj.upload();
-          	        }
-          		});
-          		
-     		}else{ 
-       			data = localData;
-  	        	data.menuId = $("#menuId").val();
-	   			
-	   			
-	   			$.osl.confirm($.osl.lang("bad1002.insert"),{"html" : true},function(result){
-	   				if(result.value){
-						submitInsertAction();
-	   				}
-	   			});
-     		}
-    	});
-    }
-    
- 	
-    
+    	var fileType;
+    	if($("#stmTypeCd").val()=="03"){
+    		fileType = ['image
     var setOption = function(){
 		
 		
@@ -347,8 +189,18 @@ var OSLBad1002Popup = function () {
 		
 		
 		
-    	formEditList.push($.osl.editorSetting("badContent", {formValidate: formValidate, 'minHeight': 380}));
-    	$("#badContent").removeClass("kt-hide");
+    	formEditList.push($.osl.editorSetting("badContent", {formValidate: formValidate, 'minHeight': 180}));
+    	
+    	var noteEditor = $("#badContent").siblings(".note-editor");
+    	var pictureBtn = noteEditor.find(".note-btn-group.btn-group.note-insert").addClass("kt-hide");
+		$("#badContent").removeClass("kt-hide");
+		
+		
+		if(!$.osl.isNull($("#paramStmFileCnt").val()) && $("#paramStmFileCnt").val()!= 0){
+			$("#badFileOption").removeClass("kt-hide");
+		}else{
+			$("#badFileOption").addClass("kt-hide");
+		}
 		
     	if($("#paramStmOptionCnt").val()>0){
 			
@@ -400,13 +252,6 @@ var OSLBad1002Popup = function () {
 	    	});
 			
 			
-			if($("#paramStmFileCnt").val()  != null && $("#paramStmFileCnt").val() != "" && $("#paramStmFileCnt").val()!= 0){
-				$("#badFileOption").removeClass("kt-hide");
-			}else{
-				$("#badFileOption").addClass("kt-hide");
-			}
-			
-			
 			if($("#paramStmTagYnCd").val() == "01"){
 				$("#badTagOption").removeClass("kt-hide");
 				
@@ -437,7 +282,7 @@ var OSLBad1002Popup = function () {
            	                    tag.push(tagValue);
            	                 	$("#tagWriter").val("");
            	                } else {
-           	                	$.osl.toastr($.osl.lang("bad1002.formCheck.tagMatching"), {"type" : "warning"});
+           	                	$.osl.toastr($.osl.lang("bad1008.formCheck.tagMatching"), {"type" : "warning"});
            	                    $("#tagWriter").val("");
            	                }
            	            }
@@ -445,7 +290,6 @@ var OSLBad1002Popup = function () {
            	            e.preventDefault(); 
            	        }
            	    });
-	           	   
            	 
           	 	
         		$("#tagBtn").click(function(e){
@@ -501,8 +345,8 @@ var OSLBad1002Popup = function () {
 				$("#badCmtDiv").addClass("kt-hide");
 			}
     	}
-	}
-	
+	};
+
     
     var submitInsertAction = function(){
 		
@@ -527,8 +371,8 @@ var OSLBad1002Popup = function () {
    				
    				$.osl.layerPopupClose();
    				
-	   			
-   				OSLBad1000Popup.reload();
+   				
+   				OSLBad1006Popup.reload();
 			}
 		});
 		
@@ -545,6 +389,6 @@ var OSLBad1002Popup = function () {
 }();
 
 $.osl.ready(function(){
-	OSLBad1002Popup.init();
+	OSLBad1008Popup.init();
 });
 </script>

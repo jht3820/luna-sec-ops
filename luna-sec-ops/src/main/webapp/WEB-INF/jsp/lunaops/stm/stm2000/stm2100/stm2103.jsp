@@ -6,41 +6,39 @@
 	<div class="kt-padding-20" id="listDiv" name="listDiv">
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLStm2103Popup = function () {
 
-	//메뉴 아이디
+	
 	var menuId = $("#menuId").val();
     var documentSetting = function () {
     	selectBadChargerList(menuId);
     };
 
-	/**
-	* function 명 	: selectBadChargerList
-	* function 설명	: 게시판 담당자 정보를 조회하여 팝업에 세팅한다.
-	*/
+	
     var selectBadChargerList = function(menuId){
 		var data = {"menuId" : menuId};
 		
-		//AJAX 설정
+		
   		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/stm/stm2000/stm2100/selectStm2101BadChargerListAjax.do'/>", "async": false}
 				, data);
 		
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				var info = data.badChargerList;
 				
 				var str = "";
-				//사용자 목록 표출하기
+				
 				$.each(info, function(index, value){
+					
 					if(value.authTypeCd=="01"){
 						str += "<div class='row kt-padding-t-5 kt-padding-b-5'>"
 									+"<div class='kt-user-card-v2__pic kt-media kt-media--xl kt-media--circle kt-padding-5'>"
@@ -55,20 +53,20 @@ var OSLStm2103Popup = function () {
 										+"</div>"
 									+"</div>"
 								+"</div>";
-					}else{
-						str += "<div class='row kt-padding-t-5 kt-padding-b-5 usrInfo' data-user='"+value.authTargetId+"'>"
+					}else{ 
+						str += "<div class='row kt-padding-t-5 kt-padding-b-5 usr-Info' data-user='"+value.authTargetId+"'>"
 									+"<div class='kt-user-card-v2__pic kt-media kt-media--xl kt-media--circle kt-padding-5'>"
 										+"<img src='"+$.osl.user.usrImgUrlVal(value.authTargetImgId)+"' onerror='this.src=\"/media/users/default.jpg\"'/>"
 									+"</div>"
-									+"<div class='kt-user-card-v2__details kt-padding-5 float-left'>"
+									+"<div class='kt-user-card-v2__details osl-user-card-v2__details-mobile kt-padding-5 float-left'>"
 										+"<div class='kt-font-boldest kt-margin-b-10'>"
 											+ value.authTargetNm + "("+value.authTargetId+")"
 										+"</div>"
 										+"<div class='kt-margin-b-10'>"
 											+ value.authTargetEmail
 										+"</div>"
-										+"<div>"
-											+ "<span class='kt-font-sm'>" + value.authTargetDeptNm +"</span>"
+										+"<div class='kt-font-sm'>"
+											+ value.authTargetDeptNm
 										+"</div>"
 									+"</div>"
 								+"</div>";
@@ -77,13 +75,13 @@ var OSLStm2103Popup = function () {
 				
 				$("#listDiv").html(str);
 				
-				$(".usrInfo").click(function(){
+				$(".usr-Info").click(function(){
 					$.osl.user.usrInfoPopup($(this).data("user"));
 				});
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
     }
 	
