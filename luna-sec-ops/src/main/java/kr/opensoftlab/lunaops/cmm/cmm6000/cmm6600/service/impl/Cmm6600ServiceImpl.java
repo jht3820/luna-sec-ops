@@ -34,7 +34,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 
 	
 	@Override
-	public void saveCmm6600SignLine(Map<String, String> paramMap) throws Exception {
+	public String saveCmm6600SignLine(Map<String, String> paramMap) throws Exception {
 		
 		String singUsrInfList = (String) paramMap.get("signUsrInfList");
 		String signLineId = cmm6600DAO.selectCmm6600NewSignLineId(paramMap);
@@ -114,6 +114,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				}
 			}
 		}
+		return signLineId;
 		
 	}
 
@@ -315,6 +316,15 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	public int select6600MaxOrd(Map paramMap) throws Exception {
 		
 		return cmm6600DAO.select6600MaxOrd(paramMap);
+	}
+
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Map selectCmm6600CmmInfo(Map paramMap) throws Exception {
+		
+		cmm6600DAO.selectCmm6600CmmInfo(paramMap);
+		return null;
 	}
 }
 

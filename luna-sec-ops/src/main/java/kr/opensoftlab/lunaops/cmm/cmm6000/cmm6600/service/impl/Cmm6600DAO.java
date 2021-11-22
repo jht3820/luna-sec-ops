@@ -74,12 +74,20 @@ public class Cmm6600DAO extends ComOslitsAbstractDAO {
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
 	public int select6600MaxOrd(Map paramMap) throws Exception{
 		return (int) select("cmm6600DAO.selectCmm6600MaxOrd", paramMap);
 	}
 	
 	
+	@SuppressWarnings("rawtypes")
 	public String selectCmm6600NewSignLineId(Map paramMap) throws Exception{
 		return (String) select("cmm6600DAO.selectCmm6600NewSignLineId", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public Map selectCmm6600CmmInfo(Map paramMap) throws Exception{
+		return (Map) select("cmm6600DAO.selectCmm6600CmmInfo", paramMap);
 	}
 }
