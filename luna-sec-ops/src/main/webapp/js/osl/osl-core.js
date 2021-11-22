@@ -192,7 +192,7 @@
 						closeConfirm: false,
 						modalSize: "lg",
 					};
-					$.osl.layerPopupOpen("/usr/usr1000/usr1100/selectUsr1003View.do",data,options);
+					$.osl.layerPopupOpen("/usr/usr1000/usr1000/selectUsr1003View.do",data,options);
 					break;
 					
 				
@@ -346,52 +346,6 @@
 					maxNumberOfFiles: 10,
 					minNumberOfFiles: 0,
 					allowedFileTypes: null,	
-					locale:Uppy.locales.ko_KR,
-					meta: {},
-					onBeforeUpload: $.noop,
-					onBeforeFileAdded: $.noop,
-				};
-				
-				
-				config = $.extend(true, defaultConfig, config);
-				
-				var targetObj = $("#"+targetId);
-				if(targetObj.length > 0){
-					rtnObject = Uppy.Core({
-						targetId: targetId,
-						autoProceed: config.autoProceed,
-						restrictions: {
-							maxFileSize: ((1024*1024)*parseInt(config.maxFileSize)),
-							maxNumberOfFiles: config.maxNumberOfFiles,
-							minNumberOfFiles: config.minNumberOfFiles,
-							allowedFileTypes: config.allowedFileTypes
-						},
-						locale:config.locale,
-						meta: config.meta,
-						onBeforeUpload: function(files){
-							return config.onBeforeUpload(files);
-						},
-						onBeforeFileAdded: function(currentFile, files){
-							
-							if(currentFile.source != "database" && config.fileReadonly){
-								$.osl.toastr($.osl.lang("file.error.fileReadonly"),{type:"warning"});
-								return false;
-							}
-							return config.onBeforeFileAdded(currentFile, files);
-						},
-						debug: config.debug,
-						logger: config.logger,
-						fileDownload: config.fileDownload
-					});
-					
-					rtnObject.use(Uppy.Dashboard, config);
-					rtnObject.use(Uppy.XHRUpload, { endpoint: config.url,formData: true });
-				}
-				
-				return rtnObject;
-			},
-			
-			
 			makeAtchfileId: function(callback){
 				
 				var ajaxObj = new $.osl.ajaxRequestAction(
@@ -2069,51 +2023,65 @@
         							
         							if(map.fvrUseCd == '01'){
     									fvrUse = 'osl-favorites--active';
-    								}        							
+    								}       
+        							
+        							var usrDetailEvt = "";
+        							if($.osl.isNull(map.reqUsrId)){
+        								usrDetailEvt = "$.osl.alert('시스템에 등록되지 않은 사용자 입니다.');"
+        							}else{
+        								usrDetailEvt = '$.osl.user.usrInfoPopup(\''+map.reqUsrId+'\');'
+        							}
+        							
+        									
         							
         							prjGrpStr +=
-        								 '	<div class="kt-portlet osl-charge-requirements '+cardUi+'" data-prj-grp-id="'+map.prjGrpId+'" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">'
-										+'		<div class="kt-portlet__head ">'
-										+'			<div class="kt-portlet__head-label">'
-										+'				<h3 class="kt-portlet__head-title osl-charge-requirements__head-title" data-toggle="kt-tooltip" data-skin="brand" title="" data-original-title="['+$.osl.escapeHtml(map.reqOrd)+'] '+$.osl.escapeHtml(map.reqNm)+'">['+$.osl.escapeHtml(map.reqOrd)+'] '+$.osl.escapeHtml(map.reqNm)+'</h3>'
-										+'			</div>'
-										+'			<div class="kt-portlet__head-toolbar">'
-										+'				<i class="kt-nav__link-icon flaticon-star osl-charge-flaticon-star '+fvrUse+'" data-fvr-data1="'+$.osl.escapeHtml(map.reqId)+'" data-fvr-type="05" data-fvr-id="'+map.fvrId+'" onclick="$.osl.favoritesEdit(event,this);$.osl.datatable.list.chargeReqTable.targetDt.reload();"></i>'
-										+'			</div>'
-										+'		</div>'
-										+'		<div class="kt-portlet__body osl-padding-b-7">'
-										+'			<div class="kt-portlet__content osl-charge-requirements__body"  data-toggle="kt-tooltip" data-skin="brand" title="" data-original-title="'+$.osl.escapeHtml(map.reqDesc)+'">'
-										+'				'+$.osl.escapeHtml(map.reqDesc)+''
-										+'			</div>'
-										+'			<div class="kt-align-right osl-margin-t-1rm">'
-										+'				<i class="fa fa-key"></i>'
-						        		+'				<i class="fa fa-file-signature"></i>'
-						        		+'				<i class="far fa-stop-circle"></i>'
-						        		+'				<i class="fa fa-sign-out-alt"></i>'
-						        		+'				<i class="fa fa-code-branch"></i>'
-						        		+'				<i class="fa fa-code"></i>'
-						        		+'				<i class="fa fa-puzzle-piece"></i>'
-						        		+'				<i class="fa fa-user-shield"></i>'
-										+'			</div>'
-										+'		</div>'
-										+'		<div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right" style="display: flex;justify-content: space-between;">'
-										+'			<div class="osl-charge-requirements__footer-label" style="display: flex;align-items: center;-webkit-box-align: center;" onclick="$.osl.user.usrInfoPopup(\''+map.reqUsrId+'\');">'
-										+'				'+$.osl.user.usrImgSet(map.reqUsrImgId, usrData)+''
-										+'			</div>'
-										+'			<div class="osl-charge-requirements__footer-toolbar" style="display: flex;align-content: flex-end;">'
-										+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqProcessBtn" data-prj-id="'+map.prjId+'" data-req-pro-type="'+map.reqProType+'" data-req-nm="'+map.reqNm+'" data-req-id="'+map.reqId+'">업무화면</a>'
-										+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqDetailBtn" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">상세보기</a>'
-										+'			</div>'
-										+'		</div>'
-										+'	</div>';
-        						});
-        						
-        						
-        						
-        						$("#chargeReqCardTable").html(prjGrpStr);
-        						KTApp.initTooltips();
-        						
-        						
+	       								 '	<div class="kt-portlet osl-charge-requirements '+cardUi+'" data-prj-grp-id="'+map.prjGrpId+'" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">'
+											+'		<div class="kt-portlet__head ">'
+											+'			<div class="kt-portlet__head-label">'
+											+'				<h3 class="kt-portlet__head-title osl-charge-requirements__head-title" data-toggle="kt-tooltip" data-skin="brand" title="" data-original-title="['+$.osl.escapeHtml(map.reqOrd)+'] '+$.osl.escapeHtml(map.reqNm)+'">['+$.osl.escapeHtml(map.reqOrd)+'] '+$.osl.escapeHtml(map.reqNm)+'</h3>'
+											+'			</div>'
+											+'			<div class="kt-portlet__head-toolbar">'
+											+'				<i class="kt-nav__link-icon flaticon-star osl-charge-flaticon-star '+fvrUse+'" data-fvr-data1="'+$.osl.escapeHtml(map.reqId)+'" data-fvr-type="05" data-fvr-id="'+map.fvrId+'" onclick="$.osl.favoritesEdit(event,this);$.osl.datatable.list.chargeReqTable.targetDt.reload();"></i>'
+											+'			</div>'
+											+'		</div>'
+											+'		<div class="kt-portlet__body osl-padding-b-7">'
+											+'			<div class="kt-portlet__content osl-charge-requirements__body"  data-toggle="kt-tooltip" data-skin="brand" title="" data-original-title="'+$.osl.escapeHtml(map.reqDesc)+'">'
+											+'				'+$.osl.escapeHtml(map.reqDesc)+''
+											+'			</div>'
+											+'			<div class="kt-align-right osl-margin-t-1rm">'
+											+'				<i class="fa fa-key"></i>'
+							        		+'				<i class="fa fa-file-signature"></i>'
+							        		+'				<i class="far fa-stop-circle"></i>'
+							        		+'				<i class="fa fa-sign-out-alt"></i>'
+							        		+'				<i class="fa fa-code-branch"></i>'
+							        		+'				<i class="fa fa-code"></i>'
+							        		+'				<i class="fa fa-puzzle-piece"></i>'
+							        		+'				<i class="fa fa-user-shield"></i>'
+											+'			</div>'
+											+'		</div>'
+											+'		<div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right" style="display: flex;justify-content: space-between;">'
+											+'			<div class="osl-charge-requirements__footer-label" style="display: flex;align-items: center;-webkit-box-align: center;" onclick="'+usrDetailEvt+'">'
+											+'				'+$.osl.user.usrImgSet(map.reqUsrImgId, usrData)+''
+											+'			</div>'
+											+'			<div class="osl-charge-requirements__footer-toolbar" style="display: flex;align-content: flex-end;">'
+											+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqProcessBtn  kt-hide" data-prj-id="'+map.prjId+'" data-req-pro-type="'+map.reqProType+'" data-req-nm="'+map.reqNm+'" data-req-id="'+map.reqId+'">업무화면</a>'
+											+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqDetailBtn" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">상세보기</a>'
+											+'			</div>'
+											+'		</div>'
+											+'	</div>';
+	       						});
+	       						
+	       						
+	       						
+	       						$("#chargeReqCardTable").html(prjGrpStr);
+	       						KTApp.initTooltips();
+	       						
+	       						$(".osl-charge-requirements .chargeReqProcessBtn").each(function(){
+	       							if($(this).data("req-pro-type") == '02'){
+	       								$(this).removeClass("kt-hide");
+	       							}
+	       						})
+	       						
         						$(".osl-charge-requirements .chargeReqProcessBtn").click(function(){
         							var reqProType = $(this).data("reqProType");
         							var reqId = $(this).data("reqId");
@@ -2858,8 +2826,9 @@
 							saveState: {webstorage: false}
 						},
 						layout: {
-							scroll: false,
-							footer: false
+							scroll: true,
+							footer: false,
+							customScrollbar: true
 						},
 						translate:{
 							records:{
@@ -2888,7 +2857,8 @@
 								
 							},
 							clickCheckbox: false,
-							minHeight: null
+							minHeight: null,
+							autoHide: true
 						},
 						sortable: true,
 						pagination: true,
@@ -3419,39 +3389,63 @@
 					
 					
 					$(ktDatatableTarget).on("kt-datatable--on-layout-updated",function(evt,config){
+						var targetFieldStr = '';
+						var targetFieldFn = {};
+						
 						
 						$.each(targetConfig.columns, function(idx, map){
 							
 							if(map.hasOwnProperty("onclick")){
-								var targetObj = $("#"+targetId+" td.kt-datatable__cell[data-field="+map.field+"]");
 								
-								
-								targetObj.off("click");
-								targetObj.click(function(event){
-									
-									if(typeof map.onclick == "function"){
-										
-										event.cancelable = true;
-										event.stopPropagation();
-										event.preventDefault();
-										event.returnValue = false;
-										
-										
-										var rowNum = $(this).parent("tr").data("row");
-										var rowData = null;
-										try{
-											rowData = datatableInfo.getDataSet()[rowNum];
-										}catch(e){
-											
-											console.log(e);
-										}
-										
-										
-										map.onclick(rowData, event);
+								if(typeof map.onclick == "function"){
+									if(!$.osl.isNull(targetFieldStr)){
+										targetFieldStr += ',';
 									}
-								});
+									targetFieldStr += "td.kt-datatable__cell[data-field="+map.field+"] ";
+									targetFieldFn[map.field] = map.onclick;
+								}
 							}
 						});
+						var targetObj = $("#"+targetId);
+						
+						if(!$.osl.isNull(targetFieldStr)){
+							
+							targetObj.off("click",targetFieldStr);
+							targetObj.on("click",targetFieldStr, function(event){
+								
+								event.cancelable = true;
+								event.stopPropagation();
+								event.preventDefault();
+								event.returnValue = false;
+								
+								
+								var fieldId = $(this).data("field");
+								
+								
+								var rowNum = $(this).parent("tr").data("row");
+								
+								
+								var detailElem = $(this).parents(".kt-datatable__row-detail");
+								if(detailElem.length > 0){
+									rowNum = $(this).parents(".kt-datatable__row-detail").prev(".kt-datatable__row").data("row");
+								}
+								
+								var rowData = null;
+								try{
+									rowData = datatableInfo.getDataSet()[rowNum];
+								}catch(e){
+									
+									console.log(e);
+								}
+								
+								
+								if(targetFieldFn.hasOwnProperty(fieldId)){
+									targetFieldFn[fieldId](rowData, event);
+								}
+								
+							});
+						}
+						
 						
 						if(!$.osl.isNull(targetConfig.cardUiTarget)){
 							var targetElem = targetConfig.cardUiTarget.find("input[type=checkbox]:checked");

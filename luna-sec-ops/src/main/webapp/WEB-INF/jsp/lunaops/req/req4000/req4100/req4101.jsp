@@ -147,7 +147,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="kt-portlet kt-portlet--collapsed" data-ktportlet="true" id="req4101NewRequestOpt">
+			<div class="kt-portlet kt-portlet--collapsed kt-hide" data-ktportlet="true" id="req4101NewRequestOpt">
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
 						<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.requestDefaultOptNm">접수 기본항목 입력</span>
@@ -693,15 +693,8 @@ var OSLReq4101Popup = function () {
 				
 				$("#searchUsrNmBtn").click();
 			}
-		});
-    	
-		$("#usrNm").on("propertychange paste input", function (e) {
-			var self = $(this);
-			if($.osl.isNull($("#usrNm").val())){
-				
-				
-				$("#reqUsrId").val("");
-			}
+			
+			$("#reqUsrId").val("");
 		});
 		
     	
@@ -710,7 +703,10 @@ var OSLReq4101Popup = function () {
 				
 				$("#searchReqGrpBtn").click();
 			}
+			
+			
 		});
+
     	
     	
     	$("#searchUsrNmBtn").click(function(){

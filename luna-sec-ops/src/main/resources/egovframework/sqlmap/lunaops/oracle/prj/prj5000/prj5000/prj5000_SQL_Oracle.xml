@@ -12,6 +12,7 @@
 		<result property="prjId"				column="PRJ_ID"/>
 		<result property="prjNm"				column="PRJ_NM"/>
 		<result property="usrId"				column="USR_ID"/>
+		
 		<result property="usrNm"				column="USR_NM"/>
 		
 		<result property="prjEvtId"				column="PRJ_EVT_ID"/>
@@ -263,6 +264,7 @@
 			EVT_END_TIME = REPLACE(#evtEndTime#,':','') ,
 			EVT_START_DAY_WEEK = TO_CHAR(TO_DATE(#evtStartDate#,'YYYY-MM-DD'),'d' ) ,
 			EVT_END_DAY_WEEK = TO_CHAR(TO_DATE(#evtEndDate#,'YYYY-MM-DD'),'d' ) ,
+			EVT_TYPE = #evtType#,
 			<isNotEmpty property="evtUseCd">
 				EVT_USE_CD = #evtUseCd# ,
 			</isNotEmpty>

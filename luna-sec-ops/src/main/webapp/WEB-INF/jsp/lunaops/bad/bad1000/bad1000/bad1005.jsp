@@ -3,22 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <form class="kt-form" id="bad1005Info">
 	<div class="kt-portlet kt-portlet--mobile">
-		<input type="hidden" name="stmTypeCd" id="stmTypeCd"
-			value="${param.stmTypeCd}" /> <input type="hidden"
-			name="deleteDataList" id="deleteDataList"
-			value='${param.deleteDataList }' /> <input type="hidden"
-			name="menuRootYn" id="menuRootYn" value="${param.menuRootYn }" />
+		<input type="hidden" name="stmTypeCd" id="stmTypeCd" value="${param.stmTypeCd}" /> 
+		<input type="hidden"name="deleteDataList" id="deleteDataList" value='${param.deleteDataList }' /> 
+		<input type="hidden" name="menuRootYn" id="menuRootYn" value="${param.menuRootYn }" />
 		<div class="kt-portlet__body">
 			<div class="form-group">
-				<label class="required"><span
-					data-lang-cd="bad1005.label.deleteType">삭제 유형</span></label> <select
-					class="form-control kt-block-inline" name="delTypeCd"
-					id="delTypeCd">
+				<label class="required">
+					<span data-lang-cd="bad1005.label.deleteType">삭제 유형</span>
+				</label> 
+				<select class="form-control kt-block-inline" name="delTypeCd" id="delTypeCd">
 				</select>
 			</div>
 			<div class="form-group">
-				<label><span data-lang-cd="bad1005.label.deleteReason">삭제
-						사유</span></label>
+				<label>
+					<span data-lang-cd="bad1005.label.deleteReason">삭제 사유</span>
+				</label>
 				<textarea class="kt-hide" name="delTxt" id="delTxt"></textarea>
 			</div>
 		</div>
@@ -27,8 +26,7 @@
 				<i class="fa fa-check-square"></i>
 				<span class="osl-resize__display--show" data-lang-cd="bad1005.button.submit">삭제</span>
 			</button>
-			<button type="button" class="btn btn-outline-brand"
-				data-dismiss="modal">
+			<button type="button" class="btn btn-outline-brand" data-dismiss="modal">
 				<i class="fa fa-window-close"></i>
 				<span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span>
 			</button>
@@ -38,7 +36,6 @@
 
 <script>
 	"use strict";
-
 	var OSLBad1005Popup = function() {
 
 		var formId = 'bad1005Info';

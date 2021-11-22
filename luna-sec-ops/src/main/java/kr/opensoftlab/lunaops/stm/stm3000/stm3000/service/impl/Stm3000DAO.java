@@ -116,4 +116,20 @@ public class Stm3000DAO extends ComOslitsAbstractDAO {
 		return update("stm3000DAO.updateStm3000PasswordExprInit", paramMap );
 	}
 	
+	
+	public void insertStm3005SubSignUsrInfo(Map<String, String> paramMap) throws Exception{
+		insert("stm3000DAO.insertStm3005SubSignUsrInfo", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public Map selectStm3005SubSignUsrInfo(Map<String, String> paramMap) throws Exception{
+		return (Map) select("stm3000DAO.selectStm3005SubSignUsrInfo", paramMap);
+	}
+	
+	
+	public void deleteStm3005SubSignUsrInfo(Map<String, String> paramMap) throws Exception{
+		delete("stm3000DAO.deleteStm3005SubSignUsrInfo", paramMap);
+	}
+	
 }

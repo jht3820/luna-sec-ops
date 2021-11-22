@@ -62,4 +62,5 @@ public interface Stm3000Service {
 	
 	
 	void updateStm3000AccountInit(Map<String, String> paramMap)  throws Exception;
+
 }

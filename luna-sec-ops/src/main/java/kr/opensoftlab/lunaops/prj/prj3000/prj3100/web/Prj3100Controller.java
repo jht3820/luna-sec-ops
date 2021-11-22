@@ -843,7 +843,7 @@ public class Prj3100Controller {
 		    			
 		    			
 		    			zipMakeChk = false;
-		    			throw new UserDefineException("<script>$alert('"+egovMessageSource.getMessage("com.fail.file.select")+"\\n"+fvo.getOrignlFileNm()+"');</script>");
+		    			throw new UserDefineException("<script>alert('"+egovMessageSource.getMessage("com.fail.file.select")+"\\n"+fvo.getOrignlFileNm()+"');</script>");
 	    			}
            			
            			
@@ -1002,6 +1002,7 @@ public class Prj3100Controller {
 	
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/prj/prj3000/prj3100/selectPrj3100SelectFileZipDownload.do")
 	public String selectPrj3000SelectFileZipDownload(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		
@@ -1022,9 +1023,6 @@ public class Prj3100Controller {
            	
            	
            	String docId = paramMap.get("docId");
-           	
-           	
-           	String docNm = paramMap.get("docNm");
            	
            	
            	String fileSn = paramMap.get("fileSn");
@@ -1073,11 +1071,13 @@ public class Prj3100Controller {
     			
     			List<FileVO> fileList = fileMngService.selectFileInfs(fileVO);
 
-    			String stepNm = "["+docId+"]_"+docNm;
+    			
+            	Map<String, String> docInfoMap = (Map) prj3000Service.selectPrj3000MenuInfo(paramMap);
+    			
+    			String stepNm = "["+docId+"]_"+docInfoMap.get("docNm");
     			
     			
                	for(FileVO fvo : fileList) {
-               		
                		
            				
            			
@@ -1101,7 +1101,7 @@ public class Prj3100Controller {
 		    			
 		    			
 		    			zipMakeChk = false;
-		    			throw new UserDefineException("<script>$alert('"+egovMessageSource.getMessage("com.fail.file.select")+"\\n"+fvo.getOrignlFileNm()+"');</script>");
+		    			throw new UserDefineException("<script>alert('"+egovMessageSource.getMessage("com.fail.file.select")+"\\n"+fvo.getOrignlFileNm()+"');</script>");
 	    			}
            			
            			

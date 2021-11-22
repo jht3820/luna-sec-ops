@@ -4,13 +4,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
-
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.service.impl.EgovFileMngServiceImpl;
 import egovframework.com.cmm.service.impl.FileManageDAO;
+import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 
 
 
@@ -39,6 +38,7 @@ public class FileMngServiceImpl extends EgovFileMngServiceImpl implements FileMn
 	}
 	
 	public List<FileVO> fileDownList(FileVO fileVO) throws Exception{
+		
    		List<FileVO> _result = null;
 
 		_result = fileMngDAO.selectFileInfs(fileVO);
@@ -53,4 +53,5 @@ public class FileMngServiceImpl extends EgovFileMngServiceImpl implements FileMn
     public int getFileSN(FileVO fvo) throws Exception{
     	return fileMngDAO.getMaxFileSN(fvo);
     }
+    
 }

@@ -21,4 +21,5 @@ public interface FileMngService extends EgovFileMngService{
 	
 	
     public int getFileSN(FileVO fvo) throws Exception;
+    
 }
