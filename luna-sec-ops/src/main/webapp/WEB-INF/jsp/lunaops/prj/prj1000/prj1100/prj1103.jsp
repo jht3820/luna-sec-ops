@@ -237,7 +237,7 @@ var OSLPrj1103Popup = function () {
 		
 		$.osl.setDataFormElem(flowData.properties, formId);
 		
-		if(!$.osl.isNull(flowData.properties.basicItemList)){
+		if(flowData.properties.hasOwnProperty("basicItemList") && !$.osl.isNull(flowData.properties.basicItemList)){
 			basicItemList = flowData.properties.basicItemList;
 			
 			
