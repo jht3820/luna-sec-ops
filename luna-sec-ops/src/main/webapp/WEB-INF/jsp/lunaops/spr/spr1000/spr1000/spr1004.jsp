@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <form class="kt-form" id="frSpr1004">
 	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}">
 	<input type="hidden" name="paramPrjGrpId" id="paramPrjGrpId" value="${param.paramPrjGrpId}">
@@ -201,8 +200,7 @@ var OSLSpr1004Popup = function () {
 	
 	
 	var formEditList = [];
-	
-	var reqInfo = null;
+
 	
 	var datatableInitFlag = {3:false};
 	var datatableSetting = {};
@@ -417,7 +415,6 @@ var OSLSpr1004Popup = function () {
     	 				if($.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.hasOwnProperty('data')){
     	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
     	 				}
-    	 				reqInfo = JSON.stringify(list);
     	 				
     	 				selectSprInfoStat();
     	 				
@@ -516,11 +513,6 @@ var OSLSpr1004Popup = function () {
 	       	
 	       	fd.append("mmrDesc", $("#mmrDescInput").val());
 	       	
-	       	fd.append("sprId", paramSprId);
-	       	
-	       	
-	       	fd.append("reqInfo", reqInfo);
-	       	
 	   		
 	   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/spr/spr1000/spr1000/updateSpr1003SprEnd.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
@@ -600,9 +592,7 @@ var OSLSpr1004Popup = function () {
  			}
  		});
  		
- 		
  		ajaxObj.send();
- 		
  	};
  	
  	
