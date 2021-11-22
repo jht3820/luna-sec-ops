@@ -375,6 +375,10 @@ var OSLCmm6200Popup = function () {
 	var zoomObj;
 	var currentZoom = 2;
 	
+	
+	var reqChargerSetting = true;
+	
+	
     
     var documentSetting = function () {
     	$("#usrImgId").attr("src",$.osl.user.usrImgUrlVal(""));
@@ -530,6 +534,9 @@ var OSLCmm6200Popup = function () {
 		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
+			beforeWheel: function(e) {
+		    	return true;
+			}
 		});
 		
 		
@@ -916,6 +923,27 @@ var OSLCmm6200Popup = function () {
 					
 					fnSelRequestInfo(rowData.prjId, rowData.reqId);
 				},
+			},
+			callback:{
+				ajaxDone: function(evt, list){
+					
+					if(reqChargerSetting && !$.osl.isNull(list) && list.length == 1){
+						var reqInfo = list[0];
+						
+						
+						var reqChargerId = reqInfo.reqChargerId;
+						var reqChargerNm = reqInfo.reqChargerNm;
+						
+						
+						if(!$.osl.isNull(reqChargerId)){
+							$("#selReqChargerId").val(reqChargerId);
+							$("#selReqChargerNm").val(reqChargerNm);
+						}
+						
+						
+						reqChargerSetting = false;
+					}
+				}
 			}
 		});
 	};
@@ -931,6 +959,7 @@ var OSLCmm6200Popup = function () {
 						params:{
 							paramPrjId: "",
 							useCd: "01",
+							processConfirmCd: "02",
 							isFlowCnt: true
 						}
 					}
@@ -958,11 +987,7 @@ var OSLCmm6200Popup = function () {
 				clickCheckbox: true
 			},
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false,
-    				template: function(row){
-    					return row.processId;
-    				}	
-    			},
+				{field: 'processId', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'processNm', title: '프로세스명', textAlign: 'center', width: 100, search: true},
 				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"date",
 					template: function (row) {
@@ -1077,7 +1102,7 @@ var OSLCmm6200Popup = function () {
    								flowSignCd: map.flowSignCd,
    								flowSignStopCd: map.flowSignStopCd,
    								flowStartCd: map.flowStartCd,
-   								flowEndCd: map.flowEndCd,
+   								flowMiddleEndCd: map.flowMiddleEndCd,
    								flowWorkCd: map.flowWorkCd,
    								flowRevisionCd: map.flowRevisionCd,
    								flowDplCd: map.flowDplCd,

@@ -78,7 +78,7 @@ var OSLSpr1000Popup = function () {
 	
 	var totalSprPoint = null;
 	
-	var totalOngoingSprCnt = 0;
+	var totalSprOngoingCnt = 0;
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
@@ -193,10 +193,6 @@ var OSLSpr1000Popup = function () {
 				
 				"sprStart": function(rowData, datatableId, type){
 					
-					if(totalOngoingSprCnt != 0){
-						$.osl.alert("이미 진행중인 스프린트가 존재합니다.", {type:"error"})
-						return;			
-					}
 					var rowDatas = rowData;
 					
 					
@@ -204,6 +200,7 @@ var OSLSpr1000Popup = function () {
 						$.osl.alert($.osl.lang("spr1000.nonSelect"));
 						return true;
 					}
+					
 					
 					else if(rowDatas.length > 1){
 						$.osl.alert($.osl.lang("spr1000.manySelect"));
@@ -219,6 +216,12 @@ var OSLSpr1000Popup = function () {
 						return true;
 					}
 					
+					
+					if(totalSprOngoingCnt != 0){
+						$.osl.alert("이미 진행중인 스프린트가 존재합니다.\n 프로젝트당 스프린트는 1건만 진행가능합니다.");
+						return;
+					}
+					
 					var data = {
 							paramPrjGrpId: sprInfo.prjGrpId
 							,paramPrjId: sprInfo.prjId
@@ -227,6 +230,7 @@ var OSLSpr1000Popup = function () {
 							,paramStartDt: sprInfo.sprStDt
 							,paramEndDt: sprInfo.sprEdDt
 						};
+					
 					var options = {
 							modalTitle: "스프린트 시작",
 							autoHeight: false,
@@ -235,8 +239,8 @@ var OSLSpr1000Popup = function () {
 							closeConfirm: false,
 							ftScrollUse: false
 						};
-					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
 					
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
 					
 				},
 				
@@ -293,14 +297,14 @@ var OSLSpr1000Popup = function () {
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
 						
-						totalOngoingSprCnt = 0;
 						
 						if(map.sprTypeCd == '02'){
-							totalOngoingSprCnt += 1;	
+							totalSprOngoingCnt = map.sprOngoingCnt;
 						} 
 						
 						
 						var sprTypeClass = "kt-media--primary";
+						
 						var sprTypeNm = map.sprTypeNm;
 						
 						if(map.sprTypeCd == "02"){

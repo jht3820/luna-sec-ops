@@ -690,4 +690,15 @@
 		AND		PRJ_ID = #prjId#
 		AND		REQ_GRP_ID = #reqGrpId#
 	</delete>
+	
+	<select id="req3000DAO.selectReq3000ReqIsInReqGrp" parameterClass="java.util.List" resultClass="egovMap">
+	
+		SELECT A.REQ_GRP_ID 
+		FROM REQ3001 A INNER JOIN REQ3000 C
+			ON (A.PRJ_GRP_ID = C.PRJ_GRP_ID AND A.REQ_GRP_ID = C.REQ_GRP_ID AND C.USE_CD = '01') 
+        WHERE REQ_ID IN 
+        <iterate open="(" close=")" conjunction=",">
+		  #[]#
+		</iterate>
+	</select>
 </sqlMap>

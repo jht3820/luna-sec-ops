@@ -76,6 +76,8 @@
 		<result property="modifyDtm" column="MODIFY_DTM" />
 		<result property="modifyUsrId" column="MODIFY_USR_ID" />
 		<result property="modifyUsrIp" column="MODIFY_USR_IP" />
+		<result property="absStDtm" column="ABS_ST_DTM" />
+		<result property="absEdDtm" column="ABS_ED_DTM" />
 	</resultMap>
 
     
@@ -129,11 +131,21 @@
 				,	TO_CHAR(A.MODIFY_DTM, 'YYYY-MM-DD') AS MODIFY_DTM
 				,	A.MODIFY_USR_ID
 				,	A.MODIFY_USR_IP
+				, 	TO_CHAR(A.ABS_ST_DTM, 'YYYY-MM-DD HH24:MI:SS') AS ABS_ST_DTM
+				, 	TO_CHAR(A.ABS_ED_DTM, 'YYYY-MM-DD HH24:MI:SS') AS ABS_ED_DTM
 		   FROM	STM3000 A
+		   ]]>
+		   <isNotEmpty property="paramPrjId">
+		   		INNER JOIN (select distinct(USR_ID), PRJ_ID from prj2001 WHERE PRJ_ID = #paramPrjId#) B ON(A.USR_ID = B.USR_ID)
+		   </isNotEmpty>
+		   <isNotEmpty property="location">
+		   		<isEqual property="location" compareValue="spr1003">
+		   			INNER JOIN (select distinct(USR_ID), PRJ_ID from prj2001 WHERE PRJ_ID = #prjId#) B ON(A.USR_ID = B.USR_ID)
+		   		</isEqual>
+		   </isNotEmpty>
 		   WHERE 1=1 
 		   AND A.LIC_GRP_ID = #licGrpId#
 		   AND A.DEL_CD = '02'
-		   ]]>
 		   <isNotEmpty property="useCd">
 				 AND A.USE_CD = #useCd#
 			</isNotEmpty>
@@ -269,6 +281,8 @@
 						AND C.USR_ID = #usrId#
 						AND ROWNUM = 1
 					)   AS BLK_LOG
+				, 	TO_CHAR(A.ABS_ST_DTM, 'YYYY-MM-DD HH24:MI:SS') AS ABS_ST_DTM
+				, 	TO_CHAR(A.ABS_ED_DTM, 'YYYY-MM-DD HH24:MI:SS') AS ABS_ED_DTM
 			FROM STM3000 A
 			WHERE 1=1
 			AND	LIC_GRP_ID = #licGrpId#
@@ -346,6 +360,8 @@
 		  	USR_IMG_ID			= #usrImgId#,
 		  	REQ_MAIN_COLOR		= #reqMainColor#,
 			REQ_FONT_COLOR		= #reqFontColor#,
+			ABS_ST_DTM			= #absStDtm#
+			ABS_ED_DTM			= #absEdDtm#
 		]]>
 		<isNotEmpty property="enUsrPw">
 			USR_PW				= #enUsrPw#,
@@ -603,5 +619,60 @@
 			)
 			]]>
 	</insert>
+	
+	<select id="stm3000DAO.selectStm3005SubSignUsrInfo" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT  A.USR_ID
+			,	A.PRJ_ID
+			,	A.LIC_GRP_ID
+			,	C.USR_NM AS SUB_SIGN_USR_NM
+			,	B.PRJ_NM AS SUB_SIGN_USR_PRJ_NM
+			,	C.EMAIL AS SUB_SIGN_USR_EMAIL
+			,	C.TELNO AS SUB_SIGN_USR_TELNO
+			,	D.DEPT_NAME AS SUB_SIGN_USR_DEPT_NM
+			,	C.USR_POSITION_CD AS SUB_SIGN_USR_POSITION_CD
+			,	C.USR_DUTY_CD AS SUB_SIGN_USR_DUTY_CD
+		FROM 	STM3005 A
+		INNER JOIN PRJ1000 B
+		ON	(A.PRJ_ID = B.PRJ_ID AND A.LIC_GRP_ID = B.LIC_GRP_ID)
+		INNER JOIN STM3000 C
+		ON	(A.SUB_SIGN_USR_ID = C.USR_ID AND A.LIC_GRP_ID = C.LIC_GRP_ID)
+		INNER JOIN STM6000 D
+		ON	(A.LIC_GRP_ID = D.LIC_GRP_ID AND C.DEPT_ID = D.DEPT_ID)
+		WHERE	1 = 1
+		AND		A.LIC_GRP_ID = #licGrpId#
+		AND		A.PRJ_ID	= #prjId#
+		AND		A.USR_ID	= #usrId#
+		
+	</select>
+	
+	
+	<insert id="stm3000DAO.insertStm3005SubSignUsrInfo" parameterClass="java.util.Map">
+		
+		INSERT INTO STM3005
+		(
+				LIC_GRP_ID		,	PRJ_ID			,	USR_ID		,	SUB_SIGN_USR_ID
+			,	REG_DTM			,	REG_USR_ID		,	REG_USR_IP	,	MODIFY_DTM
+			,	MODIFY_USR_ID	,	MODIFY_USR_IP
+		)
+		VALUES
+		(
+				#licGrpId#		,	#prjId#			,	#usrId#		,	#subSignUsrId#
+			,	SYSDATE			,	#regUsrId#		,	#regUsrIp#	,	SYSDATE
+			,	#modifyUsrId#	,	#modifyUsrIp#
+		
+		)
+	</insert>
+	
+	
+	<delete id="stm3000DAO.deleteStm3005SubSignUsrInfo" parameterClass="java.util.Map">
+		
+		DELETE 
+		FROM	STM3005
+		WHERE	1 = 1
+		AND		LIC_GRP_ID = #licGrpId#
+		AND		PRJ_ID = #prjId#
+		AND		USR_ID = #usrId#
+	</delete>
 	
 </sqlMap>            

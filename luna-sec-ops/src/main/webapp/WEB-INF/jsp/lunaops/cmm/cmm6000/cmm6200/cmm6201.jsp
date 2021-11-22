@@ -12,7 +12,7 @@
 	<div class="osl-req__process-title"><i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">요구사항 변경 이력</span></div>
 	<div class="osl-req__process-main d-flex">
 		<div class="osl-req__process-history" id="osl-req__process-history" data-scroll-x="true"></div>
-		<div class="osl-req__process-next__Flow">
+		<div class="osl-req__process-next__Flow" id="osl-req__process-next__Flow">
 			<div class="osl-req__process-mask__flow">
 				<div class="flowchart-operator-process-title">
 					<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate"><span id="nextProcessNm">프로세스명</span></div>
@@ -30,7 +30,7 @@
 							<span class="kt-user-card-v2__email kt-margin-l-10 osl-line-height-rem-1_5" id="nextFlowEmail"></span>
 						</div>
 					</div>
-					<div class="flowchart-operator-chg__dtm"><i class="fa fa-info-circle kt-margin-r-5"></i><span>다음 단계 정보</span></div>
+					<div class="flowchart-operator-chg__dtm"><i class="fa fa-info-circle kt-margin-r-5"></i><span id="nextFlowDesc">다음 단계 정보</span></div>
 				</div>
 			</div>
 		</div>
@@ -86,16 +86,16 @@
 				</div>
 			</div>
 			<button type="button" class="btn btn-outline-primary kt-margin-r-20 osl-preview-hide" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit">
-				<i class="fa fa-save"></i><span data-lang-cd="req4101.complete">저장 (현재 단계 유지)</span>
+				<i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">저장 (현재 단계 유지)</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
-				<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
+				<i class="fas fa-chevron-circle-left"></i><span class="osl-resize__display--show" data-lang-cd="spr1003.wizard.btn.prev">이전</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand kt-margin-l-20 osl-preview-hide" id="cmm6201SaveNextSubmit" name="cmm6201SaveNextSubmit" data-ktwizard-type="action-submit">
-				<i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">처리 완료</span>
+				<i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">처리 완료</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
-				<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
+				<span class="kt-margin-r-5 osl-resize__display--show" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
 			</button>
 		</div>
 		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content" data-ktwizard-state="current">
@@ -279,6 +279,23 @@
 								</div>
 							</div>
 						</div>
+						<div class="kt-portlet" id="cmm6201NewRequestOpt">
+							<div class="kt-portlet__head">
+								<div class="kt-portlet__head-label">
+									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">접수 기본 항목</span>
+								</div>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-group">
+										<div class="kt-portlet__head-group">
+											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="kt-portlet__body">
+								
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -306,8 +323,8 @@
 									</div>
 									<div class="kt-portlet__body">
 										<div class="row osl-background-around kt-padding-t-10 kt-padding-b-10">
+										 	<div id="cmm6201SignListMask" class="d-flex justify-content-center flex-sm-fill"><span>결재선 정보가 없습니다.</span></div>
 											<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 kt-widget kt-widget--general-3 kt-hide" id="cmm6201SignOrdList">
-											 
 											</div>
 										</div>
 									</div>
@@ -385,7 +402,7 @@
 														<input type="text" class="form-control osl-preview-readonly" placeholder="담당자명" name="reqChargerNm" id="reqChargerNm" opttype="-1" required>
 														<button type="button" class="btn btn-brand input-group-append osl-preview-hide" id="searchReqChargerBtn" name="searchReqChargerBtn"><i class="fa fa-search"></i><span data-lang-cd="req4101.button.searchBtn">검색</span></button>
 													</div>
-													<span class="form-text text-muted">* 요구사항의 담당자를 선택해주세요.</span>
+													<span class="form-text text-muted osl-preview-hide">* 요구사항의 담당자를 선택해주세요.</span>
 												</div>
 											</div>
 											<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 osl-preview-hide">
@@ -562,7 +579,6 @@ var OSLCmm6201Popup = function () {
 			handleWindowResize: true, 
 			windowScroll:false
 		});
-    	
 
     	
 		$("#selectBasicItemBtn").click(function(){
@@ -798,11 +814,14 @@ var OSLCmm6201Popup = function () {
 										return true;
 									}
 									
-									signOrdListStr += signUsrUiSetting(map);
+									signOrdListStr += signUsrUiSetting(map, signUsrList);
 								});
+								
 								$("#cmm6201SignOrdList").removeClass("kt-hide");
+								$("#cmm6201SignListMask").addClass("kt-hide");
 							}else{
 								$("#cmm6201SignOrdList").addClass("kt-hide");
+								$("#cmm6201SignListMask").removeClass("kt-hide");
 							}
 							$("#cmm6201SignOrdList").html(signOrdListStr);
 						}else{
@@ -964,7 +983,7 @@ var OSLCmm6201Popup = function () {
  				$.osl.layerPopupClose();
  			}else{
  				
- 				var modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate kt-margin-r-5">업무 처리 가능</div>';
+ 				var modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-info d-inline-block kt-margin-r-5">업무 처리 가능</div>';
  				
  				reqProcessAuthFlag = data.reqProcessAuthFlag;
  				
@@ -972,14 +991,47 @@ var OSLCmm6201Popup = function () {
 				var reqInfo = data.reqInfo;
  				var reqSignCd = reqInfo.reqSignCd;
  				var reqSignNm = reqInfo.reqSignNm;
+ 				var reqProType = reqInfo.reqProType;
+ 				
  				reqSignOrd = data.reqSignOrd;
  				currentSignUsrInfo = data.currentSignUsrInfo;
  				
  				
- 				if(!$.osl.isNull(reqSignCd) && reqSignCd != "03"){
+ 				if(reqProType == "04"){
  					reqProcessAuthFlag = false;
+ 					
+ 					
+ 					$("#osl-req__process-next__Flow").hide();
  				}
  				
+ 				
+ 				if(!$.osl.isNull(reqSignCd) && reqSignCd != "03" && reqSignCd != "04"){
+ 					reqProcessAuthFlag = false;
+ 					
+ 					
+ 					$("#"+formId+" #nextProcessNm").text("결재 대기");
+ 					$("#"+formId+" #nextFlowDesc").text("현재 결재자 정보");
+ 					$("#"+formId+" #nextFlowNm").text("결재 대기 중 ( "+currentSignUsrInfo.ord+" / "+(data.signUsrList.length-1)+" )");
+ 					
+
+ 			    	
+ 			    	fnUsrChargerChg({
+ 			    		usrId: currentSignUsrInfo.signUsrId,
+ 			    		usrNm: currentSignUsrInfo.signUsrNm,
+ 			    		usrImgId: currentSignUsrInfo.signUsrImgId,
+ 			    		email: currentSignUsrInfo.signUsrEmail
+ 			    	});
+ 				}else{
+ 			    	$("#"+formId+" #nextProcessNm").text(reqInfo.processNm);
+
+ 			    	
+ 			    	fnUsrChargerChg({
+ 			    		usrId: reqInfo.reqChargerId,
+ 			    		usrNm: reqInfo.reqChargerNm,
+ 			    		usrImgId: reqInfo.reqChargerImgId,
+ 			    		email: reqInfo.reqChargerEmail
+ 			    	});
+ 				}
  				
  				
  				var flowInfo = data.flowInfo;
@@ -991,13 +1043,6 @@ var OSLCmm6201Popup = function () {
 		    	$.osl.setDataFormElem(reqInfo, formId);
  				
 		    	
-		    	fnUsrChargerChg({
-		    		usrId: reqInfo.reqChargerId,
-		    		usrNm: reqInfo.reqChargerNm,
-		    		usrImgId: reqInfo.reqChargerImgId,
-		    		email: reqInfo.reqChargerEmail
-		    	});
-		    	
 		    	
 		    	$("#"+formId+" #reqUsrId").val(reqInfo.reqUsrId);
 				$("#"+formId+" #reqGrpNm").val(reqInfo.reqGrpNm);
@@ -1008,9 +1053,6 @@ var OSLCmm6201Popup = function () {
 		    	$("#"+formId+" #deptId").val(reqInfo.reqUsrDeptId);
 		    	$("#"+formId+" #usrImgId").attr("src",$.osl.user.usrImgUrlVal(reqInfo.reqUsrImgId));
 		    	
-		    	$("#"+formId+" #nextProcessNm").text(reqInfo.processNm);
-		    	$("#"+formId+" #reqPrjSelect").val($.osl.escapeHtml(reqInfo.prjId)).trigger('change.select2');
-		    	$("#"+formId+" #reqPrjSelect").prop("disabled", true);
 		    	
 		    	
 		    	formEditList.push($.osl.editorSetting(formId+" #reqDesc", {
@@ -1034,6 +1076,11 @@ var OSLCmm6201Popup = function () {
 	    			disabledEditor: true,
 	    			height:100
 	    		}));
+		    	
+		    	
+		    	if($.osl.isNull(reqInfo.reqGrpNm)){
+		    		$("#cmm6201ReqGroupInfo").addClass("kt-hide");
+		    	}
 		    	
 				
 		    	fileUploadObj = $.osl.file.uploadSet(formId+" #fileListDiv",{
@@ -1126,7 +1173,7 @@ var OSLCmm6201Popup = function () {
  					
  					$("#"+formId+" .osl-preview-readonly").attr("readonly","readonly");
  					
- 					modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">읽기 전용</div>';
+ 					modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block kt-margin-r-5">읽기 전용</div>';
  				}
  				
  				else{
@@ -1194,12 +1241,12 @@ var OSLCmm6201Popup = function () {
 				
 				if(flowInfo.flowSignCd == "01"){
 					
-					if($.osl.isNull(reqSignCd) || reqSignCd == "03"){
+					if($.osl.isNull(reqSignCd) || reqSignCd == "03" || reqSignCd == "04"){
 						
-						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
+						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block kt-margin-r-5">결재 필수</div>'
 					}else{
 						
-						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 '+reqSignNm+'</div>'
+						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block kt-margin-r-5">결재 대기</div>'
 						
 						
 						var loginUsrId = $.osl.user.userInfo.usrId;
@@ -1223,13 +1270,15 @@ var OSLCmm6201Popup = function () {
 							}
 							
 							
-							signOrdListStr += signUsrUiSetting(map);
+							signOrdListStr += signUsrUiSetting(map, data.signUsrList);
 							signUsrList.push(map);
 						});
 						$("#cmm6201SignOrdList").html(signOrdListStr);
 						$("#cmm6201SignOrdList").removeClass("kt-hide");
+						$("#cmm6201SignListMask").addClass("kt-hide");
 					}else{
 						$("#cmm6201SignOrdList").addClass("kt-hide");
+						$("#cmm6201SignListMask").removeClass("kt-hide");
 						signUsrList = []; 
 					}
 					
@@ -1301,7 +1350,12 @@ var OSLCmm6201Popup = function () {
 						}
 						
 						if(map.reqChgTypeCd == "03"){
-							addBadgeStr += '<div class="flowchart-operator-title__lebel badge badge-brand d-inline-block text-truncate">'+$.osl.escapeHtml(map.reqChgTypeNm)+'</div>';
+							addBadgeStr += '<div class="flowchart-operator-title__lebel badge badge-brand d-inline-block kt-margin-l-5">'+$.osl.escapeHtml(map.reqChgTypeNm)+'</div>';
+						}
+						
+						
+						if(map.chgFlowDoneCd == "01"){
+							addBadgeStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block kt-margin-l-5">'+$.osl.escapeHtml(map.chgFlowNm)+'</div>';
 						}
 						
  						
@@ -1323,7 +1377,7 @@ var OSLCmm6201Popup = function () {
  						reqChgStr += 
  							'<div class="osl-flowchart__operator">'
 	 							+'<div class="flowchart-operator-process-title">'
-	 								+'<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate">'+processNm+'</div>'
+	 								+'<div class="flowchart-operator-title__lebel badge badge-info d-inline-block">'+processNm+'</div>'
 	 								+addBadgeStr
 	 							+'</div>'
 	 							+'<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">'
@@ -1510,7 +1564,7 @@ var OSLCmm6201Popup = function () {
 					flowStatus = "02";
 				}
 				
-				else if(currentFlowNextIds.indexOf(map.flowId) == -1){
+				else if($.osl.isNull(currentFlowNextIds) || currentFlowNextIds.length == 0 || currentFlowNextIds.indexOf(map.flowId) == -1){
 					flowStatus = "04";
 				}
 				
@@ -1587,6 +1641,14 @@ var OSLCmm6201Popup = function () {
 			$(".osl-wizard__content[data-ktwizard-type=step-content].osl-block--imp").removeClass("osl-block--imp");
 		}
 
+		
+		if(signRequiredCd == "01"){
+			if($("#cmm6201SignOrdList > .kt-widget__top").length == 0){
+				$.osl.alert("결재선 등록이 필요합니다.");
+				return false;
+			}
+		}
+		
 		var addConfirmMsgStr = '';
 		
 		
@@ -1715,12 +1777,23 @@ var OSLCmm6201Popup = function () {
 	};
 	
 	
-	var signUsrUiSetting = function(usrInfo){
+	var signUsrUiSetting = function(usrInfo, signUsrList){
 		var currentSignBadge = '결재 순번';
+		var ordStr = usrInfo.ord;
+		
+		
+		if(ordStr == (signUsrList.length-1)){
+			currentSignBadge = '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block">최종 결재</div>';
+		}
 		
 		if(!$.osl.isNull(currentSignUsrInfo) && usrInfo.usrId == currentSignUsrInfo.signUsrId){
-			currentSignBadge = '<div class="flowchart-operator-title__lebel badge badge-primary d-inline-block text-truncate">결재 차례</div>';
+			currentSignBadge = '<div class="flowchart-operator-title__lebel badge badge-primary d-inline-block">결재 차례</div>';
 		}
+		
+		if(!$.osl.isNull(currentSignUsrInfo) && parseInt(usrInfo.ord) < parseInt(currentSignUsrInfo.ord)){
+			currentSignBadge = '<div class="flowchart-operator-title__lebel badge d-inline-block">결재 완료</div>';
+		}
+		
 		var signOrdListStr = 
 			'<div class="kt-widget__top" data-user-Id="'+usrInfo.usrId+'" data-ord="'+usrInfo.ord+'">'
 				+'<div class="kt-media kt-media--lg kt-media--circle">'
@@ -1744,7 +1817,7 @@ var OSLCmm6201Popup = function () {
 					+'</div>'
 					+'<div class="kt-widget__stats">'
 						+'<div class="kt-widget__stat">'
-							+'<span class="kt-widget__value">'+$.osl.escapeHtml(usrInfo.ord)+'</span>'
+							+'<span class="kt-widget__value">'+ordStr+'</span>'
 							+'<span class="kt-widget__caption">'+currentSignBadge+'</span>'
 						+'</div>'
 					+'</div>'
@@ -1767,6 +1840,9 @@ var OSLCmm6201Popup = function () {
 			}else{
 				$.osl.alert("요구사항의 결재 승인 처리되었습니다.");
 
+				
+				$("#cmm6201ModalCallbackBtn").click();
+				
 				
 				$.osl.layerPopupClose();
 			}
