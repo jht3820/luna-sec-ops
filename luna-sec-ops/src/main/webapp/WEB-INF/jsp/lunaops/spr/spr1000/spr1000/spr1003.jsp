@@ -83,13 +83,13 @@
 						</div>
 					</div>
 				</div>
-				<button class="btn btn-outline-brand" data-ktwizard-type="action-prev">
+				<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
 					<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
 				</button>
-				<button class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-submit">
+				<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-submit">
 					<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.submit">완료</span><i class="fas fa-check-circle kt-padding-r-0"></i>
 				</button>
-				<button class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
+				<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
 					<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
 				</button>
 			</div>
@@ -221,6 +221,7 @@ var OSLSpr1003Popup = function () {
 	
 	var documentSetting = function(){
 		
+		
     	formEditList.push($.osl.editorSetting("mmtDesc", {formValidate: formValidate, 'minHeight': 250, disableResizeEditor: false}));
 		
 		
@@ -241,11 +242,12 @@ var OSLSpr1003Popup = function () {
 		
 		
 		var wizard = new KTWizard('kt_wizard_v3', {
-			startStep: 1	
+			startStep: 1, 
+			clickableSteps: true	
 		});
 		 
 		
-		 wizard.on('beforeNext', function(wizardObj) {
+		wizard.on('beforeNext', function(wizardObj) {
 			
 			if($("#"+mainFormId).valid() !== true){
 				wizardObj.stop();
@@ -263,7 +265,6 @@ var OSLSpr1003Popup = function () {
 		 
 		
 		wizard.on('change', function(wizardObj) {
-			
 			
 			var totalStep = wizard.totalSteps;
 			
@@ -606,7 +607,9 @@ var OSLSpr1003Popup = function () {
 						var rtnVal = "";
 						
 						if(wizardData["reqSprPointList"].hasOwnProperty(row.reqId)){
-							rtnVal = wizardData["reqSprPointList"][row.reqId];
+							if(!$.osl.isNull(wizardData["reqSprPointList"][row.reqId])){
+								rtnVal = wizardData["reqSprPointList"][row.reqId];
+							}
 						}
 						
 						return '<input type="text" class="form-control kt-align-center position-relative osl-planing-poker" autocomplete="off" name="sprPoint_'+row.reqId+'" id="sprPoint_'+row.reqId+'" min="0" max="999" maxlength="3" value="'+rtnVal+'"/>'
@@ -680,19 +683,24 @@ var OSLSpr1003Popup = function () {
 						}
 					});
 					
-					if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
-						this.value = wizardData["reqSprPointList"][data.reqId];
+					if(!$.osl.isNull(wizardData["reqSprPointList"][data.reqId])){
+						
+						if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
+							this.value = wizardData["reqSprPointList"][data.reqId];
+						}
 					}
 					
+					var target;
 					$('.osl-planing-poker').focus(function(){
-			    		$('.osl-planing-poker-portlet').removeClass('kt-hide');
+						target = $(this).next();
+			    		target.removeClass('kt-hide');
 			    		setTimeout(function() {
 		    				$('.osl-planing-poker-portlet .card').css({
 		    					transform: 'rotateY(0deg)'
 		    				});
 			    		},200);
 			    	}).blur(function(){
-			    		$('.osl-planing-poker-portlet').addClass('kt-hide');
+			    		target.addClass('kt-hide');
 		    			$('.osl-planing-poker-portlet .card').css({
 		    				transform: 'rotateY(180deg)'
 		    			});
