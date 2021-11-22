@@ -1101,8 +1101,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 }
 .flowchart-operator-mask.status03 {
     border: 2px outset #5867dd;
-    color: #5867dd;
-    opacity: 0.8;
+    color: #7985e4;
     font-size: 4rem;
 }
 .flowchart-operator-mask~.flowchart-operator-title > .flowchart-operator-menu {

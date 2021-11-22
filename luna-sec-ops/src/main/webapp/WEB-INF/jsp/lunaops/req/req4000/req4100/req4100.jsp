@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 <div class="kt-portlet kt-portlet--mobile">
-	<div class="kt-portlet__head kt-portlet__head--lg">
+	<div class="kt-portlet__head kt-portlet__head--lg flex-wrap kt-padding-t-10 kt-padding-b-10">
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
 				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
@@ -74,9 +74,9 @@ var OSLReq4100Popup = function () {
 				},
 			},
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'reqId', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
-				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, autoHide: false, search: true},
+				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, search: true},
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
 				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,

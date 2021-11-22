@@ -279,6 +279,23 @@
 								</div>
 							</div>
 						</div>
+						<div class="kt-portlet" id="cmm6201NewRequestOpt">
+							<div class="kt-portlet__head">
+								<div class="kt-portlet__head-label">
+									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">접수 기본 항목</span>
+								</div>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-group">
+										<div class="kt-portlet__head-group">
+											<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="kt-portlet__body">
+								
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -799,6 +816,7 @@ var OSLCmm6201Popup = function () {
 									
 									signOrdListStr += signUsrUiSetting(map);
 								});
+								
 								$("#cmm6201SignOrdList").removeClass("kt-hide");
 								$("#cmm6201SignListMask").addClass("kt-hide");
 							}else{
@@ -965,7 +983,7 @@ var OSLCmm6201Popup = function () {
  				$.osl.layerPopupClose();
  			}else{
  				
- 				var modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate kt-margin-r-5">업무 처리 가능</div>';
+ 				var modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-info d-inline-block kt-margin-r-5">업무 처리 가능</div>';
  				
  				reqProcessAuthFlag = data.reqProcessAuthFlag;
  				
@@ -980,7 +998,6 @@ var OSLCmm6201Popup = function () {
  				if(!$.osl.isNull(reqSignCd) && reqSignCd != "03" && reqSignCd != "04"){
  					reqProcessAuthFlag = false;
  				}
- 				
  				
  				
  				var flowInfo = data.flowInfo;
@@ -1035,6 +1052,11 @@ var OSLCmm6201Popup = function () {
 	    			disabledEditor: true,
 	    			height:100
 	    		}));
+		    	
+		    	
+		    	if($.osl.isNull(reqInfo.reqGrpNm)){
+		    		$("#cmm6201ReqGroupInfo").addClass("kt-hide");
+		    	}
 		    	
 				
 		    	fileUploadObj = $.osl.file.uploadSet(formId+" #fileListDiv",{
@@ -1127,7 +1149,7 @@ var OSLCmm6201Popup = function () {
  					
  					$("#"+formId+" .osl-preview-readonly").attr("readonly","readonly");
  					
- 					modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">읽기 전용</div>';
+ 					modalHeaderStr = '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block kt-margin-r-5">읽기 전용</div>';
  				}
  				
  				else{
@@ -1197,10 +1219,10 @@ var OSLCmm6201Popup = function () {
 					
 					if($.osl.isNull(reqSignCd) || reqSignCd == "03" || reqSignCd == "04"){
 						
-						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 필수</div>'
+						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block kt-margin-r-5">결재 필수</div>'
 					}else{
 						
-						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block text-truncate kt-margin-r-5">결재 '+reqSignNm+'</div>'
+						modalHeaderStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block kt-margin-r-5">결재 대기</div>'
 						
 						
 						var loginUsrId = $.osl.user.userInfo.usrId;
@@ -1224,13 +1246,15 @@ var OSLCmm6201Popup = function () {
 							}
 							
 							
-							signOrdListStr += signUsrUiSetting(map);
+							signOrdListStr += signUsrUiSetting(map, data.signUsrList);
 							signUsrList.push(map);
 						});
 						$("#cmm6201SignOrdList").html(signOrdListStr);
 						$("#cmm6201SignOrdList").removeClass("kt-hide");
+						$("#cmm6201SignListMask").addClass("kt-hide");
 					}else{
 						$("#cmm6201SignOrdList").addClass("kt-hide");
+						$("#cmm6201SignListMask").removeClass("kt-hide");
 						signUsrList = []; 
 					}
 					
@@ -1302,7 +1326,7 @@ var OSLCmm6201Popup = function () {
 						}
 						
 						if(map.reqChgTypeCd == "03"){
-							addBadgeStr += '<div class="flowchart-operator-title__lebel badge badge-brand d-inline-block text-truncate">'+$.osl.escapeHtml(map.reqChgTypeNm)+'</div>';
+							addBadgeStr += '<div class="flowchart-operator-title__lebel badge badge-brand d-inline-block">'+$.osl.escapeHtml(map.reqChgTypeNm)+'</div>';
 						}
 						
  						
@@ -1324,7 +1348,7 @@ var OSLCmm6201Popup = function () {
  						reqChgStr += 
  							'<div class="osl-flowchart__operator">'
 	 							+'<div class="flowchart-operator-process-title">'
-	 								+'<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate">'+processNm+'</div>'
+	 								+'<div class="flowchart-operator-title__lebel badge badge-info d-inline-block">'+processNm+'</div>'
 	 								+addBadgeStr
 	 							+'</div>'
 	 							+'<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">'
@@ -1724,16 +1748,22 @@ var OSLCmm6201Popup = function () {
 	};
 	
 	
-	var signUsrUiSetting = function(usrInfo){
+	var signUsrUiSetting = function(usrInfo, signUsrList){
 		var currentSignBadge = '결재 순번';
 		var ordStr = usrInfo.ord;
 		
 		
-		if(!$.osl.isNull(currentSignUsrInfo) && usrInfo.usrId == currentSignUsrInfo.signUsrId){
-			currentSignBadge = '<div class="flowchart-operator-title__lebel badge badge-primary d-inline-block text-truncate">결재 차례</div>';
+		if(ordStr == (signUsrList.length-1)){
+			currentSignBadge = '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block">최종 결재</div>';
 		}
 		
+		if(!$.osl.isNull(currentSignUsrInfo) && usrInfo.usrId == currentSignUsrInfo.signUsrId){
+			currentSignBadge = '<div class="flowchart-operator-title__lebel badge badge-primary d-inline-block">결재 차례</div>';
+		}
 		
+		if(!$.osl.isNull(currentSignUsrInfo) && parseInt(usrInfo.ord) < parseInt(currentSignUsrInfo.ord)){
+			currentSignBadge = '<div class="flowchart-operator-title__lebel badge d-inline-block">결재 완료</div>';
+		}
 		
 		var signOrdListStr = 
 			'<div class="kt-widget__top" data-user-Id="'+usrInfo.usrId+'" data-ord="'+usrInfo.ord+'">'
