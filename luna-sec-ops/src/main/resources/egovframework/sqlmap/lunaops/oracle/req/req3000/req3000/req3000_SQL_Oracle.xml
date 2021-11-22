@@ -691,41 +691,14 @@
 		AND		REQ_GRP_ID = #reqGrpId#
 	</delete>
 	
-	<select id="req3000DAO.selectReq3000ReqIsInReqGrp" parameterClass="java.util.Map" resultMap="resultMapSelectReq3000">
+	<select id="req3000DAO.selectReq3000ReqIsInReqGrp" parameterClass="java.util.List" resultClass="egovMap">
 	
-		SELECT * 
+		SELECT A.REQ_GRP_ID 
 		FROM REQ3001 A INNER JOIN REQ3000 C
 			ON (A.PRJ_GRP_ID = C.PRJ_GRP_ID AND A.REQ_GRP_ID = C.REQ_GRP_ID AND C.USE_CD = '01') 
-        WHERE REQ_ID = #reqId#
+        WHERE REQ_ID IN 
+        <iterate open="(" close=")" conjunction=",">
+		  #[]#
+		</iterate>
 	</select>
-	
-	<insert id="req3000DAO.insertReq3000SnapShot" parameterClass="java.util.Map">
-	
-		INSERT INTO REQ3000_SNP
-			SELECT *
-			FROM REQ3000
-			WHERE 1 = 1
-			AND EXISTS(SELECT * FROM REQ3001 WHERE REQ_GRP_ID = #reqGrpId#)
-			AND REQ_GRP_ID = #reqGrpId#
-	</insert>
-	
-	<insert id="req3000DAO.insertReq3001SnapShot" parameterClass="java.util.Map">
-	
-		INSERT INTO REQ3001_SNP
-			 SELECT #licGrpId# AS LIC_GRP_ID,  
-			 		A.PRJ_GRP_ID, 
-			 		A.PRJ_ID, 
-			 		#sprId# AS SPR_ID,, 
-			 		A.REQ_GRP_ID, 
-			 		A.REQ_ID, 
-			 		A.REQ_LINK_ORD, 
-			 		A.REG_DTM, 
-			 		A.REG_USR_ID, 
-			 		A.REG_USR_IP, 
-			 		A.MODIFY_DTM, 
-			 		A.MODIFY_USR_ID, 
-			 		A.MODIFY_USR_IP
-			FROM REQ3001 A
-			WHERE REQ_GRP_ID = #reqGrpId#;
-	</insert>
 </sqlMap>

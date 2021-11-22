@@ -106,21 +106,10 @@ public class Req3000DAO extends ComOslitsAbstractDAO {
 		delete("req3000DAO.deleteReq3000ReqGrp", infoMap);
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public int insertReq3000SnapShot(Map infoMap) {
-		return (int) insert("req3000DAO.insertReq3000SnapShot", infoMap);
-	}
-	
-	
-	@SuppressWarnings("rawtypes")
-	public int insertReq3001SnapShot(Map infoMap) {
-		return (int) insert("req3000DAO.insertReq3001SnapShot", infoMap);
-	}
-	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<Map> selectReq3000ReqIsInReqGrp(Map req) {
-		return (List<Map>) list("req3000DAO.selectReq3000ReqIsInReqGrp", req);
+	public List<Map> selectReq3000ReqIsInReqGrp(List<String> reqIdList) {
+		return (List<Map>) list("req3000DAO.selectReq3000ReqIsInReqGrp", reqIdList);
 	}
 	
 

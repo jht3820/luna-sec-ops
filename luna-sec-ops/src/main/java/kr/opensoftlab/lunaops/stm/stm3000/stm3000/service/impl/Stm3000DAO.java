@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository("stm3000DAO")
 public class Stm3000DAO extends ComOslitsAbstractDAO {
 	
-	
+	 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Map> selectStm3000UsrList(Map paramMap) throws Exception{
 		return (List<Map>) list("stm3000DAO.selectStm3000UsrList", paramMap);    

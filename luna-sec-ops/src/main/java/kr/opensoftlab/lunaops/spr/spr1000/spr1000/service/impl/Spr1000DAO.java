@@ -109,4 +109,48 @@ public class Spr1000DAO  extends ComOslitsAbstractDAO {
 		return  (Map) select("spr1000DAO.selectSpr1000VelocityChartInfo", paramMap);
 	}
 	
+	public int insertStm3000SnapShot(Map<String, String> paramMap) throws Exception{
+		return update("spr1000DAO.insertStm3000SnapShot", paramMap );
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public int insertReq3000SnapShot(Map infoMap) {
+		return (int) insert("req3000DAO.insertReq3000SnapShot", infoMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public int insertReq3001SnapShot(Map infoMap) {
+		return (int) insert("req3000DAO.insertReq3001SnapShot", infoMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1100SnapShot(Map paramMap) throws Exception {
+		insert("spr1000DAO.insertPrj1100SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1101SnapShot(Map paramMap) throws Exception {
+		insert("spr1000DAO.insertPrj1101SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1102SnapShot(Map paramMap) throws Exception {
+		insert("spr1000DAO.insertPrj1102SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1103SnapShot(Map paramMap) throws Exception {
+		insert("spr1000DAO.insertPrj1103SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1106SnapShot(Map paramMap) throws Exception {
+		insert("spr1000DAO.insertPrj1106SnapShot", paramMap);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void insertPrj1107SnapShot(Map paramMap) throws Exception {
+		insert("spr1000DAO.insertPrj1107SnapShot", paramMap);
+	}
 }
