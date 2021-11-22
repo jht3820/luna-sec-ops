@@ -238,7 +238,7 @@ public class Stm9100Controller {
 				String content = "";
 				
 				
-				content = jenkinsClient.excuteHttpClientJenkins(url);
+				content = jenkinsClient.excuteHttpClientJenkins2(url);
 				
 				jenkinsClient.getJenkinsParser(content );
 				

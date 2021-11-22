@@ -1049,10 +1049,18 @@
 		    <isNotEmpty property="reqSignOrd">
 		    	,	A.REQ_SIGN_ORD = #reqSignOrd#
 		    </isNotEmpty>
-		    	,	REQ_ST_DTM			= TO_DATE(REPLACE(#reqStDtm#, '-'), 'YYYYMMDD HH24:MI')
-			    ,	REQ_ED_DTM			= TO_DATE(REPLACE(#reqEdDtm#, '-'), 'YYYYMMDD HH24:MI')
-			    ,	REQ_ST_DU_DTM		= TO_DATE(REPLACE(#reqStDuDtm#, '-'), 'YYYYMMDD')
-			    ,	REQ_ED_DU_DTM		= TO_DATE(REPLACE(#reqEdDuDtm#, '-') || '23:59', 'YYYYMMDDHH24:MI')
+		    <isNotEmpty property="reqStDtm">
+		    	,	A.REQ_ST_DTM = TO_DATE(REPLACE(#reqStDtm#, '-'), 'YYYYMMDD HH24:MI')
+		    </isNotEmpty>
+		    <isNotEmpty property="reqEdDtm">
+		    	,	A.REQ_ED_DTM = TO_DATE(REPLACE(#reqEdDtm#, '-'), 'YYYYMMDD HH24:MI')
+		    </isNotEmpty>
+		    <isNotEmpty property="reqStDuDtm">
+		    	,	A.REQ_ST_DU_DTM = TO_DATE(REPLACE(#reqStDuDtm#, '-'), 'YYYYMMDD')
+		    </isNotEmpty>
+		    <isNotEmpty property="reqEdDuDtm">
+		    	,	A.REQ_ED_DU_DTM = TO_DATE(REPLACE(#reqEdDuDtm#, '-') || '23:59', 'YYYYMMDDHH24:MI')
+		    </isNotEmpty>
 		WHERE	1=1
 		AND		A.PRJ_ID = #prjId#
 		AND		A.REQ_ID = #reqId#
@@ -1314,4 +1322,5 @@
 				AND A.FLOW_START_CD		= '01'
 		]]>
 	</select>
+	
 </sqlMap>

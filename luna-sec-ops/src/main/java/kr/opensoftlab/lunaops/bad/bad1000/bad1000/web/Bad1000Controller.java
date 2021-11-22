@@ -75,7 +75,6 @@ public class Bad1000Controller {
 			HttpSession ss = request.getSession();
 			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
 			paramMap.put("licGrpId", loginVO.getLicGrpId());
-			paramMap.put("menuId", (String) ss.getAttribute("selMenuId"));
 			
 			
 			String paramPrjGrpId = (String) paramMap.get("prjGrpId");
@@ -180,12 +179,12 @@ public class Bad1000Controller {
 			
 			List<Map> bad1000List = bad1000Service.selectBad1000BadList(paramMap);
 			
-			if("03".equals(paramMap.get("stmTypeCode")) || "04".equals(paramMap.get("stmTypecode"))) {
+			if("03".equals(paramMap.get("stmTypeCd")) || "04".equals(paramMap.get("stmTypeCd"))) {
 				
 				List<Map> bad1006BadTagList = bad1000Service.selectBad1000BadListTagList(paramMap);
 
 				if(bad1006BadTagList != null) {
-					model.addAttribute("bad1006Tags", bad1006BadTagList);
+					metaMap.put("tagList", bad1006BadTagList);
 				}
 			}
 
