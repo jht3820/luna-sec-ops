@@ -198,9 +198,4 @@ public class Req4100DAO  extends ComOslitsAbstractDAO {
 		return	(Map) select("req4100DAO.selectReq4100FlowInfoAjax", paramMap);
 	}
 	
-	
-	@SuppressWarnings("rawtypes")
-	public void insertReq4100SnapShot(Map paramMap) throws Exception {
-		insert("req4100DAO.insertReq4100SnapShot", paramMap);
-	}
 }

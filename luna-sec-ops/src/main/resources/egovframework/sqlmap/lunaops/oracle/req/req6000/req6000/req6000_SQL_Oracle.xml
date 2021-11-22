@@ -136,34 +136,4 @@
 		AND		A.REQ_ID = #reqId#
 	</delete>
 	
-	
-	<insert id="req6000DAO.insertReq6001SnapShot" parameterClass="java.util.Map" >
-		INSERT INTO REQ6001_SNP
-			SELECT 	A.LIC_GRP_ID, 
-					#prjGrpId# AS PRJ_GRP_ID, 
-					A.PRJ_ID, 
-					#sprId# AS SPR_ID, 
-					A.REQ_ID,
-					A.REQ_CHG_ID, 
-					A.REQ_CHG_TYPE_CD, 
-					A.CHG_USR_ID, 
-					A.CHG_DTM, 
-					A.PRE_PROCESS_ID, 
-					A.CHG_PROCESS_ID, 
-					A.PRE_FLOW_ID, 
-					A.CHG_FLOW_ID, 
-					A.PRE_CHARGER_ID, 
-					A.CHG_CHARGER_ID, 
-					A.REG_DTM,
-					A.REG_USR_ID, 
-					A.REG_USR_IP, 
-					A.MODIFY_DTM, 
-					A.MODIFY_USR_ID, 
-					A.MODIFY_USR_IP  
-			FROM REQ6001 A 
-			WHERE 1 = 1
-			AND A.LIC_GRP_ID = #licGrpId#
-			AND A.PRJ_ID = #prjId#
-			AND A.REQ_ID = #reqId#
-	</insert>
 </sqlMap>
