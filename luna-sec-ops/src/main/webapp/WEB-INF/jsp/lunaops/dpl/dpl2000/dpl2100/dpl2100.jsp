@@ -188,7 +188,6 @@ var OSLDpl2100Popup = function () {
 						rowDatas.push(rowData);
 					}
 					
-
 					var usrId = $.osl.user.userInfo.usrId;
 					
 					
@@ -203,7 +202,8 @@ var OSLDpl2100Popup = function () {
 					});
 					
 					if(usrSign){
-						$.osl.alert("결재 순서가 아닙니다.");
+						
+						$.osl.alert($.osl.lang("cmm6602.message.alert.notSignOrd"));
 						return;
 					}
 					
@@ -224,7 +224,8 @@ var OSLDpl2100Popup = function () {
 								
 								
 								if($.osl.isNull(signRes)){
-									$.osl.alert("결재 사유를 입력해주세요.");
+									
+									$.osl.alert($.osl.lang("cmm6602.message.alert.notEnterAprRes"));
 									return true;
 								}
 								
@@ -287,7 +288,7 @@ var OSLDpl2100Popup = function () {
 					});
 					
 					if(usrSign){
-						$.osl.alert("결재 순서가 아닙니다.");
+						$.osl.alert($.osl.lang("cmm6602.message.alert.notSignOrd"));
 						return;
 					}
 					
@@ -306,7 +307,7 @@ var OSLDpl2100Popup = function () {
 								
 								
 								if($.osl.isNull(signRes)){
-									$.osl.alert("반려 사유를 입력해주세요.");
+									$.osl.alert($.osl.lang("cmm6602.message.alert.notEnterRjtRes"));
 									return true;
 								}
 								
@@ -339,7 +340,7 @@ var OSLDpl2100Popup = function () {
 						};
 					var options = {
 							idKey: datatableId +"_"+ rowData.dplId,
-							modalTitle: "["+rowData.dplNm+"] 상세 정보",
+							modalTitle: $.osl.lang("dpl2100.modal.title.dplDetail",rowData.dplNm),
 							autoHeight: false,
 							modalSize: 'xl'
 						};

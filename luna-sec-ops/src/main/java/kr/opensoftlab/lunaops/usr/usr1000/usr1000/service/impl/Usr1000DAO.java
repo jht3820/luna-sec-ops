@@ -1,5 +1,6 @@
 package kr.opensoftlab.lunaops.usr.usr1000.usr1000.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import kr.opensoftlab.lunaops.com.dao.ComOslitsAbstractDAO;
@@ -56,5 +57,29 @@ public class Usr1000DAO extends ComOslitsAbstractDAO {
 	
 	public LoginVO selectUsr1000LoginVO(Map<String, String> paramMap) throws Exception {
 		return (LoginVO) select("usr1000DAO.selectUsr1000LoginVO",paramMap);
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map>  selectUsr1000ShortcutList(Map paramMap) throws Exception {
+		return  (List<Map>) list("usr1000DAO.selectUsr1000ShortcutList", paramMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public Integer  selectUsr1000ShortcutListCnt(Map paramMap) throws Exception {
+		return  (Integer) select("usr1000DAO.selectUsr1000ShortcutListCnt", paramMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public void  insertUsr1000ShortcutList(Map paramMap) throws Exception {
+		
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public void  updateUsr1000ShortcutList(Map paramMap) throws Exception {
+		update("usr1000DAO.updateUsr1000ShortcutList", paramMap);
 	}
 }

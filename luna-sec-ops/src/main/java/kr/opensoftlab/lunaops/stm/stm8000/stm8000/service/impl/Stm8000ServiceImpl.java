@@ -1,10 +1,12 @@
 package kr.opensoftlab.lunaops.stm.stm8000.stm8000.service.impl;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +14,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryBuilder;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -273,7 +281,7 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		String endRevisionVal = (String)paramMap.get("searchEdNum");
 		
 		
-		if(startRevisionVal != null && endRevisionVal != null && !"".equals(startRevisionVal) && !"".equals(endRevisionVal)) {
+		if(!startRevisionVal.isEmpty() && !endRevisionVal.isEmpty()) {
 			
 			startRevisionVal = startRevisionVal.replaceAll("/[^0-9]/g", "");
 			endRevisionVal = endRevisionVal.replaceAll("/[^0-9]/g", "");
@@ -372,11 +380,11 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	
 	
 	
-	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<Map> selectStm8000GitList(Map<String, String> paramMap) throws Exception {
-		List<Map<String, Object>> commits = null;
 		List<Map> list = null;
+		
+		List<Map<String, Object>> commits = null;
 		int count = 0;
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -492,7 +500,6 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 			params.put("totalCnt", Integer.toString(count));
 			list.add(params);
 		}
-		
 		return list;
 	}
 	

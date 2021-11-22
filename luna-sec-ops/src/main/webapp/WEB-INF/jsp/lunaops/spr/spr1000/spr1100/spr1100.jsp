@@ -121,7 +121,10 @@ var OSLSpr1100Popup = function () {
 			data:{
 				source:{
 					read:{
-						url: "/spr/spr1000/spr1000/selectSpr1000SprListAjax.do"
+						url: "/spr/spr1000/spr1000/selectSpr1000SprListAjax.do",
+						params:{
+							location:"spr1100"
+						}
 					}
 				}
 			},

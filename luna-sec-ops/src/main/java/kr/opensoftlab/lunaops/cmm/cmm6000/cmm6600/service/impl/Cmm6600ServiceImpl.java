@@ -297,6 +297,21 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	public Map selectCmm6600NextOrdInfo(Map paramMap) throws Exception {
 		return cmm6600DAO.selectCmm6600NextOrdInfo(paramMap);
 	}
+	
+	
+	@Override
+	public void insertCmm6601SignLogInfo(Map<String, String> paramMap) throws Exception {
+		
+		cmm6600DAO.insertCmm6601SignInfo(paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public int select6600MaxOrd(Map paramMap) throws Exception {
+		
+		return cmm6600DAO.select6600MaxOrd(paramMap);
+	}
 }
 
 

@@ -130,10 +130,15 @@
 				,	A.MODIFY_USR_ID
 				,	A.MODIFY_USR_IP
 		   FROM	STM3000 A
+		   ]]>
+		   <isNotEmpty property="location">
+		   		<isEqual property="location" compareValue="spr1003">
+		   			INNER JOIN (select distinct(USR_ID), PRJ_ID from prj2001 WHERE PRJ_ID = #prjId#) B ON(A.USR_ID = B.USR_ID)
+		   		</isEqual>
+		   </isNotEmpty>
 		   WHERE 1=1 
 		   AND A.LIC_GRP_ID = #licGrpId#
 		   AND A.DEL_CD = '02'
-		   ]]>
 		   <isNotEmpty property="useCd">
 				 AND A.USE_CD = #useCd#
 			</isNotEmpty>
@@ -604,4 +609,48 @@
 			]]>
 	</insert>
 	
+	
+	<insert id="stm3000DAO.insertStm3000SnapShot" parameterClass="java.util.Map">
+		
+		INSERT INTO STM3000_SNP
+			SELECT A.LIC_GRP_ID, 
+				#prjGrpId# AS PRJ_GRP_ID,
+				#prjId# AS PRJ_ID, 
+				#sprId# AS SPR_ID, 
+				A.USR_ID, 
+				A.USR_PW, 
+				A.USR_NM, 
+				A.EMAIL, 
+				A.TELNO, 
+				A.DEPT_ID, 
+				A.ETC, 
+				A.WK_ST_TM, 
+				A.WK_ED_TM, 
+				A.BK_ST_TM, 
+				A.BK_ED_TM, 
+				A.PW_FAIL_CNT, 
+				A.BLOCK,
+				A.ADM_YN, 
+				A.USR_IMG_ID, 
+				A.USE_CD,
+				A.USR_POSITION_CD, 
+				A.USR_DUTY_CD, 
+				A.REQ_MAIN_COLOR, 
+				A.REQ_FONT_COLOR, 
+				A.INI_YN, 
+				A.INI_DTM, 
+				A.REC_LOGIN_DTM, 
+				A.DSH_DISPLAY_CD, 
+				A.DEL_CD, 
+				A.REG_DTM, 
+				A.REG_USR_ID, 
+				A.REG_USR_IP, 
+				A.MODIFY_DTM, 
+				A.MODIFY_USR_ID, 
+				A.MODIFY_USR_IP
+			FROM 	STM3000 A
+			INNER JOIN (select distinct(USR_ID), PRJ_ID from prj2001 WHERE PRJ_ID = #prjId#) B ON(A.USR_ID = B.USR_ID)
+			WHERE 	1 = 1
+			AND  	LIC_GRP_ID = #licGrpId#
+	</insert> 
 </sqlMap>            

@@ -44,7 +44,7 @@ var OSLBad1004Popup = function () {
     	});
     	
     	$("#badPwInput").on("keypress", function(e){
-    		if(e.key == "Enter"){
+    		if(e.keyCode == 13){
     			$("#pwCheckBtn").click();		
     		}
     	});
