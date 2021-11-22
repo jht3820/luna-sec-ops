@@ -3430,7 +3430,9 @@
 							}
 							
 							
-							targetFieldFn[fieldId](rowData, event)
+							if(targetFieldFn.hasOwnProperty(fieldId)){
+								targetFieldFn[fieldId](rowData, event);
+							}
 							
 						});
 						
@@ -5098,7 +5100,6 @@
 				});
 			}
 		
-			
 			return {
 				sec: secAgo,
 				min: minAgo,
