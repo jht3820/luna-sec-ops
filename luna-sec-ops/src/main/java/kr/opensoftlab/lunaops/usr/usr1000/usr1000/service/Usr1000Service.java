@@ -41,4 +41,14 @@ public interface Usr1000Service {
 	
 	
 	void saveUsr1000ShortcutInfo(Map<String, String> paramMap) throws Exception;
+	
+	
+	void saveUsr1000AllSubSignUsr(Map<String, String> paramMap) throws Exception;
+
+	
+	@SuppressWarnings("rawtypes")
+	Map selectUsr1000SubSignUsrInfo(Map<String, String> paramMap) throws Exception;
+
+	
+	void saveUsr1000SelSubSignUsr(Map<String, String> paramMap) throws Exception;
 }

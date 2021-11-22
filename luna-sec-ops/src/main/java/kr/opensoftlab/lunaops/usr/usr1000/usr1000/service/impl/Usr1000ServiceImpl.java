@@ -7,8 +7,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6000.service.Cmm6000Service;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
+import kr.opensoftlab.lunaops.stm.stm3000.stm3000.service.impl.Stm3000DAO;
 import kr.opensoftlab.lunaops.stm.stm3000.stm3003.service.impl.Stm3003DAO;
 import kr.opensoftlab.lunaops.usr.usr1000.usr1000.service.Usr1000Service;
 
@@ -40,6 +42,14 @@ public class Usr1000ServiceImpl extends EgovAbstractServiceImpl implements Usr10
     
     @Resource(name="stm3003DAO")
     private Stm3003DAO stm3003DAO;
+    
+    
+    @Resource(name="stm3000DAO")
+    private Stm3000DAO stm3000DAO;
+    
+    
+    @Resource(name="cmm6000Service")
+    private Cmm6000Service cmm6000Service;
     
     
 	@Resource(name = "egovMessageSource")
@@ -297,4 +307,74 @@ public class Usr1000ServiceImpl extends EgovAbstractServiceImpl implements Usr10
     		}
         }
 	}
+
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void saveUsr1000AllSubSignUsr(Map<String, String> paramMap) throws Exception {
+		
+		
+		int totCnt = cmm6000Service.selectReq1000ReqListCnt(paramMap);
+		
+		paramMap.put("firstIndex", "0");
+		paramMap.put("lastIndex", String.valueOf(totCnt));
+		
+		
+		List<Map> cmm6000List = cmm6000Service.selectReq1000ReqList(paramMap);
+		
+		List<String> usrAuthPrjList = new ArrayList<String>();
+		
+		
+		for(Map cmm6000Info:cmm6000List) {
+			usrAuthPrjList.add((String)cmm6000Info.get("prjId"));
+		}
+		
+		
+		String usrId = paramMap.get("usrId");
+		String subSignUsrId = paramMap.get("subSignUsrId");
+		paramMap.put("usrId", subSignUsrId);
+		
+		
+		totCnt = cmm6000Service.selectReq1000ReqListCnt(paramMap);
+		
+		paramMap.put("lastIndex", String.valueOf(totCnt));
+		
+		
+		List<Map> cmm6000SubList = cmm6000Service.selectReq1000ReqList(paramMap);
+		
+		paramMap.put("usrId", usrId);
+		
+		for(Map cmm6000SubInfo: cmm6000SubList) {
+			
+			String prjId = (String) cmm6000SubInfo.get("prjId");
+			
+			if(usrAuthPrjList.indexOf(prjId) != -1) {
+				paramMap.put("prjId", prjId);
+				
+				
+				stm3000DAO.deleteStm3005SubSignUsrInfo(paramMap);
+				
+				
+				stm3000DAO.insertStm3005SubSignUsrInfo(paramMap);
+			}
+		}
+	}
+
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Map selectUsr1000SubSignUsrInfo(Map<String, String> paramMap) throws Exception {
+		return stm3000DAO.selectStm3005SubSignUsrInfo(paramMap);
+	}
+
+	
+	@Override
+	public void saveUsr1000SelSubSignUsr(Map<String, String> paramMap) throws Exception {
+		
+		stm3000DAO.deleteStm3005SubSignUsrInfo(paramMap);
+		
+		
+		stm3000DAO.insertStm3005SubSignUsrInfo(paramMap);
+	}
+    
 }

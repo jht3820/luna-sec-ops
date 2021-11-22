@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="dpl1000DAO">
 
@@ -104,7 +104,7 @@
 		    ON (A.PRJ_ID = B.PRJ_ID AND A.DPL_ID = B.TARGET_ID)
 		    LEFT JOIN CMM6601 C
 		    ON (B.LIC_GRP_ID = C.LIC_GRP_ID AND B.PRJ_ID = C.PRJ_ID AND B.TARGET_ID = C.TARGET_ID AND B.TARGET_CD = C.TARGET_CD AND B.MAX_SIGN_DTM = C.SIGN_DTM)
-		    LEFT JOIN CMM6600 D
+		    LEFT JOIN (SELECT * FROM CMM6600 WHERE DEL_CD = '02') D
 		    ON (B.LIC_GRP_ID = D.LIC_GRP_ID AND B.PRJ_ID = D.PRJ_ID AND B.TARGET_ID = D.TARGET_ID AND B.TARGET_CD = D.TARGET_CD AND (C.ORD+1) = D.ORD)
 			WHERE 1=1
 			AND A.PRJ_ID = #prjId#
