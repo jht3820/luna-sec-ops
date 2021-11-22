@@ -319,21 +319,23 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		
 		org.json.simple.JSONArray reqInfo = (org.json.simple.JSONArray) jsonParse.parse((String) paramMap.get("reqInfo"));
 		
+		String licGrpId = (String) paramMap.get("licGrpId");
+		
 		String prjGrpId = (String) paramMap.get("prjGrpId");
 		
 		String prjId = (String) paramMap.get("prjId");
 		
 		String sprId = (String) paramMap.get("sprId");
 		
+		List<String> reqIdList = new ArrayList();
 		
 		
-		stm3000DAO.insertStm3000SnapShot(paramMap);
+		spr1000DAO.insertStm3000SnapShot(paramMap);
 		
-		
-		List<Map> reqGrpList = null;
 		for(int i = 0 ; i < reqInfo.size(); i++) {
 			org.json.simple.JSONObject req = (org.json.simple.JSONObject) reqInfo.get(i);
 			Map mapReq = new ObjectMapper().readValue(req.toString(), Map.class) ;
+			mapReq.put("licGrpId", licGrpId);
 			mapReq.put("prjGrpId", prjGrpId);
 			mapReq.put("prjId", prjId);
 			mapReq.put("sprId", sprId);
@@ -343,37 +345,45 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			
 			req6000DAO.insertReq6001SnapShot(mapReq);
 			
-			
-			reqGrpList = req3000DAO.selectReq3000ReqIsInReqGrp(mapReq);
-			
-			
-			if(reqGrpList != null) {
-				
-				int reqGrpCount = req3000DAO.insertReq3000SnapShot(mapReq);
-				
-				if(reqGrpCount != 0) {
-					req3000DAO.insertReq3001SnapShot(mapReq);
-				}
-			}
-			
-			prj1100DAO.insertPrj1103SnapShot(mapReq);
+			spr1000DAO.insertPrj1103SnapShot(mapReq);
+			reqIdList.add((String) mapReq.get("reqId"));
 		}
 		
+		List<Map> reqGrpList = req3000DAO.selectReq3000ReqIsInReqGrp(reqIdList);
+		
+		for(Map reqGrp: reqGrpList) {
+			reqGrp.put("licGrpId", licGrpId);
+			reqGrp.put("prjGrpId", prjGrpId);
+			reqGrp.put("prjId", prjId);
+			reqGrp.put("sprId", sprId);
+			
+			if(reqGrp != null) {
+				
+				int reqGrpCount = spr1000DAO.insertReq3000SnapShot(reqGrp);
+				
+				if(reqGrpCount != 0) {
+					spr1000DAO.insertReq3001SnapShot(reqGrp);
+				}
+			}
+		}
 		
 		List<Map> processInfo = spr1000DAO.selectSpr1003SprProcessList(paramMap);
 		
 		for(Map process: processInfo) {
+			process.put("licGrpId", licGrpId);
+			process.put("prjGrpId", prjGrpId);
+			process.put("prjId", prjId);
 			process.put("sprId", sprId);
 			
-			prj1100DAO.insertPrj1100SnapShot(process);
+			spr1000DAO.insertPrj1100SnapShot(process);
 			
-			prj1100DAO.insertPrj1101SnapShot(process);
+			spr1000DAO.insertPrj1101SnapShot(process);
 			
-			prj1100DAO.insertPrj1102SnapShot(process);
+			spr1000DAO.insertPrj1102SnapShot(process);
 			
-			prj1100DAO.insertPrj1106SnapShot(process);
+			spr1000DAO.insertPrj1106SnapShot(process);
 			
-			prj1100DAO.insertPrj1107SnapShot(process);
+			spr1000DAO.insertPrj1107SnapShot(process);
 		}
 		
 		return rtnValue;

@@ -142,7 +142,7 @@
 			SELECT 	A.LIC_GRP_ID, 
 					#prjGrpId# AS PRJ_GRP_ID, 
 					A.PRJ_ID, 
-					#sprId# AS SPR_ID,, 
+					#sprId# AS SPR_ID, 
 					A.REQ_ID,
 					A.REQ_CHG_ID, 
 					A.REQ_CHG_TYPE_CD, 
