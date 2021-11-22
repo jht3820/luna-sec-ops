@@ -133,26 +133,8 @@ public class Spr1000Controller {
 			paramMap.put("delCd", "02");
 			
 			
-			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
-			
-			
-			totCnt = spr1000Service.selectSpr1000SprListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			dataList = (List) spr1000Service.selectSpr1000SprList(paramMap);
-			
-        	
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -372,26 +354,8 @@ public class Spr1000Controller {
 			
 			
 			
-			
-			int totCnt = 0;
-			List<Map> dataList = null;
-			Map<String, Object> metaMap = null;
-			
-			
-			totCnt = spr1000Service.selectSpr1000SprReqListCnt(paramMap);
-
-			
-			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
-
-			
-			paginationInfo.setTotalRecordCount(totCnt);
-			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
-
-			
-			
-			dataList = (List) spr1000Service.selectSpr1000SprReqList(paramMap);
-			
-        	
+			/
+			/
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -480,6 +444,8 @@ public class Spr1000Controller {
 			
 			
 			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			paramMap.put("licGrpId", loginVO.getLicGrpId());
 			
 			
 			LoginVO loginVo = (LoginVO) ss.getAttribute("loginVO");
@@ -501,7 +467,6 @@ public class Spr1000Controller {
 			if(paramPrjId == null || "".equals(paramPrjId)) {
 				paramPrjId = (String) ss.getAttribute("selPrjId");
 			}
-			
 			paramMap.put("prjGrpId", paramPrjGrpId);
 			paramMap.put("prjId", paramPrjId);
 			paramMap.put("sprId", paramSprId);
@@ -515,7 +480,7 @@ public class Spr1000Controller {
 			return new ModelAndView("jsonView");
 		}
 		catch(Exception ex){
-			Log.error("updateSpr1003SprStart()", ex);
+			Log.error("updateSpr1003SprEnd()", ex);
 			
 			
 			model.addAttribute("errorYn", "Y");

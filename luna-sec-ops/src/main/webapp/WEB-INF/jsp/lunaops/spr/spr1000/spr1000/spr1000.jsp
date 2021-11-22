@@ -75,11 +75,14 @@
 <script>
 "use strict";
 var OSLSpr1000Popup = function () {
-	var totalSprPoint = 0;
+	
+	var totalSprPoint = null;
+	
+	var totalSprOngoingCnt = 0;
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
-		// begin:: 스프린트 관리 데이터테이블
+		
 		$.osl.datatable.setting("spr1000Table",{
 			cardUiTarget: $("#spr1000CardTable"),
 			data: {
@@ -142,26 +145,25 @@ var OSLSpr1000Popup = function () {
 					
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1002View.do',data,options);
 				},
-				//스프린트 삭제
+				
 				"delete":function(rowDatas, datatableId, type, rowNum, elem){
-					//선택 프로젝트 그룹 휴지통으로 이동
+					
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/spr/spr1000/spr1000/deleteSpr1000SprList.do'/>"}
 							,{deleteDataList: JSON.stringify(rowDatas)});
-					//AJAX 전송 성공 함수
+					
 					ajaxObj.setFnSuccess(function(data){
 						if(data.errorYn == "Y"){
 			   				$.osl.alert(data.message,{type: 'error'});
 			   			}else{
-			   				//삭제 성공
+			   				
 			   				$.osl.toastr(data.message);
 			   				
-			   				//datatable 조회
 			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			   			}
 					});
 					
-					//AJAX 전송
+					
 					ajaxObj.send();
 				},
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
@@ -188,28 +190,36 @@ var OSLSpr1000Popup = function () {
 					
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1001View.do',data,options);
 				},
-				//스프린트 시작
+				
 				"sprStart": function(rowData, datatableId, type){
+					
 					var rowDatas = rowData;
 					
-					//선택 레코드 없는 경우
+					
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("spr1000.nonSelect"));
 						return true;
 					}
-					//선택 레코드 1개 이상인 경우
+					
+					
 					else if(rowDatas.length > 1){
 						$.osl.alert($.osl.lang("spr1000.manySelect"));
 						return true;
 					}
 					
-					//스프린트 상태
+					
 					var sprInfo = rowData[0];
 					
-					//대기가 아닌 경우 시작 불가능
+					
 					if(sprInfo.sprTypeCd != "01" || sprInfo.useCd != "01"){
 						$.osl.alert($.osl.lang("spr1000.sprTypeWaitMsg"));
 						return true;
+					}
+					
+					
+					if(totalSprOngoingCnt != 0){
+						$.osl.alert("이미 진행중인 스프린트가 존재합니다.\n 프로젝트당 스프린트는 1건만 진행가능합니다.");
+						return;
 					}
 					
 					var data = {
@@ -220,6 +230,7 @@ var OSLSpr1000Popup = function () {
 							,paramStartDt: sprInfo.sprStDt
 							,paramEndDt: sprInfo.sprEdDt
 						};
+					
 					var options = {
 							modalTitle: "스프린트 시작",
 							autoHeight: false,
@@ -228,29 +239,29 @@ var OSLSpr1000Popup = function () {
 							closeConfirm: false,
 							ftScrollUse: false
 						};
+					
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
 					
-					
 				},
-				//스프린트 종료
+				
 				"sprEnd": function(rowData, datatableId, type){
 					var rowDatas = rowData;
 					
-					//선택 레코드 없는 경우
+					
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("spr1000.nonSelect"));
 						return true;
 					}
-					//선택 레코드 1개 이상인 경우
+					
 					else if(rowDatas.length > 1){
 						$.osl.alert($.osl.lang("spr1000.manySelect"));
 						return true;
 					}
 					
-					//스프린트 상태
+					
 					var sprInfo = rowData[0];
 					
-					//시작 중이 아닌 경우 시작 불가능
+					
 					if(sprInfo.sprTypeCd != "02"){
 						$.osl.alert($.osl.lang("spr1000.sprTypeStartMsg"));
 						return true;
@@ -285,8 +296,15 @@ var OSLSpr1000Popup = function () {
 					var sprintStr = '';
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
-						//스프린트 상태에 따라 값
+						
+						
+						if(map.sprTypeCd == '02'){
+							totalSprOngoingCnt = map.sprOngoingCnt;
+						} 
+						
+						
 						var sprTypeClass = "kt-media--primary";
+						
 						var sprTypeNm = map.sprTypeNm;
 						
 						if(map.sprTypeCd == "02"){
@@ -294,7 +312,7 @@ var OSLSpr1000Popup = function () {
 						}else if(map.sprTypeCd == "03"){
 							sprTypeClass = "kt-media--warning";
 						}
-						//상태가 대기이고 사용 유무가 아니오인경우
+						
 						else if(map.useCd == "02"){
 							sprTypeClass = "kt-media--dark";
 							sprTypeNm = "미 사용";
@@ -304,27 +322,27 @@ var OSLSpr1000Popup = function () {
 							sprintStr += '<div class="row">';
 						}
 						var restDay = 0;
-						//종료일 경우 남은 일 수 0
+						
 						if(map.sprTypeCd == "03"){
 							restDay = 0;
 						}else{
 							restDay = $.osl.escapeHtml(map.restDay);
 						}
-						//카드 UI
+						
 						sprintStr +=
 							'<div class="col-lg-6 col-md-12 col-sm-12">'
-								//
+								
 								+'<div class="kt-portlet kt-portlet--mobile">'
-									//
+									
 									+'<div class="kt-portlet__head kt-portlet__head--lg">'
-										//'
+										
 										+'<div class="kt-portlet__head-label">'
 											+'<label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"><input type="checkbox" value="'+idx+'" data-datatable-id="spr1000Table">&nbsp;<span></span></label>'
 											+'<h5 class="kt-font-boldest"><span class="badge badge-primary kt-margin-r-10">No. '+map.rn+'</span></h5>'
 											+'<h5><span class="badge badge-primary" title="스프린트 기간" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><i class="far fa-calendar-alt kt-margin-r-10"></i>'+map.sprStDt+' ~ '+map.sprEdDt+'</span></h5>'
 										+'</div>'
-										//
-										//
+										
+										
 										+'<div class="kt-portlet__head-toolbar">'
 											+'<div class="dropdown dropdown-inline">'
 												+'<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
@@ -338,15 +356,11 @@ var OSLSpr1000Popup = function () {
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprEnd"><i class="fas fa-stop-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintEnd")+'</div>'
 													+'<div class="dropdown-divider"></div>'
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
-													/* +'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintMeetList")+'</div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintResultList")+'</div>'
-													+'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-print kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintReport")+'</div>' */ 
+													 
 												+'</div>'
 											+'</div>'
 										+'</div>'
-										//
+										
 									+'</div>'
 									
 									+'<div class="kt-portlet__body">'
@@ -422,9 +436,9 @@ var OSLSpr1000Popup = function () {
 											+'</div>'
 										+'</div>'
 									+'</div>'
-									//
+									
 								+'</div>'
-								//
+								
 							+'</div>';
 						
 						rowCnt++;
@@ -434,54 +448,54 @@ var OSLSpr1000Popup = function () {
 						}
 					});
 					
-					//로드된 데이터 CARD형식으로 추가
+					
 					$("#spr1000CardTable").html(sprintStr);
-					//차트 그리기
+					
 					$.each(list, function(idx, map){
 						drawChart(map);
 					})
 					
-					//툴팁시작
+					
 					KTApp.initTooltips();
 				}
 			}
 		});
-		// end:: 그룹 요구사항 관리 데이터테이블
 		
-		//뷰 변경 이벤트
+		
+		
 		$(".btn-view-type").click(function(){
 			var viewType = $(this).data("view-type");
 			
-			//active 교체
+			
 			$(".btn-view-type.active").removeClass("active");
 			$(this).addClass("active");
 			
 			currentViewType = viewType;
 			
-			//뷰어 변경
+			
 			fnViewerChange();
 		});
 		
-		//카드형, 목록형
+		
 		var fnViewerChange = function(){
-			//현재 viewType에 따라 show/hide
 			
-			//카드 형식
+			
+			
 			if(currentViewType == "01"){
 				$("#spr1000Table .kt-datatable__table").css({visibility: "hidden", height: 0});
 				$("#spr1000CardTable").show();
-			//데이터테이블 형식
+			
 			}else{	
 				$("#spr1000CardTable").hide();
 				$("#spr1000Table .kt-datatable__table").css({visibility: "visible",height: "auto"});
 			}
 		}
 	};
-	//차트그리기
+	
  	var drawChart = function(rowdata){
  		var ajaxObj = new $.osl.ajaxRequestAction(
  				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: rowdata.sprId});
- 		//AJAX 전송 성공 함수
+ 		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
  				$.osl.alert(data.message,{type: 'error'});
@@ -492,10 +506,10 @@ var OSLSpr1000Popup = function () {
  				var endDt  = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
  				
  				totalSprPoint = rowdata.sprPoint;
- 				//차트데이터 가공
+ 				
  				var seriesData = getDataRangeData(rowdata.sprStDt, rowdata.sprEdDt, "1", chartData);
  				
- 				//번다운차트 출력
+ 				
  				if(rowdata.sprTypeCd == '01'){
 	 				$("#burnDownChart"+rowdata.sprId).text("데이터 없음")
  				}else{
@@ -506,14 +520,14 @@ var OSLSpr1000Popup = function () {
  		
  		ajaxObj.send();
  	}
- 	//번다운 차트 그리기
+ 	
  	var drawBurnDownChart = function(dateRange, sprId){
  		 var chart = $.osl.chart.setting("apex","burnDownChart"+sprId,{
- 			//차트 데이터 설정
+ 			
 				data:{										
 					param:{
 						dataArr: dateRange,	
-						 //x축 키값
+						 
 						 xKey:"time",
 						 key:{
 							 key1:"idealBurnDownLine",
@@ -523,7 +537,7 @@ var OSLSpr1000Popup = function () {
 							 keyNm1:"이상적인 번다운라인",
 							 keyNm2:"실제 번다운라인"
 						 },
-						 //차트 타입
+						 
 						 chartType:"line",
 						 dataType: "local"
 					}
@@ -536,7 +550,7 @@ var OSLSpr1000Popup = function () {
 						show:false
 					},
 					height:180,
-					//라인 색상
+					
 					colors: ["#ffb822","#840ad9"],
 					title: {
 						text: "번다운차트",
@@ -553,7 +567,7 @@ var OSLSpr1000Popup = function () {
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
 				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
-				    		//해당 데이터가 x라벨에 존재할 경우 표출 아니면 미표출
+				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
 				    				return "";
@@ -573,16 +587,16 @@ var OSLSpr1000Popup = function () {
 				    },
 					xaxis: {
 				        type: 'datetime',
-				        //출력 형태
+				        
 				        labels: {
 				        	hideOverlappingLabels :true,
 				            formatter: function(value){
 				            	return new Date(value).format("MM-dd");
 				            }
 				        },
-				        //x축 몇개를 표시할 것인지
+				        
 				        tickAmount: '5',
-				        //중간에 점찍기
+				        
 				        tickPlacement: 'between',
 		        	},
 					yaxis: {
@@ -594,11 +608,11 @@ var OSLSpr1000Popup = function () {
 				}
 			});
 		 }
- 	//차트 데이터 정제
+ 	
  	var getDataRangeData = function(sttDt, endDT, type, data){
- 		//이상적인 번업라인 데이터 만들기
+ 		
  		if(data.length!=0){
-	 		//누적 스토리포인트 날짜:스토리포인트 형태로 변환
+	 		
 	 		var sprPoint = [];
 	 		$.each(data, function(index, value){
 	 			var _series = {};
@@ -606,7 +620,7 @@ var OSLSpr1000Popup = function () {
 	 			sprPoint.push(_series);
 	 		});
  		}
- 		//시작일자와 종료일자 사이의 날짜를 일별로 자르기.
+ 		
  		if(type=='1'){
  			var resDay = [];
 	 	 	var stDay = new Date(sttDt);
@@ -627,53 +641,53 @@ var OSLSpr1000Popup = function () {
 	 	   			stDay.setDate(stDay.getDate() + 1);
 	 	   			ideal = ideal + 10
 	 	   	}
-	 	//주별로
+	 	
  		}else if(type=='2'){
  			
  		}
  		var length = resDay.length
- 		//전체 스토리포인트 총합 가져와서 / 일수로 나누기
+ 		
  		var step = totalSprPoint / (length-1)
- 		//이상적인 다운라인 데이터 작성
- 		//일수
+ 		
+ 		
  		var end = totalSprPoint;
  		$.each(resDay, function(index, value){
- 			//바로종료할경우
+ 			
 	 		if(length == 1){
 	 			value['idealBurnDownLine'] = totalSprPoint;
-	 		//2일만에 종료할경우
+	 		
 	 		}else if(length == 2){
 	 			value['idealBurnDownLine'] = end;
 	 			end -= totalSprPoint;
-	 		//나머지
+	 		
 	 		}else{
 	 			value['idealBurnDownLine'] = end.toFixed(1);
 	 			end -= step	
 	 		}
  		})
  		if(data.length!=0){
-	 		//오늘 날짜
+	 		
 	 		var today = new Date();
-	 		//실제 스토리포인트 데이터 작성
+	 		
 	 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
 	 			var match = false;
-	 			//오늘 날짜보다 이후의 날짜는  추가하지않음.
+	 			
 	 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
 	 			if(gap < 0){
 		 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
 		 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
 		 					match = true;
-		 					//매치할 경우 가져온 데이터에서 할당한다.
+		 					
 		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
 		 					break;
 		 				}
 		 			}
-		 			//매치하지 않을 경우
+		 			
 		 			if(!match){
-		 				//처음 시작은 0으로
+		 				
 		 				if(dayIndex == 0){
 		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
-		 				//매치하지 않을 경우 전의 sprPoint를 가져와서 할당한다.
+		 				
 		 				}else{
 			 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
 		 				}
@@ -687,7 +701,7 @@ var OSLSpr1000Popup = function () {
  		return resDay;
  	}
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }

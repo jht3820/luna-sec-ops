@@ -210,7 +210,7 @@ var OSLCmm6601Popup = function () {
 		usrStr += 
 			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'" data-sign-type="'+signTypeNm+'" data-ord="'+userInfo.ord+'"> '
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
-				+'<div class="kt-margin-r-20 font-weight-bolder">'
+				+'<div class="kt-margin-r-10 font-weight-bolder osl-min-width-48">'
 					+'<span class="cardNumber">No.</span><span class="signStartOrdCell" data-ord="0"></span>'
 				+'</div>'
 				+'<div class="kt-widget__label kt-margin-r-10 osl-user__active--block">'
@@ -221,7 +221,7 @@ var OSLCmm6601Popup = function () {
 					+'</div>'
 					+'<div class="kt-widget__wrapper">'
 						+'<div class="kt-widget__label  osl-min-h-px--57 justify-content-center">'
-							+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
+							+'<div class="kt-widget__title osl-word__break osl-word__break--w150">'
 								+$.osl.escapeHtml(userInfo.usrNm)
 							+'</div>'
 							+'<small class="osl-word__break osl-word__break--w200">'+$.osl.escapeHtml(userInfo.email)+'</small>'
@@ -258,12 +258,12 @@ var OSLCmm6601Popup = function () {
 			else if(idx == 0){
 				$(this).children(".cardNumber").text("");
 				var ordCell = $(this).children(".signStartOrdCell"); 
-				ordCell.text("기안");
+				ordCell.text("기안자");
 				ordCell.data('ord', idx);
 			
 			}
 			else{
-				$(this).children(".cardNumber").text("검토 ");
+				$(this).children(".cardNumber").text("검토자 ");
 				var ordCell = $(this).children(".signStartOrdCell"); 
 				ordCell.text(idx);
 				ordCell.data('ord', idx);

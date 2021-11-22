@@ -52,21 +52,13 @@
 		</button>
 		
 	</div>
-		
-	<!-- 
-		**참고사항** 
-		하나의 tab-content에 여러개의 portlet이 들어갈 경우에는
-		osl-tab-content-8 osl-min-h-px--550,osl-tab-content-4에 있는 kt-padding-20, kt-bg-light 제거하시고 사용하시면 됩니다.
-		또한 위의 경우 여러개 portlet이 들어갈 때 마지막 portlet은 반드시 kt-padding-b-0을 적어 주셔야합니다.
-		osl-tab-content-8 osl-min-h-px--550,osl-tab-content-4는 기본적으로 kt-padding-20, kt-bg-light를 무조건 가지고 있습니다.
-		여백과 배경색이 없는 예시) osl_tab_1_1 내부의 osl-tab-content-8 osl-min-h-px--550
-	 -->
-	<div class="kt-portlet__body kt-padding-t-0 kt-padding-l-30 kt-padding-r-30 kt-padding-b-30">
-		<div class="tab-content">
+
+	<div class="kt-portlet__body kt-bg-light kt-padding-10 osl-tab-portlet__body">
+		<div class="tab-content osl-tab-content kt-scroll" id="osl-tab-content__scroll">
 			
 			<div class="tab-pane active" id="osl_tabs_1_1" data-tab-content="reqInfo" role="tabpanel">
 				<form class="kt-form" id="reqInfo" autocomplete="off">
-					<div class="row">
+					<div class="row kt-margin-0">
 						<div class="osl-tab-content-8 osl-min-h-px--550">
 							<div class="kt-portlet kt-portlet--collapsed" id="req4102RequestUsrInfo">
 								<div class="kt-portlet__head">
@@ -200,7 +192,7 @@
 			</div>
 			
 			
-			<div class="row osl-tab-content--full kt-hide">
+			<div class="row osl-tab-content--full kt-margin-0 kt-hide">
 				<div class="osl-tab-content-4 osl-min-h-px--550 kt-bg-light osl-content-right-margin kt-padding-20 kt-padding-r-70">
 					<div class="float-left w-100">
 						<form class="kt-form" id="reqSideHistory" autocomplete="off">
@@ -254,7 +246,7 @@
 			
 			<div class="tab-pane" id="osl_tabs_1_2" data-tab-content="flowChg" role="tabpanel">
 				<form class="kt-form" id="flowChg" autocomplete="off">
-					<div class="row osl-tab-content--full">
+					<div class="row osl-tab-content--full kt-margin-0">
 						<div class="osl-tab-content-8 osl-min-h-px--550 kt-bg-light kt-padding-20"></div>
 					</div>
 				</form>
@@ -263,7 +255,7 @@
 			
 			<div class="tab-pane" id="osl_tabs_1_3" data-tab-content="reqHistory" role="tabpanel">
 				<form class="kt-form" id="reqHistory" autocomplete="off">
-					<div class="row osl-tab-content--full">
+					<div class="row osl-tab-content--full kt-margin-0">
 						<div class="osl-tab-content-8 osl-min-h-px--550 kt-bg-light kt-padding-20"></div>
 					</div>
 				</form>
@@ -272,7 +264,7 @@
 			
 			<div class="tab-pane" id="osl_tabs_1_4" data-tab-content="prjAddOpt" role="tabpanel">
 				<form class="kt-form" id="prjAddOpt" autocomplete="off">
-					<div class="row osl-tab-content--full">
+					<div class="row osl-tab-content--full kt-margin-0">
 						<div class="osl-tab-content-8 osl-min-h-px--550 kt-bg-light kt-padding-20"></div>
 					</div>
 				</form>
@@ -281,7 +273,7 @@
 			
 			<div class="tab-pane" id="osl_tabs_1_5" data-tab-content="proAddOpt" role="tabpanel">
 				<form class="kt-form" id="proAddOpt" autocomplete="off">
-					<div class="row osl-tab-content--full">
+					<div class="row osl-tab-content--full kt-margin-0">
 						<div class="osl-tab-content-8 osl-min-h-px--550 kt-bg-light kt-padding-20"></div>
 					</div>
 				</form>
@@ -290,7 +282,7 @@
 			
 			<div class="tab-pane" id="osl_tabs_1_6" data-tab-content="reqAddOpt" role="tabpanel">
 				<form class="kt-form" id="reqAddOpt" autocomplete="off">
-					<div class="row osl-tab-content--full">
+					<div class="row osl-tab-content--full kt-margin-0">
 						<div class="osl-tab-content-8 osl-min-h-px--550 kt-bg-light kt-padding-20"></div>
 					</div>
 				</form>
@@ -299,7 +291,7 @@
 			
 			<div class="tab-pane" id="osl_tabs_1_7" data-tab-content="reqwork" role="tabpanel">
 				<form class="kt-form" id="reqwork" autocomplete="off">
-					<div class="row osl-tab-content--full">
+					<div class="row osl-tab-content--full kt-margin-0">
 						<div class="osl-tab-content-8 osl-min-h-px--550 kt-bg-light kt-padding-20"></div>
 					</div>
 				</form>
@@ -308,7 +300,7 @@
 			
 			<div class="tab-pane" id="osl_tabs_1_8" data-tab-content="svnRevision" role="tabpanel">
 				<form class="kt-form" id="svnRevision" autocomplete="off">
-					<div class="row osl-tab-content--full">
+					<div class="row osl-tab-content--full kt-margin-0">
 						<div class="osl-tab-content-8 osl-min-h-px--550 kt-bg-light kt-padding-20"></div>
 					</div>
 				</form>
@@ -317,7 +309,7 @@
 			
 			<div class="tab-pane" id="osl_tabs_1_9" data-tab-content="reqDep" role="tabpanel">
 				<form class="kt-form" id="reqDep" autocomplete="off">
-					<div class="row osl-tab-content--full">
+					<div class="row osl-tab-content--full kt-margin-0">
 						<div class="osl-tab-content-8 osl-min-h-px--550 kt-bg-light kt-padding-20"></div>
 					</div>
 				</form>
@@ -356,7 +348,7 @@ var OSLCmm6203Popup = function () {
 	
     
     var documentSetting = function () {
-    	
+    	fnKtScrollInit('#osl-tab-content__scroll','550')
 		
     	new KTPortlet('req4102RequestUsrInfo', $.osl.lang("portlet"));
     	new KTPortlet('req4102ReqGrpInfo', $.osl.lang("portlet"));
@@ -365,27 +357,6 @@ var OSLCmm6203Popup = function () {
     	
     	settingReqOneTap();
     	settingReqTwoTap();
-    	
-    	
-		$('.modal-body').scroll(function() {
-		    
-		    var scroll = $('.modal-body').scrollTop();
-		    
-		    if (scroll >= 10) {
-		        
-		        $('.osl-swiper-container').css({
-		            backgroundColor: '#eeeef4',
-		        	boxShadow: '0 1px 16px rgb(64 63 63 / 15%)'
-		        });
-		        
-		    } else {
-		        
-		        $('.osl-swiper-container').css({
-		            backgroundColor: 'transparent',
-		        	boxShadow: 'none'
-		        });
-		    }
-		});
     	
     	
     	$('.osl-tab-content__folding-btn').click(function(){
@@ -432,9 +403,7 @@ var OSLCmm6203Popup = function () {
 			}
 		
 			
-			
-			
-			
+			/
 			if(tabDiv=='reqInfo'){
 		    	
 		    	settingReqOneTap();
@@ -758,6 +727,20 @@ var OSLCmm6203Popup = function () {
 		});
 		
 		ajaxObj.send();
+	};
+	
+	
+	var fnKtScrollInit = function(targetName, targetHeight) {
+		KTUtil.scrollInit($(targetName)[0], {
+	   		
+	        disableForMobile: true, 
+	        
+	        resetHeightOnDestroy: true, 
+	        
+	        handleWindowResize: true, 
+	        
+	        height: targetHeight
+	    });
 	};
 	
     return {

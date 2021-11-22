@@ -171,4 +171,7 @@ public interface Dpl1000Service {
 	
 	@SuppressWarnings({"rawtypes" })
 	List selectDpl1700SvnChangePathList(Map paramMap)  throws Exception;
+
+	
+	void saveDpl1000SignLine(Map<String, String> paramMap) throws Exception;
 }

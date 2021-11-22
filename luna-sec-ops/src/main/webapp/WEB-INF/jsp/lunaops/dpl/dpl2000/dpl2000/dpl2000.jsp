@@ -161,7 +161,8 @@ var OSLDpl2000Popup = function () {
 						};
 					var options = {
 							idKey: datatableId +"_"+ rowData.dplId,
-							modalTitle: "["+rowData.dplNm+"] 상세 정보",
+							
+							modalTitle: $.osl.lang("dpl2000.modal.title.dplDetail",rowData.dplNm),
 							autoHeight: false,
 							modalSize: 'xl',
 								closeConfirm: true,

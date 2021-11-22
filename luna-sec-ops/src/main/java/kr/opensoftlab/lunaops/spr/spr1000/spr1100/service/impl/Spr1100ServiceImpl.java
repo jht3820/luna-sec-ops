@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.impl.Req4100DAO;
-import kr.opensoftlab.lunaops.spr.spr1000.spr1000.service.impl.Spr1000DAO;
 import kr.opensoftlab.lunaops.spr.spr1000.spr1100.service.Spr1100Service;
 
 

@@ -288,7 +288,9 @@
            	WHERE	1=1
            		AND A.PRJ_ID		=	#prjId#
            		AND	A.PROCESS_ID	=	#processId#
-           		AND	A.FLOW_ID		=	#flowId#
+           		<isNotEmpty property="flowId">
+           			AND	A.FLOW_ID		=	#flowId#
+           		</isNotEmpty>
            		<isNotEmpty property="itemId">
            			AND	A.ITEM_ID		=	#itemId#
            		</isNotEmpty>

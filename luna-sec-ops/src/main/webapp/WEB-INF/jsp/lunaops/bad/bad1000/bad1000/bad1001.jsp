@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <input type="hidden" name="stmTypeCd" id="stmTypeCd" value="${param.stmTypeCd}" /> 
@@ -16,26 +15,31 @@
 			<div class="kt-padding-t-10 kt-padding-b-15 osl-font-size--1_5 osl-border-b--dedede" name="badTitleDiv" id="badTitleDiv"></div>
 			
 			<div class="osl-portlet__head-label kt-margin-t-10">
-				<div class="kt-padding-5 osl-padding-b-6__5" name="writerDiv" id="writerDiv"  data-badUsrId=''></div>
-				<div class="kt-padding-5" name="writeDateDiv" id="writeDateDiv"></div>
 				
+				<div class="float-left osl-bad__writer-div" name="writerDiv" id="writerDiv"  data-badUsrId=''></div>
+				<div class="float-right osl-display__flex osl-bad__sub-div">
+					
+					<div name="writeDateDiv" id="writeDateDiv"></div>
+					
+					<div class="osl-display__flex-r kt-margin-l-10">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="updateBtn" id="updateBtn" title="게시글 수정" data-title-lang-cd="bad1007.actionTooltip.updateTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+							<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="deleteBtn" id="deleteBtn" title="게시글 삭제" data-title-lang-cd="bad1007.actionTooltip.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+							<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air kt-hide" name="restoreBtn" id="restoreBtn" title="게시글 복원" data-title-lang-cd="bad1007.actionTooltip.restoreTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+							<i class="la la-rotate-left"></i><span data-lang-cd="bad1007.button.restore">복구</span>
+						</button>
+					</div>
+				</div>
 			</div>	
 		</div>
 		<div class="osl-bad__card-body">
 			
-			<div class="osl-portlet__sub-toolbar">
-				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-r-5 btn-elevate btn-elevate-air" name="updateBtn" id="updateBtn" title="게시글 수정" data-title-lang-cd="bad1001.actionBtn.updateTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-					<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
-				</button>
-				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-r-5 btn-elevate btn-elevate-air" name="deleteBtn" id="deleteBtn" title="게시글 삭제" data-title-lang-cd="bad1001.actionBtn.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-					<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
-				</button>
-				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-r-5 btn-elevate btn-elevate-air kt-hide" name="restoreBtn" id="restoreBtn" title="게시글 복원" data-title-lang-cd="bad1001.actionBtn.restoreTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-					<i class="la la-rotate-left"></i><span data-lang-cd="bad1001.button.restore">복구</span>
-				</button>
+			<div class="bard-text kt-padding-30 kt-padding-t-20 kt-padding-b-20" name="badContentDiv" id="badContentDiv">
+				<textarea  class="kt-hide" name="badContent" id="badContent"></textarea>
 			</div>
-			
-			<div class="bard-text kt-padding-30 kt-padding-t-20 kt-padding-b-20 osl-min-h-px--150 osl-max-width--100-p" name="badContentDiv" id="badContentDiv"></div>
 			
 			<div class="form-group kt-margin-20 kt-hide" name="badFileOption" id="badFileOption">
 				<hr class="kt-margin-t-20 kt-margin-b-20">
@@ -84,7 +88,7 @@
 				</div>
 				<input type="text" class="form-control" name="cmtWriter" id="cmtWriter" autocomplete="off" maxlength="370" />
 				<div class="form-group-append">
-					<button class="btn btn-brand" type="button" name="cmtSaveBtn" id="cmtSaveBtn"><span data-lang-cd="bad1001.button.submit">등록</span></button>
+					<button class="btn btn-brand" type="button" name="cmtSaveBtn" id="cmtSaveBtn"><i class="fas fa-comment-medical"></i><span data-lang-cd="bad1001.button.submit">등록</span></button>
 				</div>
 			</div>
 			
@@ -113,6 +117,9 @@ var OSLBad1001Popup = function () {
 	
 	var tag = [];
 
+	
+	var formEditList = [];
+	
 	
 	var paramRowData;
 	
@@ -194,9 +201,6 @@ var OSLBad1001Popup = function () {
 				 }
 			 ],
 			 layout:{ "header" : false },
-			 rows:{
-				clickCheckbox: true
-			},
 			 actionBtn:{
 				 "title": $.osl.lang("bad1001.actionBtn.title"),
 				 "update": false,
@@ -206,8 +210,8 @@ var OSLBad1001Popup = function () {
 			 actionTooltip:{
 				"delete": $.osl.lang("bad1001.actionBtn.deleteComment"),
 			},
-			 actionFn:{
-				 "delete":function(rowDatas){
+			actionFn:{
+				"delete":function(rowDatas){
 					 
 					 if(paramRowData.delCd =='02'){
 						
@@ -463,7 +467,17 @@ var OSLBad1001Popup = function () {
 				$("#writeDateDiv").text($.osl.lang("bad1001.label.writeDate")+ " : " + setBad.badWtdtm);
 				
 				
-				$("#badContentDiv").html(setBad.badContent);
+				$("#badContent").val(setBad.badContent);
+				
+		    	formEditList.push($.osl.editorSetting("badContent", {
+		    		toolbar: false,
+	    			disableResizeEditor: false,
+	    			disableDragAndDrop: true,
+	    			disabledEditor: true,
+	    			height:260
+		    	}));
+		    	
+		    	$("#badContent").removeClass("kt-hide");
 				
 				
 				if(paramRowData.stmFileCnt != '0' && fileList != null && fileList != ""){
@@ -494,11 +508,6 @@ var OSLBad1001Popup = function () {
 					
 					
 					$("tag").click(function(){
-						
-						
-
-
-
 						
 						
 						$.osl.layerPopupClose();

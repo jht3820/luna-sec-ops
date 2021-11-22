@@ -532,6 +532,8 @@ jQuery(function ($) {
             var flowSignStopCd = operatorData.properties.flowSignStopCd;
             var flowRevisionCd = operatorData.properties.flowRevisionCd;
             var flowDplCd = operatorData.properties.flowDplCd;
+            var flowMiddleEndCd = operatorData.properties.flowMiddleEndCd;
+            var flowDoneCd = operatorData.properties.flowDoneCd;
             
             
             var flowStatus = operatorData.properties.flowStatus;
@@ -554,6 +556,14 @@ jQuery(function ($) {
             
 			if(flowDplCd == "01"){
 				flowIconStr += '<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>';
+			}
+			
+			if(flowMiddleEndCd == "01"){
+				flowIconStr += '<li class="fa fa-stopwatch" title="중간 종료"></li>';
+			}
+			
+			if(flowDoneCd == "01"){
+				flowIconStr += '<li class="fa fa-flag-checkered" title="최종 완료 단계"></li>';
 			}
 			
             if(flowIconStr == ''){
@@ -589,23 +599,27 @@ jQuery(function ($) {
             $operator_function.appendTo($operator);
             
             var $operator_title = $('<div class="flowchart-operator-title" style="background-color:'+flowTitleBgColor+';color:'+flowTitleColor+';"></div>');
-            var dropdownEditMenuList = '';
+            var dropdownEditMenu = '';
 
             
-            if(operatorData.properties.hasOwnProperty("editable") && operatorData.properties.editable === true){
-            	dropdownEditMenuList = 
-	            		'<div class="dropdown-item" data-flow-action="update"><i class="fa fa fa-edit kt-font-primary"></i>'+$.osl.lang("process.menu.update")+'</div>'
-	            		+'<div class="dropdown-item" data-flow-action="delete"><i class="fa fa fa-trash kt-font-primary"></i>'+$.osl.lang("process.menu.delete")+'</div>';
+            if(operatorData.properties.hasOwnProperty("editable") && operatorData.properties.editable === true && flowDoneCd != "01"){
+            	dropdownEditMenu = 
+            			'<div class="dropdown-item" data-flow-action="update"><i class="fa fa fa-edit kt-font-primary"></i>'+$.osl.lang("process.menu.update")+'</div>'
+            			+'<div class="dropdown-item" data-flow-action="delete"><i class="fa fa fa-trash kt-font-primary"></i>'+$.osl.lang("process.menu.delete")+'</div>'
+		            	+'<div class="dropdown-item" data-flow-action="detail"><i class="fa fa fa-info-circle kt-font-primary"></i>'+$.osl.lang("process.menu.detail")+'</div>';
+            }else{
+            	dropdownEditMenu = 
+	            	'<div class="dropdown-item" data-flow-action="detail"><i class="fa fa fa-info-circle kt-font-primary"></i>'+$.osl.lang("process.menu.detail")+'</div>';
             }
+            
             $operator_title.html(
             		'<div class="flowchart-operator-title__lebel">'+infos.title+'</div>'
-	            	+'<div class="flowchart-operator-menu">'
-						+'<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" style="background-color:'+flowTitleBgColor+';color:'+flowTitleColor+';" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1"><i class="fa fa-bars osl-padding-r0"></i></button>'
-						+'<div class="dropdown-menu dropdown-menu-right">'
-							+dropdownEditMenuList
-							+'<div class="dropdown-item" data-flow-action="detail"><i class="fa fa fa-info-circle kt-font-primary"></i>'+$.osl.lang("process.menu.detail")+'</div>'
-						+'</div>'
-					+'</div>'
+            		+'<div class="flowchart-operator-menu">'
+    					+'<button type="button" class="btn btn-bold btn-font-sm btn-elevate btn-elevate-air" style="background-color:'+flowTitleBgColor+';color:'+flowTitleColor+';" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1"><i class="fa fa-bars osl-padding-r0"></i></button>'
+    					+'<div class="dropdown-menu dropdown-menu-right" data-flow-id="'+infos.id+'">'
+    	        			+dropdownEditMenu
+    					+'</div>'
+    				+'</div>'
             );
             $operator_title.appendTo($operator);
 
@@ -615,13 +629,18 @@ jQuery(function ($) {
                 $operator_body.appendTo($operator);
             }
 
-            
+            /*
             var $operator_inputs_outputs = $('<div class="flowchart-operator-inputs-outputs"></div>');
 
             var $operator_inputs = $('<div class="flowchart-operator-inputs"></div>');
 
             var $operator_outputs = $('<div class="flowchart-operator-outputs"></div>');
 
+            
+            if(flowDoneCd == "01"){
+            	$operator_outputs = $('');
+            }
+            
             if (this.options.verticalConnection) {
                 $operator_inputs.prependTo($operator);
                 $operator_outputs.appendTo($operator);
