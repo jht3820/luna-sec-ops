@@ -10,12 +10,9 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import egovframework.com.cmm.service.impl.FileManageDAO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.opensoftlab.lunaops.arm.arm1000.arm1100.service.impl.Arm1100DAO;
 import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
-import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 
 
 
@@ -40,6 +37,10 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	public void saveCmm6600SignLine(Map<String, String> paramMap) throws Exception {
 		
 		String singUsrInfList = (String) paramMap.get("signUsrInfList");
+		String signLineId = cmm6600DAO.selectCmm6600NewSignLineId(paramMap);
+		
+		
+		paramMap.put("signLineId", signLineId);
 		
 		
 		if("update".equals(paramMap.get("type"))) {
@@ -75,6 +76,8 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				
 				if("0".equals(ord)) {
 					paramMap.put("signTypeCd", "01");
+					
+					paramMap.put("subSignCd", "02");
 					cmm6600DAO.insertCmm6601SignInfo(paramMap);
 					
 				
@@ -99,7 +102,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 						
 						if("01".equals(paramMap.get("targetCd"))) {
 							ntfParam.put("armTitle", "[요구사항] 결재 담당자 지정"); 
-							ntfParam.put("armContent", "["+targetNm+"] 요구 사항에 "+ord+"번째 결재자로 지정되었습니다."); 
+							ntfParam.put("armContent", "["+targetNm+"] 요구 사항이 결재 대기 중입니다."); 
 						
 						}else if("02".equals(paramMap.get("targetCd"))) {
 							ntfParam.put("armTitle", "[배포 계획] 결재 요청"); 

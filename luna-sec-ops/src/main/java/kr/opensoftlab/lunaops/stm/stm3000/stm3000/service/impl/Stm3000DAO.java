@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository("stm3000DAO")
 public class Stm3000DAO extends ComOslitsAbstractDAO {
 	
-	 
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Map> selectStm3000UsrList(Map paramMap) throws Exception{
 		return (List<Map>) list("stm3000DAO.selectStm3000UsrList", paramMap);    
@@ -114,6 +114,22 @@ public class Stm3000DAO extends ComOslitsAbstractDAO {
 	
 	public int updateStm3000PasswordExprInit(Map<String, String> paramMap) throws Exception{
 		return update("stm3000DAO.updateStm3000PasswordExprInit", paramMap );
+	}
+	
+	
+	public void insertStm3005SubSignUsrInfo(Map<String, String> paramMap) throws Exception{
+		insert("stm3000DAO.insertStm3005SubSignUsrInfo", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public Map selectStm3005SubSignUsrInfo(Map<String, String> paramMap) throws Exception{
+		return (Map) select("stm3000DAO.selectStm3005SubSignUsrInfo", paramMap);
+	}
+	
+	
+	public void deleteStm3005SubSignUsrInfo(Map<String, String> paramMap) throws Exception{
+		delete("stm3000DAO.deleteStm3005SubSignUsrInfo", paramMap);
 	}
 	
 }
