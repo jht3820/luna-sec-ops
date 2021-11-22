@@ -341,9 +341,9 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			mapReq.put("sprId", sprId);
 			
 			
-			req4100DAO.insertReq4100SnapShot(mapReq);
+			spr1000DAO.insertReq4100SnapShot(mapReq);
 			
-			req6000DAO.insertReq6001SnapShot(mapReq);
+			spr1000DAO.insertReq6001SnapShot(mapReq);
 			
 			spr1000DAO.insertPrj1103SnapShot(mapReq);
 			reqIdList.add((String) mapReq.get("reqId"));
