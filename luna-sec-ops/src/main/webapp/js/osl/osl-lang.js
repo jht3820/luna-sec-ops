@@ -265,8 +265,9 @@ var OSLCoreLangSetting = function () {
 					reInsertBtn : "메시지 답장",
 					checkBtn : "메시지 읽음 처리",
 					deleteBtn : "메시지 삭제",
-					dblClickBtn :"메시지 상세 조회"
+					dblClickBtn :"메시지 상세 조회",
 				},
+				detailBtn : "상세",
 				reInsertBtn : "답장",
 				checkBtn : "읽음",
 			},
@@ -314,6 +315,8 @@ var OSLCoreLangSetting = function () {
 		},
 		arm1002 : {
 			label : {
+				title : "제목",
+				content : "내용",
 				attachments: "첨부 파일", 
 			},
 			button : {
@@ -2909,6 +2912,7 @@ var OSLCoreLangSetting = function () {
 					deleteBtn : "Delete Message",
 					dblClickBtn :"Detail Message"
 				},
+				detailBtn : "Detail",
 				reInsertBtn : "Reply",
 				checkBtn : "Read Check"
 			},
@@ -2956,6 +2960,8 @@ var OSLCoreLangSetting = function () {
 		},
 		arm1002 : {
 			label : {
+				title: "Title",
+				content: "Content",
 				attachments: "Attachments", 
 			},
 			button : {
