@@ -22,7 +22,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
    	@Resource(name = "cmm6600DAO")
    	private Cmm6600DAO cmm6600DAO;
    	
-	
+	 
     @Resource(name="arm1100DAO")
     private Arm1100DAO arm1100DAO;
    	
