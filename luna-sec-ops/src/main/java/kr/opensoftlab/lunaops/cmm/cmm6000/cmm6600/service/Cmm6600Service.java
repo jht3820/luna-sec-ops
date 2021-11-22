@@ -28,7 +28,7 @@ public interface Cmm6600Service {
 	List<Map> selectCmm6600UsrSignList(Map<String, String> paramMap) throws Exception;
 
 	
-	void insertCmm6601SignInfo(Map<String, String> paramMap) throws Exception;
+	String insertCmm6601SignInfo(Map<String, String> paramMap) throws Exception;
 
 	
 	@SuppressWarnings("rawtypes")
