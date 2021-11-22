@@ -1108,6 +1108,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     color: #7985e4;
     font-size: 4rem;
 }
+.flowchart-operator-nextIcon~.flowchart-operator-title > .flowchart-operator-menu,
 .flowchart-operator-mask~.flowchart-operator-title > .flowchart-operator-menu {
     position: absolute;
     right: 10px;
