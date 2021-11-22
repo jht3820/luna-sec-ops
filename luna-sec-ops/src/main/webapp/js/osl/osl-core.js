@@ -2826,8 +2826,9 @@
 							saveState: {webstorage: false}
 						},
 						layout: {
-							scroll: false,
-							footer: false
+							scroll: true,
+							footer: false,
+							customScrollbar: true
 						},
 						translate:{
 							records:{
@@ -2856,7 +2857,8 @@
 								
 							},
 							clickCheckbox: false,
-							minHeight: null
+							minHeight: null,
+							autoHide: true
 						},
 						sortable: true,
 						pagination: true,
