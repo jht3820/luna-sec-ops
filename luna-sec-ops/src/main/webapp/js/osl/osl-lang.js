@@ -1604,6 +1604,7 @@ var OSLCoreLangSetting = function () {
 		stm2101:{
 			update: "게시판 정보를 수정하시겠습니까?",
 			formCheck:{
+				fileOptionMessage : "해당 게시판 유형은 첨부파일이 필수입니다.",
 				fileCntMessage : "첨부파일 갯수는 최소 1부터 10까지 가능합니다</br> 첨부파일 갯수를 최솟값인 1로 변경합니다.",
 				fileMaxCntMessage : "첨부파일 가능한 갯수를 초과합니다. </br> 최대 수로 적용됩니다.",
 				fileMaxStrgMessage : "게시판 유형에 따라</br> 최대 첨부파일 용량으로 지정됩니다.",
@@ -3917,6 +3918,7 @@ var OSLCoreLangSetting = function () {
 		stm2101:{
 			update: "Would you like to update this board setting?",
 			formCheck:{
+				fileOptionMessage : "This board type must have attached file.",
 				fileCntMessage : "The number of attachments is 1 to 10. </br> Change to minimum 1.",
 				fileMaxCntMessage : "The number of attachments is over. </br> Change to maximum 10.",
 				fileMaxStrgMessage : "Change to maximum storage by board type.",
