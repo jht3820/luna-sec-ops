@@ -51,7 +51,8 @@
 		    , Y.BAD_HIT AS BAD_HIT
 		    , Y.BAD_PW AS BAD_PW
 		    , Y.ATCH_FILE_ID AS ATCH_FILE_ID
-		    , ( SELECT MIN(B.FILE_SN) AS FILE_SN
+		    , ( SELECT 
+		    		TO_CHAR(NVL(MIN(B.FILE_SN), 0 )) AS FILE_SN
 		        FROM COMTNFILEDETAIL B
 		        WHERE 1 = 1
 		        AND Y.ATCH_FILE_ID = B.ATCH_FILE_ID
