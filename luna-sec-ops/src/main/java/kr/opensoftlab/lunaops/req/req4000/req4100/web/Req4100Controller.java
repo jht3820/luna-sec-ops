@@ -1298,7 +1298,7 @@ public class Req4100Controller {
     			reqProcessAuthFlag = true;
     		}
     		
-    		else {
+    		else if(reqChargerId == null || "".equals(reqChargerId)){
     			
     			paramMap.put("listType", "user");
     			
@@ -1323,19 +1323,6 @@ public class Req4100Controller {
     			}
     		}
     		
-    		if(!reqProcessAuthFlag) {
-    			
-    			if(signUsrList != null) {
-    				for(Map signUsrInfo : signUsrList) {
-    					
-    					String signUsrId = (String) signUsrInfo.get("signUsrId");
-    					if(usrId.equals(signUsrId)) {
-    						reqProcessAuthFlag = true;
-        					break;
-    					}
-    				}
-    			}
-    		}
     		
     		
     		

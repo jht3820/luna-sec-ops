@@ -511,14 +511,16 @@
 		INSERT INTO CMM6601
 		(
 				LIC_GRP_ID		,	PRJ_ID			,	SIGN_ID			,	TARGET_CD
-			,	TARGET_ID		,	ORD				,	SIGN_USR_ID		,	SIGN_TYPE_CD
+			,	TARGET_ID		,	ORD				,	SUB_TARGET_FST_ID,	SUB_TARGET_SCD_ID
+			,	SIGN_USR_ID		,	SIGN_TYPE_CD
 			,	SIGN_RES		,	SIGN_DTM		,	REG_DTM			,	REG_USR_ID
 			,	REG_USR_IP		,	MODIFY_DTM		,	MODIFY_USR_ID	,	MODIFY_USR_IP
 		)
 		VALUES
 		(
 				#licGrpId#		,	#prjId#			,	#newSignId#		,	#targetCd#	
-			,	#targetId#		,	#ord#			,	#signUsrId#		,	#signTypeCd#
+			,	#targetId#		,	#ord#			,	#subTargetFstId#,	#subTargetScdId#
+			,	#signUsrId#		,	#signTypeCd#
 			,	#signRes#		,	SYSDATE			,	SYSDATE			,	#regUsrId#
 			,	#regUsrIp#		,	SYSDATE			,	#modifyUsrId#	,	#modifyUsrIp#
 		
