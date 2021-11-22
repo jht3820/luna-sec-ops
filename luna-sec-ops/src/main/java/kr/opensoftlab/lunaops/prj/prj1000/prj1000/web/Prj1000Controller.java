@@ -172,8 +172,27 @@ public class Prj1000Controller {
 			paramMap.put("prjGrpCd", "01");
 			
 			
-			/
-			/
+			
+			int totCnt = 0;
+			List<Map> dataList = null;
+			Map<String, Object> metaMap = null;
+			
+			
+			totCnt = prj1000Service.selectPrj1000PrjListCnt(paramMap);
+			
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+			
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+			
+			
+			
+			dataList = (List) prj1000Service.selectPrj1000PrjList(paramMap);
+			
+			List<Map> reqChartDataList = (List) req4100Service.selectReq4100ReqProTypeOrdList(paramMap);
+			
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -206,10 +225,19 @@ public class Prj1000Controller {
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 			HttpSession ss = request.getSession();
 			String type = (String) paramMap.get("type");
+
+			String paramLicGrpId = (String) paramMap.get("paramLicGrpId");
 			
 			
 			LoginVO loginVo = (LoginVO) ss.getAttribute("loginVO");
 			String usrId = loginVo.getUsrId();
+			
+    		
+    		if(paramLicGrpId == null || "".equals(paramLicGrpId)){
+    			paramLicGrpId = (String)loginVo.getLicGrpId();
+    		}
+    		
+    		paramMap.put("licGrpId", paramLicGrpId);
 			
 			
 			if("insert".equals(type)) {
@@ -291,8 +319,26 @@ public class Prj1000Controller {
 			
 			
 			
-			/
-			/
+			
+			int totCnt = 0;
+			List<Map> dataList = null;
+			Map<String, Object> metaMap = null;
+			
+			
+			totCnt = prj1000Service.selectPrj1000PrjAuthUsrListCnt(paramMap);
+
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+
+			
+			
+			dataList = (List) prj1000Service.selectPrj1000PrjAuthUsrList(paramMap);
+			
+        	
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -348,8 +394,26 @@ public class Prj1000Controller {
     		
     		
     		
-    		/
-			/
+    		
+    		int totCnt = 0;
+    		List<Map> dataList = null;
+    		Map<String, Object> metaMap = null;
+    		
+			
+			totCnt = prj1000Service.selectPrj1000PrjAuthNoneUsrListCnt(paramMap);
+			
+			
+			PaginationInfo paginationInfo = PagingUtil.getPaginationInfo(_pageNo_str, _pageSize_str);
+			
+			
+			paginationInfo.setTotalRecordCount(totCnt);
+			paramMap = PagingUtil.getPageSettingMap(paramMap, paginationInfo);
+			
+			
+			
+			dataList = (List) prj1000Service.selectPrj1000PrjAuthNoneUsrList(paramMap);
+			
+			
 			
 			metaMap = PagingUtil.getPageReturnMap(paginationInfo);
 			
@@ -486,6 +550,11 @@ public class Prj1000Controller {
 			model.addAttribute("prjAuthList", prjAuthList);
 			
 			
+			paramMap.put("itemDivision", "04");
+			List<Map> basicItemList = prj1000Service.selectPrj1002AllItemList(paramMap);
+			model.addAttribute("basicItemList", basicItemList);
+			
+			
 			model.addAttribute("errorYn", "N");
 			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
 			
@@ -500,4 +569,56 @@ public class Prj1000Controller {
 			return new ModelAndView("jsonView");
 		}
 	}
+    
+    
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/prj/prj1000/prj1000/selectPrj1002AllItemListAjax.do")
+    public ModelAndView selectPrj1002AllItemListAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+    	try {
+
+    		
+        	Map<String, String> paramMap = RequestConvertor.requestParamToMap(request, true);
+        	
+        	
+			String paramPrjId = (String) paramMap.get("paramPrjId");
+			String paramLicGrpId = (String) paramMap.get("paramLicGrpId");
+        	
+        	
+    		HttpSession ss = request.getSession();
+    		LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+    		
+    		
+    		if(paramPrjId == null || "".equals(paramPrjId)){
+    			paramPrjId = (String)ss.getAttribute("selPrjId");
+    		}
+    		
+    		
+    		if(paramLicGrpId == null || "".equals(paramLicGrpId)){
+    			paramLicGrpId = (String)loginVO.getLicGrpId();
+    		}
+    		
+    		paramMap.put("prjId", paramPrjId);
+    		paramMap.put("licGrpId", paramLicGrpId);
+    		
+        	
+    		List<Map> itemList = prj1000Service.selectPrj1002AllItemList(paramMap);
+        	
+        	
+        	model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+        	
+        	
+        	model.addAttribute("itemList",itemList);
+        	
+        	return new ModelAndView("jsonView");
+		} catch (Exception ex) {
+			Log.error("selectPrj1002AllItemListAjax()", ex);
+
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+    	
+    	
+    }
 }
