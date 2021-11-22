@@ -3430,7 +3430,9 @@
 							}
 							
 							
-							targetFieldFn[fieldId](rowData, event)
+							if(targetFieldFn.hasOwnProperty(fieldId)){
+								targetFieldFn[fieldId](rowData, event);
+							}
 							
 						});
 						
