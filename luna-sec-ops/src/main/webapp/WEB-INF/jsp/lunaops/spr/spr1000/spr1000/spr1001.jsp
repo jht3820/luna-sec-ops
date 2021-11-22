@@ -277,6 +277,7 @@ var OSLSpr1001Popup = function () {
 			
 			$("#sprNm").data("original-title", paramSprNm);
 			$("#sprDesc").data("original-title", paramSprDesc);
+			
 		
 		$.osl.datatable.setting("sprDetailTable",{
 			data: {
@@ -337,7 +338,7 @@ var OSLSpr1001Popup = function () {
 						var gap = new Date() - new Date(row.reqStDtm);
 						if(row.reqProType =='01'){
 							return "-";
-							
+						
 						}else if(gap < 0){
 							return '0 시간';
 						
@@ -354,6 +355,7 @@ var OSLSpr1001Popup = function () {
 						else if(row.reqProType == '04'){
 							return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
 						}
+						
 						return $.osl.escapeHtml(String(Math.trunc(row.notEndTimeRequired))) +" 시간";
 					},
 				},

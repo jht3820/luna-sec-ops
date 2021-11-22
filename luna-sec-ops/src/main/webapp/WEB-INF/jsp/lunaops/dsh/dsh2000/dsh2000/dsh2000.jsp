@@ -1529,10 +1529,12 @@ var OSLDsh2000Popup = function () {
 			}else{
 				var processes = datas.data;
 				$.each(processes, function(idx, value){
+					if(dshDatatableIdList.indexOf("processReqTable_"+idx)<0){
+						
+						dshDatatableIdList.push("processReqTable_"+idx);
+					}
 					
-					dshDatatableIdList.push("processReqTable_"+idx);
-					
-					var str = '<div class="kt-portlet kt-portlet--mobile process-div" id="processPortlet'+idx+'" data-target-div="process'+idx+'" data-process-id="'+value.processId+'">'
+					var str = '<div class="kt-portlet kt-portlet--mobile process-div" id="processPortlet'+idx+'" data-target-div="process'+idx+'">'
 								+ '<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">'
 									+ '<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">'
 										+ '<h4 class="kt-font-boldest kt-font-brand">'
@@ -1543,8 +1545,8 @@ var OSLDsh2000Popup = function () {
 												+ '(생성일: <span>'+value.regDtm+'</span>)'
 											+ '</span>'
 											+ '<span class="kt-margin-l-20">'
-												+ '담당<span class="badge osl-badge-brand kt-margin-l-5 kt-margin-r-10 chargerBadge">0</span>'
-												+ '전체<span class="badge osl-badge-brand kt-margin-l-5 allBadge" >0</span>'
+												+ '담당<span class="badge osl-badge-brand kt-margin-l-5 kt-margin-r-10 charger-badge">0</span>'
+												+ '전체<span class="badge osl-badge-brand kt-margin-l-5 all-badge" >0</span>'
 											+ '</span>'
 										+ '</h5>'
 									+ '</div>'
@@ -1584,7 +1586,7 @@ var OSLDsh2000Popup = function () {
 					$("#processCard").append(str);
 				});
 				
-				fnGetProcessFlow();
+				fnGetAllProcessFlow();
 			}
     	});
 		
@@ -1592,10 +1594,11 @@ var OSLDsh2000Popup = function () {
 	};
 	
 	
-	var fnGetProcessFlow = function(){
+	var fnGetAllProcessFlow = function(){
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
-    			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAjax.do'/>", "async": true});
+    			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAndChargerCntAjax.do'/>", "async": true}
+    			,{"usrId" : $.osl.user.userInfo.usrId});
 		
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
@@ -1663,8 +1666,7 @@ var OSLDsh2000Popup = function () {
 	        	   
 	        	   processTableSetting(index, processId, value.flowList[0].flowId);
 	        	   
-				   portletAll.push(new KTPortlet('processPortlet'+index, $.osl.lang("portlet")));	
-		
+	        	   portletAll.push(new KTPortlet('processPortlet'+index, $.osl.lang("portlet")));	
 	        	   index++;
 	           });
 	
@@ -1676,121 +1678,148 @@ var OSLDsh2000Popup = function () {
 	     ajaxObj.send();   
 	}
 	
+
 	
-	var fnFlowChart = function(index, processId, flowList, flowLinkList){
+	var fnGetProcessFlow = function(index, processId){
 		
+		var ajaxObj = new $.osl.ajaxRequestAction(
+    			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAndChargerCntAjax.do'/>", "async": true}
+    			,{"paramProcessId": processId, "usrId" : $.osl.user.userInfo.usrId});
 		
+    	ajaxObj.setFnSuccess(function(data){
+    		if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+				
+				$.osl.layerPopupClose();
+			}else{
+	      		var flowList = data.flowList;
+	      		var flowLinkList = data.flowLinkList;
+
+	        	
+	        	fnFlowChart(index, processId, flowList, flowLinkList);
+
+		   		
+		   		fnProcessEvt();
+	        }
+	     });
+	     
+	     ajaxObj.send();   
+	}
+	
+	
+	var fnFlowChart = function(num, processId, flowList, flowLinkList){
 
 		if($.osl.isNull(flowList) || flowList.length == 0){
 			return true;
 		}
 		var list = [];
-		if($.osl.isNull(flowLinkList) || flowLinkList.length == 0){
-			list = flowList;
-			
-			fnFlowChartDraw(list, processId);
-			return true;
-		}
 		
 		
+	    
+	    var flowNextIdList = {};
+	    
+	    
+	    if(!$.osl.isNull(flowLinkList) && flowLinkList.length > 0){
+	       $.each(flowLinkList, function(idx, map){
+	          
+	          if(!flowNextIdList.hasOwnProperty(map.flowId)){
+	             flowNextIdList[map.flowId] = [];
+	          }
+	          flowNextIdList[map.flowId].push(map.flowNextId);
+	       });
+	    }
+	     
+	    
+	    var flowInfoList = {};
 	      
-	      var flowNextIdList = {};
+	    
+	    var startFlowId;
+	    
+	    var doneFlowId;
+	    var doneFlow;
 	      
-	      
-	      if(!$.osl.isNull(flowLinkList) && flowLinkList.length > 0){
-	         $.each(flowLinkList, function(idx, map){
-	            
-	            if(!flowNextIdList.hasOwnProperty(map.flowId)){
-	               flowNextIdList[map.flowId] = [];
-	            }
-	            flowNextIdList[map.flowId].push(map.flowNextId);
-	         });
-	      }
-	      
-	      
-	      var flowInfoList = {};
-	      
-	      
-	      var startFlowId;
-	      
-	      var doneFlowId;
-	      var doneFlow;
-	      
-	      
-	      var addFlowCheck = [];
-	      
-	      
-	      $.each(flowList, function(idx, map){
-	         
-	         if(map.flowStartCd == "01"){
-	            
-	            
-	            
-	            startFlowId = map.flowId;
-	            list.push(map);
-	         }
-	         
-	         
-	         if(map.flowDoneCd == "01"){
-	            doneFlowId = map.flowId;
-	            doneFlow = map;
-	         }
-	         map["flowNextId"] = flowNextIdList[map.flowId];
-	         flowInfoList[map.flowId] = map;
-	      });
-	
-	      
-	      var innerFlowAppend = function(currentFlowId) {
-	    	  
-	         
-	         var flowInfo = flowInfoList[currentFlowId];
+	    
+	    var addFlowCheck = [];
+	     
+	    
+	    $.each(flowList, function(idx, map){
+	       
+	       if(map.flowStartCd == "01"){
+	          
+	          
+	          
+	          startFlowId = map.flowId;
+	          list.push(map);
+	       }
 	        
-	         
-	         var nextFlowIds = null;
-	         
-	         if(!$.osl.isNull(flowInfoList[currentFlowId]) && flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
-	        	 nextFlowIds = flowInfoList[currentFlowId]["flowNextId"];
-	         }
-	         
-	         if(!$.osl.isNull(nextFlowIds) && nextFlowIds.length == 0){
-	            return true;
-	         }
-	         
-	         else if(addFlowCheck.indexOf(currentFlowId) != -1){
-	            return true;
-	         }
-	         
-	         if(flowInfo.flowStartCd == "02" && flowInfo.flowDoneCd == "02"){
-	            
-	            
-	            addFlowCheck.push(currentFlowId);
-	            list.push(flowInfo);
-	         }
-	         
-	         
-	         if(!$.osl.isNull(nextFlowIds)){
-	            
-	            $.each(nextFlowIds, function(idx, map){
-	               innerFlowAppend(map);
-	            });
-	         };
-	         return true;
-	      };
+	       
+	       if(map.flowDoneCd == "01"){
+	          doneFlowId = map.flowId;
+	          doneFlow = map;
+	       }
+	       map["flowNextId"] = flowNextIdList[map.flowId];
+	       flowInfoList[map.flowId] = map;
+	    });
+	
+	    
+	    var innerFlowAppend = function(currentFlowId) {
+	    	  
+	       
+	       var flowInfo = flowInfoList[currentFlowId];
 	      
+	       
+	       var nextFlowIds = null;
+	       
+	       if(!$.osl.isNull(flowInfoList[currentFlowId]) && flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
+	    	   nextFlowIds = flowInfoList[currentFlowId]["flowNextId"];
+	       }
+	       
+	       if($.osl.isNull(nextFlowIds)){
+	    	   return true;
+	       }
+	       else if(!$.osl.isNull(nextFlowIds) && nextFlowIds.length == 0){
+	    	   return true;
+	       }
+	       
+	       else if(addFlowCheck.indexOf(currentFlowId) != -1){
+	          return true;
+	       }
+	       
+	       if(flowInfo.flowStartCd == "02" && flowInfo.flowDoneCd == "02"){
+	          
+	          
+	          addFlowCheck.push(currentFlowId);
+	          list.push(flowInfo);
+	       }
+	       
+	       
+	       if(!$.osl.isNull(nextFlowIds)){
+	          
+	          $.each(nextFlowIds, function(idx, map){
+	             innerFlowAppend(map);
+	          });
+	       };
+	       return true;
+	    };
 	      
-	      innerFlowAppend(startFlowId);
+	    
+	    innerFlowAppend(startFlowId);
 	      
-	      
-	      list.push(doneFlow);
-	      
+	    
+	    list.push(doneFlow);
+	    
 		
-		fnFlowChartDraw(list, processId);
+		fnFlowChartDraw(num, list, processId);
 	};
 	
 	
-	var fnFlowChartDraw = function(list, processId){
+	var fnFlowChartDraw = function(num, list, processId){
+		
 		var str = '';
 		$.each(list, function(idx, value){
+			if($.osl.isNull(value)){
+				return true;
+			}
 			str += '<div class="flowchart-operator osl-flowchart__operator border" data-operator-id="previewOperator">'
 					+ '<div class="flowchart-operator-function osl-min-h-px--24">';
 				if(value.flowSignCd == "01"){
@@ -1827,8 +1856,8 @@ var OSLDsh2000Popup = function () {
 						+ '</div>'
 					+ '</div>'
 					+ '<div class="flowchart-operator-inputs-outputs kt-margin-0">'
-						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flow-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>0</span></div>'
-						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flow-all-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>0</span></div>'
+						+ '<div class="flowchart-operator-inputs text-center kt-padding-10 osl-cursor-pointer flow-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 담당 <span>'+value.reqChargerCnt+'</span></div>'
+						+ '<div class="flowchart-operator-outputs text-center kt-padding-10 border-left osl-cursor-pointer flow-all-charger" data-process-id="'+value.processId+'" data-flow-id="'+value.flowId+'"> 전체 <span>'+value.reqFlowCnt+'</span></div>'
 					+ '</div>'
 				+ '</div>';
 				
@@ -1839,7 +1868,8 @@ var OSLDsh2000Popup = function () {
 		});
 		
 		
-		var processRow = $("#processCard").children("div[data-process-id="+processId+"]").find(".chart-div");
+		var processRow = $("#processCard").children("div[data-target-div=process"+num+"]").find(".chart-div");
+		$(processRow).empty();
 		$(processRow).append(str);
 	}
 	
@@ -1952,14 +1982,10 @@ var OSLDsh2000Popup = function () {
 			actionFn:{
 				"refresh": function(rowData, datatableId, type, rowNum){
 					
-					searchReset(datatableId);
-					
-					$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+					$("#processPortlet"+tablenum).find(".chart-div").empty();
+					fnGetProcessFlow(tablenum, paramProcessId);
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum){
-					
-					
-					
 					var reqProType = rowData.reqProType;
                     var reqId = rowData.reqId;
                     var prjId = rowData.prjId;
@@ -1979,6 +2005,20 @@ var OSLDsh2000Popup = function () {
                        idKey: "reqProcess"+reqId,
                        modalTitle: "["+reqNm+"] 요구사항 업무 처리",
                        closeConfirm: false,
+                       callback:[{
+	   						targetId: "cmm6201SaveSubmit",
+	   						actionFn: function(thisObj){
+	   							console.log("callback");
+	   							
+	   							
+								$("#processPortlet"+tablenum).find(".chart-div").empty();
+								fnGetProcessFlow(tablenum, paramProcessId);
+								
+	   							
+	   							$("#"+datatableId).addClass("kt-hide");
+	   							$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
+	   						} 
+	   					}]
                     };
                     $.osl.layerPopupOpen('/cmm/cmm6000/cmm6200/selectCmm6201View.do',data,options);
 				},
@@ -2008,31 +2048,25 @@ var OSLDsh2000Popup = function () {
 				}
 			},
 			callback:{
-				ajaxDone: function(evt, list){
+				ajaxDone: function(evt, list, datatableInfo){
 					
 					var datatableId = "processReqTable_"+tablenum;
 					var datatable = $.osl.datatable.list[datatableId].targetDt;
 					
-					
-					var flowCntList = datatable.lastResponse.meta.flowCntList;
-					if($.osl.isNull(flowCntList[0])){
-						$("#processPortlet"+tablenum).find(".chargerBadge").text('0');
-						$("#processPortlet"+tablenum).find(".allBadge").text('0');
-					}else{
-						$("#processPortlet"+tablenum).find(".chargerBadge").text(flowCntList[0].reqChargerTotalCnt);
-						$("#processPortlet"+tablenum).find(".allBadge").text(flowCntList[0].reqTotalCnt);
-					}
+					var totalCharger = 0;
+					var totalAll = 0;
 					
 					
 					var chargerSpans = $("#processPortlet"+tablenum).find(".flow-charger");
 					$.each(chargerSpans, function(index, value){
-						$.each(flowCntList, function(idx, item){
-							if($(value).data("flowId") == item.flowId){
-								$(value).children().text(item.reqChargerCnt);
-								$(value).siblings(".flow-all-charger").children().text(item.reqFlowCnt);
-							}
-						});
+						totalCharger += Number($(value).children().text());
+						totalAll +=  Number($(value).siblings(".flow-all-charger").children().text());
 					});
+					
+					
+					$("#processPortlet"+tablenum).find(".charger-badge").text(totalCharger);
+					$("#processPortlet"+tablenum).find(".all-badge").text(totalAll);
+
 				}
 			}
 		});
@@ -2040,52 +2074,6 @@ var OSLDsh2000Popup = function () {
 	
 	
 	var fnProcessEvt = function(){
-		
-		
-		$('.osl-view-type').click(function(){
-			var targetType = $(this).data('view-type');
-			var targetObj = $(this).data('target-process');
-			var targetDiv = $('div[data-target-div='+targetObj+']');
-			var targetParent = $(this).parents('.kt-portlet');
-			
-			if(targetType=='grid'){
-				
-				targetDiv.find(".osl-dsh-flowchart").addClass('kt-hide');
-				targetDiv.find(".osl-dsh-kanban").removeClass('kt-hide');
-				$(this).data('view-type','kaban');
-				
-				
-				$(targetParent).find('.kt_datatable').addClass('kt-hide');
-				return false;
-			}else if(targetType=='kaban'){
-				
-				targetDiv.find(".osl-dsh-kanban").addClass('kt-hide');
-				targetDiv.find(".osl-dsh-flowchart").removeClass('kt-hide');
-				$(this).data('view-type','grid');
-				return false;	
-			}
-		});
-		 
-		$('.osl-portlet-fullscreen-btn').click(function(){
-			
-			var targetObj = $(this).parents('.kt-portlet');
-			
-			if(targetObj.hasClass('kt-portlet--fullscreen')){
-				
-				targetObj.stop().animate({top: '30%'},1000, function(){
-					targetObj.removeClass('kt-portlet--fullscreen');
-				});
-			}else{
-				
-				$('.kt-portlet').removeClass('kt-portlet--fullscreen');
-				
-				$('.kt-portlet').css({top:''});
-				
-				targetObj.addClass('kt-portlet--fullscreen');
-				
-				targetObj.stop().animate({top:'0%'},1000);
-			}
-		});
 		
 		
 		$(".flow-charger").click(function(){
@@ -2100,11 +2088,11 @@ var OSLDsh2000Popup = function () {
 			datatable.setDataSourceParam("usrId", $.osl.user.userInfo.usrId);
 			
 			
-			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			
+			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();			
 			
 			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
-			
+
 			
 			$(this).parents(".chart-div").find(".flowchart-operator-outputs--active").removeClass("flowchart-operator-outputs--active");
 			
@@ -2359,6 +2347,9 @@ var OSLDsh2000Popup = function () {
 		secondTime = (timerVarSel*60);
 		clearInterval(timer);
 		timer = setInterval(printTime,1000);
+		
+		
+		fnGetAllProcessFlow();
 		
 		
 		$.each(dshDatatableIdList, function(idx, value){

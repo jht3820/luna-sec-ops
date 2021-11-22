@@ -265,8 +265,9 @@ var OSLCoreLangSetting = function () {
 					reInsertBtn : "메시지 답장",
 					checkBtn : "메시지 읽음 처리",
 					deleteBtn : "메시지 삭제",
-					dblClickBtn :"메시지 상세 조회"
+					dblClickBtn :"메시지 상세 조회",
 				},
+				detailBtn : "상세",
 				reInsertBtn : "답장",
 				checkBtn : "읽음",
 			},
@@ -314,6 +315,8 @@ var OSLCoreLangSetting = function () {
 		},
 		arm1002 : {
 			label : {
+				title : "제목",
+				content : "내용",
 				attachments: "첨부 파일", 
 			},
 			button : {
@@ -708,7 +711,7 @@ var OSLCoreLangSetting = function () {
 				deleteFlow: "${1} 단계를 삭제하시겠습니까?</br>업무 처리에 문제가 발생 할 수 있습니다.",
 				deleteReqCheck: "${1}건의 진행중인 요구사항이 있습니다.</br>요구사항의 단계 진행을 완료해야 삭제가 가능합니다.",
 				searchEmpty: "검색하려는 단계명을 입력하세요.",
-				processUseCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
+				processConfirmCdChg: "${1} 프로세스 상태를 변경하시겠습니까?",
 				processNoneUse: "</br>업무 처리에 영향이 있을 수 있습니다.",
 				flowDoneLinkChk: "마지막 단계는 최종완료 단계에 연결되어야합니다.",
 				flowSizeChk: "작업흐름이 생성되지 않았습니다.",
@@ -1604,6 +1607,7 @@ var OSLCoreLangSetting = function () {
 		stm2101:{
 			update: "게시판 정보를 수정하시겠습니까?",
 			formCheck:{
+				fileOptionMessage : "해당 게시판 유형은 첨부파일이 필수입니다.",
 				fileCntMessage : "첨부파일 갯수는 최소 1부터 10까지 가능합니다</br> 첨부파일 갯수를 최솟값인 1로 변경합니다.",
 				fileMaxCntMessage : "첨부파일 가능한 갯수를 초과합니다. </br> 최대 수로 적용됩니다.",
 				fileMaxStrgMessage : "게시판 유형에 따라</br> 최대 첨부파일 용량으로 지정됩니다.",
@@ -2908,6 +2912,7 @@ var OSLCoreLangSetting = function () {
 					deleteBtn : "Delete Message",
 					dblClickBtn :"Detail Message"
 				},
+				detailBtn : "Detail",
 				reInsertBtn : "Reply",
 				checkBtn : "Read Check"
 			},
@@ -2955,6 +2960,8 @@ var OSLCoreLangSetting = function () {
 		},
 		arm1002 : {
 			label : {
+				title: "Title",
+				content: "Content",
 				attachments: "Attachments", 
 			},
 			button : {
@@ -3917,6 +3924,7 @@ var OSLCoreLangSetting = function () {
 		stm2101:{
 			update: "Would you like to update this board setting?",
 			formCheck:{
+				fileOptionMessage : "This board type must have attached file.",
 				fileCntMessage : "The number of attachments is 1 to 10. </br> Change to minimum 1.",
 				fileMaxCntMessage : "The number of attachments is over. </br> Change to maximum 10.",
 				fileMaxStrgMessage : "Change to maximum storage by board type.",

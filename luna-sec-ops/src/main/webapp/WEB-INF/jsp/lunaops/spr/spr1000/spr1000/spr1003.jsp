@@ -83,13 +83,13 @@
 						</div>
 					</div>
 				</div>
-				<button class="btn btn-outline-brand" data-ktwizard-type="action-prev">
+				<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
 					<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
 				</button>
-				<button class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-submit">
+				<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-submit">
 					<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.submit">완료</span><i class="fas fa-check-circle kt-padding-r-0"></i>
 				</button>
-				<button class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
+				<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
 					<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
 				</button>
 			</div>
@@ -166,7 +166,6 @@
 							
 		</div>
 	</div>
-	
 </form>
 	
 <div class="modal-footer">
@@ -222,6 +221,7 @@ var OSLSpr1003Popup = function () {
 	
 	var documentSetting = function(){
 		
+		
     	formEditList.push($.osl.editorSetting("mmtDesc", {formValidate: formValidate, 'minHeight': 250, disableResizeEditor: false}));
 		
 		
@@ -235,18 +235,19 @@ var OSLSpr1003Popup = function () {
     		
     		matcher: matchCustom
     	});
-		
+    	
     	
     	selectUsrList();
 		
 		
 		
 		var wizard = new KTWizard('kt_wizard_v3', {
-			startStep: 1	
+			startStep: 1, 
+			clickableSteps: true	
 		});
 		 
 		
-		 wizard.on('beforeNext', function(wizardObj) {
+		wizard.on('beforeNext', function(wizardObj) {
 			
 			if($("#"+mainFormId).valid() !== true){
 				wizardObj.stop();
@@ -264,7 +265,6 @@ var OSLSpr1003Popup = function () {
 		 
 		
 		wizard.on('change', function(wizardObj) {
-			
 			
 			var totalStep = wizard.totalSteps;
 			
@@ -607,10 +607,29 @@ var OSLSpr1003Popup = function () {
 						var rtnVal = "";
 						
 						if(wizardData["reqSprPointList"].hasOwnProperty(row.reqId)){
-							rtnVal = wizardData["reqSprPointList"][row.reqId];
+							if(!$.osl.isNull(wizardData["reqSprPointList"][row.reqId])){
+								rtnVal = wizardData["reqSprPointList"][row.reqId];
+							}
 						}
 						
-						return '<input type="text" class="form-control kt-align-center" name="sprPoint_'+row.reqId+'" id="sprPoint_'+row.reqId+'" min="0" max="999" maxlength="3" value="'+rtnVal+'"/>';
+						return '<input type="text" class="form-control kt-align-center position-relative osl-planing-poker" autocomplete="off" name="sprPoint_'+row.reqId+'" id="sprPoint_'+row.reqId+'" min="0" max="999" maxlength="3" value="'+rtnVal+'"/>'
+								+'<div class="position-fixed kt-portlet osl-planing-poker-portlet kt-hide">'
+								+	'<div class="osl-planing-poker-portlet__body">'
+								+		'<div class="card"><div class="osl-small-text--top">0</div>0<div class="osl-small-text-bottom">0</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">½</div>½<div class="osl-small-text-bottom">½</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">1</div>1<div class="osl-small-text-bottom">1</div></div>'
+								+		'<div class="card"><div class="osl-point-text">2</div>2</div>'
+								+		'<div class="card"><div class="osl-point-text">3</div>3</div>'
+								+		'<div class="card"><div class="osl-point-text">5</div>5</div>'
+								+		'<div class="card"><div class="osl-small-text--top">8</div>8<div class="osl-small-text-bottom">8</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">13</div>13<div class="osl-small-text-bottom">13</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">20</div>20<div class="osl-small-text-bottom">20</div></div>'
+								+		'<div class="card"><div class="osl-point-text">40</div>40</div>'
+								+		'<div class="card"><div class="osl-point-text">100</div>100</div>'
+								+		'<div class="card"><div class="osl-point-text">?</div>?</div>'
+								+		'<div class="card"><div class="osl-point-text"><i class="fas fa-mug-hot"></i></div><i class="fas fa-mug-hot"></i></div>'
+								+	'</div>'
+								+'</div>';
 					}
 				}
 			],
@@ -664,9 +683,30 @@ var OSLSpr1003Popup = function () {
 						}
 					});
 					
-					if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
-						this.value = wizardData["reqSprPointList"][data.reqId];
+					if(!$.osl.isNull(wizardData["reqSprPointList"][data.reqId])){
+						
+						if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
+							this.value = wizardData["reqSprPointList"][data.reqId];
+						}
 					}
+					
+					var target;
+					$('.osl-planing-poker').focus(function(){
+						target = $(this).next();
+			    		target.removeClass('kt-hide');
+			    		setTimeout(function() {
+		    				$('.osl-planing-poker-portlet .card').css({
+		    					transform: 'rotateY(0deg)'
+		    				});
+			    		},200);
+			    	}).blur(function(){
+			    		target.addClass('kt-hide');
+		    			$('.osl-planing-poker-portlet .card').css({
+		    				transform: 'rotateY(180deg)'
+		    			});
+			    	});
+			    	
+					
 				}
 			},
 			callback:{
@@ -762,8 +802,11 @@ var OSLSpr1003Popup = function () {
 					
 					var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
 					
+					
 					var target = targetCheckRow.find("input[type=text]");
 					target.val("");
+					
+					delete wizardData["reqUsrList"][rowData.reqId]
 				},
 			},
 			theme:{

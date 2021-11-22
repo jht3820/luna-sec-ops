@@ -42,6 +42,8 @@
 	      AND 	A.LIC_GRP_ID =  #licGrpId# 
 	      AND 	A.USE_CD = '01'
 	      AND 	B.USE_CD = '01'
+	      AND	A.DEL_CD = '02'
+	      AND	B.DEL_CD = '02'
 	      AND 	B.PRJ_ID IN (
 	          				SELECT	A.PRJ_ID
 	                         FROM	PRJ2001 A

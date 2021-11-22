@@ -503,7 +503,6 @@ var OSLCoreChartSetting = function () {
 					if(!$.osl.isNull(config.data.param.yKey)){
 						targetConfig.yaxis.categories = chartArrays[config.data.param.yKey ];
 					}
-					console.log(chartArrays);
 				},
 				"colum": function(array){
 					targetConfig.chart.type="bar";
