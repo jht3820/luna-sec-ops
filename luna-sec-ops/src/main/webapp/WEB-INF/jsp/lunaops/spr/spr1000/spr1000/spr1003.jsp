@@ -166,7 +166,6 @@
 							
 		</div>
 	</div>
-	
 </form>
 	
 <div class="modal-footer">
@@ -235,7 +234,7 @@ var OSLSpr1003Popup = function () {
     		
     		matcher: matchCustom
     	});
-		
+    	
     	
     	selectUsrList();
 		
@@ -610,7 +609,24 @@ var OSLSpr1003Popup = function () {
 							rtnVal = wizardData["reqSprPointList"][row.reqId];
 						}
 						
-						return '<input type="text" class="form-control kt-align-center" name="sprPoint_'+row.reqId+'" id="sprPoint_'+row.reqId+'" min="0" max="999" maxlength="3" value="'+rtnVal+'"/>';
+						return '<input type="text" class="form-control kt-align-center position-relative osl-planing-poker" autocomplete="off" name="sprPoint_'+row.reqId+'" id="sprPoint_'+row.reqId+'" min="0" max="999" maxlength="3" value="'+rtnVal+'"/>'
+								+'<div class="position-fixed kt-portlet osl-planing-poker-portlet kt-hide">'
+								+	'<div class="osl-planing-poker-portlet__body">'
+								+		'<div class="card"><div class="osl-small-text--top">0</div>0<div class="osl-small-text-bottom">0</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">½</div>½<div class="osl-small-text-bottom">½</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">1</div>1<div class="osl-small-text-bottom">1</div></div>'
+								+		'<div class="card"><div class="osl-point-text">2</div>2</div>'
+								+		'<div class="card"><div class="osl-point-text">3</div>3</div>'
+								+		'<div class="card"><div class="osl-point-text">5</div>5</div>'
+								+		'<div class="card"><div class="osl-small-text--top">8</div>8<div class="osl-small-text-bottom">8</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">13</div>13<div class="osl-small-text-bottom">13</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">20</div>20<div class="osl-small-text-bottom">20</div></div>'
+								+		'<div class="card"><div class="osl-point-text">40</div>40</div>'
+								+		'<div class="card"><div class="osl-point-text">100</div>100</div>'
+								+		'<div class="card"><div class="osl-point-text">?</div>?</div>'
+								+		'<div class="card"><div class="osl-point-text"><i class="fas fa-mug-hot"></i></div><i class="fas fa-mug-hot"></i></div>'
+								+	'</div>'
+								+'</div>';
 					}
 				}
 			],
@@ -667,6 +683,22 @@ var OSLSpr1003Popup = function () {
 					if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
 						this.value = wizardData["reqSprPointList"][data.reqId];
 					}
+					
+					$('.osl-planing-poker').focus(function(){
+			    		$('.osl-planing-poker-portlet').removeClass('kt-hide');
+			    		setTimeout(function() {
+		    				$('.osl-planing-poker-portlet .card').css({
+		    					transform: 'rotateY(0deg)'
+		    				});
+			    		},200);
+			    	}).blur(function(){
+			    		$('.osl-planing-poker-portlet').addClass('kt-hide');
+		    			$('.osl-planing-poker-portlet .card').css({
+		    				transform: 'rotateY(180deg)'
+		    			});
+			    	});
+			    	
+					
 				}
 			},
 			callback:{
@@ -762,8 +794,11 @@ var OSLSpr1003Popup = function () {
 					
 					var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
 					
+					
 					var target = targetCheckRow.find("input[type=text]");
 					target.val("");
+					
+					delete wizardData["reqUsrList"][rowData.reqId]
 				},
 			},
 			theme:{

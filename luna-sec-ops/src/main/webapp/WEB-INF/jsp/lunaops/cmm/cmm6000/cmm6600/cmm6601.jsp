@@ -258,12 +258,12 @@ var OSLCmm6601Popup = function () {
 			else if(idx == 0){
 				$(this).children(".cardNumber").text("");
 				var ordCell = $(this).children(".signStartOrdCell"); 
-				ordCell.text("기안");
+				ordCell.text("기안자");
 				ordCell.data('ord', idx);
 			
 			}
 			else{
-				$(this).children(".cardNumber").text("검토 ");
+				$(this).children(".cardNumber").text("검토자 ");
 				var ordCell = $(this).children(".signStartOrdCell"); 
 				ordCell.text(idx);
 				ordCell.data('ord', idx);

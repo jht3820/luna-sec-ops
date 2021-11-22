@@ -658,7 +658,7 @@ var OSLCmm6600Popup = function () {
     	
     	if(selSignUsrInfs.length == 0){
     		
-    		$.osl.alert("등록된 결재자가 없습니다.");
+    		$.osl.alert($.osl.lang("cmm6600.message.alert.notRgsSignUsr"));
     		return false;
     		
     	}

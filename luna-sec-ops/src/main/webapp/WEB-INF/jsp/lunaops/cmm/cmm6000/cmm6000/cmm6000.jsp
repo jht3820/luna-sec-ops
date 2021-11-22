@@ -71,7 +71,6 @@ var OSLCmm6000Popup = function () {
     	
     	if(prjNm != ""){
     		
-    		
 			$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
 			$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=prjNm]").attr("class", "dropdown-item active");
 			
