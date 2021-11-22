@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<input type="hidden" id="callPage" name="callPage" val="${param.callPage}">
+<input type="hidden" id="callPage" name="callPage" value="${param.callPage}">
+<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 <div class="row">
 	
 	<div class="col-xl-4">
@@ -93,6 +94,7 @@ var OSLPrj1304Popup = function () {
 	
 	
 	var callPage = $("#callPage").val();
+	var paramPrjId = $("#paramPrjId").val();
 	
 	var itemList=[];
 	
@@ -100,6 +102,12 @@ var OSLPrj1304Popup = function () {
 	var templateId = "";
 	
 	var templateumentSetting = function(){
+		
+		if($.osl.isNull(paramPrjId)){
+			console.log(paramPrjId);
+			paramPrjId = $.osl.selPrjId;
+			console.log(paramPrjId);
+		}
 		
 		
 		
@@ -111,7 +119,9 @@ var OSLPrj1304Popup = function () {
 		treeObj = $.osl.tree.setting("prj1300TemplateTree",{
 			data:{
 				url:"<c:url value='/prj/prj1000/prj1300/selectPrj1300TemplateListAjax.do'/>",
-				paramPrjId: $.osl.selPrjId,
+				param:{
+					"paramPrjId": paramPrjId
+				},
 				key: "templateId",
 				pKey: "upperTemplateId",
 				labelKey: "templateNm"
