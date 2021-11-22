@@ -857,12 +857,14 @@ var OSLCoreLangSetting = function () {
 			},
 			button : {
 				insert : "작성 완료",
-				update : "수정 완료"
+				update : "수정 완료",
+				updateJson : "수정 완료"
 			},
 			message : {
 				confirm : {
 					insert : "기본항목을 추가 하시겠습니까?",
 					update : "기본항목을 수정 하시겠습니까?",
+					updateJson : "기본항목을 수정 하시겠습니까?",
 					itemNotSelect : "기본항목을 1개 이상 선택해주세요.",
 				}
 			}
