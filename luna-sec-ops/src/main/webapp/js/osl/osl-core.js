@@ -3401,40 +3401,43 @@
 						});
 						var targetObj = $("#"+targetId);
 						
-						targetObj.off("click");
-						targetObj.on("click",targetFieldStr, function(event){
+						if(!$.osl.isNull(targetFieldStr)){
 							
-							event.cancelable = true;
-							event.stopPropagation();
-							event.preventDefault();
-							event.returnValue = false;
-
-							
-							var fieldId = $(this).data("field");
-							
-							
-							var rowNum = $(this).parent("tr").data("row");
-							
-							
-							var detailElem = $(this).parents(".kt-datatable__row-detail");
-							if(detailElem.length > 0){
-								rowNum = $(this).parents(".kt-datatable__row-detail").prev(".kt-datatable__row").data("row");
-							}
-							
-							var rowData = null;
-							try{
-								rowData = datatableInfo.getDataSet()[rowNum];
-							}catch(e){
+							targetObj.off("click",targetFieldStr);
+							targetObj.on("click",targetFieldStr, function(event){
 								
-								console.log(e);
-							}
-							
-							
-							if(targetFieldFn.hasOwnProperty(fieldId)){
-								targetFieldFn[fieldId](rowData, event);
-							}
-							
-						});
+								event.cancelable = true;
+								event.stopPropagation();
+								event.preventDefault();
+								event.returnValue = false;
+								
+								
+								var fieldId = $(this).data("field");
+								
+								
+								var rowNum = $(this).parent("tr").data("row");
+								
+								
+								var detailElem = $(this).parents(".kt-datatable__row-detail");
+								if(detailElem.length > 0){
+									rowNum = $(this).parents(".kt-datatable__row-detail").prev(".kt-datatable__row").data("row");
+								}
+								
+								var rowData = null;
+								try{
+									rowData = datatableInfo.getDataSet()[rowNum];
+								}catch(e){
+									
+									console.log(e);
+								}
+								
+								
+								if(targetFieldFn.hasOwnProperty(fieldId)){
+									targetFieldFn[fieldId](rowData, event);
+								}
+								
+							});
+						}
 						
 						
 						if(!$.osl.isNull(targetConfig.cardUiTarget)){
