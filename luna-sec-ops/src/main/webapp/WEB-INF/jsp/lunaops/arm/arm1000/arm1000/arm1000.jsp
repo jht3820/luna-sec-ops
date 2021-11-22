@@ -194,6 +194,7 @@ var OSLArm1000Popup = function () {
 				
 			}, 
 			actionTooltip:{
+				"delete" : $.osl.lang("arm1000.button.tooltip.deleteBtn"),
 				"reInsert" : $.osl.lang("arm1000.button.tooltip.reInsertBtn"),
 				"dblClick" : $.osl.lang("arm1000.button.tooltip.dblClickBtn"),
 				"check" : $.osl.lang("arm1000.button.tooltip.checkBtn"),
