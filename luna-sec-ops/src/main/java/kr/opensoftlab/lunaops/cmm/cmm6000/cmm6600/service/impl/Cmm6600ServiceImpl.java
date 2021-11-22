@@ -173,6 +173,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				
 				paramMap.put("ord", String.valueOf(ord));
 				paramMap.put("targetId", jsonObj.getString("dplId"));
+				paramMap.put("signLineId", jsonObj.getString("signLineId"));
 				
 				
 				ntfParamDft.put("armTypeCd", "04"); 
@@ -230,7 +231,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 					
 					}else {
 						
-						paramMap.put("ord", String.valueOf(ord+1));
+						paramMap.put("ord", String.valueOf(ord));
 						paramMap.put("signTypeCd", "02");
 						
 						

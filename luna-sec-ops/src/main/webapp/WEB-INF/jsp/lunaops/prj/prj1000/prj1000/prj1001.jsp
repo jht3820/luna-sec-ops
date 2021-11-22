@@ -924,7 +924,7 @@ var OSLPrj1001Popup = function () {
     			$.each(basicItemInsertList,function(idx, map){
     				if(map.itemId == targetItemId){
     					map[targetNm] = targetValue;
-    					basicItemList[idx] = map;
+    					basicItemInsertList[idx] = map;
     				}
     			});
     		}else if(updType=="02"){
@@ -939,7 +939,7 @@ var OSLPrj1001Popup = function () {
     			if(!stat){
     				$.each(basicItemInsertList,function(idx, map){
         				if(map.itemId == target.itemId){
-        					basicItemList[idx] = target;
+        					basicItemInsertList[idx] = target;
         				}
         			});
     			}

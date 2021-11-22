@@ -114,14 +114,14 @@ public class Spr1000DAO  extends ComOslitsAbstractDAO {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public int insertReq3000SnapShot(Map infoMap) {
-		return (int) insert("spr1000DAO.insertReq3000SnapShot", infoMap);
+	public void insertReq3000SnapShot(Map infoMap) {
+		insert("spr1000DAO.insertReq3000SnapShot", infoMap);
 	}
 	
 	
 	@SuppressWarnings("rawtypes")
-	public int insertReq3001SnapShot(Map infoMap) {
-		return (int) insert("spr1000DAO.insertReq3001SnapShot", infoMap);
+	public void insertReq3001SnapShot(Map infoMap) {
+		insert("spr1000DAO.insertReq3001SnapShot", infoMap);
 	}
 	
 	@SuppressWarnings("rawtypes")

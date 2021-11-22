@@ -334,7 +334,7 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		
 		for(int i = 0 ; i < reqInfo.size(); i++) {
 			org.json.simple.JSONObject req = (org.json.simple.JSONObject) reqInfo.get(i);
-			Map mapReq = new ObjectMapper().readValue(req.toString(), Map.class) ;
+			Map mapReq = new ObjectMapper().readValue(req.toString(), Map.class);
 			mapReq.put("licGrpId", licGrpId);
 			mapReq.put("prjGrpId", prjGrpId);
 			mapReq.put("prjId", prjId);
@@ -344,47 +344,40 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			spr1000DAO.insertReq4100SnapShot(mapReq);
 			
 			spr1000DAO.insertReq6001SnapShot(mapReq);
-			
-			spr1000DAO.insertPrj1103SnapShot(mapReq);
 			reqIdList.add((String) mapReq.get("reqId"));
 		}
 		
+		
 		List<Map> reqGrpList = req3000DAO.selectReq3000ReqIsInReqGrp(reqIdList);
 		
-		for(Map reqGrp: reqGrpList) {
-			reqGrp.put("licGrpId", licGrpId);
-			reqGrp.put("prjGrpId", prjGrpId);
-			reqGrp.put("prjId", prjId);
-			reqGrp.put("sprId", sprId);
-			
-			if(reqGrp != null) {
+		if(reqGrpList != null) {
+			for(Map reqGrp: reqGrpList) {
+				reqGrp.put("licGrpId", licGrpId);
+				reqGrp.put("prjGrpId", prjGrpId);
+				reqGrp.put("prjId", prjId);
+				reqGrp.put("sprId", sprId);
 				
-				int reqGrpCount = spr1000DAO.insertReq3000SnapShot(reqGrp);
-				
-				if(reqGrpCount != 0) {
+				if(reqGrp != null) {
+					
+					spr1000DAO.insertReq3000SnapShot(reqGrp);
+					
 					spr1000DAO.insertReq3001SnapShot(reqGrp);
 				}
 			}
 		}
 		
-		List<Map> processInfo = spr1000DAO.selectSpr1003SprProcessList(paramMap);
 		
-		for(Map process: processInfo) {
-			process.put("licGrpId", licGrpId);
-			process.put("prjGrpId", prjGrpId);
-			process.put("prjId", prjId);
-			process.put("sprId", sprId);
-			
-			spr1000DAO.insertPrj1100SnapShot(process);
-			
-			spr1000DAO.insertPrj1101SnapShot(process);
-			
-			spr1000DAO.insertPrj1102SnapShot(process);
-			
-			spr1000DAO.insertPrj1106SnapShot(process);
-			
-			spr1000DAO.insertPrj1107SnapShot(process);
-		}
+		spr1000DAO.insertPrj1100SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1101SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1102SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1103SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1106SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1107SnapShot(paramMap);
 		
 		return rtnValue;
 	}
