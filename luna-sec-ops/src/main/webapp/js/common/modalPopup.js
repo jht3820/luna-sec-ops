@@ -90,19 +90,11 @@ $(document).on('hide.bs.modal', '.modal', function () {
 		
 			
 		
-		if($.osl.isNull(event.path)){
-			if($(that).data("backdrop")==true && event.composedPath().length != 5 || event.keyCode == 27){
-				modalCloseFlag = false;
-				return true;
-			}
-		
-		}else{
-			if($(that).data("backdrop")==true && event.path.length != 5|| event.keyCode == 27){
-				modalCloseFlag = false;
-				return true;
-			}
+		var path = event.path || (event.composedPath && event.composedPath());
+		if($(that).data("backdrop")==true && path.length != 5 || event.keyCode == 27){
+			modalCloseFlag = false;
+			return true;
 		}
-		
 	
 	
 	modalCloseAlert = true;
