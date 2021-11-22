@@ -563,6 +563,15 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
+		cmm6600:{
+			label:{
+				actionBtn:"선택",
+				selDropDownMenu:"배포 명"
+			},
+			tooltip:{
+				click:"배포 계획 선택"
+			}
+		},
 		cmm6800 :{
 			title :{
 				revision : "리비전 목록",
@@ -1555,6 +1564,46 @@ var OSLCoreLangSetting = function () {
 				mmrNM : "제목",
 			}
 		},
+		dpl1000:{
+			label:{
+				button:{
+					signLine:"결재선 지정",
+					actionBtn:"기능 버튼"
+				}
+			},
+			tooltip:{
+				button:{
+					signReqDplBtn: "배포 계획 결재선 지정",
+					selectBtn: "배포 계획 조회",
+					insertBtn: "신규 배포 계획 추가",
+					updateBtn: "배포 계획 수정",
+					deleteBtn: "배포 계획 삭제"
+				},
+				actionBtn:{
+					signReqDplBtn: "결재선 지정",
+					updateBtn: "배포 계획 수정",
+					deleteBtn: "배포 계획 삭제",	
+					detailBtn: "배포 계획 상세보기"
+				}
+			},
+			modal:{
+				title:{
+					insertDpl:"신규 배포 계획 생성",
+					updateDpl:"배포 계획 수정",
+					detailDpl:"상세 정보"
+				}
+			},
+			message:{
+				alert:{
+					successDplNotUpdate:"성공된 배포 계획은 수정이 불가능합니다.",
+					signConfDplNotUpdate:"결재 승인된 배포 계획은 수정이 불가능합니다.",
+					signStandDplNotUpdate:"결재 대기중인 배포 계획은 수정이 불가능합니다.",
+					signConfDplNotDelete:"결재 승인된 배포 계획은 삭제가 불가능합니다.",
+					signStandDplNotDelete:"결재 대기중인 배포 계획은 삭제가 불가능합니다.",
+					signImpossible:"결재 사용 유무가 아니오인 경우 결재를 사용할 수 없습니다."
+				}
+			}
+		},
 		stm2100:{
 			selectStmInfoCnt : "1건의 게시판만 선택하세요. </br> ${1}건의 게시판이 선택되었습니다." ,
 			notAuthority : {
@@ -2523,6 +2572,19 @@ var OSLCoreLangSetting = function () {
 				tel : "Contact",
 				deptName: "Department",
 			},
+			cmm6700DplTable:{
+				dplSignUseNm : "Sign Use",
+				nowSignTypeNm : "Sign Status",
+				lastSignUsrNm : "Sign User",
+				dplStsNm:"Deploy Status",
+				dplNm:"Deploy Title",
+				dplDt:"Deploy Date",
+				dplVer:"Deploy Version",
+				dplTypeNm:"Deploy Type",
+				dplRevisionNum:"Deploy Revision Number",
+				dplDt : "Deploy Date",
+				dplUsrNm : "Deploy User"	
+			},
 			cmm6800RevisionFileTable:{
 				type : "Type",
 				name : "File Name",
@@ -2541,12 +2603,17 @@ var OSLCoreLangSetting = function () {
 				endDt:"Project End Day",
 			},
 			dpl1000DplTable:{
+				dplSignUseNm : "Sign Use",
+				nowSignTypeNm : "Sign Status",
+				lastSignUsrNm : "Sign User",
 				dplStsNm:"Deploy Status",
 				dplNm:"Deploy Title",
 				dplDt:"Deploy Date",
 				dplVer:"Deploy Version",
 				dplTypeNm:"Deploy Type",
-				dplDesc:"Deploy Description",
+				dplRevisionNum:"Deploy Revision Number",
+				dplDt : "Deploy Date",
+				dplUsrNm : "Deploy User"	
 			},
 			dpl4000DplTable:{
 				dplSignUseNm: "Approval Used Check",
