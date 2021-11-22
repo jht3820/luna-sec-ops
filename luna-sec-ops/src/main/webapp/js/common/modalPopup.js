@@ -66,33 +66,43 @@ $(document).on('hidden.bs.modal', '.modal', function () {
 
 
 $(document).on('hide.bs.modal', '.modal', function () {
-	if(event){
+	try{
+		if(event){
+			
+			event.cancelable = true;
+			event.stopPropagation();
+			event.preventDefault();
+			event.returnValue = false;
+		}
 		
-		event.cancelable = true;
-		event.stopPropagation();
-		event.preventDefault();
-		event.returnValue = false;
-	}
-	
-	
-	if(modalCloseAlert){
-		return false;
-	}
-	
-	var that = this;
-	
-	if(modalCloseFlag){
-		modalCloseFlag = false;
-		return true;
-	}
-	
-	
 		
-	if($(that).data("backdrop")==true && event.path.length != 5 || event.keyCode == 27){
-		modalCloseFlag = false;
-		return true;
-	}
-	
+		if(modalCloseAlert){
+			return false;
+		}
+		
+		var that = this;
+		
+		if(modalCloseFlag){
+			modalCloseFlag = false;
+			return true;
+		}
+		
+		
+			
+		
+		if($.osl.isNull(event.path)){
+			if($(that).data("backdrop")==true && event.composedPath().length != 5 || event.keyCode == 27){
+				modalCloseFlag = false;
+				return true;
+			}
+		
+		}else{
+			if($(that).data("backdrop")==true && event.path.length != 5|| event.keyCode == 27){
+				modalCloseFlag = false;
+				return true;
+			}
+		}
+		
 	
 	
 	modalCloseAlert = true;
@@ -107,7 +117,9 @@ $(document).on('hide.bs.modal', '.modal', function () {
         	$(that).modal('hide');
         }
     });
-
+	}catch(e){
+		alert(e);
+	}
 	
 	
 	return false;

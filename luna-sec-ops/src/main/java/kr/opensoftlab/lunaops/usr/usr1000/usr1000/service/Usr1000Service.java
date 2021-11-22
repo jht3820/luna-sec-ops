@@ -34,5 +34,11 @@ public interface Usr1000Service {
 
 	
 	LoginVO selectUsr1000LoginVO(Map<String, String> paramMap) throws Exception;
-
+	
+	
+	@SuppressWarnings({ "rawtypes" })
+	List<Map> selectUsr1000ShortcutList(Map paramMap) throws Exception;
+	
+	
+	void saveUsr1000ShortcutInfo(Map<String, String> paramMap) throws Exception;
 }

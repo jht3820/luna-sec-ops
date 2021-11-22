@@ -192,7 +192,7 @@
 						closeConfirm: false,
 						modalSize: "lg",
 					};
-					$.osl.layerPopupOpen("/usr/usr1000/usr1100/selectUsr1003View.do",data,options);
+					$.osl.layerPopupOpen("/usr/usr1000/usr1000/selectUsr1003View.do",data,options);
 					break;
 					
 				
@@ -5100,6 +5100,7 @@
 				});
 			}
 		
+			
 			return {
 				sec: secAgo,
 				min: minAgo,

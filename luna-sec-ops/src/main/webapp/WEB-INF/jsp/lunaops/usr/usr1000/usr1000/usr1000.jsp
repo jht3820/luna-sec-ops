@@ -801,7 +801,7 @@ var OSLUsr1000Popup = function () {
     
     var selectShortCutInfo = function(){
     	var ajaxObj = new $.osl.ajaxRequestAction(
-    			{"url":"<c:url value='/usr/usr1000/usr1100/selectUsr1100ShortcutInfoAjax.do'/>", "async": false});
+    			{"url":"<c:url value='/usr/usr1000/usr1000/selectUsr1000ShortcutInfoAjax.do'/>", "async": false});
     	
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
@@ -1026,7 +1026,7 @@ var OSLUsr1000Popup = function () {
 	        	
 	    		
 	    		var ajaxObj = new $.osl.ajaxRequestAction(
-	    				{"url":"<c:url value='/usr/usr1000/usr1100/saveUsr1100ShortcutAjax.do'/>"},
+	    				{"url":"<c:url value='/usr/usr1000/usr1000/saveUsr1000ShortcutAjax.do'/>"},
 	    				data);
 	    		
 	    		
