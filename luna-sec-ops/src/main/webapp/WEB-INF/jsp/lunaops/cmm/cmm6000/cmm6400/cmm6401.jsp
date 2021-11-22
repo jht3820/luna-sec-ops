@@ -26,7 +26,7 @@ var OSLCmm6401Popup = function () {
     var documentSetting = function () {
 		var datatableId = "cmm6401Table";
     	var name = $.osl.escapeHtml($("#paramUsrNm").val());
-    	console.log(paramPrjId);
+    	
     	
     	$.osl.datatable.setting(datatableId,{
     		data : {
