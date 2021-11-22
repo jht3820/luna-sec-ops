@@ -6,13 +6,14 @@
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" name="paramProcessId" id="paramProcessId" value="${param.paramProcessId}">
 	<input type="hidden" name="paramFlowId" id="paramFlowId" value="${param.paramFlowId}">
+	<input type="hidden" name="paramFlowchartTarget" id="paramFlowchartTarget" value="${param.paramFlowchartTarget}">
 	<div class="row">
 		<div class="col-lg-6 col-md-12 col-sm-12">
 			<div class="kt-portlet" id="flowLeftDiv">
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
-							<i class="fa fa-th-large kt-margin-r-5"></i>작업흐름 정보
+							<i class="fa fa-th-large kt-margin-r-5"></i>단계 정보
 						</h5>
 					</div>
 				</div>
@@ -25,8 +26,8 @@
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="form-group">
-								<label><i class="fa fa-project-diagram kt-margin-r-5"></i><span>작업흐름 명</span></label>
-								<input type="text" class="form-control" placeholder="작업흐름 명" name="flowNm" id="flowNm" opttype="-1" readonly="readonly">
+								<label><i class="fa fa-project-diagram kt-margin-r-5"></i><span>단계 명</span></label>
+								<input type="text" class="form-control" placeholder="단계 명" name="flowNm" id="flowNm" opttype="-1" readonly="readonly">
 							</div>
 						</div>
 					</div>
@@ -46,7 +47,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-lg-12 col-md-12 col-sm-12">
-							<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i>작업흐름 기능</label>
+							<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i>단계 기능</label>
 							<div class="row">
 								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="kt-checkbox-list">
@@ -86,7 +87,7 @@
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="form-group">
-								<label><i class="fa fa-edit kt-margin-r-5"></i><span>작업흐름 설명</span></label>
+								<label><i class="fa fa-edit kt-margin-r-5"></i><span>단계 설명</span></label>
 								<textarea class="form-control osl-min-h-px--130 osl-textarea__resize--none" name="flowDesc" id="flowDesc" maxlength="2000" opttype="-1" readonly="readonly"></textarea>
 							</div>
 						</div>
@@ -151,7 +152,7 @@ var OSLPrj1103Popup = function () {
 					left: 10,
 					properties: {
 						id: "previewOperator",
-						title: '작업흐름 명',
+						title: '단계 명',
 						flowTitleBgColor:"#ffffff",
 						flowTitleColor:"#000000",
 						inputs: {
@@ -232,7 +233,8 @@ var OSLPrj1103Popup = function () {
 	
 	
 	var fnFlowInfoSelect = function(){
-		var flowData = $("#flowChartDiv").flowchart("getOperatorData",paramFlowId);
+		var paramFlowchartTarget = $("#paramFlowchartTarget").val();
+		var flowData = $(paramFlowchartTarget).flowchart("getOperatorData",paramFlowId);
 		
 		
 		$.osl.setDataFormElem(flowData.properties, formId);
@@ -245,7 +247,7 @@ var OSLPrj1103Popup = function () {
 	    			
 	    			{
 						viewType: "preview",
-						delAt: true,
+						readOnly: true,
 						actionFn:{
 							delete:function($this){
 								var targetId = $this.data("itemId");

@@ -449,7 +449,7 @@
 					<div class="kt-portlet__head kt-portlet__head--lg">
 						<div class="kt-portlet__head-label">
 							<h5 class="kt-font-boldest kt-font-brand">
-								<i class="fa fa-th-large kt-margin-r-5"></i><span>작업흐름 목록</span>
+								<i class="fa fa-th-large kt-margin-r-5"></i><span>단계 목록</span>
 							</h5>
 						</div>
 						<div class="kt-portlet__head-toolbar">
@@ -669,12 +669,7 @@ var OSLCmm6201Popup = function () {
 			
 			
 			if(flowAction == "detail"){
-				var selFlowId = flowChart.flowchart("getSelectedOperatorId");
-				
-				
-				if($.osl.isNull(selFlowId) && $(this).parents(".dropdown-menu").length > 0){
-					selFlowId = $(this).parents(".dropdown-menu").data("flow-id");
-				}
+				var selFlowId = $(this).parents(".dropdown-menu").data("flow-id");
 				
 				if($.osl.isNull(selFlowId)){
 					$.osl.alert($.osl.lang("prj1100.alert.selNoneFlow"));
@@ -685,7 +680,8 @@ var OSLCmm6201Popup = function () {
 						paramPrjGrpId: $.osl.selPrjGrpId,
 						paramPrjId: $.osl.selPrjId,
 						paramProcessId: paramProId,
-						paramFlowId: paramFlowId
+						paramFlowId: paramFlowId,
+						paramFlowchartTarget: "#"+formId+" #cmm6201FlowChartDiv"
 				};
 				var options = {
 					autoHeight: false,
