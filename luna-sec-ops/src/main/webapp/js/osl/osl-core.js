@@ -2035,48 +2035,53 @@
         									
         							
         							prjGrpStr +=
-        								 '	<div class="kt-portlet osl-charge-requirements '+cardUi+'" data-prj-grp-id="'+map.prjGrpId+'" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">'
-										+'		<div class="kt-portlet__head ">'
-										+'			<div class="kt-portlet__head-label">'
-										+'				<h3 class="kt-portlet__head-title osl-charge-requirements__head-title" data-toggle="kt-tooltip" data-skin="brand" title="" data-original-title="['+$.osl.escapeHtml(map.reqOrd)+'] '+$.osl.escapeHtml(map.reqNm)+'">['+$.osl.escapeHtml(map.reqOrd)+'] '+$.osl.escapeHtml(map.reqNm)+'</h3>'
-										+'			</div>'
-										+'			<div class="kt-portlet__head-toolbar">'
-										+'				<i class="kt-nav__link-icon flaticon-star osl-charge-flaticon-star '+fvrUse+'" data-fvr-data1="'+$.osl.escapeHtml(map.reqId)+'" data-fvr-type="05" data-fvr-id="'+map.fvrId+'" onclick="$.osl.favoritesEdit(event,this);$.osl.datatable.list.chargeReqTable.targetDt.reload();"></i>'
-										+'			</div>'
-										+'		</div>'
-										+'		<div class="kt-portlet__body osl-padding-b-7">'
-										+'			<div class="kt-portlet__content osl-charge-requirements__body"  data-toggle="kt-tooltip" data-skin="brand" title="" data-original-title="'+$.osl.escapeHtml(map.reqDesc)+'">'
-										+'				'+$.osl.escapeHtml(map.reqDesc)+''
-										+'			</div>'
-										+'			<div class="kt-align-right osl-margin-t-1rm">'
-										+'				<i class="fa fa-key"></i>'
-						        		+'				<i class="fa fa-file-signature"></i>'
-						        		+'				<i class="far fa-stop-circle"></i>'
-						        		+'				<i class="fa fa-sign-out-alt"></i>'
-						        		+'				<i class="fa fa-code-branch"></i>'
-						        		+'				<i class="fa fa-code"></i>'
-						        		+'				<i class="fa fa-puzzle-piece"></i>'
-						        		+'				<i class="fa fa-user-shield"></i>'
-										+'			</div>'
-										+'		</div>'
-										+'		<div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right" style="display: flex;justify-content: space-between;">'
-										+'			<div class="osl-charge-requirements__footer-label" style="display: flex;align-items: center;-webkit-box-align: center;" onclick="'+usrDetailEvt+'">'
-										+'				'+$.osl.user.usrImgSet(map.reqUsrImgId, usrData)+''
-										+'			</div>'
-										+'			<div class="osl-charge-requirements__footer-toolbar" style="display: flex;align-content: flex-end;">'
-										+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqProcessBtn" data-prj-id="'+map.prjId+'" data-req-pro-type="'+map.reqProType+'" data-req-nm="'+map.reqNm+'" data-req-id="'+map.reqId+'">업무화면</a>'
-										+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqDetailBtn" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">상세보기</a>'
-										+'			</div>'
-										+'		</div>'
-										+'	</div>';
-        						});
-        						
-        						
-        						
-        						$("#chargeReqCardTable").html(prjGrpStr);
-        						KTApp.initTooltips();
-        						
-        						
+	       								 '	<div class="kt-portlet osl-charge-requirements '+cardUi+'" data-prj-grp-id="'+map.prjGrpId+'" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">'
+											+'		<div class="kt-portlet__head ">'
+											+'			<div class="kt-portlet__head-label">'
+											+'				<h3 class="kt-portlet__head-title osl-charge-requirements__head-title" data-toggle="kt-tooltip" data-skin="brand" title="" data-original-title="['+$.osl.escapeHtml(map.reqOrd)+'] '+$.osl.escapeHtml(map.reqNm)+'">['+$.osl.escapeHtml(map.reqOrd)+'] '+$.osl.escapeHtml(map.reqNm)+'</h3>'
+											+'			</div>'
+											+'			<div class="kt-portlet__head-toolbar">'
+											+'				<i class="kt-nav__link-icon flaticon-star osl-charge-flaticon-star '+fvrUse+'" data-fvr-data1="'+$.osl.escapeHtml(map.reqId)+'" data-fvr-type="05" data-fvr-id="'+map.fvrId+'" onclick="$.osl.favoritesEdit(event,this);$.osl.datatable.list.chargeReqTable.targetDt.reload();"></i>'
+											+'			</div>'
+											+'		</div>'
+											+'		<div class="kt-portlet__body osl-padding-b-7">'
+											+'			<div class="kt-portlet__content osl-charge-requirements__body"  data-toggle="kt-tooltip" data-skin="brand" title="" data-original-title="'+$.osl.escapeHtml(map.reqDesc)+'">'
+											+'				'+$.osl.escapeHtml(map.reqDesc)+''
+											+'			</div>'
+											+'			<div class="kt-align-right osl-margin-t-1rm">'
+											+'				<i class="fa fa-key"></i>'
+							        		+'				<i class="fa fa-file-signature"></i>'
+							        		+'				<i class="far fa-stop-circle"></i>'
+							        		+'				<i class="fa fa-sign-out-alt"></i>'
+							        		+'				<i class="fa fa-code-branch"></i>'
+							        		+'				<i class="fa fa-code"></i>'
+							        		+'				<i class="fa fa-puzzle-piece"></i>'
+							        		+'				<i class="fa fa-user-shield"></i>'
+											+'			</div>'
+											+'		</div>'
+											+'		<div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right" style="display: flex;justify-content: space-between;">'
+											+'			<div class="osl-charge-requirements__footer-label" style="display: flex;align-items: center;-webkit-box-align: center;" onclick="'+usrDetailEvt+'">'
+											+'				'+$.osl.user.usrImgSet(map.reqUsrImgId, usrData)+''
+											+'			</div>'
+											+'			<div class="osl-charge-requirements__footer-toolbar" style="display: flex;align-content: flex-end;">'
+											+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqProcessBtn  kt-hide" data-prj-id="'+map.prjId+'" data-req-pro-type="'+map.reqProType+'" data-req-nm="'+map.reqNm+'" data-req-id="'+map.reqId+'">업무화면</a>'
+											+'				<a href="#" class="btn btn-bold btn-upper btn-sm btn-font-light btn-outline-hover-light chargeReqDetailBtn" data-prj-id="'+map.prjId+'" data-req-id="'+map.reqId+'">상세보기</a>'
+											+'			</div>'
+											+'		</div>'
+											+'	</div>';
+	       						});
+	       						
+	       						
+	       						
+	       						$("#chargeReqCardTable").html(prjGrpStr);
+	       						KTApp.initTooltips();
+	       						
+	       						$(".osl-charge-requirements .chargeReqProcessBtn").each(function(){
+	       							if($(this).data("req-pro-type") == '02'){
+	       								$(this).removeClass("kt-hide");
+	       							}
+	       						})
+	       						
         						$(".osl-charge-requirements .chargeReqProcessBtn").click(function(){
         							var reqProType = $(this).data("reqProType");
         							var reqId = $(this).data("reqId");
