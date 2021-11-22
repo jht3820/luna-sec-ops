@@ -238,10 +238,10 @@
 		<isNotEmpty property="searchTargetData">
 				<isNotEmpty property="searchTargetId">
 					<isEqual property="searchTargetId" compareValue="reqGrpNo" prepend="AND">
-						T1.REQ_GRP_NO LIKE '%'||  #searchTargetData# ||'%'
+						UPPER(T1.REQ_GRP_NO) LIKE '%'||  UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpNm" prepend="AND">
-						T1.REQ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+						UPPER(T1.REQ_GRP_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpUsrNm" prepend="AND">
 						T1.REQ_GRP_USR_NM LIKE '%'||#searchTargetData#||'%'
@@ -253,13 +253,13 @@
 						T1.REG_GRP_KEY LIKE '%'||#searchTargetData#||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpUsrEmail">
-						AND	T1.REQ_GRP_USR_EMAIL LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(T1.REQ_GRP_USR_EMAIL) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpUsrNum">
 						AND	T1.REQ_GRP_USR_NUM LIKE '%'|| #searchTargetData# ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpChargerEmail">
-						AND	T1.REQ_GRP_CHARGER_EMAIL LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(T1.REQ_GRP_CHARGER_EMAIL) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpChargerNum">
 						AND	T1.REQ_GRP_CHARGER_NUM LIKE '%'|| #searchTargetData# ||'%'
@@ -350,13 +350,13 @@
 							SUBT2.REQ_USR_NM LIKE '%'||#searchTargetData#||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqUsrEmail">
-							AND	T1.REQ_USR_EMAIL LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.REQ_USR_EMAIL) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqUsrNum">
 							AND	T1.REQ_USR_NUM LIKE '%'|| #searchTargetData# ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="prjNm">
-							AND	T1.PRJ_NM LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.PRJ_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="prjGrpNm">
 							AND	T1.PRJ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
@@ -459,16 +459,16 @@
 							SUBT2.REQ_USR_NM LIKE '%'||#searchTargetData#||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqUsrEmail">
-							AND	T1.REQ_USR_EMAIL LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.REQ_USR_EMAIL) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqUsrNum">
 							AND	T1.REQ_USR_NUM LIKE '%'|| #searchTargetData# ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="prjNm">
-							AND	T1.PRJ_NM LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.PRJ_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="prjGrpNm">
-							AND	T1.PRJ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.PRJ_GRP_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqKey">
 							AND	T1.REQ_KEY LIKE '%'|| #searchTargetData# ||'%'
@@ -690,4 +690,16 @@
 		AND		PRJ_ID = #prjId#
 		AND		REQ_GRP_ID = #reqGrpId#
 	</delete>
+	
+	
+	<select id="req3000DAO.selectReq3000ReqIsInReqGrp" parameterClass="java.util.List" resultClass="egovMap">
+	
+		SELECT A.REQ_GRP_ID 
+		FROM REQ3001 A INNER JOIN REQ3000 C
+			ON (A.PRJ_GRP_ID = C.PRJ_GRP_ID AND A.REQ_GRP_ID = C.REQ_GRP_ID AND C.USE_CD = '01') 
+        WHERE REQ_ID IN 
+        <iterate open="(" close=")" conjunction=",">
+		  #[]#
+		</iterate>
+	</select>
 </sqlMap>
