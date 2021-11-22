@@ -1828,7 +1828,7 @@ var OSLDsh2000Popup = function () {
 				if(value.flowSignStopCd == "01"){
 					str += '<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>';	
 				}
-				if(value.flowEndCd == "01"){
+				if(value.flowMiddleEndCd == "01"){
 					str += '<li class="fa fa-sign-out-alt" title="종료 분기"></li>';	
 				}
 				if(value.flowRevisionCd == "01"){

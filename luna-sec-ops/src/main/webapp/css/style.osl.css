@@ -158,6 +158,9 @@ input:-webkit-autofill,
 	overflow-x: auto;
 }
 
+.osl-basic-item-badge{
+	cursor: pointer;
+}
 .badge-brand{
     background-color: #1cac81;
 	color: #fff;
@@ -963,6 +966,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     background-color: #ffffff;
     border: 1px dashed #9fa1ae;
     border-radius: 4px;
+	min-width: 200px;
 }
 .osl-req__process-history::after {
     content: '';
@@ -1112,7 +1116,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 }
 .osl-req__process-main .flowchart-operator-title,
 .flowchart-operators-layer.flowchart-operators-move--dsiabled .flowchart-operator-title {
-    cursor: default;
+    cursor: default !important;
 }
 .osl-flowchart__operator.active {
     border: 2px solid #1cac81 !important;
@@ -2429,8 +2433,6 @@ form#frCmm6201 .osl-process__flow-container {
     cursor: move;
     padding: 10px;
     border-bottom: 1px solid #ebedf2;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
     background: #fff;
 	display: -webkit-box;
     display: -ms-flexbox;
@@ -2541,7 +2543,7 @@ form#frCmm6201 .osl-process__flow-container {
 }
 .osl-flowchart-preview {
     width: 100%;
-    height: 125px;
+    height: 150px;
     border: 1px solid #e2e5ec;
     margin-bottom: 15px;
     border-radius: 4px;

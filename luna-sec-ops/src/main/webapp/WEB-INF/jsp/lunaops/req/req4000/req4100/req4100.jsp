@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -42,7 +42,7 @@
 				<div class="osl-datatable-search" data-datatable-id="req4100ReqTable"></div>
 			</div>
 		</div>
-		<div class="kt_datatable osl-datatable-footer__divide" id="req4100ReqTable"></div>
+		<div class="kt_datatable osl-datatable-footer__divide kt-scroll ps" data-scroll-x="true" id="req4100ReqTable"></div>
 	</div>
 </div>
 
@@ -152,7 +152,7 @@ var OSLReq4100Popup = function () {
 				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
 			],
 			rows:{
-				clickCheckbox: true
+				clickCheckbox: true,
 			},
 			actionBtn:{
 				"title" : $.osl.lang("req4100.actionBtn.title"),
@@ -355,8 +355,9 @@ var OSLReq4100Popup = function () {
 						return false;
 					}
 					
-					if(rowDatas[0].reqProType != "02"){
-						$.osl.alert("처리중인 요구사항만 업무 처리가 가능합니다.");
+					
+					if(rowDatas[0].reqProType != "02" && rowDatas[0].reqProType != "04"){
+						$.osl.alert("최종완료, 처리중인 요구사항만 업무 처리가 가능합니다.");
 						return false;
 					}
 					

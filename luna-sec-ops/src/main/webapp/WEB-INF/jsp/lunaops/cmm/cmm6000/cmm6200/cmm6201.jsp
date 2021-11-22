@@ -12,7 +12,7 @@
 	<div class="osl-req__process-title"><i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">요구사항 변경 이력</span></div>
 	<div class="osl-req__process-main d-flex">
 		<div class="osl-req__process-history" id="osl-req__process-history" data-scroll-x="true"></div>
-		<div class="osl-req__process-next__Flow">
+		<div class="osl-req__process-next__Flow" id="osl-req__process-next__Flow">
 			<div class="osl-req__process-mask__flow">
 				<div class="flowchart-operator-process-title">
 					<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate"><span id="nextProcessNm">프로세스명</span></div>
@@ -30,7 +30,7 @@
 							<span class="kt-user-card-v2__email kt-margin-l-10 osl-line-height-rem-1_5" id="nextFlowEmail"></span>
 						</div>
 					</div>
-					<div class="flowchart-operator-chg__dtm"><i class="fa fa-info-circle kt-margin-r-5"></i><span>다음 단계 정보</span></div>
+					<div class="flowchart-operator-chg__dtm"><i class="fa fa-info-circle kt-margin-r-5"></i><span id="nextFlowDesc">다음 단계 정보</span></div>
 				</div>
 			</div>
 		</div>
@@ -86,16 +86,16 @@
 				</div>
 			</div>
 			<button type="button" class="btn btn-outline-primary kt-margin-r-20 osl-preview-hide" id="cmm6201SaveSubmit" name="cmm6201SaveSubmit">
-				<i class="fa fa-save"></i><span data-lang-cd="req4101.complete">저장 (현재 단계 유지)</span>
+				<i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">저장 (현재 단계 유지)</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
-				<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
+				<i class="fas fa-chevron-circle-left"></i><span class="osl-resize__display--show" data-lang-cd="spr1003.wizard.btn.prev">이전</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand kt-margin-l-20 osl-preview-hide" id="cmm6201SaveNextSubmit" name="cmm6201SaveNextSubmit" data-ktwizard-type="action-submit">
-				<i class="fa fa-check-square"></i><span data-lang-cd="req4101.complete">처리 완료</span>
+				<i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">처리 완료</span>
 			</button>
 			<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
-				<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
+				<span class="kt-margin-r-5 osl-resize__display--show" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
 			</button>
 		</div>
 		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content" data-ktwizard-state="current">
@@ -814,7 +814,7 @@ var OSLCmm6201Popup = function () {
 										return true;
 									}
 									
-									signOrdListStr += signUsrUiSetting(map);
+									signOrdListStr += signUsrUiSetting(map, signUsrList);
 								});
 								
 								$("#cmm6201SignOrdList").removeClass("kt-hide");
@@ -991,12 +991,46 @@ var OSLCmm6201Popup = function () {
 				var reqInfo = data.reqInfo;
  				var reqSignCd = reqInfo.reqSignCd;
  				var reqSignNm = reqInfo.reqSignNm;
+ 				var reqProType = reqInfo.reqProType;
+ 				
  				reqSignOrd = data.reqSignOrd;
  				currentSignUsrInfo = data.currentSignUsrInfo;
  				
  				
+ 				if(reqProType == "04"){
+ 					reqProcessAuthFlag = false;
+ 					
+ 					
+ 					$("#osl-req__process-next__Flow").hide();
+ 				}
+ 				
+ 				
  				if(!$.osl.isNull(reqSignCd) && reqSignCd != "03" && reqSignCd != "04"){
  					reqProcessAuthFlag = false;
+ 					
+ 					
+ 					$("#"+formId+" #nextProcessNm").text("결재 대기");
+ 					$("#"+formId+" #nextFlowDesc").text("현재 결재자 정보");
+ 					$("#"+formId+" #nextFlowNm").text("결재 대기 중 ( "+currentSignUsrInfo.ord+" / "+(data.signUsrList.length-1)+" )");
+ 					
+
+ 			    	
+ 			    	fnUsrChargerChg({
+ 			    		usrId: currentSignUsrInfo.signUsrId,
+ 			    		usrNm: currentSignUsrInfo.signUsrNm,
+ 			    		usrImgId: currentSignUsrInfo.signUsrImgId,
+ 			    		email: currentSignUsrInfo.signUsrEmail
+ 			    	});
+ 				}else{
+ 			    	$("#"+formId+" #nextProcessNm").text(reqInfo.processNm);
+
+ 			    	
+ 			    	fnUsrChargerChg({
+ 			    		usrId: reqInfo.reqChargerId,
+ 			    		usrNm: reqInfo.reqChargerNm,
+ 			    		usrImgId: reqInfo.reqChargerImgId,
+ 			    		email: reqInfo.reqChargerEmail
+ 			    	});
  				}
  				
  				
@@ -1009,13 +1043,6 @@ var OSLCmm6201Popup = function () {
 		    	$.osl.setDataFormElem(reqInfo, formId);
  				
 		    	
-		    	fnUsrChargerChg({
-		    		usrId: reqInfo.reqChargerId,
-		    		usrNm: reqInfo.reqChargerNm,
-		    		usrImgId: reqInfo.reqChargerImgId,
-		    		email: reqInfo.reqChargerEmail
-		    	});
-		    	
 		    	
 		    	$("#"+formId+" #reqUsrId").val(reqInfo.reqUsrId);
 				$("#"+formId+" #reqGrpNm").val(reqInfo.reqGrpNm);
@@ -1026,9 +1053,6 @@ var OSLCmm6201Popup = function () {
 		    	$("#"+formId+" #deptId").val(reqInfo.reqUsrDeptId);
 		    	$("#"+formId+" #usrImgId").attr("src",$.osl.user.usrImgUrlVal(reqInfo.reqUsrImgId));
 		    	
-		    	$("#"+formId+" #nextProcessNm").text(reqInfo.processNm);
-		    	$("#"+formId+" #reqPrjSelect").val($.osl.escapeHtml(reqInfo.prjId)).trigger('change.select2');
-		    	$("#"+formId+" #reqPrjSelect").prop("disabled", true);
 		    	
 		    	
 		    	formEditList.push($.osl.editorSetting(formId+" #reqDesc", {
@@ -1326,7 +1350,12 @@ var OSLCmm6201Popup = function () {
 						}
 						
 						if(map.reqChgTypeCd == "03"){
-							addBadgeStr += '<div class="flowchart-operator-title__lebel badge badge-brand d-inline-block">'+$.osl.escapeHtml(map.reqChgTypeNm)+'</div>';
+							addBadgeStr += '<div class="flowchart-operator-title__lebel badge badge-brand d-inline-block kt-margin-l-5">'+$.osl.escapeHtml(map.reqChgTypeNm)+'</div>';
+						}
+						
+						
+						if(map.chgFlowDoneCd == "01"){
+							addBadgeStr += '<div class="flowchart-operator-title__lebel badge badge-danger d-inline-block kt-margin-l-5">'+$.osl.escapeHtml(map.chgFlowNm)+'</div>';
 						}
 						
  						
@@ -1535,7 +1564,7 @@ var OSLCmm6201Popup = function () {
 					flowStatus = "02";
 				}
 				
-				else if(currentFlowNextIds.indexOf(map.flowId) == -1){
+				else if($.osl.isNull(currentFlowNextIds) || currentFlowNextIds.length == 0 || currentFlowNextIds.indexOf(map.flowId) == -1){
 					flowStatus = "04";
 				}
 				
