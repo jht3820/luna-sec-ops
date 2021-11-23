@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -20,17 +21,29 @@ import com.ibm.icu.text.SimpleDateFormat;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl.Prj1100DAO;
+import kr.opensoftlab.lunaops.req.req3000.req3000.service.impl.Req3000DAO;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.impl.Req4100DAO;
+import kr.opensoftlab.lunaops.req.req6000.req6000.service.impl.Req6000DAO;
 import kr.opensoftlab.lunaops.spr.spr1000.spr1000.service.Spr1000Service;
 import kr.opensoftlab.lunaops.spr.spr1000.spr1100.service.impl.Spr1100DAO;
 import kr.opensoftlab.lunaops.spr.spr2000.spr2000.service.impl.Spr2000DAO;
 import kr.opensoftlab.lunaops.spr.spr2000.spr2100.service.impl.Spr2100DAO;
+import kr.opensoftlab.lunaops.stm.stm3000.stm3000.service.impl.Stm3000DAO;
 
 
 
 @Service("spr1000Service")
 public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr1000Service {
 
+	
+	@Resource(name="prj1100DAO")
+	private Prj1100DAO prj1100DAO;
+	
+	
+	@Resource(name="stm3000DAO")
+	private Stm3000DAO stm3000DAO;
+	
 	
     @Resource(name="spr1000DAO")
     private Spr1000DAO spr1000DAO;
@@ -50,6 +63,14 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	
     @Resource(name="spr2100DAO")
     private Spr2100DAO spr2100DAO;
+    
+    
+    @Resource(name="req3000DAO")
+    private Req3000DAO req3000DAO;
+    
+    
+    @Resource(name="req6000DAO")
+    private Req6000DAO req6000DAO;
     
     
 	@Resource(name = "egovMessageSource")
@@ -145,8 +166,7 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	
 	@SuppressWarnings({"rawtypes"})
 	public List<Map>  selectSpr1000SprReqList(Map paramMap) throws Exception {
-		List<Map> reqList = spr1000DAO.selectSpr1000SprReqList(paramMap);
-		return reqList;
+		return spr1000DAO.selectSpr1000SprReqList(paramMap);
 	}
 
 	
@@ -189,7 +209,6 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		if(usrList != null && usrListSize > 0) {
 			for(int i=0;i <usrListSize;i++) {
 				String usrInfo = (String)usrList.get(i);
-			
 				paramMap.put("usrId", usrInfo);
 				spr2000DAO.insertSpr2001MmtMemList(paramMap);
 			}
@@ -225,7 +244,6 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			{
 				String reqId = reqKey.next().toString();
 				JSONObject usrInfo = reqUsrList.getJSONObject(reqId);
-				
 				paramMap.put("reqId", reqId);
 				paramMap.put("reqChargerId", usrInfo.getString("usrId"));
 				req4100DAO.updateReq4101ReqSubInfo(paramMap);
@@ -248,7 +266,7 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		
 		
 		Date today = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.KOREA);
 		paramMap.put("startDt", sdf.format(today));
 		
 		
@@ -287,10 +305,37 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		
 		paramMap.put("sprTypeCd", "03");
 		Date today = new Date();
-		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		
 		paramMap.put("spr", dateformat.format(today));
 		spr1000DAO.updateSpr1000Info(paramMap);
+
+		
+		
+		
+		spr1000DAO.insertStm3000SnapShot(paramMap);
+		
+		spr1000DAO.insertReq4100SnapShot(paramMap);
+		
+		spr1000DAO.insertReq6001SnapShot(paramMap);
+		
+		spr1000DAO.insertReq3000SnapShot(paramMap);
+		
+		spr1000DAO.insertReq3001SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1100SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1101SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1102SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1103SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1106SnapShot(paramMap);
+		
+		spr1000DAO.insertPrj1107SnapShot(paramMap);
+		
+		
 		
 		return rtnValue;
 	}
@@ -298,8 +343,11 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map selectSpr1000SprInfoStat(Map paramMap) throws Exception {
+		Map sprStat = null;
 		
-		Map sprStat = spr1000DAO.selectSpr1000SprInfoStat(paramMap);
+		
+		
+		sprStat = spr1000DAO.selectSpr1000SprInfoStat(paramMap);
 		
 		double allCnt = Double.parseDouble(String.valueOf(sprStat.get("allCntSum")));
 		double endCnt = Double.parseDouble(String.valueOf(sprStat.get("endCntSum")));
@@ -321,33 +369,42 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	@Override
 	@SuppressWarnings({ "rawtypes" })
 	public List<Map> selectSpr1000ChartInfo(Map paramMap) throws Exception {
-		return  spr1000DAO.selectSpr1000ChartInfo(paramMap);
+		return spr1000DAO.selectSpr1000ChartInfo(paramMap);
 	}
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Map> selectSpr1000VelocityChartInfo(Map<String, String> paramMap) throws Exception {
+		
+		String sprType = (String) paramMap.get("sprType");
 		Calendar cal = Calendar.getInstance();
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		
 		Map termInfo = spr1000DAO.selectSpr1000SprTerm(paramMap);
 		Double totalSprPoint = Double.parseDouble(String.valueOf(paramMap.get("totalSprPoint")));
 		Double endSprPoint = Double.parseDouble(String.valueOf(paramMap.get("endSprPoint")));
 		Integer term = Integer.parseInt(String.valueOf(termInfo.get("distance")));
 		Integer interval = term/4;
-		Integer remainder = term%4;
+		
 		Double commitSprPoint = (double) (totalSprPoint/4);
 		Double endVelocity = (double) (endSprPoint/4);
 		Date stDt = (Date) termInfo.get("sprStDt");
+		Date edDt = (Date) termInfo.get("sprEdDt");
 		List<Map> velocityData = new ArrayList();
 		
 		cal.setTime(stDt);
-		for(int i = 1 ; i<5 ; i++) {
-			
-			String startD = df.format(cal.getTime());
+		for(int i = 1; i<5 ; i++) {
+			String startD = "";
+			if(i == 1) {
+				
+				startD = df.format(cal.getTime());
+			}else {
+				cal.add(Calendar.DATE, 1);
+				startD = df.format(cal.getTime());
+			}
 			if(i==4) {
-				cal.add(Calendar.DATE, interval+remainder);
+				cal.setTime(edDt);
 			}else {
 				cal.add(Calendar.DATE, interval);
 			}
@@ -356,9 +413,8 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			
 			paramMap.put("startD", startD);
 			paramMap.put("endD", endD);
-			
 			Map data = spr1000DAO.selectSpr1000VelocityChartInfo(paramMap);
-			data.put("term", "Sprint#"+i);
+			data.put("term", startD + "~" + endD);
 			data.put("commitSprPoint", commitSprPoint);
 			data.put("commitVelocity", commitSprPoint);
 			data.put("actualVelocity", endVelocity);

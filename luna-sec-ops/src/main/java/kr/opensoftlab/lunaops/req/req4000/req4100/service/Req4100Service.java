@@ -54,6 +54,14 @@ public interface Req4100Service {
 	
 	@SuppressWarnings({ "rawtypes" })
 	void updateReq4100ReqAcceptList(Map paramMap) throws Exception;
+
+	
+	@SuppressWarnings({ "rawtypes" })
+	void updateReq4100ReqSignRejectInfo(Map paramMap) throws Exception;
+	
+	
+	@SuppressWarnings({ "rawtypes" })
+	void updateReq4100ReqSignAcceptInfo(Map paramMap) throws Exception;
 	
 	
 	@SuppressWarnings("rawtypes")
@@ -87,4 +95,9 @@ public interface Req4100Service {
 	
 	@SuppressWarnings({ "rawtypes" })
 	void saveReq4100ReqProcessActionInfo(Map paramMap) throws Exception;
+	
+
+	
+	@SuppressWarnings("rawtypes")
+	public Map selectReq4100FlowInfoAjax(Map paramMap) throws Exception;
 }

@@ -1143,6 +1143,18 @@
 		var stmFileStrg = $("#stmFileStrg").val();
 		
 		
+		if(stmTypeCd == "03" || stmTypeCd == "04"){
+			stmFileYnCd = "01";
+			if($("#stmFileYnCd").is(":checked")==false)
+			{
+				$("#stmFileYnCd").attr("checked", true);
+				$("#stmFileOption").removeClass("kt-hide");
+				$.osl.alert($.osl.lang("stm2101.formCheck.fileOptionMessage"));
+				return false;
+			}
+		}
+		
+		
 		if(stmFileYnCd == "01"){
 			
 			if(stmFileCnt <= 0)
@@ -1238,7 +1250,7 @@
 			stmFileStrg = 0;
 		}
 
-		$.osl.confirm($.osl.lang("stm2101.update"),null,function(result){
+		$.osl.confirm($.osl.lang("stm2101.update"),{"html" : true},function(result){
 			if(result.value){
 				
 				var data = {

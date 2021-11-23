@@ -1,5 +1,7 @@
 package kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl;
 
+import java.util.ArrayList;
+
 
 
 import java.util.HashMap;
@@ -16,8 +18,6 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import egovframework.rte.fdl.idgnr.EgovIdGnrService;
-import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.Prj1100Service;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.Prj1300Service;
 
@@ -32,13 +32,6 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
     @Resource(name = "prj1300Service")
     private Prj1300Service prj1300Service;
     
-    
-   	@Resource(name="fileMngService")
-   	private FileMngService fileMngService;
-   	
-   	@Resource(name = "egovFileIdGnrService")
-	private EgovIdGnrService idgenService;
-
 	
 	@SuppressWarnings("rawtypes")
 	public int  selectPrj1100ProcessListCnt(Map paramMap) throws Exception {
@@ -62,6 +55,26 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 	public String insertPrj1100ProcessInfo(Map paramMap) throws Exception {
 		String processId = (String) prj1100DAO.insertPrj1100ProcessInfo(paramMap);
 		paramMap.put("processId", processId);
+		
+		
+		paramMap.put("flowNm", "최종 완료");
+		paramMap.put("flowDesc", "최종 완료");
+		paramMap.put("flowLeft", "20");
+		paramMap.put("flowTop", "20");
+		paramMap.put("flowStartCd", "02");
+		paramMap.put("flowDoneCd", "01");
+		paramMap.put("flowEssentialCd", "02");
+		paramMap.put("flowSignCd", "02");
+		paramMap.put("flowSignStopCd", "02");
+		paramMap.put("flowMiddleEndCd", "02");
+		paramMap.put("flowWorkCd", "02");
+		paramMap.put("flowRevisionCd", "02");
+		paramMap.put("flowDplCd", "02");
+		paramMap.put("flowAuthCd", "02");
+		paramMap.put("flowTitleBgColor", "02");
+		paramMap.put("flowTitleColor", "02");
+		paramMap.put("useCd", "02");
+		prj1100DAO.insertPrj1101FlowInfo(paramMap);
 		
 		
 		String usrIdList = (String) paramMap.get("usrIdList");
@@ -91,11 +104,14 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		prj1100DAO.updatePrj1100ProcessInfo(paramMap);
 		
 		
-		prj1100DAO.deletePrj1100ProcessAuthInfo(paramMap);
-		
-		
 		String usrIdList = (String) paramMap.get("usrIdList");
+				
+				
+		
 		if(usrIdList != null && !"[]".equals(usrIdList)) {
+			
+			prj1100DAO.deletePrj1100ProcessAuthInfo(paramMap);
+			
 			
 			JSONArray jsonArray = new JSONArray(usrIdList);
 			
@@ -157,10 +173,25 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 				newMap.put("flowLeft", newFlowData.get("left"));
 				newMap.put("flowTop", newFlowData.get("top"));
 				newMap.put("flowNm", newFlowProp.get("title"));
+				newMap.put("flowDesc", newFlowProp.get("flowDesc"));
 				newMap.put("regUsrId", paramMap.get("regUsrId"));
 				newMap.put("regUsrIp", paramMap.get("regUsrIp"));
 				newMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
 				newMap.put("modifyUsrIp", paramMap.get("modifyUsrIp"));
+				
+				
+			    if(startFlowId.equals(key)) {
+			    	newMap.put("flowStartCd", "01");
+			    }else {
+			    	newMap.put("flowStartCd", "02");
+			    }
+			    
+			    
+			    if(endFlowId.equals(key)) {
+			    	newMap.put("flowDoneCd", "01");
+			    }else {
+			    	newMap.put("flowDoneCd", "02");
+			    }
 				
 				String newFlowId = prj1100DAO.insertPrj1101FlowInfo(newMap);
 				
@@ -232,7 +263,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    			if(!newFlowIdList.isEmpty() && newFlowIdList.containsKey(flowNextId)) {
 		    				flowNextId = (String) newFlowIdList.get(flowNextId);
 		    			}
-		    			System.out.println(paramMap.get("flowId"));
+		    			
 		    			paramMap.put("flowNextId", flowNextId);
 		    		
 		    			
@@ -253,6 +284,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    flowMapData.put("flowLeft", left);
 		    flowMapData.put("flowTop", top);
 		    flowMapData.put("flowNm", flowMapData.get("title"));
+		    flowMapData.put("flowDesc", flowMapData.get("flowDesc"));
 		    flowMapData.put("flowStartCd", paramMap.get("flowStartCd"));
 		    flowMapData.put("flowDoneCd", paramMap.get("flowDoneCd"));
 		    flowMapData.put("modifyUsrId", paramMap.get("modifyUsrId"));
@@ -387,7 +419,27 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 			param.put("prjId", map.get("prjId"));
 			param.put("flowId", map.get("flowId"));
 			
-			map.put("basicItemList", prj1300Service.selectPrj1102AllItemList(param));
+			flowList.set(i, map);
+		}
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("licGrpId", paramMap.get("licGrpId"));
+		param.put("processId", paramMap.get("processId"));
+		param.put("prjId", paramMap.get("prjId"));
+		
+		List<Map<String, Object>> itemList = prj1300Service.selectPrj1102AllItemList(param);
+		for(int i=0;i<flowList.size();i++) {
+			Map<String, Object> map =  (Map<String, Object>) flowList.get(i);
+			List<Map<String, Object>> basicItemList = new ArrayList<>();
+			
+			for(int j=0;j<itemList.size();j++) {
+				Map<String, Object> itemMap =  (Map<String, Object>) itemList.get(j);
+				if(itemMap.get("flowId").equals(map.get("flowId"))) {
+					basicItemList.add(itemMap);
+				}
+			}
+			map.put("basicItemList", basicItemList);
+			
 			flowList.set(i, map);
 		}
 		return flowList;
@@ -763,6 +815,12 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 	@SuppressWarnings("rawtypes")
 	public int selectPrj1105FlowAuthGrpCnt(Map paramMap) throws Exception {
 		return prj1100DAO.selectPrj1105FlowAuthGrpCnt(paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public List selectPrj1100FlowChargerCntList(Map paramMap) throws Exception {
+		return prj1100DAO.selectPrj1100FlowChargerCntList(paramMap);
 	}
 
 	

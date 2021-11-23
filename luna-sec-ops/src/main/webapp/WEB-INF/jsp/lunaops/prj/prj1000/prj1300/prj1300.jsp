@@ -12,99 +12,95 @@
 			</h4>
 		</div>
 	</div>
-	<div class="kt-portlet__body">
-		<div class="row">
-			
-			<div class="col-xl-4">
-				<div class="kt-portlet osl-content__border--light kt-margin-b-20" id="prj1300TemplateTreeMenu">
-					<div class="kt-portlet__head kt-portlet__head--lg">
-						<div class="kt-portlet__head-label">
-							<h5 class="kt-font-boldest kt-font-brand">
-								<i class="fas fa-copy kt-margin-r-5"></i>대상 목록
-							</h5>
-						</div>
-						
-						<div class="kt-portlet__head-toolbar">
-							<div class="kt-portlet__head-wrapper">
-								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj1300TemplateTree" data-tree-action="select" title="템플릿 메뉴 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="템플릿 메뉴 목록 조회">
-									<i class="fa fa-list"></i><span>조회</span>
-								</button>
-								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj1300TemplateTree" data-tree-action="insert" title="템플릿 메뉴 목록 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2" data-original-title="템플릿 메뉴 목록 추가">
-									<i class="fa fa-plus"></i><span>등록</span>
-								</button>
-							</div>
-							<div class="kt-portlet__head-group">
-								<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="prj1300TemplateTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a> 
-								<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="prj1300TemplateTree" data-tree-action="allNodeClose"> <i class="fa fa-minus"></i> </a> 
-							</div>
-						</div>
-						
-					</div>
-
-					<div class="kt-portlet__body">
-						<div class="row">
-							<div class="col-12">
-								<div class="osl-tree-search" data-tree-id="prj1300TemplateTree"></div>
-							</div>
-						</div>
-						<div class="row kt-margin-t-20">
-							<div class="col-12">
-								<div class="osl-tree kt-scroll" data-height="410" id="prj1300TemplateTree"></div>
-							</div>
-						</div>
-					</div>
+</div>
+<div class="row">
+	
+	<div class="col-xl-4">
+		<div class="kt-portlet kt-margin-b-20" id="prj1300TemplateTreeMenu">
+			<div class="kt-portlet__head kt-portlet__head--lg">
+				<div class="kt-portlet__head-label">
+					<h5 class="kt-font-boldest kt-font-brand">
+						<i class="fas fa-copy kt-margin-r-5"></i>대상 목록
+					</h5>
 				</div>
-			</div>
-			
-			
-			<div class="col-xl-8">
 				
-				<div class="kt-portlet--contain osl-content__border--light">
-					<div class="kt-blog-grid">
-						<div class="kt-portlet__head kt-portlet__head--lg">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fas fa-file-signature kt-margin-r-5"></i>기본 항목 목록
-								</h5>
-							</div>
-							
-							<div class="kt-portlet__head-toolbar">
-								<div class="kt-portlet__head-wrapper">
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="preview" title="기본항목 미리보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="preview" tabindex="1" data-original-title="기본항목 미리보기">
-										<i class="fa fa-list"></i><span>미리보기</span>
-									</button>
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="select" title="기본항목 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="2" data-original-title="기본항목 조회">
-										<i class="fa fa-list"></i><span>조회</span>
-									</button>
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="insert" title="기본항목 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="3" data-original-title="기본항목 추가">
-										<i class="fa fa-list"></i><span>추가</span>
-									</button>
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="update" title="기본항목 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="4" data-original-title="기본항목 수정">
-										<i class="fa fa-list"></i><span>수정</span>
-									</button>
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="delete" title="기본항목 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5" data-original-title="기본항목 삭제">
-										<i class="fa fa-list"></i><span>삭제</span>
-									</button>
-								</div>
-							</div>
-							
-						</div>
-
-						<div class="kt-portlet__body">
-							<div class="row">
-								<div class="col-lg-6 col-md-6 col-sm-12">
-									<div class="osl-datatable-search" data-datatable-id="prj1301PrjTable"></div>
-								</div>
-							</div>
-							<div class="kt_datatable" id="prj1301PrjTable"></div>
-						</div>
+				<div class="kt-portlet__head-toolbar">
+					<div class="kt-portlet__head-wrapper">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj1300TemplateTree" data-tree-action="select" title="템플릿 메뉴 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="템플릿 메뉴 목록 조회">
+							<i class="fa fa-list"></i><span>조회</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="prj1300TemplateTree" data-tree-action="insert" title="템플릿 메뉴 목록 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2" data-original-title="템플릿 메뉴 목록 추가">
+							<i class="fa fa-plus"></i><span>등록</span>
+						</button>
+					</div>
+					<div class="kt-portlet__head-group">
+						<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="prj1300TemplateTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a> 
+						<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="prj1300TemplateTree" data-tree-action="allNodeClose"> <i class="fa fa-minus"></i> </a> 
 					</div>
 				</div>
 				
 			</div>
-			
+
+			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-12">
+						<div class="osl-tree-search" data-tree-id="prj1300TemplateTree"></div>
+					</div>
+				</div>
+				<div class="row kt-margin-t-20">
+					<div class="col-12">
+						<div class="osl-tree kt-scroll" data-height="410" id="prj1300TemplateTree"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+	
+	
+	<div class="col-xl-8">
+		
+		<div class="kt-portlet">
+			<div class="kt-portlet__head kt-portlet__head--lg">
+				<div class="kt-portlet__head-label">
+					<h5 class="kt-font-boldest kt-font-brand">
+						<i class="fas fa-file-signature kt-margin-r-5"></i>기본 항목 목록
+					</h5>
+				</div>
+				
+				<div class="kt-portlet__head-toolbar">
+					<div class="kt-portlet__head-wrapper">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="preview" title="기본항목 미리보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="preview" tabindex="1" data-original-title="기본항목 미리보기">
+							<i class="fas fa-eye"></i><span>미리보기</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="select" title="기본항목 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="2" data-original-title="기본항목 조회">
+							<i class="fa fa-list"></i><span>조회</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="insert" title="기본항목 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="3" data-original-title="기본항목 추가">
+							<i class="fa fa-plus"></i><span>추가</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="update" title="기본항목 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="4" data-original-title="기본항목 수정">
+							<i class="fa fa-edit"></i><span>수정</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1301PrjTable" data-datatable-action="delete" title="기본항목 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5" data-original-title="기본항목 삭제">
+							<i class="fa fa-trash-alt"></i><span>삭제</span>
+						</button>
+					</div>
+				</div>
+				
+			</div>
+
+			<div class="kt-portlet__body">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-12">
+						<div class="osl-datatable-search" data-datatable-id="prj1301PrjTable"></div>
+					</div>
+				</div>
+				<div class="kt_datatable" id="prj1301PrjTable"></div>
+			</div>
+		</div>
+		
+	</div>
+	
 </div>
 
 <script>
@@ -130,7 +126,9 @@ var OSLPrj1300Popup = function () {
 		treeObj = $.osl.tree.setting("prj1300TemplateTree",{
 			data:{
 				url:"<c:url value='/prj/prj1000/prj1300/selectPrj1300TemplateListAjax.do'/>",
-				paramPrjId: $.osl.selPrjId,
+				param:{
+					paramPrjId: $.osl.selPrjId,
+				},
 				key: "templateId",
 				pKey: "upperTemplateId",
 				labelKey: "templateNm"

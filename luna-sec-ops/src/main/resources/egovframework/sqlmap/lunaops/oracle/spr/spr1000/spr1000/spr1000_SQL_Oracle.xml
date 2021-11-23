@@ -18,6 +18,7 @@
 		<result property="sprTypeNm"			column="SPR_TYPE_NM"/>
 		<result property="sprStDt"				column="SPR_ST_DT"/>
 		<result property="sprEdDt"				column="SPR_ED_DT"/>
+		<result property="sprOngoingCnt"		column="SPR_ONGOING_CNT"/>
 		<result property="ord"					column="ORD"/>
 		<result property="useCd"				column="USE_CD"/>
 		<result property="useNm"				column="USE_NM"/>
@@ -25,6 +26,7 @@
 		<result property="reqAllCnt"			column="REQ_ALL_CNT"/>
 		<result property="reqDoneCnt"			column="REQ_DONE_CNT"/>
 		<result property="reqProgressCnt"		column="REQ_PROGRESS_CNT"/>
+		<result property="restDay"				column="REST_DAY"/>
     </resultMap>
 	
 	 <resultMap id="resultMapSpr1000ReqList" class="egovMap">
@@ -100,6 +102,8 @@
 			, T1.REQ_ALL_CNT
 			, T1.REQ_DONE_CNT
 			, T1.REQ_PROGRESS_CNT
+			, T1.REST_DAY
+			, T1.SPR_ONGOING_CNT 
 		FROM
 		(
 			SELECT
@@ -128,6 +132,14 @@
 		            FROM SPR1100 Z INNER JOIN REQ4100 Y ON(Z.PRJ_ID = Y.PRJ_ID AND Z.REQ_ID = Y.REQ_ID AND Y.REQ_PRO_TYPE = '02')
 		            WHERE Z.LIC_GRP_ID = A.LIC_GRP_ID AND Z.PRJ_GRP_ID = A.PRJ_GRP_ID AND Z.PRJ_ID = A.PRJ_ID AND Z.SPR_ID = A.SPR_ID
 		        ) AS REQ_PROGRESS_CNT
+		        <![CDATA[
+		        , CASE WHEN TRUNC(A.SPR_ED_DT - SYSDATE) < 0 THEN 0 ELSE TRUNC(A.SPR_ED_DT - SYSDATE) END AS REST_DAY
+		        ]]>
+		        , (SELECT COUNT(*) FROM SPR1000 WHERE SPR_TYPE_CD = '02' 
+		        	AND LIC_GRP_ID = #licGrpId# 
+		        	AND PRJ_GRP_ID = #prjGrpId# 
+		        	AND PRJ_ID = #prjId# 
+		        	AND DEL_CD = '02') AS SPR_ONGOING_CNT
 		    FROM SPR1000 A
 		    WHERE 1=1
 		    AND A.LIC_GRP_ID = #licGrpId#
@@ -158,7 +170,7 @@
 		<isNotEmpty property="searchTargetData">
 			<isNotEmpty property="searchTargetId">
 				<isEqual property="searchTargetId" compareValue="sprNm">
-					AND	T1.SPR_NM LIKE '%'|| #searchTargetData# ||'%'
+					AND	UPPER(T1.SPR_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 				</isEqual>
 				<isEqual property="searchTargetId" compareValue="sprDesc">
 				<![CDATA[
@@ -195,8 +207,12 @@
 						AND	TO_DATE(T1.SPR_ED_DT, 'YYYY-MM-DD') &lt;=  TO_DATE(SUBSTR(#searchEndDt#, 0, INSTR(#searchStartDt#, ' ')), 'YYYY-MM-DD')
 					</isNotEmpty>
 				</isEqual>
-				
 			</isNotEmpty>
+		</isNotEmpty>
+		<isNotEmpty property="location">
+			<isEqual property="location" compareValue="spr1100">
+				AND T1.SPR_TYPE_CD != '03'
+			</isEqual>
 		</isNotEmpty>
 	</sql>
 	
@@ -296,9 +312,16 @@
 				    ,	TO_CHAR(B.MODIFY_DTM, 'YYYY-MM-DD HH24:MI:SS') AS MODIFY_DTM
 				    ,	B.MODIFY_USR_ID
 				    ,	B.MODIFY_USR_IP
-				FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+				FROM SPR1100 A 
+				<isEqual property="sprType" compareValue="03">
+					INNER JOIN SNP_REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+				</isEqual>
+				<isNotEqual property="sprType" compareValue="03">
+					INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+				</isNotEqual>
 				WHERE 1=1
 				AND A.LIC_GRP_ID = #licGrpId#
+				AND A.PRJ_GRP_ID = #prjGrpId#
 				AND A.PRJ_ID = #prjId#
 				AND A.SPR_ID = #sprId#
 			) SUBT1
@@ -309,16 +332,16 @@
 						AND	SUBT1.REQ_PRO_TYPE = #searchTargetData#
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="prjNm">
-						AND	SUBT1.PRJ_NM LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(SUBT1.PRJ_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqOrd">
 						AND	SUBT1.REQ_ORD LIKE '%'|| #searchTargetData# ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="prjGrpNm">
-						AND	SUBT1.PRJ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(SUBT1.PRJ_GRP_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqNm">
-						AND	SUBT1.REQ_NM LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(SUBT1.REQ_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqDesc">
 					<![CDATA[
@@ -390,6 +413,10 @@
 		) Z
 		WHERE 1 = 1
 		AND Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+		ORDER BY 
+			CASE WHEN SPR_TYPE_CD = '02' THEN 1 ELSE 2 END ASC,
+			SPR_ST_DT ASC
+		
     </select>
     
 	
@@ -567,9 +594,17 @@
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL2(B.REQ_ED_DTM,TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24,1) , 0) ELSE 0 END AS END_TIME_REQUIRED
 			      , NVL(A.SPR_POINT,0) AS SPR_POINT
 			      , CASE WHEN B.REQ_PRO_TYPE='04' THEN NVL(A.SPR_POINT,0) ELSE 0  END AS END_SPR_POINT
-			    FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
+			    FROM SPR1100 A 
+			    <isEqual property="sprType" compareValue="03">
+			    	INNER JOIN SNP_REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
+			    </isEqual>
+			    <isNotEqual property="sprType" compareValue="03">
+			    	INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+			    </isNotEqual>
+			    INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
 			    WHERE 	1=1
 					AND A.LIC_GRP_ID = #licGrpId#
+					AND A.PRJ_GRP_ID = #prjGrpId#
 					AND A.PRJ_ID = #prjId#
 					AND A.SPR_ID = #sprId#
 			) T
@@ -589,12 +624,12 @@
 		AND		A.REQ_ID = #reqId#
     </select>
     
+    
     <select id="spr1000DAO.selectSpr1000ChartInfo" parameterClass="java.util.Map" resultClass="egovMap">
     		
     	SELECT 
     		 T.REQ_ED_DTM AS REQ_ED_DTM
         	, T.END_REQ_CNT AS END_REQ_CNT
-        	
             , SUM(T.SPR_POINT) OVER(ORDER BY REQ_ED_DTM) AS CUM_SPR_POINT
             , T.TIME_REQUIRED AS TIME_REQUIRED
     	FROM
@@ -604,7 +639,14 @@
 	 			, COUNT(*) AS END_REQ_CNT
 	        	, SUM(SPR_POINT) AS SPR_POINT
 	        	, SUM(NVL2(B.REQ_ED_DTM, TRUNC((B.REQ_ED_DTM-B.REQ_ST_DTM)*24) , 0)) AS TIME_REQUIRED
-			    FROM SPR1100 A INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
+			    FROM SPR1100 A 
+			   <isEqual property="sprType" compareValue="03">
+			    	INNER JOIN SNP_REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
+			    </isEqual>
+			    <isNotEqual property="sprType" compareValue="03">
+			    	INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+			    </isNotEqual>
+			    INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
 			    WHERE 	1=1
 					AND A.LIC_GRP_ID = #licGrpId#
 					AND A.PRJ_ID = #prjId#
@@ -613,6 +655,7 @@
 	        GROUP BY TO_CHAR(REQ_ED_DTM, 'YYYY-MM-DD')
 	    ) T
     </select> 
+    
     
 	<insert id="spr1000DAO.insertSpr1003SprProcessList" parameterClass="java.util.Map">
 		
@@ -632,6 +675,17 @@
 		]]>
 	</insert>
 	
+	<select id="spr1000DAO.selectSpr1003SprProcessList" parameterClass="java.util.Map">
+		
+		SELECT *
+		FROM SPR1200
+		WHERE 	1 = 1
+		AND 	LIC_GRP_ID 	= #licGrpId#
+		AND		PRJ_GRP_ID	= #prjGrpId#
+		AND 	PRJ_ID		= #prjId#
+		AND		SPR_ID 		= #sprId#
+	</select>
+	
 	<select id="spr1000DAO.selectSpr1000SprTerm" parameterClass="java.util.Map" resultClass="egovMap">
 		
 		SELECT 	TRUNC(A.SPR_ED_DT - A.SPR_ST_DT) AS DISTANCE
@@ -643,13 +697,18 @@
 		AND A.PRJ_ID = #prjId#
 		AND A.SPR_ID = #data#
 	</select>
-		
+	
 	<select id="spr1000DAO.selectSpr1000VelocityChartInfo" parameterClass="java.util.Map" resultClass="egovMap">
 		
 		SELECT SUM(A.SPR_POINT) AS SPR_POINT
 		FROM SPR1100 A 
-			INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
-			INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
+		<isEqual property="sprType" compareValue="03">
+		    	INNER JOIN SNP_REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
+	    </isEqual>
+	    <isNotEqual property="sprType" compareValue="03">
+		    	INNER JOIN REQ4100 B ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+		</isNotEqual> 
+		INNER JOIN SPR1000 C ON(A.SPR_ID = C.SPR_ID)
 		WHERE 	1=1
 		AND A.LIC_GRP_ID = #licGrpId#
 		AND A.PRJ_ID = #prjId#
@@ -657,4 +716,403 @@
 		AND B.REQ_PRO_TYPE = '04'
         AND B.REQ_ED_DTM BETWEEN TO_DATE(#startD#, 'YYYY-MM-DD') AND TO_DATE(#endD#, 'YYYY-MM-DD') 
 	</select>
+	
+	<insert id="spr1000DAO.insertStm3000SnapShot" parameterClass="java.util.Map">
+		
+		INSERT INTO SNP_STM3000
+			SELECT A.LIC_GRP_ID, 
+				#prjGrpId# AS PRJ_GRP_ID,
+				#prjId# AS PRJ_ID, 
+				#sprId# AS SPR_ID, 
+				A.USR_ID, 
+				A.USR_PW, 
+				A.USR_NM, 
+				A.EMAIL, 
+				A.TELNO, 
+				A.DEPT_ID, 
+				A.ETC, 
+				A.WK_ST_TM, 
+				A.WK_ED_TM, 
+				A.BK_ST_TM, 
+				A.BK_ED_TM, 
+				A.PW_FAIL_CNT, 
+				A.BLOCK,
+				A.ADM_YN, 
+				A.USR_IMG_ID, 
+				A.USE_CD,
+				A.USR_POSITION_CD, 
+				A.USR_DUTY_CD, 
+				A.REQ_MAIN_COLOR, 
+				A.REQ_FONT_COLOR, 
+				A.INI_YN, 
+				A.INI_DTM, 
+				A.REC_LOGIN_DTM, 
+				A.DSH_DISPLAY_CD, 
+				A.DEL_CD, 
+				A.REG_DTM, 
+				A.REG_USR_ID, 
+				A.REG_USR_IP, 
+				A.MODIFY_DTM, 
+				A.MODIFY_USR_ID, 
+				A.MODIFY_USR_IP
+			FROM 	STM3000 A
+			INNER JOIN (SELECT DISTINCT(USR_ID), PRJ_ID FROM PRJ2001 WHERE PRJ_ID = #prjId#) B ON(A.USR_ID = B.USR_ID)
+			WHERE 	1 = 1
+			AND  	LIC_GRP_ID = #licGrpId#
+	</insert>
+	
+	<insert id="spr1000DAO.insertReq3000SnapShot" parameterClass="java.util.Map">
+	
+		INSERT INTO SNP_REQ3000
+			SELECT 
+					B.LIC_GRP_ID AS LIC_GRP_ID,  
+					B.PRJ_GRP_ID AS PRJ_GRP_ID, 
+					B.PRJ_ID AS PRJ_ID, 
+					B.SPR_ID AS SPR_ID, 
+					C.REQ_GRP_ID, 
+					C.REQ_GRP_NO, 
+					C.REQ_GRP_NM, 
+					C.REQ_GRP_DESC, 
+					C.ATCH_FILE_ID, 
+					C.REQ_GRP_KEY, 
+					C.REQ_GRP_USR_ID, 
+					C.REQ_GRP_CHARGER_ID, 
+					C.USE_CD, 
+					C.REG_DTM, 
+					C.REG_USR_ID, 
+					C.REG_USR_IP, 
+					C.MODIFY_DTM, 
+					C.MODIFY_USR_ID, 
+					C.MODIFY_USR_IP
+			FROM REQ3001 A INNER JOIN SPR1100 B 
+				ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
+			LEFT JOIN REQ3000 C 
+				ON (A.PRJ_GRP_ID = C.PRJ_GRP_ID AND A.PRJ_ID = C.PRJ_ID AND A.REQ_GRP_ID = C.REQ_GRP_ID)
+			WHERE 1 = 1
+			AND B.LIC_GRP_ID = #licGrpId#
+       		AND B.PRJ_GRP_ID = #prjGrpId#
+			AND B.PRJ_ID = #prjId#
+			AND B.SPR_ID = #sprId#
+	</insert>
+	
+	<insert id="spr1000DAO.insertReq3001SnapShot" parameterClass="java.util.Map">
+	
+		INSERT INTO SNP_REQ3001
+			 SELECT B.LIC_GRP_ID AS LIC_GRP_ID,  
+					B.PRJ_GRP_ID AS PRJ_GRP_ID, 
+					B.PRJ_ID AS PRJ_ID, 
+					B.SPR_ID AS SPR_ID, 
+			 		A.REQ_GRP_ID, 
+			 		A.REQ_ID, 
+			 		A.REQ_LINK_ORD, 
+			 		A.REG_DTM, 
+			 		A.REG_USR_ID, 
+			 		A.REG_USR_IP, 
+			 		A.MODIFY_DTM, 
+			 		A.MODIFY_USR_ID, 
+			 		A.MODIFY_USR_IP
+			FROM REQ3001 A INNER JOIN SPR1100 B 
+				ON (A.PRJ_GRP_ID = B.PRJ_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.REQ_ID = B.REQ_ID)
+			WHERE 1 = 1
+			AND B.LIC_GRP_ID = #licGrpId#
+       		AND B.PRJ_GRP_ID = #prjGrpId#
+			AND B.PRJ_ID = #prjId#
+			AND B.SPR_ID = #sprId#
+	</insert>
+	
+	<insert id="spr1000DAO.insertReq4100SnapShot" parameterClass="java.util.Map">
+	
+		INSERT INTO SNP_REQ4100
+			SELECT	B.LIC_GRP_ID AS LIC_GRP_ID,  
+					B.PRJ_GRP_ID AS PRJ_GRP_ID, 
+					B.PRJ_ID AS PRJ_ID, 
+					B.SPR_ID AS SPR_ID,
+					A.REQ_ID, 
+					A.REQ_CLS_ID, 
+					A.REQ_ORD, 
+					A.REQ_USR_ID, 
+					A.REQ_USR_NM, 
+					A.REQ_DTM, 
+					A.REQ_USR_DEPT_ID, 
+					A.REQ_USR_DEPT_NM, 
+					A.REQ_USR_EMAIL, 
+					A.REQ_USR_NUM, 
+					A.REQ_USR_IMG_ID, 
+					A.REQ_NM,
+					A.REQ_DESC, 
+					A.REQ_PW, 
+					A.REQ_CHARGER_ID, 
+					A.REQ_ST_DTM, 
+					A.REQ_ED_DTM, 
+					A.REQ_ST_DU_DTM, 
+					A.REQ_ED_DU_DTM, 
+					A.REQ_PRO_TYPE, 
+					A.REQ_NEW_TYPE, 
+					A.REQ_ACCEPT_TXT, 
+					A.REQ_TYPE_CD, 
+					A.ATCH_FILE_ID, 
+					A.CB_ATCH_FILE_ID, 
+					A.MILESTONE_ID, 
+					A.PROCESS_ID, 
+					A.FLOW_ID, 
+					A.USE_CD, 
+					A.REQ_KEY, 
+					A.REQ_MIDDLE_DONE_TXT, 
+					A.REQ_SIGN_CD, 
+					A.REQ_SIGN_PROCESS_ID, 
+					A.REQ_SIGN_FLOW_ID, 
+					A.REQ_SIGN_ORD, 
+					A.REG_DTM, 
+					A.REG_USR_ID, 
+					A.REG_USR_IP, 
+					A.MODIFY_DTM, 
+					A.MODIFY_USR_ID, 
+					A.MODIFY_USR_IP
+  			FROM REQ4100 A JOIN SPR1100 B
+		    ON (A.REQ_ID = B.REQ_ID AND A.PRJ_ID = B.PRJ_ID AND A.PRJ_GRP_ID = B.PRJ_GRP_ID)
+		    WHERE 1 = 1
+		    AND B.LIC_GRP_ID = #licGrpId#
+		    AND B.PRJ_GRP_ID = #prjGrpId#
+			AND B.PRJ_ID = #prjId#
+			AND B.SPR_ID = #sprId#
+			
+	</insert> 
+	
+	<insert id="spr1000DAO.insertReq6001SnapShot" parameterClass="java.util.Map" >
+	
+		INSERT INTO SNP_REQ6001
+			SELECT 	B.LIC_GRP_ID AS LIC_GRP_ID,  
+					B.PRJ_GRP_ID AS PRJ_GRP_ID, 
+					B.PRJ_ID AS PRJ_ID, 
+					B.SPR_ID AS SPR_ID,
+					A.REQ_ID,
+					A.REQ_CHG_ID, 
+					A.REQ_CHG_TYPE_CD, 
+					A.CHG_USR_ID, 
+					A.CHG_DTM, 
+					A.PRE_PROCESS_ID, 
+					A.CHG_PROCESS_ID, 
+					A.PRE_FLOW_ID, 
+					A.CHG_FLOW_ID, 
+					A.PRE_CHARGER_ID, 
+					A.CHG_CHARGER_ID, 
+					A.REG_DTM,
+					A.REG_USR_ID, 
+					A.REG_USR_IP, 
+					A.MODIFY_DTM, 
+					A.MODIFY_USR_ID, 
+					A.MODIFY_USR_IP  
+			FROM REQ6001 A INNER JOIN SPR1100 B ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID =B.PRJ_ID AND A.REQ_ID = B.REQ_ID) 
+			WHERE 1 = 1
+		    AND B.LIC_GRP_ID = #licGrpId#
+		    AND B.PRJ_GRP_ID = #prjGrpId#
+			AND B.PRJ_ID = #prjId#
+			AND B.SPR_ID = #sprId#
+	</insert>
+	
+	<insert id="spr1000DAO.insertPrj1100SnapShot" parameterClass="java.util.Map">
+	
+		INSERT INTO SNP_PRJ1100
+			SELECT 
+				A.LIC_GRP_ID, 
+				A.PRJ_GRP_ID, 
+				A.PRJ_ID, 
+				A.SPR_ID, 
+				B.PROCESS_ID, 
+				B.PROCESS_NM, 
+				B.PROCESS_DESC, 
+				B.PROCESS_TRANSFER_CD, 
+				B.PROCESS_DISABLED_CD, 
+				B.USE_CD, 
+				B.DEL_CD, 
+				B.PROCESS_ORD, 
+				B.REG_DTM, 
+				B.REG_USR_ID, 
+				B.REG_USR_IP, 
+				B.MODIFY_DTM, 
+				B.MODIFY_USR_ID, 
+				B.MODIFY_USR_IP 
+				FROM SPR1200 A INNER JOIN PRJ1100 B 
+					ON(A.PRJ_ID = B.PRJ_ID AND A.PROCESS_ID = B.PROCESS_ID AND B.USE_CD = '01' AND B.DEL_CD = '02')
+			WHERE 1 = 1 
+			AND A.LIC_GRP_ID = #licGrpId#
+		    AND A.PRJ_GRP_ID = #prjGrpId#
+			AND A.PRJ_ID = #prjId#
+			AND A.SPR_ID = #sprId#
+	</insert>
+	
+	<insert id="spr1000DAO.insertPrj1101SnapShot" parameterClass="java.util.Map">
+	
+	INSERT INTO SNP_PRJ1101
+			SELECT 	A.LIC_GRP_ID, 
+					A.PRJ_GRP_ID, 
+					A.PRJ_ID, 
+					A.SPR_ID, 
+					B.PROCESS_ID, 
+					B.FLOW_ID, 
+					B.FLOW_NM, 
+					B.FLOW_LEFT, 
+					B.FLOW_TOP, 
+					B.FLOW_START_CD, 
+					B.FLOW_DONE_CD, 
+					B.FLOW_ESSENTIAL_CD, 
+					B.FLOW_SIGN_CD, 
+					B.FLOW_SIGN_STOP_CD, 
+					B.FLOW_MIDDLE_END_CD, 
+					B.FLOW_WORK_CD, 
+					B.FLOW_REVISION_CD, 
+					B.FLOW_DPL_CD, 
+					B.FLOW_AUTH_CD, 
+					B.FLOW_TITLE_BG_COLOR, 
+					B.FLOW_TITLE_COLOR, 
+					B.USE_CD, 
+					B.REG_DTM, 
+					B.REG_USR_ID, 
+					B.REG_USR_IP, 
+					B.MODIFY_DTM, 
+					B.MODIFY_USR_ID, 
+					B.MODIFY_USR_IP 
+			FROM SPR1200 A INNER JOIN PRJ1101 B 
+				ON(A.PRJ_ID = B.PRJ_ID AND A.PROCESS_ID = B.PROCESS_ID AND B.USE_CD = '01')
+			INNER JOIN PRJ1100 C
+				ON(A.PRJ_ID = C.PRJ_ID AND A.PROCESS_ID = C.PROCESS_ID AND C.USE_CD = '01' AND C.DEL_CD = '02') 
+			WHERE 1 = 1 
+			AND A.LIC_GRP_ID = #licGrpId#
+		    AND A.PRJ_GRP_ID = #prjGrpId#
+			AND A.PRJ_ID = #prjId#
+			AND A.SPR_ID = #sprId#
+	</insert>
+	
+	<insert id="spr1000DAO.insertPrj1102SnapShot" parameterClass="java.util.Map">
+	
+		INSERT INTO SNP_PRJ1102
+			SELECT 	A.LIC_GRP_ID, 
+					A.PRJ_GRP_ID, 
+					A.PRJ_ID,
+					A.SPR_ID, 
+					D.PROCESS_ID, 
+					D.FLOW_ID, 
+					D.ITEM_ID, 
+					D.REQ_ID, 
+					D.ITEM_DIVISION, 
+					D.ITEM_NM, 
+					D.ITEM_CODE, 
+					D.ITEM_COMMON_CODE, 
+					D.ITEM_PC_ROW_NUM, 
+					D.ITEM_TABLET_ROW_NUM, 
+					D.ITEM_MOBILE_ROW_NUM, 
+					D.ITEM_TYPE, 
+					D.ITEM_LENGTH, 
+					D.ITEM_ESSENTIAL_CD, 
+					D.ITEM_ACCEPT_CD, 
+					D.ITEM_ORD, 
+					D.USE_CD, 
+					D.REG_DTM, 
+					D.REG_USR_ID, 
+					D.REG_USR_IP, 
+					D.MODIFY_DTM, 
+					D.MODIFY_USR_ID, 
+					D.MODIFY_USR_IP
+			FROM SPR1200 A INNER JOIN PRJ1101 B 
+				ON(A.PRJ_ID = B.PRJ_ID AND A.PROCESS_ID = B.PROCESS_ID AND B.USE_CD = '01')
+			INNER JOIN PRJ1100 C
+				ON(A.PRJ_ID = C.PRJ_ID AND A.PROCESS_ID = C.PROCESS_ID AND C.USE_CD = '01' AND C.DEL_CD = '02')
+			INNER JOIN PRJ1102 D
+				ON(A.PRJ_ID = D.PRJ_ID AND A.PROCESS_ID = D.PROCESS_ID AND B.FLOW_ID = D.FLOW_ID)
+			WHERE 1 = 1 
+			AND A.LIC_GRP_ID = #licGrpId#
+		    AND A.PRJ_GRP_ID = #prjGrpId#
+			AND A.PRJ_ID = #prjId#
+			AND A.SPR_ID = #sprId#
+	</insert>
+	
+	<insert id="spr1000DAO.insertPrj1103SnapShot" parameterClass="java.util.Map">
+	
+		INSERT INTO SNP_PRJ1103
+			SELECT 	A.LIC_GRP_ID, 
+					A.PRJ_GRP_ID, 
+					A.PRJ_ID, 
+					A.SPR_ID, 
+					E.PROCESS_ID, 
+					E.FLOW_ID, 
+					E.ITEM_ID,
+					E.REQ_ID, 
+					E.ITEM_VALUE, 
+					E.ITEM_VALUE_NM, 
+					E.REG_DTM, 
+					E.REG_USR_ID, 
+					E.REG_USR_IP, 
+					E.MODIFY_DTM, 
+					E.MODIFY_USR_ID, 
+					E.MODIFY_USR_IP
+			FROM SPR1200 A INNER JOIN PRJ1101 B 
+				ON(A.PRJ_ID = B.PRJ_ID AND A.PROCESS_ID = B.PROCESS_ID AND B.USE_CD = '01')
+			INNER JOIN PRJ1100 C
+				ON(A.PRJ_ID = C.PRJ_ID AND A.PROCESS_ID = C.PROCESS_ID AND C.USE_CD = '01' AND C.DEL_CD = '02')
+			INNER JOIN PRJ1102 D
+				ON(A.PRJ_ID = D.PRJ_ID AND A.PROCESS_ID = D.PROCESS_ID AND B.FLOW_ID = D.FLOW_ID AND D.USE_CD = '01' )
+			INNER JOIN PRJ1103 E
+				ON(A.PRJ_ID = E.PRJ_ID AND A.PROCESS_ID = E.PROCESS_ID AND B.FLOW_ID = E.FLOW_ID AND D.ITEM_ID = E.ITEM_ID)
+			WHERE 1 = 1 
+			AND A.LIC_GRP_ID = #licGrpId#
+		    AND A.PRJ_GRP_ID = #prjGrpId#
+			AND A.PRJ_ID = #prjId#
+			AND A.SPR_ID = #sprId#
+	</insert>
+ 	
+ 	<insert id="spr1000DAO.insertPrj1106SnapShot" parameterClass="java.util.Map">
+ 	
+	 	INSERT INTO SNP_PRJ1106
+			SELECT 	A.LIC_GRP_ID, 
+					A.PRJ_GRP_ID, 
+					A.PRJ_ID, 
+					A.SPR_ID, 
+					C.PROCESS_ID, 
+					C.PROCESS_AUTH_TYPE_CD, 
+					C.PROCESS_AUTH_TARGET_ID, 
+					C.REG_DTM, 
+					C.REG_USR_ID, 
+					C.REG_USR_IP, 
+					C.MODIFY_DTM, 
+					C.MODIFY_USR_ID, 
+					C.MODIFY_USR_IP
+			FROM SPR1200 A INNER JOIN PRJ1100 B
+				ON(A.PRJ_ID = B.PRJ_ID AND A.PROCESS_ID = B.PROCESS_ID AND B.USE_CD = '01' AND B.DEL_CD = '02')
+			INNER JOIN PRJ1106 C 
+				ON(A.PRJ_ID = C.PRJ_ID AND A.PROCESS_ID = C.PROCESS_ID)
+			WHERE 1 = 1 
+			AND A.LIC_GRP_ID = #licGrpId#
+		    AND A.PRJ_GRP_ID = #prjGrpId#
+			AND A.PRJ_ID = #prjId#
+			AND A.SPR_ID = #sprId#
+ 	</insert>
+ 	
+ 	<insert id="spr1000DAO.insertPrj1107SnapShot" parameterClass="java.util.Map">
+ 	
+ 	INSERT INTO SNP_PRJ1107
+		SELECT 	A.LIC_GRP_ID, 
+				A.PRJ_GRP_ID, 
+				A.PRJ_ID, 
+				A.SPR_ID, 
+				A.PROCESS_ID, 
+				D.FLOW_ID, 
+				D.FLOW_NEXT_ID, 
+				D.REG_DTM, 
+				D.REG_USR_ID, 
+				D.REG_USR_IP, 
+				D.MODIFY_DTM, 
+				D.MODIFY_USR_ID, 
+				D.MODIFY_USR_IP
+		FROM SPR1200 A INNER JOIN PRJ1101 B 
+			ON(A.PRJ_ID = B.PRJ_ID AND A.PROCESS_ID = B.PROCESS_ID AND B.USE_CD = '01')
+		INNER JOIN PRJ1100 C
+			ON(A.PRJ_ID = C.PRJ_ID AND A.PROCESS_ID = C.PROCESS_ID AND C.USE_CD = '01' AND C.DEL_CD = '02')
+		INNER JOIN PRJ1107 D
+			ON(A.PRJ_ID = D.PRJ_ID AND A.PROCESS_ID = D.PROCESS_ID AND B.FLOW_ID = D.FLOW_ID)
+		WHERE 1 = 1 
+		AND A.LIC_GRP_ID = #licGrpId#
+	    AND A.PRJ_GRP_ID = #prjGrpId#
+		AND A.PRJ_ID = #prjId#
+		AND A.SPR_ID = #sprId#
+ 	</insert>
 </sqlMap>

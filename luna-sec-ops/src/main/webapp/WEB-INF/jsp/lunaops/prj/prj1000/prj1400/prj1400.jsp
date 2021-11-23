@@ -237,11 +237,6 @@ var OSLPrj1400Popup = function () {
 						newForm.submit();
 					},
 				},
-				theme:{
-					actionBtnIcon:{
-						"dblClick":"fa fa-list-alt"
-					}
-				},
 				callback:{
 					initComplete: function(evt,config){
 						fnViewerChange();
@@ -338,7 +333,7 @@ var OSLPrj1400Popup = function () {
 										+'</div>'
 										+'<div class="kt-portlet__head-toolbar">'
 											+'<div class="kt-portlet__head-wrapper">'
-												+'<button type="button" class="btn btn-outline-primary btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" title="test" tabindex="1">'
+												+'<button type="button" class="btn btn-outline-primary btn-bold btn-font-sm btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" data-auth-button="select" data-toggle-second="tooltip" title="test" tabindex="1">'
 													+'<i class="fa fa-bars osl-padding-r0"></i>'
 												+'</button>'
 												+'<div class="dropdown-menu dropdown-menu-right" data-datatable-rownum="'+idx+'">'
@@ -365,14 +360,7 @@ var OSLPrj1400Popup = function () {
 															+'<h5><span class="badge badge-danger">'+$.osl.escapeHtml(map.endDt)+'</span></h5>'
 														+'</div>'
 													+'</div>'
-													+'<div class="col-lg-6 col-md-6 col-sm-12">'
-														+'<div class="osl-progress">'
-															+'<div class="kt-padding-b-5"><i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i><span>'+$.osl.lang("prj1400.completedRatio")+'</span></div>'
-															+'<div class="progress osl-prj-group-md">'
-																+'<div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">78%</div>'
-															+'</div>'
-														+'</div>'
-													+'</div>'
+													
 												+'</div>'
 											+'</div>'
 										+'</div>'
@@ -428,12 +416,20 @@ var OSLPrj1400Popup = function () {
 						
 						
 						$("#prj1400CardTable").html(prjGrpStr);
+						
+						
+						KTApp.initTooltips();
+						$('[data-toggle-second="tooltip"]').tooltip({
+							template:'<div class="tooltip tooltip-primary bs-tooltip-bottom" role="tooltip"><div class="tooltip-arrow arrow" style="left: 25px;"></div><div class="tooltip-inner"></div></div>'
+						});
 					}
 				}
 			};
 		
 		
 		$.osl.datatable.setting("prj1400PrjTable", config);
+		
+		
 		
 		
 		$(".btn-view-type").click(function(){

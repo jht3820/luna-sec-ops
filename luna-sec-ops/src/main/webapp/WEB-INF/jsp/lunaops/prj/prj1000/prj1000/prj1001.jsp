@@ -7,172 +7,197 @@
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 	<input type="hidden" name="startDt" id="startDt">
 	<input type="hidden" name="endDt" id="endDt">
-		<div class="kt-portlet">
-			<div class="kt-portlet__head kt-portlet__head--lg">
-				<div class="kt-portlet__head-label">
-					<h5 class="kt-font-boldest kt-font-brand">
-						<i class="fa fa-th-large kt-margin-r-5"></i>프로젝트 그룹 정보
-					</h5>
+	<div class="row">
+		<div class="col-lg-6 col-md-12 col-sm-12">
+			<div class="kt-portlet">
+				<div class="kt-portlet__head kt-portlet__head--lg">
+					<div class="kt-portlet__head-label">
+						<h5 class="kt-font-boldest kt-font-brand">
+							<i class="fa fa-th-large kt-margin-r-5"></i>프로젝트 그룹 정보
+						</h5>
+					</div>
 				</div>
-			</div>
-			<div class="kt-portlet__body kt-padding-15">
-				<div class="row">
-					<div class="col-lg-6 col-md-12 col-sm-12">
-						<div class="row">
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label for="prjGrpNm"><i class="fa fa-edit kt-margin-r-5"></i><span>프로젝트 그룹명</span></label>
-									<input type="text" class="form-control" placeholder="프로젝트 그룹명" name="prjGrpNm" id="prjGrpNm" opttype="-1" readonly="readonly" value='<c:out value="${param.prjGrpNm}"/>' >
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label for="prjGrpRange"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 그룹 기간</span></label>
-									<input type="text" class="form-control" placeholder="프로젝트 그룹 기간" name="prjGrpRange" id="prjGrpRange" readonly="readonly" value='<c:out value="${param.prjGrpStartDt}"/> ~ <c:out value="${param.prjGrpEndDt}"/>'>
-								</div>
+				<div class="kt-portlet__body kt-padding-15">
+					<div class="row">
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label for="prjGrpNm"><i class="fa fa-edit kt-margin-r-5"></i><span>프로젝트 그룹명</span></label>
+								<input type="text" class="form-control" placeholder="프로젝트 그룹명" name="prjGrpNm" id="prjGrpNm" opttype="-1" readonly="readonly" value='<c:out value="${param.prjGrpNm}"/>' >
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label for="prjNm" class="required"><i class="fa fa-edit kt-margin-r-5"></i><span>프로젝트 명</span></label>
-									<input type="text" class="form-control" placeholder="프로젝트 명" name="prjNm" id="prjNm" opttype="-1" maxlength="100" required>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label for="prjRange" class="required"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 기간</span></label>
-									<input type="text" class="form-control osl-input-readonly-none" placeholder="프로젝트 기간" name="prjRange" id="prjRange" readonly="readonly" required>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label for="prjTypeCd"><i class="fa fa-check-square kt-margin-r-5"></i>프로젝트 유형</label>
-									<select class="form-control kt-select2" id="prjTypeCd" name="prjTypeCd" readonly="readonly" opttype="-1">
-									</select>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label for="prjDevTypeCd"><i class="fa fa-check-square kt-margin-r-5"></i>프로젝트 개발 방법론</label>
-									<select class="form-control kt-select2" id="prjDevTypeCd" name="prjDevTypeCd" readonly="readonly" opttype="-1">
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label for="prjRequestAcceptCd"><i class="fa fa-check-square kt-margin-r-5"></i>접수기능 사용 유무</label>
-									<select class="form-control kt-select2" id="prjRequestAcceptCd" name="prjRequestAcceptCd" readonly="readonly" opttype="-1">
-									</select>
-								</div>
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label for="prjGrpRange"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 그룹 기간</span></label>
+								<input type="text" class="form-control" placeholder="프로젝트 그룹 기간" name="prjGrpRange" id="prjGrpRange" readonly="readonly" value='<c:out value="${param.prjGrpStartDt}"/> ~ <c:out value="${param.prjGrpEndDt}"/>'>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-6 col-md-12 col-sm-12">
-						<div class="row">
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label for="prjAcrm" class="required"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 약어</span></label>
-									<input type="text" class="form-control" placeholder="프로젝트 약어" name="prjAcrm" id="prjAcrm" opttype="-1" maxlength="10" regexstr="^(?=.*?[A-Z])(?=.*?[0-9])|[A-Z]{3,10}$" regexerrorstr="영문 대문자 또는 영문 대문자, 숫자 조합으로 3~10자만 허용" required>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-6 col-sm-12">
-								<div class="form-group">
-									<label for="prjBgColor"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 배경색</span></label>
-									<input type="color" class="form-control" placeholder="프로젝트 배경색" name="prjBgColor" id="prjBgColor" opttype="-1" value="#eef1fd" readonly="readonly">
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-6 col-sm-12">
-								<div class="form-group">
-									<label for="prjColor"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 글씨색</span></label>
-									<input type="color" class="form-control" placeholder="프로젝트 글씨색" name="prjColor" id="prjColor" opttype="-1" value="#5578eb" readonly="readonly">
-								</div>
+					<div class="row">
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label for="prjNm" class="required"><i class="fa fa-edit kt-margin-r-5"></i><span>프로젝트 명</span></label>
+								<input type="text" class="form-control" placeholder="프로젝트 명" name="prjNm" id="prjNm" opttype="-1" maxlength="100" required>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label><i class="fa fa-check-square kt-margin-r-5"></i>사용유무</label>
-									<select class="form-control kt-select2" id="useCd" name="useCd" readonly="readonly" opttype="-1">
-									</select>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label for="ord"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>정렬 순서</span></label>
-									<input type="number" class="form-control" placeholder="정렬 순서" name="ord" id="ord" value="1" opttype="-1" min="0" max="999" maxlength="3" >
-								</div>
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label for="prjRange" class="required"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 기간</span></label>
+								<input type="text" class="form-control osl-input-readonly-none" placeholder="프로젝트 기간" name="prjRange" id="prjRange" readonly="readonly" required>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12">
-								<div class="form-group">
-									<label><i class="fa fa-edit kt-margin-r-5"></i><span>프로젝트 그룹 설명</span></label>
-									<textarea class="form-control osl-min-h-px--130 osl-textarea__resize--none" name="prjDesc" id="prjDesc" maxlength="2000" opttype="-1" ></textarea>
-								</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label for="prjTypeCd"><i class="fa fa-check-square kt-margin-r-5"></i>프로젝트 유형</label>
+								<select class="form-control kt-select2" id="prjTypeCd" name="prjTypeCd" readonly="readonly" opttype="-1">
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label for="prjDevTypeCd"><i class="fa fa-check-square kt-margin-r-5"></i>프로젝트 개발 방법론</label>
+								<select class="form-control kt-select2" id="prjDevTypeCd" name="prjDevTypeCd" readonly="readonly" opttype="-1">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label for="prjRequestAcceptCd"><i class="fa fa-check-square kt-margin-r-5"></i>접수기능 사용 유무</label>
+								<select class="form-control kt-select2" id="prjRequestAcceptCd" name="prjRequestAcceptCd" readonly="readonly" opttype="-1">
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label for="prjAcrm" class="required"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 약어</span></label>
+								<input type="text" class="form-control" placeholder="프로젝트 약어" name="prjAcrm" id="prjAcrm" opttype="-1" maxlength="10" regexstr="^(?=.*?[A-Z])(?=.*?[0-9])|[A-Z]{3,10}$" regexerrorstr="영문 대문자 또는 영문 대문자, 숫자 조합으로 3~10자만 허용" required>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-12">
+							<div class="form-group">
+								<label for="prjBgColor"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 배경색</span></label>
+								<input type="color" class="form-control" placeholder="프로젝트 배경색" name="prjBgColor" id="prjBgColor" opttype="-1" value="#eef1fd" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-12">
+							<div class="form-group">
+								<label for="prjColor"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>프로젝트 글씨색</span></label>
+								<input type="color" class="form-control" placeholder="프로젝트 글씨색" name="prjColor" id="prjColor" opttype="-1" value="#5578eb" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label><i class="fa fa-check-square kt-margin-r-5"></i>사용유무</label>
+								<select class="form-control kt-select2" id="useCd" name="useCd" readonly="readonly" opttype="-1">
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label for="ord"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>정렬 순서</span></label>
+								<input type="number" class="form-control" placeholder="정렬 순서" name="ord" id="ord" value="1" opttype="-1" min="0" max="999" maxlength="3" >
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12">
+							<div class="form-group">
+								<label><i class="fa fa-edit kt-margin-r-5"></i><span>프로젝트 그룹 설명</span></label>
+								<textarea class="form-control osl-min-h-px--130 osl-textarea__resize--none" name="prjDesc" id="prjDesc" maxlength="2000" opttype="-1" ></textarea>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-lg-6 col-md-12 col-sm-12">
-				<div class="kt-portlet">
+		<div class="col-lg-6 col-md-12 col-sm-12">
+			<div class="kt-portlet">
+				<div class="kt-portlet__head kt-portlet__head--lg">
+					<div class="kt-portlet__head-label">
+						<h5 class="kt-font-boldest kt-font-brand">
+							<i class="fa fa-th-large kt-margin-r-5"></i>프로젝트 기본항목
+						</h5>
+					</div>
+					<div class="kt-portlet__head-toolbar">
+						<div class="kt-portlet__head-group">
+							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" tabindex="1"><i class="fa fa-plus"></i></a>
+							<div class="dropdown-menu dropdown-menu-right">
+								<div class="dropdown-item" id="insertBasicItemBtn"><i class="fa fa-plus kt-font-brand"></i>신규 항목 추가</div>
+								<c:if test="${param.type eq 'update' }">
+									<div class="dropdown-item" id="selectBasicItemBtn"><i class="fa fa-list-alt kt-font-brand"></i>기본항목 불러오기</div>
+								</c:if>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="kt-portlet__body kt-padding-15">
+					<div class="row" id="basicItemList">
+					
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-lg-6 col-md-12 col-sm-12">
+			<div class="kt-portlet">
+				<div class="kt-portlet__head kt-portlet__head--lg">
+					<div class="kt-portlet__head-label">
+						<h5 class="kt-font-boldest kt-font-brand">
+							<i class="fa fa-th-large kt-margin-r-5"></i>프로젝트 담당 목록
+						</h5>
+					</div>
+					<div class="kt-portlet__head-toolbar">
+						<div class="kt-portlet__head-wrapper">
+							<c:if test="${param.type != 'insert' }">
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjAuthUsrTable" data-datatable-action="reset" title="담당자 배정 목록 초기화" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+									<i class="fa fa-list"></i><span>초기화</span>
+								</button>
+							</c:if>
+							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjAuthUsrTable" data-datatable-action="selInUsrDelete" title="선택 담당자 배정 제외" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="1" id="prj1001PrjAuthUsrInsert">
+								<span>배정 제외</span><i class="fa fa-arrow-alt-circle-right osl-padding-r0 osl-padding-l05"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="kt-portlet__body kt-padding-10 osl-min-h-px--400">
+					<div class="osl-datatable-search" data-datatable-id="prj1001PrjAuthUsrTable"></div>
+					<div class="kt_datatable" id="prj1001PrjAuthUsrTable"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-12 col-sm-12">
+			<div class="kt-portlet">
 					<div class="kt-portlet__head kt-portlet__head--lg">
 						<div class="kt-portlet__head-label">
 							<h5 class="kt-font-boldest kt-font-brand">
-								<i class="fa fa-th-large kt-margin-r-5"></i>프로젝트 담당 목록
+								<i class="fa fa-th-large kt-margin-r-5"></i>담당 대상 목록
 							</h5>
 						</div>
 						<div class="kt-portlet__head-toolbar">
 							<div class="kt-portlet__head-wrapper">
-								<c:if test="${param.type != 'insert' }">
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjAuthUsrTable" data-datatable-action="reset" title="담당자 배정 목록 초기화" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-										<i class="fa fa-list"></i><span>초기화</span>
-									</button>
-								</c:if>
-								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjAuthUsrTable" data-datatable-action="selInUsrDelete" title="선택 담당자 배정 제외" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="1" id="prj1001PrjAuthUsrInsert">
-									<span>배정 제외</span><i class="fa fa-arrow-alt-circle-right osl-padding-r0 osl-padding-l05"></i>
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjAuthNoneUsrTable" data-datatable-action="selAllUsrDelete" title="선택 담당자 배정 등록" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="1" id="prj1001AuthGrpNoneUsrInsert">
+									<i class="fa fa-arrow-alt-circle-left"></i><span>배정 등록</span>
+								</button>
+								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjAuthNoneUsrTable" data-datatable-action="select" title="담당 대상 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+									<i class="fa fa-list"></i><span>조회</span>
 								</button>
 							</div>
 						</div>
 					</div>
-					<div class="kt-portlet__body kt-padding-10 osl-min-h-px--400">
-						<div class="osl-datatable-search" data-datatable-id="prj1001PrjAuthUsrTable"></div>
-						<div class="kt_datatable" id="prj1001PrjAuthUsrTable"></div>
+					<div class="kt-portlet__body kt-padding-10">
+						<div class="osl-datatable-search" data-datatable-id="prj1001PrjAuthNoneUsrTable"></div>
+						<div class="kt_datatable" id="prj1001PrjAuthNoneUsrTable"></div>
 					</div>
 				</div>
-			</div>
-			<div class="col-lg-6 col-md-12 col-sm-12">
-				<div class="kt-portlet">
-						<div class="kt-portlet__head kt-portlet__head--lg">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-th-large kt-margin-r-5"></i>담당 대상 목록
-								</h5>
-							</div>
-							<div class="kt-portlet__head-toolbar">
-								<div class="kt-portlet__head-wrapper">
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjAuthNoneUsrTable" data-datatable-action="selAllUsrDelete" title="선택 담당자 배정 등록" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="1" id="prj1001AuthGrpNoneUsrInsert">
-										<i class="fa fa-arrow-alt-circle-left"></i><span>배정 등록</span>
-									</button>
-									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1001PrjAuthNoneUsrTable" data-datatable-action="select" title="담당 대상 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-										<i class="fa fa-list"></i><span>조회</span>
-									</button>
-								</div>
-							</div>
-						</div>
-						<div class="kt-portlet__body kt-padding-10">
-							<div class="osl-datatable-search" data-datatable-id="prj1001PrjAuthNoneUsrTable"></div>
-							<div class="kt_datatable" id="prj1001PrjAuthNoneUsrTable"></div>
-						</div>
-					</div>
-			</div>
 		</div>
 	</div>
 </form>
@@ -196,6 +221,13 @@ var OSLPrj1001Popup = function () {
 	
 	
 	var prjAuthOriginalData = [];
+
+	
+	var basicItemList = new Array();
+	
+	var basicItemInsertList = new Array();
+	
+	var basicItemDelList = new Array();
 	
 	
 	var paramPrjGrpId = $("#paramPrjGrpId").val();
@@ -270,7 +302,54 @@ var OSLPrj1001Popup = function () {
 		
 		if(type == "update"){
 			fnPrjInfoSelect();
+
+			$("#selectBasicItemBtn").click(function(){
+				var data = {
+						callPage:"OSLPrj1001Popup",
+						paramPrjId: paramPrjId 
+					};
+				var options = {
+						idKey: "prj1304",
+						modalTitle: "프로젝트 기본항목 리스트",
+						modalSize: "xl",
+						closeConfirm: false,
+						autoHeight: false,
+						callback: [{
+							targetId: "prj1304ModalCallBackBtn",
+							actionFn: function(thisObj){
+								var itemList = OSLPrj1304Popup.getItemList();
+								OSLPrj1001Popup.addItemList(itemList);
+							}
+						}]
+					};
+				
+				$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1304View.do',data,options);
+			});
+			
 		}
+
+		$("#insertBasicItemBtn").click(function(){
+			var data = {
+					type:"insert",
+					callPage:"OSLPrj1001Popup"
+				};
+			var options = {
+					idKey: "prj1305",
+					modalTitle: "프로젝트 기본항목 추가",
+					modalSize: "lg",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1305ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1305Popup.getItemList();
+							OSLPrj1001Popup.addItemList(itemList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1305View.do',data,options);
+		});
 		
     };
     
@@ -289,6 +368,48 @@ var OSLPrj1001Popup = function () {
     		fd.append("usrIdList",JSON.stringify(usrIdList));
     	}
 
+		if(basicItemList.length>0){
+			$.each(basicItemList, function(idx, map){
+				map.itemOrd = idx+1;
+				if($.osl.isNull(map.itemRequestCd)){
+					map.itemRequestCd="02";
+				}
+				if($.osl.isNull(map.itemAcceptCd)){
+					map.itemAcceptCd="02";
+				}
+				basicItemList[idx] = map;
+				
+			});
+			var itemOrd = basicItemList[basicItemList.length-1].itemOrd;
+	   		
+			$.each(basicItemInsertList, function(idx, map){
+				map.itemOrd = itemOrd+idx+1;
+				if($.osl.isNull(map.itemRequestCd)){
+					map.itemRequestCd="02";
+				}
+				if($.osl.isNull(map.itemAcceptCd)){
+					map.itemAcceptCd="02";
+				}
+				basicItemInsertList[idx] = map;
+				
+			});
+		}else{
+	   		
+			$.each(basicItemInsertList, function(idx, map){
+				map.itemOrd = idx+1;
+				if($.osl.isNull(map.itemRequestCd)){
+					map.itemRequestCd="02";
+				}
+				if($.osl.isNull(map.itemAcceptCd)){
+					map.itemAcceptCd="02";
+				}
+				basicItemInsertList[idx] = map;
+			});
+		}
+		
+    	fd.append("basicItemList", JSON.stringify(basicItemList));
+    	fd.append("basicItemInsertList", JSON.stringify(basicItemInsertList));
+    	fd.append("basicItemDelList", JSON.stringify(basicItemDelList));
     	
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/prj/prj1000/prj1000/savePrj1001PrjGrpInfo.do'/>", "async": true,"contentType":false,"processData":false ,"cache":false, "loadingShow": false},fd);
     	 $.osl.showLoadingBar(true,{target: "#frPrj1001", message: "프로젝트를 생성중입니다.</br>잠시만 기다려주세요."});
@@ -692,10 +813,42 @@ var OSLPrj1001Popup = function () {
 					
 					datatable.insertData();
 					
-					
+					datatable.reload();
 					$.osl.datatable.list["prj1001PrjAuthNoneUsrTable"].targetDt.reload();
 					
    				}
+   				
+   				
+				basicItemList = data.basicItemList;
+		    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+		    			
+		    			{
+    						viewType: "preview",
+							delAt: true,
+							updAt: true,
+							badgeAt: true,
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemList.splice(delIdx,1);
+									}
+								},
+								update: OSLPrj1001Popup.basicItemUpdate,
+								updateBtn: OSLPrj1001Popup.basicItemUpdateBtn
+							}
+						}
+	    		);
+		    	
    			}
 		});
 		
@@ -706,7 +859,192 @@ var OSLPrj1001Popup = function () {
         
         init: function() {
         	documentSetting();
-        }
+        },
+    	addItemList: function(itemList){
+	    	basicItemInsertList = basicItemInsertList.concat(itemList);
+	    	
+	    	
+	    	$.osl.customOpt.setting(itemList,  "basicItemList",
+	    			
+	    			{
+						viewType: "preview",
+						htmlAppendType: true,
+						delAt: true,
+						updAt: true,
+						badgeAt: true,
+						actionFn:{
+							delete:function($this){
+								var targetId = $this.data("itemId");
+								$this.parents(".basicItemDiv:first").remove();
+								basicItemDelList.push({"itemId":targetId});
+		
+								var delIdx = ""
+								$.each(basicItemInsertList,function(idx, map){
+									if(map.itemId == targetId){
+										delIdx = idx;						
+									}
+								});
+								if(delIdx!==""){
+									basicItemInsertList.splice(delIdx,1);
+								}
+							},
+							update: OSLPrj1001Popup.basicItemUpdate,
+							updateBtn: OSLPrj1001Popup.basicItemUpdateBtn
+						}
+					}
+    		); 
+    	},
+    	basicItemUpdate: function($this, updType){
+			var stat = false;
+    		if(updType=="01"){
+    			
+    			var targetItemId = $this.data("itemId");
+    			var targetNm = $this.data("targetNm");
+    			var targetValue = "01";
+    			if($this.hasClass("osl-badge-lightgray")){
+    				targetValue = "01";
+    				$this.removeClass("osl-badge-lightgray");
+    				$this.addClass("badge-info");
+    			}else{
+    				targetValue = "02";
+    				$this.removeClass("badge-info");
+    				$this.addClass("osl-badge-lightgray");
+    			}
+    			
+    			$.each(basicItemList,function(idx, map){
+    				if(map.itemId == targetItemId){
+    					map[targetNm] = targetValue;
+    					basicItemList[idx] = map;
+    					stat=true;
+    				}
+    			});
+    			if(stat){
+    				return;
+    			}
+    			$.each(basicItemInsertList,function(idx, map){
+    				if(map.itemId == targetItemId){
+    					map[targetNm] = targetValue;
+    					basicItemInsertList[idx] = map;
+    				}
+    			});
+    		}else if(updType=="02"){
+    			
+    			var target = $this[0]; 
+    			$.each(basicItemList,function(idx, map){
+    				if(map.itemId == target.itemId){
+    					basicItemList[idx] = target;
+    					stat=true;
+    				}
+    			});
+    			if(!stat){
+    				$.each(basicItemInsertList,function(idx, map){
+        				if(map.itemId == target.itemId){
+        					basicItemInsertList[idx] = target;
+        				}
+        			});
+    			}
+    			
+    			$("#basicItemList").html("");
+    			$.osl.customOpt.setting(basicItemList,  "basicItemList",
+		    			
+		    			{
+    						viewType: "preview",
+							delAt: true,
+							updAt: true,
+							badgeAt: true,
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemList.splice(delIdx,1);
+									}
+								},
+								update: OSLPrj1001Popup.basicItemUpdate,
+								updateBtn: OSLPrj1001Popup.basicItemUpdateBtn
+							}
+						}
+	    		);
+    			$.osl.customOpt.setting(basicItemInsertList,  "basicItemList",
+		    			
+		    			{
+    						viewType: "preview",
+							delAt: true,
+							updAt: true,
+							badgeAt: true,
+							htmlAppendType: true,
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemInsertList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemInsertList.splice(delIdx,1);
+									}
+								},
+								update: OSLPrj1001Popup.basicItemUpdate,
+								updateBtn: OSLPrj1001Popup.basicItemUpdateBtn
+							}
+						}
+	    		);
+    		}
+		},
+		basicItemUpdateBtn: function($this){
+			var targetItemId = $this.data("itemId");
+			var itemObj = "";
+			var stat = false;
+
+			$.each(basicItemList,function(idx, map){
+				if(map.itemId == targetItemId){
+					itemObj = map;
+					stat=true;
+				}
+			});
+			if(!stat){
+				$.each(basicItemInsertList,function(idx, map){
+					if(map.itemId == targetItemId){
+						itemObj = map;
+					}
+				});
+			}
+			
+			var data = {
+					type:"updateJson",
+					callPage:"OSLPrj1001Popup",
+					itemObj: JSON.stringify(itemObj)
+				};
+			var options = {
+					idKey: "prj1305",
+					modalTitle: "프로젝트 기본항목 수정",
+					modalSize: "lg",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1305ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1305Popup.getItemList();
+							OSLPrj1001Popup.basicItemUpdate(itemList, "02");
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1305View.do',data,options);
+		}
     };
 }();
 

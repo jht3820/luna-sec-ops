@@ -75,7 +75,10 @@
 <script>
 "use strict";
 var OSLSpr1000Popup = function () {
-	var totalSprPoint = 0;
+	
+	var totalSprPoint = null;
+	
+	var totalSprOngoingCnt = 0;
 	var documentSetting = function(){
 		var currentViewType = "01";
 	
@@ -156,7 +159,6 @@ var OSLSpr1000Popup = function () {
 			   				
 			   				$.osl.toastr(data.message);
 			   				
-			   				
 			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			   			}
 					});
@@ -166,11 +168,16 @@ var OSLSpr1000Popup = function () {
 				},
 				"dblClick": function(rowData, datatableId, type, rowNum, elem){
 					var data = {
-							paramSprId:rowData.sprId,
-							paramSprStDt:rowData.sprStDt,
-							paramSprEdDt:rowData.sprEdDt,
-							paramSprDesc:rowData.sprDesc,
-							paramSprTypeCd:rowData.sprTypeCd
+							paramSprId : rowData.sprId,
+							paramSprStDt : rowData.sprStDt,
+							paramSprEdDt : rowData.sprEdDt,
+							paramSprNm: rowData.sprNm,
+							paramSprDesc : rowData.sprDesc,
+							paramRestDay : rowData.restDay,
+							paramSprEndPercent : Math.trunc(rowData.sprEndPercent),
+							paramSprTypeNm : rowData.sprTypeNm,
+							paramSprTypeCd : rowData.sprTypeCd,
+							paramUseCd: rowData.useCd,
 						};
 					
 					var options = {
@@ -185,6 +192,7 @@ var OSLSpr1000Popup = function () {
 				},
 				
 				"sprStart": function(rowData, datatableId, type){
+					
 					var rowDatas = rowData;
 					
 					
@@ -192,6 +200,7 @@ var OSLSpr1000Popup = function () {
 						$.osl.alert($.osl.lang("spr1000.nonSelect"));
 						return true;
 					}
+					
 					
 					else if(rowDatas.length > 1){
 						$.osl.alert($.osl.lang("spr1000.manySelect"));
@@ -207,13 +216,21 @@ var OSLSpr1000Popup = function () {
 						return true;
 					}
 					
+					
+					if(totalSprOngoingCnt != 0){
+						$.osl.alert("이미 진행중인 스프린트가 존재합니다.\n 프로젝트당 스프린트는 1건만 진행가능합니다.");
+						return;
+					}
+					
 					var data = {
 							paramPrjGrpId: sprInfo.prjGrpId
 							,paramPrjId: sprInfo.prjId
 							,paramSprId: sprInfo.sprId
+							,paramSprNm: sprInfo.sprNm
 							,paramStartDt: sprInfo.sprStDt
 							,paramEndDt: sprInfo.sprEdDt
 						};
+					
 					var options = {
 							modalTitle: "스프린트 시작",
 							autoHeight: false,
@@ -222,8 +239,8 @@ var OSLSpr1000Popup = function () {
 							closeConfirm: false,
 							ftScrollUse: false
 						};
-					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
 					
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1003View.do',data,options);
 					
 				},
 				
@@ -280,7 +297,14 @@ var OSLSpr1000Popup = function () {
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
 						
+						
+						if(map.sprTypeCd == '02'){
+							totalSprOngoingCnt = map.sprOngoingCnt;
+						} 
+						
+						
 						var sprTypeClass = "kt-media--primary";
+						
 						var sprTypeNm = map.sprTypeNm;
 						
 						if(map.sprTypeCd == "02"){
@@ -297,7 +321,13 @@ var OSLSpr1000Popup = function () {
 						if(rowCnt == 0){
 							sprintStr += '<div class="row">';
 						}
+						var restDay = 0;
 						
+						if(map.sprTypeCd == "03"){
+							restDay = 0;
+						}else{
+							restDay = $.osl.escapeHtml(map.restDay);
+						}
 						
 						sprintStr +=
 							'<div class="col-lg-6 col-md-12 col-sm-12">'
@@ -351,6 +381,10 @@ var OSLSpr1000Popup = function () {
 											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
 												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>'+$.osl.lang("prj1000.endDate")+'</span>'
 												+'<h5><span class="badge badge-danger">'+$.osl.escapeHtml(map.sprEdDt)+'</span></h5>'
+											+'</div>'
+											+'<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">'
+												+'<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>남은 일수</span>'
+												+'<h5><span class="badge badge-warning osl-min-width-85">'+restDay+'</span></h5>'
 											+'</div>'
 											+'<div class="osl-flex-row-fluid osl-margin-b-175rm">'
 												+'<div class="osl-progress">'
@@ -420,6 +454,7 @@ var OSLSpr1000Popup = function () {
 					$.each(list, function(idx, map){
 						drawChart(map);
 					})
+					
 					
 					KTApp.initTooltips();
 				}
@@ -531,7 +566,7 @@ var OSLSpr1000Popup = function () {
 				    	enabled:true,
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
-				    		var xlabelList = opts.w.globals.labels.map((x) => new Date(x).format("MM-dd"));
+				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
 				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){

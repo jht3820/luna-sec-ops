@@ -1,11 +1,9 @@
 package kr.opensoftlab.lunaops.stm.stm3000.stm3000.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -24,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.ibm.icu.text.SimpleDateFormat;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.service.EgovFileMngUtil;
@@ -124,6 +120,28 @@ public class Stm3000Controller {
     	try{
     		
         	Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+        	
+        	
+			HttpSession ss = request.getSession();
+			
+			String paramPrjGrpId = (String) paramMap.get("prjGrpId");
+			
+			
+			if(paramPrjGrpId == null || "".equals(paramPrjGrpId)) {
+				paramPrjGrpId = (String) ss.getAttribute("selPrjGrpId");
+			}
+			
+			
+			String paramPrjId = (String) paramMap.get("prjId");
+			
+			
+			if(paramPrjId == null || "".equals(paramPrjId)) {
+				paramPrjId = (String) ss.getAttribute("selPrjId");
+			}
+			
+			paramMap.put("prjGrpId", paramPrjGrpId);
+			paramMap.put("prjId", paramPrjId);
 			
         	
 			
@@ -718,4 +736,5 @@ public class Stm3000Controller {
     		return new ModelAndView("jsonView");
 		}
 	}
+	
 }

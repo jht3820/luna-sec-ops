@@ -175,6 +175,12 @@ public class Prj1000ServiceImpl extends EgovAbstractServiceImpl implements Prj10
 		String prjNm = (String) paramMap.get("prjNm");
 		
 		String prjGrpId = (String) prj1000DAO.insertPrj1000PrjGrpAjax(paramMap);
+		
+		
+		paramMap.put("prjId", prjGrpId);
+		prj1000DAO.insertPrj1000PrjAuthInfo(paramMap);
+		
+		
 		Map<String, Object> ntfParam = new HashMap<String, Object>();
 		
 		
@@ -238,6 +244,11 @@ public class Prj1000ServiceImpl extends EgovAbstractServiceImpl implements Prj10
 		paramMap.remove("prjAuthTargetId");
 		paramMap.remove("prjAuthTypeCd");
 		prj1000DAO.deletePrj1000PrjAuthInfo(paramMap);
+		
+		
+		paramMap.put("prjAuthTargetId", prjAuthTargetId);
+		paramMap.put("prjAuthTypeCd", "01");
+		prj1000DAO.insertPrj1000PrjAuthInfo(paramMap);
 		
 		
 		Map<String, Object> ntfParam = new HashMap<String, Object>();
@@ -398,6 +409,24 @@ public class Prj1000ServiceImpl extends EgovAbstractServiceImpl implements Prj10
 	    stm2000DAO.insertStm2001MenuRootAuthList(paramMap);
 	    
 	    
+	    
+	    
+	    
+	    
+		String docFormConfFileId = idgenService.getNextStringId();
+		paramMap.put("docFormConfFileId", docFormConfFileId);
+		
+		
+		String docFormFileId = idgenService.getNextStringId();
+		paramMap.put("docFormFileId", docFormFileId);
+		
+		
+		String docAtchFileId = idgenService.getNextStringId();
+		paramMap.put("docAtchFileId", docAtchFileId);
+		
+		
+		String docWaitFileId = idgenService.getNextStringId();
+		paramMap.put("docWaitFileId", docWaitFileId);
 	    
 	    
 	    paramMap.put("docNm", prjNm);

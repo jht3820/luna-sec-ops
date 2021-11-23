@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.jfree.util.Log;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -68,7 +67,7 @@ public class Bad1000ServiceImpl extends EgovAbstractServiceImpl implements Bad10
 	}
 
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	public List<Map> selectBad1000BadList(Map paramMap) throws Exception {
 		
 		Map stmInfo = stm2100DAO.selectStm2100BadInfo(paramMap);
@@ -76,11 +75,14 @@ public class Bad1000ServiceImpl extends EgovAbstractServiceImpl implements Bad10
 		String dsTypeCd = (String) paramMap.get("dsTypeCd");
 		if(dsTypeCd ==null || dsTypeCd == "") {
 			
-			paramMap.put("dsTypeCd", stmInfo.get("stmDsTypeCd"));
+			dsTypeCd = (String) stmInfo.get("stmDsTypeCd");
+			paramMap.put("dsTypeCd", dsTypeCd);
 		}
 		
 		
 		paramMap.put("stmNtcYnCd", stmInfo.get("stmNtcYnCd"));
+		
+		String boardType = (String) stmInfo.get("stmTypeCd");
 
 		
 		if(paramMap.get("searchTargetId") != null && paramMap.get("searchTargetId") != "-1") {
@@ -364,6 +366,10 @@ public class Bad1000ServiceImpl extends EgovAbstractServiceImpl implements Bad10
 
 		JSONObject jsonObj = null;
 		
+
+
+		
+		
 		Map<String, String> deleteBadCmt = new HashMap<>();
 		
 		deleteBadCmt.put("delTypeCd", "01");
@@ -401,12 +407,43 @@ public class Bad1000ServiceImpl extends EgovAbstractServiceImpl implements Bad10
 			
 			bad1000DAO.deleteBad1000BadInfo(infoMap);
 			
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+			
 			deleteBadCmt.put("badId", (String) histInfo.get("badId")); 
 			deleteBadCmt.put("menuId", (String) histInfo.get("menuId"));
 			deleteBadCmt.put("prjGrpId", (String) deleteDataType.get("prjGrpId"));
 			deleteBadCmt.put("prjId", (String) deleteDataType.get("prjId"));
 			bad1100DAO.deleteBad1100CmtInfo(deleteBadCmt);
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	}
 	

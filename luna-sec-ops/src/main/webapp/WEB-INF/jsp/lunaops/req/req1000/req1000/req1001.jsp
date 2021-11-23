@@ -108,7 +108,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="kt-portlet kt-portlet--collapsed" data-ktportlet="true" id="req1001NewRequestOpt">
+	<div class="kt-portlet kt-portlet--collapsed kt-hide" data-ktportlet="true" id="req1001NewRequestOpt">
 		<div class="kt-portlet__head">
 			<div class="kt-portlet__head-label">
 				<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req1001.requestDefaultOptNm">접수 기본항목 입력</span>
@@ -299,7 +299,9 @@ var OSLReq1001Popup = function () {
     	}else{
     		
         	$.osl.setDataFormElem($.osl.user.userInfo,"frReq1001", ["usrNm","email","telno","deptName","deptId","usrImgId"]);
-			
+        	
+			$("#reqUsrId").val($.osl.user.userInfo.usrId);
+        	
 	    	
 	    	$("#reqDtm").val(new Date().format("yyyy-MM-dd"));
     	}

@@ -78,7 +78,7 @@
 			</div>
 		</div>
 		<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
-			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 osl-margin-t-20-1400">
+			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
 				<div class="kt-portlet__head">	
 					<div class="kt-portlet__head-toolbar">
 						<i class="fas fa-stream kt-margin-r-5"></i><span data-lang-cd="req3000.label.linkedReqList">연결 요구사항 목록</span>
@@ -193,7 +193,7 @@ var OSLReq3001Popup = function () {
     		meta: {"atchFileId": atchFileId, "fileSn": 0},
     		maxNumberOfFiles:20,
     		
-    		allowedFileTypes: ['.jpg', '.jpeg', '.png', '.gif',".pdf", ".hwp", ".docx", ".pptx", "txt",".csv", ".xlsx"],
+    		allowedFileTypes: ['.doc','.docx','.hwp','.pdf','.ppt','.pptx','.xls','.xlsx','.zip','.jpg','.jpeg','.png','.gif','.eml','.cell','.show','.txt'],
     		
     		
     		onBeforeUpload: function(files){
@@ -908,8 +908,6 @@ var OSLReq3001Popup = function () {
        	});
        	
        	uploadFileList = uploadFileList.concat(uploadRemoveFiles);
-       	
-		console.log(uploadFileList);
 		
        	
        	fd.append("fileHistory",JSON.stringify(uploadFileList));
@@ -1025,7 +1023,7 @@ var OSLReq3001Popup = function () {
 	$("#reqGrpChargerNm").keydown(function(e){
 		if(e.keyCode=='13'){
 			
-			$("#searchUsrNmBtn").click();
+			$("#searchChargerNmBtn").click();
 		}
 	});
 	

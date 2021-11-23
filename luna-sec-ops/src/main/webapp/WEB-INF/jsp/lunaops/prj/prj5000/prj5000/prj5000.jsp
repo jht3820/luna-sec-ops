@@ -9,7 +9,7 @@
 <script src="<c:url value='/plugins/custom/fullcalendar/main.js'/>"></script>
 <script src="<c:url value='/plugins/custom/fullcalendar/locales-all.js'/>"></script>
 
-<div class="kt-portlet kt-portlet--mobile osl-flex-flow--row-desktop osl-mobile-flex-flow--row osl-portlet__body-style--none kt-margin-b-0">
+<div class="kt-portlet kt-portlet--mobile osl-flex-flow--row osl-flex-flow--column-mobile osl-portlet__body-style--none kt-margin-b-0">
 	<div class="kt-portlet kt-portlet--mobile osl-calendar osl-desktop-max-w-285 float-left kt-margin-b-0" id="prj5000">
 		<div class="kt-portlet__head kt-hidden-desktop kt-hidden-tablet">
 			<div class="kt-portlet__head-label">
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div class="kt-portlet__body osl-min-h-px--415">
-			<div class="osl-flex-flow--row-desktop osl-mobile-flex-flow--row w-100" id="prj5000LeftDiv">
+			<div class="osl-flex-flow--row osl-flex-flow--column-mobile w-100" id="prj5000LeftDiv">
 				<button type="button" id="saveBtn" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-b-10 btn-elevate btn-elevate-air w-100" title="일정 등록" data-title-lang-cd="prj5000.button.title.insert" data-toggle="kt-tooltip" data-skin="brand">
 					<i class="fa fa-calendar-plus"></i><span data-lang-cd="prj5000.button.title.insert">일정등록</span>
 				</button>
@@ -68,6 +68,8 @@ var evtDataIsMap = [];
 var evtPrjTreeDataMap = {};
 
 var evtUsrDataMap = {};
+
+var evtReqDataMap = {};
 
 var evtHoliDataMap = [];
 
@@ -177,7 +179,7 @@ var OSLPrj5000Popup = function () {
 			
 			editable: true,
 			
-			dayMaxEventRows:true,
+			dayMaxEventRows: true,
 			
 			navLinks: true,
 			
@@ -230,7 +232,7 @@ var OSLPrj5000Popup = function () {
 			
 			views: {
 				dayGridMonth: {
-					dayMaxEventRows: 6
+					dayMaxEventRows: 4
 				},
 				timeGridFourDay: {
 					type: 'timeGrid',
@@ -326,7 +328,9 @@ var OSLPrj5000Popup = function () {
 					var data = {
 							"type" : "view",
 							"evtType": info.event.extendedProps.eventType,
-							"prjEvtId": info.event.extendedProps.prjId,
+				    		"paramPrjId": info.event.extendedProps.prjId,
+				    		"paramPrjGrpId": info.event.extendedProps.prjGrpId,
+							"paramPrjEvtId": info.event.extendedProps.reqId,
 							"selCalendarStartDate" : info.event.start.format("yyyy-MM-dd"),
 							"selCalendarEndDate" : evtEndDate.format("yyyy-MM-dd"),
 							"selCalendarStartTime" : info.event.start.format("HH:mm"),
@@ -336,13 +340,12 @@ var OSLPrj5000Popup = function () {
 							"eventPrjId": info.event.extendedProps.prjId
 						};
 					var options = {
-							
+							idKey: info.event.extendedProps.reqId,
 							modalTitle: $.osl.lang("prj5001.insert.title"),
 							closeConfirm: false,
 							autoHeight: false,
 							modalSize: 'md'
 						};
-					
 					
 					$.osl.layerPopupOpen('/prj/prj5000/prj5000/selectPrj5001View.do',data,options);
 					
@@ -364,7 +367,8 @@ var OSLPrj5000Popup = function () {
 				var data = {
 			    		"type" : paramType,
 			    		"evtType": info.event.extendedProps.eventType,
-			    		"paramPrjId": prjId,
+			    		"paramPrjId": info.event.extendedProps.prjId,
+			    		"paramPrjGrpId": info.event.extendedProps.prjGrpId,
 			    		"paramPrjEvtId": prjEvtId,
 						"selCalendarStartDate" : info.event.start.format("yyyy-MM-dd"),
 						"selCalendarEndDate" : evtEndDate.format("yyyy-MM-dd"),
@@ -380,13 +384,19 @@ var OSLPrj5000Popup = function () {
 						modalSize: 'md'
 					};
 				
-				
 				$.osl.layerPopupOpen('/prj/prj5000/prj5000/selectPrj5001View.do',data,options);
 				
 			},
 			
 			eventDrop: function(info) {
 				var evtEndDate = info.event.endStr;
+
+				var loginUsrId = "${sessionScope.loginVO.usrId}";
+				if(info.event.extendedProps.usrId != loginUsrId){
+					$.osl.alert("등록자만 수정이 가능합니다.");
+					fnSelectEventList();
+					return;
+				}
 				
 				
 				if($.osl.isNull(evtEndDate)){
@@ -420,6 +430,13 @@ var OSLPrj5000Popup = function () {
 			
 			eventResize: function(info) {
 				var evtEndDate = info.event.endStr;
+				
+				var loginUsrId = "${sessionScope.loginVO.usrId}";
+				if(info.event.extendedProps.usrId != loginUsrId){
+					$.osl.alert("등록자만 수정이 가능합니다.");
+					fnSelectEventList();
+					return;
+				}
 				
 				
 				if($.osl.isNull(evtEndDate)){
@@ -551,18 +568,26 @@ var OSLPrj5000Popup = function () {
 			  			});
 		  			}
 		  			
-		  			var eventGrpPrjGrpList =
+		  			var eventHolidayList =
  						 '<div class="eventGroupFrame" title="휴일">'
 						+'		<div class="eventGroupChkBox">'
 						+'			<label class="kt-checkbox kt-checkbox--success">'
-						+'				<i class="fa fa-calendar-alt"></i><input type="checkbox" name="CHK_holiday" id="CHK_holiday" data-event-group-type="04" data-event-group-id="holiday" onchange="fnToggleEvent(this)" checked> 휴일'
+						+'				<i class="fa fa-calendar-alt"></i><input type="checkbox" name="CHK_holiday" id="CHK_holiday" data-event-group-type="01" data-event-group-id="holiday" onchange="fnToggleEvent(this)" checked> 휴일'
 						+'				<span></span>'
 						+'			</label>'
 						+'		</div>'
 						+'</div>' ;
-	  				
-	 				var eventGrpPrjList = '';
-	 				var eventGrpUsrList = '';
+					var eventReqList = 
+ 						 '<div class="eventGroupFrame" title="요구사항">'
+						+'		<div class="eventGroupChkBox">'
+						+'			<label class="kt-checkbox kt-checkbox--success">'
+						+'				<i class="fa fa-edit"></i><input class="prjEvtList" type="checkbox" name="CHK_reqlist" id="CHK_reqlist" data-event-group-type="04" data-event-group-id="reqlist" onchange="fnToggleEvent(this)" checked> 요구사항'
+						+'				<span></span>'
+						+'			</label>'
+						+'		</div>'
+						+'</div>' ;
+	 				var eventPrjList = '';
+	 				var eventPrjUsrList = '';
 	 				
 		  			
 		  			if(!$.osl.isNull(evtList) && evtList.length > 0){
@@ -571,14 +596,16 @@ var OSLPrj5000Popup = function () {
 		  				
 		  				
 		  				var usrDupleList = [];
-		  				
+			  			
+			  			var eventLoginUsr = "";
+			  			var loginUsrId = "${sessionScope.loginVO.usrId}";
+							
 			  			
 			  			$.each(evtList, function(idx, map){
+
 			  				
 			  				if(!evtPrjTreeDataMap.hasOwnProperty(map.prjGrpId)){
 			  					evtPrjTreeDataMap[map.prjGrpId] = {};
-			  					
-			  					
 			  				}
 			  				
 			  				if(!evtPrjTreeDataMap[map.prjGrpId].hasOwnProperty(map.prjId)){
@@ -593,12 +620,12 @@ var OSLPrj5000Popup = function () {
 			  					}
 			  					
 			  					
-			  					eventGrpPrjList += 
+			  					eventPrjList += 
 			 						 '<div class="eventGroupFrame" title="프로젝트 :  '+$.osl.escapeHtml(map.prjNm)+'">'
 									+'		<div class="eventGroupChkBox">'
 									+'			<label class="kt-checkbox kt-checkbox--success">'
 									+'				<i class="fa fa-box"></i>'
-									+'				<input type="checkbox" name="CHK_'+map.prjId+'" id="CHK_'+map.prjId+'" title="'+$.osl.escapeHtml(map.prjId)+'" data-event-group-type="02" data-event-group-id="'+map.prjGrpId+'" data-event-prj-id="'+map.prjId+'" onchange="fnToggleEvent(this)" checked> '+$.osl.escapeHtml(map.prjNm)+''
+									+'				<input class="prjEvtList" type="checkbox" name="CHK_'+map.prjId+'" id="CHK_'+map.prjId+'" title="'+$.osl.escapeHtml(map.prjId)+'" data-event-group-type="02" data-event-group-id="'+map.prjGrpId+'" data-event-prj-id="'+map.prjId+'" onchange="fnToggleEvent(this)" checked> '+$.osl.escapeHtml(map.prjNm)+''
 									+'				<span></span>'
 									+'			</label>'
 									+'		</div>'
@@ -609,16 +636,30 @@ var OSLPrj5000Popup = function () {
 		  						
 		  						if(map.evtType == "03"){
 				  					
-				  					eventGrpUsrList += 
-				 						 '<div class="eventGroupFrame" title="사용자 :  '+map.usrNm+'">'
+		  				  			if(loginUsrId==map.usrId){
+					  					eventLoginUsr += 
+				 						 	 '<div class="eventGroupFrame" title="사용자 :  '+map.usrNm+'">'
 											+'		<div class="eventGroupChkBox">'
 											+'			<label class="kt-checkbox kt-checkbox--success">'
 											+'				<i class="fa fa-user"></i>'
-											+'				<input type="checkbox" name="CHK_'+map.usrId+'" id="CHK_'+map.usrId+'" title="'+$.osl.escapeHtml(map.usrId)+'" data-event-group-type="03" data-event-group-id="'+map.usrId+'" onchange="fnToggleEvent(this)" checked> '+$.osl.escapeHtml(map.usrNm)+''
+											+'				<input class="prjEvtList" type="checkbox" name="CHK_'+map.usrId+'" id="CHK_'+map.usrId+'" title="'+$.osl.escapeHtml(map.usrId)+'" data-event-group-type="03" data-event-group-id="'+map.usrId+'" onchange="fnToggleEvent(this)" checked> '+$.osl.escapeHtml(map.usrNm)+''
 											+'				<span></span>'
 											+'			</label>'
 											+'		</div>'
 											+'</div>' ;
+					  				}else{
+					  					eventPrjUsrList += 
+				 						 	 '<div class="eventGroupFrame" title="사용자 :  '+map.usrNm+'">'
+											+'		<div class="eventGroupChkBox">'
+											+'			<label class="kt-checkbox kt-checkbox--success">'
+											+'				<i class="fa fa-user"></i>'
+											+'				<input class="prjEvtUsrList" type="checkbox" name="CHK_'+map.usrId+'" id="CHK_'+map.usrId+'" title="'+$.osl.escapeHtml(map.usrId)+'" data-event-group-type="03" data-event-group-id="'+map.usrId+'" onchange="fnToggleEvent(this)"> '+$.osl.escapeHtml(map.usrNm)+''
+											+'				<span></span>'
+											+'			</label>'
+											+'		</div>'
+											+'</div>' ;
+					  				}
+		  				  		
 				  					usrDupleList.push(map.usrId);
 				  					evtUsrDataMap[map.usrId] = [];
 		  						}
@@ -626,14 +667,27 @@ var OSLPrj5000Popup = function () {
 			  				
 			  				
 			  				if(map.evtType == "03"){
-			  					if(map.evtUseCd == "01"){
+			  					if(map.usrId == loginUsrId){
 				  					map.evtNm = "["+map.usrNm+"] "+map.evtNm;
+				  					if(loginUsrId!=map.usrId){
+						  				map.display=false;
+				  					}
 					  				evtUsrDataMap[map.usrId].push(map);
+			  					}else{
+				  					if(map.evtUseCd == "01"){
+					  					map.evtNm = "["+map.usrNm+"] "+map.evtNm;
+					  					if(loginUsrId!=map.usrId){
+							  				map.display=false;
+					  					}
+						  				evtUsrDataMap[map.usrId].push(map);
+				  					}
 			  					}
 			  				}
 			  				
-			  				else{
+			  				else if(map.evtType == "02"){
 				  				evtPrjTreeDataMap[map.prjGrpId][map.prjId].push(map);
+			  				}else if(map.evtType == "04"){
+			  					evtReqDataMap[map.prjEvtId] = map;
 			  				}
 			  				
 			  				
@@ -658,9 +712,14 @@ var OSLPrj5000Popup = function () {
 			  				}
 			  				
 			  				if(map.evtType == "03"){
-			  					if(map.evtUseCd == "01"){
-			  						
-					  				evtDataMap[evtYearVal][evtMonthVal].push(map);
+
+			  					if(map.usrId == loginUsrId){
+			  						evtDataMap[evtYearVal][evtMonthVal].push(map);
+			  					}else{
+				  					if(map.evtUseCd == "01"){
+				  						
+				  						evtDataMap[evtYearVal][evtMonthVal].push(map);
+				  					}
 			  					}
 			  				}else{
 			  					
@@ -669,11 +728,12 @@ var OSLPrj5000Popup = function () {
 			  			});
 			  			
 		  			}
-
 		  			
-		  			$("#eventGroupList").html(eventGrpPrjGrpList+eventGrpPrjList+eventGrpUsrList);
+		  			
+		  			$("#eventGroupList").html(eventHolidayList+eventPrjList+eventReqList+eventLoginUsr+eventPrjUsrList);
 		  			
 		  			fnEvtdayDataSetting();
+		  			console.log(evtUsrDataMap);
 		  		}
 		  		$.osl.toastr(data.message);
 		  	}else{
@@ -880,16 +940,42 @@ function fnToggleEvent(thisObj){
 	var targetEvtList = [];
 	
 	
+	if(evtGrpType == "01"){
+		var targetEvtList = evtHoliDataMap;
+		prjEvtIdStr = "holiId";
+	}
 	
-	
-	if(evtGrpType == "02"){
+	else if(evtGrpType == "02"){
 		
 		var targetPrjEvtList = evtPrjTreeDataMap[evtGrpId][evtPrjId];
 		$.each(targetPrjEvtList, function(idx, map){
-			
-			
-			
 			if(map.evtType != "03"){
+				targetEvtList.push(map);
+			}
+		});
+		
+		if(evtGrpVal){
+			$(".prjEvtList").prop("checked", true);
+		}else{
+			$(".prjEvtList").prop("checked", false);
+			$(".prjEvtUsrList").prop("checked", false);
+		}
+		
+		
+		$.each(evtUsrDataMap, function(idx, map){
+			var targetUsrEvtList = map;
+			$.each(targetUsrEvtList, function(idx, map){
+				
+				if(map.evtType == "03"){
+					targetEvtList.push(map);
+				}
+			});
+		});
+
+		var targetReqEvtList = evtReqDataMap;
+		$.each(targetReqEvtList, function(idx, map){
+			
+			if(map.evtType == "04"){
 				targetEvtList.push(map);
 			}
 		});
@@ -907,8 +993,13 @@ function fnToggleEvent(thisObj){
 	}
 	
 	else if(evtGrpType == "04"){
-		var targetEvtList = evtHoliDataMap;
-		prjEvtIdStr = "holiId";
+		var targetReqEvtList = evtReqDataMap;
+		$.each(targetReqEvtList, function(idx, map){
+			
+			if(map.evtType == "04"){
+				targetEvtList.push(map);
+			}
+		});
 	}
 	
 	$.each(targetEvtList, function(idx, map){

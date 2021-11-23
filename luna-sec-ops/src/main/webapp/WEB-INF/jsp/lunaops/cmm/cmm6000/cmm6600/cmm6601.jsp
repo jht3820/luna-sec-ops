@@ -148,7 +148,7 @@ var OSLCmm6601Popup = function () {
 		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do'/>", "async": false}
-			, {"prjId" : prjId, "targetId" : targetId});
+			, {"prjId" : prjId, "targetId" : targetId, "targetCd": targetCd});
 
 		
 		ajaxObj.setFnSuccess(function(data){
@@ -187,17 +187,30 @@ var OSLCmm6601Popup = function () {
 		else if(userInfo.ord == ord){
 			signTypeNm = signType;
 		}
-		
-  		
-  		var usrNm = $.osl.escapeHtml(userInfo.usrNm);
-  		if(usrNm.length > 10){
-  			usrNm = usrNm.substr(0,10) + '...';
+  		var duty = '';
+   		if((!$.osl.isNull(userInfo.usrDutyCd)) && (!$.osl.isNull(userInfo.usrPositionCd))){
+  			duty 	+= 	'<span class="kt-widget__desc">'
+  					+		'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
+  					+	'</span>'
+  		}else{
+  			
+  			if((!$.osl.isNull(userInfo.usrDutyCd))){
+  				duty 	+= '<span class="kt-widget__desc">'
+  						+		'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>'
+  						+	'</span>'
+  			}
+  			
+  			if((!$.osl.isNull(userInfo.usrPositionCd))){
+  				duty 	+= 	'<span class="kt-widget__desc">'
+  						+		'<span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
+  						+	'</span>'
+  			}
   		}
   		
 		usrStr += 
 			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'" data-sign-type="'+signTypeNm+'" data-ord="'+userInfo.ord+'"> '
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
-				+'<div class="kt-margin-r-20 font-weight-bolder">'
+				+'<div class="kt-margin-r-10 font-weight-bolder osl-min-width-48">'
 					+'<span class="cardNumber">No.</span><span class="signStartOrdCell" data-ord="0"></span>'
 				+'</div>'
 				+'<div class="kt-widget__label kt-margin-r-10 osl-user__active--block">'
@@ -206,16 +219,13 @@ var OSLCmm6601Popup = function () {
 					+'<div class="kt-media kt-media--circle kt-media--md">'
 						+'<img src="'+$.osl.user.usrImgUrlVal(userInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 					+'</div>'
-					+'<div class="kt-widget__wrapper text-truncate">'
-						+'<div class="kt-widget__label">'
-							+'<div class="kt-widget__title"> <span>'
-								+usrNm
-								+'</span><small>'+$.osl.escapeHtml(userInfo.email)+'</small>'
+					+'<div class="kt-widget__wrapper">'
+						+'<div class="kt-widget__label  osl-min-h-px--57 justify-content-center">'
+							+'<div class="kt-widget__title osl-word__break osl-word__break--w150">'
+								+$.osl.escapeHtml(userInfo.usrNm)
 							+'</div>'
-							
-							+'<span class="kt-widget__desc">'
-								+'<span>'+$.osl.escapeHtml(userInfo.usrDutyNm)+'</span>, <span>'+$.osl.escapeHtml(userInfo.usrPositionNm)+'</span>'
-							+'</span>'
+							+'<small class="osl-word__break osl-word__break--w200">'+$.osl.escapeHtml(userInfo.email)+'</small>'
+							+duty
 						+'</div>'
 					+'</div>'
 						+"<div class='sign-type'>"+signTypeNm+"</div>"
@@ -248,12 +258,12 @@ var OSLCmm6601Popup = function () {
 			else if(idx == 0){
 				$(this).children(".cardNumber").text("");
 				var ordCell = $(this).children(".signStartOrdCell"); 
-				ordCell.text("기안");
+				ordCell.text("기안자");
 				ordCell.data('ord', idx);
 			
 			}
 			else{
-				$(this).children(".cardNumber").text("검토 ");
+				$(this).children(".cardNumber").text("검토자 ");
 				var ordCell = $(this).children(".signStartOrdCell"); 
 				ordCell.text(idx);
 				ordCell.data('ord', idx);

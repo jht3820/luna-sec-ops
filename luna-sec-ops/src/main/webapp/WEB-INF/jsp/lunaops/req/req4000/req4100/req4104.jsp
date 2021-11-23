@@ -74,24 +74,16 @@ var OSLReq4104Popup = function () {
 				{field: 'useCD', title: '사용유무', searchType:"select", searchCd:"CMM00001",searchOrd: 9},
 			],
     		actionBtn:{
-    			title : $.osl.lang("req4103.actionBtn.title"),
+    			title : $.osl.lang("req4104.actionBtn.title"),
     			width : 80,
     			"update" : false,
     			"delete" : false,
     			"click": true,
     		},
-    		actionTooltip:{
-    			"click": $.osl.lang("req4103.actionBtn.clickBtn"),
-    		},
     		actionFn:{
     			"click":function(rowData){
     				temp = rowData;
     				$("#selectReqGrp").click();
-    			}
-    		},
-    		theme:{
-    			actionBtnIcon:{
-    				"click": "fa flaticon2-check-mark",
     			}
     		}
     	});

@@ -61,23 +61,26 @@
 					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="select" title="메시지 조회" data-title-lang-cd="arm1000.button.tooltip.selectBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 						<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="insert" title="메시지 보내기" data-title-lang-cd="arm1000.button.tooltip.insertBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="detail" title="메시지 상세" data-title-lang-cd="arm1000.button.tooltip.dblClickBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="detail" tabindex="2">
+						<i class="fas fa-edit"></i><span data-lang-cd="datatable.button.detailBtn">상세</span>
+					</button>
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="insert" title="메시지 보내기" data-title-lang-cd="arm1000.button.tooltip.insertBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="3">
 						<i class="fas fa-edit"></i><span data-lang-cd="datatable.button.insert">쓰기</span>
 					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="reInsert" title="메시지 답장" data-title-lang-cd="arm1000.button.tooltip.reInsertBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="reInsert" tabindex="3">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="reInsert" title="메시지 답장" data-title-lang-cd="arm1000.button.tooltip.reInsertBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="reInsert" tabindex="4">
 						<i class="fas fa-envelope-open-text"></i><span data-lang-cd="arm1000.button.reInsertBtn">답장</span>
 					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="check" title="메시지 읽음 처리" data-title-lang-cd="arm1000.button.tooltip.checkBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="check" tabindex="4">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="check" title="메시지 읽음 처리" data-title-lang-cd="arm1000.button.tooltip.checkBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="check" tabindex="5">
 						<i class="fas fa-envelope-open"></i><span data-lang-cd="arm1000.button.checkBtn">읽음</span>
 					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="delete" title="메시지 삭제" data-title-lang-cd="arm1000.button.tooltip.deleteBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="5">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="arm1000ArmTable" data-datatable-action="delete" title="메시지 삭제" data-title-lang-cd="arm1000.button.tooltip.deleteBtn" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="6">
 						<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
 					</button>
 				</div>
 			</div>
 			<div class="kt-portlet__body">
 				<div class="row">
-					<div class="col-5"> 
+					<div class="col-xl-5 col-lg-5 col-md-7 col-sm-12"> 
 						<div class="osl-datatable-search" data-datatable-id="arm1000ArmTable"></div>
 					</div>
 				</div>
@@ -190,12 +193,15 @@ var OSLArm1000Popup = function () {
 				"reInsert" : true,
 				"update" : false,
 				"dblClick" : true,
+				"detail" : true,
 				"check" : true,
 				
 			}, 
 			actionTooltip:{
+				"delete" : $.osl.lang("arm1000.button.tooltip.deleteBtn"),
 				"reInsert" : $.osl.lang("arm1000.button.tooltip.reInsertBtn"),
 				"dblClick" : $.osl.lang("arm1000.button.tooltip.dblClickBtn"),
+				"detail" : $.osl.lang("arm1000.button.tooltip.dblClickBtn"),
 				"check" : $.osl.lang("arm1000.button.tooltip.checkBtn"),
 			},
 			actionFn:{
@@ -297,6 +303,31 @@ var OSLArm1000Popup = function () {
 					
 					$.osl.layerPopupOpen('/arm/arm1000/arm1000/selectArm1002View.do',data,options);
 				},
+				"detail": function(rowDatas, datatableId, type, rowNum){
+					var rowData;
+					if(type == "list"){
+						if(rowNum == 1){
+							rowData = rowDatas[0];
+						}else{
+							$.osl.alert($.osl.lang("arm1000.alert.message.selectOneMessage", rowNum));
+							return false;
+						}
+					}else{
+						rowData = rowDatas;
+					}
+					var data = {
+							armId : rowData.armId
+					};
+					var options = {
+							idKey: rowData.armId,
+							modalTitle: $.osl.lang("arm1000.actionBtn.dblClickTitle"),
+							closeConfirm: true,
+							autoHeight:false,
+							ftScrollUse: false,
+					};
+					
+					$.osl.layerPopupOpen('/arm/arm1000/arm1000/selectArm1002View.do',data,options);
+				},
 				"check" : function(rowDatas){
 					var data = {
 							dataList : JSON.stringify(rowDatas)
@@ -329,6 +360,7 @@ var OSLArm1000Popup = function () {
 				actionBtn:{
 					"reInsert" : " osl-table-option-hide",
 					"check" : " kt-hide",
+					"detail" : " kt-hide"
 				},
 				actionBtnIcon:{
 					"reInsert" : "fas fa-envelope-open-text",

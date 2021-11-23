@@ -4,7 +4,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -13,16 +12,17 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 import org.tmatesoft.svn.core.SVNAuthenticationException;
 import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
@@ -136,12 +136,50 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	
 	public void updateStm8000ServerInfo(Map<String, String> paramMap) throws Exception {
 		Map<String, String> convertParamMap = selectStm8000JsonToMap(paramMap);
+		
+		String strgUsrPw = (String) convertParamMap.get("strgUsrPw");
+		if(strgUsrPw != null && ! strgUsrPw.isEmpty()) {
+			
+			String salt = EgovProperties.getProperty("Globals.lunaops.salt");
+			
+			
+			if(strgUsrPw.equals((String) convertParamMap.get("strgOriUsrPw"))) {
+				
+				convertParamMap.put("strgUsrPw", strgUsrPw);
+			}else {
+				
+				String newStrgUsrPw = CommonScrty.encryptedAria(strgUsrPw, salt);
+				convertParamMap.put("strgUsrPw", newStrgUsrPw);
+
+				
+				stm8000DAO.updateStm8000ServerPwInfo(convertParamMap);
+			}
+		}
+		
 		stm8000DAO.updateStm8000ServerInfo(convertParamMap);
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void deleteStm8000ServerInfo(Map<String, String> paramMap) throws Exception {
-		stm8000DAO.deleteStm8000ServerInfo(paramMap);
+		String deleteDataList = (String) paramMap.get("dataList");
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		JSONArray jsonArray = (JSONArray) jsonParser.parse(deleteDataList);
+		
+		for(int i=0;i<jsonArray.size();i++) {
+			JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+			
+			
+			Map infoMap = new Gson().fromJson(jsonObj.toJSONString(), new HashMap().getClass());
+		
+			
+			infoMap.put("licGrpId", paramMap.get("licGrpId"));
+			infoMap.put("prjGrpId", paramMap.get("prjGrpId"));
+			infoMap.put("prjId", paramMap.get("prjId"));
+			stm8000DAO.deleteStm8000ServerInfo(infoMap);
+		}
 	}
 	
 	
@@ -169,12 +207,12 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 			String salt = EgovProperties.getProperty("Globals.lunaops.salt");
 			
 			
-			String newPw = CommonScrty.decryptedAria(pw, salt);
+			pw = CommonScrty.decryptedAria(pw, salt);
 			
 			if("01".equals(type)) {
 				
 				
-				SVNRepository repository = svnConnector.svnConnect(url, id, newPw);
+				SVNRepository repository = svnConnector.svnConnect(url, id, pw);
 				
 				
 				repository.testConnection();
@@ -183,9 +221,9 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 				
 				
 				svnConnector.close(repository);
-			}else {
-				
 			}
+			
+			
 			
 		}catch(Exception ex) {
 			if(ex instanceof SVNAuthenticationException ){
@@ -234,10 +272,10 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		String salt = EgovProperties.getProperty("Globals.lunaops.salt");
 		
 		
-		String newPw = CommonScrty.decryptedAria(pw, salt);
+		pw = CommonScrty.decryptedAria(pw, salt);
 		
 		
-		SVNRepository repository = svnConnector.svnConnect(url, id, newPw);
+		SVNRepository repository = svnConnector.svnConnect(url, id, pw);
 		
 		
 		repository.testConnection();
@@ -255,7 +293,7 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		String endRevisionVal = (String)paramMap.get("searchEdNum");
 		
 		
-		if(startRevisionVal != null && endRevisionVal != null && !"".equals(startRevisionVal) && !"".equals(endRevisionVal)) {
+		if(startRevisionVal != null && !startRevisionVal.isEmpty() && endRevisionVal != null && !endRevisionVal.isEmpty()) {
 			
 			startRevisionVal = startRevisionVal.replaceAll("/[^0-9]/g", "");
 			endRevisionVal = endRevisionVal.replaceAll("/[^0-9]/g", "");
@@ -354,11 +392,11 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	
 	
 	
-	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<Map> selectStm8000GitList(Map<String, String> paramMap) throws Exception {
-		List<Map<String, Object>> commits = null;
 		List<Map> list = null;
+		
+		List<Map<String, Object>> commits = null;
 		int count = 0;
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -474,7 +512,6 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 			params.put("totalCnt", Integer.toString(count));
 			list.add(params);
 		}
-		
 		return list;
 	}
 	
@@ -657,9 +694,9 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 			
 			svnConnector.close(repository);
 			
-		}else {
-			
 		}
+		
+		
 		
 		return content;
 	}

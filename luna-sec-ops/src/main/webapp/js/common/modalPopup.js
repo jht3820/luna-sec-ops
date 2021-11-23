@@ -66,48 +66,50 @@ $(document).on('hidden.bs.modal', '.modal', function () {
 
 
 $(document).on('hide.bs.modal', '.modal', function () {
-	if(event){
+	try{
+		if(event){
+			
+			event.cancelable = true;
+			event.stopPropagation();
+			event.preventDefault();
+			event.returnValue = false;
+		}
 		
-		event.cancelable = true;
-		event.stopPropagation();
-		event.preventDefault();
-		event.returnValue = false;
-	}
-	
-	
-	if(modalCloseAlert){
-		return false;
-	}
-	
-	var that = this;
-	
-	if(modalCloseFlag){
-		modalCloseFlag = false;
-		return true;
-	}
-	
+		
+		if(modalCloseAlert){
+			return false;
+		}
+		
+		var that = this;
+		
+		if(modalCloseFlag){
+			modalCloseFlag = false;
+			return true;
+		}
+		
+		
+		var path = eventPath(event); 
+		if($(that).data("backdrop")==true && path.length != 5 || event.keyCode == 27){
+			modalCloseFlag = false;
+			return true;
+		}
 	
 		
-	if($(that).data("backdrop")==true && event.path.length != 5 || event.keyCode == 27){
-		modalCloseFlag = false;
-		return true;
+		modalCloseAlert = true;
+		
+		$.osl.confirm($.osl.lang("common.modal.closeAlert"),null,function(result) {
+			modalCloseAlert = false;
+		    if (result.value) {
+		    	
+		    	modalCloseFlag = true;
+		    	
+		    	
+		    	$(that).modal('hide');
+		    }
+		});
+	}catch(e){
+		alert(e);
 	}
-	
-	
-	
-	modalCloseAlert = true;
-	
-	$.osl.confirm($.osl.lang("common.modal.closeAlert"),null,function(result) {
-    	modalCloseAlert = false;
-        if (result.value) {
-        	
-        	modalCloseFlag = true;
-        	
-        	
-        	$(that).modal('hide');
-        }
-    });
-
 	
 	
 	return false;
@@ -367,3 +369,39 @@ var modal_popup = function(url, data, opts){
 	
 	return layerBoxDivId;
 }
+
+var eventPath = function(evt) {
+	  
+	var path = (evt.composedPath && evt.composedPath()) || evt.path;
+    var target = evt.target;
+    
+    
+    if (path != null) {
+    	
+    	path = (path.indexOf(window) < 0) ? path.concat([window]) : path;
+    	return path;
+    }
+    
+    
+    if (target === window) {
+    	return [window];
+    }
+    
+    
+    function getParents(node, memo) {
+    	memo = memo || [];
+    	
+    	var parentNode = node.parentNode;
+
+    	if (!parentNode) {
+    		return memo;
+    	} else {
+    		return getParents(parentNode, memo.concat([parentNode]));
+    	}
+    }
+
+    return [target]
+    	.concat(getParents(target))
+    	.concat([window]);
+}
+

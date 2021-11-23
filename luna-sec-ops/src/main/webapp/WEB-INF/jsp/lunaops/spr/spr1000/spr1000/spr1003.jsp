@@ -13,7 +13,7 @@
 		<div class="osl-wizard" id="kt_wizard_v3" data-ktwizard-state="step-first">
 			
 			<div class="osl-wizard__nav">
-				<div class="osl-wizard__nav-items">
+				<div class="osl-wizard__nav-items osl-wizard__nav-items--clickable">
 					
 					<div class="osl-wizard__nav-item" data-ktwizard-type="step" data-ktwizard-state="current">
 						<div class="osl-wizard-wrapper">
@@ -83,13 +83,13 @@
 						</div>
 					</div>
 				</div>
-				<button class="btn btn-outline-brand" data-ktwizard-type="action-prev">
+				<button type="button" class="btn btn-outline-brand" data-ktwizard-type="action-prev">
 					<i class="fas fa-chevron-circle-left"></i><span data-lang-cd="spr1003.wizard.btn.prev">이전</span>
 				</button>
-				<button class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-submit">
+				<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-submit">
 					<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.submit">완료</span><i class="fas fa-check-circle kt-padding-r-0"></i>
 				</button>
-				<button class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
+				<button type="button" class="btn btn-outline-brand kt-margin-l-20" data-ktwizard-type="action-next">
 					<span class="kt-margin-r-5" data-lang-cd="spr1003.wizard.btn.next">다음</span><i class="fas fa-chevron-circle-right kt-padding-r-0"></i>
 				</button>
 			</div>
@@ -166,7 +166,6 @@
 							
 		</div>
 	</div>
-	
 </form>
 	
 <div class="modal-footer">
@@ -201,6 +200,7 @@ var OSLSpr1003Popup = function () {
 	
 	var sprProcessIdList = [];
 	
+	var beforeStep = 0;
 	
 	var wizardData = {
 		
@@ -221,6 +221,7 @@ var OSLSpr1003Popup = function () {
 	
 	var documentSetting = function(){
 		
+		
     	formEditList.push($.osl.editorSetting("mmtDesc", {formValidate: formValidate, 'minHeight': 250, disableResizeEditor: false}));
 		
 		
@@ -234,7 +235,7 @@ var OSLSpr1003Popup = function () {
     		
     		matcher: matchCustom
     	});
-		
+    	
     	
     	selectUsrList();
 		
@@ -242,7 +243,7 @@ var OSLSpr1003Popup = function () {
 		
 		var wizard = new KTWizard('kt_wizard_v3', {
 			startStep: 1, 
-			clickableSteps: false		
+			clickableSteps: true	
 		});
 		 
 		
@@ -259,26 +260,50 @@ var OSLSpr1003Popup = function () {
 					wizardObj.stop();
 				}
 			}
+			beforeStep = wizard.currentStep;
 		});
 		 
 		
-		wizard.on('beforePrev', function(wizardObj) {
+		wizard.on('change', function(wizardObj) {
 			
-			if($("#"+mainFormId).valid() !== true){
-				wizardObj.stop();
-			}else{
+			var totalStep = wizard.totalSteps;
+			
+			var checkThis = wizard.currentStep;
+			
+			var checking = totalStep - checkThis;
+			
+			if(checkThis != 2){
 				
-				var rtnFlag = fnWizardDataSave(wizardObj);
-				
-				
-				if(rtnFlag === false){
-					wizardObj.stop();
+				if($.osl.isNull($.osl.datatable.list['sprAssignReqTable'])){
+					$.osl.alert("스토리포인트 배정을 완료해주세요.",{type:"error"})
+					wizardObj.goTo(2);
 				}
 			}
-		});
-		
-		
-		wizard.on('change', function(wizardObj) {
+			
+			
+			if((checkThis-beforeStep) != 1){
+				
+				if(checking < checkThis){
+					
+					var reqListCnt = wizardData["reqListCnt"];
+					var reqSprPointList = wizardData["reqSprPointList"];
+					var reqSprPointListCnt = 0;
+					
+					if(!$.osl.isNull(reqSprPointList)){
+						
+						$.each(reqSprPointList, function(idx, map){
+							if(!$.osl.isNull(map) && map >= 0){
+								reqSprPointListCnt++;
+							}
+						});
+					}
+					if(reqListCnt > reqSprPointListCnt){
+						
+						$.osl.alert($.osl.lang("spr1003.alert.reqSprPoint",(reqListCnt-reqSprPointListCnt)),{type: 'error'});
+						wizardObj.goTo(2);
+					}
+				}
+			}
 			if(datatableInitFlag.hasOwnProperty(wizardObj.currentStep)){
 				
 				if(!datatableInitFlag[wizardObj.currentStep]){
@@ -304,6 +329,9 @@ var OSLSpr1003Popup = function () {
 	    		});
 	    		
 	    		wizardData["sprProcessList"] = processIdList;
+	    	}else{
+	    		$.osl.alert("프로세스는 한건이상 추가해야합니다.",{type:"error"})
+	    		return; 
 	    	}
 	       	
 	       	
@@ -341,13 +369,32 @@ var OSLSpr1003Popup = function () {
 		
 		if(wizardObj.currentStep == 1){
 			
-			wizardData["mmtNm"] = $("#mmtNm").val();
+			
+			var mmtNm = $("#mmtNm").val();
 			
 			
-			wizardData["mmtDesc"] = $("#mmtDesc").val();
+			var mmtDesc = $("#mmtDesc").val();
 			
 			
-			wizardData["usrList"] = $("#sprConferenceUsr").val();
+			var usrList = $("#sprConferenceUsr").val();
+			
+			
+			if($.osl.isNull(mmtNm)){
+				$.osl.alert("회의록 제목을 입력해주세요.",{type: 'error'});
+			}
+			
+			if($.osl.isNull(mmtDesc)){
+				$.osl.alert("회의록 내용을 입력해주세요.",{type: 'error'});
+			}
+			
+			
+			wizardData["mmtNm"] = mmtNm;
+			
+			
+			wizardData["mmtDesc"] = mmtDesc;
+			
+			
+			wizardData["usrList"] = usrList;
 		}
 		
 		else if(wizardObj.currentStep == 2){
@@ -366,13 +413,8 @@ var OSLSpr1003Popup = function () {
 			}
 			
 			if(reqListCnt > reqSprPointListCnt){
-				$.osl.toastr($.osl.lang("spr1003.alert.reqSprPoint",(reqListCnt-reqSprPointListCnt))
-					,{
-						positionClass: "osl-toastr-center",
-						timeOut: 3000,
-						preventDuplicates: true
-					}
-				);
+				
+				$.osl.alert($.osl.lang("spr1003.alert.reqSprPoint",(reqListCnt-reqSprPointListCnt)),{type: 'error'});
 				return false;
 			}
 		}
@@ -382,7 +424,11 @@ var OSLSpr1003Popup = function () {
 		}
 		
 		else if(wizardObj.currentStep == 4){
-			
+			var processDatasets = $.osl.datatable.list['sprAssignProcessTable'].targetDt.originalDataSet();
+			if(processDatasets.length == 0){
+				$.osl.alert("프로세스를 한건이상 배정해야합니다.", {type:"error"});
+				return false;
+			}
 		}
 		return true;
 	};
@@ -402,8 +448,8 @@ var OSLSpr1003Popup = function () {
 				+'<div class="kt-user-card-v2__pic kt-media kt-media--sm kt-media--circle">'
 					+'<img src="'+$.osl.user.usrImgUrlVal(usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 				+'</div>'
-				+'<div class="kt-user-card-v2__details float-left osl-word__break">'
-					+'<span class="kt-user-card-v2__name float-left">'+usrNm+'</span>'
+				+'<div class="kt-user-card-v2__details float-left">'
+					+'<span class="kt-user-card-v2__name float-left osl-word__break">'+usrNm+'</span>'
 					+'<span class="kt-user-card-v2__email float-left kt-margin-l-10 osl-line-height-rem-1_5">'+usrEmail+'</span>'
 				+'</div>'
 			+'</div>'
@@ -419,6 +465,7 @@ var OSLSpr1003Popup = function () {
    	 	}
     	var usrId = state.id;
     	var usrNm = state.element.attributes.getNamedItem("data-usr-nm").value;
+    	
     	var usrImgId = state.element.attributes.getNamedItem("data-usr-img-id").value;
     	var usrEmail = state.element.attributes.getNamedItem("data-usr-email").value;
 
@@ -428,7 +475,7 @@ var OSLSpr1003Popup = function () {
 						+'<img src="'+$.osl.user.usrImgUrlVal(usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 					+'</div>'
 					+'<div class="kt-user-card-v2__details float-left">'
-						+'<span class="kt-user-card-v2__name">'+usrNm+'</span>'
+						+'<span class="kt-user-card-v2__name osl-word__break osl-word__break--w100">'+usrNm+'</span>'
 						+'<span class="kt-user-card-v2__email">'+usrEmail+'</span>'
 					+'</div>'
 				+'</div>'
@@ -441,7 +488,7 @@ var OSLSpr1003Popup = function () {
  	var selectUsrList = function(){
  		
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr2000/spr2000/selectSpr2001MmtUsrListAjax.do'/>", "async":"true"});
+ 				{"url":"<c:url value='/spr/spr2000/spr2000/selectSpr2001MmtUsrListAjax.do'/>", "async":"true"}, {location:"spr1003"});
  		
  		
  		ajaxObj.setFnSuccess(function(data){
@@ -455,7 +502,7 @@ var OSLSpr1003Popup = function () {
  				usrList = data.usrAllList;
  				
  				$.each(data.usrAllList, function(idx, value){
- 					var str = '<option value="' + value.usrId + '" data-usr-nm="'+value.usrNm+'" data-usr-img-id="'+value.usrImgId+'" data-usr-email="'+value.email+'">' 
+ 					var str = '<option class="osl-word__break" value="' + value.usrId + '" data-usr-nm="'+value.usrNm+'" data-usr-img-id="'+value.usrImgId+'" data-usr-email="'+value.email+'">' 
  									+ value.usrNm
  								+ '</option>';
  					
@@ -560,10 +607,29 @@ var OSLSpr1003Popup = function () {
 						var rtnVal = "";
 						
 						if(wizardData["reqSprPointList"].hasOwnProperty(row.reqId)){
-							rtnVal = wizardData["reqSprPointList"][row.reqId];
+							if(!$.osl.isNull(wizardData["reqSprPointList"][row.reqId])){
+								rtnVal = wizardData["reqSprPointList"][row.reqId];
+							}
 						}
 						
-						return '<input type="text" class="form-control kt-align-center" name="sprPoint_'+row.reqId+'" id="sprPoint_'+row.reqId+'" min="0" max="999" maxlength="3" value="'+rtnVal+'"/>';
+						return '<input type="text" class="form-control kt-align-center position-relative osl-planing-poker" autocomplete="off" name="sprPoint_'+row.reqId+'" id="sprPoint_'+row.reqId+'" min="0" max="999" maxlength="3" value="'+rtnVal+'"/>'
+								+'<div class="position-fixed kt-portlet osl-planing-poker-portlet kt-hide">'
+								+	'<div class="osl-planing-poker-portlet__body">'
+								+		'<div class="card"><div class="osl-small-text--top">0</div>0<div class="osl-small-text-bottom">0</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">½</div>½<div class="osl-small-text-bottom">½</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">1</div>1<div class="osl-small-text-bottom">1</div></div>'
+								+		'<div class="card"><div class="osl-point-text">2</div>2</div>'
+								+		'<div class="card"><div class="osl-point-text">3</div>3</div>'
+								+		'<div class="card"><div class="osl-point-text">5</div>5</div>'
+								+		'<div class="card"><div class="osl-small-text--top">8</div>8<div class="osl-small-text-bottom">8</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">13</div>13<div class="osl-small-text-bottom">13</div></div>'
+								+		'<div class="card"><div class="osl-small-text--top">20</div>20<div class="osl-small-text-bottom">20</div></div>'
+								+		'<div class="card"><div class="osl-point-text">40</div>40</div>'
+								+		'<div class="card"><div class="osl-point-text">100</div>100</div>'
+								+		'<div class="card"><div class="osl-point-text">?</div>?</div>'
+								+		'<div class="card"><div class="osl-point-text"><i class="fas fa-mug-hot"></i></div><i class="fas fa-mug-hot"></i></div>'
+								+	'</div>'
+								+'</div>';
 					}
 				}
 			],
@@ -577,6 +643,25 @@ var OSLSpr1003Popup = function () {
 				"update": "수정",
 				"delete": "삭제",
 				"dblClick": "상세보기"
+			},
+			actionFn:{
+				"dblClick":function(rowData, datatableId, type, rowNum){
+					var data = {
+							paramPrjId: rowData.prjId,
+							paramReqId: rowData.reqId,
+							paramReqUsrId: rowData.reqUsrId
+						};
+					var options = {
+							idKey: rowData.reqId,
+							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							autoHeight: false,
+					
+							
+						};
+					
+					$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4102View.do',data,options);
+					
+				}
 			},
 			rows:{
 				afterTemplate: function(row, data, index){
@@ -598,9 +683,30 @@ var OSLSpr1003Popup = function () {
 						}
 					});
 					
-					if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
-						this.value = wizardData["reqSprPointList"][data.reqId];
+					if(!$.osl.isNull(wizardData["reqSprPointList"][data.reqId])){
+						
+						if(wizardData["reqSprPointList"].hasOwnProperty(data.reqId)){
+							this.value = wizardData["reqSprPointList"][data.reqId];
+						}
 					}
+					
+					var target;
+					$('.osl-planing-poker').focus(function(){
+						target = $(this).next();
+			    		target.removeClass('kt-hide');
+			    		setTimeout(function() {
+		    				$('.osl-planing-poker-portlet .card').css({
+		    					transform: 'rotateY(0deg)'
+		    				});
+			    		},200);
+			    	}).blur(function(){
+			    		target.addClass('kt-hide');
+		    			$('.osl-planing-poker-portlet .card').css({
+		    				transform: 'rotateY(180deg)'
+		    			});
+			    	});
+			    	
+					
 				}
 			},
 			callback:{
@@ -646,6 +752,11 @@ var OSLSpr1003Popup = function () {
 				 }
 			 },
 			columns: [
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false,
+					template: function(row){
+    					return row.reqId;
+    				}
+				},
 				{field: 'reqOrd', title: '순번', textAlign: 'center', width: 50, search: true},
 				{field: 'reqNm', title: '요청 제목', textAlign: 'center', width: 100, search: true},
 				{field: 'sprPoint', title: '스토리 포인트', textAlign: 'center', width: 80,template:function(row){
@@ -660,18 +771,51 @@ var OSLSpr1003Popup = function () {
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 80, template:function(row){
 					var rtnVal = "";
 					
+					
+					
 					if(wizardData["reqUsrList"].hasOwnProperty(row.reqId)){
 						rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;
+						
+					
+					}else if(row.reqChargerNm != null){
+						wizardData["reqUsrList"][row.reqId] = {usrId: row.reqChargerId, usrNm: row.reqChargerNm}; 
+						rtnVal = row.reqChargerNm;
 					}
 					
 					return '<input type="text" class="form-control kt-align-center" name="reqCharger_'+row.reqId+'" id="reqCharger_'+row.reqId+'" data-req-id="'+row.reqId+'" value="'+rtnVal+'" readonly="readonly" />';
 				}},
 			],
+			rows:{
+				minHeight:50,
+			},
 			actionBtn:{
+				"title":"해제",
 				"update": false,
 				"delete": false,
-				"dblClick": false
-			}
+				"dblClick": false,
+				"clearCharger":true,
+			},
+			actionFn:{
+				"clearCharger":function(rowData, datatableId, type, rowNum){
+					
+					var datatable = $.osl.datatable.list['sprAssignReqUsrTable'].targetDt;
+					
+					var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
+					
+					
+					var target = targetCheckRow.find("input[type=text]");
+					
+					target.val("");
+					
+					
+					delete wizardData["reqUsrList"][rowData.reqId]
+				},
+			},
+			theme:{
+				actionBtnIcon:{
+					clearCharger: "fa fa-ban",
+				}
+			},
 		});
 		
 		
@@ -681,7 +825,10 @@ var OSLSpr1003Popup = function () {
 			data: {
 				source: {
 					read: {
-						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do"
+						url: "/stm/stm3000/stm3000/selectStm3000ListAjax.do",
+						params:{
+							location:"spr1003",
+						}
 					}
 				},
 				pageSize : 4
@@ -716,7 +863,8 @@ var OSLSpr1003Popup = function () {
 			],
 			actionBtn:{
 				"update": false,
-				"delete": false
+				"delete": false,
+				"click": false,
 			},
 			callback:{
 				initComplete: function(evt,config){
@@ -781,6 +929,36 @@ var OSLSpr1003Popup = function () {
 						$(".osl-widget-draggable.active").removeClass("active");
 						if(unActive === false){
 							$(this).addClass("active");
+							
+							var targetElem = $(".osl-widget-draggable.active");
+							
+							var datatable = $.osl.datatable.list['sprAssignReqUsrTable'].targetDt;
+							
+							var length = datatable.getDataSet().length;
+							
+							var rownum = 0
+							for(rownum; rownum < length ; rownum ++){
+								var targetCheckRow = datatable.row("[data-row="+rownum+"]").nodes();
+								
+								var target = targetCheckRow.find("label.kt-checkbox").children("input[type=checkbox]");
+								if(target.length > 0){
+									if(target.is(":checked") == true){
+										var targetReqId = target.val();
+										
+										
+										var targetUsrId = targetElem.data("usr-id");
+								   		var targetUsrNm = targetElem.data("usr-name");
+								   		
+								   		
+									    $("#reqCharger_"+targetReqId).val(targetUsrNm);
+									    
+									    
+									    wizardData["reqUsrList"][targetReqId] = {usrId: targetUsrId, usrNm: targetUsrNm};
+									    
+									    target.prop("checked",false);
+									}
+								}
+							}
 						}
 					});
 				}
@@ -827,7 +1005,6 @@ var OSLSpr1003Popup = function () {
 				 }
 			 },
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 10, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 50, autoHide: false, sortable: false},
 				{field: 'processId', title: 'ID', textAlign: 'center', width: 150, search: true},
 				{field: 'processNm', title: '이름 ', textAlign: 'center', width: 100, search: true},
@@ -911,7 +1088,6 @@ var OSLSpr1003Popup = function () {
 				 }
 			 },
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 10, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 50, autoHide: false, sortable: false},
 				{field: 'processId', title: 'ID', textAlign: 'center', width: 150, search: true},
 				{field: 'processNm', title: '이름 ', textAlign: 'center', width: 100, search: true},

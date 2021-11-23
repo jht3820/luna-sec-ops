@@ -11,6 +11,7 @@
 		<result property="licGrpId"				column="LIC_GRP_ID"/>
 		<result property="prjGrpId"				column="PRJ_GRP_ID"/>
 		<result property="prjId"					column="PRJ_ID"/>
+		<result property="prjNm"					column="PRJ_NM"/>
 		<result property="sprId"					column="SPR_ID"/>
 		<result property="reqId"					column="REQ_ID"/>
 		<result property="sprPoint"				column="SPR_POINT"/>
@@ -306,38 +307,57 @@
 	<sql id="selectSpr1100NonAssList">
 		SELECT
 			ROWNUM RN
+			, T1.PRJ_NM AS PRJ_NM
 			, T1.REQ_ID AS REQ_ID
 			, T1.REQ_NM AS REQ_NM
+			, T1.REQ_USR_NM AS REQ_USR_NM
 			, T1.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
 			, T1.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
 			, T1.REQ_USR_EMAIL AS REQ_USR_EMAIL
 			, T1.REQ_USR_NUM AS REQ_USR_NUM
 			, T1.REQ_USR_IMG_ID AS REQ_USR_IMG_ID
+			, T1.REQ_CHARGER_ID AS REQ_CHARGER_ID
+			, T1.REQ_CHARGER_NM AS REQ_CHARGER_NM
+			, T1.REQ_CHARGER_IMG_ID AS REQ_CHARGER_IMG_ID
+			, T1.REQ_CHARGER_EMAIL AS REQ_CHARGER_EMAIL
 			, T1.REQ_ORD AS REQ_ORD
 			, T1.REQ_PRO_TYPE AS REQ_PRO_TYPE
 			, T1.REQ_PRO_TYPE_NM AS REQ_PRO_TYPE_NM
 			, T1.REQ_DTM AS REQ_DTM
+			, T1.REG_DTM AS REG_DTM
 			, T1.REQ_PW AS REQ_PW
 			, T1.PROCESS_ID AS PROCESS_ID
 			, T1.FLOW_ID AS FLOW_ID
 		FROM (
-			SELECT
+			SELECT 
 				A.REQ_ID AS REQ_ID
 				, A.REQ_NM AS REQ_NM
+				, SF_PRJ1000_GRP_NM(A.PRJ_ID) AS PRJ_NM
 				, A.REQ_DESC AS REQ_DESC
+				, NVL(REQ_USR_NM, SF_STM3000_USR_INFO(A.REQ_USR_ID, '1')) AS REQ_USR_NM
 				, A.REQ_USR_DEPT_ID AS REQ_USR_DEPT_ID
 				, A.REQ_USR_DEPT_NM AS REQ_USR_DEPT_NM
 				, A.REQ_USR_EMAIL AS REQ_USR_EMAIL
 				, A.REQ_USR_NUM AS REQ_USR_NUM
 				, SF_STM3000_USR_INFO(A.REQ_USR_ID, '6')  AS REQ_USR_IMG_ID
+				,	A.REQ_CHARGER_ID
+				,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 1) AS REQ_CHARGER_NM
+				,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 6) AS REQ_CHARGER_IMG_ID
+				,	SF_STM3000_USR_INFO(A.REQ_CHARGER_ID, 2) AS REQ_CHARGER_EMAIL
+				, 	NVL2(A.REQ_ST_DTM, TO_CHAR(A.REQ_ST_DTM, 'YYYY-MM-DD') , '') REQ_ST_DTM
+    		   	, 	NVL2(A.REQ_ED_DTM, TO_CHAR(A.REQ_ED_DTM, 'YYYY-MM-DD') , '') REQ_ED_DTM
+				, 	NVL2(A.REQ_ST_DU_DTM, TO_CHAR(A.REQ_ST_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ST_DU_DTM
+				, 	NVL2(A.REQ_ED_DU_DTM, TO_CHAR(A.REQ_ED_DU_DTM, 'YYYY-MM-DD HH24:MI:SS') , '') REQ_ED_DU_DTM
 				, A.REQ_ORD AS REQ_ORD
 				, A.REQ_PRO_TYPE AS REQ_PRO_TYPE
 				, SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00008', A.REQ_PRO_TYPE, '1') AS REQ_PRO_TYPE_NM
-				, TO_CHAR(A.REQ_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REQ_DTM
+				, TO_CHAR(A.REQ_DTM, 'YYYY-MM-DD') AS REQ_DTM
+				, TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REG_DTM
 				, NVL2(A.REQ_PW, 'Y', 'N') AS REQ_PW
 				, A.PROCESS_ID AS PROCESS_ID
 				, A.FLOW_ID AS FLOW_ID
-		    FROM REQ4100 A 
+		    FROM REQ4100 A LEFT JOIN SPR1100 B
+		    ON (A.REQ_ID = B.REQ_ID AND A.PRJ_ID = B.PRJ_ID AND A.PRJ_GRP_ID = B.PRJ_GRP_ID AND B.LIC_GRP_ID = #licGrpId#)
 		    WHERE 1=1
 		    AND A.PRJ_GRP_ID = #prjGrpId#
 			AND A.PRJ_ID = #prjId#
@@ -345,13 +365,26 @@
 			AND NOT EXISTS (
 				SELECT 
 					B.REQ_ID AS REQ_ID
-				FROM SPR1100 B
+				FROM SPR1100 C
 	            WHERE 1 = 1
-	            AND B.LIC_GRP_ID = #licGrpId#
-	            AND B.PRJ_GRP_ID = A.PRJ_GRP_ID
-	            AND B.PRJ_ID = A.PRJ_ID
-	            AND B.SPR_ID = #sprId#
-	            AND B.REQ_ID = A.REQ_ID
+	            AND C.LIC_GRP_ID = #licGrpId#
+	            AND C.PRJ_GRP_ID = A.PRJ_GRP_ID
+	            AND C.PRJ_ID = A.PRJ_ID
+	            AND C.SPR_ID = #sprId#
+	            AND C.REQ_ID = A.REQ_ID
+			)
+      	AND NOT EXISTS (
+				SELECT 
+					B.REQ_ID AS REQ_ID
+				FROM REQ4100 D INNER JOIN SPR1100 E 
+					ON (E.PRJ_GRP_ID = D.PRJ_GRP_ID AND E.PRJ_ID = D.PRJ_ID AND E.REQ_ID = D.REQ_ID) 
+					INNER JOIN SPR1000 F 
+					ON(E.SPR_ID = F.SPR_ID)
+	            WHERE 1 = 1
+	            AND E.LIC_GRP_ID = #licGrpId#
+	            AND E.PRJ_GRP_ID = A.PRJ_GRP_ID
+	            AND E.PRJ_ID = A.PRJ_ID
+	            AND E.REQ_ID = A.REQ_ID
 			)
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">
@@ -533,6 +566,7 @@
 					  A.LIC_GRP_ID
 					, A.PRJ_GRP_ID
 					, A.PRJ_ID
+					, SF_PRJ1000_GRP_NM(A.PRJ_ID) AS PRJ_NM
 					, A.SPR_ID
 					, A.REQ_ID
 					, A.SPR_POINT

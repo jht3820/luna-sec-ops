@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.opensoftlab.lunaops.req.req4000.req4100.service.impl.Req4100DAO;
-import kr.opensoftlab.lunaops.spr.spr1000.spr1000.service.impl.Spr1000DAO;
 import kr.opensoftlab.lunaops.spr.spr1000.spr1100.service.Spr1100Service;
 
 
@@ -27,10 +26,6 @@ public class Spr1100ServiceImpl extends EgovAbstractServiceImpl implements Spr11
 	
     @Resource(name="spr1100DAO")
     private Spr1100DAO spr1100DAO;
-    
-    
-    @Resource(name="spr1000DAO")
-    private Spr1000DAO spr1000DAO;
     
     
     @Resource(name="req4100DAO")
@@ -154,13 +149,13 @@ public class Spr1100ServiceImpl extends EgovAbstractServiceImpl implements Spr11
 		JSONParser jsonParser = new JSONParser();
 		JSONArray jsonArray = null;
 		Map infoMap = null;
-		JSONObject jsonObj = null;
+		org.json.simple.JSONObject jsonObj = null;
 		
 		jsonArray = (JSONArray) jsonParser.parse(listStr);
 	
 		for(int i=0; i<jsonArray.size(); i++)
 		{
-			jsonObj = (JSONObject) jsonArray.get(i);
+			jsonObj = (org.json.simple.JSONObject) jsonArray.get(i);
 			
 			
 			infoMap = new Gson().fromJson(jsonObj.toString(), new HashMap().getClass());

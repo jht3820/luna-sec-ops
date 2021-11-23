@@ -15,6 +15,8 @@
 				SUBT1.PROCESS_ID,
 				SUBT1.PROCESS_NM,
 				SUBT1.PROCESS_DESC,
+				SUBT1.PROCESS_CONFIRM_CD,
+				SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'FLW00005', SUBT1.PROCESS_CONFIRM_CD, '1') AS PROCESS_CONFIRM_NM,
 				SUBT1.PROCESS_TRANSFER_CD,
 				SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'CMM00005', SUBT1.PROCESS_TRANSFER_CD, '1') AS PROCESS_TRANSFER_NM,
 				SUBT1.PROCESS_DISABLED_CD,
@@ -40,6 +42,7 @@
 					A.PROCESS_ID,
 					A.PROCESS_NM,
 					A.PROCESS_DESC,
+					A.PROCESS_CONFIRM_CD,
 					A.PROCESS_TRANSFER_CD,
 					A.PROCESS_DISABLED_CD,
 					A.USE_CD,
@@ -75,6 +78,9 @@
 				</isNotEmpty>
 				<isNotEmpty property="delCd">
 					AND A.DEL_CD = #delCd#
+				</isNotEmpty>
+				<isNotEmpty property="processConfirmCd">
+					AND A.PROCESS_CONFIRM_CD = #processConfirmCd#
 				</isNotEmpty>
 				<isNotEmpty property="processTransferCd">
 					AND A.PROCESS_TRANSFER_CD = #processTransferCd#
@@ -163,37 +169,62 @@
 					AND B.BLOCK = '01'
 					AND A.PROCESS_AUTH_TYPE_CD = '01'
 				UNION
-				SELECT DISTINCT 
-					'02' AS AUTH_TYPE_CD,
-					C.LIC_GRP_ID,
-					A.PRJ_ID,
-					A.PROCESS_ID,
-					A.PROCESS_AUTH_TYPE_CD,
-					B.USR_ID,
-					C.USR_NM,
-					C.EMAIL,
-					C.TELNO,
-					C.USR_IMG_ID,
-					C.DEPT_ID,
-					SF_STM6000_DEPT_NM(C.LIC_GRP_ID, C.DEPT_ID, '2') AS DEPT_NAME,
-					C.USR_POSITION_CD,
-					C.USR_DUTY_CD
-				FROM PRJ1106 A LEFT JOIN PRJ2001 B ON ( A.PRJ_ID = B.PRJ_ID AND A.PROCESS_AUTH_TARGET_ID = B.AUTH_GRP_ID )
-					INNER JOIN STM3000 C ON ( C.LIC_GRP_ID = #licGrpId# AND C.USR_ID = B.USR_ID AND C.USE_CD = '01' AND C.BLOCK = '01' AND C.DEL_CD = '02')
-				WHERE 1=1
+				<isEqual property="listType" compareValue="user">
+					SELECT DISTINCT 
+						'02' AS AUTH_TYPE_CD,
+						C.LIC_GRP_ID,
+						A.PRJ_ID,
+						A.PROCESS_ID,
+						A.PROCESS_AUTH_TYPE_CD,
+						B.USR_ID,
+						C.USR_NM,
+						C.EMAIL,
+						C.TELNO,
+						C.USR_IMG_ID,
+						C.DEPT_ID,
+						SF_STM6000_DEPT_NM(C.LIC_GRP_ID, C.DEPT_ID, '2') AS DEPT_NAME,
+						C.USR_POSITION_CD,
+						C.USR_DUTY_CD
+					FROM PRJ1106 A LEFT JOIN PRJ2001 B ON ( A.PRJ_ID = B.PRJ_ID AND A.PROCESS_AUTH_TARGET_ID = B.AUTH_GRP_ID )
+						INNER JOIN STM3000 C ON ( C.LIC_GRP_ID = #licGrpId# AND C.USR_ID = B.USR_ID AND C.USE_CD = '01' AND C.BLOCK = '01' AND C.DEL_CD = '02')
+					WHERE 1=1
+						AND A.PRJ_ID = #prjId#
+						AND	A.PROCESS_ID = #processId#
+						AND A.PROCESS_AUTH_TYPE_CD = '02'
+						AND NOT EXISTS
+						(
+							SELECT *
+							FROM PRJ1106 Z
+						  	WHERE 1=1
+						  		AND Z.PRJ_ID = A.PRJ_ID
+								AND	Z.PROCESS_ID = A.PROCESS_ID
+								AND Z.PROCESS_AUTH_TYPE_CD = '01'
+								AND Z.PROCESS_AUTH_TARGET_ID = B.USR_ID
+						)
+				</isEqual>
+				<isEmpty property="listType">
+					SELECT
+						'02' AS AUTH_TYPE_CD,
+						B.LIC_GRP_ID,
+						A.PRJ_ID,
+						A.PROCESS_ID,
+						A.PROCESS_AUTH_TYPE_CD,
+						A.PROCESS_AUTH_TARGET_ID AS USR_ID,
+						B.AUTH_GRP_NM AS USR_NM,
+						'' AS EMAIL,
+						'' AS TELNO,
+						'' AS USR_IMG_ID,
+						'' AS DEPT_ID,
+						'' AS DEPT_NM,
+						'' AS USR_POSITION_CD,
+						'' AS USR_DUTY_CD
+					FROM PRJ1106 A
+					INNER JOIN PRJ2000 B ON (  B.LIC_GRP_ID  = #licGrpId# AND A.PRJ_ID = B.PRJ_ID AND B.AUTH_GRP_ID = A.PROCESS_AUTH_TARGET_ID AND B.USE_CD = '01')
+					WHERE 1=1
 					AND A.PRJ_ID = #prjId#
 					AND	A.PROCESS_ID = #processId#
 					AND A.PROCESS_AUTH_TYPE_CD = '02'
-					AND NOT EXISTS
-					(
-						SELECT *
-						FROM PRJ1106 Z
-					  	WHERE 1=1
-					  		AND Z.PRJ_ID = A.PRJ_ID
-							AND	Z.PROCESS_ID = A.PROCESS_ID
-							AND Z.PROCESS_AUTH_TYPE_CD = '01'
-							AND Z.PROCESS_AUTH_TARGET_ID = B.USR_ID
-					)
+				</isEmpty>
 			) SUBT1
 			WHERE 1=1
 			<isNotEmpty property="prjAuthTypeCd">
@@ -359,7 +390,7 @@
 		SELECT 
 			A.PRJ_ID,					A.PROCESS_ID,			A.FLOW_ID,					A.FLOW_NM
 			,A.FLOW_LEFT,				A.FLOW_TOP,				A.FLOW_START_CD,			A.FLOW_DONE_CD
-		    ,A.FLOW_SIGN_CD,			A.FLOW_SIGN_STOP_CD,		A.FLOW_END_CD
+		    ,A.FLOW_SIGN_CD,			A.FLOW_SIGN_STOP_CD,	A.FLOW_MIDDLE_END_CD,				A.FLOW_DESC
 		    ,A.FLOW_WORK_CD,			A.FLOW_REVISION_CD,		A.FLOW_DPL_CD,				A.FLOW_AUTH_CD
 		    ,A.FLOW_TITLE_BG_COLOR,		A.FLOW_TITLE_COLOR,		A.USE_CD
 		    ,TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REG_DTM
@@ -426,7 +457,7 @@
 			INSERT INTO PRJ1100
 			(
 				PRJ_ID,					PROCESS_ID
-				,PROCESS_NM,			PROCESS_DESC
+				,PROCESS_NM,			PROCESS_DESC,			PROCESS_CONFIRM_CD
 				,PROCESS_TRANSFER_CD,	PROCESS_DISABLED_CD
 				,USE_CD,				DEL_CD,					PROCESS_ORD
 				,REG_DTM,				REG_USR_ID,				REG_USR_IP
@@ -435,7 +466,7 @@
 			VALUES
 			(
 				#prjId#,				#newProcessId#
-				,#processNm#,			#processDesc#
+				,#processNm#,			#processDesc#,			#processConfirmCd#
 				,#processTransferCd#,	'02'
 				,'01',					'02',					#processOrd#
 				,SYSDATE,				#regUsrId#,				#regUsrIp#
@@ -465,6 +496,9 @@
 			</isNotEmpty>
 			<isNotEmpty property="useCd">
 				, A.USE_CD = #useCd#
+			</isNotEmpty>
+			<isNotEmpty property="processConfirmCd">
+				, A.PROCESS_CONFIRM_CD = #processConfirmCd#	
 			</isNotEmpty>
 			<isNotEmpty property="processTransferCd">
 				, A.PROCESS_TRANSFER_CD = #processTransferCd#	
@@ -609,7 +643,9 @@
 		) SUBT1
 		WHERE 1=1
 			AND SUBT1.PRJ_ID = #prjId#
-		    AND SUBT1.PROCESS_ID = #processId#
+			<isNotEmpty property="processId">
+		    	AND SUBT1.PROCESS_ID = #processId#
+		    </isNotEmpty>
 		    AND SUBT1.USE_CD = '01'
 	</select>
 	
@@ -635,20 +671,20 @@
 		<![CDATA[
 			INSERT INTO PRJ1101
 			(
-				PRJ_ID,					PROCESS_ID,					FLOW_ID
-				,FLOW_NM,				FLOW_LEFT,					FLOW_TOP,				FLOW_START_CD
+				PRJ_ID,					PROCESS_ID,					FLOW_ID,				FLOW_NM
+				,FLOW_DESC,				FLOW_LEFT,					FLOW_TOP,				FLOW_START_CD
 				,FLOW_DONE_CD,			FLOW_SIGN_CD
-				,FLOW_SIGN_STOP_CD,		FLOW_END_CD,				FLOW_WORK_CD
+				,FLOW_SIGN_STOP_CD,		FLOW_MIDDLE_END_CD,				FLOW_WORK_CD
 				,FLOW_REVISION_CD,		FLOW_DPL_CD,				FLOW_AUTH_CD	
 				,FLOW_TITLE_BG_COLOR,	FLOW_TITLE_COLOR,			USE_CD
 				,REG_DTM,				REG_USR_ID,					REG_USR_IP
 			)
 			VALUES
 			(
-				#prjId#,				#processId#,				#newFlowId#
-				,#flowNm#,				NVL(#flowLeft#,20),			NVL(#flowTop#,20),		'02'
-				,'02',					#flowSignCd#
-				,#flowSignStopCd#,		#flowEndCd#,				#flowWorkCd#
+				#prjId#,				#processId#,				#newFlowId#,			#flowNm#
+				,#flowDesc#,			NVL(#flowLeft#,20),			NVL(#flowTop#,20),		#flowStartCd#
+				,#flowDoneCd#,			#flowSignCd#
+				,#flowSignStopCd#,		#flowMiddleEndCd#,				#flowWorkCd#
 				,#flowRevisionCd#,		#flowDplCd#,				#flowAuthCd#
 				,#flowTitleBgColor#,	#flowTitleColor#,			'01'
 				,SYSDATE,				#regUsrId#,					#regUsrIp#
@@ -669,8 +705,10 @@
 			FROM PRJ1107 A
 			WHERE 1=1
 			    AND A.PRJ_ID = #prjId#
-			    AND A.PROCESS_ID = #processId#
 		]]>
+			<isNotEmpty property="processId">
+			    AND A.PROCESS_ID = #processId#
+			</isNotEmpty>
 			<isNotEmpty property="flowId">
 				AND A.FLOW_ID = #flowId#			
 			</isNotEmpty>
@@ -712,6 +750,7 @@
 			SET
 		]]>
 				A.FLOW_NM = #flowNm#
+				,A.FLOW_DESC = #flowDesc#
 				<isNotEmpty property="flowLeft">
 					,A.FLOW_LEFT = #flowLeft#
 				</isNotEmpty>
@@ -726,7 +765,7 @@
 				</isNotEmpty>
 				,A.FLOW_SIGN_CD = #flowSignCd#
 				,A.FLOW_SIGN_STOP_CD = #flowSignStopCd#
-				,A.FLOW_END_CD = #flowEndCd#
+				,A.FLOW_MIDDLE_END_CD = #flowMiddleEndCd#
 				,A.FLOW_WORK_CD = #flowWorkCd#
 				,A.FLOW_REVISION_CD = #flowRevisionCd#
 				,A.FLOW_DPL_CD = #flowDplCd#
@@ -1311,5 +1350,47 @@
 			AND A.ITEM_ID = B.ITEM_ID
 			AND B.ITEM_CODE = '03'
 		]]>
+	</select>
+	
+	
+	<select id="prj1100DAO.selectPrj1100FlowChargerCntList" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT 
+			A.PRJ_ID,					A.PROCESS_ID,			A.FLOW_ID,					A.FLOW_NM
+			,A.FLOW_LEFT,				A.FLOW_TOP,				A.FLOW_START_CD,			A.FLOW_DONE_CD
+		    ,A.FLOW_SIGN_CD,			A.FLOW_SIGN_STOP_CD,		A.FLOW_MIDDLE_END_CD
+		    ,A.FLOW_WORK_CD,			A.FLOW_REVISION_CD,		A.FLOW_DPL_CD,				A.FLOW_AUTH_CD
+		    ,A.FLOW_TITLE_BG_COLOR,		A.FLOW_TITLE_COLOR,		A.USE_CD
+		    ,TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REG_DTM
+			,A.REG_USR_ID,				A.REG_USR_IP
+			,TO_CHAR(A.MODIFY_DTM, 'YYYY-MM-DD HH24:MI:SS') AS MODIFY_DTM
+			,A.MODIFY_USR_ID,			A.MODIFY_USR_IP
+			,( SELECT
+		          COUNT(*)
+		      FROM REQ4100 B
+		      WHERE 1 = 1
+		      AND B.PRJ_ID = A.PRJ_ID
+		      AND B.PROCESS_ID = A.PROCESS_ID
+		      AND B.USE_CD = '01'
+		      AND B.REQ_CHARGER_ID = #usrId#
+		      AND B.FLOW_ID = A.FLOW_ID
+		      ) AS REQ_CHARGER_CNT
+		      ,( SELECT
+		          COUNT(*)
+		      FROM REQ4100 C
+		      WHERE 1 = 1
+		      AND C.PRJ_ID = A.PRJ_ID
+		      AND C.PROCESS_ID = A.PROCESS_ID
+		      AND C.USE_CD = '01'
+		      AND C.FLOW_ID = A.FLOW_ID
+		      ) AS REQ_FLOW_CNT 
+		FROM PRJ1101 A
+        WHERE 1=1
+		AND A.PRJ_ID = #prjId#
+		<isNotEmpty property="processId">
+			AND A.PROCESS_ID = #processId#
+        </isNotEmpty>
+        AND A.FLOW_ID IS NOT NULL
+	    AND A.USE_CD = '01'
 	</select>
 </sqlMap>

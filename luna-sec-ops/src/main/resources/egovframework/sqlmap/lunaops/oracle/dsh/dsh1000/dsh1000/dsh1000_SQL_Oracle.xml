@@ -5,7 +5,7 @@
 	<typeAlias  alias="egovMap" 	type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="dsh1000VO"	type="kr.opensoftlab.lunaops.dsh.dsh1000.dsh1000.vo.Dsh1000VO"/>
 	
-	<!-- Map Define -->
+	
    	<resultMap id="resultMapDsh1000" class="dsh1000VO">
 		<result property="prjId"              column="PRJ_ID" /> 
 		<result property="reqId"              column="REQ_ID" /> 
@@ -61,21 +61,22 @@
 
     </resultMap>
     
+    
     <select id="dsh1000DAO.selectDsh1000ProcessReqCntList" parameterClass="java.util.Map" resultClass="egovMap">
+    	
     	SELECT
-    		NVL(A.PROCESS_ID,'request') AS PROCESS_ID
-    		, NVL(C.PROCESS_NM,'접수 대기') AS PROCESS_NM
-    		, COUNT(*) AS ALL_CNT
-    		, COUNT(DECODE(A.REQ_PRO_TYPE,'04',1)) AS END_CNT
-    		, COUNT(DECODE(A.REQ_CHARGER_ID,#usrId#,1)) AS CHARGER_CNT
-		FROM REQ4100 A, PRJ1101 B, PRJ1100 C
+				NVL(A.PROCESS_ID,'request') AS PROCESS_ID
+    		, 	NVL(C.PROCESS_NM,'접수 대기') AS PROCESS_NM
+    		, 	COUNT(*) AS ALL_CNT
+    		, 	COUNT(DECODE(A.REQ_PRO_TYPE,'04',1)) AS END_CNT
+    		, 	COUNT(DECODE(A.REQ_CHARGER_ID, #usrId#, 1)) AS CHARGER_CNT
+		FROM REQ4100 A
+		LEFT JOIN PRJ1101 B
+		ON (A.PRJ_ID = B.PRJ_ID AND A.PROCESS_ID = B.PROCESS_ID AND A.FLOW_ID = B.FLOW_ID)
+		LEFT JOIN PRJ1100 C
+		ON (B.PRJ_ID = C.PRJ_ID AND B.PROCESS_ID = C.PROCESS_ID)
 		WHERE 1=1
-			AND A.PRJ_ID = #prjId#
-			AND A.PRJ_ID = B.PRJ_ID(+)
-			AND A.PROCESS_ID = B.PROCESS_ID(+)
-			AND A.FLOW_ID = B.FLOW_ID(+)
-			AND B.PRJ_ID = C.PRJ_ID(+)
-			AND B.PROCESS_ID = C.PROCESS_ID(+)
+		AND A.PRJ_ID = #prjId#
 		<![CDATA[
 			AND A.REQ_PRO_TYPE <> '03'
 			AND A.REQ_PRO_TYPE <> '05'
@@ -85,17 +86,19 @@
 		ORDER BY NVL(C.PROCESS_ORD, -1),A.PROCESS_ID NULLS FIRST
     </select>   
     
+    
     <select id="dsh1000DAO.selectDsh1000MonthProcessReqCntList" parameterClass="java.util.Map" resultClass="egovMap">
-    	SELECT A.*, B.PROCESS_NM
+    	
+		SELECT A.*, B.PROCESS_NM
 		FROM
 		(
 			SELECT 
-				Y.PRJ_ID
-				, Y.PROCESS_ID
-				, Y.REQ_ED_DU_MM, COUNT(*) AS REQ_MM_TOTAL_CNT
-				, COUNT(DECODE(Y.REQ_ED_RATIO_NUM,1,1)) AS REQ_ED_MM_CNT
-				, COUNT(DECODE(Y.REQ_CHARGER_ID,#usrId#,1)) AS REQ_CHARGER_CNT
-                , SUM(COUNT(*)) OVER (PARTITION BY REQ_ED_DU_MM) AS REQ_TOTAL_CNT
+					Y.PRJ_ID
+				, 	Y.PROCESS_ID
+				, 	Y.REQ_ED_DU_MM, COUNT(*) AS REQ_MM_TOTAL_CNT
+				, 	COUNT(DECODE(Y.REQ_ED_RATIO_NUM,1,1)) AS REQ_ED_MM_CNT
+				, 	COUNT(DECODE(Y.REQ_CHARGER_ID,#usrId#,1)) AS REQ_CHARGER_CNT
+        		, 	SUM(COUNT(*)) OVER (PARTITION BY REQ_ED_DU_MM) AS REQ_TOTAL_CNT
 		    FROM
 		    (
 		        SELECT Z.*, TO_CHAR(Z.REQ_ED_DU_DTM,'YYYY') AS REQ_ED_DU_YY, TO_CHAR(Z.REQ_ED_DU_DTM,'MM') AS REQ_ED_DU_MM,
@@ -103,8 +106,8 @@
 		                WHEN Z.REQ_PRO_TYPE != '04' THEN -1
 		                WHEN Z.REQ_ED_DU_DTM IS NULL THEN -1
 		                WHEN Z.REQ_ED_DTM IS NULL THEN -1
-		                 <![CDATA[
-		                WHEN Z.REQ_ED_DTM <= TO_DATE(TO_CHAR(Z.REQ_ED_DU_DTM,'YYYY-MM-DD') || ' 23:59','YYYY-MM-DD HH24:MI') THEN 1
+		                <![CDATA[
+		                	WHEN Z.REQ_ED_DTM <= TO_DATE(TO_CHAR(Z.REQ_ED_DU_DTM,'YYYY-MM-DD') || ' 23:59','YYYY-MM-DD HH24:MI') THEN 1
 		                ]]>
 		                ELSE 0 END AS REQ_ED_RATIO_NUM
 		        FROM REQ4100 Z
@@ -115,10 +118,10 @@
 		    ) Y
 		    WHERE 1=1
 		    GROUP BY Y.PRJ_ID, Y.PROCESS_ID, Y.REQ_ED_DU_MM
-		) A, PRJ1100 B
+		) A
+		LEFT JOIN PRJ1100 B
+		ON ( A.PRJ_ID = B.PRJ_ID AND A.PROCESS_ID = B.PROCESS_ID)
 		WHERE 1=1
-		AND A.PRJ_ID = B.PRJ_ID(+)
-		AND A.PROCESS_ID = B.PROCESS_ID(+)
 		AND A.PROCESS_ID IS NOT NULL
 		AND A.REQ_ED_DU_MM IS NOT NULL
 		ORDER BY A.REQ_ED_DU_MM, B.PROCESS_ORD
@@ -205,17 +208,20 @@
 		AND       A.REQ_PRO_TYPE     =	#reqProType#
 		</isNotEmpty>
 		<isNotEmpty property="processMonth">
+		
 		AND		TO_CHAR(A.REQ_ED_DU_DTM ,'YYYYMM')    =	TO_CHAR(A.REQ_ED_DU_DTM ,'YYYY') || #processMonth#
 		AND		TO_DATE(TO_CHAR(A.REQ_ED_DU_DTM,'YYYY-MM-DD') || ' 23:59','YYYY-MM-DD HH24:MI') >= A.REQ_ED_DTM 
 		AND		A.REQ_PRO_TYPE = '04'	
 		</isNotEmpty>
 		<isNotEmpty property="processStartMonth">
+		
 		AND		TO_CHAR(A.REQ_ED_DU_DTM ,'YYYYMM')    BETWEEN 	TO_CHAR(A.REQ_ED_DU_DTM ,'YYYY') || #processStartMonth#  AND TO_CHAR(A.REQ_ED_DU_DTM ,'YYYY') || #processEndMonth#
 		AND		TO_DATE(TO_CHAR(A.REQ_ED_DU_DTM,'YYYY-MM-DD') || ' 23:59','YYYY-MM-DD HH24:MI') >= A.REQ_ED_DTM 
 		AND		A.REQ_PRO_TYPE = '04'	
 		</isNotEmpty>
 		<isNotEmpty property="overType">
 			<isEqual property="overType" compareValue="01" >
+				
 				<![CDATA[
 				AND A.REQ_PRO_TYPE != '04'
 				AND ( A.REQ_ED_DU_DTM  IS NULL OR  TO_DATE(TO_CHAR(A.REQ_ED_DU_DTM,'YYYY-MM-DD') || ' 23:59','YYYY-MM-DD HH24:MI') >= NVL(A.REQ_ED_DTM,SYSDATE) )
@@ -223,6 +229,7 @@
 				]]>
 			</isEqual>
 			<isEqual property="overType" compareValue="02" >
+				
 				<![CDATA[
 				AND A.REQ_PRO_TYPE != '04'
 				AND A.REQ_ED_DU_DTM IS NOT NULL
@@ -231,6 +238,7 @@
 				]]>
 			</isEqual>
 			<isEqual property="overType" compareValue="03" >
+				
 				<![CDATA[
 				AND A.REQ_PRO_TYPE != '04'
 				AND A.REQ_ED_DU_DTM  IS NOT NULL
@@ -238,12 +246,14 @@
 				]]>
 			</isEqual>
 			<isEqual property="overType" compareValue="04" >
+				
 				<![CDATA[
 				AND A.REQ_PRO_TYPE = '04' 
 				AND TO_DATE(TO_CHAR(A.REQ_ED_DU_DTM,'YYYY-MM-DD') || ' 23:59','YYYY-MM-DD HH24:MI') < NVL(A.REQ_ED_DTM,SYSDATE)
 				]]>
 			</isEqual>
 			<isEqual property="overType" compareValue="05" >
+				
 				<![CDATA[
 				AND A.REQ_PRO_TYPE = '04' 
 				AND TO_DATE(TO_CHAR(A.REQ_ED_DU_DTM,'YYYY-MM-DD') || ' 23:59','YYYY-MM-DD HH24:MI') >= NVL(A.REQ_ED_DTM,SYSDATE)
@@ -258,7 +268,9 @@
 
 	</sql>
         
+    
 	<select id="dsh1000DAO.selectDsh1000ReqList" parameterClass="dsh1000VO" resultMap="resultMapDsh1000">
+			
 			SELECT 
 				A.*
 			FROM ( 
@@ -267,7 +279,9 @@
 			WHERE A.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
 	</select>
 	
+	
     <select id="dsh1000DAO.selectDsh1000ReqListCnt" parameterClass="dsh1000VO"  resultClass="java.lang.Integer">
+	    
 	    SELECT
 			COUNT(*)
 		FROM	(
@@ -276,7 +290,9 @@
     </select>
     
         
+    
 	<select id="dsh1000DAO.selectDsh1000SortDataList" parameterClass="java.util.Map" resultClass="egovMap">
+		
 		SELECT 
 			A.PRJ_ID,
 			A.USR_ID,
@@ -299,8 +315,10 @@
 		ORDER BY ORD DESC
 	</select>
 	
+	
 	<insert id="dsh1000DAO.insertDsh1000SortDataInfo" parameterClass="java.util.Map">
 		<![CDATA[ 
+			
 			INSERT INTO DSH1000
 			(
 				PRJ_ID					,USR_ID						,MENU_ID
@@ -317,7 +335,9 @@
 		]]>
 	</insert>
       
+    
 	<delete id="dsh1000DAO.deleteDsh1000SortDataList" parameterClass="java.util.Map" >
+			
 			DELETE FROM DSH1000
         	WHERE	1=1
         	AND	PRJ_ID = #prjId#
