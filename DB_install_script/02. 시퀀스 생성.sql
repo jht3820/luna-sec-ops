@@ -1,0 +1,9 @@
+/* 새로 생성한 계정에 시퀀스 생성*/
+CREATE SEQUENCE LIC_NO_SEQ
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 99999999
+    MINVALUE 1
+    CYCLE
+    NOCACHE
+    ORDER;
