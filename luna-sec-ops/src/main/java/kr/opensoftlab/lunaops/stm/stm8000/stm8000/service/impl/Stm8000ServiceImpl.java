@@ -1,12 +1,10 @@
 package kr.opensoftlab.lunaops.stm.stm8000.stm8000.service.impl;
 
-import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,12 +12,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryBuilder;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -144,6 +136,26 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	
 	public void updateStm8000ServerInfo(Map<String, String> paramMap) throws Exception {
 		Map<String, String> convertParamMap = selectStm8000JsonToMap(paramMap);
+		
+		String strgUsrPw = (String) convertParamMap.get("strgUsrPw");
+		if(strgUsrPw != null && ! strgUsrPw.isEmpty()) {
+			
+			String salt = EgovProperties.getProperty("Globals.lunaops.salt");
+			
+			
+			if(strgUsrPw.equals((String) convertParamMap.get("strgOriUsrPw"))) {
+				
+				convertParamMap.put("strgUsrPw", strgUsrPw);
+			}else {
+				
+				String newStrgUsrPw = CommonScrty.encryptedAria(strgUsrPw, salt);
+				convertParamMap.put("strgUsrPw", newStrgUsrPw);
+
+				
+				stm8000DAO.updateStm8000ServerPwInfo(convertParamMap);
+			}
+		}
+		
 		stm8000DAO.updateStm8000ServerInfo(convertParamMap);
 	}
 	
@@ -195,12 +207,12 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 			String salt = EgovProperties.getProperty("Globals.lunaops.salt");
 			
 			
-			String newPw = CommonScrty.decryptedAria(pw, salt);
+			pw = CommonScrty.decryptedAria(pw, salt);
 			
 			if("01".equals(type)) {
 				
 				
-				SVNRepository repository = svnConnector.svnConnect(url, id, newPw);
+				SVNRepository repository = svnConnector.svnConnect(url, id, pw);
 				
 				
 				repository.testConnection();
@@ -260,10 +272,10 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		String salt = EgovProperties.getProperty("Globals.lunaops.salt");
 		
 		
-		String newPw = CommonScrty.decryptedAria(pw, salt);
+		pw = CommonScrty.decryptedAria(pw, salt);
 		
 		
-		SVNRepository repository = svnConnector.svnConnect(url, id, newPw);
+		SVNRepository repository = svnConnector.svnConnect(url, id, pw);
 		
 		
 		repository.testConnection();
@@ -281,7 +293,7 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		String endRevisionVal = (String)paramMap.get("searchEdNum");
 		
 		
-		if(!startRevisionVal.isEmpty() && !endRevisionVal.isEmpty()) {
+		if(startRevisionVal != null && !startRevisionVal.isEmpty() && endRevisionVal != null && !endRevisionVal.isEmpty()) {
 			
 			startRevisionVal = startRevisionVal.replaceAll("/[^0-9]/g", "");
 			endRevisionVal = endRevisionVal.replaceAll("/[^0-9]/g", "");

@@ -346,6 +346,52 @@
 					maxNumberOfFiles: 10,
 					minNumberOfFiles: 0,
 					allowedFileTypes: null,	
+					locale:Uppy.locales.ko_KR,
+					meta: {},
+					onBeforeUpload: $.noop,
+					onBeforeFileAdded: $.noop,
+				};
+				
+				
+				config = $.extend(true, defaultConfig, config);
+				
+				var targetObj = $("#"+targetId);
+				if(targetObj.length > 0){
+					rtnObject = Uppy.Core({
+						targetId: targetId,
+						autoProceed: config.autoProceed,
+						restrictions: {
+							maxFileSize: ((1024*1024)*parseInt(config.maxFileSize)),
+							maxNumberOfFiles: config.maxNumberOfFiles,
+							minNumberOfFiles: config.minNumberOfFiles,
+							allowedFileTypes: config.allowedFileTypes
+						},
+						locale:config.locale,
+						meta: config.meta,
+						onBeforeUpload: function(files){
+							return config.onBeforeUpload(files);
+						},
+						onBeforeFileAdded: function(currentFile, files){
+							
+							if(currentFile.source != "database" && config.fileReadonly){
+								$.osl.toastr($.osl.lang("file.error.fileReadonly"),{type:"warning"});
+								return false;
+							}
+							return config.onBeforeFileAdded(currentFile, files);
+						},
+						debug: config.debug,
+						logger: config.logger,
+						fileDownload: config.fileDownload
+					});
+					
+					rtnObject.use(Uppy.Dashboard, config);
+					rtnObject.use(Uppy.XHRUpload, { endpoint: config.url,formData: true });
+				}
+				
+				return rtnObject;
+			},
+			
+			
 			makeAtchfileId: function(callback){
 				
 				var ajaxObj = new $.osl.ajaxRequestAction(
@@ -2249,6 +2295,7 @@
 						if($(row).find("[data-datatable-id="+targetId+"][data-datatable-action]").length > 0){
 							var btnRowNum = $(row).data("row");
 							
+							
 							$.each($(row).find("[data-datatable-id="+targetId+"][data-datatable-action]"), function(idx, map){
 								var btnDatatableId = $(map).data("datatable-id");
 								var btnAction = $(map).data("datatable-action");
@@ -2278,6 +2325,35 @@
 							
 							KTApp.initTooltips();
 						}
+					},
+					
+					detail: function(){
+						$(datatables.targetDt.tableBody).on("click", "tr.kt-datatable__row-detail [data-datatable-id="+targetId+"][data-datatable-action]",function(){
+							var row = $(this).parents(".kt-datatable__row-detail").prev();
+							var btnRowNum = row.data("row");
+							
+							var btnDatatableId = $(this).data("datatable-id");
+							var btnAction = $(this).data("datatable-action");
+							
+							
+							if(btnEvt.action.hasOwnProperty(btnAction)){
+								btnEvt.action[btnAction](this, btnDatatableId, "info", btnRowNum, row);
+								this.click();
+							}else{
+								
+								if(targetConfig.actionFn.hasOwnProperty(btnAction)){
+									
+									event.cancelable = true;
+									event.stopPropagation();
+									event.preventDefault();
+									event.returnValue = false;
+
+									var tmp_rowData = datatables.targetDt.dataSet[btnRowNum];
+									
+									targetConfig.actionFn[btnAction](tmp_rowData, btnDatatableId, "info", btnRowNum, this);
+								}
+							}
+						});
 					},
 					
 					action: {
@@ -2467,8 +2543,13 @@
 							});
 
 							
+							if(!$.osl.isNull($(row).data("long-press-delay"))){
+								$(row).data("long-press-delay", 500);
+							}
+							
+							
 							$(row).off("dblclick");
-							$(row).on('dblclick', function (event) {
+							$(row).on('dblclick long-press', function (event) {
 								if(bubleFlag != false){
 									
 									event.cancelable = true;
@@ -2826,7 +2907,7 @@
 							saveState: {webstorage: false}
 						},
 						layout: {
-							scroll: true,
+							scroll: false,
 							footer: false,
 							customScrollbar: true
 						},
@@ -2856,7 +2937,10 @@
 							beforeTemplate: function (row, data, index){
 								
 							},
-							clickCheckbox: false,
+							afterTemplate: function(row, data, index){
+								
+							},
+							clickCheckbox: true,
 							minHeight: null,
 							autoHide: true
 						},
@@ -2867,7 +2951,7 @@
 						searchColumns: [],
 						cardUiTarget: null,
 						actionBtn:{
-							"autoHide": false,
+							"autoHide": true,
 							"title": "Actions",
 							"width": false,
 							"lastPush": true,
@@ -2949,46 +3033,62 @@
 						
 					
 					targetConfig = $.extend(true, targetConfig, config, config);
-
+					
 					
 					targetConfig.rows["afterTemplate"] = function(row, data, index){
 						
-						if(config.hasOwnProperty("rows")){
+						row.click(function(){
+							var targetRow = $(this).closest("tr");
+							var targetElem = targetRow.find("label.kt-checkbox").children("input[type=checkbox]");
 							
-							if(config.rows.hasOwnProperty("minHeight")){
-								var minHeight = config.rows.minHeight;
+							if($(event.target).parents(".kt-datatable__cell--check").length > 0){
+								return true;
+							}
+							
+							else if($(event.target).hasClass("kt-datatable__cell--check")){
+								datatables.targetDt.setActive(targetElem);
+								targetElem.prop("checked", true);
+								return true;
+							}
+							
+							
+							var selNodes = datatables.targetDt.getSelectedRecords();
+							datatables.targetDt.setInactive(selNodes);
+							
+							$("#"+targetId +" .osl-datatable__row--selected").removeClass("osl-datatable__row--selected");
+							
+							
+							targetRow.addClass("osl-datatable__row--selected");
+							
+							
+							if(targetConfig.hasOwnProperty("rows") && targetConfig.rows.hasOwnProperty("clickCheckbox")){
+								
+								if(targetConfig.rows.clickCheckbox == true){
+
+									
+									datatables.targetDt.setActive(targetElem);
+									
+									selNodes.find("label.kt-checkbox").children("input[type=checkbox]").prop("checked", false);
+									targetElem.prop("checked", true);
+								}
+							}
+						});
+						
+						
+						if(targetConfig.hasOwnProperty("rows")){
+							
+							if(targetConfig.rows.hasOwnProperty("minHeight")){
+								var minHeight = targetConfig.rows.minHeight;
 								
 								
 								if(!$.osl.isNull(minHeight) && $.isNumeric(minHeight)){
 									$(row).css({"min-height": parseInt(minHeight)+"px"});
 								}
 							}
-							if(config.rows.hasOwnProperty("clickCheckbox")){
-								
-								if(config.rows.clickCheckbox == true){
-									
-									row.click(function(){
-										var targetRow = $(this).closest("tr");
-										var targetElem = targetRow.find("label.kt-checkbox").children("input[type=checkbox]");
-										
-										if(targetElem.is(":checked") == true){
-											targetElem.prop("checked", false);
-											datatables.targetDt.setInactive(targetElem);
-											
-											targetRow.removeClass("osl-datatable__row--selected");
-											targetRow.addClass("kt-datatable__row--even");
-										}else{
-											targetElem.prop("checked", true);
-											datatables.targetDt.setActive(targetElem);
-										}
-										
-									});
-								}
-							}
 						}
 						
 						
-						if(config.hasOwnProperty("rows") && config.rows.hasOwnProperty("afterTemplate")){
+						if(config.hasOwnProperty("rows") && config.rows.hasOwnProperty("afterTemplate")) {
 							config.rows.afterTemplate(row, data, index);
 						}
 						btnEvt["info"](row);
@@ -3299,6 +3399,9 @@
 					
 					$(ktDatatableTarget).on("kt-datatable--on-init",function(evt,config){
 						targetConfig.callback.initComplete(evt.target, config, datatableInfo);
+
+						
+						btnEvt["detail"]();
 						
 						
 						if(!$.osl.isNull(targetConfig.cardUiTarget)){
@@ -4337,6 +4440,11 @@
 					if(ruleVal == "required"){
 						ruleVal = true;
 					}
+					
+					if(messageId == "min" || messageId == "max"){
+						ruleVal = parseInt(ruleVal);
+					}
+					
 					
 					if(messageId == "regexstr"){
 						

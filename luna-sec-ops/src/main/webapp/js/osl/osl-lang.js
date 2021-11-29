@@ -1881,6 +1881,10 @@ var OSLCoreLangSetting = function () {
 		},
 		stm8001:{
 			complete: "완료",
+			submit: {
+				insertBtn : "등록 완료",
+				updateBtn : "수정 완료"
+			},
 			label:{
 				strgTypeCd : "유형",
 				useCd : "사용여부",
@@ -2420,6 +2424,172 @@ var OSLCoreLangSetting = function () {
 			button:{
 				submit : "삭제",
 			}
+		},
+		bad1006:{
+			button:{
+				card : "카드형",
+				grid : "그리드형"
+			},
+			actionBtn:{
+				title: "수정 / 삭제 / 상세",
+				detailBtn : "상세",
+				updateBtn:"게시글 수정",
+				deleteBtn:"게시글 삭제",
+				dblClick:"게시글 상세보기",
+			},
+			actionTooltip : {
+				selectTooltip: " 게시글 조회",
+				insertTooltip : "게시글 추가",
+				updateTooltip : "게시글 수정",
+				deleteTooltip : "게시글 삭제",
+				dblTooltip : "게시글 상세"
+			},
+			notAuthority : {
+				basic : "해당 게시글에 대한 권한이 없습니다.",
+				insertMessage : "게시글 등록 권한이 없습니다.",
+				selectMessage : "해당 게시글에 대한 읽기 권한이 없습니다.",
+				updateMessage : "해당 게시글에 대한 수정 권한이 없습니다.",
+				deleteMessage : "해당 게시글에 대한 삭제 권한이 없습니다.",
+			},
+			notWriter : {
+				deleteMessage : "본인이 작성한 게시글만 삭제 가능합니다.",
+			},
+			label:{
+				deleteBadge: "삭제",
+				noticeBadge: "공지",
+				hit : "조회수",
+			},
+			field:{
+				
+				tagNm:"태그",
+				
+				badContent: "내용",
+				badNtcCheck : "공지유무",
+				delCd:"삭제유무",
+				cmtContent:"댓글내용",
+			},
+			title:{
+				passwordCheck:"비밀번호 확인",
+				boardCheck:{
+					oneStep: "[ NO.${1} ] 게시글",
+					twoStep: "[ NO.${1} ] 게시글 외 ${2} 건"
+				},
+				deleteReason: "삭제 사유",
+			},
+			alert:{
+				selectBadInfoCnt : "1건의 게시글을 선택하세요. </br> ${1}건의 게시글이 선택되었습니다." ,
+				notUser : "없는 회원입니다."
+			}
+		},
+		bad1007 : {
+			button:{
+				restore : "복구",
+				submit : "등록",
+			},
+			actionBtn:{
+				title : "삭제"
+			},
+			actionTooltip : {
+				updateTooltip : "게시글 수정",
+				deleteTooltip : "게시글 삭제",
+				restoreTooltip : "게시글 복원",
+				selectCommentTooltip : "댓글 조회",
+				deleteCommentTooltip : "댓글 삭제",
+			},
+			label:{
+				tag : "태그",
+				comment : "댓글",
+			},
+			notAuthority : {
+				updateMessage : "해당 게시글에 대한 수정 권한이 없습니다.",
+				restoreMessage : "해당 게시글에 대한 복원 권한이 없습니다.",
+				deleteMessage : "해당 게시글에 대한 삭제 권한이 없습니다.",
+				deleteCmtMessage : "해당 댓글에 대한 삭제 권한이 없습니다.",
+			},
+			notCmtWriter : {
+				deleteMessage : "본인이 작성한 댓글만 삭제 가능합니다.",
+			},
+			title:{
+				boardCheck:{
+					oneStep: "[ NO.${1} ] 게시글",
+				},
+				deleteReason: "삭제 사유",
+			},
+			confirm : {
+				fileDownload : "이미지를 다운로드하시겠습니까?",
+				
+			}
+		},
+		bad1008:{
+			insert: "글 작성을 완료하시겠습니까?",
+			button : {
+				submit : "등록",
+				insertSubmit : "등록"
+			},
+			label:{
+				title : "제목",
+				attachments : "파일 첨부",
+				content : "내용",
+				noticeCheck : "공지사항 사용",
+				noticeDate : "공지 기간",
+				noticeDateIgnore : "공지기간 무시",
+				secretCheck : "비밀글 사용",
+				password : "PW",
+				passwordCheck : "PW 확인",
+				commentCheck : "댓글 허용",
+				tag : "태그",
+			},
+			placeholder:{
+				badTitle : "제목",
+				badContent : "내용",
+				password : "알파벳, 숫자 4-12자 이내",
+				nullPassword : "공백인 경우 기존 비밀번호 사용",
+			},
+			regex:{
+				password : "알파벳, 숫자 4-12자 이내",
+			},
+			formCheck : {
+				fileCntMessage : "첨부파일 가능한 개수는 ${1}개입니다.",
+				passwordMessage : "비밀글에 사용할 비밀번호를 입력해주세요.",
+				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
+				tagMatching : "태그값이 중복됩니다.",
+			},
+		},
+		bad1009:{
+			update: "글 수정을 완료하시겠습니까?",
+			label:{
+				title:"제목",
+				content:"내용",
+				noticeCheck:"공지사항 사용",
+				noticeDate:"공지 기간",
+				noticeDateIgnore:"공지 기간 무시",
+				secretCheck:"비밀글 사용",
+				password:"PW",
+				passwordCheck:"PW 확인",
+				commentCheck:"댓글 허용",
+				attachFile : "파일 첨부",
+				tag : "태그",
+			},
+			button:{
+				deleteResetBtn:"삭제 초기화",
+				updateSubmit : "수정 완료",
+				submit : "등록",
+			},
+			placeholder:{
+				badTitle : "제목",
+				badContent : "내용",
+				password : "알파벳, 숫자 4-12자 이내",
+				nullPassword : "공백인 경우 기존 비밀번호 사용",
+			},
+			regex:{
+				password : "알파벳, 숫자 4-12자 이내",
+			},
+			formCheck : {
+				fileCntMessage : "첨부파일 가능한 개수는 ${1}개입니다.",
+				passwordMessage : "비밀글에 사용할 비밀번호를 입력해주세요.",
+				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
+				tagMatching : "태그값이 중복됩니다.",
+			},
 		}
 	};
 	
@@ -4216,6 +4386,10 @@ var OSLCoreLangSetting = function () {
 		},
 		stm8001:{
 			complete: "Submit",
+			submit: {
+				insertBtn : "Insert Submit",
+				updateBtn : "Update Submit"
+			},
 			label:{
 				strgTypeCd : "Tyep",
 				useCd : "Used",

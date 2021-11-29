@@ -385,6 +385,7 @@
 	            AND E.PRJ_GRP_ID = A.PRJ_GRP_ID
 	            AND E.PRJ_ID = A.PRJ_ID
 	            AND E.REQ_ID = A.REQ_ID
+	            AND F.SPR_TYPE_CD != '03'
 			)
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">

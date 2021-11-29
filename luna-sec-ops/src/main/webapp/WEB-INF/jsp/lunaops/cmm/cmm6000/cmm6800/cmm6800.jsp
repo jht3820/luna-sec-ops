@@ -223,9 +223,6 @@ var OSLCmm6800Popup = function() {
 					{field: 'type', title: '유형', textAlign: 'center', width: 80, autoHide: false, sortable: false},
 					{field: 'name', title: '파일명', textAlign: 'left', width: 150, autoHide: false, search: true},
 				],
-				rows:{
-					clickCheckbox: true,
-				},
 				actionBtn:{
 					"title": $.osl.lang("cmm6800.revisionFile.actionTitle"),
 					"insert" : false,
@@ -444,7 +441,6 @@ var OSLCmm6800Popup = function() {
 					},
 				],
 				rows:{
-					clickCheckbox: true,
 					minHeight: 50
 				},
 				actionBtn:{

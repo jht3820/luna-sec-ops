@@ -694,12 +694,12 @@
            		<isEmpty property="reqId">
            			AND	A.REQ_ID		=	'ROOTSYSTEM_FLW'
            		</isEmpty>
-           		<isEmpty property="itemAcceptCd">
+           		<isNotEmpty property="itemAcceptCd">
            			AND	A.ITEM_ACCEPT_CD		=	#itemAcceptCd#
-           		</isEmpty>
-           		<isEmpty property="itemRequestCd">
+           		</isNotEmpty>
+           		<isNotEmpty property="itemRequestCd">
            			AND	A.ITEM_REQUEST_CD		=	#itemRequestCd#
-           		</isEmpty>
+           		</isNotEmpty>
 		    <isNotEmpty property="searchTargetData">
 				<isNotEmpty property="searchTargetId">
 					<isEqual property="searchTargetId" compareValue="itemNm">
@@ -767,7 +767,7 @@
 			       , A.MODIFY_USR_ID
 			       , A.MODIFY_USR_IP
            	FROM	PRJ1002 A
-           	LEFT JOIN PRJ1003 B ON (A.PRJ_ID = B.PRJ_ID AND A.ITEM_ID = B.ITEM_ID AND B.REQ_ID=A.REQ_ID)
+           	LEFT JOIN PRJ1003 B ON (A.PRJ_ID = B.PRJ_ID AND A.ITEM_ID = B.ITEM_ID AND B.REQ_ID=#reqId#)
            	WHERE	1=1
            		AND A.PRJ_ID		=	#prjId#
            		<isNotEmpty property="itemId">
@@ -775,6 +775,12 @@
            		</isNotEmpty>
            		<isNotEmpty property="itemDivision">
            			AND	A.ITEM_DIVISION		=	#itemDivision#
+           		</isNotEmpty>
+           		<isNotEmpty property="itemAcceptCd">
+           			AND	A.ITEM_ACCEPT_CD		=	#itemAcceptCd#
+           		</isNotEmpty>
+           		<isNotEmpty property="itemRequestCd">
+           			AND	A.ITEM_REQUEST_CD		=	#itemRequestCd#
            		</isNotEmpty>
            		<isNotEmpty property="reqId">
            			AND	A.REQ_ID		in	(#reqId#,'ROOTSYSTEM_FLW')

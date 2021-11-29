@@ -243,9 +243,14 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			while(reqKey.hasNext())
 			{
 				String reqId = reqKey.next().toString();
-				JSONObject usrInfo = reqUsrList.getJSONObject(reqId);
-				paramMap.put("reqId", reqId);
-				paramMap.put("reqChargerId", usrInfo.getString("usrId"));
+				if("".equals(reqUsrList.get(reqId))) {
+					paramMap.put("reqId", reqId);
+					paramMap.put("reqChargerId", null);
+				}else {
+					JSONObject usrInfo = reqUsrList.getJSONObject(reqId);
+					paramMap.put("reqId", reqId);
+					paramMap.put("reqChargerId", usrInfo.getString("usrId"));
+				}
 				req4100DAO.updateReq4101ReqSubInfo(paramMap);
 			}
 		}
@@ -267,15 +272,15 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.KOREA);
-		paramMap.put("startDt", sdf.format(today));
+		paramMap.put("sprStDt", sdf.format(today));
 		
 		
 		String endDt = (String)paramMap.get("paramEndDt");
 		Date endDate = sdf.parse(endDt);
 		
 		
-		if(today.getTime() >= endDate.getTime()) {
-			paramMap.put("endDt", sdf.format(today));
+		if(today.after(endDate)) {
+			paramMap.put("sprEdDt", sdf.format(today));
 		}
 		
 		
@@ -376,8 +381,6 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Map> selectSpr1000VelocityChartInfo(Map<String, String> paramMap) throws Exception {
-		
-		String sprType = (String) paramMap.get("sprType");
 		Calendar cal = Calendar.getInstance();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		

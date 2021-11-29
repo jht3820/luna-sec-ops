@@ -17,6 +17,8 @@
 				<div class="flowchart-operator-process-title">
 					<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate"><span id="nextProcessNm">프로세스명</span></div>
 				</div>
+				<div class="flowchart-operator-function" id="nextFlowFunc">
+				</div>
 				<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">
 					<div class="flowchart-operator-title__lebel d-inline-block text-truncate"><span id="nextFlowNm">다음 단계명</span></div>
 				</div>
@@ -56,9 +58,18 @@
 						</div>
 					</div>
 				</div>
-				<div class="osl-wizard__nav-item" data-ktwizard-type="step">
+				<div class="osl-wizard__nav-item disabled" data-ktwizard-type="step" id="flowPluginStep">
 					<div class="osl-wizard-wrapper">
 						<div class="wizard-number">3</div>
+						<div class="wizard-label">
+							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.sprPtTitle">단계 추가 기능</span></div>
+							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.sprPtDesc">리비전 및 배포 기능</span></div>
+						</div>
+					</div>
+				</div>
+				<div class="osl-wizard__nav-item" data-ktwizard-type="step">
+					<div class="osl-wizard-wrapper">
+						<div class="wizard-number">4</div>
 						<div class="wizard-label">
 							<div class="wizard-title"><span data-lang-cd="spr1003.wizard.main.chargerTitle">단계 선택</span></div>
 							<div class="wizard-desc"><span data-lang-cd="spr1003.wizard.main.chargerDesc">다음 단계 선택</span></div>
@@ -77,6 +88,11 @@
 				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15" data-ktwizard-type="step-info">
 					<div class="kt-widget__top osl-preview-hide">
 						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.charger">* 업무 처리에 필요한 정보를 입력하세요.</span></h6>
+					</div>
+				</div>
+				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15" data-ktwizard-type="step-info">
+					<div class="kt-widget__top osl-preview-hide">
+						<h6 class="kt-font-bold"><span data-lang-cd="spr1003.wizard.info.process">* 현재 단계의 추가 기능을 확인하세요.</span></h6>
 					</div>
 				</div>
 				<div class="kt-widget kt-widget--general-2 kt-widget--fit kt-padding-t-10 kt-margin-r-15" data-ktwizard-type="step-info">
@@ -437,6 +453,46 @@
 								<div class="row" id="basicItemList">
 								
 								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="osl-wizard__content w-100 kt-bg-light kt-padding-10" data-ktwizard-type="step-content">
+			<div class="osl-background-around kt-padding-10">
+				<div class="row">
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="kt-portlet" id="cmm6201RevisionSel">
+							<div class="kt-portlet__head">
+								<div class="kt-portlet__head-label">
+									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">리비전 관리</span>
+								</div>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+									</div>
+								</div>
+							</div>
+							<div class="kt-portlet__body">
+							
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+						<div class="kt-portlet" id="cmm6201DeploySel">
+							<div class="kt-portlet__head">
+								<div class="kt-portlet__head-label">
+									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">배포 관리</span>
+								</div>
+								<div class="kt-portlet__head-toolbar">
+									<div class="kt-portlet__head-group">
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+									</div>
+								</div>
+							</div>
+							<div class="kt-portlet__body">
+							
 							</div>
 						</div>
 					</div>
@@ -835,6 +891,37 @@ var OSLCmm6201Popup = function () {
 				$("#"+formId+" .osl-flowchart__operator[data-operator-id="+operatorId+"]").addClass("active");
 				
 				
+				var flowFuncIcon = '';
+				
+              	
+                if(selFlow.properties.flowSignCd == "01"){
+                	flowFuncIcon += "<li class='fa fa-file-signature' title='결재'></li>";
+                }
+                
+    			if(selFlow.properties.flowSignStopCd == "01"){
+    				flowFuncIcon += '<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>';
+    			}
+                
+                if(selFlow.properties.flowRevisionCd == "01"){
+                	flowFuncIcon += "<li class='fa fa-code' title='리비전 저장유무'></li>";
+                }
+                
+    			if(selFlow.properties.flowDplCd == "01"){
+    				flowFuncIcon += '<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>';
+    			}
+    			
+    			if(selFlow.properties.flowMiddleEndCd == "01"){
+    				flowFuncIcon += '<li class="fa fa-stopwatch" title="중간 종료"></li>';
+    			}
+    			
+    			if(selFlow.properties.flowDoneCd == "01"){
+    				flowFuncIcon += '<li class="fa fa-flag-checkered" title="최종 완료 단계"></li>';
+    			}
+    			
+				
+				$("#"+formId+" #nextFlowFunc").html(flowFuncIcon);
+				
+				
 				selFlowId = operatorId;
 				return true;
 			}
@@ -1064,7 +1151,7 @@ var OSLCmm6201Popup = function () {
  				}
  				
  				
- 				if(!$.osl.isNull(reqSignCd) && reqSignCd != "03" && reqSignCd != "04"){
+ 				if(!$.osl.isNull(reqSignCd) && !$.osl.isNull(currentSignUsrInfo) && reqSignCd != "03" && reqSignCd != "04"){
  					reqProcessAuthFlag = false;
  					
  					
@@ -1099,8 +1186,13 @@ var OSLCmm6201Popup = function () {
  				paramFlowId = flowInfo.flowId;
  				
  				
-		    	$.osl.setDataFormElem(reqInfo, formId);
+ 				if(flowInfo.flowRevisionCd == "01" || flowInfo.flowDplCd == "01"){
+ 					
+ 					$("#flowPluginStep").removeClass("disabled");
+ 				}
  				
+ 				
+		    	$.osl.setDataFormElem(reqInfo, formId);
 		    	
 		    	
 		    	$("#"+formId+" #reqUsrId").val(reqInfo.reqUsrId);
@@ -1433,12 +1525,48 @@ var OSLCmm6201Popup = function () {
 		                
 		                flowChgLogData[map.chgProcessId][map.chgFlowId] = map;
 		                
+		                var flowFuncStr = '';
+		                var flowFuncIcon = '';
+		                
+		                
+		              	
+		                if(map.chgFlowSignCd == "01"){
+		                	flowFuncIcon += "<li class='fa fa-file-signature' title='결재'></li>";
+		                }
+		                
+		    			if(map.chgFlowSignStopCd == "01"){
+		    				flowFuncIcon += '<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>';
+		    			}
+		                
+		                if(map.chgFlowRevisionCd == "01"){
+		                	flowFuncIcon += "<li class='fa fa-code' title='리비전 저장유무'></li>";
+		                }
+		                
+		    			if(map.chgFlowDplCd == "01"){
+		    				flowFuncIcon += '<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>';
+		    			}
+		    			
+		    			if(map.chgFlowMiddleEndCd == "01"){
+		    				flowFuncIcon += '<li class="fa fa-stopwatch" title="중간 종료"></li>';
+		    			}
+		    			
+		    			if(map.chgFlowDoneCd == "01"){
+		    				flowFuncIcon += '<li class="fa fa-flag-checkered" title="최종 완료 단계"></li>';
+		    			}
+		                
+		                if(!$.osl.isNull(flowFuncIcon)){
+		                	flowFuncStr = '<div class="flowchart-operator-function">'
+		                					+flowFuncIcon
+					    				+'</div>';
+		                }
+		                
  						reqChgStr += 
  							'<div class="osl-flowchart__operator">'
 	 							+'<div class="flowchart-operator-process-title">'
 	 								+'<div class="flowchart-operator-title__lebel badge badge-info d-inline-block">'+processNm+'</div>'
 	 								+addBadgeStr
 	 							+'</div>'
+	 							+flowFuncStr
 	 							+'<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">'
 	 								+chargerChgStr
 	 							+'</div>'
@@ -1485,11 +1613,27 @@ var OSLCmm6201Popup = function () {
 					if(reqProcessAuthFlag && !$("#"+formId).valid()){
 						wizardObj.stop();
 					}
+					else if($(wizardObj.steps[wizardObj.currentStep]).hasClass("disabled")){
+						wizardObj.goNext();
+						wizardObj.start();
+						wizardObj.goNext();
+						wizardObj.stop();
+						
+						wizardObj.events[2].handler(wizardObj);
+					}
 				});
 				wizard.on('beforePrev', function(wizardObj) {
 					
 					if(reqProcessAuthFlag && !$("#"+formId).valid()){
 						wizardObj.stop();
+					}
+					else if($(wizardObj.steps[wizardObj.currentStep-2]).hasClass("disabled")){
+						wizardObj.goPrev();
+						wizardObj.start();
+						wizardObj.goPrev();
+						wizardObj.stop();
+						
+						wizardObj.events[2].handler(wizardObj);
 					}
 				});
 				
@@ -1507,7 +1651,7 @@ var OSLCmm6201Popup = function () {
 							}
 						}
 					}
-					else if(wizardObj.currentStep == 3){
+					else if(wizardObj.currentStep == 4){
 						if($.osl.isNull(selFlowId)){
 							
 							fnSelectFlowList();
@@ -1517,7 +1661,6 @@ var OSLCmm6201Popup = function () {
 							fnFlowChartZoom("currentFocus");
 						}
 					}
-					
 				});
  			}
  		});

@@ -304,9 +304,6 @@ var OSLPrj1300Popup = function () {
 				{field: 'itemOrd', title: '순서', textAlign: 'center', width: 100}
 				
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": $.osl.lang("datatable.action.functionNm"),
 				"width": 100,

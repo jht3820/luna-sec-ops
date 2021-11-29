@@ -716,6 +716,13 @@ var OSLCmm6200Popup = function () {
     					map.itemOrd = itemOrd+idx+1;
     					basicItemInsertList[idx] = map;
     				});
+    			}else{
+    		   		
+    				$.each(basicItemInsertList, function(idx, map){
+    					map.itemOrd = idx+1;
+    					basicItemInsertList[idx] = map;
+    				});
+    				
     			}
     	   		
 				if (result.value) {
@@ -983,8 +990,7 @@ var OSLCmm6200Popup = function () {
 				 }
 			},
 			rows:{
-				minHeight: 45,
-				clickCheckbox: true
+				minHeight: 45
 			},
 			columns: [
 				{field: 'processId', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},

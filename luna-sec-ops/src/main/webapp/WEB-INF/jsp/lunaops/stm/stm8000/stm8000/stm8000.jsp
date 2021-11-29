@@ -87,9 +87,6 @@
 					},
 					{field: 'strgRepUrl', title: '저장소 URL', textAlign: 'left', width: 240},
 				],
-				rows:{
-					clickCheckbox: true
-				},
 				actionBtn:{
 					"title" : $.osl.lang("stm8000.title.actionTitle"),
 					"dblClick": true,

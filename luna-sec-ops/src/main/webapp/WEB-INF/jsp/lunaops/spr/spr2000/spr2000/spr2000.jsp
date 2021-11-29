@@ -237,9 +237,6 @@ var OSLSpr2000Popup = function () {
 				{field: 'mmtMemNm', title: '참여인원명', searchOrd: 4},
 				{field: 'mmtMemEmail', title: '참여인원 이메일', searchOrd: 5},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": $.osl.lang("spr2000.actionBtn.title"),
 				"dblClick": true,

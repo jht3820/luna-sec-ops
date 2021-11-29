@@ -716,13 +716,13 @@
                 , 	SUB1.BLD_SEQ
                 , 	SUB1.BLD_NUM
                 , 	SUB1.BLD_RESULT
-                , 	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00002', SUB1.JOB_TYPE_CD, '1') AS JOB_TYPE_NM
+                , 	(SELECT X.SUB_CD_NM FROM STM4001 X WHERE X.LIC_GRP_ID = #licGrpId# AND X.MST_CD = 'DPL00002' AND X.SUB_CD = SUB1.JOB_TYPE_CD) AS JOB_TYPE_NM
                 , 	SUB1.REG_DTM
                 , 	SUB1.BLD_RESULT_MSG
                	, 	SUB1.REG_USR_ID
-                , 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 1) AS REG_USR_NM
-				, 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 6) AS REG_USR_IMG
-				,	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, '2')  AS REG_USR_EMAIL
+                ,	(SELECT X.USR_NM FROM STM3000 X WHERE X.LIC_GRP_ID = #licGrpId# AND X.USR_ID = SUB1.REG_USR_ID)  AS REG_USR_NM
+                ,	(SELECT X.USR_IMG_ID FROM STM3000 X WHERE X.LIC_GRP_ID = #licGrpId# AND X.USR_ID = SUB1.REG_USR_ID)  AS REG_USR_IMG_ID
+                ,	(SELECT X.EMAIL FROM STM3000 X WHERE X.LIC_GRP_ID = #licGrpId# AND X.USR_ID = SUB1.REG_USR_ID)  AS REG_USR_EMAIL
             FROM
             (
  				SELECT 
@@ -1495,7 +1495,7 @@
 	<select id="dpl1000DAO.selectDpl1700SvnChangePathList" parameterClass="java.util.Map" resultClass="egovMap">
 		<![CDATA[
 			
-			SELECT 
+			SELECT  
 				A.PRJ_ID
 				, A.DPL_ID
 				, A.JEN_ID
