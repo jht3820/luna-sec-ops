@@ -180,6 +180,9 @@ var OSLCmm6800Popup = function() {
 		}
 		
 		
+		strgConnectionCheck(strgRepId);
+		
+		
 		getStrgRepInfo();
 
 		
@@ -737,6 +740,50 @@ var OSLCmm6800Popup = function() {
     	});
     	
 		ajaxObj.send();
+	};
+	
+	
+	var strgConnectionCheck = function(strgRepId){
+		
+		var data = {
+				strgRepId : strgRepId
+		};
+		
+		
+   		var ajaxObj = new $.osl.ajaxRequestAction(
+   				{"url":"<c:url value='/stm/stm8000/stm8000/selectStm8000RepoConnectCheckAjax.do'/>", "async": false}
+   				, data);
+		
+   		
+   		ajaxObj.setFnSuccess(function(data){
+   			if(data.errorYn == "Y"){
+   				$.osl.alert(data.message,{type: 'error'});
+   				
+				$.osl.layerPopupClose();
+   			}else{
+   				
+   				targetElmt.removeClass("fa-circle-notch fa-spin");
+   				if(data.connectResult == "SVN_OK"){
+   					
+					targetElmt.addClass("fa-check-circle osl-color--blue");
+	   				$.osl.toastr("["+$.osl.escapeHtml(repoName)+"]" + $.osl.lang("stm8000.message.connect.success"));
+   				}else if(data.connectResult == "SVN_AUTHENTICATION_EXCEPTION"){
+   					
+   					targetElmt.addClass("fa-times-circle osl-color--red");
+   					$.osl.toastr("["+$.osl.escapeHtml(repoName)+"]" + $.osl.lang("stm8000.message.connect.fail.auth"));
+   					
+   					$.osl.layerPopupClose();
+   				}else{
+   					
+   					targetElmt.addClass("fa-times-circle osl-color--red");
+   					$.osl.toastr("["+$.osl.escapeHtml(repoName)+"]" + $.osl.lang("stm8000.message.connect.fail.url"));
+   					
+   					$.osl.layerPopupClose();
+   				}
+   			}
+   		});
+  	 	
+   		ajaxObj.send();
 	};
 	
 	return {
