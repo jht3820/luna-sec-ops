@@ -990,8 +990,7 @@ var OSLCmm6200Popup = function () {
 				 }
 			},
 			rows:{
-				minHeight: 45,
-				clickCheckbox: true
+				minHeight: 45
 			},
 			columns: [
 				{field: 'processId', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},

@@ -77,9 +77,6 @@ var OSLStm9000 = function () {
 				{field: 'jenUsrId', title: "Jenkins User Id", textAlign: 'center', width: 120, search: true},
 				{field: 'useNm', title: "사용 유무", textAlign: 'center', width: 120, search: true, searchType:"select", searchCd: "CMM00001", searchField:"useCd", sortField: "useCd"}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			searchColumns:[
 				{field: 'jenDesc', title:"Jenkins 설명", searchOrd: 1}
 			],

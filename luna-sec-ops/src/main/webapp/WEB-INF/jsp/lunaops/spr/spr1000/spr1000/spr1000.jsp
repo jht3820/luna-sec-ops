@@ -222,6 +222,11 @@ var OSLSpr1000Popup = function () {
 						return;
 					}
 					
+					if(sprInfo.reqAllCnt == 0){
+						$.osl.alert("스프린트에 배정된 요구사항이 0건입니다.");
+						return;
+					}
+					
 					var data = {
 							paramPrjGrpId: sprInfo.prjGrpId
 							,paramPrjId: sprInfo.prjId
@@ -286,6 +291,35 @@ var OSLSpr1000Popup = function () {
 							
 						};
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1004View.do',data,options);
+				},
+				"mmtList": function(rowData, datatableId, type){
+					
+					var data = {
+							paramSprId: rowData[0].sprId
+						};
+					var options = {
+							modalTitle: "스프린트 회의록 목록",
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							backdrop: true,
+							closeConfirm: false,
+						};
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1007View.do',data,options);
+				},
+				"rptList": function(rowData, datatableId, type){
+					var data = {
+							paramSprId: rowData.sprId
+						};
+					var options = {
+							modalTitle: "스프린트 회고록 목록",
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							backdrop: true,
+							closeConfirm: false,
+						};
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1008View.do',data,options);
 				}
 			},
 			callback:{
@@ -356,6 +390,10 @@ var OSLSpr1000Popup = function () {
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprEnd"><i class="fas fa-stop-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintEnd")+'</div>'
 													+'<div class="dropdown-divider"></div>'
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
+													+'<div class="dropdown-divider"></div>'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="mmtList"><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintMeetList")+'</div>'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="rptList"><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintResultList")+'</div>'
+													
 													 
 												+'</div>'
 											+'</div>'
@@ -494,7 +532,7 @@ var OSLSpr1000Popup = function () {
 	
  	var drawChart = function(rowdata){
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: rowdata.sprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: rowdata.sprId, sprType:rowdata.sprType});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -508,7 +546,6 @@ var OSLSpr1000Popup = function () {
  				totalSprPoint = rowdata.sprPoint;
  				
  				var seriesData = getDataRangeData(rowdata.sprStDt, rowdata.sprEdDt, "1", chartData);
- 				
  				
  				if(rowdata.sprTypeCd == '01'){
 	 				$("#burnDownChart"+rowdata.sprId).text("데이터 없음")
@@ -526,7 +563,7 @@ var OSLSpr1000Popup = function () {
  			
 				data:{										
 					param:{
-						dataArr: dateRange,	
+						dataArr: dateRange,
 						 
 						 xKey:"time",
 						 key:{

@@ -124,9 +124,6 @@ var OSLDpl1000Popup = function () {
 					}
 				},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			searchColumns:[
 				{field: 'dplDesc', title:"배포 설명", searchOrd: 8}
 			],

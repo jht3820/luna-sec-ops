@@ -718,19 +718,40 @@ select[id^=usrOpt_] {
 .nav-pills .nav-item .nav-link.osl-tab-fixed.active, 
 .nav-pills .nav-item .nav-link.osl-tab-fixed.active:hover{
     background-color: #fff;
-    color: #1cac81;
-    border: 1px solid #ddd;
+    color: #666 !important;
     border-bottom: 0;
-    border-top: 2px solid #1cac81;
+    border-left: 2px solid #1cac81;
 }
-.osl-tab-fixed{
-	min-height: 50px;
-	line-height: 50px;
-	width: 175px;
-	font-size: 1.1rem !important;
-	font-weight: 700 !important;
-	background-color: #e5e5e5;
-	border-radius: 0 !important;
+.nav-pills .nav-item .nav-link.osl-tab-fixed:active i,
+.nav-pills .nav-item .nav-link.osl-tab-fixed.active i, 
+.nav-pills .nav-item .nav-link.osl-tab-fixed.active:hover i{
+	color: #1cac81;
+}
+.nav-pills .nav-item .nav-link.osl-tab-fixed{
+	width: 170px;
+	height: 50px;
+	line-height: 35px;
+	font-size: 1.1rem;
+	font-weight: 700;
+	background-color: #ddd;
+	color: #999;
+	margin-top: 5px;
+	border-radius: 0;
+	overflow: hidden;
+}
+.nav-pills .nav-item .nav-link.osl-tab-fixed>span{
+	display: inline-block !important;
+}
+.osl-tab-icon-group{
+	-webkt-box-flex: 0;
+	-ms-flex: 0 0 170px;
+	flex: 0 0 170px;
+	width: 170px;
+}
+.osl-tab-content-group{
+	-webkt-box-flex: 0;
+	-ms-flex: 1 1;
+	flex: 1 1;
 }
 .osl-tab-content-8{
     -webkit-box-flex: 0;
@@ -789,12 +810,6 @@ select[id^=usrOpt_] {
     border-radius: 5px; 
     overflow: hidden;
     transition-duration: 1s;
-}
-.osl-margin-3{
-	margin : 3px;
-}
-.osl-margin-auto{
-	margin: auto;
 }
 .osl-tab-content__folding-btn{
 	cursor: pointer;
@@ -966,7 +981,6 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     background-color: #ffffff;
     border: 1px dashed #9fa1ae;
     border-radius: 4px;
-	min-width: 200px;
 }
 .osl-req__process-history::after {
     content: '';
@@ -1108,10 +1122,10 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 }
 .flowchart-operator-mask.status03 {
     border: 2px outset #5867dd;
-    color: #7985e4;
+    color: #5867dd;
+    opacity: 0.8;
     font-size: 4rem;
 }
-.flowchart-operator-nextIcon~.flowchart-operator-title > .flowchart-operator-menu,
 .flowchart-operator-mask~.flowchart-operator-title > .flowchart-operator-menu {
     position: absolute;
     right: 10px;
@@ -1120,7 +1134,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 }
 .osl-req__process-main .flowchart-operator-title,
 .flowchart-operators-layer.flowchart-operators-move--dsiabled .flowchart-operator-title {
-    cursor: default !important;
+    cursor: default;
 }
 .osl-flowchart__operator.active {
     border: 2px solid #1cac81 !important;
@@ -2043,9 +2057,6 @@ label.required:after {
 .osl-outline--secondary-t-1{
 	border-top: 1px solid #e1e1ef;
 }
-.osl-outline--secondary-b-1{
-	border-bottom: 1px solid #e1e1ef;
-}
 .osl-outline--secondary-b{
 	border-bottom: 2px solid #e1e1ef;
 }
@@ -2177,7 +2188,7 @@ label.required:after {
 	width: 40%;
 	line-height: 42px;
 	float:left;
-	
+	text-align: center;
 }
 .osl-portlet__head-label>div:nth-child(2){
 	text-align: right;
@@ -2425,6 +2436,8 @@ label.required:after {
     opacity: 1;
     background: #1cac81;
 }
+
+.osl-req__process-mask__flow .flowchart-operator-function > li,
 .flowchart-operator-function > li {
     text-align: center;
     background-color: #5867dd;
@@ -2433,6 +2446,7 @@ label.required:after {
     padding: 3px;
     border-radius: 4px;
     margin: 2px;
+    display: inline-flex;
 }
 .osl-background-around {
 	background-color: #f3f6f9;
@@ -2485,6 +2499,7 @@ form#frCmm6201 .osl-process__flow-container {
 .osl-dsh-flowchart .flowchart-operator .flowchart-operator-title{
 	cursor: default;
 }
+.osl-req__process-mask__flow .flowchart-operator-function,
 .flowchart-operator .flowchart-operator-function {
     width: 100%;
     font-weight: bold;
@@ -2493,7 +2508,10 @@ form#frCmm6201 .osl-process__flow-container {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     background: #fff;
+    justify-content: start;
+    display: inline-flex;
 }
+.osl-req__process-mask__flow .flowchart-operator-function,
 .flowchart-operator .flowchart-operator-function:not(.hide) {
     border-bottom: 1px solid #ebedf2;
 }
@@ -2510,6 +2528,8 @@ form#frCmm6201 .osl-process__flow-container {
     cursor: move;
     padding: 10px;
     border-bottom: 1px solid #ebedf2;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
     background: #fff;
 	display: -webkit-box;
     display: -ms-flexbox;
@@ -2620,7 +2640,7 @@ form#frCmm6201 .osl-process__flow-container {
 }
 .osl-flowchart-preview {
     width: 100%;
-    height: 150px;
+    height: 125px;
     border: 1px solid #e2e5ec;
     margin-bottom: 15px;
     border-radius: 4px;
@@ -3079,6 +3099,22 @@ form#frCmm6201 .osl-process__flow-container {
 	    width: 100% !important;
 	    margin: 0 !important;
 	}
+	.osl-tab-icon-group{
+		-webkt-box-flex: 0;
+		-ms-flex: 0 0 45px;
+		flex: 0 0 45px;
+		width: 45px;
+	}
+	.nav-pills .nav-item .nav-link.osl-tab-fixed:hover{
+		position: relative;
+	    width: 200px;
+	    z-index: 999;
+	    -webkit-box-shadow: 5px 2px 7px 0px rgba(126, 122, 132, 9%);
+	    box-shadow: 5px 2px 7px 0px rgba(126, 122, 132, 9%);
+	}
+	.nav-pills .nav-item .nav-link.osl-tab-fixed{
+		width: 55px;
+	}
 	
 	.kt-inbox .kt-inbox__icon.osl-inbox__aside-menu-bar{
 		display: flex;
@@ -3415,8 +3451,11 @@ form#frCmm6201 .osl-process__flow-container {
 	    flex: 0 0 100%;
 	    max-width: 100%; 
 	}
-	.osl-tab-content--full{
+	.osl-tab-content--full>.osl-tab-content-4{
 		display: none;
+	}
+	.osl-tab-content--full>.osl-tab-content-8{
+		margin-left: 0;
 	}
 }
 @media (min-width:1024px){
