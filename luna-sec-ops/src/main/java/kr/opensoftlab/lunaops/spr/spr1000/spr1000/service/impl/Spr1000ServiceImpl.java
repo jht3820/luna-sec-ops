@@ -376,8 +376,6 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Map> selectSpr1000VelocityChartInfo(Map<String, String> paramMap) throws Exception {
-		
-		String sprType = (String) paramMap.get("sprType");
 		Calendar cal = Calendar.getInstance();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		

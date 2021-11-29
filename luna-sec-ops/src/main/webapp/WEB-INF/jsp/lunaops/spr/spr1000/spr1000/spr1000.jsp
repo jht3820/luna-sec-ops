@@ -179,7 +179,6 @@ var OSLSpr1000Popup = function () {
 							paramSprTypeCd : rowData.sprTypeCd,
 							paramUseCd: rowData.useCd,
 						};
-					
 					var options = {
 							autoHeight: false,
 							modalSize: "xl",
@@ -494,7 +493,7 @@ var OSLSpr1000Popup = function () {
 	
  	var drawChart = function(rowdata){
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: rowdata.sprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: rowdata.sprId, sprType:rowdata.sprType});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -508,7 +507,6 @@ var OSLSpr1000Popup = function () {
  				totalSprPoint = rowdata.sprPoint;
  				
  				var seriesData = getDataRangeData(rowdata.sprStDt, rowdata.sprEdDt, "1", chartData);
- 				
  				
  				if(rowdata.sprTypeCd == '01'){
 	 				$("#burnDownChart"+rowdata.sprId).text("데이터 없음")
@@ -526,7 +524,7 @@ var OSLSpr1000Popup = function () {
  			
 				data:{										
 					param:{
-						dataArr: dateRange,	
+						dataArr: dateRange,
 						 
 						 xKey:"time",
 						 key:{
