@@ -179,6 +179,7 @@ var OSLSpr1000Popup = function () {
 							paramSprTypeCd : rowData.sprTypeCd,
 							paramUseCd: rowData.useCd,
 						};
+					
 					var options = {
 							autoHeight: false,
 							modalSize: "xl",
@@ -218,6 +219,11 @@ var OSLSpr1000Popup = function () {
 					
 					if(totalSprOngoingCnt != 0){
 						$.osl.alert("이미 진행중인 스프린트가 존재합니다.\n 프로젝트당 스프린트는 1건만 진행가능합니다.");
+						return;
+					}
+					
+					if(sprInfo.reqAllCnt == 0){
+						$.osl.alert("스프린트에 배정된 요구사항이 0건입니다.");
 						return;
 					}
 					
@@ -355,7 +361,11 @@ var OSLSpr1000Popup = function () {
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprEnd"><i class="fas fa-stop-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintEnd")+'</div>'
 													+'<div class="dropdown-divider"></div>'
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
-													 
+													+'<div class="dropdown-divider"></div>'
+													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintMeetList")+'</div>'
+													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintResultList")+'</div>'
+													+'<div class="dropdown-divider"></div>'
+													+'<div class="dropdown-item" id=""><i class="fas fa-print kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintReport")+'</div>' 
 												+'</div>'
 											+'</div>'
 										+'</div>'

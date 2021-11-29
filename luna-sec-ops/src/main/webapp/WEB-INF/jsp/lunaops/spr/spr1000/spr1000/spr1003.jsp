@@ -318,6 +318,7 @@ var OSLSpr1003Popup = function () {
 		
 		$("#frSpr1003 [data-ktwizard-type=action-submit]").click(function(){
 	       	
+			
 	   		var fd = $.osl.formDataToJsonArray(mainFormId);
 	       	
 	    	
