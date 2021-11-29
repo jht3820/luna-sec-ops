@@ -11,7 +11,6 @@ import javax.annotation.Resource;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +24,6 @@ import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.service.Dpl1000Service;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.vo.Dpl1000VO;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.vo.Dpl1300VO;
 import kr.opensoftlab.lunaops.dpl.dpl2000.dpl2100.service.Dpl2100Service;
-import kr.opensoftlab.lunaops.stm.stm9000.stm9000.service.Stm9000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9100.service.Stm9100Service;
 import kr.opensoftlab.sdf.excel.ExcelDataListResultHandler;
 import kr.opensoftlab.sdf.jenkins.vo.AutoBuildVO;
@@ -504,6 +502,12 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	}
 	
 	
+	@SuppressWarnings({"rawtypes" })
+	public Map selectDpl1400DplSelBuildInfo(Map map)  throws Exception{
+		return dpl1000DAO.selectDpl1400DplSelBuildInfo(map);
+	}
+	
+	
 	@SuppressWarnings("rawtypes")
 	public List selectDpl1000DeployNmList(Map inputMap) throws Exception {
 		return dpl1000DAO.selectDpl1000DeployNmList(inputMap);
@@ -597,18 +601,6 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	@Override
 	public int selectDpl1000BuildInfoListCnt(Dpl1000VO dpl1000VO) throws Exception{
 		return dpl1000DAO.selectDpl1000BuildInfoListCnt(dpl1000VO);
-	}
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	public Map selectDpl1400DplJobBuildInfo(Map map)  throws Exception{
-		return dpl1000DAO.selectDpl1400DplJobBuildInfo(map);
-	}
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	public Map selectDpl1400DplSelBuildInfoAjax(Map map)  throws Exception{
-		return dpl1000DAO.selectDpl1400DplSelBuildInfoAjax(map);
 	}
 	
 	
@@ -763,4 +755,5 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 		
 		cmm6600Service.saveCmm6600SignLine(paramMap);
 	}
+
 }

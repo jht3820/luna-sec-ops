@@ -132,7 +132,7 @@ public class Dpl1000Controller {
     	
     	return "/dpl/dpl1000/dpl1000/dpl1002";
     }
-
+    
     
     @RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1003View.do")
     public String selectDpl1003View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
@@ -199,6 +199,12 @@ public class Dpl1000Controller {
 		}
     	
     	return "/dpl/dpl1000/dpl1000/dpl1004";
+    }
+    
+    
+    @RequestMapping(value="/dpl/dpl1000/dpl1000/selectDpl1005View.do")
+    public String selectDpl1005View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		 return "/dpl/dpl1000/dpl1000/dpl1005";
     }
     
     
@@ -425,6 +431,116 @@ public class Dpl1000Controller {
     		return new ModelAndView("jsonView", model);
     	}
     }
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/selectDpl1400DplSelBuildConsoleLogAjax.do")
+	public ModelAndView selectDpl1400DplSelBuildConsoleLogAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		
+		try{
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		
+    		
+    		HttpSession ss = request.getSession();
+    		LoginVO loginVO = (LoginVO)ss.getAttribute("loginVO");
+			paramMap.put("licGrpId",loginVO.getLicGrpId());
+			
+			
+    		String prjId = (String) paramMap.get("prjId");
+	
+    		
+    		List<Map> prjUsrAuthList = new ArrayList<Map>();
+
+    		
+			String usrId = (String)loginVO.getUsrId();
+    		
+    		if(prjId == null || "".equals(prjId)) {
+    			paramMap.put("prjId", (String)ss.getAttribute("selPrjId"));
+    			
+        		String selAuthGrpId = (String) ss.getAttribute("selAuthGrpId");
+    			Map<String,String> authMap = new HashMap<String,String>();
+				authMap.put("authGrpId", selAuthGrpId);
+				prjUsrAuthList.add(authMap);
+    		}else {
+    			
+        		Map<String,String> authParamMap = new HashMap<String,String>();
+    			authParamMap.put("prjId", prjId);
+				authParamMap.put("usrId", usrId);
+				List<Map> prjAuthList = cmm4000Service.selectCmm4000UsrPrjAuthList(authParamMap);
+				prjUsrAuthList.addAll(prjAuthList);
+    		}
+    		
+    		
+    		
+ 			
+    		List<Map> dplRunAuthGrp = null;
+ 			
+ 			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 			
+    		
+    		Map dpl1400InfoMap = dpl1000Service.selectDpl1400DplSelBuildInfo(paramMap);
+ 			
+    		model.addAttribute("dpl1400InfoMap", dpl1400InfoMap);
+			
+    		
+    		model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectDpl1400DplSelBuildConsoleLogAjax()", ex);
+			
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+			return new ModelAndView("jsonView");
+		}
+	}
 	
 	
 
@@ -719,116 +835,6 @@ public class Dpl1000Controller {
     		return new ModelAndView("jsonView", model);
     	}
     }
-
-	
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(method=RequestMethod.POST, value="/dpl/dpl1000/dpl1000/selectDpl1400DplSelBuildConsoleLogAjax.do")
-	public ModelAndView selectDpl1400DplSelBuildConsoleLogAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
-		try{
-			
-    		
-    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
-    		
-    		
-    		HttpSession ss = request.getSession();
-    		LoginVO loginVO = (LoginVO)ss.getAttribute("loginVO");
-			paramMap.put("licGrpId",loginVO.getLicGrpId());
-			
-			
-    		String prjId = (String) paramMap.get("prjId");
-	
-    		
-    		List<Map> prjUsrAuthList = new ArrayList<Map>();
-
-    		
-			String usrId = (String)loginVO.getUsrId();
-    		
-    		if(prjId == null || "".equals(prjId)) {
-    			paramMap.put("prjId", (String)ss.getAttribute("selPrjId"));
-    			
-        		String selAuthGrpId = (String) ss.getAttribute("selAuthGrpId");
-    			Map<String,String> authMap = new HashMap<String,String>();
-				authMap.put("authGrpId", selAuthGrpId);
-				prjUsrAuthList.add(authMap);
-    		}else {
-    			
-        		Map<String,String> authParamMap = new HashMap<String,String>();
-    			authParamMap.put("prjId", prjId);
-				authParamMap.put("usrId", usrId);
-				List<Map> prjAuthList = cmm4000Service.selectCmm4000UsrPrjAuthList(authParamMap);
-				prjUsrAuthList.addAll(prjAuthList);
-    		}
-    		
-    		
-    		
- 			
-    		List<Map> dplRunAuthGrp = null;
- 			
- 			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 			
-    		
-    		Map dpl1400InfoMap = dpl1000Service.selectDpl1400DplSelBuildInfoAjax(paramMap);
- 			
-    		model.addAttribute("dpl1400InfoMap", dpl1400InfoMap);
-			
-    		model.addAttribute("errorYn", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
-			return new ModelAndView("jsonView", model);
-		}
-		catch(Exception ex){
-			Log.error("selectDpl1400DplSelBuildConsoleLogAjax()", ex);
-			
-			
-			model.addAttribute("errorYn", "Y");
-			model.addAttribute("message", "콘솔 내용 조회 오류");
-			return new ModelAndView("jsonView", model);
-		}
-	}
 	
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
