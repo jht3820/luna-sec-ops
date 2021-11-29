@@ -90,9 +90,6 @@ var OSLStm8002Popup = function() {
 						},
 					},
 				],
-				rows:{
-					clickCheckbox: true
-				},
 				actionBtn:{
 					"title" : $.osl.lang("stm8002.actionBtn.title"),
 					"widht" : 30,

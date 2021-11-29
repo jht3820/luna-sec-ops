@@ -115,9 +115,6 @@ var OSLCmm6206Popup = function () {
     			"update" : false,
     			"delete" : false,
     		},
-    		rows:{
-				clickCheckbox: true
-			},
 			actionFn:{
     		},
     		callback:{

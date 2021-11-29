@@ -723,9 +723,6 @@ var OSLPrj3000Popup = function () {
 			searchColumns:[
 				{field: 'targetCd', title: '구분', searchOrd: 0, searchType:"select", searchCd:"PRJ00022"}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": "연결 제거",
 				"update": false,

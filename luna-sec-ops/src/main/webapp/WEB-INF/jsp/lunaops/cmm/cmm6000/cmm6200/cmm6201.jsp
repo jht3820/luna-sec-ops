@@ -17,6 +17,12 @@
 				<div class="flowchart-operator-process-title">
 					<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate"><span id="nextProcessNm">프로세스명</span></div>
 				</div>
+				<div class="flowchart-operator-function">
+					<li class="fa fa-file-signature" title="결재"></li>
+					<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
+					<li class="fa fa-code" title="리비전 저장유무"></li>
+					<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
+				</div>
 				<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">
 					<div class="flowchart-operator-title__lebel d-inline-block text-truncate"><span id="nextFlowNm">다음 단계명</span></div>
 				</div>

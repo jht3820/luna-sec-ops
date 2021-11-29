@@ -774,8 +774,11 @@ var OSLSpr1003Popup = function () {
 					
 					
 					if(wizardData["reqUsrList"].hasOwnProperty(row.reqId)){
-						rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;
-						
+						if(wizardData["reqUsrList"][row.reqId].usrNm == undefined){
+							rtnVal = "";
+						}else{
+							rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;	
+						}
 					
 					}else if(row.reqChargerNm != null){
 						wizardData["reqUsrList"][row.reqId] = {usrId: row.reqChargerId, usrNm: row.reqChargerNm}; 
@@ -798,6 +801,7 @@ var OSLSpr1003Popup = function () {
 			actionFn:{
 				"clearCharger":function(rowData, datatableId, type, rowNum){
 					
+					
 					var datatable = $.osl.datatable.list['sprAssignReqUsrTable'].targetDt;
 					
 					var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
@@ -808,7 +812,8 @@ var OSLSpr1003Popup = function () {
 					target.val("");
 					
 					
-					delete wizardData["reqUsrList"][rowData.reqId]
+					wizardData["reqUsrList"][rowData.reqId] = "";
+					
 				},
 			},
 			theme:{
@@ -1199,6 +1204,7 @@ var OSLSpr1003Popup = function () {
 			if(selDatas.length > processIdDupleList){
 				toastrMsg += $.osl.lang("spr1003.alert.saveProcessMsg",(selDatas.length-processIdDupleList));
 			}
+			
 			if(processIdDupleList > 0){
 				
 				if(toastrMsg.length > 0){
@@ -1207,6 +1213,7 @@ var OSLSpr1003Popup = function () {
 				toastrMsg += $.osl.lang("spr1003.alert.saveProcessDupleMsg",processIdDupleList);
 				toastrType = "warning";
 			}
+			
 			
 			if(processIdDupleList == selDatas.length){
 				toastrMsg = $.osl.lang("spr1003.alert.saveProcessAllDupleMsg",processIdDupleList);

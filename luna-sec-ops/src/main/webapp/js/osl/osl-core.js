@@ -2856,7 +2856,10 @@
 							beforeTemplate: function (row, data, index){
 								
 							},
-							clickCheckbox: false,
+							afterTemplate: function(row, data, index){
+								
+							},
+							clickCheckbox: true,
 							minHeight: null,
 							autoHide: true
 						},
@@ -2949,40 +2952,56 @@
 						
 					
 					targetConfig = $.extend(true, targetConfig, config, config);
-
+					
 					
 					targetConfig.rows["afterTemplate"] = function(row, data, index){
 						
-						if(config.hasOwnProperty("rows")){
+						row.click(function(){
+							var targetRow = $(this).closest("tr");
+							var targetElem = targetRow.find("label.kt-checkbox").children("input[type=checkbox]");
 							
-							if(config.rows.hasOwnProperty("minHeight")){
-								var minHeight = config.rows.minHeight;
+							if($(event.target).parents(".kt-datatable__cell--check").length > 0){
+								return true;
+							}
+							
+							else if($(event.target).hasClass("kt-datatable__cell--check")){
+								datatables.targetDt.setActive(targetElem);
+								targetElem.prop("checked", true);
+								return true;
+							}
+							
+							
+							var selNodes = datatables.targetDt.getSelectedRecords();
+							datatables.targetDt.setInactive(selNodes);
+							
+							$("#"+targetId +" .osl-datatable__row--selected").removeClass("osl-datatable__row--selected");
+							
+							
+							targetRow.addClass("osl-datatable__row--selected");
+							
+							
+							if(targetConfig.hasOwnProperty("rows") && targetConfig.rows.hasOwnProperty("clickCheckbox")){
+								
+								if(targetConfig.rows.clickCheckbox == true){
+
+									
+									datatables.targetDt.setActive(targetElem);
+									
+									selNodes.find("label.kt-checkbox").children("input[type=checkbox]").prop("checked", false);
+									targetElem.prop("checked", true);
+								}
+							}
+						});
+						
+						
+						if(targetConfig.hasOwnProperty("rows")){
+							
+							if(targetConfig.rows.hasOwnProperty("minHeight")){
+								var minHeight = targetConfig.rows.minHeight;
 								
 								
 								if(!$.osl.isNull(minHeight) && $.isNumeric(minHeight)){
 									$(row).css({"min-height": parseInt(minHeight)+"px"});
-								}
-							}
-							if(config.rows.hasOwnProperty("clickCheckbox")){
-								
-								if(config.rows.clickCheckbox == true){
-									
-									row.click(function(){
-										var targetRow = $(this).closest("tr");
-										var targetElem = targetRow.find("label.kt-checkbox").children("input[type=checkbox]");
-										
-										if(targetElem.is(":checked") == true){
-											targetElem.prop("checked", false);
-											datatables.targetDt.setInactive(targetElem);
-											
-											targetRow.removeClass("osl-datatable__row--selected");
-											targetRow.addClass("kt-datatable__row--even");
-										}else{
-											targetElem.prop("checked", true);
-											datatables.targetDt.setActive(targetElem);
-										}
-										
-									});
 								}
 							}
 						}

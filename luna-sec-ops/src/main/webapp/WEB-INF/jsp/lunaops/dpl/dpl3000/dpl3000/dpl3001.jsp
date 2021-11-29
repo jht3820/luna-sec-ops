@@ -214,9 +214,6 @@ var OSLDpl3001Popup = function () {
 				{field: 'jenUrl', title: "Jenkins URL", textAlign: 'center', width: 200, search: true, sortable: false}
 				
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": "기능 버튼",
 				"width":130,
