@@ -17,6 +17,12 @@
 				<div class="flowchart-operator-process-title">
 					<div class="flowchart-operator-title__lebel badge badge-info d-inline-block text-truncate"><span id="nextProcessNm">프로세스명</span></div>
 				</div>
+				<div class="flowchart-operator-function">
+					<li class="fa fa-file-signature" title="결재"></li>
+					<li class="far fa-stop-circle" title="결재 반려시 종료 유무"></li>
+					<li class="fa fa-code" title="리비전 저장유무"></li>
+					<li class="fa fa-puzzle-piece" title="배포계획 저장 유무"></li>
+				</div>
 				<div class="flowchart-operator-title" style="background-color:'+bgColor+';color:'+color+';">
 					<div class="flowchart-operator-title__lebel d-inline-block text-truncate"><span id="nextFlowNm">다음 단계명</span></div>
 				</div>
@@ -449,7 +455,7 @@
 					<div class="kt-portlet__head kt-portlet__head--lg">
 						<div class="kt-portlet__head-label">
 							<h5 class="kt-font-boldest kt-font-brand">
-								<i class="fa fa-th-large kt-margin-r-5"></i><span>작업흐름 목록</span>
+								<i class="fa fa-th-large kt-margin-r-5"></i><span>단계 목록</span>
 							</h5>
 						</div>
 						<div class="kt-portlet__head-toolbar">
@@ -669,12 +675,7 @@ var OSLCmm6201Popup = function () {
 			
 			
 			if(flowAction == "detail"){
-				var selFlowId = flowChart.flowchart("getSelectedOperatorId");
-				
-				
-				if($.osl.isNull(selFlowId) && $(this).parents(".dropdown-menu").length > 0){
-					selFlowId = $(this).parents(".dropdown-menu").data("flow-id");
-				}
+				var selFlowId = $(this).parents(".dropdown-menu").data("flow-id");
 				
 				if($.osl.isNull(selFlowId)){
 					$.osl.alert($.osl.lang("prj1100.alert.selNoneFlow"));
@@ -685,7 +686,8 @@ var OSLCmm6201Popup = function () {
 						paramPrjGrpId: $.osl.selPrjGrpId,
 						paramPrjId: $.osl.selPrjId,
 						paramProcessId: paramProId,
-						paramFlowId: paramFlowId
+						paramFlowId: paramFlowId,
+						paramFlowchartTarget: "#"+formId+" #cmm6201FlowChartDiv"
 				};
 				var options = {
 					autoHeight: false,

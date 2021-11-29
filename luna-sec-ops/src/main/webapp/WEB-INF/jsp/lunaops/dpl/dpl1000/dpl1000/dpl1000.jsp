@@ -5,8 +5,6 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
-	 
-	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
@@ -15,32 +13,42 @@
 		</div>
 		
 		<div class="kt-portlet__head-toolbar">
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="signRequest" title="배포 계획 결재선 지정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="5">
-				<i class="fa fa-file-signature"></i><span>결재선 지정</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
-				<i class="fa fa-list"></i><span>조회</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="insert" title="배포 계획 등록" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="6">
-				<i class="fa fa-plus"></i><span>등록</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="update" title="배포 계획 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="7">
-				<i class="fa fa-edit"></i><span>수정</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="delete" title="배포 계획 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="8">
-				<i class="fa fa-trash-alt"></i><span>삭제</span>
-			</button>
+			<div class="kt-portlet__head-wrapper">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type active" title="데이터 카드 형식으로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="6" data-view-type="01">
+						<i class="fa fa-table osl-padding-r0"></i>
+					</button>
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type" title="데이터 테이블 형식으로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="7" data-view-type="02">
+						<i class="fa fa-list osl-padding-r0"></i>
+					</button>
+				</div>
+			</div>
 		</div>
-		
 	</div>
-	<div class="kt-portlet__body">
-		
+	<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block ">
 		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
 			<div class="osl-datatable-search" data-datatable-id="dpl1000Table"></div>
 		</div>
-		<div class="kt_datatable osl-datatable-footer__divide" id="dpl1000Table"></div>
-		
+		<div class="col-lg-9 col-md-12 col-sm-12 text-right kt-padding-r-0">
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="signRequest" data-title-lang-cd="dpl1000.tooltip.button.signReqDplBtn" title="배포 계획 결재선 지정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="5">
+				<i class="fa fa-file-signature"></i><span data-lang-cd="dpl1000.label.button.signLine">결재선 지정</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="select" data-title-lang-cd="dpl1000.tooltip.button.selectBtn" title="배포 계획 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+				<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="insert" data-title-lang-cd="dpl1000.tooltip.button.insertBtn" title="신규 배포 계획 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
+				<i class="fa fa-plus"></i><span data-lang-cd="datatable.button.insert">추가</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="update" data-title-lang-cd="dpl1000.tooltip.button.updateBtn" title="배포 계획  수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
+				<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="delete" data-title-lang-cd="dpl1000.tooltip.button.deleteBtn" title="배포 계획  삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
+				<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
+			</button>
+		</div>
 	</div>
+	<div id="dpl1000CardTable"></div>
+	<div class="kt_datatable osl-datatable-footer__divide" id="dpl1000Table"></div>
 </div>
 
 
@@ -51,6 +59,7 @@ var OSLDpl1000Popup = function () {
 		
 		
 		$.osl.datatable.setting("dpl1000Table",{
+			
 			data: {
 				source: {
 					read: {
@@ -115,36 +124,35 @@ var OSLDpl1000Popup = function () {
 					}
 				},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			searchColumns:[
 				{field: 'dplDesc', title:"배포 설명", searchOrd: 8}
 			],
 			actionBtn:{
 				"dblClick": true, 
 				"signRequest": true,
-				"title": "기능 버튼",
+				"title": $.osl.lang("dpl1000.label.button.actionBtn"),
 				"width" : 160
 			},
 			actionTooltip:{
-				"update": "배포 계획 수정",
-				"delete": "배포 계획 삭제",
-				"dblClick": "배포 계획 상세 보기",
-				"signRequest": "결재선 지정"
+				"update": $.osl.lang("dpl1000.tooltip.actionBtn.updateBtn"),
+				"delete": $.osl.lang("dpl1000.tooltip.actionBtn.deleteBtn"),
+				"dblClick": $.osl.lang("dpl1000.tooltip.actionBtn.detailBtn"),
+				"signRequest": $.osl.lang("dpl1000.tooltip.actionBtn.signReqDplBtn")
 			},
 			actionFn:{
 				"insert":function(datatableId, type, rowNum){
 					var data = {type:"insert"};
 					var options = {
 							idKey: datatableId,
-							modalTitle: '신규 배포 계획 생성',
+							modalTitle: $.osl.lang("dpl1000.modal.title.insertDpl"),
 							modalSize: 'xl',
 							autoHeight: false,
 							closeConfirm: false
 						};
 					
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1001View.do',data,options);
+					
+				
 				},
 				"update":function(rowData, datatableId, type, rowNum, elem){
 					
@@ -157,25 +165,23 @@ var OSLDpl1000Popup = function () {
 					
 					
 					if(dplStsCd == "02"){
-						$.osl.alert('성공된 배포 계획은 수정이 불가능합니다.');
+						$.osl.alert($.osl.lang("dpl1000.message.alert.successDplNotUpdate"));
 						return false;
 					}
 					
 					
 					if(signType == "03"){
 						
-						$.osl.alert('결재 승인된 배포 계획은 수정이 불가능합니다.');
+						$.osl.alert($.osl.lang("dpl1000.message.alert.signConfDplNotUpdate"));
 						return false;
 					}
 					
 					
 					if(signType == "02"){
 						
-						$.osl.alert('결재 대기중인 배포 계획은 수정이 불가능합니다.');
+						$.osl.alert($.osl.lang("dpl1000.message.alert.signStandDplNotUpdate"));
 						return false;
 					}
-					
-					
 					
 					var data = {
 						type:"update",
@@ -186,7 +192,7 @@ var OSLDpl1000Popup = function () {
 					
 					var options = {
 						idKey: rowData.prjId+"_"+rowData.dplId,
-						modalTitle: '배포 계획 수정',
+						modalTitle: $.osl.lang("dpl1000.modal.title.updateDpl"),
 						modalSize: 'xl',
 						autoHeight: false,
 						closeConfirm: false
@@ -203,7 +209,7 @@ var OSLDpl1000Popup = function () {
 						
 						if(map.nowSignTypeCd == "03"){
 							
-							$.osl.alert('결재 승인된 배포 계획은 삭제가 불가능합니다.');
+							$.osl.alert($.osl.lang("dpl1000.message.alert.signConfDplNotDelete"));
 							delFlag = true;
 							return false;
 						}
@@ -211,7 +217,7 @@ var OSLDpl1000Popup = function () {
 						
 						if(map.nowSignTypeCd == "02"){
 							
-							$.osl.alert('결재 대기중인 배포 계획은 삭제가 불가능합니다.');
+							$.osl.alert($.osl.lang("dpl1000.message.alert.signStandDplNotDelete"));
 							delFlag = true;
 							return false;
 						}
@@ -248,7 +254,7 @@ var OSLDpl1000Popup = function () {
 						};
 					var options = {
 							idKey: datatableId +"_"+ rowData.dplId,
-							modalTitle: "["+rowData.dplNm +"] "+ "상세 정보",
+							modalTitle: "["+rowData.dplNm +"] "+ $.osl.lang("dpl1000.modal.title.detailDpl"),
 							autoHeight: false,
 							modalSize: 'xl'
 						};
@@ -286,7 +292,7 @@ var OSLDpl1000Popup = function () {
 					
 					if(rowData.dplSignUseCd == '02'){
 						
-						$.osl.alert("결재 사용 유무가 아니오인 경우 결재를 사용할 수 없습니다.");
+						$.osl.alert($.osl.lang("datatable.message.alert.signImpossible"));
 						return true;
 					}
 					
@@ -327,8 +333,6 @@ var OSLDpl1000Popup = function () {
 						 
 						$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1004View.do',data,options);
 					}
-					
-					
 				}
 			},
 			theme: {

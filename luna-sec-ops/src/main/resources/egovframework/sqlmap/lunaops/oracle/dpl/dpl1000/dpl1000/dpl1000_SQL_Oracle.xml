@@ -109,6 +109,9 @@
 			WHERE 1=1
 			AND A.PRJ_ID = #prjId#
 			AND A.DPL_DEL_CD = '02'
+			<isNotEmpty property="paramDplStsCd">
+				AND A.DPL_STS_CD = #paramDplStsCd#
+			</isNotEmpty>
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">
 					ORDER BY $paramSortFieldId$
@@ -125,6 +128,9 @@
 			</isEmpty> 
 		) SUB1
 		WHERE 1=1
+		<isNotEmpty property="paramSearchData">
+			AND SUB1.DPL_NM LIKE '%'|| #paramSearchData# ||'%'
+		</isNotEmpty>
 		<isNotEmpty property="searchTargetData">
 			<isNotEmpty property="searchTargetId">
 				<isEqual property="searchTargetId" compareValue="dplNm">

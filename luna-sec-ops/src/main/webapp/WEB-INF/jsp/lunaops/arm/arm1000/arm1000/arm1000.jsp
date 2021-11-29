@@ -80,7 +80,7 @@
 			</div>
 			<div class="kt-portlet__body">
 				<div class="row">
-					<div class="col-5"> 
+					<div class="col-xl-5 col-lg-5 col-md-7 col-sm-12"> 
 						<div class="osl-datatable-search" data-datatable-id="arm1000ArmTable"></div>
 					</div>
 				</div>
@@ -185,8 +185,7 @@ var OSLArm1000Popup = function () {
 							$(row).css("font-weight", "bold");
 						}
 					}
-				},
-				clickCheckbox: true,
+				}
 			},
 			actionBtn:{
 				"width": 120,

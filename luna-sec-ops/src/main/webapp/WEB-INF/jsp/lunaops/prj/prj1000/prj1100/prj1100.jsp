@@ -411,7 +411,8 @@ var OSLPrj1100Popup = function () {
 						paramPrjGrpId: $.osl.selPrjGrpId,
 						paramPrjId: $.osl.selPrjId,
 						paramProcessId: selProcessId,
-						paramFlowId: selFlowId
+						paramFlowId: selFlowId,
+						paramFlowchartTarget: "#flowChartDiv"
 				};
 				var options = {
 					autoHeight: false,

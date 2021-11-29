@@ -880,7 +880,7 @@ public class Req4100Controller {
     }
 	
 	
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/req/req4000/req4100/selectReq4100ReqInfoAjax.do")
 	public ModelAndView selectReq4100ReqInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
     	try{
@@ -942,6 +942,24 @@ public class Req4100Controller {
         	}
 			model.addAttribute("fileList",fileList);
 			model.addAttribute("fileListCnt",fileCnt);
+
+			
+			paramMap.put("itemRequestCd", "01");
+			
+			List<Map> prjItemList = prj1000Service.selectPrj1002AllItemList(paramMap);
+			List<Map> basicItemList = new ArrayList<>();
+			List<Map> basicItemInsertList = new ArrayList<>();
+			for(int i=0; i<prjItemList.size(); i++) {
+				Map item = prjItemList.get(i);
+				if(item.get("reqId").equals("ROOTSYSTEM_FLW")) {
+					basicItemList.add(item);
+				}else {
+					basicItemInsertList.add(item);
+				}
+			}
+			model.addAttribute("basicItemInsertList", basicItemInsertList);
+			model.addAttribute("basicItemList", basicItemList);
+
 			
         	
         	model.addAttribute("errorYn", "N");

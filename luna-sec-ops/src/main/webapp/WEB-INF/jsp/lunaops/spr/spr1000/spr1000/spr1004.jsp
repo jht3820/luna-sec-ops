@@ -512,12 +512,12 @@ var OSLSpr1004Popup = function () {
 	       	
 	   		var fd = $.osl.formDataToJsonArray(formId);
 	       	
+	       	
 	       	fd.append("mmrNm", $("#mmrNmInput").val());
 	       	
 	       	fd.append("mmrDesc", $("#mmrDescInput").val());
 	       	
 	       	fd.append("sprId", paramSprId);
-	       	
 	       	
 	       	fd.append("reqInfo", reqInfo);
 	       	
@@ -536,9 +536,9 @@ var OSLSpr1004Popup = function () {
 	   				$.osl.layerPopupClose();
 	   				
 	   				
-	   				if($("button[data-datatable-id=spr1000Table][data-datatable-action=select]").length > 0){
-		   				$("button[data-datatable-id=spr1000Table][data-datatable-action=select]").click();
-	   				}
+	   				
+	   				$("button[data-datatable-id=spr1000Table][data-datatable-action=select]").click();
+	   				
 	   				
 	   			}
 	   		});

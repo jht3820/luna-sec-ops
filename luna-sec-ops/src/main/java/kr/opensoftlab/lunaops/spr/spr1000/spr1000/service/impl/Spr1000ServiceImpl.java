@@ -166,8 +166,7 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	
 	@SuppressWarnings({"rawtypes"})
 	public List<Map>  selectSpr1000SprReqList(Map paramMap) throws Exception {
-		List<Map> reqList = spr1000DAO.selectSpr1000SprReqList(paramMap);
-		return reqList;
+		return spr1000DAO.selectSpr1000SprReqList(paramMap);
 	}
 
 	
@@ -210,7 +209,6 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		if(usrList != null && usrListSize > 0) {
 			for(int i=0;i <usrListSize;i++) {
 				String usrInfo = (String)usrList.get(i);
-			
 				paramMap.put("usrId", usrInfo);
 				spr2000DAO.insertSpr2001MmtMemList(paramMap);
 			}
@@ -245,9 +243,14 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			while(reqKey.hasNext())
 			{
 				String reqId = reqKey.next().toString();
-				JSONObject usrInfo = reqUsrList.getJSONObject(reqId);
-				paramMap.put("reqId", reqId);
-				paramMap.put("reqChargerId", usrInfo.getString("usrId"));
+				if("".equals(reqUsrList.get(reqId))) {
+					paramMap.put("reqId", reqId);
+					paramMap.put("reqChargerId", null);
+				}else {
+					JSONObject usrInfo = reqUsrList.getJSONObject(reqId);
+					paramMap.put("reqId", reqId);
+					paramMap.put("reqChargerId", usrInfo.getString("usrId"));
+				}
 				req4100DAO.updateReq4101ReqSubInfo(paramMap);
 			}
 		}
@@ -269,15 +272,15 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd", Locale.KOREA);
-		paramMap.put("startDt", sdf.format(today));
+		paramMap.put("sprStDt", sdf.format(today));
 		
 		
 		String endDt = (String)paramMap.get("paramEndDt");
 		Date endDate = sdf.parse(endDt);
 		
 		
-		if(today.getTime() >= endDate.getTime()) {
-			paramMap.put("endDt", sdf.format(today));
+		if(today.after(endDate)) {
+			paramMap.put("sprEdDt", sdf.format(today));
 		}
 		
 		
@@ -345,8 +348,11 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map selectSpr1000SprInfoStat(Map paramMap) throws Exception {
+		Map sprStat = null;
 		
-		Map sprStat = spr1000DAO.selectSpr1000SprInfoStat(paramMap);
+		
+		
+		sprStat = spr1000DAO.selectSpr1000SprInfoStat(paramMap);
 		
 		double allCnt = Double.parseDouble(String.valueOf(sprStat.get("allCntSum")));
 		double endCnt = Double.parseDouble(String.valueOf(sprStat.get("endCntSum")));
@@ -368,7 +374,7 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	@Override
 	@SuppressWarnings({ "rawtypes" })
 	public List<Map> selectSpr1000ChartInfo(Map paramMap) throws Exception {
-		return  spr1000DAO.selectSpr1000ChartInfo(paramMap);
+		return spr1000DAO.selectSpr1000ChartInfo(paramMap);
 	}
 	
 	
@@ -410,7 +416,6 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			
 			paramMap.put("startD", startD);
 			paramMap.put("endD", endD);
-			
 			Map data = spr1000DAO.selectSpr1000VelocityChartInfo(paramMap);
 			data.put("term", startD + "~" + endD);
 			data.put("commitSprPoint", commitSprPoint);
