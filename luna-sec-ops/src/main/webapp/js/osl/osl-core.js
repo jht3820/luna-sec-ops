@@ -346,6 +346,52 @@
 					maxNumberOfFiles: 10,
 					minNumberOfFiles: 0,
 					allowedFileTypes: null,	
+					locale:Uppy.locales.ko_KR,
+					meta: {},
+					onBeforeUpload: $.noop,
+					onBeforeFileAdded: $.noop,
+				};
+				
+				
+				config = $.extend(true, defaultConfig, config);
+				
+				var targetObj = $("#"+targetId);
+				if(targetObj.length > 0){
+					rtnObject = Uppy.Core({
+						targetId: targetId,
+						autoProceed: config.autoProceed,
+						restrictions: {
+							maxFileSize: ((1024*1024)*parseInt(config.maxFileSize)),
+							maxNumberOfFiles: config.maxNumberOfFiles,
+							minNumberOfFiles: config.minNumberOfFiles,
+							allowedFileTypes: config.allowedFileTypes
+						},
+						locale:config.locale,
+						meta: config.meta,
+						onBeforeUpload: function(files){
+							return config.onBeforeUpload(files);
+						},
+						onBeforeFileAdded: function(currentFile, files){
+							
+							if(currentFile.source != "database" && config.fileReadonly){
+								$.osl.toastr($.osl.lang("file.error.fileReadonly"),{type:"warning"});
+								return false;
+							}
+							return config.onBeforeFileAdded(currentFile, files);
+						},
+						debug: config.debug,
+						logger: config.logger,
+						fileDownload: config.fileDownload
+					});
+					
+					rtnObject.use(Uppy.Dashboard, config);
+					rtnObject.use(Uppy.XHRUpload, { endpoint: config.url,formData: true });
+				}
+				
+				return rtnObject;
+			},
+			
+			
 			makeAtchfileId: function(callback){
 				
 				var ajaxObj = new $.osl.ajaxRequestAction(
@@ -2249,6 +2295,7 @@
 						if($(row).find("[data-datatable-id="+targetId+"][data-datatable-action]").length > 0){
 							var btnRowNum = $(row).data("row");
 							
+							
 							$.each($(row).find("[data-datatable-id="+targetId+"][data-datatable-action]"), function(idx, map){
 								var btnDatatableId = $(map).data("datatable-id");
 								var btnAction = $(map).data("datatable-action");
@@ -2278,6 +2325,35 @@
 							
 							KTApp.initTooltips();
 						}
+					},
+					
+					detail: function(){
+						$(datatables.targetDt.tableBody).on("click", "tr.kt-datatable__row-detail [data-datatable-id="+targetId+"][data-datatable-action]",function(){
+							var row = $(this).parents(".kt-datatable__row-detail").prev();
+							var btnRowNum = row.data("row");
+							
+							var btnDatatableId = $(this).data("datatable-id");
+							var btnAction = $(this).data("datatable-action");
+							
+							
+							if(btnEvt.action.hasOwnProperty(btnAction)){
+								btnEvt.action[btnAction](this, btnDatatableId, "info", btnRowNum, row);
+								this.click();
+							}else{
+								
+								if(targetConfig.actionFn.hasOwnProperty(btnAction)){
+									
+									event.cancelable = true;
+									event.stopPropagation();
+									event.preventDefault();
+									event.returnValue = false;
+
+									var tmp_rowData = datatables.targetDt.dataSet[btnRowNum];
+									
+									targetConfig.actionFn[btnAction](tmp_rowData, btnDatatableId, "info", btnRowNum, this);
+								}
+							}
+						});
 					},
 					
 					action: {
@@ -2831,7 +2907,7 @@
 							saveState: {webstorage: false}
 						},
 						layout: {
-							scroll: true,
+							scroll: false,
 							footer: false,
 							customScrollbar: true
 						},
@@ -2875,7 +2951,7 @@
 						searchColumns: [],
 						cardUiTarget: null,
 						actionBtn:{
-							"autoHide": false,
+							"autoHide": true,
 							"title": "Actions",
 							"width": false,
 							"lastPush": true,
@@ -3012,7 +3088,7 @@
 						}
 						
 						
-						if(config.hasOwnProperty("rows") && config.rows.hasOwnProperty("afterTemplate")){
+						if(config.hasOwnProperty("rows") && config.rows.hasOwnProperty("afterTemplate")) {
 							config.rows.afterTemplate(row, data, index);
 						}
 						btnEvt["info"](row);
@@ -3323,6 +3399,9 @@
 					
 					$(ktDatatableTarget).on("kt-datatable--on-init",function(evt,config){
 						targetConfig.callback.initComplete(evt.target, config, datatableInfo);
+
+						
+						btnEvt["detail"]();
 						
 						
 						if(!$.osl.isNull(targetConfig.cardUiTarget)){

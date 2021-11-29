@@ -79,7 +79,7 @@ var OSLReq4100Popup = function () {
 				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, search: true},
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
-				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
+				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true,
 					
 				},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
@@ -113,7 +113,7 @@ var OSLReq4100Popup = function () {
 						}
 					}
 				},
-				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true, autoHide: false,
+				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqChargerId)){
 							return row.reqChargerNm = "-";
