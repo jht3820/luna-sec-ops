@@ -89,7 +89,7 @@
             WHERE	1=1
             CONNECT BY PRIOR	A.MENU_ID = A.UPPER_MENU_ID
             START WITH A.MENU_ID = '000'
-            ORDER BY ORD ASC
+            ORDER SIBLINGS BY A.ORD ASC
  		]]> 
 	</select>
 	
