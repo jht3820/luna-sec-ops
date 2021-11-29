@@ -4362,6 +4362,11 @@
 						ruleVal = true;
 					}
 					
+					if(messageId == "min" || messageId == "max"){
+						ruleVal = parseInt(ruleVal);
+					}
+					
+					
 					if(messageId == "regexstr"){
 						
 						var regexstr = $elemInfo.attr("regexstr");
