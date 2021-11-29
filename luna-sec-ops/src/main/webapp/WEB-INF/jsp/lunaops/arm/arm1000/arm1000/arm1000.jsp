@@ -185,8 +185,7 @@ var OSLArm1000Popup = function () {
 							$(row).css("font-weight", "bold");
 						}
 					}
-				},
-				clickCheckbox: true,
+				}
 			},
 			actionBtn:{
 				"width": 120,

@@ -254,9 +254,6 @@ var OSLStm8100 = function () {
 				{field: 'strgTxt', title: '저장소 설명', textAlign: 'left', width: 240, search: true},
 				{field: 'strgRepUrl', title: '저장소 URL', textAlign: 'left', width: 240},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("stm8100.assignStrgTable.actionBtn.title"),
 				"width" : 50,
@@ -356,9 +353,6 @@ var OSLStm8100 = function () {
 				{field: 'strgTxt', title: '저장소 설명', textAlign: 'left', width: 240, search: true},
 				{field: 'strgRepUrl', title: '저장소 URL', textAlign: 'left', width: 240},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("stm8100.nonAssignStrgTable.actionBtn.title"),
 				"width" : 50,

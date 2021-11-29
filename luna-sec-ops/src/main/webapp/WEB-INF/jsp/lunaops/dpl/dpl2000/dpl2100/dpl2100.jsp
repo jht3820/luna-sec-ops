@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
+	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -106,9 +107,6 @@ var OSLDpl2100Popup = function () {
 					}
 				},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"signApr":true,
 				"signReject":true,

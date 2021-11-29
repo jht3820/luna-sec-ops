@@ -69,7 +69,6 @@ var OSLDpl1003Popup = function () {
 				}
 			},
 			rows:{
-				clickCheckbox: true,
 				beforeTemplate: function (row, data, index){
 					
 					var jenId = data.jenId;

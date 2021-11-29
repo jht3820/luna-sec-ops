@@ -151,9 +151,6 @@ var OSLReq4100Popup = function () {
 				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2},
 				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
 			],
-			rows:{
-				clickCheckbox: true,
-			},
 			actionBtn:{
 				"title" : $.osl.lang("req4100.actionBtn.title"),
 				"dblClick": true,

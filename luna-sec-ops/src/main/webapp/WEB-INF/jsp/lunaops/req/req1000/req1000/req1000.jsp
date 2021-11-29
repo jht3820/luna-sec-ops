@@ -77,9 +77,6 @@ var OSLReq1000Popup = function () {
 			searchColumns:[
 				{field: 'prjGrpNm', title: '프로젝트 그룹명', searchOrd: 0}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"dblClick": true 
 				
