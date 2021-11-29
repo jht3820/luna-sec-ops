@@ -2425,6 +2425,8 @@ label.required:after {
     opacity: 1;
     background: #1cac81;
 }
+
+.osl-req__process-mask__flow .flowchart-operator-function > li,
 .flowchart-operator-function > li {
     text-align: center;
     background-color: #5867dd;
@@ -2433,6 +2435,7 @@ label.required:after {
     padding: 3px;
     border-radius: 4px;
     margin: 2px;
+    display: inline-flex;
 }
 .osl-background-around {
 	background-color: #f3f6f9;
@@ -2485,6 +2488,7 @@ form#frCmm6201 .osl-process__flow-container {
 .osl-dsh-flowchart .flowchart-operator .flowchart-operator-title{
 	cursor: default;
 }
+.osl-req__process-mask__flow .flowchart-operator-function,
 .flowchart-operator .flowchart-operator-function {
     width: 100%;
     font-weight: bold;
@@ -2493,7 +2497,10 @@ form#frCmm6201 .osl-process__flow-container {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     background: #fff;
+    justify-content: start;
+    display: inline-flex;
 }
+.osl-req__process-mask__flow .flowchart-operator-function,
 .flowchart-operator .flowchart-operator-function:not(.hide) {
     border-bottom: 1px solid #ebedf2;
 }

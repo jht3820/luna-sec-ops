@@ -40,7 +40,7 @@
 							<i class="fa fa-th-large kt-margin-r-5"></i>결재선 정보
 						</h5>
 					</div>
-					
+					<!-- begin::버튼영역 -->
 					<div class="kt-portlet__head-toolbar">
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-datatable-id="stm3000UsrTable" data-datatable-action="upMoveBtn" title="위로" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="upMoveBtn" tabindex="3">
 							<i class="fas fa-arrow-up"></i><span data-lang-cd="dpl1001.button.upMoveBtn">위로</span>
@@ -49,7 +49,7 @@
 							<i class="fas fa-arrow-down"></i><span data-lang-cd="dpl1001.button.downMoveBtn">아래로</span>
 						</button>
 					</div>
-					
+					<!-- end::버튼 영역 -->
 				</div>
 				<div class="kt-portlet__body kt-padding-r-15">
 					<div class="kt-scroll kt-padding-r-10" data-height="525" id="signCardTable"></div>
@@ -180,7 +180,6 @@ var OSLCmm6600Popup = function () {
 				}
 			},
 			rows:{
-				clickCheckbox: true,
 				beforeTemplate: function (row, data, index){
 					
 					if(selectUsrArray.indexOf(data.usrId) > -1){

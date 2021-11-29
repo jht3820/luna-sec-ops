@@ -30,7 +30,7 @@
 		<div class="kt_datatable" id="prj1200PrjTable"></div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
 "use strict";
 var OSLPrj1200Popup = function () {
@@ -54,21 +54,18 @@ var OSLPrj1200Popup = function () {
 				{field: 'modifyUsrNm', title: '최종 수정자', textAlign: 'center', width: 100}
 				
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"delete": false,
 				"title": $.osl.lang("datatable.action.functionNm"),
 				"width": 100,
-				/* ,"click": true */
+				
 			},
 			actionTooltip:{
 				"update": $.osl.lang("prj1201.actionBtn.updateBtn")
 			},
 			actionFn:{
 				"update":function(rowData, datatableId, type, rowNum, elem){
-					//최초 등록인지 수정인지 확인 값
+					
 					var newSetYn = 'Y';
 					if(null != rowData.prjId){
 						newSetYn = 'N';
@@ -95,7 +92,7 @@ var OSLPrj1200Popup = function () {
 	};
 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
@@ -107,5 +104,5 @@ $.osl.ready(function(){
 	OSLPrj1200Popup.init();
 });
 </script>
-<!-- end script -->
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />

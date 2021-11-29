@@ -147,57 +147,57 @@
 var OSLPrj1004Popup = function () {
 	var formId = 'frPrj3002';
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
-	//docId
+	
 	var docId = $('#docId').val();
 	
-	//type
+	
 	var type = 'insert';
 	
-	//산출물 연결 중복체크
+	
 	var prjConDocIdList = [];
 	
-	//산출물 연결 오리지널 데이터
+	
 	var prjDocConOriginalData = [];
 	
-	//프로젝트 ID
+	
 	var dtParamPrjId = $("#dtParamPrjId").val();
 	
-    // Private functions
+    
     var documentSetting = function () {
     	
-    	//문구 세팅 
+    	
     	$("#prj3002SaveSubmit > span").text($.osl.lang("prj3002.insert.saveBtnString"));
     	
-		//submit 동작
+		
     	$("#prj3002SaveSubmit").click(function(){
 			var form = $('#'+formId);    		
         	
-    		//폼 유효 값 체크
+    		
     		if (!form.valid()) {
     			return;
     		}
     		$.osl.confirm($.osl.lang("prj3002.insert.saveString"),null,function(result) {
     	        if (result.value) {
-    	        	//연결정보 저장
+    	        	
     	        	saveFormAction();
     	        }
     		});
     	});
 		
-    	//데이터 테이블 세팅
+    	
     	datatableSetting();
     	
-		//산출물 데이터 세팅
+		
     	selectDocInfo();
 		
     };
     
-    //연결 정보 저장
+    
     var saveFormAction = function() {
-    	//formData
+    	
    		var fd = $.osl.formDataToJsonArray(formId);
 
     	var docId = $("#docId").val();
@@ -205,7 +205,7 @@ var OSLPrj1004Popup = function () {
     	fd.append("nowDocId",docId);
 		fd.append("type",type);
 		
-    	//추가된 산출물 연결 목록
+    	
     	var DocConList = $.osl.datatable.list["prj3002PrjConTable"].targetDt.originalDataSet;
     	if(!$.osl.isNull(DocConList) && DocConList.length > 0){
     		var targetIdList = [];
@@ -217,21 +217,21 @@ var OSLPrj1004Popup = function () {
 		
     	
     	
-    	//AJAX 설정
+    	
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/prj/prj3000/prj3000/insertPrj3002DocConInfo.do'/>", "async": true,"contentType":false,"processData":false ,"cache":false, "loadingShow": false},fd);
     	 $.osl.showLoadingBar(true,{target: "#frPrj3002", message: "산출물 정보를 연결중입니다.</br>잠시만 기다려주세요."});
-   		//AJAX 전송 성공 함수
+   		
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				//등록 성공
+   				
    				$.osl.toastr(data.message);
    				
-   				//모달 창 닫기
+   				
    				$.osl.layerPopupClose();
    				
-   				//datatable 조회
+   				
    				$("button[data-datatable-id=prj3002PrjTable][data-datatable-action=select]").click();
    			}
    		});
@@ -240,22 +240,18 @@ var OSLPrj1004Popup = function () {
    			$.osl.showLoadingBar(false,{target: "#frPrj3002"});
    		});
    		
-   		//AJAX 전송
+   		
    		ajaxObj.send();
     };
     
-    /**
-	 * function 명 	: selectDocInfo
-	 * function 설명	: 선택한 산출물의 상세정보를 조회하여 화면에 세팅한다.
-	 * @param docId : 선택한 산출물 ID
-	 */
+    
 	var selectDocInfo = function() {
     	
-		//AJAX 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/prj/prj3000/prj3000/selectPrj3000DocInfoAjax.do'/>", "async": false}
 				,{"docId": docId}); 
-		//AJAX 전송 성공 함수
+		
 		ajaxObj.setFnSuccess(function(data){
 			
 			if(data.errorYn == "Y"){
@@ -263,56 +259,56 @@ var OSLPrj1004Popup = function () {
 			}else{
 				$("#"+formId)[0].reset();
 				
-				// 조직 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.docInfoMap,"frPrj3002", ["upperDocId", "upperDocNm", "docId", "docNm", "docEdDtm", "ord", "useNm", "signUseNm"]);
 			
 		    	var docDesc = data.docInfoMap.docDesc;
 				
-		    	//상위 산출물 없을 경우
+		    	
 		    	if($.osl.isNull(data.docInfoMap.upperDocId)){
 		    		$("#upperDocId").val("-");
 		    	}
 		    	
-		    	//상위 산출물 없을 경우
+		    	
 		    	if($.osl.isNull(data.docInfoMap.upperDocNm)){
 		    		$("#upperDocNm").val("-");
 		    	}
 		    	
-				// 산출물 마감일 없을 경우
+				
 				if($.osl.isNull(data.docInfoMap.docEdDtm)){
 					$("#docEdDtm").val("-");
 				}
 				
-				// 산출물 비고 있을 경우
+				
 				if(!$.osl.isNull(docDesc)){
 					docDesc =  $.osl.escapeHtml(docDesc);
-			    	// 비고 값 div영역에 세팅
+			    	
 					$("#docDesc").html(docDesc.replace(/\n/g, '<br/>'));
 				}
 				
-				//연결 정보 있을 경우 데이터 세팅
+				
 				if(data.docConList.length > 0){
-					//수정
+					
 					type = 'update';
 					
-   					//원본 데이터 저장
+   					
 					prjDocConOriginalData = data.docConList;
-	   				//대상 데이터 테이블
+	   				
 	   				var datatable = $.osl.datatable.list["prj3002PrjConTable"].targetDt;
 	   			
 	   				$.each(data.docConList, function(idx, map){
-		   				//담당자 배정 목록 추가
-						//datatable.dataSet.push(map);
+		   				
+						
 						datatable.originalDataSet.push(map);
 						
-						//중복체크 추가
+						
 						prjConDocIdList.push(map.targetId);
 	   				});
 					
-					//데이터 추가
+					
 					datatable.insertData();
 					
-					//데이터테이블 재 조회
+					
 					datatable.reload();
 					$.osl.datatable.list["prj3002PrjConTargetTable"].targetDt.reload();
    				}
@@ -320,15 +316,15 @@ var OSLPrj1004Popup = function () {
 			}
 		});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
 	};
     
     
-    //산출물 연결, 연결 대상 목록
+    
     var datatableSetting = function(){
     	
-    	//사용자 배정 정보 datatable 세팅
+    	
 		$.osl.datatable.setting("prj3002PrjConTable",{
 			data: {
 				type:'local',
@@ -349,9 +345,6 @@ var OSLPrj1004Popup = function () {
 				{field: 'targetTypeNm', title: '구분', textAlign: 'center', width: 80, search: true, searchType:"select", searchCd: "PRJ00022", searchField:"targetCd"},
 				{field: 'targetNm', title: '대상 명', textAlign: 'left', width: 200, search: true},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": "제외",
 				"update": false,
@@ -368,25 +361,25 @@ var OSLPrj1004Popup = function () {
 			},
 			actionFn:{
 				"select": function(datatableId, elem){
-					//검색 대상 가져오기
+					
 					var searchTypeTarget = $(".osl-datatable-search__dropdown[data-datatable-id="+datatableId+"] > .dropdown-item.active");
 					
-					//검색 값
+					
 					var searchData = $("#searchData_"+datatableId);
 
-					//대상 정보 가져오기
+					
 					var searchFieldId = searchTypeTarget.data("field-id");
 					var searchType = searchTypeTarget.data("opt-type");
 					var searchCd = $(this).data("opt-mst-cd");
 					
-					//입력된 검색값 초기화
+					
 					$.osl.datatable.list[datatableId].targetDt.setDataSourceQuery({});
 					
-					//전체가 아닌경우 해당 타입으로 검색
+					
 					if(searchType != "all"){
 						var searchDataValue = searchData.val();
 						
-						//공통코드인경우 select값 가져오기
+						
 						if(searchType == "select"){
 							searchDataValue = $("#searchSelect_"+datatableId).val();
 						}
@@ -399,13 +392,13 @@ var OSLPrj1004Popup = function () {
 				"dblClick":function(rowData){
 					var rowDatas = [];
 					rowDatas.push(rowData);
-					//사용자 배정 처리
+					
 					fnAllUsrDelete(rowDatas);
 				},
-				//선택 사용자 배정 제외
+				
 				"selConTargetDelete": function(rowData, datatableId, type, rownum, elem){
 					var rowDatas = rowData;
-					//선택 레코드 없는 경우
+					
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
@@ -413,7 +406,7 @@ var OSLPrj1004Popup = function () {
 					
 					$.osl.confirm($.osl.lang("prj3002.allDocConDelete",rowDatas.length),{html:true}, function(result){
 						if (result.value) {
-							//사용자 배정 제외 처리
+							
 							fnAllUsrDelete(rowDatas);
 						}
 					});
@@ -421,25 +414,25 @@ var OSLPrj1004Popup = function () {
 				"reset": function(rowData, datatableId, type, rownum, elem){
 					var datatable = $.osl.datatable.list[datatableId].targetDt;
 					
-					//데이터 초기화
+					
 					datatable.dataSet = [];
 					datatable.originalDataSet = [];
 					prjConDocIdList = [];
 					
-					//원본데이터 있는경우
+					
 					if(prjDocConOriginalData.length > 0){
 						$.each(prjDocConOriginalData, function(idx, map){
-			   				//담당자 배정 목록 추가
+			   				
 			   				datatable.dataSet.push(map);
 							datatable.originalDataSet.push(map);
 							
-							//중복체크 추가
+							
 							prjConDocIdList.push(map.targetId);
 		   				});
 					}
-					//데이터 추가
+					
 					datatable.insertData();
-					//데이터테이블 재 조회
+					
 					datatable.reload();
 					$.osl.datatable.list["prj3002PrjConTargetTable"].targetDt.reload();
 				}
@@ -447,7 +440,7 @@ var OSLPrj1004Popup = function () {
 		});
 		
     	
-		//산출물 연결 대상 정보 datatable 세팅
+		
 		$.osl.datatable.setting("prj3002PrjConTargetTable",{
 			data: {
 				source: {
@@ -508,9 +501,8 @@ var OSLPrj1004Popup = function () {
 				}
 			},
 			rows:{
-				clickCheckbox: true,
 				beforeTemplate: function (row, data, index){
-					//이미 배정된 사용자인경우
+					
 					if(prjConDocIdList.indexOf(data.targetId) > -1){
 						row.addClass("osl-datatable__row-assign--none");
 					}
@@ -521,14 +513,14 @@ var OSLPrj1004Popup = function () {
 					var rowDatas = [];
 					rowDatas.push(rowData);
 					
-					//사용자 배정 처리
+					
 					fnAllUsrInsert(rowDatas);
 				},
-				//선택 사용자 배정 등록
+				
 				"selTargetInsert": function(rowData, datatableId, type){
 					var rowDatas = rowData;
 					
-					//선택 레코드 없는 경우
+					
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
@@ -536,7 +528,7 @@ var OSLPrj1004Popup = function () {
 					
 					$.osl.confirm($.osl.lang("prj3002.allDocConInsert",rowDatas.length),{html:true}, function(result){
 						if (result.value) {
-							//사용자 배정 처리
+							
 							fnAllUsrInsert(rowDatas);
 						}
 					});
@@ -547,24 +539,24 @@ var OSLPrj1004Popup = function () {
 	
 	
 	
-	//담당자 배정 등록
+	
 	var fnAllUsrInsert = function(selDatas){
 		if(!$.osl.isNull(selDatas) && selDatas.length > 0){
-			//대상 데이터 테이블
+			
 			var datatable = $.osl.datatable.list["prj3002PrjConTable"].targetDt;
 			
-			//dataSet 비어있는 경우 초기화
+			
 			if($.osl.isNull(datatable.dataSet)){
 				datatable.dataSet = [];
 				datatable.originalDataSet = [];
 			}
 			
-			//이미 연결된 대상 목록
+			
 			var targetIdDupleList = 0;
 
-			//데이터 테이블에 담당자 배정 추가
+			
 			$.each(selDatas, function(idx, map){
-				//이미 추가된 사용자 목록 추가
+				
 				if(prjConDocIdList.indexOf(map.targetId) != -1){
 					targetIdDupleList++;
 					return true;
@@ -573,11 +565,11 @@ var OSLPrj1004Popup = function () {
 				datatable.dataSet.push(map);
 				datatable.originalDataSet.push(map);
 				
-				//중복체크 추가
+				
 				prjConDocIdList.push(map.targetId);
 			});
 			
-			//출력 메시지 세팅
+			
 			var toastrMsg = "";
 			var toastrType = "success";
 			
@@ -586,14 +578,14 @@ var OSLPrj1004Popup = function () {
 			}
 			
 			if(targetIdDupleList > 0){
-				//이미 추가된 메시지 있는 경우 </br>
+				
 				if(toastrMsg.length > 0){
 					toastrMsg += "</br>";
 				}
 				toastrMsg += $.osl.lang("prj3002.insert.saveDupleMsg",targetIdDupleList);
 				toastrType = "warning";
 			}
-			//모든 사용자가 배정되있는 경우
+			
 			if(targetIdDupleList == selDatas.length){
 				toastrMsg = $.osl.lang("prj3002.insert.saveAllDupleMsg",targetIdDupleList);
 				toastrType = "error";
@@ -601,9 +593,9 @@ var OSLPrj1004Popup = function () {
 			
 			$.osl.toastr(toastrMsg,{type: toastrType});
 			
-			//데이터 추가
+			
 			datatable.insertData();
-			//데이터테이블 재 조회
+			
 			datatable.reload();
 			
 			$.osl.datatable.list["prj3002PrjConTargetTable"].targetDt.reload();
@@ -611,35 +603,35 @@ var OSLPrj1004Popup = function () {
 		 }
 	};
 	
-	//담당자 배정 제외
+	
 	var fnAllUsrDelete = function(selDatas){
 		if(!$.osl.isNull(selDatas) && selDatas.length > 0){
-			//대상 데이터 테이블
+			
 			var datatable = $.osl.datatable.list["prj3002PrjConTable"].targetDt;
 			
-			//dataSet에서 제거
+			
 			var dataSet = datatable.dataSet;
 			var originalDataSet = datatable.originalDataSet;
 			
 			if(!$.osl.isNull(dataSet)){
-				//선택 데이터
+				
 				$.each(selDatas, function(idx, map){
 					$.each(originalDataSet, function(dataIdx, dataMap){
 						if($.osl.isNull(dataMap)){
 							return true;
 						}
-						//해당 사용자 배정 제외
+						
 						else if(map.targetId == dataMap.targetId){
 							originalDataSet.splice(dataIdx, 1);
 							
-							//중복체크 목록 제외
+							
 							prjConDocIdList.splice(prjConDocIdList.indexOf(map.targetId), 1);
 							return false;
 						}
 					});
 				});
 				
-				//데이터테이블 재 조회
+				
 				datatable.reload();
 				
 				$.osl.datatable.list["prj3002PrjConTargetTable"].targetDt.reload();
@@ -649,14 +641,14 @@ var OSLPrj1004Popup = function () {
 	};
 	
 	return {
-        // public functions 
+        
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLPrj1004Popup.init();
 });
