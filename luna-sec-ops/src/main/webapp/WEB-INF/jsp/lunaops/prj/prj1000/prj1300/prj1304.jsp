@@ -179,9 +179,6 @@ var OSLPrj1304Popup = function () {
 				{field: 'itemEssentialNm', title: '필수', textAlign: 'center', width: 100},
 				
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": "기능",
 				"width": 100,

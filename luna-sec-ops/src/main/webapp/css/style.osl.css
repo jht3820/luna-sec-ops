@@ -414,14 +414,14 @@ input:-webkit-autofill,
 }
 
 
+.osl-line-height--23{
+	line-height: 23px;
+}
 .osl-line-height--30{
 	line-height: 30px !important;
 }
 .osl-line-height--38{
 	line-height: 38px;
-}
-.osl-line-height--23{
-	line-height: 23px;
 }
 
 .osl-color--blue{
@@ -1018,6 +1018,9 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 .kt-user-card-v2 .kt-user-card-v2__details .kt-user-card-v2__name{
 	max-width: 300px;
 }
+.osl-user-card-v2__details-mobile{
+	max-width: 300px;
+}
 .osl-planing-poker-portlet>.osl-planing-poker-portlet__body{
 	width: 215px;
 	padding: 0px 20px 20px 20px;
@@ -1108,6 +1111,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
     color: #7985e4;
     font-size: 4rem;
 }
+.flowchart-operator-nextIcon~.flowchart-operator-title > .flowchart-operator-menu,
 .flowchart-operator-mask~.flowchart-operator-title > .flowchart-operator-menu {
     position: absolute;
     right: 10px;
@@ -2064,17 +2068,93 @@ label.required:after {
 	width: 0;
 }
 
-.osl-gallery-img{
+.osl-gallery__card{
+	display : inline-flex;
+	width: 100%;
+}
+.osl-gallery__img{
+	width: 80%; 
+	height: 20vw;
+	margin-left: auto;
+	margin-right: auto;
+}
+.osl-gallery__img>img{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.osl-gallery__img-limite{
+	max-height: 20vw !important;
+	width: auto;
+	max-width: 100%;
+}
+.osl-slideshow-container{
+	display: flex;
+	max-width: 500px;
+	height: 500px;
+	line-height: 500px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+.osl-slideshow-img{
+	align-items: center;
 	width: 100%;
 	height: 100%;
- 	max-width: 300px; 
-	max-height: 300px;
 }
-.osl-gallery-img__item>img{
-	width: 100%;
-	height : auto !important;
-	max-width: -webkit-fill-available !important;
+.osl-slideshow-img__limite{
+	max-height: 500px;
+	width: auto;
+	max-width: 100%;
 }
+.osl-fade{
+	-webkit-animation-name: fade;
+	-webkit-animation-duration: 1.5s;
+	animation-name: fade;
+	animation-duration: 1.5s;
+}
+@-webkit-keyframes osl-fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+@keyframes osl-fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+.osl-dot{
+	cursor: pointer;
+	height: 8px;
+	width: 8px;
+	margin: 0 2px;
+	background-color: #bbb;
+	border-radius: 50%;
+	display: inline-block;
+	transition: background-color 0.6s ease;
+}
+.osl-dot:hover{
+	background-color: #717171;
+}
+.osl-dot.active{
+	background-color: #1cac81;
+}
+.osl-movie__card{
+	display : inline-flex;
+	width: 420px;
+	margin: 3px;
+}
+.osl-movie__img{
+	width: 360px; 
+	height: 240px;
+	line-height: 240px;
+	text-align: center;
+}
+.osl-movie__img>img{
+	width: auto;
+	height: auto;
+ 	max-width: 360px; 
+	max-height: 240px;
+	vertical-align: middle;
+} 
 .osl-tag__list-div{
 	overflow: hidden;
 }
@@ -2083,9 +2163,6 @@ label.required:after {
 }
 .osl-portlet__head-label{
 	width: 100%;
-}
-.osl-bad__card-body{
-	position: relative;
 }
 .osl-portlet__sub-toolbar{
 	position: absolute;
@@ -2348,6 +2425,8 @@ label.required:after {
     opacity: 1;
     background: #1cac81;
 }
+
+.osl-req__process-mask__flow .flowchart-operator-function > li,
 .flowchart-operator-function > li {
     text-align: center;
     background-color: #5867dd;
@@ -2356,6 +2435,7 @@ label.required:after {
     padding: 3px;
     border-radius: 4px;
     margin: 2px;
+    display: inline-flex;
 }
 .osl-background-around {
 	background-color: #f3f6f9;
@@ -2408,6 +2488,7 @@ form#frCmm6201 .osl-process__flow-container {
 .osl-dsh-flowchart .flowchart-operator .flowchart-operator-title{
 	cursor: default;
 }
+.osl-req__process-mask__flow .flowchart-operator-function,
 .flowchart-operator .flowchart-operator-function {
     width: 100%;
     font-weight: bold;
@@ -2416,7 +2497,10 @@ form#frCmm6201 .osl-process__flow-container {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     background: #fff;
+    justify-content: start;
+    display: inline-flex;
 }
+.osl-req__process-mask__flow .flowchart-operator-function,
 .flowchart-operator .flowchart-operator-function:not(.hide) {
     border-bottom: 1px solid #ebedf2;
 }
@@ -3010,6 +3094,15 @@ form#frCmm6201 .osl-process__flow-container {
 	.osl-message__menu-width{
 		width: 100%;
 	}
+	
+	.osl-slideshow-container{
+		max-width: 380px;
+		height: 380px;
+		line-height: 380px;
+	}
+	.osl-slideshow-img__limite{
+		max-height: 380px;
+	}
 }
 @media (min-width: 1025px) {
 	
@@ -3384,6 +3477,15 @@ form#frCmm6201 .osl-process__flow-container {
 	.osl-widget-info__item .osl-widget-info__item-icon{
 		display:none;
 	}	
+	
+	.osl-slideshow-container{
+		max-width: 300px;
+		height: 300px;
+		line-height: 300px;
+	}
+	.osl-slideshow-img__limite{
+		max-height: 300px;
+	}
 }
 @media(min-width:800px){
 	.osl-desktop-max-w-285{
@@ -3509,6 +3611,9 @@ form#frCmm6201 .osl-process__flow-container {
 	}
 	.osl-flex-flow--column-mobile-430{
 		flex-flow: column;
+	}
+	.osl-user-card-v2__details-mobile{
+		max-width : 200px !important;
 	}
 }
 

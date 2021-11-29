@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -113,7 +113,7 @@ var OSLReq4100Popup = function () {
 						}
 					}
 				},
-				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true,
+				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 120, search: true, autoHide: false,
 					template: function (row) {
 						if($.osl.isNull(row.reqChargerId)){
 							return row.reqChargerNm = "-";
@@ -151,9 +151,6 @@ var OSLReq4100Popup = function () {
 				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2},
 				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
 			],
-			rows:{
-				clickCheckbox: true,
-			},
 			actionBtn:{
 				"title" : $.osl.lang("req4100.actionBtn.title"),
 				"dblClick": true,

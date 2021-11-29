@@ -224,9 +224,6 @@ var OSLSpr2100Popup = function () {
 					}
 				}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": $.osl.lang("spr2100.actionBtn.title"),
 				"dblClick": true,

@@ -107,9 +107,6 @@ var OSLDpl2100Popup = function () {
 					}
 				},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"signApr":true,
 				"signReject":true,
@@ -334,7 +331,7 @@ var OSLDpl2100Popup = function () {
  				$.osl.alert($.lang("cmm6601.sign.fail"),{type: 'error'});
  			}else{
  				
- 				$.osl.toastr($.lang("cmm6601.sign.success"));
+ 				$.osl.toastr($.osl.lang("cmm6601.sign.success"));
  			}
  		});
  		
