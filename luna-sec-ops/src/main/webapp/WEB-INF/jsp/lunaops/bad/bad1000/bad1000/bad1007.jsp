@@ -15,28 +15,28 @@
 			<div class="kt-padding-t-10 kt-padding-b-15 osl-font-size--1_5 osl-border-b--dedede" name="badTitleDiv" id="badTitleDiv"></div>
 			
 			<div class="osl-portlet__head-label kt-margin-t-10">
-				<div class="kt-padding-5 osl-padding-b-6__5" name="writerDiv" id="writerDiv"  data-badUsrId=''></div>
-				<div class="kt-padding-5 kt-padding-r-20" name="writeDateDiv" id="writeDateDiv"></div>
+				<div class="float-left" name="writerDiv" id="writerDiv"  data-badUsrId=''></div>
+				
+				<div class="float-right kt-margin-l-15">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="updateBtn" id="updateBtn" title="게시글 수정" data-title-lang-cd="bad1007.actionTooltip.updateTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+						<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
+					</button>
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="deleteBtn" id="deleteBtn" title="게시글 삭제" data-title-lang-cd="bad1007.actionTooltip.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+						<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
+					</button>
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air kt-hide" name="restoreBtn" id="restoreBtn" title="게시글 복원" data-title-lang-cd="bad1007.actionTooltip.restoreTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+						<i class="la la-rotate-left"></i><span data-lang-cd="bad1007.button.restore">복구</span>
+					</button>
+				</div>
+				<div class="float-right" name="writeDateDiv" id="writeDateDiv"></div>
 				
 			</div>	
 		</div>
 		<div class="osl-bad__card-body">
 			
-			<div class="osl-portlet__sub-toolbar">
-				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-r-5 btn-elevate btn-elevate-air" name="updateBtn" id="updateBtn" title="게시글 수정" data-title-lang-cd="bad1007.actionTooltip.updateTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-					<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
-				</button>
-				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-r-5 btn-elevate btn-elevate-air" name="deleteBtn" id="deleteBtn" title="게시글 삭제" data-title-lang-cd="bad1007.actionTooltip.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-					<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
-				</button>
-				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-r-5 btn-elevate btn-elevate-air kt-hide" name="restoreBtn" id="restoreBtn" title="게시글 복원" data-title-lang-cd="bad1007.actionTooltip.restoreTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-					<i class="la la-rotate-left"></i><span data-lang-cd="bad1007.button.restore">복구</span>
-				</button>
-			</div>
 			
-			
-			<div class="form-group kt-margin-20" name="badFileOption" id="badFileOption" data-ride="carousel">
-				<div class="kt-margin-t-10kt-slider carousel slide" name="fileListDiv" id="fileListDiv">
+			<div class="form-group kt-margin-20 position-relative" name="badFileOption" id="badFileOption">
+				<div class="kt-margin-t-10 kt-slider carousel slide osl-slideshow-img" name="fileListDiv" id="fileListDiv" data-ride="carousel" data-interval="false">
 				</div>
 				<div class="kt-margin-t-10 carousel-indicators" name="fileListBtnDiv" id="fileListBtnDiv"></div>
 			</div>
@@ -354,7 +354,7 @@ var OSLBad1007Popup = function () {
 				$.osl.alert($.osl.lang("bad1007.notAuthority.restoreMessage"), {"type":"warning"});
 			}
     	});
-	
+		
     };
     
     
@@ -458,25 +458,25 @@ var OSLBad1007Popup = function () {
 			    	
 			    	
 			    	if(type=="03"){
-			    		var resultStr = "<div class='osl-slideshow-container kt-align-center  carousel-inner'>";
-			    		var resultStrNext = "<div class='kt-align-center kt-margin-t-20 kt-margin-b-20'>";
+			    		var resultStr = "<div class='carousel-inner osl-slideshow-container'>";
+			    		var resultStrNext ='';
 			    		$.each(fileList, function(idx, map){
 			    			if(idx == 0){
-				    			resultStr += "<div class='carousel-item active kt-slider__body osl-slideshow-img osl-fade' data-slide-num='"+(idx+1)+"'>";
-				    			resultStrNext += "<span class='osl-dot active' data-slide-num='"+(idx+1)+"'></span>";
+				    			resultStr += "<div class='carousel-item active osl-slideshow-img'>";
+				    			resultStrNext += "<span class='osl-dot active' data-target='#fileListDiv' data-slide-to='"+idx+"'></span>";
 			    			}else{
-				    			resultStr += "<div class='carousel-item kt-slider__body osl-slideshow-img osl-fade' data-slide-num='"+(idx+1)+"'>";
-				    			resultStrNext += "<span class='osl-dot' data-slide-num='"+(idx+1)+"'></span>";
+				    			resultStr += "<div class='carousel-item osl-slideshow-img'>";
+				    			resultStrNext += "<span class='osl-dot' data-target='#fileListDiv' data-slide-to='"+idx+"'></span>";
 			    			}
 			    					resultStr += "<img src='/cmm/fms/getImage.do?fileSn="+map.fileSn+"&atchFileId="+map.atchFileId+"' data-atch-file-id='"+map.atchFileId+"' data-file-sn='"+map.fileSn+"'/>"
 											+"</div>";
 			    		});
 			    		resultStr += "</div>";
-				    	resultStrNext += "</div>";
 			    		
 			    		$("#fileListDiv").append(resultStr);
 			    		$("#fileListBtnDiv").append(resultStrNext);
-
+						
+			    		
 			    		
 				    	
 				    	
@@ -493,90 +493,37 @@ var OSLBad1007Popup = function () {
 				    	});
 
 				    	
-				    	$(".osl-dot").click(function(){
-				    		var index = $(this).data("slideNum");
-				    		
-				    		var slides = $(".osl-slideshow-img");
-				    		var dots = $(".osl-dot");
-				    		
-				    		if(index>slides.length){
-								index = 1;			    			
-				    		}else if(index < 1){
-				    			index = slides.lenght;
+				    	 $('.carousel').on('slide.bs.carousel', function(e) {
+				    		 var pageNum = e.to;
+				    		 var dots = $(".osl-dot");
+				    		 $(".osl-dot").removeClass("active");
+				    		 $(dots[pageNum]).addClass("active"); 
+			            }); 
+				    	
+				    	
+				    	$(".osl-slideshow-img").on({
+				    		'dragstart':function(e){
+				    			mouseX = e.pageX;
+				    		},
+				    		'dragend':function(e){
+				    			var diffX = e.pageX - mouseX;
+					    		if(diffX<0){
+					    			
+					    			
+					    			$(this).carousel('next');
+				    				
+				    				mouseX = 0;
+					    		}else{
+					    			
+					    			
+				    				$(this).carousel('prev');
+				    				mouseX = 0;
+					    		}
 				    		}
-				    		
-				    		$.each(slides, function(idx, map){
-				    			$(map).removeClass("active");
-				    		});
-				    		$.each(dots, function(idx, map){
-				    			$(map).removeClass("active");
-				    		});
-				    		
-				    		$(slides[index-1]).addClass("active");  
-					    	$(dots[index-1]).addClass("active");
-				    	});
-				    	
-				    	
-				    	$(".osl-slideshow-img").on("dragstart", function(e){
-					    		mouseX = e.pageX;
-				    	});
-				    	
-				    	$(".osl-slideshow-img").on("dragend", function(e){
-				    		var diffX = e.pageX - mouseX;
-				    		if(diffX<0){
-				    			
-				    			
-				    			var num = $(this).data("slideNum");
-				    			if(num < $(".osl-slideshow-img").length){
-				    				
-				    				$(".osl-dot[data-slide-num="+(num+1)+"]").click();
-				    			}
-			    				
-			    				mouseX = 0;
-				    		}else{
-				    			
-				    			
-			    				var num = $(this).data("slideNum");
-				    			if(num > 1){
-				    				
-				    				$(".osl-dot[data-slide-num="+(num-1)+"]").click();
-				    			}
-			    				
-			    				mouseX = 0;
-				    		}
-				    	});
-				    	
-				    	$(".osl-slideshow-img").on("touchstart", function(e){
-				    		mouseX = e.originalEvent.changedTouches[0].screenX;
-				    	});				    	
-				    	
-				    	$(".osl-slideshow-img").on("touchend", function(e){
-				    		var diffX = e.originalEvent.changedTouches[0].screenX - mouseX;
-				    		if(diffX<0){
-				    			
-				    			
-				    			var num = $(this).data("slideNum");
-				    			if(num < $(".osl-slideshow-img").length){
-				    				
-				    				$(".osl-dot[data-slide-num="+(num+1)+"]").click();
-				    			}
-			    				
-			    				mouseX = 0;
-				    		}else{
-				    			
-				    			
-			    				var num = $(this).data("slideNum");
-				    			if(num > 1){
-				    				
-				    				$(".osl-dot[data-slide-num="+(num-1)+"]").click();
-				    			}
-			    				
-			    				mouseX = 0;
-				    		}
-				    	});				    	
+				    	});				    	    	
 			    	}else{ 
 			    		
-			    	}
+			    	}	
 			    	
 			    	
 			    	 
@@ -766,6 +713,7 @@ var OSLBad1007Popup = function () {
     	
 		ajaxObj.send();
 	};
+	
 	
     return {
         init: function() {
