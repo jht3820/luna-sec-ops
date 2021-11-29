@@ -151,7 +151,6 @@ var OSLDpl1000Popup = function () {
 						};
 					
 					$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1001View.do',data,options);
-					
 				
 				},
 				"update":function(rowData, datatableId, type, rowNum, elem){

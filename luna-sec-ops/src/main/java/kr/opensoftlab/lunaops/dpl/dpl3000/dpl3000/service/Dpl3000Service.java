@@ -7,6 +7,6 @@ import java.util.Map;
 public interface Dpl3000Service {
 
 	
-	@SuppressWarnings({"rawtypes" })
+	@SuppressWarnings({"rawtypes"})
 	Map selectDpl1400DplJobBuildInfo(Map paramMap)  throws Exception;
 }
