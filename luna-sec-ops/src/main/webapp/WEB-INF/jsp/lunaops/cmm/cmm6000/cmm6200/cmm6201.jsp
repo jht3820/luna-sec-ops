@@ -449,11 +449,19 @@
 					<div class="kt-portlet__head kt-portlet__head--lg">
 						<div class="kt-portlet__head-label">
 							<h5 class="kt-font-boldest kt-font-brand">
-								<i class="fa fa-th-large kt-margin-r-5"></i><span>작업흐름 목록</span>
+								<i class="fa fa-th-large kt-margin-r-5"></i><span>단계 목록</span>
 							</h5>
 						</div>
 						<div class="kt-portlet__head-toolbar">
 							<div class="kt-portlet__head-wrapper">
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type active" title="사용자 정의 위치로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="6" data-view-type="01">
+										<i class="fa fa-project-diagram osl-padding-r0"></i>
+									</button>
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type" title="세로형 위치로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="7" data-view-type="02">
+										<i class="fa fa-sitemap osl-padding-r0"></i>
+									</button>
+								</div>
 								<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-flow-action="zommCtrl" data-zoom="reset" title="프로세스 조회" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
 									<i class="fa fa-redo-alt"></i><span data-lang-cd="datatable.button.select">확대 초기화</span>
 								</button>
@@ -553,6 +561,9 @@ var OSLCmm6201Popup = function () {
 	
 	var currentSignUsrInfo;
 	
+	
+	var flowViewType = "01";
+	
     
     var documentSetting = function () {
 
@@ -636,6 +647,54 @@ var OSLCmm6201Popup = function () {
     		}
     	});
     	
+    	
+		$("#"+formId+" .btn-view-type").click(function(){
+			var viewType = $(this).data("view-type");
+			
+			
+			$(".btn-view-type.active").removeClass("active");
+			$(this).addClass("active");
+			
+			flowViewType = viewType;
+			
+			
+			fnSelectFlowList();
+			
+			
+			fnFlowChartZoom("reset");
+		});
+		
+		$("#"+formId+" #cmm6201FlowChartDiv").on("click",".osl-flowchart__operator .flowchart-operator-menu .dropdown-menu .dropdown-item, button[data-flow-action]",function(){
+			var flowAction = $(this).data("flow-action");
+			
+			
+			if(flowAction == "detail"){
+				var selFlowId = $(this).parents(".dropdown-menu").data("flow-id");
+				
+				if($.osl.isNull(selFlowId)){
+					$.osl.alert($.osl.lang("prj1100.alert.selNoneFlow"));
+					return false;
+				}
+				
+				var data = {
+						paramPrjGrpId: $.osl.selPrjGrpId,
+						paramPrjId: $.osl.selPrjId,
+						paramProcessId: paramProId,
+						paramFlowId: paramFlowId,
+						paramFlowchartTarget: "#"+formId+" #cmm6201FlowChartDiv"
+				};
+				var options = {
+					autoHeight: false,
+					modalSize: "xl",
+					idKey: paramProId,
+					modalTitle: $.osl.lang("prj1103.insert.title"),
+					closeConfirm: false,
+				};
+				
+				$.osl.layerPopupOpen('/prj/prj1000/prj1100/selectPrj1103View.do',data,options);
+			}
+		});
+		
 		
 		$("#"+formId+" #reqChargerNm").keydown(function(e){
 			if(e.keyCode == 13){
@@ -1406,6 +1465,15 @@ var OSLCmm6201Popup = function () {
 		    	flowList = data.flowList;
 		    	
 		    	
+		    	if(KTUtil.isMobileDevice()){
+		    		
+		    		flowViewType = "02";
+		    		$(".btn-view-type.active").removeClass("active");
+		    		$(".btn-view-type[data-view-type=02]").addClass("active");
+		    		
+		    	}
+		    	
+		    	
 				var wizard = new KTWizard('requestProcessWizard', {
 					startStep: 1, 
 					clickableSteps: true		
@@ -1442,11 +1510,10 @@ var OSLCmm6201Popup = function () {
 					else if(wizardObj.currentStep == 3){
 						if($.osl.isNull(selFlowId)){
 							
-							fnSelectFlowList(flowList, flowLinkList);
+							fnSelectFlowList();
 						}
 						
-						
-						if(reqProcessAuthFlag){
+						if(reqProcessAuthFlag && flowViewType == "01"){
 							fnFlowChartZoom("currentFocus");
 						}
 					}
@@ -1518,7 +1585,7 @@ var OSLCmm6201Popup = function () {
 	};
 	
 	
-	var fnSelectFlowList = function(flowList, flowLinkList){
+	var fnSelectFlowList = function(){
 		selFlowId = null;
 		
 		flowChart.flowchart("setData",{});
@@ -1533,6 +1600,7 @@ var OSLCmm6201Popup = function () {
 					
 					if(!flowNextIdList.hasOwnProperty(map.flowId)){
 						flowNextIdList[map.flowId] = [];
+						
 					}
 					flowNextIdList[map.flowId].push(map.flowNextId);
 				});
@@ -1545,6 +1613,14 @@ var OSLCmm6201Popup = function () {
 			var flowNextCnt = 0;
 			
 			var targetFlowNextId;
+			
+			
+			var flowAppendUpList = [];
+			var flowAppendDownList = [];
+			
+			
+			var flowStartMap = {};
+			var flowDoneMap = {};
 			
 			$.each(flowList, function(idx, map){
 				var flowNextId = [];
@@ -1575,9 +1651,13 @@ var OSLCmm6201Popup = function () {
 				}
 				
 				
+				var top = map.flowTop;
+				var left = map.flowLeft;
+				
+				
    				var operatorData = {
-					top: map.flowTop,
-					left: map.flowLeft,
+					top: top,
+					left: left,
 					properties: {
 						id: map.flowId,
 						flowNextId: flowNextId,
@@ -1596,12 +1676,50 @@ var OSLCmm6201Popup = function () {
 						flowRevisionCd: map.flowRevisionCd,
 						flowDplCd: map.flowDplCd,
 						flowAuthCd: map.flowAuthCd,
+						basicItemList: map.basicItemList
 					}
 				};
-   				
-   				flowChart.flowchart('createOperator', map.flowId, operatorData);
+				
+				if(map.flowStartCd == "01"){
+					
+					flowStartMap = operatorData;
+				}
+				
+				else if(map.flowDoneCd == "01"){
+					flowDoneMap = operatorData;
+				}
+				
+				else if(flowStatus == "01"){
+					flowAppendUpList.push(operatorData);
+				}else{
+		   			flowAppendDownList.push(operatorData);
+				}
 			});
 			
+			
+			flowAppendUpList.unshift(flowStartMap);
+			
+			
+			if(flowDoneMap.properties.flowStatus == "01"){
+				flowAppendUpList.push(flowDoneMap);
+			}else{
+				flowAppendDownList.push(flowDoneMap);
+			}
+			var flowAppendList = flowAppendUpList.concat(flowAppendDownList);
+			
+			var top = 20;
+			var left = 20;
+			$.each(flowAppendList, function(idx, map){
+				var flowId = map.properties.id;
+				
+				if(flowViewType == "02"){
+					map.top = top+(idx*140);
+					map.left = left;
+				}
+				
+				flowChart.flowchart('createOperator', flowId, map);
+			});
+		
 			
 			if(!$.osl.isNull(flowLinkList) && flowLinkList.length > 0){
 				$.each(flowLinkList, function(idx, map){

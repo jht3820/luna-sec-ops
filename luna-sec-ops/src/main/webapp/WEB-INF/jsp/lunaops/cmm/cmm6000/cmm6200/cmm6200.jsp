@@ -716,6 +716,13 @@ var OSLCmm6200Popup = function () {
     					map.itemOrd = itemOrd+idx+1;
     					basicItemInsertList[idx] = map;
     				});
+    			}else{
+    		   		
+    				$.each(basicItemInsertList, function(idx, map){
+    					map.itemOrd = idx+1;
+    					basicItemInsertList[idx] = map;
+    				});
+    				
     			}
     	   		
 				if (result.value) {

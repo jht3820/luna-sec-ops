@@ -22,7 +22,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
    	@Resource(name = "cmm6600DAO")
    	private Cmm6600DAO cmm6600DAO;
    	
-	
+	 
     @Resource(name="arm1100DAO")
     private Arm1100DAO arm1100DAO;
    	
@@ -34,7 +34,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 
 	
 	@Override
-	public void saveCmm6600SignLine(Map<String, String> paramMap) throws Exception {
+	public String saveCmm6600SignLine(Map<String, String> paramMap) throws Exception {
 		
 		String singUsrInfList = (String) paramMap.get("signUsrInfList");
 		String signLineId = cmm6600DAO.selectCmm6600NewSignLineId(paramMap);
@@ -114,6 +114,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				}
 			}
 		}
+		return signLineId;
 		
 	}
 
@@ -146,8 +147,9 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void insertCmm6601SignInfo(Map<String, String> paramMap) throws Exception {
+	public String insertCmm6601SignInfo(Map<String, String> paramMap) throws Exception {
 		String rowDatas = paramMap.get("rowDatas");
+		String signLineId = "";
 		
 		if(rowDatas != null && !"[]".equals(rowDatas)) {
 			
@@ -173,6 +175,8 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				
 				paramMap.put("ord", String.valueOf(ord));
 				paramMap.put("targetId", jsonObj.getString("dplId"));
+				paramMap.put("signLineId", jsonObj.getString("signLineId"));
+				signLineId = jsonObj.getString("signLineId");
 				
 				
 				ntfParamDft.put("armTypeCd", "04"); 
@@ -230,7 +234,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 					
 					}else {
 						
-						paramMap.put("ord", String.valueOf(ord+1));
+						paramMap.put("ord", String.valueOf(ord));
 						paramMap.put("signTypeCd", "02");
 						
 						
@@ -286,6 +290,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 			arm1100DAO.insertArm1100NtfInfo(ntfParamDft);
 			
 		}
+		return signLineId;
 	}
 
 	
@@ -314,6 +319,23 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	public int select6600MaxOrd(Map paramMap) throws Exception {
 		
 		return cmm6600DAO.select6600MaxOrd(paramMap);
+	}
+
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Map selectCmm6600CmmInfo(Map paramMap) throws Exception {
+		
+		
+		Map cmmInfoMap = cmm6600DAO.selectCmm6601CmmInfo(paramMap);
+		
+		
+		List<Map> signLineList = cmm6600DAO.selectCmm6600SignLineList(paramMap);
+		
+		
+		cmmInfoMap.put("signLineList", signLineList);
+		
+		return cmmInfoMap;
 	}
 }
 

@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
-	 
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -334,7 +333,7 @@ var OSLDpl2100Popup = function () {
  				$.osl.alert($.lang("cmm6601.sign.fail"),{type: 'error'});
  			}else{
  				
- 				$.osl.toastr($.lang("cmm6601.sign.success"));
+ 				$.osl.toastr($.osl.lang("cmm6601.sign.success"));
  			}
  		});
  		

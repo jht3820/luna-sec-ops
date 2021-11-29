@@ -109,6 +109,9 @@
 			WHERE 1=1
 			AND A.PRJ_ID = #prjId#
 			AND A.DPL_DEL_CD = '02'
+			<isNotEmpty property="paramDplStsCd">
+				AND A.DPL_STS_CD = #paramDplStsCd#
+			</isNotEmpty>
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">
 					ORDER BY $paramSortFieldId$
@@ -125,6 +128,9 @@
 			</isEmpty> 
 		) SUB1
 		WHERE 1=1
+		<isNotEmpty property="paramSearchData">
+			AND SUB1.DPL_NM LIKE '%'|| #paramSearchData# ||'%'
+		</isNotEmpty>
 		<isNotEmpty property="searchTargetData">
 			<isNotEmpty property="searchTargetId">
 				<isEqual property="searchTargetId" compareValue="dplNm">
@@ -640,7 +646,7 @@
 		SELECT
 				SUB1.LIC_GRP_ID
 			,	SUB1.PRJ_ID
-			,	SUB1.SIGN_ID
+			,	SUB1.SIGN_LINE_ID
 			,	SUB1.TARGET_CD
 			,	SUB1.TARGET_ID
 			,	SUB1.ORD
@@ -668,7 +674,7 @@
 			SELECT	
 		    			A.LIC_GRP_ID
 		    		,	A.PRJ_ID
-		    		,	A.SIGN_ID
+		    		,	A.SIGN_LINE_ID
 		    		,	A.TARGET_CD
 		    		,	A.TARGET_ID
 		    		,	A.ORD
@@ -686,13 +692,12 @@
 		    		,	'SIG' AS TYPE
 		    	FROM	CMM6601 A
 		    	LEFT JOIN CMM6600 B
-		    	ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID =B.TARGET_ID AND A.TARGET_CD =B.TARGET_CD AND (A.ORD+1) = B.ORD)
+		    	ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID =B.TARGET_ID AND A.TARGET_CD =B.TARGET_CD AND (A.ORD+1) = B.ORD AND A.SIGN_LINE_ID = B.SIGN_LINE_ID)
 		    	WHERE   1 = 1
 		    	AND		A.LIC_GRP_ID = #licGrpId#
 		    	AND		A.PRJ_ID	   = #prjId#
 		    	AND		A.TARGET_ID  = #targetId#
     			AND		A.TARGET_CD  = #targetCd#
-    			
 		) SUB1
 		WHERE 1=1
 		ORDER BY SUB1.SIGN_DTM DESC
