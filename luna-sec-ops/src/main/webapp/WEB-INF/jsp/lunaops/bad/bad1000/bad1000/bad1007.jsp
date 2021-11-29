@@ -35,18 +35,10 @@
 			</div>
 			
 			
-			<div class="form-group kt-margin-20 kt-hide" name="badFileOption" id="badFileOption">
-				<!-- 
-				<div class="kt-font-bolder kt-padding-l-5">
-					<i class="fa fa-file-upload kt-margin-r-5"></i><span data-lang-cd="bad1007.label.attachFile">파일 첨부</span>
+			<div class="form-group kt-margin-20" name="badFileOption" id="badFileOption" data-ride="carousel">
+				<div class="kt-margin-t-10kt-slider carousel slide" name="fileListDiv" id="fileListDiv">
 				</div>
-				<div class="kt-margin-t-10 kt-uppy fileReadonly" name="fileListDiv" id="fileListDiv">
-					<div class="kt-uppy__dashboard"></div>
-					<div class="kt-uppy__progress"></div>
-				</div> 
-				-->
-				<div class="kt-margin-t-10 kt-slider carousel slide" name="fileListDiv" id="fileListDiv">
-				</div>
+				<div class="kt-margin-t-10 carousel-indicators" name="fileListBtnDiv" id="fileListBtnDiv"></div>
 			</div>
 			
 			
@@ -139,9 +131,6 @@ var OSLBad1007Popup = function () {
     	
 		checkUser();
     	
-		
-	 	
-	   	
 	   	
 	   	
 	   	if(!$.osl.isNull($("#badHitYn").val())){
@@ -308,7 +297,6 @@ var OSLBad1007Popup = function () {
 					menuRootYn : 'N',
 					deleteDataList : JSON.stringify(paramRowData),
 			};
-			;
 			var options = {
 					idKey: "del_"+paramRowData.badId,
 					modalTitle: $.osl.lang("bad1007.title.boardCheck.oneStep", paramRowData.badNum) + " " +$.osl.lang("bad1007.title.deleteReason"),
@@ -366,6 +354,7 @@ var OSLBad1007Popup = function () {
 				$.osl.alert($.osl.lang("bad1007.notAuthority.restoreMessage"), {"type":"warning"});
 			}
     	});
+	
     };
     
     
@@ -466,28 +455,31 @@ var OSLBad1007Popup = function () {
 				
 				if(paramRowData.stmFileCnt != '0' && !$.osl.isNull(fileList)){
 					$("#badFileOption").removeClass("kt-hide");
-					
-					
-			    	
-			    	
-			    	
-			    	
 			    	
 			    	
 			    	if(type=="03"){
-			    		var resultStr = "<div class='osl-slideshow-container kt-align-center'>";
-				    	var resultStrNext = "<div class='kt-align-center kt-margin-t-20 kt-margin-b-20'>";
-				    	$.each(fileList, function(idx, map){
-			    			resultStr += "<div class='osl-slideshow-img osl-fade' data-slide-num='"+(idx+1)+"'>"
-				    							+ "<img src='/cmm/fms/getImage.do?fileSn="+map.fileSn+"&atchFileId="+map.atchFileId+"' data-atch-file-id='"+map.atchFileId+"' data-file-sn='"+map.fileSn+"'/>"
-			    							+"</div>";
-			    			resultStrNext += "<span class='osl-dot' data-slide-num='"+(idx+1)+"'></span>";
-				    	});
-				    	resultStr += "</div>";
+			    		var resultStr = "<div class='osl-slideshow-container kt-align-center  carousel-inner'>";
+			    		var resultStrNext = "<div class='kt-align-center kt-margin-t-20 kt-margin-b-20'>";
+			    		$.each(fileList, function(idx, map){
+			    			if(idx == 0){
+				    			resultStr += "<div class='carousel-item active kt-slider__body osl-slideshow-img osl-fade' data-slide-num='"+(idx+1)+"'>";
+				    			resultStrNext += "<span class='osl-dot active' data-slide-num='"+(idx+1)+"'></span>";
+			    			}else{
+				    			resultStr += "<div class='carousel-item kt-slider__body osl-slideshow-img osl-fade' data-slide-num='"+(idx+1)+"'>";
+				    			resultStrNext += "<span class='osl-dot' data-slide-num='"+(idx+1)+"'></span>";
+			    			}
+			    					resultStr += "<img src='/cmm/fms/getImage.do?fileSn="+map.fileSn+"&atchFileId="+map.atchFileId+"' data-atch-file-id='"+map.atchFileId+"' data-file-sn='"+map.fileSn+"'/>"
+											+"</div>";
+			    		});
+			    		resultStr += "</div>";
 				    	resultStrNext += "</div>";
-				    	
-				    	resultStr += resultStrNext;
+			    		
+			    		$("#fileListDiv").append(resultStr);
+			    		$("#fileListBtnDiv").append(resultStrNext);
 
+			    		
+				    	
+				    	
 				    	$('.osl-slideshow-container img').on('load',function(){
 				    		$.each($(".osl-slideshow-img"), function(idx, map){
 					    		var w = $(map).find("img")[0].naturalWidth;
@@ -499,7 +491,7 @@ var OSLBad1007Popup = function () {
 					    		}
 				    		});
 				    	});
-				    	 
+
 				    	
 				    	$(".osl-dot").click(function(){
 				    		var index = $(this).data("slideNum");
@@ -514,15 +506,16 @@ var OSLBad1007Popup = function () {
 				    		}
 				    		
 				    		$.each(slides, function(idx, map){
-				    			$(map).addClass("kt-hide");
+				    			$(map).removeClass("active");
 				    		});
 				    		$.each(dots, function(idx, map){
 				    			$(map).removeClass("active");
 				    		});
 				    		
-				    		$(slides[index-1]).removeClass("kt-hide");  
+				    		$(slides[index-1]).addClass("active");  
 					    	$(dots[index-1]).addClass("active");
 				    	});
+				    	
 				    	
 				    	$(".osl-slideshow-img").on("dragstart", function(e){
 					    		mouseX = e.pageX;
@@ -553,18 +546,34 @@ var OSLBad1007Popup = function () {
 				    		}
 				    	});
 				    	
-			    		
-				    	$.each($(".osl-slideshow-img"), function(idx, map){
-				    		if(idx == 0){
+				    	$(".osl-slideshow-img").on("touchstart", function(e){
+				    		mouseX = e.originalEvent.changedTouches[0].screenX;
+				    	});				    	
+				    	
+				    	$(".osl-slideshow-img").on("touchend", function(e){
+				    		var diffX = e.originalEvent.changedTouches[0].screenX - mouseX;
+				    		if(diffX<0){
 				    			
-				    			$(map).removeClass("kt-hide");
 				    			
-				    			$($(".osl-dot")[0]).addClass("active");
+				    			var num = $(this).data("slideNum");
+				    			if(num < $(".osl-slideshow-img").length){
+				    				
+				    				$(".osl-dot[data-slide-num="+(num+1)+"]").click();
+				    			}
+			    				
+			    				mouseX = 0;
 				    		}else{
-				    			$(map).addClass("kt-hide");
+				    			
+				    			
+			    				var num = $(this).data("slideNum");
+				    			if(num > 1){
+				    				
+				    				$(".osl-dot[data-slide-num="+(num-1)+"]").click();
+				    			}
+			    				
+			    				mouseX = 0;
 				    		}
-				    	});
-			    		
+				    	});				    	
 			    	}else{ 
 			    		
 			    	}
