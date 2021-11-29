@@ -2467,8 +2467,13 @@
 							});
 
 							
+							if(!$.osl.isNull($(row).data("long-press-delay"))){
+								$(row).data("long-press-delay", 500);
+							}
+							
+							
 							$(row).off("dblclick");
-							$(row).on('dblclick', function (event) {
+							$(row).on('dblclick long-press', function (event) {
 								if(bubleFlag != false){
 									
 									event.cancelable = true;
