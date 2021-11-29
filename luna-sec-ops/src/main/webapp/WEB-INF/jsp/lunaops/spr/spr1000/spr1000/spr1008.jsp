@@ -21,7 +21,7 @@ var OSLSpr1008Popup = function () {
 		var datatableId = "spr2100RptTable";
     	var sprId = $("#sprId").val();
 
-		//회고록 목록 테이블 세팅
+		
 		$.osl.datatable.setting(datatableId,{
 			data:{
 				source:{
@@ -76,7 +76,7 @@ var OSLSpr1008Popup = function () {
 			actionFn:{
 				"insert":function(rowData){
 					if($.osl.isNull($("#sprId").val())){
-						//스프린트를 선택하지 않았으면
+						
 						$.osl.alert($.osl.lang("spr2100.message.selectMsg"));
 						return false;
 					}
@@ -113,22 +113,22 @@ var OSLSpr1008Popup = function () {
 					var data = {
 						dataList : JSON.stringify(rowData)
 					};
-					//AJAX 설정
+					
 			    	var ajaxObj = new $.osl.ajaxRequestAction(
 			    			{"url":"<c:url value='/spr/spr2000/spr2100/deleteSpr2100MmrListAjax.do'/>"}
 			    				, data);
-					//AJAX 전송 성공 함수
+					
 			    	ajaxObj.setFnSuccess(function(data){
 			    		if(data.errorYn == "Y"){
 							$.osl.alert(data.message,{type: 'error'});
-							//모달 창 닫기
+							
 							$.osl.layerPopupClose();
 						}else{
 							$.osl.toastr(data.message);
 							selectBtnClick();
 						}
 			    	});
-			    	//AJAX 전송
+			    	
 					ajaxObj.send();
 				},
 				"dblClick": function(rowData){
@@ -150,14 +150,14 @@ var OSLSpr1008Popup = function () {
 		});
 	}
     return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-// Initialization
+
 $.osl.ready(function(){
 	OSLSpr1008Popup.init();
 });

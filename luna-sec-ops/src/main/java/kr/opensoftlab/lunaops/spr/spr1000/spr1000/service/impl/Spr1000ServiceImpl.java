@@ -279,7 +279,7 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		Date endDate = sdf.parse(endDt);
 		
 		
-		if(today.getTime() >= endDate.getTime()) {
+		if(today.after(endDate)) {
 			paramMap.put("sprEdDt", sdf.format(today));
 		}
 		

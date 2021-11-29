@@ -291,6 +291,35 @@ var OSLSpr1000Popup = function () {
 							
 						};
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1004View.do',data,options);
+				},
+				"mmtList": function(rowData, datatableId, type){
+					
+					var data = {
+							paramSprId: rowData[0].sprId
+						};
+					var options = {
+							modalTitle: "스프린트 회의록 목록",
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							backdrop: true,
+							closeConfirm: false,
+						};
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1007View.do',data,options);
+				},
+				"rptList": function(rowData, datatableId, type){
+					var data = {
+							paramSprId: rowData.sprId
+						};
+					var options = {
+							modalTitle: "스프린트 회고록 목록",
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							backdrop: true,
+							closeConfirm: false,
+						};
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1008View.do',data,options);
 				}
 			},
 			callback:{
@@ -362,10 +391,10 @@ var OSLSpr1000Popup = function () {
 													+'<div class="dropdown-divider"></div>'
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
 													+'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintMeetList")+'</div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintResultList")+'</div>'
-													+'<div class="dropdown-divider"></div>'
-													+'<div class="dropdown-item" id=""><i class="fas fa-print kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintReport")+'</div>' 
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="mmtList"><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintMeetList")+'</div>'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="rptList"><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintResultList")+'</div>'
+													
+													 
 												+'</div>'
 											+'</div>'
 										+'</div>'

@@ -86,6 +86,17 @@ public class Spr1000Controller {
 	}
 	
 	
+	@RequestMapping(value="/spr/spr1000/spr1000/selectSpr1007View.do")
+	public String selectSpr1007View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/spr/spr1000/spr1000/spr1007";
+	}
+	
+	@RequestMapping(value="/spr/spr1000/spr1000/selectSpr1008View.do")
+	public String selectSpr1008View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/spr/spr1000/spr1000/spr1008";
+	}
+	
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value = "/spr/spr1000/spr1000/selectSpr1000SprListAjax.do")
 	public ModelAndView selectSpr1000SprListAjax(HttpServletRequest request, ModelMap model) throws Exception {
