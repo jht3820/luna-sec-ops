@@ -357,7 +357,7 @@
 				, A.PROCESS_ID AS PROCESS_ID
 				, A.FLOW_ID AS FLOW_ID
 		    FROM REQ4100 A LEFT JOIN SPR1100 B
-		    ON (A.REQ_ID = B.REQ_ID AND A.PRJ_ID = B.PRJ_ID AND A.PRJ_GRP_ID = B.PRJ_GRP_ID AND B.LIC_GRP_ID = #licGrpId#)
+		    ON (A.REQ_ID = B.REQ_ID AND A.PRJ_ID = B.PRJ_ID AND A.PRJ_GRP_ID = B.PRJ_GRP_ID AND B.LIC_GRP_ID = #licGrpId# AND B.SPR_ID=#sprId#)
 		    WHERE 1=1
 		    AND A.PRJ_GRP_ID = #prjGrpId#
 			AND A.PRJ_ID = #prjId#
@@ -373,7 +373,7 @@
 	            AND C.SPR_ID = #sprId#
 	            AND C.REQ_ID = A.REQ_ID
 			)
-      	AND NOT EXISTS (
+      		AND NOT EXISTS (
 				SELECT 
 					B.REQ_ID AS REQ_ID
 				FROM REQ4100 D INNER JOIN SPR1100 E 

@@ -200,6 +200,10 @@
 			,	USR_DUTY_CD			= #usrDutyCd#
 			,	REQ_MAIN_COLOR		= #reqMainColor#
 			,	REQ_FONT_COLOR		= #reqFontColor#
+			,	WK_ST_TM			= REPLACE(#wkStTm#,':','')
+			,	WK_ED_TM			= REPLACE(#wkEdTm#,':','')
+			,	BK_ST_TM			= REPLACE(#bkStTm#,':','')
+			,	BK_ED_TM			= REPLACE(#bkEdTm#,':','')
 			,	ABS_ST_DTM			= #absStDtm#
 			,	ABS_ED_DTM			= #absEdDtm#
 			,	MODIFY_DTM			= SYSDATE
