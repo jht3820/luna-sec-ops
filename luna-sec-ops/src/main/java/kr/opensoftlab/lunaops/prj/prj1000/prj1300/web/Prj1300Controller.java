@@ -385,6 +385,10 @@ public class Prj1300Controller {
 			pageMap.put("sort", sortDirection);
 			pageMap.put("field", sortFieldId);
 			
+			List<Map> allItemList = prj1300Service.selectPrj1302AllItemList(paramMap);
+			
+			pageMap.put("allItemList", allItemList);
+			
 			
 			List<Map> prj1200List = prj1300Service.selectPrj1302ItemList(paramMap);
 			
