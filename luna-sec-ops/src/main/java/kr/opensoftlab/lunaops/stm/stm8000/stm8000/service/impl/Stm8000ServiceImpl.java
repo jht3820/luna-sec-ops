@@ -246,7 +246,7 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		
 		String type = paramMap.get("type");
 		
-		if(!type.isEmpty()){
+		if(type != null && !type.isEmpty()){
 			if("01".equals(type)) {
 				
 				returnList = selectStm8000SvnList(paramMap);
@@ -264,9 +264,10 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	public List<Map> selectStm8000SvnList(Map<String, String> paramMap) throws Exception {
 		List list = null;
 		
-		String url = paramMap.get("linkUrl");
-		String id = paramMap.get("linkId");
-		String pw = paramMap.get("linkPw"); 
+		
+		String url = (String) paramMap.get("linkUrl");
+		String id = (String) paramMap.get("linkId");
+		String pw = (String) paramMap.get("linkPw");
 		
 		
 		String salt = EgovProperties.getProperty("Globals.lunaops.salt");
