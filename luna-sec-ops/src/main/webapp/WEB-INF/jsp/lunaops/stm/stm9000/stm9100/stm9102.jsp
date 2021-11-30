@@ -274,7 +274,7 @@ var OSLStm9102Popup = function () {
 				$('#jobBuildConsoleLog').each(function(i, block) {hljs.highlightBlock(block);});
 				
 				// 스크롤 최하단
-				$("#jobBuildConsoleLog").scrollTop(9999);
+				$("#jobBuildConsoleLog").scrollTop(99999);
 			}	
 		});
 		
