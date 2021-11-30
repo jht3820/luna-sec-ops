@@ -30,6 +30,7 @@ import org.jasypt.contrib.org.apache.commons.codec_1_3.binary.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -195,6 +196,7 @@ public class FileMngController {
 	}
 	
 	
+	@CrossOrigin(origins = "http:
 	@RequestMapping(value = "/com/fms/FileDown.do")
 	public String FileDownload(@RequestParam Map<String, Object> commandMap, HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		String atchFileId = (String) commandMap.get("downAtchFileId");
@@ -268,6 +270,7 @@ public class FileMngController {
 	}
 	
 	
+	@CrossOrigin(origins = "http:
 	@RequestMapping(value = "/com/fms/ZipFileDown.do")
 	public String ZipFileDown(@RequestParam Map<String, Object> commandMap,HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		

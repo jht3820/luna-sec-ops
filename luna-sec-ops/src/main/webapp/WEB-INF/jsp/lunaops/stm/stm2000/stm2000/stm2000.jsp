@@ -1,493 +1,702 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
-<div class="row">
-	<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-		<div class="kt-portlet kt-portlet--mobile">
-			<div class="kt-portlet__head kt-portlet__head--lg">
-				<div class="kt-portlet__head-label">
-					<h4 class="kt-font-boldest kt-font-brand">
-						<i class="fa fa-th-large kt-margin-r-5"></i>메뉴 목록
-					</h4>
+
+<div class="kt-portlet kt-portlet--mobile">
+	<div class="kt-portlet__head kt-portlet__head--lg">
+		<div class="kt-portlet__head-label">
+			<h3 class="kt-portlet__head-title kt-font-boldest kt-font-brand">
+				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
+			</h3>
+		</div>
+		<div class="kt-portlet__head-toolbar">
+			<div class="kt-portlet__head-wrapper">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm2100StmTable" data-datatable-action="select" title="게시판 조회" data-title-lang-cd="stm2100.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm2100StmTable" data-datatable-action="update" title="게시판 속성 수정" data-title-lang-cd="stm2100.actionBtn.updateTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="2">
+					<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm2100StmTable" data-datatable-action="detail" title="게시글 관리" data-title-lang-cd="stm2100.actionBtn.managmentTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="detail" tabindex="3">
+					<i class="fa flaticon-settings-1"></i><span data-lang-cd="stm2100.button.detail">관리</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm2100StmTable" data-datatable-action="summery" title="게시판 통계" data-title-lang-cd="stm2100.actionBtn.summeryTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="summery" tabindex="4">
+					<i class="fa flaticon-information"></i><span data-lang-cd="stm2100.button.summery">통계</span>
+				</button>
+				
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air btn-view-type active" title="카드형" data-title-lang-cd="stm2100.button.card" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5" data-view-type="01">
+						<i class="fa fa-table osl-padding-r0"></i>
+					</button>
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type" title="그리드형" data-title-lang-cd="stm2100.button.grid" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="6" data-view-type="02">
+						<i class="fa fa-list osl-padding-r0"></i>
+					</button>
 				</div>
-				<div class="kt-portlet__head-toolbar">
-					<div class="kt-portlet__head-group">
-						<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="stm2000MenuTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a>
-						<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="stm2000MenuTree" data-tree-action="allNodeClose"><i class="fa fa-minus"></i></a>
-						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
-					</div>
-				</div>
-			</div>
-			<div class="kt-portlet__body">
-				<div class="row">
-					<div class="col-12">
-						<div class="osl-tree-search" data-tree-id="stm2000MenuTree"></div>
-					</div>
-				</div>
-				<div class="kt-separator kt-separator--space-sm kt-separator--border-solid"></div>
-				<div class="row">
-					<div class="col-12">
-						<div class="osl-tree kt-scroll" data-height="770" id="stm2000MenuTree"></div>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
-		<div class="kt-portlet kt-portlet--mobile">
-			<div class="kt-portlet__head kt-portlet__head--lg">
-				<div class="kt-portlet__head-label">
-					<h4 class="kt-font-boldest kt-font-brand">
-						<i class="fa fa-th-large kt-margin-r-5"></i>메뉴 정보
-					</h4>
-				</div>
-				<div class="kt-portlet__head-toolbar">
-					
-					<div class="kt-portlet__head-wrapper kt-margin-r-10">
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm2000MenuTree" data-tree-action="select" title="메뉴 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-							<i class="fa fa-list"></i><span>조회</span>
-						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm2000MenuTree" data-tree-action="insert" title="메뉴 추가" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
-							<i class="fa fa-plus"></i><span>추가</span>
-						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm2000MenuTree" data-tree-action="update" title="메뉴 수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
-							<i class="fa fa-edit"></i><span>수정</span>
-						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="stm2000MenuTree" data-tree-action="delete" title="메뉴 삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
-							<i class="fa fa-trash-alt"></i><span>삭제</span>
-						</button>
-					</div>
-					
-					<div class="kt-portlet__head-group">
-						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
-					</div>
-				</div>
-			</div>
-			<div class="kt-portlet__body">
-				<form class="kt-form" id="frStm2000">
-					<div class="row">
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-align-left kt-margin-r-5"></i>상위 메뉴 ID</label>
-								<input type="text" class="form-control" placeholder="상위 메뉴 ID" name="upperMenuId" id="upperMenuId" readonly="readonly">
-							</div>
-						</div>
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-file-alt kt-margin-r-5"></i>상위 메뉴 명</label>
-								<input type="text" class="form-control" placeholder="상위 메뉴 명" name="upMenuNm" id="upMenuNm" readonly="readonly">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-align-left kt-margin-r-5"></i>메뉴 ID</label>
-								<input type="text" class="form-control" placeholder="메뉴 ID" id="menuId" name="menuId" readonly="readonly" >
-							</div>
-						</div>
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-file-alt kt-margin-r-5"></i>메뉴 명</label>
-								<input type="text" class="form-control" placeholder="메뉴 명" name="menuNm" id="menuNm" readonly="readonly">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-edit kt-margin-r-5"></i>메뉴 경로</label>
-								<input type="text" class="form-control" placeholder="메뉴 경로" name="menuPath" id="menuPath" readonly="readonly">
-							</div>
-						</div>
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-edit kt-margin-r-5"></i>메뉴 URL</label>
-								<input type="text" class="form-control" placeholder="메뉴 URL" name="menuUrl" id="menuUrl" readonly="readonly">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-image kt-margin-r-5"></i>메뉴 이미지 URL</label>
-								<input type="text" class="form-control" placeholder="메뉴 이미지 URL" name="menuImgUrl" id="menuImgUrl" readonly="readonly">
-							</div>
-						</div>
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-info-circle kt-margin-r-5"></i>메뉴 아이콘</label>
-								<input type="text" class="form-control" placeholder="메뉴 아이콘" name="menuIcon" id="menuIcon" readonly="readonly">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-folder-open kt-margin-r-5"></i>메뉴 타입</label>
-								<input type="text" class="form-control" placeholder="메뉴 타입" name="menuTypeNm" id="menuTypeNm" readonly="readonly">
-							</div>
-						</div>
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-sliders-h kt-margin-r-5"></i>메뉴 레벨</label>
-								<input type="text" class="form-control" placeholder="메뉴 레벨" name="lvl" id="lvl" readonly="readonly">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-list-ol kt-margin-r-5"></i>순번</label>
-								<input type="text" class="form-control" placeholder="순번" name="ord" id="ord" readonly="readonly">
-							</div>
-						</div>
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-check-square kt-margin-r-5"></i>사용 유무</label>
-								<input type="text" class="form-control" placeholder="사용 유무" name="useNm" id="useNm" readonly="readonly">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-6">
-							<div class="form-group kt-align-left">
-								<label><i class="fa fa-project-diagram kt-margin-r-5"></i>프로젝트 유형</label>
-								<input type="text" class="form-control" placeholder="프로젝트 유형" name="prjTypeNm" id="prjTypeNm" readonly="readonly">
-							</div>
-						</div>
-						<div class="col-xl-6">
-
-						</div>
-					</div>
-					<div class="form-group">
-						<label><i class="fa fa-edit kt-margin-r-5"></i>메뉴 설명</label>
-						<div class="form-control h-100 osl-min-height--12rem" id="menuDesc"></div>
-					</div>
-				</form>
-			</div>
+	<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
+		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
+			<div class="osl-datatable-search kt-margin-b-0" data-datatable-id="stm2100StmTable"></div>
 		</div>
 	</div>
 </div>
+<div id="stm2100StmCard"></div>
+<div class="kt_datatable osl-datatable-footer__divide" id="stm2100StmTable"></div>
 
 <script>
-"use strict";
-var OSLStm2000 = function () {
-	
-	var formId = "frStm2000";
-	var treeObj;
-	
-	var documentSetting = function(){
-  		
-		// 메뉴 tree 세팅
-		treeObj = $.osl.tree.setting("stm2000MenuTree",{
-			data:{
-				url:"<c:url value='/stm/stm2000/stm2000/selectStm2000MenuListAjax.do'/>",
-				key: "menuId",
-				pKey: "upperMenuId",
-				labelKey: "menuNm",
-				type: "useCd"
+ "use strict";
+
+ var OSLStm2100Popup = function() {
+	 
+	 var okManager;
+	 var okWriter;
+	 
+	 var resultStr = "";
+	 var currentViewType = "01";
+	 var documentSetting = function() {	
+		 var datatableId = "stm2100StmTable";
+		 var config = {
+			 cardUiTarget: $("#stm2100StmCard"),
+			 data: {
+				 source: {
+					 read: {
+						url: "/stm/stm2000/stm2100/selectStm2100ListAjax.do" 
+					 }
+				 },
+			 },
+			 columns: [
+				 {field: 'checkbox', title: '#', textAlign: 'center', width: 50, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				 {field: 'stmTypeNm', title:'유형', textAlign: 'left', width: 100, search: true, searchType:"select", searchCd:"STM00001", searchField:"stmTypeCd", sortable: true},
+				 {field: 'stmNm', title:'게시판명', textAlign: 'left', width: 300, autoHide: false, search: true, sortable: true},
+				 {field: 'stmDsTypeNm', title: '공개범위', textAlign: 'left', width: 200, sortable: true},
+				 {field: 'cnt', title: '전체글 수', textAlign: 'center', width: 150, sortable: false},
+				 {field: 'badCnt', title: '유효글 수', textAlign: 'center', width: 150, sortable: false,
+					 template : function(row){
+						return String(parseInt(row.cnt) - parseInt(row.delCnt)); 
+					 },
+				 },
+				 {field: 'delCnt', title: '삭제글 수', textAlign: 'center', width: 150, sortable: false},
+			 ],
+			 rows:{
+				clickCheckbox: true
 			},
-			types : {
-                "02" : {"icon" : " fa fa-eye-slash"}
-            },
-			search:{
-				//대소문자 구분
-				case_insensitive : true,
-				//검색 결과 노드만 표시
-				show_only_matches: true,
-				//show_only_matches: true 일때 하위 노드도 같이 표시 할건지
-				show_only_matches_children: true
+			 actionBtn:{
+				"title" : $.osl.lang("stm2100.actionBtn.title"),
+				"width" : 120,
+				"delete" : false,
+				"detail": true,
+				"summery" : true,
+			},
+			actionTooltip:{
+				"update" : $.osl.lang("stm2100.actionBtn.updateBtn"),
+				"detail": $.osl.lang("stm2100.actionBtn.detailBtn"),
+				"summery": $.osl.lang("stm2100.actionBtn.summeryBtn"),
 			},
 			actionFn:{
-				"insert" : function(treeObj, nodeData){
-					
-					if($.osl.isNull(nodeData)){
-						$.osl.alert("메뉴를 선택해주세요.");
-						return false;
-					}
-					
-					// 선택 메뉴가 3레벨일 경우
-					if(nodeData.lvl >= 3){
-						$.osl.alert("3레벨 이상 메뉴를 추가할 수 없습니다.");
-						return false;
-					}
-					
-					// 선택한 메뉴가 미사용일경우
-					if(nodeData.useCd == "02"){
-						$.osl.alert("미사용 메뉴에는 하위 메뉴를 추가할 수 없습니다.");
-						return false;
-					}
-					
-					// 등록 팝업 호출
+				"update":function(rowData){
 					var data = {
-							type:"insert",
-							upperMenuId : nodeData.menuId,
-							upMenuNm : nodeData.menuNm,
-							lvl : nodeData.lvl +1, // 새로 추가하는 메뉴의 레벨은 상위메뉴 레벨+1로 자동 세팅
-							moduleType : nodeData.moduleType
-					};
+							type: "update",
+							menuId: rowData.menuId,
+							stmTypeCd: rowData.stmTypeCd,
+							stmNm: rowData.stmNm,
+							stmDsTypeCd : rowData.stmDsTypeCd,
+						};
 					var options = {
-							idKey: nodeData.menuId,
-							modalTitle: "신규 메뉴 등록",
-							closeConfirm: false
-					};
+							idKey: rowData.menuId,
+							modalTitle: "[ "+ $.osl.escapeHtml(rowData.stmNm)+ " ] "+$.osl.lang("stm2100.title.updateTitle"),
+							closeConfirm: false,
+							modalSize: "xl",
+							autoHeight: false,
+							backdrop: "static",
+						};
 					
-					$.osl.layerPopupOpen('/stm/stm2000/stm2000/selectStm2001View.do',data, options);
-				},
-				"update": function(treeObj, nodeData){
-					
-					if($.osl.isNull(nodeData)){
-						$.osl.alert("수정할 메뉴를 선택해주세요.");
-						return false;
-					}
-					
-					// 수정 팝업 호출
-					var data = {
-							type:"update",
-							menuId : nodeData.menuId,
-							lvl : nodeData.lvl
-					};
-					var options = {
-							idKey: nodeData.menuId,
-							modalTitle: "메뉴 수정",
-							closeConfirm: false
-					};
-					
-					$.osl.layerPopupOpen('/stm/stm2000/stm2000/selectStm2001View.do',data,options);
-				},
-				"delete": function(treeObj, nodeData){
-					
-					//선택한 트리 노드 없으면 튕기기
-					var selectNodeIds = treeObj.jstree("get_selected");
-					if($.osl.isNull(selectNodeIds)){
-						$.osl.alert("삭제할 메뉴를 선택해주세요.");
-						return false;
-					}
-					
-					// 선택노드
-					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
-					
-					// root 삭제불가
-					if(nodeData.lvl == 0 || $.osl.isNull(nodeData.upperMenuId)){
-						$.osl.alert("최상위 메뉴(root)는 삭제할 수 없습니다.");
-					// 하위메뉴 존재시 상위메뉴 삭제불가
-					}else if(!$.osl.isNull(selectNode.children)){
-						$.osl.alert("하위 메뉴가 존재하기때문에 삭제할 수 없습니다. <br/>하위메뉴를 먼저 삭제해주세요.");
+					checkUser(rowData.menuId, rowData.stmDsTypeCd);
+					if(okManager == true){
+						$.osl.layerPopupOpen('/stm/stm2000/stm2100/selectStm2101View.do',data,options);
 					}else{
-						// 메뉴 삭제
-						deleteMenuInfo(nodeData);
+						$.osl.alert($.osl.lang("stm2100.notAuthority"), {"type":"warning"});
+						return false;
 					}
-				}
-			},
-			callback:{
-				onclick: function(treeObj,selNode){
-					// 메뉴 단건 조회
-					selectMenuInfo(selNode.original.menuId);
 				},
-				init: function(treeObj,data){
-					
-				}
-			}
-		});
-		
-		
-		/* // (임시) 버튼클릭 이벤트  - 등록, 수정, 삭제 
-		// tree 외부 action button 추가 후 변경
-		$("#stm2000MenuTreeInfo").find("button[data-tree-id='stm2000MenuTree']").click(function(){
-			
-			// 각 action 동작
-			var action = $(this).data("tree-action");
-			if(action != "select"){
-				
-				var selectNodeIds = treeObj.jstree("get_selected");
-				
-				if($.osl.isNull(selectNodeIds)){
-					$.osl.alert("왼쪽 트리에서 메뉴를 선택해주세요.");
-					return false;
-				}
-				
-				// 선택노드
-				var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
-				var nodeData = selectNode.original;
-				
-				// 메뉴 등록
-				if(action == "insert"){
-					
-					// 선택 메뉴가 3레벨일 경우
-					if(nodeData.lvl >= 3){
-						$.osl.alert("3레벨 이상 메뉴를 추가할 수 없습니다.");
-						return false;
-					}
-					
-					// 선택한 메뉴가 미사용일경우
-					if(nodeData.useCd == "02"){
-						$.osl.alert("미사용 메뉴에는 하위 메뉴를 추가할 수 없습니다.");
-						return false;
-					}
-					
-					// 등록 팝업 호출
-					var data = {
-							type:"insert",
-							upperMenuId : nodeData.menuId,
-							upMenuNm : nodeData.menuNm,
-							lvl : nodeData.lvl +1, // 새로 추가하는 메뉴의 레벨은 상위메뉴 레벨+1로 자동 세팅
-							moduleType : nodeData.moduleType
-					};
-					var options = {
-							idKey: nodeData.menuId,
-							modalTitle: "신규 메뉴 등록",
-							closeConfirm: false
-					};
-					
-					$.osl.layerPopupOpen('/stm/stm2000/stm2000/selectStm2001View.do',data, options);
-					
-				// 메뉴 수정	
-				}else if(action == "update"){
-					
-					// 수정 팝업 호출
-					var data = {
-							type:"update",
-							menuId : nodeData.menuId,
-							lvl : nodeData.lvl
-					};
-					var options = {
-							idKey: nodeData.menuId,
-							modalTitle: "메뉴 수정",
-							closeConfirm: false
-					};
-					
-					$.osl.layerPopupOpen('/stm/stm2000/stm2000/selectStm2001View.do',data,options);
-					
-				// 메뉴 삭제	
-				}else if(action == "delete"){
-					
-					// root 삭제불가
-					if(nodeData.lvl == 0 || $.osl.isNull(nodeData.upperMenuId)){
-						$.osl.alert("최상위 메뉴(root)는 삭제할 수 없습니다.");
-					// 하위메뉴 존재시 상위메뉴 삭제불가
-					}else if(!$.osl.isNull(selectNode.children)){
-						$.osl.alert("하위 메뉴가 존재하기때문에 삭제할 수 없습니다. <br/>하위메뉴를 먼저 삭제해주세요.");
+				"detail":function(rowDatas, datatableId, type, rowNum){
+					var rowData;
+					if(type == "list"){
+						if(rowNum != 1){
+							$.osl.alert($.osl.lang("stm2100.selectStmInfoCnt", rowNum), {"type":"warning"});
+							return false;
+						}else{
+							rowData = rowDatas[0];
+						}
 					}else{
-						// 메뉴 삭제
-						deleteMenuInfo(nodeData);
+							rowData = rowDatas;
 					}
-				}
-			}
-		
-		}); */
-		
-		//퍼펙트 스크롤 적용
-		KTUtil.scrollInit($("#stm2000MenuTree")[0], {
-	        disableForMobile: true, 
-	        resetHeightOnDestroy: true, 
-	        handleWindowResize: true, 
-	        height: 770
-	    });
-		
-	};
-	
-    /**
-	 * function 명 	: selectMenuInfo
-	 * function 설명	: 선택한 메뉴의 상세정보를 조회하여 화면에 세팅한다.
-	 * @param deptId : 선택한 메뉴 ID
-	 */
-	var selectMenuInfo = function(menuId) {
-    	
-		//AJAX 설정
-		var ajaxObj = new $.osl.ajaxRequestAction(
-				{"url":"<c:url value='/stm/stm2000/stm2000/selectStm2000MenuInfoAjax.do'/>", "async": false}
-				,{"menuId": menuId});
-		//AJAX 전송 성공 함수
-		ajaxObj.setFnSuccess(function(data){
-			
-			if(data.errorYn == "Y"){
-				$.osl.alert(data.message,{type: 'error'});
-			}else{
-				$("#"+formId)[0].reset();
-				
-				// 메뉴 정보 세팅
-		    	$.osl.setDataFormElem(data.menuInfoMap,"frStm2000", ["upperMenuId", "upMenuNm", "menuId", "menuNm", "menuPath", "menuUrl", "menuImgUrl", "menuIcon","menuTypeNm", "lvl", "ord", "useNm", "prjTypeNm"]);
-			
-				// 상위메뉴 Id 없을경우
-				if($.osl.isNull(data.menuInfoMap.upperMenuId)){
-					$("#upperMenuId").val("-");
-				}
-				
-				// 상위 메뉴 명 없을경우
-				if($.osl.isNull(data.menuInfoMap.upMenuNm)){
-					$("#upMenuNm").val("-");
-				}
-				
-		    	// 메뉴설명 값 div영역에 세팅
-		    	var menuDesc = data.menuInfoMap.menuDesc;
-		    	if(!$.osl.isNull(menuDesc)){
-			    	// 비고 값 div영역에 세팅
-		    		menuDesc =  $.osl.escapeHtml(menuDesc);
-					$("#menuDesc").html(menuDesc.replace(/\n/g, '<br/>'));
-				}
-				
-			}
-		});
-		
-		//AJAX 전송
-		ajaxObj.send();
-	};
+					
+					var data = {
+							menuId: rowData.menuId,
+							stmTypeCd: rowData.stmTypeCd,
+							stmNm: $.osl.escapeHtml(rowData.stmNm),
+							
+							stmDsTypeCd : "01",
+							stmRootYn : "Y",
+						};
+					var options = {
+							idKey: "bad_" + rowData.menuId,
+							modalTitle:"[ "+ $.osl.escapeHtml(rowData.stmNm) +" ] "+$.osl.lang("stm2100.title.detailTitle"),
+							closeConfirm: false,
+							modalSize: "fs",
+							autoHeight: false,
+						};
+					checkUser(rowData.menuId, rowData.stmDsTypeCd);
+					if(okManager == true || okWriter == true){
+						if(rowData.stmTypeCd == "01" || rowData.stmTypeCd == "02"){
+							$.osl.layerPopupOpen('/bad/bad1000/bad1000/selectBad1000View.do',data,options);
+						}else{
+							$.osl.layerPopupOpen('/bad/bad1000/bad1000/selectBad1006View.do',data,options);
+						}
+					}else{
+						$.osl.alert($.osl.lang("stm2100.notAuthority"), {"type":"warning"});
+					}
+				},
+				"summery" : function(rowDatas, datatableId, type, rowNum){
+					var rowData;
+					if(type == "list"){
+						if(rowNum != 1){
+							$.osl.alert($.osl.lang("stm2100.selectStmInfoCnt", rowNum), {"type":"warning"});
+							return false;
+						}else{
+							rowData = rowDatas[0];
+						}
+					}else{
+							rowData = rowDatas;
+					}
+					
+					var data = {
+							type:"dbClick",
+							menuId: rowData.menuId,
+							stmTypeCd: rowData.stmTypeCd,
+							stmNm: $.osl.escapeHtml(rowData.stmNm),
+						};
+					var options = {
+							idKey: "summery_"+rowData.menuId,
+							modalTitle: "[ "+ $.osl.escapeHtml(rowData.stmNm) +" ] "+$.osl.lang("stm2100.title.summeryTitle"),
+							closeConfirm: false,
+							autoHeight: false,
+						};
+					
+ 					checkUser(rowData.menuId, rowData.stmDsTypeCd);
+					if(okManager == true){
+	 					$.osl.layerPopupOpen('/stm/stm2000/stm2100/selectStm2102View.do',data,options);
+					}else{
+						$.osl.alert($.osl.lang("stm2100.selectStmInfoCnt", rowNum), {"type":"warning"});
+					}
+				},
+			 },
+			 theme: {
+				 actionBtn:{
+					 "detail" : "",
+					 "summery" : "",
+				 },
+				 actionBtnIcon:{
+					 "detail": "fa flaticon-settings-1",
+					 "summery" : "fa flaticon-information",
+				 }
+			 },
+			 callback:{
+				 initComplete : function(evt, config){
+					viewTypeChange();
+				 },
+				 ajaxDone: function(evt, list){
+					$("#stm2100StmCard").empty();
+					var cnt = 0;
+					$.each(list, function(idx, row){
+						 resultStr = "";
+						var summeryData = selectStm2102(idx, row);
+		 				$("#stm2100StmCard").append(resultStr);
+		 				
+		 				
+		 				drawChart(idx, row.menuId);
+					 });
+	 				
+	 				
+	 				$(".updateBtn").click(function(){
+	 					var item =$(this).parents(".osl-bad__card-body").siblings(".stmInfoDiv");
+	 					var data = {
+								type: "update",
+								menuId: $(item).data("menuId"),
+								stmTypeCd: $(item).data("stmTypeCd"),
+								stmNm: $(item).data("stmName"),
+								stmDsTypeCd : $(item).data("stmDsTypeCd"),
+							};
+						var options = {
+								idKey: $(item).data("menuId"),
+								modalTitle: "[ "+$(item).data("stmName")+ " ] "+$.osl.lang("stm2100.title.updateTitle"),
+								closeConfirm: false,
+								modalSize: "xl",
+								autoHeight: false,
+								backdrop: "static",
+							};
+						
+						checkUser($(item).data("menuId"), $(item).data("stmDsTypeCd"));
+						if(okManager == true){
+							$.osl.layerPopupOpen('/stm/stm2000/stm2100/selectStm2101View.do',data,options);
+						}else{
+							$.osl.alert($.osl.lang("stm2100.notAuthority.basic"), {"type":"warning"});
+						}
+	 				});
+	 				
+	 				$(".settingBtn").click(function(){
+	 					var item =$(this).parents(".osl-bad__card-body").siblings(".stmInfoDiv");
+	 					var data = {
+								menuId: $(item).data("menuId"),
+								stmTypeCd: $(item).data("stmTypeCd"),
+								stmNm: $(item).data("stmName"),
+								
+								stmDsTypeCd : "01",
+								stmRootYn : "Y",
+							};
+						var options = {
+								idKey: "bad_"+ $(item).data("menId"),
+								modalTitle:"[ "+ $(item).data("stmName") +" ] "+$.osl.lang("stm2100.title.detailTitle"),
+								closeConfirm: false,
+								modalSize: "fs",
+								autoHeight: false,
+							};
+						checkUser($(item).data("menuId"), $(item).data("stmDsTypeCd"));
+						if(okManager == true || okWriter == true){
+							if(item.data("stmTypeCd") == "01" || item.data("stmTypeCd") == "02"){
+								$.osl.layerPopupOpen('/bad/bad1000/bad1000/selectBad1000View.do',data,options);
+							}else{
+								$.osl.layerPopupOpen('/bad/bad1000/bad1000/selectBad1006View.do',data,options);
+							}
+						}else{
+							$.osl.alert($.osl.lang("stm2100.notAuthority.basic"), {"type":"warning"});
+						}
+	 				});
 
-    /**
-	 * function 명 	: deleteMenuInfo
-	 * function 설명	: 선택한 메뉴를 삭제한다.
-	 * @param selectNodeData : 선택한 메뉴 노드 데이터
-	 */
-	var deleteMenuInfo = function(selectNodeData){
-				 
-		$.osl.confirm("메뉴 정보 삭제는 시스템에 중대한 영향을 미칠 수 있습니다. 선택한 메뉴를 삭제 하시겠습니까?",null,function(result) {
-	        if (result.value) {
-	        	
-	    		//AJAX 설정
-	    		var ajaxObj = new $.osl.ajaxRequestAction(
-					{"url":"<c:url value='/stm/stm2000/stm2000/deleteStm2000MenuInfoAjax.do'/>"}
-					,{"menuId":selectNodeData.menuId, "upperMenuId":selectNodeData.upperMenuId});
-
-	    		//AJAX 전송 성공 함수
-	    		ajaxObj.setFnSuccess(function(data){
-	    			if(data.errorYn == "Y"){
-	    				$.osl.alert(data.message,{type: 'error'});
-	    			}else{
-	    				// 우측 상세보기 추기화
-	    				$("#"+formId)[0].reset();
-	    				
-	    				//삭제 성공
-	    				$.osl.toastr(data.message);
-	    				
-	    				// 트리 재조회
-	    				$("button[data-tree-id=stm2000MenuTree][data-tree-action=select]").click();
-	    			}
-	    		});
-	    		
-	    		//AJAX 전송
-	    		ajaxObj.send();
-	        }
-	    });
+					
+					$(".badChargerList").click(function(){
+						$.osl.user.usrInfoPopup($(this).data("user"));
+					});
+					
+					$(".otherBadChargerList").click(function(){
+						
+						var item =$(this).parents(".stmInfoDiv");
+						
+						var data = {
+								menuId : $(item).data("menuId"),
+						};
+						var options = {
+								idKey: "charger_"+ $(item).data("menId"),
+								modalTitle:"[ "+ $.osl.escapeHtml($(item).data("stmName")) +" ] "+$.osl.lang("stm2100.title.chargerTitle"),
+								modalSize : "md",
+								autoHeight: false,
+						};
+						$.osl.layerPopupOpen('/stm/stm2000/stm2100/selectStm2103View.do',data,options);
+					});
+					
+				 }
+			 }
+		 };
 		 
-	};
-	
-	return {
-        // public functions
-        init: function() {
-        	documentSetting();
-        }
-    };
-}();
+		 
+		 $.osl.datatable.setting(datatableId, config);
 
-$.osl.ready(function(){
-	OSLStm2000.init();
-});
+		
+		$(".btn-view-type").click(function(){
+			var viewType = $(this).data("view-type");
+			
+			
+			$(".btn-view-type.active").removeClass("active");
+			$(this).addClass("active");
+			
+			currentViewType = viewType;
+			
+			
+			viewTypeChange();
+		});
+		 
+		 
+		 var viewTypeChange = function(){
+			
+			if(currentViewType == "01"){	
+				$("#stm2100StmTable .kt-datatable__table").css({visibility: "hidden", height: 0});
+				$("#stm2100StmCard").show();
+			}else{	
+				$("#stm2100StmTable .kt-datatable__table").css({visibility: "visible",height: "auto"});
+				$("#stm2100StmCard").hide();
+			}
+		}
+		 
+		 
+			 var selectStm2102 = function(idx, row){
+				 
+				 var data = {
+						 menuId : row.menuId,
+						 currentViewType: currentViewType,
+				 }
+				 
+				 var ajaxObj = new $.osl.ajaxRequestAction(
+			    			{"url":"<c:url value='/stm/stm2000/stm2100/selectStm2102BadSummeryInfoAjax.do'/>", "async": false}
+							, data);
+				 
+				 
+				 ajaxObj.setFnSuccess(function(data){
+		    		if(data.errorYn == "Y"){
+						 
+						$.osl.alert(data.message,{type: 'error'});
+						
+						$.osl.layerPopupClose();
+					}else{
+						var ntcInfo = data.ntcInfo;
+						var badCntInfo = data.badCntInfo;
+						var badHitInfo = data.badHitInfo;
+						var pwCnt = data.pwCnt;
+						var badCmtInfo = data.badCmtInfo;
+						var tagInfo = data.tagInfo;
+						var fileSummery = data.fileSummery;
+						var badChargerList = data.badChargerList;
+						
+						resultStr += "<div class='row kt-padding-10'>"
+				 						+ "<div class='kt-portlet kt-portlet--mobile'>"
+			 								+ "<div class='col-12 stmInfoDiv' data-menu-id='"+row.menuId+"' data-stm-type-cd='"+row.stmTypeCd+"' data-stm-name='"+$.osl.escapeHtml(row.stmNm)+"' data-stm-ds-type-cd='"+row.stmDsTypeCd+"'>"
+					 							+ "<div class='kt-portlet__head kt-portlet__head--lg'>"
+					 								+ "<div class='kt-portlet__head-label'>"
+					 									+ "<label class='kt-checkbox kt-checkbox--single kt-checkbox--solid'>"
+						 									+ "<input type='checkbox' value='"+idx+"' name='stmGrpCheckbox' id='stmGrpCheckbox_"+row.menuId+"' data-datatable-id='"+datatableId+"'>&nbsp;<span></span>"
+					 									+ "</label>";
+							 var boardType = "";
+							 if(row.stmTypeCd == "01"){
+								 boardType = "normal";
+							 }else if(row.stmTypeCd == "02"){
+								 boardType = "storage";
+							 }else if(row.stmTypeCd == "03"){
+								 boardType = "gallery";
+							 }else{
+								 boardType = "movie";
+							 }
+		 							 resultStr += "<h5 class='kt-font-boldest'>"
+				 										+ "<span class='kt-margin-r-10 kt-font-dark'>"+$.osl.lang("stm2100.type."+boardType)+"</span>"
+				 										+ "<span class='kt-margin-r-10 kt-font-dark'>"+$.osl.escapeHtml(row.stmNm)+"</span>"
+				 									+ "</h5>"
+				 								+ "</div>"
+			 									+ "<div class='kt-media-group osl-margin-b-05'>";
+			 									
+			 									if(!$.osl.isNull(badChargerList)){
+			 										var lastCount =  badChargerList.length;
+			 										$.each(badChargerList, function(index, value){
+			 											
+			 											if(index < 6){
+			 												
+			 												
+				 											if(value.authTypeCd=="01"){
+				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")'><span><i class='fa flaticon2-group kt-font-bold'></i></span></a>";
+				 											}else{
+				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle badChargerList' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-user='"+value.authTargetId+"'><img src='/cmm/fms/getImage.do?fileSn=0&atchFileId="+value.authTargetImgId+"'></a>";
+				 											}
+			 												
+				 											lastCount = badChargerList.length - (index+1);
+			 											}else{
+			 												if(index == 6){
+			 													
+				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle otherBadChargerList' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='' data-original-title='"+$.osl.lang("stm2101.label.otherAdmin")+" "+lastCount+"'><span>+"+lastCount+"</span></a>";
+			 												}
+			 											}
+			 										});
+			 									}
+													
+									resultStr += "</div>"
+				 							+ "</div>"
+				 						+ "</div>" 
+				 						+ "<div class='osl-bad__card-body'>"
+				 							+ "<div class='row kt-margin-10 kt-margin-r-25 kt-margin-l-25'>"
+					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
+					 								+ "<label class='kt-margin-r-10'><i class='fa flaticon2-layers kt-margin-r-5'></i>"+$.osl.lang("stm2100.field.stmDsTypeNm")+"</label>"
+					 								+ "<span>"+$.osl.escapeHtml(row.stmDsTypeNm)+"</span>"
+					 							+ "</div>"
+					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
+					 								+ "<label class='kt-margin-r-10'><i class='fa flaticon2-layers kt-margin-r-5'></i>"+$.osl.lang("stm2100.field.cnt")+"</label>"
+					 								+ "<span>"+$.osl.escapeHtml(row.cnt)+"</span>"
+					 							+ "</div>"
+					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
+					 								+ "<label class='kt-margin-r-10'><i class='fa flaticon2-layers kt-margin-r-5'></i>"+$.osl.lang("stm2100.field.badCnt")+"</label>"
+					 								+ "<span>"+$.osl.escapeHtml(String(parseInt(row.cnt) - parseInt(row.delCnt)))+"</span>"
+					 							+ "</div>"
+					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
+					 								+ "<label class='kt-margin-r-10'><i class='fa flaticon2-layers kt-margin-r-5'></i>"+$.osl.lang("stm2100.field.delCnt")+"</label>"
+					 								+ "<span>"+$.osl.escapeHtml(row.delCnt)+"</span>"
+					 							+ "</div>"
+					 						+ "</div>"
+				 							+ "<div class='row kt-margin-10 kt-margin-r-25 kt-margin-l-25'>"
+				 								
+					 							+ "<div class='col-lg-6 col-md-12 col-sm-12 col-12'>"
+					 								+ "<div>"
+					 									+ "<i class='fa flaticon2-graphic kt-margin-r-5'></i>" + $.osl.lang("stm2100.label.summery")
+			 										+ "</div>"
+					 								+ "<div id='drawChart"+idx+"' name='drawChart"+idx+"'>"
+				 											
+			 										+ "</div>"
+					 							+ "</div>"
+					 							
+					 							+ "<div class='col-lg-6 col-md-12 col-sm-12 col-12'>"
+					 								
+				 									+ "<div class='row kt-margin-t-5 kt-margin-b-5'>"
+				 										
+						 								+"<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+							 								+ "<div class='kt-padding-5'>"
+							 									+ "<i class='fa flaticon-exclamation-1 kt-margin-r-5'></i>"
+						 										+ "<span data-lang-cd='stm2102.label.notice'>"+$.osl.lang("stm2102.label.notice")+"</span>"
+					 										+  "</div>";
+			 							if(ntcInfo != "N"){
+						 					if(ntcInfo.cnt != 0){
+						 						resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+						 											+ $.osl.lang("stm2102.summery.noticeCntY", ntcInfo.cnt)
+						 									+  "</div>"
+						 									+  "<div class='kt-margin-5 kt-padding-l-20'>"
+								 									+ $.osl.lang("stm2102.summery.ntcCurrentY", ntcInfo.badNtcStdtm)
+						 									+ "</div>";
+						 					}else{
+						 						resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																	+ $.osl.lang("stm2102.summery.noticeCntN")
+															+  "</div>"
+															+  "<div class='kt-margin-5 kt-padding-l-20'>"
+							 									+$.osl.lang("stm2102.summery.ntcCurrentN")
+															+ "</div>";
+						 					}
+						 				}else{
+							 					resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																	+ $.osl.lang("stm2102.summery.noticeCntN")
+															+  "</div>"
+															+  "<div class='kt-margin-5 kt-padding-l-20'>"
+							 									+$.osl.lang("stm2102.summery.ntcCurrentN")
+															+ "</div>";
+						 				}
+					 						resultStr += "</div>"
+							 								
+									 					 + "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+							 								+  "<div class='kt-padding-5'>"
+								 									+ "<i class='fa flaticon-chat-1 kt-margin-r-5'></i>"
+							 										+ "<span data-lang-cd='stm2102.label.comment'>"+$.osl.lang("stm2102.label.comment")+"</span>"
+					 										+  "</div>";
+							 				if(badCmtInfo != "N"){
+							 					resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+						 											+ $.osl.lang("stm2102.summery.cmtAllCntY", badCmtInfo.allCnt)
+						 									+  "</div>"
+						 									+  "<div class='kt-margin-5 kt-padding-l-20'>"
+								 									+ $.osl.lang("stm2102.summery.cmtMaxInfoY", badCmtInfo.cnt )
+						 									+ "</div>";
+							 				}else{
+							 					resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+						 											+ $.osl.lang("stm2102.summery.cmtAllCntN")
+						 									+  "</div>"
+						 									+  "<div class='kt-margin-5 kt-padding-l-20'>"
+								 									+ $.osl.lang("stm2102.summery.cmtMaxInfoN")
+						 									+ "</div>";
+							 				}
+								 			resultStr	+= "</div>" 
+							 							+ "</div>" 
+							 							
+							 							+ "<div class='row kt-margin-t-5 kt-margin-b-5'>"
+							 								
+							 								+ "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+								 								+ "<div class='kt-padding-5'>"
+								 									+ "<i class='fa flaticon-edit-1 kt-margin-r-5'></i>"
+							 										+ "<span data-lang-cd='stm2102.label.board'>"+$.osl.lang("stm2102.label.board")+"</span>"
+						 										+  "</div>";
+									 			if(badCntInfo != "N"){
+									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																		+ $.osl.lang("stm2102.summery.badAllCntY", badCntInfo.badCntAll , badCntInfo.badCntDel)
+																+  "</div>";
+									 			}else{
+									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																		+ $.osl.lang("stm2102.summery.badAllCntN")
+																+  "</div>";	
+									 			}
+									 			if(badHitInfo != "N"){
+									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																		+ $.osl.lang("stm2102.summery.badHitInfoY", badHitInfo.badHit)
+																+  "</div>";
+									 			}else{
+									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																		+ $.osl.lang("stm2102.summery.badHitInfoN")
+																+  "</div>";
+									 			}
+									 			if(pwCnt != 0){
+									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																		+ $.osl.lang("stm2102.summery.badPwCntY", pwCnt)
+																+  "</div>";
+									 			}else{
+									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																		+ $.osl.lang("stm2102.summery.badPwCntN")
+																+  "</div>";
+									 			}
+						 					 	resultStr += "</div>"
+								 					 		
+									 					 	+ "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+								 								+ "<div class='kt-padding-5'>"
+								 									+ "<i class='fa flaticon-interface-9 kt-margin-r-5'></i>"
+																	+ "<span data-lang-cd='stm2102.label.tag'>"+$.osl.lang("stm2102.label.tag")+"</span>"
+																+  "</div>";
+									 	if(!$.osl.isNull(tagInfo) && tagInfo != "N"){
+									 		$.each(tagInfo, function(index, value){
+									 			if(index < 3){ 
+									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																		+ $.osl.lang("stm2102.summery.tagLabelY",index+1, $.osl.escapeHtml(value.tagNm))
+																+  "</div>";
+												}
+									 		});
+									 	}else{
+									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																		+ $.osl.lang("stm2102.summery.tagLabelN")
+																+  "</div>";
+									 	}
+											 	resultStr += "</div>" 
+												 			+ "</div>"
+								 							
+								 							+ "<div class='row kt-margin-t-5 kt-margin-b-5'>"
+								 								
+								 								+ "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+									 								+ "<div class='kt-padding-5'>"
+									 									+ "<i class='fa flaticon-tool-1 kt-margin-r-5'></i>"
+								 										+ "<span data-lang-cd='stm2102.label.attachFile'>"+$.osl.lang("stm2102.label.attachFile")+"</span>"
+							 										+  "</div>";
+												if(fileSummery != "N"){
+														resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																			+ $.osl.lang("stm2102.summery.fileAllCntY", parseInt(fileSummery.fileTotalCnt))
+																	+  "</div>"
+																	+ "<div class='kt-margin-5 kt-padding-l-20'>"
+																			+ $.osl.lang("stm2102.summery.fileAllSizeY", $.osl.byteCalc(parseInt(fileSummery.fileTotalSize)))
+																	+  "</div>";
+												}else{
+														resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
+																			+ $.osl.lang("stm2102.summery.fileAllCntN")
+																	+  "</div>"
+																	+ "<div class='kt-margin-5 kt-padding-l-20'>"
+																			+ $.osl.lang("stm2102.summery.fileAllCntN")
+																	+  "</div>";
+												}
+								 					resultStr += "</div>" 
+															+ "</div>" 
+															
+															+ "<div class='row kt-padding-t-15 kt-padding-b-15 kt-align-right'>"
+																+ "<div class='col-12 kt-padding-0'>"
+																	+ "<button type='button' class='btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air updateBtn' data-datatable-action='update' title='"+$.osl.lang("stm2100.actionBtn.updateTooltip")+"' data-title-lang-cd='stm2100.actionBtn.updateTooltip' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' data-auth-button='update'>"
+																		+ "<i class='fa fa-edit'></i>"
+																		+ "<span data-lang-cd='datatable.button.update'>"+$.osl.lang("datatable.button.update")+"</span>"
+																	+ "</button>"
+																	+ "<button type='button' class='btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air settingBtn' data-datatable-action='detail' title='"+$.osl.lang("stm2100.actionBtn.managmentTooltip")+"' data-title-lang-cd='stm2100.actionBtn.managmentTooltip' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' data-auth-button='detail'>"
+																		+ "<i class='fa flaticon-settings-1'></i>"
+																		+ "<span data-lang-cd='stm2100.button.detail'>"+$.osl.lang("stm2100.button.detail")+"</span>"
+																	+ "</button>"
+																+ "</div>"
+															+ "</div>"
+														+"</div>" 
+													+ "</div>"
+												+ "</div>"
+											+ "</div>"
+										+ "</div>" 
+									+ "</div>";
+					}
+				});
+			 
+			 ajaxObj.send();
+		 };
+		 
+		 
+		 var drawChart = function(index, menuId){
+			 var chart = $.osl.chart.setting("apex","drawChart"+index,{
+				
+				data:{
+					
+					url: "<c:url value='/stm/stm2000/stm2100/selectStm2102BadSummeryChartInfoAjax.do'/>",
+					
+					param:{
+						 menuId : menuId,
+						 
+						 key: {
+							 key1: "totalNewCnt",
+							 key2: "delCnt",
+						 },
+						 
+						 keyNm:{
+							 keyNm1: $.osl.lang("stm2100.chart.deletePost"),
+							 keyNm2: $.osl.lang("stm2100.chart.newPost"),
+						 },
+						 
+						 xKey:"chartDate",
+						 
+						 chartType:"area"
+					 },
+					 type: "remote"
+				},
+				chart:{
+					
+					colors: ["#586272", "#1cac81"],
+				},
+				callback:{
+					
+					initComplete: function(chartContext, config){
+						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
+						$(".apexcharts-reset-icon").addClass("kt-margin-0");
+						$(".apexcharts-toolbar").addClass("kt-margin-10");
+						$(".apexcharts-toolbar").attr("style", "top:-20px; right: 10px;");
+						$(".apexcharts-toolbar").removeAttr("style[padding]");
+					}
+				}
+			});
+		 }
+		 
+		 
+		 var checkUser = function(menuId, stmDsTypeCd){
+			 var data = {
+					 authGrpId : $.osl.selAuthGrpId,
+					 menuId : menuId,
+					 dsTypeCd : stmDsTypeCd,
+			 }
+			
+	    	var ajaxObj = new $.osl.ajaxRequestAction(
+	    			{"url":"<c:url value='/stm/stm2000/stm2100/selectStm2100UserCheckAjax.do'/>", "async": false}
+					, data);
+			
+	    	ajaxObj.setFnSuccess(function(data){
+	    		if(data.errorYn == "Y"){
+					$.osl.alert(data.message,{type: 'error'});
+					
+					$.osl.layerPopupClose();
+				}else{
+					var result = data.result;
+					
+					okManager = true;	
+					
+					
+					
+					if(result.resultWriter == "Y" || result.resultWriter == "B"){
+						okWriter = true;	
+					}else{
+						okWriter = false;
+					}
+				}
+			});
+			
+	    	
+			ajaxObj.send();
+		 }
+	 };
+	 
+	 return {
+		 init: function(){
+			 documentSetting();
+		 }
+	 };
+ }();
+ 
+ $.osl.ready(function(){
+	 OSLStm2100Popup.init();
+ });
 </script>
 
+
 <jsp:include page="/WEB-INF/jsp/lunaops/bottom/footer.jsp" />
-
-

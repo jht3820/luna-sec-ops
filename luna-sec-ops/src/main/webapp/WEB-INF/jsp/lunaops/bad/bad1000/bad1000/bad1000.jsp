@@ -70,21 +70,16 @@
 	 
 	 var dataTableId = "bad1000BadTable";
 	 
-	 
-	 var checkStmInfo;
-	 
 	 var documentSetting = function() {
 
 		 
 		 var searchAdd;
 		 
 		 
+		 getStmInfo();
+		 
 		 
 		 if($.osl.isNull($("#stmRootYn").val())){
-			 
-			 getStmInfo();
-			 
-			 checkStmInfo = false;
 			 
 			 searchAdd = [
 					{field: 'badContent', title:$.osl.lang("bad1000.field.badContent"), searchOrd: 2},
@@ -107,8 +102,6 @@
 				]
 		 }else{
 			 
-			
-			 checkStmInfo = true;
 			 
 			 searchAdd = [
 					{field: 'badContent', title:$.osl.lang("bad1000.field.badContent"), searchOrd: 2},
@@ -161,15 +154,7 @@
 			 },
 			 columns: [
 				 {field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: "kt-checkbox--solid"}, sortable: false, autoHide: false},
-				 {field: 'badNum', title: 'No.', textAlign: 'center', width: 50, autoHide: false, sortable: true,
-				 	template: function(row){
-				 		if(checkStmInfo){
-				 			setStmInfo(row);
-				 			checkStmInfo = false;
-				 		}
-				 		return row.badNum;
-				 	}
-				 },
+				 {field: 'badNum', title: 'No.', textAlign: 'center', width: 50, autoHide: false, sortable: true},
 				 {field: 'badTitle', title: '제목', textAlign: 'left', width: 400, autoHide: false, search: true, sortable: true,
 					template: function(row){
 						var returnStr = "";
@@ -214,7 +199,7 @@
 					onclick: function(row){
 						$.osl.user.usrInfoPopup(row.badUsrId);
 					}
-					, autoHide: false, search: true, sortable: true},
+					, search: true, sortable: true},
 				{field: 'badWtdtm', title:'작성일', textAlign: 'center', width: 150, search: true, searchType:"daterange", sortable: true,
 					template: function(row){
 						var paramDatetime = new Date(row.badWtdtm);
@@ -224,9 +209,6 @@
 				}
 			],
 			searchColumns: searchAdd,
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("bad1000.actionBtn.title"),
 				"width" : 200,
@@ -436,14 +418,14 @@
 	
     
 	 var setStmInfo = function(data){
-		 var stmOptionCnt = 0;
-		 var stmNtcYnCd;
-		 var stmPwYnCd;
-		 var stmTagYnCd;
-		 var stmCmtYnCd;
-		 var stmFileCnt;
-		 var stmFileStrg;
-		 
+		var stmOptionCnt = 0;
+		var stmNtcYnCd = data.stmNtcYnCd;
+		var stmPwYnCd = data.stmPwYnCd;
+		var stmTagYnCd = data.stmTagYnCd;
+		var stmCmtYnCd = data.stmCmtYnCd;
+		var stmFileCnt = data.stmFileCnt;
+		var stmFileStrg = data.stmFileStrg;
+		
 		stmOptionCnt = 0;
 			if(data.stmNtcYnCd == '01'){
 				stmOptionCnt++;
@@ -460,18 +442,15 @@
 			if(data.stmFileCnt > 0){
 				stmOptionCnt++;
 			}
-			if(data.stmFileStrg > 0){
-				stmOptionCnt++;
-			}
 			
 			
 			$("#stmOptionCnt").val(stmOptionCnt);
-			$("#stmNtcYnCd").val(data.stmNtcYnCd);
-			$("#stmPwYnCd").val(data.stmPwYnCd);
-			$("#stmTagYnCd").val(data.stmTagYnCd);
-			$("#stmCmtYnCd").val(data.stmCmtYnCd);
-			$("#stmFileCnt").val(data.stmFileCnt);
-			$("#stmFileStrg").val(data.stmFileStrg);
+			$("#stmNtcYnCd").val(stmNtcYnCd);
+			$("#stmPwYnCd").val(stmPwYnCd);
+			$("#stmTagYnCd").val(stmTagYnCd);
+			$("#stmCmtYnCd").val(stmCmtYnCd);
+			$("#stmFileCnt").val(stmFileCnt);
+			$("#stmFileStrg").val(stmFileStrg);
 	 }
 	 
 	 
@@ -480,7 +459,8 @@
 	 var getStmInfo = function(){
 		
     	var ajaxObj = new $.osl.ajaxRequestAction(
-    			{"url":"<c:url value='/bad/bad1000/bad1000/selectBad1000DsTypeGetAjax.do'/>", "async": false});
+    			{"url":"<c:url value='/bad/bad1000/bad1000/selectBad1000DsTypeGetAjax.do'/>", "async": false},
+    			{"menuId": $("#menuId").val()});
 	 
 		
     	ajaxObj.setFnSuccess(function(data){
@@ -492,23 +472,24 @@
 				
 				setStmInfo(data.stmInfo);
 				
-				$("#menuId").val(data.menuId);
-				$("#stmDsTypeCd").val(data.stmInfo.stmDsTypeCd);
-				$("#stmNm").val(data.stmInfo.stmNm);
-				
-				
-				$("#badTitle").empty();
-				var innerHtml ="";
-				if(data.stmInfo.stmTypeCd == '01'){
-					innerHtml = "<i class='la la-newspaper-o kt-margin-r-5'></i>[일반]";
-				}else if(data.stmInfo.stmTypeCd == '02'){
-					innerHtml = "<i class='la la-server kt-margin-r-5'></i>[자료실]";	
-				}else{
+				if($.osl.isNull($("#stmRootYn").val())){
 					
+					$("#menuId").val(data.menuId);
+					$("#stmDsTypeCd").val(data.stmInfo.stmDsTypeCd);
+					$("#stmNm").val(data.stmInfo.stmNm);
+					
+					
+					$("#badTitle").empty();
+					var innerHtml ="";
+					if(data.stmInfo.stmTypeCd == '01'){
+						innerHtml = "<i class='la la-newspaper-o kt-margin-r-5'></i>[일반]";
+					}else{
+						innerHtml = "<i class='la la-server kt-margin-r-5'></i>[자료실]";	
+					}
+					innerHtml += $.osl.escapeHtml(data.stmInfo.stmNm);
+					$("#badTitle").append(innerHtml);
+					$("#stmTypeCd").val(data.stmInfo.stmTypeCd);
 				}
-				innerHtml += $.osl.escapeHtml(data.stmInfo.stmNm);
-				$("#badTitle").append(innerHtml);
-				$("#stmTypeCd").val(data.stmInfo.stmTypeCd);
 			}
 		});
     	
@@ -566,7 +547,7 @@
 			 documentSetting();		
 		 }, 
 		 reload: function(){
-			 $("button[data-datatable-id=bad1000BadTable][data-datatable-action=select]").click();
+			$.osl.datatable.list["bad1000BadTable"].targetDt.reload();
 		 },
 	 };
  }();

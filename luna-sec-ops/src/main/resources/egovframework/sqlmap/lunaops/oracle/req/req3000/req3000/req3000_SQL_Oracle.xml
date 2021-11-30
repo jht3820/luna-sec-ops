@@ -238,10 +238,10 @@
 		<isNotEmpty property="searchTargetData">
 				<isNotEmpty property="searchTargetId">
 					<isEqual property="searchTargetId" compareValue="reqGrpNo" prepend="AND">
-						T1.REQ_GRP_NO LIKE '%'||  #searchTargetData# ||'%'
+						UPPER(T1.REQ_GRP_NO) LIKE '%'||  UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpNm" prepend="AND">
-						T1.REQ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+						UPPER(T1.REQ_GRP_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpUsrNm" prepend="AND">
 						T1.REQ_GRP_USR_NM LIKE '%'||#searchTargetData#||'%'
@@ -253,13 +253,13 @@
 						T1.REG_GRP_KEY LIKE '%'||#searchTargetData#||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpUsrEmail">
-						AND	T1.REQ_GRP_USR_EMAIL LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(T1.REQ_GRP_USR_EMAIL) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpUsrNum">
 						AND	T1.REQ_GRP_USR_NUM LIKE '%'|| #searchTargetData# ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpChargerEmail">
-						AND	T1.REQ_GRP_CHARGER_EMAIL LIKE '%'|| #searchTargetData# ||'%'
+						AND	UPPER(T1.REQ_GRP_CHARGER_EMAIL) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="reqGrpChargerNum">
 						AND	T1.REQ_GRP_CHARGER_NUM LIKE '%'|| #searchTargetData# ||'%'
@@ -350,13 +350,13 @@
 							SUBT2.REQ_USR_NM LIKE '%'||#searchTargetData#||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqUsrEmail">
-							AND	T1.REQ_USR_EMAIL LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.REQ_USR_EMAIL) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqUsrNum">
 							AND	T1.REQ_USR_NUM LIKE '%'|| #searchTargetData# ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="prjNm">
-							AND	T1.PRJ_NM LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.PRJ_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="prjGrpNm">
 							AND	T1.PRJ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
@@ -459,16 +459,16 @@
 							SUBT2.REQ_USR_NM LIKE '%'||#searchTargetData#||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqUsrEmail">
-							AND	T1.REQ_USR_EMAIL LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.REQ_USR_EMAIL) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqUsrNum">
 							AND	T1.REQ_USR_NUM LIKE '%'|| #searchTargetData# ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="prjNm">
-							AND	T1.PRJ_NM LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.PRJ_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="prjGrpNm">
-							AND	T1.PRJ_GRP_NM LIKE '%'|| #searchTargetData# ||'%'
+							AND	UPPER(T1.PRJ_GRP_NM) LIKE '%'|| UPPER(#searchTargetData#) ||'%'
 						</isEqual>
 						<isEqual property="searchTargetId" compareValue="reqKey">
 							AND	T1.REQ_KEY LIKE '%'|| #searchTargetData# ||'%'
@@ -485,6 +485,122 @@
 			) SUBT1
 		]]>
     </sql>
+    
+    <sql id="selectReq3000PrjList">
+		<![CDATA[
+			SELECT
+				ROWNUM RN,
+				SUBT1.LIC_GRP_ID,
+				SUBT1.PRJ_GRP_ID,
+				SUBT1.PRJ_ID,
+				SUBT1.PRJ_NM,
+				SUBT1.PROCESS_ID,
+				SUBT1.PROCESS_NM,
+				SUBT1.PROCESS_DESC,
+				SUBT1.PROCESS_CONFIRM_CD,
+				SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'FLW00005', SUBT1.PROCESS_CONFIRM_CD, '1') AS PROCESS_CONFIRM_NM,
+				SUBT1.PROCESS_TRANSFER_CD,
+				SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'CMM00005', SUBT1.PROCESS_TRANSFER_CD, '1') AS PROCESS_TRANSFER_NM,
+				SUBT1.PROCESS_DISABLED_CD,
+				SF_STM4001_COM_CD_INFO(SUBT1.LIC_GRP_ID, 'FLW00006', SUBT1.PROCESS_DISABLED_CD, '1') AS PROCESS_DISABLED_NM,
+				SUBT1.USE_CD,
+				SUBT1.DEL_CD,
+				SUBT1.PROCESS_ORD,
+				SUBT1.REQ_CNT,
+				SUBT1.FLOW_CNT,
+				SUBT1.REG_DTM,
+				SUBT1.REG_USR_ID,
+				SUBT1.REG_USR_IP,
+				SUBT1.MODIFY_DTM,
+				SUBT1.MODIFY_USR_ID,
+				SUBT1.MODIFY_USR_IP
+			FROM
+			(
+				SELECT
+					B.LIC_GRP_ID,
+					B.PRJ_GRP_ID,
+					A.PRJ_ID,
+					B.PRJ_NM,
+					A.PROCESS_ID,
+					A.PROCESS_NM,
+					A.PROCESS_DESC,
+					A.PROCESS_CONFIRM_CD,
+					A.PROCESS_TRANSFER_CD,
+					A.PROCESS_DISABLED_CD,
+					A.USE_CD,
+					A.DEL_CD,
+					A.PROCESS_ORD,
+					(SELECT COUNT(*) FROM REQ4100 Z WHERE Z.PRJ_ID = A.PRJ_ID AND Z.PROCESS_ID = A.PROCESS_ID) AS REQ_CNT,
+					(SELECT COUNT(*) FROM PRJ1101 Z WHERE Z.PRJ_ID = A.PRJ_ID AND Z.PROCESS_ID = A.PROCESS_ID AND Z.USE_CD = '01') AS FLOW_CNT,
+					TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI') AS REG_DTM,
+					A.REG_USR_ID,
+					A.REG_USR_IP,
+					TO_CHAR(A.MODIFY_DTM, 'YYYY-MM-DD HH24:MI') AS MODIFY_DTM,
+					A.MODIFY_USR_ID,
+					A.MODIFY_USR_IP
+				FROM PRJ1100 A
+				INNER JOIN PRJ1000 B ON (A.PRJ_ID = B.PRJ_ID AND B.LIC_GRP_ID = #licGrpId# AND B.USE_CD = '01' AND B.DEL_CD = '02')
+				]]>
+				INNER JOIN REQ4100 C
+				ON(A.PRJ_ID = C.PRJ_ID AND A.PROCESS_ID = C.PROCESS_ID AND C.REQ_ID = #reqId#)
+				WHERE 1=1
+				<isNotEmpty property="isFlowCnt">
+					AND EXISTS(
+			          	SELECT *
+			            FROM PRJ1101 Z
+			            WHERE 1=1
+			            AND Z.PRJ_ID = A.PRJ_ID
+			            AND Z.PROCESS_ID = A.PROCESS_ID
+			            AND Z.USE_CD = '01'
+			          )
+				</isNotEmpty>
+				<isNotEmpty property="prjId">
+					AND A.PRJ_ID = #prjId#
+				</isNotEmpty>
+				<isNotEmpty property="useCd">
+					AND A.USE_CD = #useCd#
+				</isNotEmpty>
+				<isNotEmpty property="delCd">
+					AND A.DEL_CD = #delCd#
+				</isNotEmpty>
+				<isNotEmpty property="processConfirmCd">
+					AND A.PROCESS_CONFIRM_CD = #processConfirmCd#
+				</isNotEmpty>
+				<isNotEmpty property="processTransferCd">
+					AND A.PROCESS_TRANSFER_CD = #processTransferCd#
+				</isNotEmpty>
+				<isNotEmpty property="processDisabledCd">
+					AND A.PROCESS_DISABLED_CD = #processDisabledCd#
+				</isNotEmpty>
+				<isNotEmpty property="paramSortFieldId">
+					<isNotEmpty property="sortDirection">
+						ORDER BY $paramSortFieldId$
+						<isEqual property="sortDirection" compareValue="desc">
+							DESC
+						</isEqual>
+						<isEqual property="sortDirection" compareValue="asc">
+							ASC
+						</isEqual>
+					</isNotEmpty>
+				</isNotEmpty>
+				<isEmpty property="paramSortFieldId">
+					ORDER BY A.PROCESS_ORD, A.PROCESS_NM, A.REG_DTM DESC
+				</isEmpty> 
+				<![CDATA[
+			) SUBT1
+			WHERE 1=1
+		]]>
+			<isNotEmpty property="searchTargetData">
+				<isNotEmpty property="searchTargetId">
+					<isEqual property="searchTargetId" compareValue="processNm">
+						AND	SUBT1.PROCESS_NM LIKE '%'|| #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="processId">
+						AND	SUBT1.PROCESS_ID = #searchTargetData#
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+	</sql>
 	
 	<select id="req3000DAO.selectReq3000ReqGrpList" parameterClass="java.util.Map" resultMap="resultMapSelectReq3000">
 		
@@ -690,4 +806,16 @@
 		AND		PRJ_ID = #prjId#
 		AND		REQ_GRP_ID = #reqGrpId#
 	</delete>
+	
+	
+	<select id="req3000DAO.selectReq3000ReqIsInReqGrp" parameterClass="java.util.List" resultClass="egovMap">
+	
+		SELECT A.REQ_GRP_ID 
+		FROM REQ3001 A INNER JOIN REQ3000 C
+			ON (A.PRJ_GRP_ID = C.PRJ_GRP_ID AND A.REQ_GRP_ID = C.REQ_GRP_ID AND C.USE_CD = '01') 
+        WHERE REQ_ID IN 
+        <iterate open="(" close=")" conjunction=",">
+		  #[]#
+		</iterate>
+	</select>
 </sqlMap>

@@ -147,19 +147,26 @@
 					</div>
 				</div>
 			</div>
-			<div class="kt-portlet kt-portlet--collapsed kt-hide" data-ktportlet="true" id="req4101NewRequestOpt">
+			<div class="kt-portlet" data-ktportlet="true" id="req4101NewRequestOpt">
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
-						<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.requestDefaultOptNm">접수 기본항목 입력</span>
+						<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.requestDefaultOptNm">요청 기본항목 입력</span>
 					</div>
 					<div class="kt-portlet__head-toolbar">
 						<div class="kt-portlet__head-group">
+							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" tabindex="1"><i class="fa fa-plus"></i></a>
+							<div class="dropdown-menu dropdown-menu-right">
+								<div class="dropdown-item" id="insertBasicItemBtn"><i class="fa fa-plus kt-font-brand"></i>신규 항목 추가</div>
+								<div class="dropdown-item" id="selectBasicItemBtn"><i class="fa fa-list-alt kt-font-brand"></i>기본항목 불러오기</div>
+							</div>
 							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 						</div>
 					</div>
 				</div>
 				<div class="kt-portlet__body">
-				
+					<div class="row" id="basicItemList">
+					
+					</div>
 				</div>
 			</div>
 		</div> 
@@ -223,8 +230,17 @@ var OSLReq4101Popup = function () {
 	
 	var currentViewType = "01";
 
+	var paramPrjId = $("#reqPrjId").val();
+	var paramReqId = $("#reqId").val();
 	
 	var type;
+	
+	
+	var basicItemList = new Array();
+	
+	var basicItemInsertList = new Array();
+	
+	var basicItemDelList = new Array();
 	
 	
 	
@@ -261,7 +277,54 @@ var OSLReq4101Popup = function () {
 		
 		
 		
-    	
+		
+		$("#selectBasicItemBtn").click(function(){
+			var data = {
+					callPage:"OSLReq4101Popup",
+					paramPrjId: paramPrjId 
+				};
+			var options = {
+					idKey: "prj1304",
+					modalTitle: "기본항목 리스트",
+					modalSize: "xl",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1304ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1304Popup.getItemList();
+							OSLReq4101Popup.addItemList(itemList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1304View.do',data,options);
+		});
+			
+		
+		$("#insertBasicItemBtn").click(function(){
+			var data = {
+					type:"insert",
+					callPage:"OSLReq4101Popup"
+				};
+			var options = {
+					idKey: "prj1305",
+					modalTitle: "요구사항 요청 기본항목 추가",
+					modalSize: "lg",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1305ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1305Popup.getItemList();
+							OSLReq4101Popup.addItemList(itemList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1305View.do',data,options);
+		});
+		
     	
     	fileUploadObj = $.osl.file.uploadSet("req4101FileUpload",{
     		url: '/req/req4000/req4100/insertReq4101ReqAtchFileInfo.do',
@@ -650,6 +713,8 @@ var OSLReq4101Popup = function () {
     		
         	$.osl.setDataFormElem($.osl.user.userInfo,"frReq4101", ["usrNm","email","telno","deptName","deptId","usrImgId"]);
 			
+			$("#reqUsrId").val($.osl.user.userInfo.usrId);
+			
 	    	
 	    	$("#reqDtm").val(new Date().format("yyyy-MM-dd"));
 	    	
@@ -669,24 +734,61 @@ var OSLReq4101Popup = function () {
 	    	
 	    	
 			$.osl.date.datepicker($("#reqDtm"), {});
+	    	
+	    	
+			var data = {
+	    			prjId :  paramPrjId,
+	    			reqId :  paramReqId,
+	    			itemRequestCd : '01'
+	    	};
+	    	
+			
+			var ajaxObj = new $.osl.ajaxRequestAction(
+					{"url":"<c:url value='/prj/prj1000/prj1000/selectPrj1002AllItemListAjax.do'/>", "async":"true"}
+					,data);
+			
+			ajaxObj.setFnSuccess(function(data){
+				if(data.errorYn == "Y"){
+					$.osl.alert(data.message,{type: 'error'});
+
+					
+					$.osl.layerPopupClose();
+				}else{
+			    	basicItemList = data.itemList;
+			    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+			    			
+			    			{
+								actionFn:{
+									delete: function($this){
+										var targetId = $this.data("itemId");
+										$this.parents(".basicItemDiv:first").remove();
+										basicItemDelList.push({"itemId":targetId});
+				
+										var delIdx = ""
+										$.each(basicItemList,function(idx, map){
+											if(map.itemId == targetId){
+													delIdx = idx;						
+											}
+										});
+										if(delIdx!==""){
+											basicItemList.splice(delIdx,1);
+										}
+									}
+								}
+							}
+		    		);
+				}
+			});
+			
+			
+			ajaxObj.send();
     	}else{
     		
     		
     		selectReqInfo();
     	}
-    	/* 
     	
-    	$("#usrNm").focus(function(){
-    		
-    		$("#reqUsrId").val("");
-    		$("#usrNm").val("");
-    		$("#email").val("");
-    		$("#telno").val("");
-    		$("#deptName").val("");
-    		$("#deptId").val("");
-    		$("#usrImgId").val(""); 
-    	});
-    	 */
+    	 
     	
     	$("#reqGrpNm").focus(function(){
     		
@@ -702,29 +804,21 @@ var OSLReq4101Popup = function () {
 				
 				$("#searchUsrNmBtn").click();
 			}
+			
+			$("#reqUsrId").val("");
 		});
+		
     	
     	$("#reqGrpNm").keydown(function(e){
 			if(e.keyCode=='13'){
 				
 				$("#searchReqGrpBtn").click();
 			}
+			
+			
 		});
-    	/*
+
     	
-   		$("#usrNm").blur(function(){
-   			
-   			if($("#usrNm").val()!=""){
-   				
-   				if($("#email").val()!=""){
-   					return;
-   				}else{
-		   			
-  					$("#searchUsrNmBtn").click();
-   				}
-   			}
-   		});
-    	*/
     	
     	$("#searchUsrNmBtn").click(function(){
     		var data = {
@@ -772,18 +866,7 @@ var OSLReq4101Popup = function () {
     		};
     		$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,options);
     	});
-    	/* 
     	
-    	$("#reqPwCheckbox").click(function(){
-    		if($("#reqPwCheckbox").is(":checked")==true){
-    			
-    			$("#pwOption").removeClass("kt-hide");
-    		}else{
-    			
-    			$("#pwOption").addClass("kt-hide");
-    		}
-    	});
-    	 */
     	
     	$("#reqNm").on("propertychange paste input", function(e){
     		txt = $(this).val();
@@ -801,20 +884,7 @@ var OSLReq4101Popup = function () {
     		if (!form.valid()) {
     			return;
     		}
-    		/* 
     		
-    		if($("#reqPwCheckbox").is(":checked")==true){
-    			if(pw!="Y"){
-    				
-    				
-    				if($("#reqPw").val()==""){
-    					$.osl.alert($.osl.lang("req4101.formCheck.passwordMessage"));
-    					$("#reqPw").focus();
-   						return false;
-    				}
-    			}
-        	}
-    		*/
     		$.osl.confirm($.osl.lang("req4101.saveString."+type+"Str"),{"html" : true},function(result) {
     	        if (result.value) {
     	        	fileUploadObj.upload();
@@ -823,13 +893,11 @@ var OSLReq4101Popup = function () {
     	});
     };
     
-    /**
-	 * 	요구사항 정보 조회
-	 */
+    
 	 var selectReqInfo = function() {
     	var data = {
-    			prjId :  $("#reqPrjId").val(),
-    			reqId :  $("#reqId").val(),
+    			prjId :  paramPrjId,
+    			reqId :  paramReqId,
     	};
     	
 		
@@ -895,23 +963,65 @@ var OSLReq4101Popup = function () {
 		    	
 		    	
 				$.osl.date.datepicker($("#reqDtm"), {});
-		    	/* 
 		    	
-		    	if(!$.osl.isNull(data.reqInfoMap.reqPw)){
-		    		$("#reqPwCheckbox").attr("checked", true);
-		    		$("#pwOption").removeClass("kt-hide");
-		    		pw = "Y";
-		    		
-					$("#reqPw").val("");
-					$("#reqPw").attr("placeholder",$.osl.lang("req4101.placeholder.nullPassword"));
-					$("#reqPwCheck").attr("placeholder",$.osl.lang("req4101.placeholder.nullPassword"));
-		    	}
-		     */
 		    	
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
 		    	
 		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
+		    	
+		    	basicItemList = data.basicItemList;
+		    	basicItemInsertList = data.basicItemInsertList;
+		    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+		    			
+		    			{
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemList.splice(delIdx,1);
+									}
+								}
+							}
+						}
+	    		);
+		    	
+		    	$.osl.customOpt.setting(basicItemInsertList,  "basicItemList",
+		    			
+		    			{
+				    		htmlAppendType: true,
+							delAt: true,
+							updAt: true,
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemInsertList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemInsertList.splice(delIdx,1);
+									}
+								},
+								update: OSLReq4101Popup.basicItemUpdate,
+								updateBtn: OSLReq4101Popup.basicItemUpdateBtn
+							}
+						}
+	    		);
 			}
 		});
 		
@@ -950,6 +1060,12 @@ var OSLReq4101Popup = function () {
 		var prjGrpId = $("#reqPrjSelect option[value="+$("#reqPrjSelect").val()+"]").data("prj-grp-id");
 		fd.append("prjGrpId",prjGrpId);
 
+		
+		itemListValueSetting();
+		fd.append("basicItemList", JSON.stringify(basicItemList));
+		fd.append("basicItemInsertList", JSON.stringify(basicItemInsertList));
+		fd.append("basicItemDelList", JSON.stringify(basicItemDelList));
+		
 		
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/req/req4000/req4100/insertReq4101ReqInfoAjax.do'/>"
    			, "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
@@ -1002,6 +1118,12 @@ var OSLReq4101Popup = function () {
        	
        	fd.append("fileHistory",JSON.stringify(uploadFileList));
 
+		
+		itemListValueSetting();
+		fd.append("basicItemList", JSON.stringify(basicItemList));
+		fd.append("basicItemInsertList", JSON.stringify(basicItemInsertList));
+		fd.append("basicItemDelList", JSON.stringify(basicItemDelList));
+       	
        	
    		var ajaxObj = new $.osl.ajaxRequestAction(
    				{"url":"<c:url value='/req/req4000/req4100/updateReq4101ReqInfoAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
@@ -1053,6 +1175,12 @@ var OSLReq4101Popup = function () {
 		fd.append("prjGrpId",prjGrpId);
 
 		
+		itemListValueSetting();
+		fd.append("basicItemList", JSON.stringify(basicItemList));
+		fd.append("basicItemInsertList", JSON.stringify(basicItemInsertList));
+		fd.append("basicItemDelList", JSON.stringify(basicItemDelList));
+		
+		
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/req/req4000/req4100/insertReq4100ReqCopyAjax.do'/>"
    			, "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
 			,fd);
@@ -1078,10 +1206,60 @@ var OSLReq4101Popup = function () {
 		
     };
     
-    /*
-	 * function : viewTypeChange
-	 * function 설명 : 화면 출력 타입 변경(카드형, 그리드형)
-	 */
+    
+    var itemListValueSetting = function(){
+    	
+		$.each(basicItemList, function(idx, map){
+			if(map.itemCode == "01"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "02"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "03"){ 
+			}else if(map.itemCode == "04"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}else if(map.itemCode == "05"){ 
+			}else if(map.itemCode == "06"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}
+		});
+   		
+		
+		$.each(basicItemInsertList, function(idx, map){
+			if(map.itemCode == "01"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "02"){ 
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "03"){ 
+			}else if(map.itemCode == "04"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}else if(map.itemCode == "05"){ 
+			}else if(map.itemCode == "06"){ 
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}
+		});
+
+		if(basicItemList.length>0){
+			var itemOrd = basicItemList[basicItemList.length-1].itemOrd;
+	   		
+			$.each(basicItemInsertList, function(idx, map){
+				map.itemOrd = itemOrd+idx+1;
+				basicItemInsertList[idx] = map;
+			});
+		}else{
+	   		
+			$.each(basicItemInsertList, function(idx, map){
+				map.itemOrd = idx+1;
+				basicItemInsertList[idx] = map;
+			});
+			
+		}
+    }
+    
+    
 	 var viewTypeChange = function(){
 		
 		if(currentViewType == "01"){	
@@ -1125,7 +1303,175 @@ var OSLReq4101Popup = function () {
     		}));
 			$("#reqGrpKey").val(parseTemp.reqGrpKey);
 			
-        }
+        },
+    	addItemList: function(itemList){
+	    	basicItemInsertList = basicItemInsertList.concat(itemList);
+	    	
+	    	
+	    	$.osl.customOpt.setting(itemList,  "basicItemList",
+	    			
+	    			{
+						htmlAppendType: true,
+						delAt: true,
+						updAt: true,
+						actionFn:{
+							delete:function($this){
+								var targetId = $this.data("itemId");
+								$this.parents(".basicItemDiv:first").remove();
+								basicItemDelList.push({"itemId":targetId});
+		
+								var delIdx = ""
+								$.each(basicItemInsertList,function(idx, map){
+									if(map.itemId == targetId){
+										delIdx = idx;						
+									}
+								});
+								if(delIdx!==""){
+									basicItemInsertList.splice(delIdx,1);
+								}
+							},
+							update: OSLReq4101Popup.basicItemUpdate,
+							updateBtn: OSLReq4101Popup.basicItemUpdateBtn
+						}
+					}
+    		); 
+    	},
+    	basicItemUpdate: function($this, updType){
+			var stat = false;
+    		if(updType=="02"){
+    			
+    			var target = $this[0]; 
+    			$.each(basicItemList,function(idx, map){
+    				if(map.itemId == target.itemId){
+    					basicItemList[idx] = target;
+    					stat=true;
+    				}
+    			});
+    			if(!stat){
+    				$.each(basicItemInsertList,function(idx, map){
+        				if(map.itemId == target.itemId){
+        					basicItemInsertList[idx] = target;
+        				}
+        			});
+    			}
+    			
+    			$("#basicItemList").html("");
+    			$.osl.customOpt.setting(basicItemList,  "basicItemList",
+		    			
+		    			{
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemList.splice(delIdx,1);
+									}
+								},
+							}
+						}
+	    		);
+    			$.osl.customOpt.setting(basicItemInsertList,  "basicItemList",
+		    			
+		    			{
+    						viewType: "preview",
+							delAt: true,
+							updAt: true,
+							htmlAppendType: true,
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemList.splice(delIdx,1);
+									}
+								},
+								update: OSLReq4101Popup.basicItemUpdate,
+								updateBtn: OSLReq4101Popup.basicItemUpdateBtn
+							}
+						}
+	    		);
+    		}
+		},
+		basicItemUpdateBtn: function($this){
+			var targetItemId = $this.data("itemId");
+			var itemObj = "";
+
+			$.each(basicItemList,function(idx, map){
+				if(map.itemCode == "01"){ 
+					map.itemValue = $("#"+map.itemId).val();
+				}else if(map.itemCode == "02"){ 
+					map.itemValue = $("#"+map.itemId).val();
+				}else if(map.itemCode == "03"){ 
+				}else if(map.itemCode == "04"){ 
+					map.itemValue = $("#"+map.itemId).val();
+					map.itemValueNm = $("#"+map.itemId+"Nm").val();
+				}else if(map.itemCode == "05"){ 
+				}else if(map.itemCode == "06"){ 
+					map.itemValue = $("#"+map.itemId).val();
+					map.itemValueNm = $("#"+map.itemId+"Nm").val();
+				}
+				if(map.itemId == targetItemId){
+					itemObj = map;
+					stat=true;
+				}
+			});
+			$.each(basicItemInsertList,function(idx, map){
+				if(map.itemCode == "01"){ 
+   					map.itemValue = $("#"+map.itemId).val();
+   				}else if(map.itemCode == "02"){ 
+   					map.itemValue = $("#"+map.itemId).val();
+   				}else if(map.itemCode == "03"){ 
+   				}else if(map.itemCode == "04"){ 
+   					map.itemValue = $("#"+map.itemId).val();
+   					map.itemValueNm = $("#"+map.itemId+"Nm").val();
+   				}else if(map.itemCode == "05"){ 
+   				}else if(map.itemCode == "06"){ 
+   					map.itemValue = $("#"+map.itemId).val();
+   					map.itemValueNm = $("#"+map.itemId+"Nm").val();
+   				}
+				if(map.itemId == targetItemId){
+					itemObj = map;
+				}
+			});
+			
+			var data = {
+					type:"updateJson",
+					callPage:"OSLReq4101Popup",
+					itemObj: JSON.stringify(itemObj)
+				};
+			var options = {
+					idKey: "prj1305",
+					modalTitle: "프로젝트 기본항목 수정",
+					modalSize: "lg",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1305ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1305Popup.getItemList();
+							OSLReq4101Popup.basicItemUpdate(itemList, "02");
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1305View.do',data,options);
+		}
     };
 }();
 

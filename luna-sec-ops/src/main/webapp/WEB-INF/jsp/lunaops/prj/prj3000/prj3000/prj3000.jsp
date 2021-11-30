@@ -314,6 +314,10 @@ var OSLPrj3000Popup = function () {
 			callback:{
 				onclick: function(treeObj,selNode){
 					
+					
+					searchReset(prj3002PrjTable);
+					
+					
 					selectDocInfo(selNode.original);
 					
 					
@@ -361,9 +365,7 @@ var OSLPrj3000Popup = function () {
 					}
 					
 					
-					
 					var selectNode = treeObj.jstree().get_node(selectNodeIds[0]);
-					console.log(selectNode)
 					var nodeData = selectNode.original;
 					
 					
@@ -721,9 +723,6 @@ var OSLPrj3000Popup = function () {
 			searchColumns:[
 				{field: 'targetCd', title: '구분', searchOrd: 0, searchType:"select", searchCd:"PRJ00022"}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": "연결 제거",
 				"update": false,
@@ -1399,7 +1398,37 @@ var OSLPrj3000Popup = function () {
               startText = Math.ceil(showlength / 2),
               endText = Math.floor(showlength / 2);
           return name.substr(0, startText) + "..." + name.substr(name.length - endText);
-      }
+    }
+	
+	
+	var searchReset = function(datatableId){
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item.active").attr("class", "dropdown-item");
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").attr("class", "dropdown-item active");
+		
+		
+		var searchBarMenuStr = $(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").children("a.dropdown-item[data-field-id=-1]").text();
+		
+		
+		$(".dropdown-menu.osl-datatable-search__dropdown[data-datatable-id="+datatableId+"]").parent().children(".btn.btn-secondary.dropdown-toggle").text(searchBarMenuStr);
+		
+		
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("style", "display:none;");
+		$(".form-control.kt-select2.osl-datatable-search__select[data-datatable-id="+datatableId+"]").attr("aria-hidden", "true");
+		
+		
+		$("#searchData_"+datatableId).removeAttr("readonly");
+		
+		$("#searchData_"+datatableId).parent().children("span").children().children().removeClass("la-calendar");
+		
+		
+		$("#searchData_"+datatableId).val("");
+
+		
+		
+		$("#searchData_"+datatableId).attr("disabled","disabled");
+	};
+	
 	
 	return {
 	       

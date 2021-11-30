@@ -146,61 +146,61 @@
 <script>
 "use strict";
 
-
+//파일업로드 셋팅
 var OSLReq3001Popup = function () {
 	var formId = 'frReq3001'
 	
 	var fileUploadObj;
-	
+	//edit 목록
 	var formEditList = [];
 	
-	
+	//atchfileId
    	var atchFileId = $("#atchFileId").val();	
 	
-	
+	//form validate 주입
 	var formValidate = $.osl.validate(formId);
 	
-	
+	//연결 요구사항 중복체크
 	var reqConnectedList = [];
 	
-	
+	//수정시 연결 요구사항 원본 데이터
 	var reqConnectedListOriginalData = [];
 	
-	
+	//수정 중 삭제한 파일Sn 목록
 	var uploadRemoveFiles = [];
 	
-	
+	//type 수정 or 등록
 	var type;
 	
-	
+	//수정인경우 대상 그룹요구사항 정보
 	var reqGrpNo = $("#reqGrpNo").val();
 	var reqGrpNm = $("#reqGrpNm").val();
 	
 	var documentSetting = function(){
 		
-		
+		//등록폼/수정폼 식별
 		type = $("#type").val();
 		
-		
+		//edit 세팅
     	formEditList.push($.osl.editorSetting("reqGrpDesc", {formValidate: formValidate}));
 		
 		
-    	
+    	//파일 업로드 세팅
     	fileUploadObj = $.osl.file.uploadSet("req3001FileUpload",{
     		
     		url: '/req/req3000/req3000/insertReq3001ReqAtchFileInfo.do',
     		maxFileSize: "${requestScope.fileSumMaxSize}",
     		meta: {"atchFileId": atchFileId, "fileSn": 0},
     		maxNumberOfFiles:20,
+    		//파일 화이트리스트 설정
+    		allowedFileTypes: ['.doc','.docx','.hwp','.pdf','.ppt','.pptx','.xls','.xlsx','.zip','.jpg','.jpeg','.png','.gif','.eml','.cell','.show','.txt'],
     		
-    		allowedFileTypes: ['.jpg', '.jpeg', '.png', '.gif',".pdf", ".hwp", ".docx", ".pptx", "txt",".csv", ".xlsx"],
-    		
-    		
+    		//파일 업로드 전 실행 함수
     		onBeforeUpload: function(files){
     			var rtnValue = files;
     			var uploadFiles = {};
     			if(type == "insert"){
-    				
+    				//atchFileId 생성
     				$.osl.file.makeAtchfileId(function(data){
     					if(data.errorYn == "Y"){
 	   						$.osl.toastr(data.message);
@@ -211,7 +211,7 @@ var OSLReq3001Popup = function () {
 	   					 	fileUploadObj.setMeta({atchFileId: data.atchFileIdString});
 	   					 	
 	   					 	
-	   						
+	   						//파일명 뒤에 ms 붙이기
 	   	    				$.each(files, function(idx, map){
 	   	    					map.meta.atchFileId = data.atchFileIdString;
 	   	    					
@@ -222,30 +222,30 @@ var OSLReq3001Popup = function () {
 	   						
 	   	    				rtnValue = uploadFiles;
 	   	    				
-	   						
+	   						//그룹 요구사항 등록
 	   						submitInsertAction();
 	   					}
     				});
     				
     			}else{
-    				
+    				//수정일시
     				atchFileId = $("#atchFileId").val();
     				if($.osl.isNull(atchFileId)){
-    					
+    					//atchFileId 생성
     					$.osl.file.makeAtchfileId(function(data){
-    						
+    						//atchFileId 생성 중 오류 발생 시
     						if(data.errorYn == "Y"){
     							$.osl.toastr(data.message);
     							rtnValue = [];
     						}else{
     							
-    							
+    							//오류가 없을 경우 생성된 atchFileId를 저장
     							atchFileId = data.atchFileIdString;
     					
     							$("#atchFileId").val(atchFileId);
     						 	fileUploadObj.setMeta({atchFileId: atchFileId});
     						 	
-    							
+    							//파일명 뒤에 ms 붙이기
     		    				$.each(files, function(idx, map){
     		    					if(map.source != "database"){
     	        						map.meta.atchFileId = atchFileId;
@@ -260,8 +260,8 @@ var OSLReq3001Popup = function () {
     					});
     				}else{
     					atchFileId = $("#atchFileId").val();
-    					
-        				
+    					//atchFileId가 있는 경우 - 기존 파일 존재
+        				//database 파일 제외하기
         				$.each(files, function(idx, map){
         					if(map.source != "database"){
         						map.meta.atchFileId = atchFileId;
@@ -273,14 +273,14 @@ var OSLReq3001Popup = function () {
         					}
         				});
     				}
-    				
+    				//atchFileId 생성 및 목록 추린 후
     				rtnValue = uploadFiles;
     				
-    				
+    				//요구사항 수정
 					submitUpdateAction();
     			}
     		},
-    		
+    		//uppy에 파일 업로드 할 때
     		onBeforeFileAdded: function(currentFile, files){
     			if(currentFile.source != "database" && currentFile.source != "remove"){
 					var newNm = new Date().format("ssms")+"_"+currentFile.name;
@@ -288,7 +288,7 @@ var OSLReq3001Popup = function () {
 					currentFile.meta.name = newNm;
 					currentFile.meta.atchFileId = $("#atchFileId").val();
 					
-	    			
+	    			//fileSn default
 	    			var fileSn = fileUploadObj.getState().meta.fileSn;
 	    			currentFile.meta.fileSn = fileSn;
 	    			fileUploadObj.setMeta({fileSn: (fileSn+1)});
@@ -296,21 +296,21 @@ var OSLReq3001Popup = function () {
     		}
     	});
     	
-    	
+    	//수정인 경우
     	if(type != "insert"){
     		
     		selectReqGrpInfo();
     		
-    		
+    		//수정  파일 삭제 기록하기
     	   	fileUploadObj.on('file-removed', function(file) {
     	   		file["fileSn"] = file.meta.fileSn;
     	   		file.source = "remove";
     	   		uploadRemoveFiles.push(file);
-    	   		
+    	   		//삭제 취소 버튼 활성화
     	   		$("#fileRemoveResetBtn").removeClass("d-none");
     		});
     	   	
-    	   	
+    	   	//삭제 초기화 버튼 클릭 시 삭제한 파일 다시 추가
     	   	$("#fileRemoveResetBtn").click(function(){
     	   		$("#fileRemoveResetBtn").addClass("d-none");
     	   		
@@ -328,9 +328,9 @@ var OSLReq3001Popup = function () {
     	   		});
 
 	    		setTimeout(function(){
-	    			
+	    			//파일 preview에 click 이벤트 걸기
 	    			$.each(fileUploadObj.getFiles(), function(idx, map){
-	    				
+	    				//database에 등록된 파일만 다운로드 가능
 	    				if(map.source == "database"){
 	    					var target = $("#uppy_"+$.escapeSelector(map.id)+" > .uppy-DashboardItem-preview");
 	    					target.addClass("osl-cursor-pointer");
@@ -346,13 +346,13 @@ var OSLReq3001Popup = function () {
     		});
     	}
     	
-    	
+    	//데이터 테이블 셋팅
     	datatableSetting();
     	
 	}
-	
+	//연결, 미연결 요구사항 목록
 	var datatableSetting = function(){
-		
+		// begin:: 연결 요구사항 데이터테이블
 		$.osl.datatable.setting("req3001ConnectReqTable",{
 			data: {
 				type:'local',
@@ -371,9 +371,9 @@ var OSLReq3001Popup = function () {
 			toolbar:{
 				items:{
 					pagination:{
-						
+						//그리드에 표출되는 row 개수
 						pageSizeSelect : [5, 10, 20, 30, 50, 100],
-						
+						//페이지 그룹단위 변경
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -411,25 +411,25 @@ var OSLReq3001Popup = function () {
 			},
 			actionFn:{
 				"select":function(datatableId, elem){
-					
+					//검색 대상 가져오기
 					var searchTypeTarget = $(".osl-datatable-search__dropdown[data-datatable-id="+datatableId+"] > .dropdown-item.active");
 					
-					
+					//검색 값
 					var searchData = $("#searchData_"+datatableId);
 					
-					
+					//대상 정보 가져오기
 					var searchFieldId = searchTypeTarget.data("field-id");
 					var searchType = searchTypeTarget.data("opt-type");
 					var searchCd = $(this).data("opt-mst-cd");
 					
-					
+					//입력된 검색값 초기화
 					$.osl.datatable.list[datatableId].targetDt.setDataSourceQuery({});
 					
-					
+					//전체가 아닌경우 해당 타입으로 검색
 					if(searchType != "all"){
 						var searchDataValue = searchData.val();
 						
-						
+						//공통코드인경우 select값 가져오기
 						if(searchType == "select"){
 							searchDataValue = $("#searchSelect_"+datatableId).val();
 						}
@@ -439,64 +439,64 @@ var OSLReq3001Popup = function () {
 						$.osl.datatable.list[datatableId].targetDt.search();
 					}
 				},
-				
+				//연결해제
 				"dblClick":function(rowData, datatableId, type, rownum, elem){
 					var rowDatas = [];
 					rowDatas.push(rowData);
-					
+					//그룹 요구사항 연결 해제 처리
 					fnAllReqDelete(rowDatas);
 					$.osl.datatable.list["req3001UnconnectReqTable"].targetDt.reload();
 				},
 				"selInReqDelete":function(rowData, datatableId, type, rownum, elem){
 					var rowDatas = rowData;
-					
+					//선택 레코드 없는 경우
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
 					}
 					$.osl.confirm($.osl.lang("req3000.allReqInDelete", rowDatas.length), null, function(result){
 						if (result.value) {
-							
+							//연결 해제 처리
 							fnAllReqDelete(rowDatas);
 						}
 					});
 				},
-				
+				//초기화
 				"reset": function(rowData, datatableId, type, rownum, elem){
 					
 					var datatable = $.osl.datatable.list[datatableId].targetDt;
 					
-					
+					//데이터 초기화
 					datatable.dataSet = [];
 					datatable.originalDataSet = [];
 					reqConnectedList = [];
 					
-					
+					//원본데이터 있는경우
 					if(reqConnectedListOriginalData.length > 0){
 						
 						$.each(reqConnectedListOriginalData, function(idx, map){
 							
-			   				
+			   				//담당자 배정 목록 추가
 			   				datatable.dataSet.push(map);
 							datatable.originalDataSet.push(map);
 							
-							
+							//중복체크 추가
 							reqConnectedList.push(map.reqId);
 							
 		   				});
 					}
-					
+					//데이터 추가
 					datatable.insertData();
 					
-					
+					//데이터테이블 재 조회
 					datatable.reload();
 					
 				}
 			}
 		});
-		
+		// end:: 연결 요구사항 데이터테이블
 
-		
+		// begin:: 미연결 요구사항 데이터테이블
 		$.osl.datatable.setting("req3001UnconnectReqTable",{
 			data: {
 				source: {
@@ -544,7 +544,7 @@ var OSLReq3001Popup = function () {
 			},
 			rows:{
 				beforeTemplate: function (row, data, index){
-					
+					//이미 연결된 요구사항인경우
 					if(reqConnectedList.indexOf(data.reqId) > -1){
 						row.addClass("osl-datatable__row-assign--none");
 					}
@@ -565,19 +565,19 @@ var OSLReq3001Popup = function () {
 				"dblClick":function(rowData,datatableId, type, rowNum){
 					var rowDatas = [];
 					rowDatas.push(rowData);
-					
+					//요구사항 연결 처리
 					fnAllReqConnect(rowDatas);
 					$.osl.datatable.list["req3001UnconnectReqTable"].targetDt.reload();
 				},
-				
+				//선택 요구사항 연결
 				"connect":function(rowData, datatableId, type){
 					var rowDatas = rowData;
-					
+					//선택 레코드 없는 경우
 					if(rowDatas.length == 0){
 						$.osl.alert($.osl.lang("datatable.translate.records.nonSelect"));
 						return true;
 					}
-					
+					//선택 요구사항 연결 처리 처리
 					fnAllReqConnect(rowDatas);
 					$.osl.datatable.list["req3001UnconnectReqTable"].targetDt.reload();
 				}
@@ -592,28 +592,28 @@ var OSLReq3001Popup = function () {
 			actionHide("req3001UnconnectReqTable");
        	});
 	};
+	// end:: 미연결 요구사항 데이터테이블
 	
-	
-	
+	//요구사항 연결 등록
 	var fnAllReqConnect = function(selDatas){
 		if(!$.osl.isNull(selDatas) && selDatas.length > 0){
-			
+			//대상 데이터 테이블
 			var datatable = $.osl.datatable.list["req3001ConnectReqTable"].targetDt;	
 		}
 		
-		
+		//dataSet 비어있는 경우 초기화
 		if($.osl.isNull(datatable.dataSet)){
 			datatable.dataSet = [];
 			datatable.originalDataSet = [];
 		}
 		
-		
+		//이미 연결된 요구사항 목록
 		var reqDupleList = 0;
 		
-		
+		//요구사항 연결 테이블에 요구사항 추가
 		$.each(selDatas, function(idx, map){
 			
-			
+			//이미 연결된 요구사항 목록 추가
 			if(reqConnectedList.indexOf(map.reqId) != -1){
 				reqDupleList++;
 				return true;
@@ -622,27 +622,27 @@ var OSLReq3001Popup = function () {
 			datatable.dataSet.push(map);
 			datatable.originalDataSet.push(map);
 			
-			
+			//중복체크 추가
 			reqConnectedList.push(map.reqId);
 			
 		});
 		
 		
-		
+		//출력 메시지 세팅
 		var toastrMsg = "";
 		var toastrType = "success";
 		if(selDatas.length > reqDupleList){
 			toastrMsg += $.osl.lang("req3000.insert.saveMsg",(selDatas.length-reqDupleList));
 		}
 		if(reqDupleList > 0){
-			
+			//이미 추가된 메시지 있는 경우 </br>
 			if(toastrMsg.length > 0){
 				toastrMsg += "</br>";
 			}
 			toastrMsg += $.osl.lang("req3000.insert.saveDupleMsg",reqDupleList);
 			toastrType = "warning";
 		}
-		
+		//모든 사용자가 배정되있는 경우
 		if(reqDupleList == selDatas.length){
 			toastrMsg = $.osl.lang("req3000.insert.saveAllDupleMsg",reqDupleList);
 			toastrType = "error";
@@ -652,10 +652,10 @@ var OSLReq3001Popup = function () {
 		
 		$.osl.toastr(toastrMsg,{type: toastrType});
 		
-		
+		//데이터 추가
 		datatable.insertData();
 		
-		
+		//데이터테이블 재 조회
 		datatable.reload();
 		
 		$.osl.datatable.list["req3001UnconnectReqTable"].targetDt.reload();
@@ -663,36 +663,36 @@ var OSLReq3001Popup = function () {
 		
 	};
 	
-	
+	//요구사항 연결해제
 	var fnAllReqDelete = function(selDatas){
 		
 		if(!$.osl.isNull(selDatas) && selDatas.length > 0){
-			
+			//대상 데이터 테이블
 			var datatable = $.osl.datatable.list["req3001ConnectReqTable"].targetDt;
 			
-			
+			//dataSet에서 제거
 			var dataSet = datatable.dataSet;
 			var originalDataSet = datatable.originalDataSet;
 			
 			if(!$.osl.isNull(dataSet)){
-				
+				//선택 데이터
 				$.each(selDatas, function(idx, map){
 					$.each(originalDataSet, function(dataIdx, dataMap){
 						if($.osl.isNull(dataMap)){
 							return true;
 						}
-						
+						//해당 사용자 배정 제외
 						else if(map.reqId == dataMap.reqId){
 							originalDataSet.splice(dataIdx, 1);
 							
-							
+							//중복체크 목록 제외
 							reqConnectedList.splice(reqConnectedList.indexOf(map.reqId), 1);
 							return false;
 						}
 					});
 				});
 				
-				
+				//데이터테이블 재 조회
 				datatable.reload();
 				
 				$.osl.datatable.list["req3001UnconnectReqTable"].targetDt.reload();
@@ -702,31 +702,33 @@ var OSLReq3001Popup = function () {
 		}
 	};
 	
-	
+	/**
+	 * 	그룹 요구사항 정보 조회
+	*/
     var selectReqGrpInfo = function(){
     	var data = {
     			prjGrpId: $("#prjGrpId").val(),
     			prjId: $("#prjId").val(),
     			reqGrpId: $("#reqGrpId").val()
     	}
-    	
+    	//Ajax 설정
     	var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req3000/req3000/selectReq3000ReqInfoAjax.do'/>", "async":"true"}
 				,data);
-    	
+    	//Ajax 전송 성공 함수
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				
+				//모달 창 닫기
 				$.osl.layerPopupClose();
 				
 			}else{
 				
-				
+				//요구사항 정보 세팅
 		    	$.osl.setDataFormElem(data.reqInfoMap,"frReq3000");
 				
-				
+				//그룹요구사항 정보 세팅
 		    	$("#reqGrpChargerNm").val(data.reqInfoMap.reqGrpChargerNm);
 		    	$("#reqGrpUsrNm").val(data.reqInfoMap.reqGrpUsrNm);
 		    	$("#reqGrpNo").val(data.reqInfoMap.reqGrpNo);
@@ -736,47 +738,47 @@ var OSLReq3001Popup = function () {
 		    	$("#atchFileId").val(data.reqInfoMap.atchFileId);
 		    	$("#oriAtchFileId").val(data.reqInfoMap.atchFileId);
 		    	
-		    	
+		    	//edit 세팅
 		    	formEditList.push($.osl.editorSetting("reqGrpDesc", {formValidate: formValidate, disableResizeEditor: false}));
 		    	
-		    	
+		    	//파일Sn넣기
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
-		    	
+		    	//파일 목록 세팅
 		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
 		    	
 		    	
-		    	
+		    	//연결된 요구사항 테이블에 저장
 		    	if(data.reqGrpConList.length > 0){
 		    		
-   					
+   					//원본 데이터 저장
 					reqConnectedListOriginalData = data.reqGrpConList;
    						 
-	   				
+	   				//대상 데이터 테이블
 	   				var datatable = $.osl.datatable.list["req3001ConnectReqTable"].targetDt;
 	   			
-	   				
+	   				//데이터테이블 error class 제거
 	   				datatable.eq(0).removeClass("kt-datatable--error");
 	   				
 	   				$.each(data.reqGrpConList, function(idx, map){
-		   				
+		   				//담당자 배정 목록 추가
 		   				datatable.dataSet.push(map);
 						datatable.originalDataSet.push(map);
 						
-						
+						//중복체크 추가
 						reqConnectedList.push(map.reqId);
 	   				});
 	   				
 	   				
-	   				
+	   				//중복제거
 					var dataSet = new Set(datatable.dataSet);
 					var originalDataSet = new Set(datatable.originalDataSet);
 					datatable.dataSet = Array.from(dataSet);
 					datatable.originalDataSet = Array.from(originalDataSet);
 					
-					
+					//데이터 추가
 					datatable.insertData();
-					
+					//데이터테이블 재 조회
 					datatable.reload();
 					
 					$.osl.datatable.list["req3001UnconnectReqTable"].targetDt.reload();
@@ -785,15 +787,15 @@ var OSLReq3001Popup = function () {
 			}
     	});
 		
-		
+		//AJAX 전송
 		ajaxObj.send();
     }
-	
+	//atchFileId 생성 완료 시 그룹 요구사항 등록 시작
 	var submitInsertAction = function(paramActhFileId){
 		
 		var form = $('#'+formId);
 		
-		
+		//폼 유효 값 체크
 		if(!form.valid()){
 			return;
 		}
@@ -810,11 +812,11 @@ var OSLReq3001Popup = function () {
 		
 		$("#prjGrpId").val($.osl.selPrjGrpId);
 		
-		
+		//formData
    		var fd = $.osl.formDataToJsonArray(formId);
 		
 		fd.append("reqGrpDescNotBr", $("#reqGrpDesc").val());
-		
+		//연결된 요구사항 목록
     	var reqGrpLinkReqList = $.osl.datatable.list["req3001ConnectReqTable"].targetDt.originalDataSet;
     	if(!$.osl.isNull(reqGrpLinkReqList) && reqGrpLinkReqList.length > 0){
     		var reqIdList = [];
@@ -825,10 +827,10 @@ var OSLReq3001Popup = function () {
     	}
     	
     	
-       	
+       	//파일 목록 추가하기 (수정이력 관리)
        	fd.append("fileHistory",JSON.stringify(fileUploadObj.getFiles()));
 		
-      	
+      	//파일명 뒤에 ms 붙이기
 		$.each(fileUploadObj.getFiles(), function(idx, map){
 			map.meta.atchFileId = $("#atchFileId").val();
 			
@@ -836,38 +838,38 @@ var OSLReq3001Popup = function () {
 		});
       
 		
-   		
+   		//AJAX 설정
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/req/req3000/req3000/insertReq3001ReqGrpInfoAjax.do'/>"
    			, "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 		
-   		
+   		//AJAX 전송 성공 함수
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				
+   				//등록 성공
    				$.osl.toastr(data.message);
 
-   				
+   				//모달 창 닫기
    				$.osl.layerPopupClose();
    				
-   				
+   				//테이블 리로드
    		   		$.osl.datatable.list["req3000Table"].targetDt.reload();
    			}
    		});
    		
-  		
+  		//AJAX 전송
    		ajaxObj.send();
    		
       
 	}
 	
 
-	
+	//그룹 요구사항 수정 시작
     var submitUpdateAction = function(){
 		var form = $('#'+formId);    		
     	
-		
+		//폼 유효 값 체크
 		if (!form.valid()) {
 			return;
 		}
@@ -882,13 +884,13 @@ var OSLReq3001Popup = function () {
 			return;
 		}
 		
-       	
+       	//formData
    		var fd = $.osl.formDataToJsonArray(formId);
        	
-       	
+       	//수정
    		fd.append("reqGrpDescNotBr", $("#reqGrpDesc").val());
        	
-   		
+   		//연결된 요구사항 목록
    		var reqGrpLinkReqList = $.osl.datatable.list["req3001ConnectReqTable"].targetDt.originalDataSet;
     	if(!$.osl.isNull(reqGrpLinkReqList) && reqGrpLinkReqList.length > 0){
     		var reqIdList = [];
@@ -898,7 +900,7 @@ var OSLReq3001Popup = function () {
     		fd.append("reqGrpLinkReqList",JSON.stringify(reqIdList));	
     	}
        	
-       	
+       	//파일 목록 추가하기 (수정이력 관리)
        	var uploadFileList = [];
        	$.each(fileUploadObj.getFiles(), function(idx, map){
        		if(!map.hasOwnProperty("source") || map.source == "database"){
@@ -908,38 +910,36 @@ var OSLReq3001Popup = function () {
        	});
        	
        	uploadFileList = uploadFileList.concat(uploadRemoveFiles);
-       	
-		console.log(uploadFileList);
 		
-       	
+       	//파일 정보
        	fd.append("fileHistory",JSON.stringify(uploadFileList));
        	
-   		
+   		//AJAX 설정
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/req/req3000/req3000/updateReq3001ReqInfoAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
-   		
+   		//AJAX 전송 성공 함수
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				
+   				//수정 성공
    				$.osl.toastr(data.message);
 
-   				
+   				//모달 창 닫기
    				$.osl.layerPopupClose();
    				
-   				
+   				//리로드
    		   		$.osl.datatable.list["req3000Table"].targetDt.reload();
    			}
    		});
    		
-	   	
+	   	//AJAX 전송
 	   	ajaxObj.send();
    		
    		
     };
     
-  	
+  	//요청자 명 검색버튼 클릭 시
 	$("#searchUsrNmBtn").click(function(){
 		var data = {
 				usrNm : $("#reqGrpUsrNm").val()
@@ -963,7 +963,7 @@ var OSLReq3001Popup = function () {
 		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
 	});
   	
-	
+	//담당자 명 검색버튼 클릭 시
 	$("#searchChargerNmBtn").click(function(){
 		var data = {
 				usrNm : $("#reqGrpChargerNm").val()
@@ -990,7 +990,7 @@ var OSLReq3001Popup = function () {
 	$("#req3000SaveSubmit").click(function(){
 		var form = $("#"+formId);
 		
-		
+		//폼 유효값 체크
 		if(!form.valid()){
 			return;
 		}
@@ -1003,33 +1003,33 @@ var OSLReq3001Popup = function () {
 		});
 	})
 	
-	
+	//요청자명을 수정했을 때 아이디 초기화
 	$("#reqGrpUsrNm").change(function(){
 		$("#reqGrpUsrId").val("");
 	});
 	
-	
+	//담당자명을 수정했을 때 아이디 초기화
 	$("#reqGrpChargerNm").change(function(){
 		$("reqGrpChargerId").val("");
 	});
 	
-	
+	//엔터키
 	$("#reqGrpUsrNm").keydown(function(e){
 		if(e.keyCode=='13'){
-			
+			//해당 값으로 검색화면 띄우기
 			$("#searchUsrNmBtn").click();
 		}
 	});
 	
-	
+	//엔터키
 	$("#reqGrpChargerNm").keydown(function(e){
 		if(e.keyCode=='13'){
-			
-			$("#searchUsrNmBtn").click();
+			//해당 값으로 검색화면 띄우기
+			$("#searchChargerNmBtn").click();
 		}
 	});
 	
-	
+	//기능키 컬럼 숨김	
 	var actionHide = function(tableId){
 		if(tableId == "req3001ConnectReqTable"){
 			$.osl.datatable.list["req3001ConnectReqTable"].targetDt.getColumnByField('actions').visible=false;
@@ -1040,18 +1040,20 @@ var OSLReq3001Popup = function () {
 			$.osl.datatable.list["req3001UnconnectReqTable"].targetDt.columnHide();
 		}
 	}
+	
+	
 	return {
-        
+        // public functions
         init: function() {
         	documentSetting();
         },setChargerInfo:function(temp){
     		var parseTemp = JSON.parse(temp);
-    		
+    		//정보 입력하기
     		$("#reqGrpChargerNm").val(parseTemp.usrNm);
     		$("#reqGrpChargerId").val(parseTemp.usrId);
     	},setUsrInfo:function(temp){
     		var parseTemp = JSON.parse(temp);
-    		
+    		//정보 입력하기
     		$("#reqGrpUsrNm").val(parseTemp.usrNm);
     		$("#reqGrpUsrId").val(parseTemp.usrId);
     	}

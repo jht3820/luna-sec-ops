@@ -195,9 +195,6 @@
 					}	
 				},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			searchColumns:[
 				{field: 'dplDesc', title:$.osl.lang("dpl4000.dpl.addSearch.deplDesc"), searchOrd: 8}
 			],
@@ -343,9 +340,6 @@
 					}
 				}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("dpl4000.req.actionBtn.title"),
 				"dblClick": true,
@@ -426,9 +420,6 @@
 						pageSizeSelect : [4, 10, 20, 30, 50, 100]
 					}
 				}
-			},
-			rows:{
-				clickCheckbox: true,
 			},
 			columns:[
 				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},

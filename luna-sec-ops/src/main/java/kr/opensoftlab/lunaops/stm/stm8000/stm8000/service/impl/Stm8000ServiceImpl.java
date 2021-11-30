@@ -136,6 +136,26 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	
 	public void updateStm8000ServerInfo(Map<String, String> paramMap) throws Exception {
 		Map<String, String> convertParamMap = selectStm8000JsonToMap(paramMap);
+		
+		String strgUsrPw = (String) convertParamMap.get("strgUsrPw");
+		if(strgUsrPw != null && ! strgUsrPw.isEmpty()) {
+			
+			String salt = EgovProperties.getProperty("Globals.lunaops.salt");
+			
+			
+			if(strgUsrPw.equals((String) convertParamMap.get("strgOriUsrPw"))) {
+				
+				convertParamMap.put("strgUsrPw", strgUsrPw);
+			}else {
+				
+				String newStrgUsrPw = CommonScrty.encryptedAria(strgUsrPw, salt);
+				convertParamMap.put("strgUsrPw", newStrgUsrPw);
+
+				
+				stm8000DAO.updateStm8000ServerPwInfo(convertParamMap);
+			}
+		}
+		
 		stm8000DAO.updateStm8000ServerInfo(convertParamMap);
 	}
 	
@@ -187,12 +207,12 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 			String salt = EgovProperties.getProperty("Globals.lunaops.salt");
 			
 			
-			String newPw = CommonScrty.decryptedAria(pw, salt);
+			pw = CommonScrty.decryptedAria(pw, salt);
 			
 			if("01".equals(type)) {
 				
 				
-				SVNRepository repository = svnConnector.svnConnect(url, id, newPw);
+				SVNRepository repository = svnConnector.svnConnect(url, id, pw);
 				
 				
 				repository.testConnection();
@@ -252,10 +272,10 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		String salt = EgovProperties.getProperty("Globals.lunaops.salt");
 		
 		
-		String newPw = CommonScrty.decryptedAria(pw, salt);
+		pw = CommonScrty.decryptedAria(pw, salt);
 		
 		
-		SVNRepository repository = svnConnector.svnConnect(url, id, newPw);
+		SVNRepository repository = svnConnector.svnConnect(url, id, pw);
 		
 		
 		repository.testConnection();
@@ -273,7 +293,7 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 		String endRevisionVal = (String)paramMap.get("searchEdNum");
 		
 		
-		if(startRevisionVal != null && endRevisionVal != null && !"".equals(startRevisionVal) && !"".equals(endRevisionVal)) {
+		if(startRevisionVal != null && !startRevisionVal.isEmpty() && endRevisionVal != null && !endRevisionVal.isEmpty()) {
 			
 			startRevisionVal = startRevisionVal.replaceAll("/[^0-9]/g", "");
 			endRevisionVal = endRevisionVal.replaceAll("/[^0-9]/g", "");
@@ -372,11 +392,11 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 	
 	
 	
-	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<Map> selectStm8000GitList(Map<String, String> paramMap) throws Exception {
-		List<Map<String, Object>> commits = null;
 		List<Map> list = null;
+		
+		List<Map<String, Object>> commits = null;
 		int count = 0;
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -492,7 +512,6 @@ public class Stm8000ServiceImpl extends EgovAbstractServiceImpl implements Stm80
 			params.put("totalCnt", Integer.toString(count));
 			list.add(params);
 		}
-		
 		return list;
 	}
 	

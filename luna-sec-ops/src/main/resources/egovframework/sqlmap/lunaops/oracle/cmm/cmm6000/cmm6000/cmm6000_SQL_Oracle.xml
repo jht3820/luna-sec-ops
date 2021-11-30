@@ -42,6 +42,8 @@
 	      AND 	A.LIC_GRP_ID =  #licGrpId# 
 	      AND 	A.USE_CD = '01'
 	      AND 	B.USE_CD = '01'
+	      AND	A.DEL_CD = '02'
+	      AND	B.DEL_CD = '02'
 	      AND 	B.PRJ_ID IN (
 	          				SELECT	A.PRJ_ID
 	                         FROM	PRJ2001 A
@@ -54,13 +56,13 @@
 			<isNotEmpty property="searchTargetData">
 				<isNotEmpty property="searchTargetId">
 					<isEqual property="searchTargetId" compareValue="upPrjNm" prepend="AND">
-						 	B.PRJ_GRP_NM LIKE '%'||#searchTargetData#||'%'
+						 	UPPER(B.UP_PRJ_NM) LIKE '%'||UPPER(#searchTargetData#)||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="prjNm" prepend="AND">
-						 	B.PRJ_NM LIKE '%'||#searchTargetData#||'%'
+						 	UPPER(B.PRJ_NM) LIKE '%'|| UPPER(#searchTargetData#)||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="prjId" prepend="AND">
-						 	B.PRJ_ID LIKE '%'||#searchTargetData#||'%'
+						 	UPPER(B.PRJ_ID) LIKE '%'||UPPER(#searchTargetData#)||'%'
 					</isEqual>
 					<isEqual property="searchTargetId" compareValue="startDt">
 						AND	B.START_DT = TO_CHAR(TO_DATE(#searchTargetData#,'YYYY-MM-DD'),'YYYYMMDD')

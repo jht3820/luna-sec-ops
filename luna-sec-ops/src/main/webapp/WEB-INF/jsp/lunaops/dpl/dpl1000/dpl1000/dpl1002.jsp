@@ -8,221 +8,171 @@
 	<input type="hidden" id="dplSignUseCd" name=""dplSignUseCd"" value="${dplInfo.dplSignUseCd}">
 	<input type="hidden" id="regDtm" name="regDtm" value="${dplInfo.regDtm}">
 	<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 osl-bg-none shadow-none" id="dplRecord">
-		<div class="kt-portlet__head kt-bg-light">
-			<div class="kt-portlet__head-label">
-			</div>
-			
-			<div class="kt-portlet__head-toolbar">
-				<ul class="nav nav-pills nav-pills-sm flex-flow--inherit" role="tablist">
-					<li class="nav-item">
-						<a class="nav-link active text-center" data-toggle="tab" href="#dplInfoTab" data-tab-id="dplInfo" role="tab">배포정보</a>
+		<div class="kt-portlet__head osl-swiper-container">
+			<div class="swiper-container w-100 overflow-hidden">
+				
+				<ul class="nav nav-pills nav-pills-sm kt-margin-b-0 osl-flex-flow--row kt-margin-b-0 osl-position-nav swiper-wrapper osl-width__fit-content" role="tablist">
+					<li class="nav-item swiper-slide">
+						<a class="nav-link osl-tab-fixed active text-center" data-toggle="tab" href="#dplInfoTab" data-tab-id="dplInfo" role="tab">배포정보</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#allHistoryTab" data-tab-id="dplInfoAll" role="tab">전체 이력</a>
+					<li class="nav-item swiper-slide">
+						<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#allHistoryTab" data-tab-id="dplInfoAll" role="tab">전체 이력</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#bldHistoryTab" data-tab-id="dplInfoBuild" role="tab">빌드 이력</a>
+					<li class="nav-item swiper-slide">
+						<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#bldHistoryTab" data-tab-id="dplInfoBuild" role="tab">빌드 이력</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#dplSignHistoryTab" data-tab-id="dplInfoSign" role="tab">결재 이력</a>
+					<li class="nav-item swiper-slide">
+						<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#dplSignHistoryTab" data-tab-id="dplInfoSign" role="tab">결재 이력</a>
 					</li>
 					
-					<li class="nav-item kt-hide">
-						<a class="nav-link text-center" data-toggle="tab" href="#dplChgHistoryTab" data-tab-id="dplInfoModify" role="tab">수정 이력</a>
+					<li class="nav-item swiper-slide">
+						<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#dplChgHistoryTab" data-tab-id="dplInfoModify" role="tab">수정 이력</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#dplReqRevisionTab" data-tab-id="dplRevision" role="tab">배정 리비전</a>
+					<li class="nav-item swiper-slide">
+						<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#dplReqRevisionTab" data-tab-id="dplRevision" role="tab">배정 리비전</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link text-center" data-toggle="tab" href="#dplReqTab" data-tab-id="dplAssignReq" role="tab">배정 요구사항 목록</a>
+					<li class="nav-item swiper-slide">
+						<a class="nav-link osl-tab-fixed text-center" data-toggle="tab" href="#dplReqTab" data-tab-id="dplAssignReq" role="tab">배정 요구사항 목록</a>
 					</li>
 				</ul>
+				
 			</div>
-			
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm osl-position-left-btn swiper-button-prev">
+				<i class="fas fa-angle-left"></i>
+			</button>
+			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm osl-position-right-btn swiper-button-next">
+				<i class="fas fa-angle-right"></i>
+			</button>
 		</div>
 		
-		<div class="kt-portlet__body kt-padding-0 kt-padding-t-10">
-			<div class="tab-content">
+		<div class="kt-portlet__body kt-padding-10 kt-bg-light osl-tab-portlet__body">
+			<div class="tab-content osl-tab-content kt-scroll" id="osl-tab-content__scroll">
 				
-				<div class="tab-pane kt-scroll active" id="dplInfoTab" data-tab-id="dplInfo" role="tabpanel">
+				<div class="tab-pane active" id="dplInfoTab" data-tab-id="dplInfo" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0" id="dplInfo">
-						<div class="kt-portlet__head">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-info-circle kt-margin-r-5"></i>배포 정보
-								</h5>
-							</div>
-						</div>
 						<div class="kt-portlet__body">
 							
 							<div class="row">
-								<div class="col-6 kt-padding-r-20">
-									<div class="form-group row">
-										<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 상태</label>
-										<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-											<input class="form-control" type="text" id="dplStsNm" name="dplStsNm" readonly="readonly" value="<c:out value="${dplInfo.dplStsNm}"/>" >
+								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+									<div class="row">
+										<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+											<div class="form-group">
+												<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 상태</label>
+												<input class="form-control" type="text" id="dplStsNm" name="dplStsNm" readonly="readonly" value="<c:out value="${dplInfo.dplStsNm}"/>" >
+											</div>	
 										</div>
-									</div>	
-								</div>
-								<div class="col-6 kt-padding-l-20">
-									<div class="form-group row">
-										<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 버전</label>
-										<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-											<input class="form-control" type="text" id="dplVer" name="dplVer" readonly="readonly" value="<c:out value="${dplInfo.dplVer}"/>" >
+										<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+											<div class="form-group">
+												<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 버전</label>
+												<input class="form-control" type="text" id="dplVer" name="dplVer" readonly="readonly" value="<c:out value="${dplInfo.dplVer}"/>" >
+											</div>	
 										</div>
-									</div>	
-								</div>
-								<div class="col-6 kt-padding-r-20">
-									<div class="form-group row">
-										<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 명</label>
-										<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-											<input class="form-control" type="text" id="dplNm" name="dplNm" readonly="readonly" value="<c:out value="${dplInfo.dplNm}"/>" >
+										<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+											<div class="form-group">
+												<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 명</label>
+												<input class="form-control" type="text" id="dplNm" name="dplNm" readonly="readonly" value="<c:out value="${dplInfo.dplNm}"/>" >
+											</div>	
 										</div>
-									</div>	
-								</div>
-								<div class="col-6 kt-padding-l-20">
-									<div class="form-group row">
-										<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-calendar-alt kt-margin-r-5"></i>배포 일자</label>
-										<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-											<input class="form-control" type="text" id="dplDt" name="dplDt" readonly="readonly" value="<c:out value="${dplInfo.dplDt}"/>" >
+										<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+											<div class="form-group">
+												<label class="col-form-label"><i class="fa fa-calendar-alt kt-margin-r-5"></i>배포 일자</label>
+												<input class="form-control" type="text" id="dplDt" name="dplDt" readonly="readonly" value="<c:out value="${dplInfo.dplDt}"/>" >
+											</div>	
 										</div>
-									</div>	
-								</div>
-								<div class="col-6 kt-padding-r-20">
-									<div class="form-group row">
-										<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-user-cog kt-margin-r-5"></i>배포자</label>
-										<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-											<input class="form-control" type="text" id="dplUsrNm" name="dplUsrNm" readonly="readonly" value="<c:out value="${dplInfo.dplUsrNm}"/>" >
-										</div>
-									</div>
-								</div>
-								<div class="col-6 kt-padding-l-20">	
-									<div class="form-group row">
-										<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-file-signature kt-margin-r-5"></i>결재 사용 유무</label>
-										<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-											<input class="form-control" type="text" id="dplSignUseNm" name="dplSignUseNm" readonly="readonly" value="<c:out value="${dplInfo.dplSignUseNm}"/>" >
-										</div>
-									</div>
-								</div>
-								<div class="col-6 kt-padding-r-20">
-									<div class="form-group row">
-										<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 리비전</label>
-										<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-											<input class="form-control" type="text" id="dplRevisionNum" name="dplRevisionNum" readonly="readonly" value="<c:out value='${empty dplInfo.dplRevisionNum ? "Last Revision" :  dplInfo.dplRevisionNum }'/>" >
-										</div>
-									</div>	
-								</div>
-								<div class="col-6 kt-padding-l-20">
-									<div class="form-group row">
-										<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fab fa-cloudsmith kt-margin-r-5"></i>배포 방법</label>
-										<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-											<input class="form-control" type="text" id="dplTypeNm" name="dplTypeNm" readonly="readonly" value="<c:out value="${dplInfo.dplTypeNm}"/>" >
-										</div>
-									</div>	
-								</div>
-								<c:if test="${dplInfo.dplTypeCd == '01'}">
-									<div class="col-6 kt-padding-r-20">
-										<div class="form-group row">
-											<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>실패 후 처리</label>
-											<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-												<input class="form-control" type="text" id="dplAutoAfterNm" name="dplAutoAfterNm" readonly="readonly" value="<c:out value="${dplInfo.dplAutoAfterNm}"/>" >
+										<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+											<div class="form-group">
+												<label class="col-form-label"><i class="fa fa-user-cog kt-margin-r-5"></i>배포자</label>
+												<input class="form-control" type="text" id="dplUsrNm" name="dplUsrNm" readonly="readonly" value="<c:out value="${dplInfo.dplUsrNm}"/>" >
 											</div>
 										</div>
-									</div>
-									<div class="col-6 kt-padding-l-20">
-										<div class="form-group row">
-											<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>자동 실행 일시</label>
-											<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-												<input class="form-control" type="text" id="dplAutoTm" name="dplAutoTm" readonly="readonly" value='<fmt:formatDate value="${dplInfo.dplAutoDtm}" pattern="yyyy-MM-dd HH:mm:ss"/>' >
+										<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">	
+											<div class="form-group">
+												<label class="col-form-label"><i class="fa fa-file-signature kt-margin-r-5"></i>결재 사용 유무</label>
+												<input class="form-control" type="text" id="dplSignUseNm" name="dplSignUseNm" readonly="readonly" value="<c:out value="${dplInfo.dplSignUseNm}"/>" >
 											</div>
-										</div>	
-									</div>
-									<div class="col-6 kt-padding-r-20">
-										<div class="form-group row">
-											<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>원복 타입</label>
-											<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-												<input class="form-control" type="text" id="dplRestoreNm" name="dplRestoreNm" readonly="readonly" value="<c:out value="${dplInfo.dplRestoreNm}"/>" >											
-											</div>
-										</div>	
-									</div>
-								</c:if>
-								<c:choose>
-									<c:when test="${dplInfo.dplTypeCd == '01'}">
-										<c:if test="${dplInfo.dplSignUseCd == '01'}">
-											<div class="col-6 kt-padding-l-20">
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>결재 요청 의견</label>
-													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
-													</div>
+										</div>
+										<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+											<div class="form-group">
+												<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 리비전</label>
+												<input class="form-control" type="text" id="dplRevisionNum" name="dplRevisionNum" readonly="readonly" value="<c:out value='${empty dplInfo.dplRevisionNum ? "Last Revision" :  dplInfo.dplRevisionNum }'/>" >
+											</div>	
+										</div>
+										<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+											<div class="form-group">
+												<label class="col-form-label"><i class="fab fa-cloudsmith kt-margin-r-5"></i>배포 방법</label>
+												<input class="form-control" type="text" id="dplTypeNm" name="dplTypeNm" readonly="readonly" value="<c:out value="${dplInfo.dplTypeNm}"/>" >
+											</div>	
+										</div>
+										<c:if test="${dplInfo.dplTypeCd == '01'}">
+											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+												<div class="form-group">
+													<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>실패 후 처리</label>
+													<input class="form-control" type="text" id="dplAutoAfterNm" name="dplAutoAfterNm" readonly="readonly" value="<c:out value="${dplInfo.dplAutoAfterNm}"/>" >
 												</div>
 											</div>
-											<div class="col-6 kt-padding-r-20">
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
-													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
-													</div>
-												</div>		
+											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+												<div class="form-group">
+													<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>자동 실행 일시</label>
+													<input class="form-control" type="text" id="dplAutoTm" name="dplAutoTm" readonly="readonly" value='<fmt:formatDate value="${dplInfo.dplAutoDtm}" pattern="yyyy-MM-dd HH:mm:ss"/>' >
+												</div>	
+											</div>
+											<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
+												<div class="form-group">
+													<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>원복 타입</label>
+													<input class="form-control" type="text" id="dplRestoreNm" name="dplRestoreNm" readonly="readonly" value="<c:out value="${dplInfo.dplRestoreNm}"/>" >											
+												</div>	
 											</div>
 										</c:if>
-										<c:if test="${dplInfo.dplSignUseCd == '02'}">
-											<div class="col-6 kt-padding-l-20">
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
-													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
-													</div>
-												</div>		
-											</div>
-										</c:if>
-									</c:when>
-									<c:when test="${dplInfo.dplTypeCd == '02'}">
-										<c:if test="${dplInfo.dplSignUseCd == '01'}">
-											<div class="col-6 kt-padding-r-20">
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>결재 요청 의견</label>
-													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none osl-min-h-px--100" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
-													</div>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+									<c:choose>
+										<c:when test="${dplInfo.dplTypeCd == '01'}">
+											<c:if test="${dplInfo.dplSignUseCd == '01'}">
+												<div class="form-group kt-margin-b-15">
+													<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>결재 요청 의견</label>
+													<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
 												</div>
-											</div>
-											<div class="col-6 kt-padding-l-20">
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
-													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none osl-min-h-px--100" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
-													</div>
+												<div class="form-group">
+													<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
+													<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
+												</div>
+											</c:if>
+											<c:if test="${dplInfo.dplSignUseCd == '02'}">
+												<div class="form-group">
+													<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
+													<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
 												</div>		
-											</div>
-										</c:if>
-										<c:if test="${dplInfo.dplSignUseCd == '02'}">
-											<div class="col-6 kt-padding-r-20">
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
-													<div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
-														<textarea class="form-control osl-textarea__resize--none" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
-													</div>
+											</c:if>
+										</c:when>
+										<c:when test="${dplInfo.dplTypeCd == '02'}">
+											<c:if test="${dplInfo.dplSignUseCd == '01'}">
+												<div class="form-group kt-margin-b-15">
+													<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>결재 요청 의견</label>
+													<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
+												</div>
+												<div class="form-group">
+													<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
+													<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
 												</div>		
-											</div>
-										</c:if>
-									</c:when>
-								</c:choose>
+											</c:if>
+											<c:if test="${dplInfo.dplSignUseCd == '02'}">
+												<div class="form-group">
+													<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
+													<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
+												</div>		
+											</c:if>
+										</c:when>
+									</c:choose>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				
 				
-				<div class="tab-pane kt-scroll" id="allHistoryTab" data-tab-id="dplInfoAll" role="tabpanel">
+				<div class="tab-pane" id="allHistoryTab" data-tab-id="dplInfoAll" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-						<div class="kt-portlet__head">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-info-circle kt-margin-r-5"></i>전체 이력
-								</h5>
-							</div>
-						</div>
 						<div class="kt-portlet__body">
 							<div class="kt-timeline">
 								
@@ -232,15 +182,8 @@
 				</div>
 				
 				
-				<div class="tab-pane  kt-scroll" id="bldHistoryTab" data-tab-id="dplInfoBuild" role="tabpanel">
+				<div class="tab-pane" id="bldHistoryTab" data-tab-id="dplInfoBuild" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-						<div class="kt-portlet__head">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-info-circle kt-margin-r-5"></i>빌드 이력
-								</h5>
-							</div>
-						</div>
 						<div class="kt-portlet__body">
 							<div class="kt-timeline">
 								
@@ -250,15 +193,8 @@
 				</div>
 				
 				
-				<div class="tab-pane kt-scroll" id="dplSignHistoryTab" data-tab-id="dplInfoSign" role="tabpanel">
+				<div class="tab-pane" id="dplSignHistoryTab" data-tab-id="dplInfoSign" role="tabpanel">
 					<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-						<div class="kt-portlet__head">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-info-circle kt-margin-r-5"></i>결재 이력
-								</h5>
-							</div>
-						</div>
 						<div class="kt-portlet__body">
 							<div class="kt-timeline">
 								
@@ -269,18 +205,11 @@
 				</div>
 				
 				
-				<div class="tab-pane kt-scroll" id="dplChgHistoryTab" data-tab-id="dplInfoModify" role="tabpanel">
+				<div class="tab-pane" id="dplChgHistoryTab" data-tab-id="dplInfoModify" role="tabpanel">
 					<div class="row">
 						<div class="col-lg-8 col-md-12 col-sm-12 col-12">
 							<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-								<div class="kt-portlet__head">
-									<div class="kt-portlet__head-label">
-										<h5 class="kt-font-boldest kt-font-brand">
-											<i class="fa fa-info-circle kt-margin-r-5"></i>수정 이력
-										</h5>
-									</div>
-								</div>
-								<div class="kt-portlet__body osl-min-h-px--490" id="dplPopModifyHisFrame">
+								<div class="kt-portlet__body osl-min-h-px--545" id="dplPopModifyHisFrame">
 									
 									<div class="kt-portlet osl-div__border-lightgray osl-max-h-px--100">
 										<div class="kt-portlet__head kt-padding-t-10 kt-padding-b-10 osl-min-h-px--30">
@@ -362,7 +291,7 @@
 				</div>
 				
 				
-				<div class="tab-pane kt-scroll" id="dplReqRevisionTab" data-tab-id="dplRevision" role="tabpanel">
+				<div class="tab-pane" id="dplReqRevisionTab" data-tab-id="dplRevision" role="tabpanel">
 					<div class="kt-portlet">
 						<div class="kt-portlet__head">
 							<div class="kt-portlet__head-label">
@@ -416,15 +345,8 @@
 				</div>
 				
 				
-				<div class="tab-pane kt-scroll" id="dplReqTab" data-tab-id="dplAssignReq" role="tabpanel">
+				<div class="tab-pane" id="dplReqTab" data-tab-id="dplAssignReq" role="tabpanel">
 					<div class="kt-portlet kt-margin-b-0">
-						<div class="kt-portlet__head">
-							<div class="kt-portlet__head-label">
-								<h5 class="kt-font-boldest kt-font-brand">
-									<i class="fa fa-list kt-margin-r-5"></i>배정된 요구사항 목록
-								</h5>
-							</div>
-						</div>
 						<div class="kt-portlet__body kt-padding-b-0">
 							<div class="row">
 								<div class="col-7">
@@ -460,6 +382,7 @@
 "use strict";
 var OSLDpl1002Popup = function () {
 
+	var swiper;
 	var formId = 'frDpl1002';
 	
 	//데이터 테이블 세팅  flag 기본값 false
@@ -468,12 +391,12 @@ var OSLDpl1002Popup = function () {
 	var datatableSetting = {};
 	
 	var documentSetting = function(){
-
+		
 		// 결재 사용 유무(01:사용, 02:미사용)
 		var dplSignUseCd = $("#dplSignUseCd").val();
 		if(dplSignUseCd == "02"){
 			// 결재 미사용시 결재이력 탭 hide
-			$("a.nav-link[data-tab-id='dplInfoSign']").addClass("kt-hide");
+			$("a.nav-link[data-tab-id='dplInfoSign']").parents('.nav-item').addClass("kt-hide");
 		}
 		
 		// 배포 계획 단건 정보 및 전체 이력정보 조회
@@ -528,13 +451,10 @@ var OSLDpl1002Popup = function () {
 		
 		// 탭, 트리 스크롤 세팅
 		fnKtScrollInit("#dplPopRevisionFileTreeDiv", "312.5");
-		fnKtScrollInit("#dplInfoTab", "550");
-		fnKtScrollInit("#allHistoryTab", "550");
-		fnKtScrollInit("#bldHistoryTab", "550");
-		fnKtScrollInit("#dplSignHistoryTab", "550");
-		fnKtScrollInit("#dplChgHistoryTab", "550");
-		fnKtScrollInit("#dplReqRevisionTab", "550");
-		fnKtScrollInit("#dplReqTab", "550");
+		fnKtScrollInit("#osl-tab-content__scroll", "550");
+
+		//tab이동 
+    	initSwiper();
 	};
 	
 	//배정 리비전 탭
@@ -808,12 +728,11 @@ var OSLDpl1002Popup = function () {
 				var signHistoryList = data.dplSignHistoryList;
 				
 				var allHistiryList = bldHistoryList.concat(signHistoryList)
-				//console.log(arr)
+				
 				allHistiryList.sort(function(a, b) { // 내림차순
 				    return b["regDtm"] - a["regDtm"];
 				    // 44, 25, 21, 13
 				});
-				//console.log(allHistiryList)
 				
 				// 전체 이력 그리기
 				fnAllHistorySetting(allHistiryList, jobList);
@@ -827,8 +746,14 @@ var OSLDpl1002Popup = function () {
 					fnSignHistorySetting(signHistoryList);
 				}
 				
+				// 빌드 이력 정보 그린 후 콘솔로그 보기 클릭 이벤트 추가
+				$(".osl-ribbon__btn[data-bld-info='console']").on("click", function(){
+			    	// 콘솔 로그 팝업 오픈
+			    	fnConsoleLogPopupOpen($(this));
+			   });
+				
 				//클릭 옵션 걸기
-				openUsrPopup();
+				fnOpenUsrPopup();
 				
 				//툴팁사용
 				KTApp.initTooltips();
@@ -837,6 +762,43 @@ var OSLDpl1002Popup = function () {
 		
 		//AJAX 전송
 		ajaxObj.send();
+	};
+	
+	
+	/*
+	 * function명 : fnConsoleLogPopupOpen
+	 * function설명 : 콘솔 로그 팝업을 오픈한다.
+	 * @param targetElmt : 콘솔로그 버튼 element
+	 */
+	var fnConsoleLogPopupOpen = function(targetElmt){
+		
+	 	// 팝업 오픈시 필요 정보 추출
+    	var prjId = $(targetElmt).data("prj-id");
+    	var dplId = $(targetElmt).data("dpl-id");
+    	var jenId = $(targetElmt).data("jen-id");
+    	var jobId = $(targetElmt).data("job-id");
+    	var jobType = $(targetElmt).data("job-type");
+    	var bldNum = $(targetElmt).data("bldnum");
+    	var bldseq = $(targetElmt).data("bldseq");
+		
+    	// 콘솔 로그 팝업 오픈
+    	var data = {
+    			prjId : prjId,	
+    			dplId : dplId,	
+    			jenId : jenId,	
+    			jobId : jobId,	
+    			bldseq : bldseq	
+    	};
+    	
+		var options = {
+				idKey: prjId+"_"+dplId+"_"+jobId+"_consolelog",
+				modalTitle: "["+ jobType+"-"+bldNum+"] "+jobId +"  콘솔 로그",
+				modalSize: 'xl',
+				autoHeight: false,
+				closeConfirm: false
+			};
+		
+		$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1005View.do',data,options);
 	};
 	
 	
@@ -854,6 +816,12 @@ var OSLDpl1002Popup = function () {
 			if(map.type == "BLD"){
 				
 				var bldTimelineDiv ='';
+				
+				var prjId = map.prjId;
+				var dplId = map.dplId;
+				var jenId = map.jenId;
+				var jobId = map.jobId;
+				var bldSeq = map.bldSeq;
 				
 				var bldResult = map.bldResult;
 				//카드 왼쪽 오른쪽
@@ -920,11 +888,9 @@ var OSLDpl1002Popup = function () {
 					bldTitle = "["+$.osl.escapeHtml(map.jobTypeNm)+"-"+map.bldNum+"] "+$.osl.escapeHtml(map.jobId);
 					badgeColor = "badge-success";
 					cardType = '1';
-					
 				}
 				
 				if(cardType == '1'){
-					
 					//카드 생성
 					bldTimelineDiv 		+=	'<div class="kt-timeline__item '+itemColor+itemPosition+'">'
 										+		'<div class="kt-timeline__item-section '+itemIconPosition+'">'
@@ -937,7 +903,7 @@ var OSLDpl1002Popup = function () {
 										+		'</div>'
 										+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
 										+			'<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">'
-										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top">'
+										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top" data-bld-info="console" data-prj-id='+prjId+' data-dpl-id='+dplId+' data-jen-id='+jenId+' data-job-id='+$.osl.escapeHtml(jobId)+' data-bldseq='+bldSeq+' data-job-type='+$.osl.escapeHtml(map.jobTypeNm)+' data-bldnum='+map.bldNum+' data-job-type='+$.osl.escapeHtml(map.jobTypeNm)+'>'
 										+					'<i class="fa fa-code"></i>'
 										+				'</div>'
 										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-placement="top">'
@@ -1083,6 +1049,12 @@ var OSLDpl1002Popup = function () {
 		$.each(bldHistoryList,function(idx, bldInfo){
 			var bldResult = bldInfo.bldResult;
 			
+			var prjId = bldInfo.prjId;
+			var dplId = bldInfo.dplId;
+			var jenId = bldInfo.jenId;
+			var jobId = bldInfo.jobId;
+			var bldSeq = bldInfo.bldSeq;
+			
 			//카드 왼쪽 오른쪽
 			var itemPosition = '';
 			//카드 색상		
@@ -1163,7 +1135,7 @@ var OSLDpl1002Popup = function () {
 									+		'</div>'
 									+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
 									+			'<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">'
-									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top">'
+									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top" data-bld-info="console" data-prj-id='+prjId+' data-dpl-id='+dplId+' data-jen-id='+jenId+' data-job-id='+$.osl.escapeHtml(jobId)+' data-bldseq='+bldSeq+' data-job-type='+$.osl.escapeHtml(map.jobTypeNm)+' data-bldnum='+map.bldNum+' data-job-type='+$.osl.escapeHtml(map.jobTypeNm)+'>'
 									+					'<i class="fa fa-code"></i>'
 									+				'</div>'
 									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-placement="top">'
@@ -1467,11 +1439,11 @@ var OSLDpl1002Popup = function () {
 
 	
 	/*
-	 * function명 : openUsrPopup
+	 * function명 : fnOpenUsrPopup
 	 * function설명 : 사용자 정보 팝업 오픈
 	 * @param usrId : 팝업 오픈할 사용자 아이디
 	 */
-	var openUsrPopup = function(){
+	var fnOpenUsrPopup = function(){
 		var usrInfoDiv = $(".user-popup");
 		$.each(usrInfoDiv,function(idx,map){
 			var usrId = $(this).data("user-id");
@@ -1504,6 +1476,32 @@ var OSLDpl1002Popup = function () {
 	        height: targetHeight
 	    });
 	};
+	
+	
+	/**
+	 * function명 : initSwiper
+	 * function설명 : 모바일 탭버튼 세팅
+	 */
+	function initSwiper() {
+	   	/*모바일 탭 버튼 동작*/
+		swiper = new Swiper('.swiper-container', {
+			//탭버튼이 한 화면에 보여지는 양 (숫자, auto-사용자가 지정한 스타일 그대로 지정)
+			slidesPerView: 'auto',
+			//커서 모양
+			grabCursor: true,
+			//마지막 탭버튼 뒤쪽 여백 추가
+			slidesOffsetAfter: 40,
+			//탭버튼사이 여백
+			spaceBetween: 5,
+			//이동 버튼
+			navigation: {
+				//다음
+	     		nextEl: '.swiper-button-next',
+	     		//이전
+	      		prevEl: '.swiper-button-prev'
+	   		}
+	    });
+	}
 	
 	return {
         // public functions

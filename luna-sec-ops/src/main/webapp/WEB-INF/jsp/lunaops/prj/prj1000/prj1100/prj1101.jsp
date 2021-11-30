@@ -14,7 +14,6 @@
 					</h5>
 				</div>
 			</div>
-			
 			<div class="kt-portlet__body kt-padding-15">
 				<div class="row">
 					<div class="col-lg-6 col-md-12 col-sm-12">
@@ -22,7 +21,7 @@
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
 									<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span>프로세스명</span></label>
-									<input type="text" class="form-control" placeholder="프로세스명" name="processNm" id="processNm" opttype="-1" required>
+									<input type="text" class="form-control" placeholder="프로세스명" name="processNm" id="processNm" maxlength="50" opttype="-1" required>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-12 col-sm-12">
@@ -48,13 +47,23 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-12 col-sm-12">
+								<div class="form-group">
+									<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i>확정 유무</label>
+									<select class="form-control kt-select2" id="processConfirmCd" name="processConfirmCd" readonly="readonly" opttype="-1">
+									</select>
+									<span class="form-text text-muted">* 확정된 프로세스만 업무처리가 가능합니다.</span>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="col-lg-6 col-md-12 col-sm-12">
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12">
 								<div class="form-group">
 									<label><i class="fa fa-edit kt-margin-r-5"></i><span>프로세스 설명</span></label>
-									<textarea class="form-control osl-min-h-px--130 osl-textarea__resize--none" name="processDesc" id="processDesc" maxlength="2000" opttype="-1"></textarea>
+									<textarea class="form-control osl-min-h-px--220 osl-textarea__resize--none" name="processDesc" id="processDesc" maxlength="2000" opttype="-1"></textarea>
 								</div>
 							</div>
 						</div>
@@ -68,7 +77,7 @@
 					<div class="kt-portlet__head kt-portlet__head--lg">
 						<div class="kt-portlet__head-label">
 							<h5 class="kt-font-boldest kt-font-brand">
-								<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 담당 목록 <label class="require"></label>
+								<i class="fa fa-th-large kt-margin-r-5"></i>프로세스 담당 목록 <label class="required"></label>
 							</h5>
 						</div>
 						<div class="kt-portlet__head-toolbar">
@@ -153,6 +162,7 @@ var OSLPrj1101Popup = function () {
 		var commonCodeArr = [
 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#useCd", comboType:"OS"},
 			{mstCd: "CMM00005", useYn: "Y",targetObj: "#processTransferCd", comboType:"OS"},
+			{mstCd: "FLW00005", useYn: "Y",targetObj: "#processConfirmCd", comboType:"OS"},
 		];
 		
 		$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
@@ -572,6 +582,7 @@ var OSLPrj1101Popup = function () {
    				$.osl.setDataFormElem(processInfo, formId);
    				$("#useCd").val(processInfo.useCd).trigger('change.select2');
    				$("#processTransferCd").val(processInfo.processTransferCd).trigger('change.select2');
+   				$("#processConfirmCd").val(processInfo.processConfirmCd).trigger('change.select2');
    				
    				if(data.hasOwnProperty("processAuthList") && data.processAuthList.length > 0){
    					

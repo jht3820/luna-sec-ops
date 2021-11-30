@@ -70,6 +70,21 @@
 		<result property="modifyUsrIp" column="MODIFY_USR_IP" />
 		<result property="prjNm" column="PRJ_NM" />
 		<result property="pwModifyDtm" column="PW_MODIFY_DTM" />
+		<result property="absStDtm" column="ABS_ST_DTM" />
+		<result property="absEdDtm" column="ABS_ED_DTM" />
+	</resultMap>
+	
+	
+	<resultMap id="resultMapSelectUsr1000Shortcut"	class="egovMap">
+		<result property="usrId"  					column="USR_ID"/>
+		<result property="actionCd"  				column="ACTION_CD"/>
+		<result property="subCdNm"					column="SUB_CD_NM"/>
+		<result property="keyCd"  					column="KEY_CD"/>
+		<result property="shiftCd"  				column="SHIFT_CD"/>
+		<result property="altCd"  					column="ALT_CD"/>
+		<result property="ctrlCd"  					column="CTRL_CD"/>
+		<result property="popupActionCd"  			column="POPUP_ACTION_CD"/>
+		<result property="useCd"					column="USE_CD"/>
 	</resultMap>
 	
 	
@@ -120,6 +135,8 @@
 		          	WHERE A.USR_ID = #usrId#
 					AND A.LIC_GRP_ID = #licGrpId# 
 				) AS PW_MODIFY_DTM
+			,	TO_CHAR(A.ABS_ST_DTM, 'YYYY-MM-DD HH24:MI:SS') AS ABS_ST_DTM
+			,	TO_CHAR(A.ABS_ED_DTM, 'YYYY-MM-DD HH24:MI:SS') AS ABS_ED_DTM
 		FROM STM3000 A
 		WHERE 1=1
 		AND A.LIC_GRP_ID = #licGrpId#
@@ -183,6 +200,12 @@
 			,	USR_DUTY_CD			= #usrDutyCd#
 			,	REQ_MAIN_COLOR		= #reqMainColor#
 			,	REQ_FONT_COLOR		= #reqFontColor#
+			,	WK_ST_TM			= REPLACE(#wkStTm#,':','')
+			,	WK_ED_TM			= REPLACE(#wkEdTm#,':','')
+			,	BK_ST_TM			= REPLACE(#bkStTm#,':','')
+			,	BK_ED_TM			= REPLACE(#bkEdTm#,':','')
+			,	ABS_ST_DTM			= #absStDtm#
+			,	ABS_ED_DTM			= #absEdDtm#
 			,	MODIFY_DTM			= SYSDATE
 			,	MODIFY_USR_ID		= #modifyUsrId#
 			,	MODIFY_USR_IP		= #modifyUsrIp#
@@ -247,5 +270,62 @@
 			 AND	USR_ID 		= #regUsrId#
  		
 	</update>
-    
+	
+	
+	<select id="usr1000DAO.selectUsr1000ShortcutListCnt" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		
+		SELECT count(*)
+		FROM STM3004 A
+		WHERE 1 = 1
+		AND A.USR_ID = #usrId#
+	</select>
+	
+	
+	<select id="usr1000DAO.selectUsr1000ShortcutList" parameterClass="java.util.Map" resultMap="resultMapSelectUsr1000Shortcut">
+		
+		SELECT *
+		FROM STM3004 A
+		INNER JOIN STM4001 B
+		ON(A.ACTION_CD = B.SUB_CD AND B.LIC_GRP_ID = #licGrpId# )
+		WHERE 1 = 1
+		AND A.USR_ID = #usrId#
+		AND B.MST_CD = 'STM00005'
+		ORDER BY ACTION_CD ASC
+	</select>
+	
+	
+	<insert id="usr1000DAO.insertUsr1000ShortcutList" parameterClass="java.util.Map">
+		
+		INSERT INTO STM3004
+		(
+				USR_ID,			ACTION_CD,			KEY_CD,			SHIFT_CD,		ALT_CD,
+				CTRL_CD,		POPUP_ACTION_CD,	USE_CD,			REG_DTM,		REG_USR_ID,		
+				REG_USR_IP,		MODIFY_DTM,		MODIFY_USR_ID,		MODIFY_USR_IP
+						
+		)
+		VALUES
+		(
+				#usrId#,		#actionCd#,			#keyCd#,		#shiftCd#,		#altCd#,
+				#ctrlCd#,		#popupActionCd#,	'01',			SYSDATE,		#regUsrId#,		
+				#regUsrIp#,		SYSDATE,		#modifyUsrId#,		#modifyUsrIp#			
+		)
+	</insert>
+	
+	
+	<update id="usr1000DAO.updateUsr1000ShortcutList" parameterClass="java.util.Map">
+		
+		UPDATE	STM3004	A
+		SET		KEY_CD			= #keyCd#
+			,	SHIFT_CD 		= #shiftCd#
+			,	ALT_CD			= #altCd#
+			,	CTRL_CD			= #ctrlCd#
+			,	POPUP_ACTION_CD	= #popupActionCd#
+			,	USE_CD			= #useCd#
+			,	MODIFY_DTM		= SYSDATE
+			, 	MODIFY_USR_ID 	= #modifyUsrId#
+			,	MODIFY_USR_IP	= #modifyUsrIp# 
+		WHERE 	1 = 1
+		AND		USR_ID 	  = #usrId#
+		AND		ACTION_CD = #actionCd#
+	</update>
 </sqlMap>

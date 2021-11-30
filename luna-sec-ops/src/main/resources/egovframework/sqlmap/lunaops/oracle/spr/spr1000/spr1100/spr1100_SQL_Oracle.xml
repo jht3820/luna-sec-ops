@@ -357,7 +357,7 @@
 				, A.PROCESS_ID AS PROCESS_ID
 				, A.FLOW_ID AS FLOW_ID
 		    FROM REQ4100 A LEFT JOIN SPR1100 B
-		    ON (A.REQ_ID = B.REQ_ID AND A.PRJ_ID = B.PRJ_ID AND A.PRJ_GRP_ID = B.PRJ_GRP_ID AND B.LIC_GRP_ID = #licGrpId#)
+		    ON (A.REQ_ID = B.REQ_ID AND A.PRJ_ID = B.PRJ_ID AND A.PRJ_GRP_ID = B.PRJ_GRP_ID AND B.LIC_GRP_ID = #licGrpId# AND B.SPR_ID=#sprId#)
 		    WHERE 1=1
 		    AND A.PRJ_GRP_ID = #prjGrpId#
 			AND A.PRJ_ID = #prjId#
@@ -365,13 +365,27 @@
 			AND NOT EXISTS (
 				SELECT 
 					B.REQ_ID AS REQ_ID
-				FROM SPR1100 B
+				FROM SPR1100 C
 	            WHERE 1 = 1
-	            AND B.LIC_GRP_ID = #licGrpId#
-	            AND B.PRJ_GRP_ID = A.PRJ_GRP_ID
-	            AND B.PRJ_ID = A.PRJ_ID
-	            AND B.SPR_ID = #sprId#
-	            AND B.REQ_ID = A.REQ_ID
+	            AND C.LIC_GRP_ID = #licGrpId#
+	            AND C.PRJ_GRP_ID = A.PRJ_GRP_ID
+	            AND C.PRJ_ID = A.PRJ_ID
+	            AND C.SPR_ID = #sprId#
+	            AND C.REQ_ID = A.REQ_ID
+			)
+      		AND NOT EXISTS (
+				SELECT 
+					B.REQ_ID AS REQ_ID
+				FROM REQ4100 D INNER JOIN SPR1100 E 
+					ON (E.PRJ_GRP_ID = D.PRJ_GRP_ID AND E.PRJ_ID = D.PRJ_ID AND E.REQ_ID = D.REQ_ID) 
+					INNER JOIN SPR1000 F 
+					ON(E.SPR_ID = F.SPR_ID)
+	            WHERE 1 = 1
+	            AND E.LIC_GRP_ID = #licGrpId#
+	            AND E.PRJ_GRP_ID = A.PRJ_GRP_ID
+	            AND E.PRJ_ID = A.PRJ_ID
+	            AND E.REQ_ID = A.REQ_ID
+	            AND F.SPR_TYPE_CD != '03'
 			)
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">

@@ -205,23 +205,26 @@ var OSLSpr2000Popup = function () {
 						}
 					}
 				},
-				{field: 'mmtUsrId', title: '작성자', textAlign: 'left', width: 120, search:true,
+				{field: 'mmtUsrNm', title: '작성자', textAlign: 'left', width: 120, search:true,
 					template: function (row) {
-						if($.osl.isNull(row.mmtUsrId)){
-							return "";
-						}else{
-							var usrData = {
-									html: row.mmtUsrNm,
-									imgSize: "sm",
-									class:{
-										cardBtn: "osl-width__fit-content"
-									}
-							};
-							return $.osl.user.usrImgSet(row.mmtUsrImgId, usrData);
+						if($.osl.isNull(row.mmtUsrNm)){
+							row.mmtUsrNm = "-";
 						}
+						var usrData = {
+								html: row.mmtUsrNm,
+								imgSize: "sm",
+								class:{
+									cardBtn: "osl-width__fit-content"
+								}
+						};
+						return $.osl.user.usrImgSet(row.mmtUsrImgId, usrData);
 					},
 					onclick: function(row){
-						$.osl.user.usrInfoPopup(row.mmtUsrId);
+						if($.osl.isNull(row.mmtUsrId)){
+							$.osl.alert("없는 회원입니다.");
+						}else{
+							$.osl.user.usrInfoPopup(row.mmtUsrId);
+						}
 					}	
 				},
 				{field: 'mmtDtm', title: '작성일', textAlign: 'center', width: 120, sortField: "reqDtm", search:true, searchType:"daterange",
@@ -237,9 +240,6 @@ var OSLSpr2000Popup = function () {
 				{field: 'mmtMemNm', title: '참여인원명', searchOrd: 4},
 				{field: 'mmtMemEmail', title: '참여인원 이메일', searchOrd: 5},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": $.osl.lang("spr2000.actionBtn.title"),
 				"dblClick": true,

@@ -8,6 +8,7 @@
 	<input type="hidden" id="paramDplId" name="paramDplId" value="${param.paramDplId}">
 	<input type="hidden" id="paramDplDelCd" name="paramDplDelCd" value="${param.paramDplDelCd}">
 	<input type="hidden" id="dplUsrId" name="dplUsrId" value="">
+	<input type="hidden" id="dplRevisionNum" name="dplRevisionNum" value="">
 	<div class="row">
 		
 		<div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-12">
@@ -52,6 +53,15 @@
 						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 							<select class="form-control kt-select2" id="dplSignUseCd" name="dplSignUseCd" modifyset="02">
 							</select>
+						</div>
+					</div>
+					<div class="form-group row kt-margin-b-10">
+						<label class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1001.label.dplRevisionNum">배포 리비전</span></label>
+						<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="리비전 검색 후 선택" id="dplRevisionNumStr" name="dplRevisionNumStr" opttype="05" >
+								<button type="button" class="btn btn-brand input-group-append" id="dpl1001DplRevisionSearch"><span data-lang-cd="dpl1001.button.searchBtn">검색</span></button>
+							</div>
 						</div>
 					</div>
 					<div class="form-group row kt-margin-b-10">
@@ -247,6 +257,35 @@ var OSLDpl1001Popup = function () {
 				$("#dpl1001DplUsrSearch").click();
 			}
 		});
+    	
+    	
+    	
+    	$("#dpl1001DplRevisionSearch").click(function(){
+    		var data = {
+    				paramRevisionNum : $("#dplRevisionNumStr").val(),
+    				paramTypeCd : "01" 
+        		};
+    		
+    		var options = {
+    				idKey: "dpl1001SearchRevsionNum",
+					modalTitle: "리비전 선택",
+					closeConfirm: true,
+					autoHeight:false,
+					modalSize: "xl",
+					callback:[{
+						
+					}]
+    		};
+    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6800/selectCmm6800View.do',data,options);
+    	});
+    	
+    	
+		$("#dplRevisionNumStr").keydown(function(e){
+			if(e.keyCode=='13'){
+				
+				$("#dpl1001DplRevisionSearch").click();
+			}
+		});
 		
 		
 		$('#dpl1001DplJobInsert').click(function(){
@@ -312,9 +351,6 @@ var OSLDpl1001Popup = function () {
 				
 				fnAllJobListOrdSet();
 			});
-			
-			
-			
 		});
 		
 		
@@ -482,8 +518,7 @@ var OSLDpl1001Popup = function () {
    			
    			var jenId = $(map).data("dpl-jenid");
    			var jobId = $(map).data("dpl-jobid");
-   			
-   			var jobOrd = $(map).attr("ord");
+   			var jobOrd = $(map).data("job-ord");
    			
    			jobList.push({jenId: jenId, jobId: jobId, jobStartOrd: jobOrd});
    		});

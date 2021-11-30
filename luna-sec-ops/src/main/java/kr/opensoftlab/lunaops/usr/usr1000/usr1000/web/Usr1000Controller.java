@@ -1,11 +1,13 @@
 package kr.opensoftlab.lunaops.usr.usr1000.usr1000.web;
 
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -351,5 +353,181 @@ public class Usr1000Controller {
     		return new ModelAndView("jsonView", model);
     	}
     }
+
 	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/usr/usr1000/usr1000/selectUsr1000ShortcutInfoAjax.do")
+    public ModelAndView selectUsr1000ShortcutInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			paramMap.put("usrId", loginVO.getUsrId());
+			
+			
+			/
+			List<Map> usr1000List = usr1000Service.selectUsr1000ShortcutList(paramMap);
+			model.addAttribute("shortcutInfo", usr1000List);
+			
+			
+			model.addAttribute("errorYn", "N");
+			
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectUsr1000ListView()", ex);
+			
+			model.addAttribute("errorYn", "Y");
+			throw new Exception(ex.getMessage());
+		}
+
+    }
+    
+	
+	@RequestMapping(value="/usr/usr1000/usr1000/saveUsr1000ShortcutAjax.do")
+    public ModelAndView saveUsr1000ShortcutInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		
+    	try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			paramMap.put("usrId", loginVO.getUsrId());
+			paramMap.put("regUsrId", loginVO.getUsrId());
+			paramMap.put("modifyUsrId", loginVO.getUsrId());
+			
+			
+			usr1000Service.saveUsr1000ShortcutInfo(paramMap);
+			
+			
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
+
+			return new ModelAndView("jsonView");
+
+    	}
+    	catch(Exception ex){
+    		
+    		Log.error("saveUsr1000ShortcutInfoAjax()", ex);
+
+			
+			model.addAttribute("saveYN", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
+			return new ModelAndView("jsonView");
+
+    	}
+    }
+	
+	@RequestMapping(value="/usr/usr1000/usr1000/selectUsr1003View.do")
+	public String selectReq1000ListView(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		return "/usr/usr1000/usr1000/usr1003";
+	}
+	
+	@RequestMapping(value="/usr/usr1000/usr1000/saveUsr1000AllSubSignUsrAjax.do")
+    public ModelAndView saveUsr1000AllSubSignUsrAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		
+    	try{
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		
+    		HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			paramMap.put("usrId", loginVO.getUsrId());
+    		
+			
+			usr1000Service.saveUsr1000AllSubSignUsr(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+    		
+        	return new ModelAndView("jsonView", model);
+    	}
+    	catch(Exception ex){
+    		Log.error("insertUsr1000AllSubSignUsrAjax()", ex);
+    		
+    		
+			model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
+    		
+    		return new ModelAndView("jsonView", model);
+    	}
+    }
+	
+	
+	@RequestMapping(value="/usr/usr1000/usr1000/saveUsr1000SelSubSignUsrAjax.do")
+    public ModelAndView saveUsr1000SelSubSignUsrAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		
+    	try{
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		
+    		HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			String paramPrjId = paramMap.get("paramPrjId");
+			paramMap.put("prjId", paramPrjId);
+			
+			paramMap.put("usrId", loginVO.getUsrId());
+    		
+			
+			usr1000Service.saveUsr1000SelSubSignUsr(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+    		
+        	return new ModelAndView("jsonView", model);
+    	}
+    	catch(Exception ex){
+    		Log.error("insertUsr1000AllSubSignUsrAjax()", ex);
+    		
+    		
+			model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
+    		
+    		return new ModelAndView("jsonView", model);
+    	}
+    }
+	
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/usr/usr1000/usr1000/selectUsr1000SubSignUsrInfoAjax.do")
+    public ModelAndView selectUsr1000SubSignUsrInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		
+    	try {
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+
+    		HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			paramMap.put("usrId", loginVO.getUsrId());
+			String paramPrjId = paramMap.get("paramPrjId");
+			paramMap.put("prjId", paramPrjId);
+			
+    		Map subSignUsrInfo = usr1000Service.selectUsr1000SubSignUsrInfo(paramMap);
+    		
+    		
+    		model.addAttribute("subSignUsrInfo", subSignUsrInfo);
+        	
+    		return new ModelAndView("jsonView");
+        	
+    	} catch(Exception ex) {
+    		Log.error("selectUsr1000SubSignUsrInfoAjax()", ex);
+    		
+    		model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		return new ModelAndView("jsonView");
+    	}
+    }
 }
