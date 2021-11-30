@@ -36,58 +36,61 @@ var OSLDpl1005Popup = function () {
 	
 	var documentSetting = function(){
 
-    	
+    	// 빌드 이력의 콘솔 로그 조회
 		fnSelectBldConsoleLog();
 	};
 	
-	 
+	/**
+	 * function 명 	: fnSelectBldConsoleLog
+	 * function 설명	:  선택한 빌드 이력의 콘솔 로그 조회
+	 */ 
 	var fnSelectBldConsoleLog = function(){
 		
-		
+		// 넘어온 값 추출
 		var paramPrjId = $("#paramPrjId").val();
 		var paramDplId = $("#paramDplId").val();
 		var paramJenId = $("#paramJenId").val();
 		var paramJobId = $("#paramJobId").val();
 		var paramBldSeq = $("#paramBldSeq").val();
 
-		
+		//AJAX 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/dpl/dpl1000/dpl1000/selectDpl1400DplSelBuildConsoleLogAjax.do'/>","loadingShow":false}
 				,{prjId: paramPrjId, dplId: paramDplId, jenId: paramJenId, jobId: paramJobId, bldSeq: paramBldSeq });
-		
+		//AJAX 전송 성공 함수
 		ajaxObj.setFnSuccess(function(data){
 			
-			
+			// 콘솔 로그 조회 실패
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				
+				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
 				
 				var buildInfo = data.dpl1400InfoMap;
 				
-				
+				// 콘솔 로그가 없을 경우
 				if($.osl.isNull(buildInfo) || $.osl.isNull(buildInfo.bldConsoleLog)){
 					$("#buildConsoleLog").html("<span class='kt-font-inverse-brand  kt-padding-l-10 osl-font-lg osl-font'>콘솔 로그가 없습니다.</span>");
 					return false;
 				}
 				
-				
+				//콘솔로그 출력
 				$("#buildConsoleLog").html(buildInfo.bldConsoleLog);
 				$('#buildConsoleLog').each(function(i, block) {hljs.highlightBlock(block);});
 				
-				
-				$("#buildConsoleLog").scrollTop(9999);
+				// 스크롤 최하단
+				$("#buildConsoleLog").scrollTop(99999);
 			}
 		});
 		
-		
+		//AJAX 전송
 		ajaxObj.send();	
 	};
 
 		
 	return {
-        
+        // public functions
         init: function() {
         	documentSetting();
         }
