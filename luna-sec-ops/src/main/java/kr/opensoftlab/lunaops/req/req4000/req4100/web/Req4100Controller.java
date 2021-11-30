@@ -758,6 +758,58 @@ public class Req4100Controller {
 	}
 
 	
+	@RequestMapping(value="/req/req4000/req4100/updateReq4100ReqSignRejectInfo.do")
+	public ModelAndView updateReq4100ReqSignRejectInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			req4100Service.updateReq4100ReqSignRejectInfo(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
+
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("updateReq4100ReqSignRejectInfo()", ex);
+
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
+			return new ModelAndView("jsonView");
+		}
+	}
+	
+	
+	@RequestMapping(value="/req/req4000/req4100/updateReq4100ReqSignAcceptInfo.do")
+	public ModelAndView updateReq4100ReqSignAcceptInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			
+			req4100Service.updateReq4100ReqSignAcceptInfo(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
+			
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("updateReq4100ReqSignAcceptInfo()", ex);
+			
+			
+			model.addAttribute("errorYn", "Y");
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.update"));
+			return new ModelAndView("jsonView");
+		}
+	}
+	
+	
 	@RequestMapping(value="/req/req4000/req4100/selectReq4102View.do")
 	public String selectReq4102View(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		try{
@@ -828,7 +880,7 @@ public class Req4100Controller {
     }
 	
 	
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/req/req4000/req4100/selectReq4100ReqInfoAjax.do")
 	public ModelAndView selectReq4100ReqInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
     	try{
@@ -890,6 +942,24 @@ public class Req4100Controller {
         	}
 			model.addAttribute("fileList",fileList);
 			model.addAttribute("fileListCnt",fileCnt);
+
+			
+			paramMap.put("itemRequestCd", "01");
+			
+			List<Map> prjItemList = prj1000Service.selectPrj1002AllItemList(paramMap);
+			List<Map> basicItemList = new ArrayList<>();
+			List<Map> basicItemInsertList = new ArrayList<>();
+			for(int i=0; i<prjItemList.size(); i++) {
+				Map item = prjItemList.get(i);
+				if(item.get("reqId").equals("ROOTSYSTEM_FLW")) {
+					basicItemList.add(item);
+				}else {
+					basicItemInsertList.add(item);
+				}
+			}
+			model.addAttribute("basicItemInsertList", basicItemInsertList);
+			model.addAttribute("basicItemList", basicItemList);
+
 			
         	
         	model.addAttribute("errorYn", "N");
@@ -1208,6 +1278,8 @@ public class Req4100Controller {
     		
     		
     		List<Map> signUsrList = null;
+    		Map currentSignUsrInfo = null;
+    		String reqSignOrd = "-1";
     		
     		
     		if("01".equals(flowSignCd)) {
@@ -1216,8 +1288,21 @@ public class Req4100Controller {
         		paramMap.put("targetCd", "01");
         		paramMap.put("subTargetFstId", (String) reqInfo.get("processId"));
         		paramMap.put("subTargetScdId", (String) reqInfo.get("flowId"));
+
         		
     			signUsrList = cmm6600Service.selectCmm6600SignUsrList(paramMap);
+    			
+    			
+    			String reqSignCd = (String) reqInfo.get("reqSignCd");
+    			if(reqSignCd != null && !"03".equals(reqSignCd)) {
+    				
+    				reqSignOrd = String.valueOf(reqInfo.get("reqSignOrd"));
+    				
+    				paramMap.put("ord", String.valueOf(reqSignOrd));
+    				
+    				
+    				currentSignUsrInfo = (Map)cmm6600Service.selectCmm6600NextOrdInfo(paramMap);
+    			}
     		}
     		
     		
@@ -1231,7 +1316,7 @@ public class Req4100Controller {
     			reqProcessAuthFlag = true;
     		}
     		
-    		else {
+    		else if(reqChargerId == null || "".equals(reqChargerId)){
     			
     			paramMap.put("listType", "user");
     			
@@ -1256,12 +1341,6 @@ public class Req4100Controller {
     			}
     		}
     		
-    		if(!reqProcessAuthFlag) {
-    			
-    			if(signUsrList != null) {
-    				
-    			}
-    		}
     		
     		
     		
@@ -1285,6 +1364,8 @@ public class Req4100Controller {
 			model.addAttribute("reqChgList", reqChgList);
 			
 			model.addAttribute("signUsrList", signUsrList);
+			model.addAttribute("currentSignUsrInfo", currentSignUsrInfo);
+			model.addAttribute("reqSignOrd", reqSignOrd);
 			
 			model.addAttribute("reqProcessAuthFlag", reqProcessAuthFlag);
 			

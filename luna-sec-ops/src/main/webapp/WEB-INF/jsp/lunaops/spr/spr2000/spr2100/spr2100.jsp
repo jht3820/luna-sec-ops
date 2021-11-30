@@ -199,21 +199,24 @@ var OSLSpr2100Popup = function () {
 				{field: 'mmrNm', title: '회고록 제목', textAlign: 'left', width: 80, search:true},
 				{field: 'mmrUsrNm', title: '작성자', textAlign: 'left', width: 80, search:true,
 					template: function (row) {
-						if($.osl.isNull(row.mmrUsrId)){
-							return "";
-						}else{
-							var usrData = {
-									html: row.mmrUsrNm,
-									imgSize: "sm",
-									class:{
-										cardBtn: "osl-width__fit-content"
-									}
-							};
-							return $.osl.user.usrImgSet(row.mmrUsrImgId, usrData);
+						if($.osl.isNull(row.mmrUsrNm)){
+							row.mmrUsrNm = "-";
 						}
+						var usrData = {
+								html: row.mmrUsrNm,
+								imgSize: "sm",
+								class:{
+									cardBtn: "osl-width__fit-content"
+								}
+						};
+						return $.osl.user.usrImgSet(row.mmrUsrImgId, usrData);
 					},
 					onclick: function(row){
-						$.osl.user.usrInfoPopup(row.mmrUsrImgId);
+						if($.osl.isNull(row.mmrUsrId)){
+							$.osl.alert("없는 회원입니다.");
+						}else{
+							$.osl.user.usrInfoPopup(row.mmrUsrId);
+						}
 					}	
 				},
 				{field: 'mmrDtm', title: '작성일', textAlign: 'center', width: 120, sortField: "reqDtm", search:true, searchType:"daterange",
@@ -224,9 +227,6 @@ var OSLSpr2100Popup = function () {
 					}
 				}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": $.osl.lang("spr2100.actionBtn.title"),
 				"dblClick": true,

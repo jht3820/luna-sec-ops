@@ -30,7 +30,7 @@
 					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air btn-view-type active" title="카드형" data-title-lang-cd="stm2100.button.card" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5" data-view-type="01">
 						<i class="fa fa-table osl-padding-r0"></i>
 					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type" title="그리드형" data-title-lang-cd="stm21000.button.grid" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="6" data-view-type="02">
+					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type" title="그리드형" data-title-lang-cd="stm2100.button.grid" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="6" data-view-type="02">
 						<i class="fa fa-list osl-padding-r0"></i>
 					</button>
 				</div>
@@ -81,9 +81,6 @@
 				 },
 				 {field: 'delCnt', title: '삭제글 수', textAlign: 'center', width: 150, sortable: false},
 			 ],
-			 rows:{
-				clickCheckbox: true
-			},
 			 actionBtn:{
 				"title" : $.osl.lang("stm2100.actionBtn.title"),
 				"width" : 120,
@@ -207,10 +204,10 @@
 			 },
 			 callback:{
 				 initComplete : function(evt, config){
-					 viewTypeChange();
+					viewTypeChange();
 				 },
 				 ajaxDone: function(evt, list){
-					 $("#stm2100StmCard").empty();
+					$("#stm2100StmCard").empty();
 					var cnt = 0;
 					$.each(list, function(idx, row){
 						 resultStr = "";
@@ -223,7 +220,7 @@
 	 				
 	 				
 	 				$(".updateBtn").click(function(){
-	 					var item =$(this).parents(".osl-bad__card-body").siblings(".stmInfoDiv");
+	 					var item =$(this).parents(".bad-card-body").siblings(".stm-info-div");
 	 					var data = {
 								type: "update",
 								menuId: $(item).data("menuId"),
@@ -249,7 +246,7 @@
 	 				});
 	 				
 	 				$(".settingBtn").click(function(){
-	 					var item =$(this).parents(".osl-bad__card-body").siblings(".stmInfoDiv");
+	 					var item =$(this).parents(".bad-card-body").siblings(".stm-info-div");
 	 					var data = {
 								menuId: $(item).data("menuId"),
 								stmTypeCd: $(item).data("stmTypeCd"),
@@ -278,13 +275,13 @@
 	 				});
 
 					
-					$(".badChargerList").click(function(){
+					$(".bad-charger-list").click(function(){
 						$.osl.user.usrInfoPopup($(this).data("user"));
 					});
 					
-					$(".otherBadChargerList").click(function(){
+					$(".other-bad-charger-list").click(function(){
 						
-						var item =$(this).parents(".stmInfoDiv");
+						var item =$(this).parents(".stm-info-div");
 						
 						var data = {
 								menuId : $(item).data("menuId"),
@@ -362,7 +359,7 @@
 						
 						resultStr += "<div class='row kt-padding-10'>"
 				 						+ "<div class='kt-portlet kt-portlet--mobile'>"
-			 								+ "<div class='col-12 stmInfoDiv' data-menu-id='"+row.menuId+"' data-stm-type-cd='"+row.stmTypeCd+"' data-stm-name='"+$.osl.escapeHtml(row.stmNm)+"' data-stm-ds-type-cd='"+row.stmDsTypeCd+"'>"
+			 								+ "<div class='col-12 stm-info-div' data-menu-id='"+row.menuId+"' data-stm-type-cd='"+row.stmTypeCd+"' data-stm-name='"+$.osl.escapeHtml(row.stmNm)+"' data-stm-ds-type-cd='"+row.stmDsTypeCd+"'>"
 					 							+ "<div class='kt-portlet__head kt-portlet__head--lg'>"
 					 								+ "<div class='kt-portlet__head-label'>"
 					 									+ "<label class='kt-checkbox kt-checkbox--single kt-checkbox--solid'>"
@@ -372,11 +369,11 @@
 							 if(row.stmTypeCd == "01"){
 								 boardType = "normal";
 							 }else if(row.stmTypeCd == "02"){
-								 boardType = "gallery";
-							 }else if(row.stmTypeCd == "03"){
-								 boardType = "movie";
-							 }else{
 								 boardType = "storage";
+							 }else if(row.stmTypeCd == "03"){
+								 boardType = "gallery";
+							 }else{
+								 boardType = "movie";
 							 }
 		 							 resultStr += "<h5 class='kt-font-boldest'>"
 				 										+ "<span class='kt-margin-r-10 kt-font-dark'>"+$.osl.lang("stm2100.type."+boardType)+"</span>"
@@ -395,14 +392,14 @@
 				 											if(value.authTypeCd=="01"){
 				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")'><span><i class='fa flaticon2-group kt-font-bold'></i></span></a>";
 				 											}else{
-				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle badChargerList' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-user='"+value.authTargetId+"'><img src='/cmm/fms/getImage.do?fileSn=0&atchFileId="+value.authTargetImgId+"'></a>";
+				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle bad-charger-list' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-user='"+value.authTargetId+"'><img src='/cmm/fms/getImage.do?fileSn=0&atchFileId="+value.authTargetImgId+"'></a>";
 				 											}
 			 												
 				 											lastCount = badChargerList.length - (index+1);
 			 											}else{
 			 												if(index == 6){
 			 													
-				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle otherBadChargerList' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='' data-original-title='"+$.osl.lang("stm2101.label.otherAdmin")+" "+lastCount+"'><span>+"+lastCount+"</span></a>";
+				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle other-bad-charger-list' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' data-original-title='"+$.osl.lang("stm2101.label.otherAdmin")+" "+lastCount+"'><span>+"+lastCount+"</span></a>";
 			 												}
 			 											}
 			 										});
@@ -411,7 +408,7 @@
 									resultStr += "</div>"
 				 							+ "</div>"
 				 						+ "</div>" 
-				 						+ "<div class='osl-bad__card-body'>"
+				 						+ "<div class='position-relative bad-card-body'>"
 				 							+ "<div class='row kt-margin-10 kt-margin-r-25 kt-margin-l-25'>"
 					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
 					 								+ "<label class='kt-margin-r-10'><i class='fa flaticon2-layers kt-margin-r-5'></i>"+$.osl.lang("stm2100.field.stmDsTypeNm")+"</label>"
@@ -432,11 +429,11 @@
 					 						+ "</div>"
 				 							+ "<div class='row kt-margin-10 kt-margin-r-25 kt-margin-l-25'>"
 				 								
-					 							+ "<div class='col-lg-6 col-md-12 col-sm-12 col-12'>"
+					 							+ "<div class='col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12'>"
 					 								+ "<div>"
 					 									+ "<i class='fa flaticon2-graphic kt-margin-r-5'></i>" + $.osl.lang("stm2100.label.summery")
 			 										+ "</div>"
-					 								+ "<div id='drawChart"+idx+"' name='drawChart"+idx+"'>"
+					 								+ "<div class='position-relative' id='drawChart"+idx+"' name='drawChart"+idx+"'>"
 				 											
 			 										+ "</div>"
 					 							+ "</div>"

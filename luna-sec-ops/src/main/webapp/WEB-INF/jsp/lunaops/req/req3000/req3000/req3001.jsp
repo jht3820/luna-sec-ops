@@ -193,7 +193,7 @@ var OSLReq3001Popup = function () {
     		meta: {"atchFileId": atchFileId, "fileSn": 0},
     		maxNumberOfFiles:20,
     		
-    		allowedFileTypes: ['.jpg', '.jpeg', '.png', '.gif',".pdf", ".hwp", ".docx", ".pptx", "txt",".csv", ".xlsx"],
+    		allowedFileTypes: ['.doc','.docx','.hwp','.pdf','.ppt','.pptx','.xls','.xlsx','.zip','.jpg','.jpeg','.png','.gif','.eml','.cell','.show','.txt'],
     		
     		
     		onBeforeUpload: function(files){
@@ -908,8 +908,6 @@ var OSLReq3001Popup = function () {
        	});
        	
        	uploadFileList = uploadFileList.concat(uploadRemoveFiles);
-       	
-		console.log(uploadFileList);
 		
        	
        	fd.append("fileHistory",JSON.stringify(uploadFileList));
@@ -1025,7 +1023,7 @@ var OSLReq3001Popup = function () {
 	$("#reqGrpChargerNm").keydown(function(e){
 		if(e.keyCode=='13'){
 			
-			$("#searchUsrNmBtn").click();
+			$("#searchChargerNmBtn").click();
 		}
 	});
 	

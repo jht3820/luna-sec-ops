@@ -27,7 +27,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="kt-portlet__body osl-min-h-px--535 kt-padding-10"">
+				<div class="kt-portlet__body osl-min-h-px--555 kt-padding-10"">
 					
 					<div class="kt_datatable" id="dpl3001AssignJobTable"></div>
 				</div>
@@ -117,6 +117,9 @@ var OSLDpl3001Popup = function () {
 	
 	var buildCompFlag = false;
 	
+	
+	var selJobInfo;
+	
 	var documentSetting = function(){
 
 		
@@ -154,8 +157,6 @@ var OSLDpl3001Popup = function () {
 				}
 			},
 			columns: [
-				
-				
 				
 				{field: 'jobStartOrd', title: "실행 순번", textAlign: 'center', width: 60, autoHide: false},
 				{field: 'bldResultMsg', title: "실행 결과", textAlign: 'center', width: 130, search: false
@@ -209,11 +210,10 @@ var OSLDpl3001Popup = function () {
 						return bldRestoreResultMsg;
 					}
 				},
+				{field: 'jenNm', title: "Jenkins 명", textAlign: 'center', width: 140, search: true, sortable: true, sortField: "jenNm"},
+				{field: 'jenUrl', title: "Jenkins URL", textAlign: 'center', width: 200, search: true, sortable: false}
 				
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": "기능 버튼",
 				"width":130,
@@ -230,23 +230,9 @@ var OSLDpl3001Popup = function () {
 			actionFn:{
 				
 				"click":function(rowData, datatableId, type, rowNum, elem){
-
-					
-					$("#mainJobBldLog").removeClass("kt-hide");
-					$("#mainJobBldLog").addClass("active");
-					$("#mainJobBldLog").data("jobid", rowData.jobId);
-					$("#mainJobBldLog").find("span").text(rowData.jobId);
 					
 					
-					if(rowData.jobRestoreId){
-						$("#subJobBldLog").removeClass("kt-hide");
-						$("#subJobBldLog").data("jobid", rowData.jobId);
-						$("#subJobBldLog").find("span").text(rowData.jobRestoreId);
-					}else{
-						$("#subJobBldLog").addClass("kt-hide");
-						$("#subJobBldLog").data("jobid", "");
-						$("#subJobBldLog").find("span").text("");
-					}
+					fnJobLogBtnView(rowData);
 					
 					
 					if(!$.osl.isNull(buildJobInfo.jobData)){
@@ -261,6 +247,9 @@ var OSLDpl3001Popup = function () {
 					}
 					
 					
+					selJobInfo = rowData;
+					
+					
 					fnSelectJobConsoleLog(rowData);
 					
 				},
@@ -268,12 +257,27 @@ var OSLDpl3001Popup = function () {
 				"jobExcute":function(rowDatas , datatableId, type, rowNum, elem){
 					
 					
-					var selRowData = $.osl.datatable.list["dpl3001AssignJobTable"].targetDt.dataSet[rowNum];
+					var selRowData = rowDatas;
+					
+					
+					if($.osl.isNull(selRowData)){
+						
+						selRowData = selJobInfo;
+					}
+					
+					
+					
 					
 					if($.osl.isNull(selRowData)){
 						$.osl.alert("실행(빌드)하려는 JOB을 선택해주세요.", {type: "warning"});
 						return false;
 					}
+					
+					
+					fnJobLogBtnView(selRowData);
+					
+					
+					fnSelectJobConsoleLog(selRowData);
 					
 					
 					fnSelJobDeployExcute(selRowData, rowNum);
@@ -341,6 +345,29 @@ var OSLDpl3001Popup = function () {
 	};
 	
 	
+	
+	var fnJobLogBtnView = function(selectJobData){
+		
+		
+		$("#mainJobBldLog").removeClass("kt-hide");
+		$("#mainJobBldLog").addClass("active");
+		$("#mainJobBldLog").data("jobid", selectJobData.jobId);
+		$("#mainJobBldLog").find("span").text(selectJobData.jobId);
+		
+		
+		if(selectJobData.jobRestoreId){
+			$("#subJobBldLog").removeClass("kt-hide");
+			$("#subJobBldLog").data("jobid", selectJobData.jobId);
+			$("#subJobBldLog").find("span").text(selectJobData.jobRestoreId);
+		}else{
+			$("#subJobBldLog").addClass("kt-hide");
+			$("#subJobBldLog").data("jobid", "");
+			$("#subJobBldLog").find("span").text("");
+		}
+		
+	}
+	
+	
 	var fnSelJobDeployExcute = function(selJobData, rowNum){
 		
 		
@@ -348,6 +375,9 @@ var OSLDpl3001Popup = function () {
 			$.osl.alert("실행(빌드)하려는 JOB을 선택해주세요.", {type: "warning"});
 			return false;
 		}
+		
+		
+		buildJobInfo = {};
 		
 		
 		$.osl.confirm("선택 JOB("+selJobData.jobId+")을 수동 실행 하시겠습니까?", null,function(result) {
@@ -687,7 +717,7 @@ var OSLDpl3001Popup = function () {
 								return false;
 							}
 							
-							else if(!gfnIsNull(map.jobRestoreId) && map.jobRestoreId != "-" && map.jobRestoreId == localBldInfo.jobId){
+							else if(!$.osl.isNull(map.jobRestoreId) && map.jobRestoreId != "-" && map.jobRestoreId == localBldInfo.jobId){
 								
 								var selJobInfo = targetJobInfo;
 								targetJobInfo["bldRestoreResult"] = localBldInfo.bldResult;

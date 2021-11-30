@@ -1,5 +1,7 @@
 package kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl;
 
+import java.util.ArrayList;
+
 
 
 import java.util.HashMap;
@@ -16,8 +18,6 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import egovframework.rte.fdl.idgnr.EgovIdGnrService;
-import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.Prj1100Service;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.Prj1300Service;
 
@@ -57,6 +57,26 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		paramMap.put("processId", processId);
 		
 		
+		paramMap.put("flowNm", "최종 완료");
+		paramMap.put("flowDesc", "최종 완료");
+		paramMap.put("flowLeft", "20");
+		paramMap.put("flowTop", "20");
+		paramMap.put("flowStartCd", "02");
+		paramMap.put("flowDoneCd", "01");
+		paramMap.put("flowEssentialCd", "02");
+		paramMap.put("flowSignCd", "02");
+		paramMap.put("flowSignStopCd", "02");
+		paramMap.put("flowMiddleEndCd", "02");
+		paramMap.put("flowWorkCd", "02");
+		paramMap.put("flowRevisionCd", "02");
+		paramMap.put("flowDplCd", "02");
+		paramMap.put("flowAuthCd", "02");
+		paramMap.put("flowTitleBgColor", "02");
+		paramMap.put("flowTitleColor", "02");
+		paramMap.put("useCd", "02");
+		prj1100DAO.insertPrj1101FlowInfo(paramMap);
+		
+		
 		String usrIdList = (String) paramMap.get("usrIdList");
 		if(usrIdList != null && !"[]".equals(usrIdList)) {
 			
@@ -84,11 +104,14 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		prj1100DAO.updatePrj1100ProcessInfo(paramMap);
 		
 		
-		prj1100DAO.deletePrj1100ProcessAuthInfo(paramMap);
-		
-		
 		String usrIdList = (String) paramMap.get("usrIdList");
+				
+				
+		
 		if(usrIdList != null && !"[]".equals(usrIdList)) {
+			
+			prj1100DAO.deletePrj1100ProcessAuthInfo(paramMap);
+			
 			
 			JSONArray jsonArray = new JSONArray(usrIdList);
 			
@@ -150,6 +173,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 				newMap.put("flowLeft", newFlowData.get("left"));
 				newMap.put("flowTop", newFlowData.get("top"));
 				newMap.put("flowNm", newFlowProp.get("title"));
+				newMap.put("flowDesc", newFlowProp.get("flowDesc"));
 				newMap.put("regUsrId", paramMap.get("regUsrId"));
 				newMap.put("regUsrIp", paramMap.get("regUsrIp"));
 				newMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
@@ -260,6 +284,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    flowMapData.put("flowLeft", left);
 		    flowMapData.put("flowTop", top);
 		    flowMapData.put("flowNm", flowMapData.get("title"));
+		    flowMapData.put("flowDesc", flowMapData.get("flowDesc"));
 		    flowMapData.put("flowStartCd", paramMap.get("flowStartCd"));
 		    flowMapData.put("flowDoneCd", paramMap.get("flowDoneCd"));
 		    flowMapData.put("modifyUsrId", paramMap.get("modifyUsrId"));
@@ -394,7 +419,27 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 			param.put("prjId", map.get("prjId"));
 			param.put("flowId", map.get("flowId"));
 			
-			map.put("basicItemList", prj1300Service.selectPrj1102AllItemList(param));
+			flowList.set(i, map);
+		}
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("licGrpId", paramMap.get("licGrpId"));
+		param.put("processId", paramMap.get("processId"));
+		param.put("prjId", paramMap.get("prjId"));
+		
+		List<Map<String, Object>> itemList = prj1300Service.selectPrj1102AllItemList(param);
+		for(int i=0;i<flowList.size();i++) {
+			Map<String, Object> map =  (Map<String, Object>) flowList.get(i);
+			List<Map<String, Object>> basicItemList = new ArrayList<>();
+			
+			for(int j=0;j<itemList.size();j++) {
+				Map<String, Object> itemMap =  (Map<String, Object>) itemList.get(j);
+				if(itemMap.get("flowId").equals(map.get("flowId"))) {
+					basicItemList.add(itemMap);
+				}
+			}
+			map.put("basicItemList", basicItemList);
+			
 			flowList.set(i, map);
 		}
 		return flowList;

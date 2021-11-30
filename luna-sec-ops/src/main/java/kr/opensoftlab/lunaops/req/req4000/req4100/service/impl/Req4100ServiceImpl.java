@@ -35,6 +35,7 @@ import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1000.service.Prj1000Service;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl.Prj1100DAO;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.Prj1300Service;
 import kr.opensoftlab.lunaops.req.req3000.req3000.service.impl.Req3000DAO;
@@ -61,6 +62,10 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	
     @Resource(name = "prj1300Service")
     private Prj1300Service prj1300Service;
+    
+	
+    @Resource(name = "prj1000Service")
+    private Prj1000Service prj1000Service;
     
 	
 	@Resource(name = "req6000Service")
@@ -171,7 +176,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	}
 	
 	
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String insertReq4100ReqCopy(Map<String, String> paramMap) throws Exception{
 
 		Map<String, String> convertParamMap = selectReq4100JsonToMap(paramMap);
@@ -335,6 +340,51 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 				}
 			}
 		}
+		
+		
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		String basicItemList = (String) paramMap.get("basicItemList");
+		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+		String basicItemDelList = (String) paramMap.get("basicItemDelList");
+		JSONArray basicItemJsonArray = (JSONArray) (JSONArray) jsonParser.parse(basicItemList);;
+		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
+		
+		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", insNewReqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			itemMap.put("itemDivision", "04");
+			itemMap.put("itemRequestCd", "01");
+
+			prj1000Service.savePrj1003ItemAjax(itemMap);
+		}
+		
+		for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", insNewReqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			itemMap.put("itemDivision", "04");
+			itemMap.put("itemRequestCd", "01");
+
+			prj1000Service.savePrj1002ItemAjax(itemMap);
+			prj1000Service.savePrj1003ItemAjax(itemMap);
+		}
+		
+		for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", insNewReqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			prj1000Service.deletePrj1002ItemInfoAjax(itemMap);
+		}
 		return insNewReqId;
 	}
 	
@@ -347,6 +397,8 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object saveReq4100ReqInfo(Map paramMap) throws Exception{
+
+		JSONParser jsonParser = new JSONParser();
 		
 		Map<String, String> convertParamMap = selectReq4100JsonToMap(paramMap);
 
@@ -412,7 +464,39 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
     			
     			req4100DAO.updateReq4101ReqPwInfo(newReqMap);
     		}
-    		 		
+    		
+    		
+    		
+    		String basicItemList = (String) paramMap.get("basicItemList");
+    		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+    		JSONArray basicItemJsonArray = (JSONArray) (JSONArray) jsonParser.parse(basicItemList);;
+    		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+    		
+    		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", insNewReqId);
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "04");
+    			itemMap.put("itemRequestCd", "01");
+
+    			prj1000Service.savePrj1003ItemAjax(itemMap);
+    		}
+    		
+    		for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", insNewReqId);
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "04");
+    			itemMap.put("itemRequestCd", "01");
+
+    			prj1000Service.savePrj1002ItemAjax(itemMap);
+    			prj1000Service.savePrj1003ItemAjax(itemMap);
+    		}
+    		
 			return insNewReqId;
 		}
 		
@@ -470,8 +554,6 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			String removeFileStr = (String) paramMap.get("fileHistory");
 			
-			
-			JSONParser jsonParser = new JSONParser();
 			JSONArray jsonArray = (JSONArray) jsonParser.parse(removeFileStr);
 			
 			List<String> removeFileSn = new ArrayList<String>();
@@ -521,6 +603,49 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 					}
 				}
 			}
+			
+			
+    		
+    		String basicItemList = (String) paramMap.get("basicItemList");
+    		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+    		String basicItemDelList = (String) paramMap.get("basicItemDelList");
+    		JSONArray basicItemJsonArray = (JSONArray) (JSONArray) jsonParser.parse(basicItemList);;
+    		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+    		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
+    		
+    		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqInfoMap.get("reqId"));
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "04");
+    			itemMap.put("itemRequestCd", "01");
+
+    			prj1000Service.savePrj1003ItemAjax(itemMap);
+    		}
+    		
+    		for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqInfoMap.get("reqId"));
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "04");
+    			itemMap.put("itemRequestCd", "01");
+
+    			prj1000Service.savePrj1002ItemAjax(itemMap);
+    			prj1000Service.savePrj1003ItemAjax(itemMap);
+    		}
+    		
+    		for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqInfoMap.get("reqId"));
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			prj1000Service.deletePrj1002ItemInfoAjax(itemMap);
+    		}
 			
 			
 			if(uptCnt == 0 ){
@@ -780,6 +905,103 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		}
 	}
 	
+
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateReq4100ReqSignRejectInfo(Map paramMap) throws Exception{
+		
+		paramMap.put("reqSignCd", "03");
+		paramMap.put("targetCd", "01");
+		paramMap.put("targetId", paramMap.get("reqId"));
+		paramMap.put("signUsrId", paramMap.get("regUsrId"));
+		paramMap.put("signTypeCd", "03");
+		
+		
+		cmm6600Service.insertCmm6601SignLogInfo(paramMap);
+		
+		
+		
+		
+		req4100DAO.updateReq4101ReqProcessInfo(paramMap);
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void updateReq4100ReqSignAcceptInfo(Map paramMap) throws Exception{
+		
+		String licGrpId = (String) paramMap.get("licGrpId");
+		String prjId = (String) paramMap.get("prjId");
+		String reqId = (String) paramMap.get("reqId");
+		String regUsrId = (String) paramMap.get("regUsrId");
+		String regUsrIp = (String) paramMap.get("regUsrIp");
+		
+		
+		Map reqInfo = (Map) req4100DAO.selectReq4100ReqInfo(paramMap);
+		
+		
+		String reqSignProcessId = (String) reqInfo.get("reqSignProcessId");
+		String reqSignFlowId = (String) reqInfo.get("reqSignFlowId");
+		String reqSignOrd = String.valueOf(reqInfo.get("reqSignOrd"));
+		String processId = (String) reqInfo.get("processId");
+		String flowId = (String) reqInfo.get("flowId");
+		
+		
+		paramMap.put("reqSignCd", "02");
+		paramMap.put("targetCd", "01");
+		paramMap.put("targetId", paramMap.get("reqId"));
+		paramMap.put("signUsrId", paramMap.get("regUsrId"));
+		paramMap.put("signTypeCd", "02");
+		paramMap.put("ord", reqSignOrd);
+		paramMap.put("reqSignOrd", (Integer.parseInt(reqSignOrd)+1));
+		
+		
+		paramMap.put("subTargetFstId", processId);
+		paramMap.put("subTargetScdId", flowId);
+		
+		
+		int signDoneOrd = cmm6600Service.select6600MaxOrd(paramMap);
+		
+		
+		cmm6600Service.insertCmm6601SignLogInfo(paramMap);
+		
+		
+		if(String.valueOf(signDoneOrd).equals(reqSignOrd)) {
+			
+			paramMap.put("reqSignCd", "04");
+			paramMap.put("reqSignOrd", "0");
+			paramMap.put("processId", reqSignProcessId);
+			paramMap.put("flowId", reqSignFlowId);
+			
+			
+			Map selFlowInfo = prj1100DAO.selectPrj1101FlowInfo(paramMap);
+			
+			
+			String selFlowDoneCd = (String) selFlowInfo.get("flowDoneCd");
+			if("01".equals(selFlowDoneCd)) {
+				
+				paramMap.put("reqProType", "04");
+			}
+			
+			
+			String reqChargerId = (String) reqInfo.get("reqChargerId");
+			
+			
+			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "01", flowId, reqSignFlowId, reqChargerId);
+			req6001Vo.setPreProcessId(processId);
+			req6001Vo.setChgProcessId(reqSignProcessId);
+			req6001Vo.setRegUsrId(regUsrId);
+			req6001Vo.setRegUsrIp(regUsrIp);
+			req6001Vo.setModifyUsrId(regUsrId);
+			req6001Vo.setModifyUsrIp(regUsrIp);
+			
+			paramMap.put("req6001Vo", req6001Vo);
+			req6000Service.insertReq6001ReqChgInfo(paramMap);
+		}
+		
+		
+		req4100DAO.updateReq4101ReqProcessInfo(paramMap);
+	}
+	
 	
 	@SuppressWarnings({ "rawtypes" })
 	public void updateReq4101ReqSubInfo(Map paramMap) throws Exception{
@@ -877,7 +1099,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		
 		String selFlowDoneCd = (String) selFlowInfo.get("flowDoneCd");
 		
-		if("01".equals(selFlowDoneCd)) {
+		if("01".equals(selFlowDoneCd) && !"01".equals(signRequiredCd)) {
 			
 			paramMap.put("reqProType", "04");
 		}
@@ -899,7 +1121,8 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 		}
 		
 		
-		if(!beforeFlowId.equals(selFlowId)) {
+		
+		if(!beforeFlowId.equals(selFlowId) && !"01".equals(signRequiredCd)) {
 			
 			Req6001VO req6001Vo = new Req6001VO(licGrpId, prjId, reqId, "01", beforeFlowId, selFlowId, regUsrId);
 			req6001Vo.setPreProcessId(processId);
@@ -911,19 +1134,6 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			paramMap.put("req6001Vo", req6001Vo);
 			req6000Service.insertReq6001ReqChgInfo(paramMap);
-		}else {
-			
-			for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
-				JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
-				Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
-				itemMap.put("processId", processId);
-				itemMap.put("flowId", paramMap.get("selFlowId"));
-				itemMap.put("prjId", prjId);
-				itemMap.put("reqId", reqId);
-				itemMap.put("licGrpId", paramMap.get("licGrpId"));
-				prj1300Service.deletePrj1103ItemAjax(itemMap);
-				prj1300Service.deletePrj1102ItemInfoAjax(itemMap);
-			}
 		}
 		
 		
@@ -931,11 +1141,13 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			Map newMap = new HashMap<>();
 			
 			
-			if(beforeFlowId.equals(selFlowId)) {
+			if(!beforeFlowId.equals(selFlowId)) {
 				
-				newMap.put("type", "update");
+				paramMap.put("reqSignCd", "01");
+				paramMap.put("reqSignOrd", "1");
 			}
 			
+			newMap.put("type", "update");
 			newMap.put("signUsrInfList", paramMap.get("signUsrList"));
 			newMap.put("targetId", beforeReqInfo.get("reqId"));
 			newMap.put("targetCd", "01");	
@@ -953,6 +1165,12 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			
 			cmm6600Service.saveCmm6600SignLine(newMap);
+			
+			
+			paramMap.put("reqSignProcessId", processId);
+			paramMap.put("reqSignFlowId", selFlowId);
+			paramMap.remove("processId");
+			paramMap.remove("flowId");
 		}
 		
 		
@@ -963,7 +1181,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
 			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
 			itemMap.put("processId", processId);
-			itemMap.put("flowId", paramMap.get("selFlowId"));
+			itemMap.put("flowId", beforeFlowId);
 			itemMap.put("prjId", prjId);
 			itemMap.put("reqId", reqId);
 			itemMap.put("licGrpId", paramMap.get("licGrpId"));
@@ -975,7 +1193,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
 			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
 			itemMap.put("processId", processId);
-			itemMap.put("flowId", paramMap.get("selFlowId"));
+			itemMap.put("flowId", beforeFlowId);
 			itemMap.put("prjId", prjId);
 			itemMap.put("reqId", reqId);
 			itemMap.put("licGrpId", paramMap.get("licGrpId"));
@@ -984,7 +1202,19 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			prj1300Service.savePrj1102ItemAjax(itemMap);
 			prj1300Service.savePrj1103ItemAjax(itemMap);
 		}
+
 		
+		for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("processId", processId);
+			itemMap.put("flowId", beforeFlowId);
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", reqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			prj1300Service.deletePrj1103ItemAjax(itemMap);
+			prj1300Service.deletePrj1102ItemInfoAjax(itemMap);
+		}
 	}
 
 	

@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <input type="hidden" name="stmTypeCd" id="stmTypeCd" value="${param.stmTypeCd}" /> 
 <input type="hidden" name="stmDsTypeCd" id="stmDsTypeCd" value='${param.stmDsTypeCd}'/>
 <input type="hidden" name="stmNm" id="stmNm" value='${param.stmNm}'/>
@@ -18,7 +16,6 @@
 			<div class="osl-portlet__head-label kt-margin-t-10">
 				<div class="kt-padding-5 osl-padding-b-6__5" name="writerDiv" id="writerDiv"  data-badUsrId=''></div>
 				<div class="kt-padding-5" name="writeDateDiv" id="writeDateDiv"></div>
-				
 			</div>	
 		</div>
 		<div class="osl-bad__card-body">
@@ -194,9 +191,6 @@ var OSLBad1001Popup = function () {
 				 }
 			 ],
 			 layout:{ "header" : false },
-			 rows:{
-				clickCheckbox: true
-			},
 			 actionBtn:{
 				 "title": $.osl.lang("bad1001.actionBtn.title"),
 				 "update": false,
@@ -206,8 +200,8 @@ var OSLBad1001Popup = function () {
 			 actionTooltip:{
 				"delete": $.osl.lang("bad1001.actionBtn.deleteComment"),
 			},
-			 actionFn:{
-				 "delete":function(rowDatas){
+			actionFn:{
+				"delete":function(rowDatas){
 					 
 					 if(paramRowData.delCd =='02'){
 						

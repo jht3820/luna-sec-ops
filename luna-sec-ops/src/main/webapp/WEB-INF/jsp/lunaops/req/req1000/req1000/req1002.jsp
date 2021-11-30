@@ -154,7 +154,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="kt-portlet kt-portlet--collapsed" data-ktportlet="true" id="req1002NewRequestOpt">
+	<div class="kt-portlet kt-portlet--collapsed kt-hide" data-ktportlet="true" id="req1002NewRequestOpt">
 		<div class="kt-portlet__head">
 			<div class="kt-portlet__head-label">
 				<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req1002.label.requestDefaultOptNm">접수 기본항목 입력</span>

@@ -13,7 +13,7 @@
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
-							<i class="fa fa-th-large kt-margin-r-5"></i>작업흐름 정보
+							<i class="fa fa-th-large kt-margin-r-5"></i>단계 정보
 						</h5>
 					</div>
 				</div>
@@ -26,8 +26,8 @@
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="form-group">
-								<label class="required"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>작업흐름 명</span></label>
-								<input type="text" class="form-control" placeholder="작업흐름 명" name="flowNm" id="flowNm" opttype="-1" required>
+								<label class="required"><i class="fa fa-project-diagram kt-margin-r-5"></i><span>단계 명</span></label>
+								<input type="text" class="form-control" placeholder="단계 명" name="flowNm" id="flowNm" maxlength="50" opttype="-1" required>
 							</div>
 						</div>
 					</div>
@@ -47,20 +47,20 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-lg-12 col-md-12 col-sm-12">
-							<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i>작업흐름 기능</label>
+							<label class="required"><i class="fa fa-check-square kt-margin-r-5"></i>단계 기능</label>
 							<div class="row">
 								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="kt-checkbox-list">
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-											<input type="checkbox" name="flowSignCd" id="flowSignCd" opttype="-1"> 결재 필수
+											<input type="checkbox" class="osl-flow-operator-func" name="flowSignCd" id="flowSignCd" opttype="-1"> 결재 필수
 											<span></span>
 										</label>
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-											<input type="checkbox" name="flowSignStopCd" id="flowSignStopCd" opttype="-1"> 결재 반려 시 종료
+											<input type="checkbox" class="osl-flow-operator-func" name="flowSignStopCd" id="flowSignStopCd" opttype="-1"> 결재 반려 시 종료
 											<span></span>
 										</label>
-										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand kt-hide">
-											<input type="checkbox" name="flowMiddleEndCd" id="flowMiddleEndCd" opttype="-1"> 중간 종료
+										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
+											<input type="checkbox" class="osl-flow-operator-func" name="flowMiddleEndCd" id="flowMiddleEndCd" opttype="-1"> 중간 종료
 											<span></span>
 										</label>
 									</div>
@@ -68,15 +68,15 @@
 								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="kt-checkbox-list">
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-											<input type="checkbox" name="flowRevisionCd" id="flowRevisionCd" opttype="-1"> 소스 저장소
+											<input type="checkbox" class="osl-flow-operator-func" name="flowRevisionCd" id="flowRevisionCd" opttype="-1"> 소스 저장소
 											<span></span>
 										</label>
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand">
-											<input type="checkbox" name="flowDplCd" id="flowDplCd" opttype="-1"> 배포 계획
+											<input type="checkbox" class="osl-flow-operator-func" name="flowDplCd" id="flowDplCd" opttype="-1"> 배포 계획
 											<span></span>
 										</label>
 										<label class="kt-checkbox kt-checkbox--tick kt-checkbox--brand  kt-hide">
-											<input type="checkbox" name="flowAuthCd" id="flowAuthCd" opttype="-1"> 허용 역할
+											<input type="checkbox" class="osl-flow-operator-func" name="flowAuthCd" id="flowAuthCd" opttype="-1"> 허용 역할
 											<span></span>
 										</label>
 									</div>
@@ -87,7 +87,7 @@
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="form-group">
-								<label><i class="fa fa-edit kt-margin-r-5"></i><span>작업흐름 설명</span></label>
+								<label><i class="fa fa-edit kt-margin-r-5"></i><span>단계 설명</span></label>
 								<textarea class="form-control osl-min-h-px--130 osl-textarea__resize--none" name="flowDesc" id="flowDesc" maxlength="2000" opttype="-1"></textarea>
 							</div>
 						</div>
@@ -165,7 +165,14 @@ var OSLPrj1102Popup = function () {
 					left: 10,
 					properties: {
 						id: "previewOperator",
-						title: '작업흐름 명',
+						title: '단계 명',
+						flowSignCd: "02",
+						flowSignStopCd: "02",
+						flowWorkCd: "02",
+						flowRevisionCd: "02",
+						flowDplCd: "02",
+						flowAuthCd: "02",
+						flowMiddleEndCd: "02",
 						inputs: {
 							input_1: {
 								label: 'Input 1',
@@ -238,6 +245,21 @@ var OSLPrj1102Popup = function () {
 		if(type == "update"){
 			fnFlowInfoSelect();
 		}
+		
+		
+		$(".osl-flow-operator-func").change(function(){
+			var checkValue = (this.checked)?"01":"02";
+			var optId = $(this).attr("id");
+			
+			var previewFlowInfo = previewFlowChart.flowchart('getOperatorData', "previewOperator");
+			
+			
+			if(previewFlowInfo.properties.hasOwnProperty(optId)){
+				previewFlowInfo.properties[optId] = checkValue;
+				previewFlowChart.flowchart('setOperatorData', "previewOperator", previewFlowInfo);
+			}
+			
+		});
 		
 		$("#prj1101SaveSubmit").click(function(){
 			var form = $('#'+formId);    		
@@ -347,6 +369,7 @@ var OSLPrj1102Popup = function () {
 					properties: {
 						id: newflowId,
 						title: $("#flowNm").val(),
+						flowDesc: $("#flowDesc").val(),
 						editable: true,
 						inputs: {input_1: {label: '이전'}},
 						outputs: {output_1: {label: '다음'}},
@@ -358,6 +381,7 @@ var OSLPrj1102Popup = function () {
 						flowRevisionCd: $("#flowRevisionCd").is(":checked")? "01": "02",
 						flowDplCd: $("#flowDplCd").is(":checked")? "01": "02",
 						flowAuthCd: $("#flowAuthCd").is(":checked")? "01": "02",
+						flowMiddleEndCd: $("#flowMiddleEndCd").is(":checked")? "01": "02",
 						basicItemList: basicItemList,
 						basicItemDelList: basicItemDelList,
 					}
@@ -369,6 +393,7 @@ var OSLPrj1102Popup = function () {
 			else if(type == "update"){
 				var flowInfo = $("#flowChartDiv").flowchart("getOperatorData",paramFlowId);
 				flowInfo.properties.title = $("#flowNm").val();
+				flowInfo.properties.flowDesc = $("#flowDesc").val();
 				flowInfo.properties.flowTitleBgColor = $("#flowTitleBgColor").val();
 				flowInfo.properties.flowTitleColor = $("#flowTitleColor").val();
 				flowInfo.properties.flowSignCd = $("#flowSignCd").is(":checked")? "01": "02";
@@ -377,6 +402,7 @@ var OSLPrj1102Popup = function () {
 				flowInfo.properties.flowRevisionCd = $("#flowRevisionCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowDplCd = $("#flowDplCd").is(":checked")? "01": "02";
 				flowInfo.properties.flowAuthCd = $("#flowAuthCd").is(":checked")? "01": "02";
+				flowInfo.properties.flowMiddleEndCd = $("#flowMiddleEndCd").is(":checked")? "01": "02";
 
 				flowInfo.properties.basicItemList = basicItemList;
 				flowInfo.properties.basicItemDelList = basicItemDelList;
@@ -433,7 +459,21 @@ var OSLPrj1102Popup = function () {
 		
 		
 		$("#flowNm").val(flowData.properties.title);
-		previewFlowChart.flowchart('setOperatorTitle', "previewOperator", flowData.properties.title);
+		
+		
+		var previewFlowInfo = previewFlowChart.flowchart('getOperatorData', "previewOperator");
+		previewFlowInfo.properties.title = flowData.properties.title;
+		previewFlowInfo.properties.flowTitleBgColor = flowData.properties.flowTitleBgColor;
+		previewFlowInfo.properties.flowTitleColor = flowData.properties.flowTitleColor;
+		previewFlowInfo.properties.flowSignCd = flowData.properties.flowSignCd;
+		previewFlowInfo.properties.flowSignStopCd = flowData.properties.flowSignStopCd;
+		previewFlowInfo.properties.flowWorkCd = flowData.properties.flowWorkCd;
+		previewFlowInfo.properties.flowRevisionCd = flowData.properties.flowRevisionCd;
+		previewFlowInfo.properties.flowDplCd = flowData.properties.flowDplCd;
+		previewFlowInfo.properties.flowAuthCd = flowData.properties.flowAuthCd;
+		previewFlowInfo.properties.flowMiddleEndCd = flowData.properties.flowMiddleEndCd;
+		
+		previewFlowChart.flowchart('setOperatorData', "previewOperator", previewFlowInfo);
 	};
 	
 	return {
@@ -448,22 +488,22 @@ var OSLPrj1102Popup = function () {
 	    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
 	    			
 	    			{
-						viewType: "preview",
+	    				htmlAppendType: true,
 						delAt:true,
 						actionFn:{
 							delete:function($this){
 								var targetId = $this.data("itemId");
 								$this.parents(".basicItemDiv:first").remove();
-								basicItemDelList.push({"itemId":targetId,"reqId":"ROOTSYSTEM_FLW"});
+								basicItemDelList.push({"itemId":targetId});
 		
 								var delIdx = ""
-								$.each(basicItemList,function(idx, map){
+								$.each(basicItemInsertList,function(idx, map){
 									if(map.itemId == targetId){
 											delIdx = idx;						
 									}
 								});
 								if(delIdx!==""){
-									basicItemList.splice(delIdx,1);
+									basicItemInsertList.splice(delIdx,1);
 								}
 							}
 						}

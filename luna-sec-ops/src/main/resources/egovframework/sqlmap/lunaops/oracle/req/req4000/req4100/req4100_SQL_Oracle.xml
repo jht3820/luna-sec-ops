@@ -57,6 +57,11 @@
 		<result property="useCd"				column="USE_CD"/>
  		<result property="regDtmDay"			column="REG_DTM_DAY"/>
  		<result property="reqKey"				column="REQ_KEY"/>
+ 		<result property="reqSignCd"			column="REQ_SIGN_CD"/>
+ 		<result property="reqSignNm"			column="REQ_SIGN_NM"/>
+ 		<result property="reqSignProcessId"		column="REQ_SIGN_PROCESS_ID"/>
+ 		<result property="reqSignFlowId"		column="REQ_SIGN_FLOW_ID"/>
+ 		<result property="reqSignOrd"			column="REQ_SIGN_ORD"/>
     </resultMap>
     
    	<resultMap id="resultMapSelectReq4100Info" class="egovMap">
@@ -108,6 +113,11 @@
  		<result property="reqGrpNm" 			column="REQ_GRP_NM"/>
  		<result property="reqGrpNo" 			column="REQ_GRP_NO"/>
  		<result property="reqGrpDesc"			column="REQ_GRP_DESC" jdbcType="CLOB" javaType="java.lang.String"/>
+ 		<result property="reqSignCd"			column="REQ_SIGN_CD"/>
+ 		<result property="reqSignNm"			column="REQ_SIGN_NM"/>
+ 		<result property="reqSignProcessId"		column="REQ_SIGN_PROCESS_ID"/>
+ 		<result property="reqSignFlowId"		column="REQ_SIGN_FLOW_ID"/>
+ 		<result property="reqSignOrd"			column="REQ_SIGN_ORD"/>
     </resultMap>
     
    	<resultMap id="resultMapSelectChargeReq4100Info" class="egovMap">
@@ -158,6 +168,11 @@
  		<result property="fvrId"				column="FVR_ID"/>
  		<result property="fvrUseCd"				column="FVR_USE_CD"/>
  		<result property="fvrOrd"				column="FVR_ORD"/>
+ 		<result property="reqSignCd"			column="REQ_SIGN_CD"/>
+ 		<result property="reqSignNm"			column="REQ_SIGN_NM"/>
+ 		<result property="reqSignProcessId"		column="REQ_SIGN_PROCESS_ID"/>
+ 		<result property="reqSignFlowId"		column="REQ_SIGN_FLOW_ID"/>
+ 		<result property="reqSignOrd"			column="REQ_SIGN_ORD"/>
     </resultMap>
 
 	
@@ -211,6 +226,11 @@
 			,	T1.USE_CD
 			,	T1.REQ_KEY
 			,	T1.REQ_MIDDLE_DONE_TXT
+			,	T1.REQ_SIGN_CD
+			,	T1.REQ_SIGN_NM
+			,	T1.REQ_SIGN_PROCESS_ID
+			,	T1.REQ_SIGN_FLOW_ID
+			,	T1.REQ_SIGN_ORD
 		    ,	T1.REG_DTM
 		    ,	T1.REG_DTM_DAY
 		    ,	T1.REG_USR_ID
@@ -268,6 +288,11 @@
 					,	A.USE_CD
 					,	A.REQ_KEY
 					,	A.REQ_MIDDLE_DONE_TXT
+					,	A.REQ_SIGN_CD
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00004', A.REQ_SIGN_CD, '1') AS REQ_SIGN_NM
+					,	A.REQ_SIGN_PROCESS_ID
+					,	A.REQ_SIGN_FLOW_ID
+					,	A.REQ_SIGN_ORD
 				    ,	TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REG_DTM
 				    ,	TO_CHAR(A.REG_DTM, 'YYYY-MM-DD') AS REG_DTM_DAY
 				    ,	A.REG_USR_ID
@@ -436,6 +461,11 @@
 			,	T1.USE_CD
 			,	T1.REQ_KEY
 			,	T1.REQ_MIDDLE_DONE_TXT
+			,	T1.REQ_SIGN_CD
+			,	T1.REQ_SIGN_NM
+			,	T1.REQ_SIGN_PROCESS_ID
+			,	T1.REQ_SIGN_FLOW_ID
+			,	T1.REQ_SIGN_ORD
 		    ,	T1.FVR_ID
 		    ,	T1.FVR_USE_CD
 		    ,	T1.FVR_ORD
@@ -496,6 +526,11 @@
 					,	A.USE_CD
 					,	A.REQ_KEY
 					,	A.REQ_MIDDLE_DONE_TXT
+					,	A.REQ_SIGN_CD
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00004', A.REQ_SIGN_CD, '1') AS REQ_SIGN_NM
+					,	A.REQ_SIGN_PROCESS_ID
+					,	A.REQ_SIGN_FLOW_ID
+					,	A.REQ_SIGN_ORD
 				    ,	TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REG_DTM
 				    ,	TO_CHAR(A.REG_DTM, 'YYYY-MM-DD') AS REG_DTM_DAY
 				    ,	A.REG_USR_ID
@@ -622,6 +657,11 @@
 					,	A.USE_CD
 					,	A.REQ_KEY
 					,	A.REQ_MIDDLE_DONE_TXT
+					,	A.REQ_SIGN_CD
+					,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00004', A.REQ_SIGN_CD, '1') AS REQ_SIGN_NM
+					,	A.REQ_SIGN_PROCESS_ID
+					,	A.REQ_SIGN_FLOW_ID
+					,	A.REQ_SIGN_ORD
 				    ,	TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REG_DTM
 				    ,	TO_CHAR(A.REG_DTM, 'YYYY-MM-DD') AS REG_DTM_DAY
 				    ,	A.REG_USR_ID
@@ -776,6 +816,11 @@
 		,	A.USE_CD
 		,	A.REQ_KEY
 		,	A.REQ_MIDDLE_DONE_TXT
+		,	A.REQ_SIGN_CD
+		,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'REQ00004', A.REQ_SIGN_CD, '1') AS REQ_SIGN_NM
+		,	A.REQ_SIGN_PROCESS_ID
+		,	A.REQ_SIGN_FLOW_ID
+		,	A.REQ_SIGN_ORD
 	    ,	TO_CHAR(A.REG_DTM, 'YYYY-MM-DD HH24:MI:SS') AS REG_DTM
 	    ,	TO_CHAR(A.REG_DTM, 'YYYY-MM-DD') AS REG_DTM_DAY
 	    ,	A.REG_USR_ID
@@ -986,12 +1031,36 @@
 		    <isNotEmpty property="reqProType">
 		    	,	A.REQ_PRO_TYPE = #reqProType#
 		    </isNotEmpty>
-		    	,	REQ_ST_DTM			= TO_DATE(REPLACE(#reqStDtm#, '-'), 'YYYYMMDD HH24:MI')
-			    ,	REQ_ED_DTM			= TO_DATE(REPLACE(#reqEdDtm#, '-'), 'YYYYMMDD HH24:MI')
-			    ,	REQ_ST_DU_DTM		= TO_DATE(REPLACE(#reqStDuDtm#, '-'), 'YYYYMMDD')
-			    ,	REQ_ED_DU_DTM		= TO_DATE(REPLACE(#reqEdDuDtm#, '-') || '23:59', 'YYYYMMDDHH24:MI')
+		    <isNotEmpty property="reqSignCd">
+		    	,	A.REQ_SIGN_CD = #reqSignCd#
+		    </isNotEmpty>
+		    <isNotEmpty property="processId">
 		    	,	A.PROCESS_ID = #processId#
+		    </isNotEmpty>
+		    <isNotEmpty property="flowId">
 		    	,	A.FLOW_ID = #flowId#
+		    </isNotEmpty>
+		    <isNotEmpty property="reqSignProcessId">
+		    	,	A.REQ_SIGN_PROCESS_ID = #reqSignProcessId#
+		    </isNotEmpty>
+		    <isNotEmpty property="reqSignFlowId">
+		    	,	A.REQ_SIGN_FLOW_ID = #reqSignFlowId#
+		    </isNotEmpty>
+		    <isNotEmpty property="reqSignOrd">
+		    	,	A.REQ_SIGN_ORD = #reqSignOrd#
+		    </isNotEmpty>
+		    <isNotEmpty property="reqStDtm">
+		    	,	A.REQ_ST_DTM = TO_DATE(REPLACE(#reqStDtm#, '-'), 'YYYYMMDD HH24:MI')
+		    </isNotEmpty>
+		    <isNotEmpty property="reqEdDtm">
+		    	,	A.REQ_ED_DTM = TO_DATE(REPLACE(#reqEdDtm#, '-'), 'YYYYMMDD HH24:MI')
+		    </isNotEmpty>
+		    <isNotEmpty property="reqStDuDtm">
+		    	,	A.REQ_ST_DU_DTM = TO_DATE(REPLACE(#reqStDuDtm#, '-'), 'YYYYMMDD')
+		    </isNotEmpty>
+		    <isNotEmpty property="reqEdDuDtm">
+		    	,	A.REQ_ED_DU_DTM = TO_DATE(REPLACE(#reqEdDuDtm#, '-') || '23:59', 'YYYYMMDDHH24:MI')
+		    </isNotEmpty>
 		WHERE	1=1
 		AND		A.PRJ_ID = #prjId#
 		AND		A.REQ_ID = #reqId#
@@ -1253,4 +1322,5 @@
 				AND A.FLOW_START_CD		= '01'
 		]]>
 	</select>
+	
 </sqlMap>

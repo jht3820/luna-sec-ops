@@ -411,14 +411,14 @@ var OSLBad1002Popup = function () {
 				$("#badTagOption").removeClass("kt-hide");
 				
           		
-           	   $("#tagWriter").on("propertychange paste input", function (e) {
+           	   $("#tagWriter").on("propertychange change keyup paste input", function (e) {
            	        var self = $(this);
       	            
        	            var tagValue = self.val().replace(/#/g,"");
            	        self.val(tagValue);
            	        
            	        
-           	        if (e.key == "Enter" || e.keyCode == 32) {
+           	        if ( e.keyCode == 13 || e.keyCode == 32) {
            	            
            	            if (tagValue != "") {
            	                
@@ -528,7 +528,7 @@ var OSLBad1002Popup = function () {
    				$.osl.layerPopupClose();
    				
 	   			
-   				$("button[data-datatable-id=bad1000BadTable][data-datatable-action=select]").click();
+   				OSLBad1000Popup.reload();
 			}
 		});
 		

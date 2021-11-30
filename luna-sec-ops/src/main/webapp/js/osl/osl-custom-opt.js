@@ -39,6 +39,10 @@ var OSLCoreCustomOptionSetting = function () {
 				
 				"delAt": false,
 				
+				"updAt": false,
+				
+				"badgeAt": false,
+				
 				"readOnly": false,
 				
 				"actionFn":{},	
@@ -266,17 +270,40 @@ var OSLCoreCustomOptionSetting = function () {
 					
 				}
 				var delBtn = "";
+				var updBtn = "";
+				var optBadge = "";
+				var badgeColor = "";
 				
 				
 				if(config.delAt){
 					delBtn = "<button type='button' class='osl-uppy__right close itemDelete' data-item-id='"+map.itemId+"'><i class='fa fa-window-close'></i></button>";
+				}
+				if(config.updAt){
+					updBtn = "<button type='button' class='osl-uppy__right close kt-margin-r-5 itemUpdateBtn' data-item-id='"+map.itemId+"'><i class='fa fa-pen-square'></i></button>";
+				}
+				if(config.badgeAt){
+					if(map.itemRequestCd == '01'){
+						badgeColor = 'badge-info';
+					}else{
+						badgeColor = "osl-badge-lightgray";
+					}
+					optBadge += "<div class='badge "+badgeColor+" d-inline-block kt-margin-l-5 osl-basic-item-badge itemBadgeBtn' data-item-id='"+map.itemId+"' data-target-nm='itemRequestCd'>요청</div>";
+
+					if(map.itemAcceptCd == '01'){
+						badgeColor = 'badge-info';
+					}else{
+						badgeColor = "osl-badge-lightgray";
+					}
+					optBadge += "<div class='badge "+badgeColor+" d-inline-block kt-margin-l-5 osl-basic-item-badge itemBadgeBtn' data-item-id='"+map.itemId+"' data-target-nm='itemAcceptCd'>접수</div>";
 				}
 				
 				var optCompleData =
 							'<div class="'+optionPcWidthSize+' '+optionTabletWidthSize+' '+optionMobileWidthSize+' basicItemDiv">'
 							+'	<div class="form-group">'
 							+		optContentLabel
+							+		optBadge
 							+		delBtn
+							+		updBtn
 							+		optContentData
 							+'	</div>'
 							+'</div>';
@@ -302,6 +329,20 @@ var OSLCoreCustomOptionSetting = function () {
 					config.actionFn.delete($(this));
 				}else{
 					$(this).parents(".basicItemDiv:first").remove();
+				}
+			});
+			
+			$(".itemBadgeBtn").off();
+			$(".itemBadgeBtn").click(function(){
+				if(config.actionFn.hasOwnProperty("update")){
+					config.actionFn.update($(this), "01");
+				}
+			});
+			
+			$(".itemUpdateBtn").off();
+			$(".itemUpdateBtn").click(function(){
+				if(config.actionFn.hasOwnProperty("updateBtn")){
+					config.actionFn.updateBtn($(this));
 				}
 			});
 			
@@ -363,6 +404,14 @@ var OSLCoreCustomOptionSetting = function () {
 			if(!$.osl.isNull(commonPopup_charger)){
 				
 				$.each(commonPopup_charger,function(idx, map){
+
+			    	
+			    	$("#"+map+"Nm").keypress(function(e){
+			    		if (e.which === 13){
+			    			$("#"+map+"Btn").click();
+						}
+			    	});
+			    	
 					$("#"+map+"Btn").click(function(){
 			    		var data = {
 			    				usrNm : $("#"+map+"Nm").val()
@@ -456,6 +505,12 @@ var OSLCoreCustomOptionSetting = function () {
 			if(!$.osl.isNull(commonPopup_dept)){
 				
 				$.each(commonPopup_dept,function(idx, map){
+			    	
+			    	$("#"+map+"Nm").keypress(function(e){
+			    		if (e.which === 13){
+			    			$("#"+map+"Btn").click();
+						}
+			    	});
 					$("#"+map+"Btn").click(function(){
 			    		var searchDeptNm = $.trim($("#"+map+"Nm").val());
 			    		if($.osl.isNull(searchDeptNm)){

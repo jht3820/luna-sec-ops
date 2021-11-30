@@ -23,7 +23,6 @@ import egovframework.com.cmm.service.EgovProperties;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
-import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.service.Dpl1000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9000.service.Stm9000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9100.service.Stm9100Service;
 import kr.opensoftlab.sdf.jenkins.JenkinsClient;
@@ -60,8 +59,8 @@ public class Stm9000Controller {
 	private Stm9100Service stm9100Service;
 
     
-    @Resource(name = "dpl1000Service")
-    private Dpl1000Service dpl1000Service;
+    
+    
 
 	@Resource(name = "jenkinsClient")
 	private JenkinsClient jenkinsClient;
@@ -112,7 +111,7 @@ public class Stm9000Controller {
 				
 				String buildUrl = jenUrl+"/api/json";
 				
-				String buildContent = jenkinsClient.excuteHttpClientJenkins(buildUrl);
+				String buildContent = jenkinsClient.excuteHttpClientJenkins2(buildUrl);
 				Map jenMap = jenkinsClient.getJenkinsParser(buildContent);
 				
 				model.addAttribute("jenMap", jenMap);
@@ -308,7 +307,7 @@ public class Stm9000Controller {
 				String content = "";
 				
 				
-				content = jenkinsClient.excuteHttpClientJenkins(url);
+				content = jenkinsClient.excuteHttpClientJenkins2(url);
 	
 				jenkinsClient.getJenkinsParser(content);
 			}
@@ -457,7 +456,7 @@ public class Stm9000Controller {
 			String content = "";
 
 			
-			content = jenkinsClient.excuteHttpClientJenkins(url);
+			content = jenkinsClient.excuteHttpClientJenkins2(url);
 			
 			jenkinsClient.getJenkinsParser(content);
 			
@@ -547,7 +546,7 @@ public class Stm9000Controller {
 			String content = "";
 
 			
-			content = jenkinsClient.excuteHttpClientJenkins(url);
+			content = jenkinsClient.excuteHttpClientJenkins2(url);
 
 			Map jenkinsMap = jenkinsClient.getJenkinsParser(content);
 			jenkinsMap.put("jenId", jenId);
@@ -645,7 +644,7 @@ public class Stm9000Controller {
 			String url =   (String)paramMap.get("jenUrl")+"/api/json";
 			String content = "";
 
-			content = jenkinsClient.excuteHttpClientJenkins(url);
+			content = jenkinsClient.excuteHttpClientJenkins2(url);
 
 			Map jenkinsMap= jenkinsClient.getJenkinsParser(content);
 			List jobList =  (List)jenkinsMap.get("jobs");

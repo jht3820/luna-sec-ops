@@ -106,5 +106,11 @@ public class Req3000DAO extends ComOslitsAbstractDAO {
 		delete("req3000DAO.deleteReq3000ReqGrp", infoMap);
 	}
 	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectReq3000ReqIsInReqGrp(List<String> reqIdList) {
+		return (List<Map>) list("req3000DAO.selectReq3000ReqIsInReqGrp", reqIdList);
+	}
+	
 
 }

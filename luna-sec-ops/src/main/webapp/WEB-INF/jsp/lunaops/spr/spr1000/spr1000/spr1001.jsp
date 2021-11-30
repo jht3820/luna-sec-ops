@@ -277,6 +277,7 @@ var OSLSpr1001Popup = function () {
 			
 			$("#sprNm").data("original-title", paramSprNm);
 			$("#sprDesc").data("original-title", paramSprDesc);
+			
 		
 		$.osl.datatable.setting("sprDetailTable",{
 			data: {
@@ -284,7 +285,8 @@ var OSLSpr1001Popup = function () {
 					read: {
 						url: "/spr/spr1000/spr1000/selectSpr1000SprReqListAjax.do",
 						params:{
-							sprId: paramSprId
+							sprId: paramSprId,
+							sprType: paramSprTypeCd
 						}
 					}
 				},
@@ -337,7 +339,7 @@ var OSLSpr1001Popup = function () {
 						var gap = new Date() - new Date(row.reqStDtm);
 						if(row.reqProType =='01'){
 							return "-";
-							
+						
 						}else if(gap < 0){
 							return '0 시간';
 						
@@ -354,6 +356,7 @@ var OSLSpr1001Popup = function () {
 						else if(row.reqProType == '04'){
 							return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
 						}
+						
 						return $.osl.escapeHtml(String(Math.trunc(row.notEndTimeRequired))) +" 시간";
 					},
 				},
@@ -380,8 +383,6 @@ var OSLSpr1001Popup = function () {
 	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
 	 				}
 	 				
-	 				
-	 				
 	 				selectSprInfoStat();
 	 				
 	 				
@@ -396,7 +397,7 @@ var OSLSpr1001Popup = function () {
 	var selectSprInfoStat = function(){
  		
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"false"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"false"},{sprId: paramSprId,sprType: paramSprTypeCd});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -438,7 +439,7 @@ var OSLSpr1001Popup = function () {
  	
  	var drawAllChart = function(){
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: paramSprId,sprType: paramSprTypeCd});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -683,6 +684,7 @@ var OSLSpr1001Popup = function () {
 					 data: paramSprId,
 					 totalSprPoint: totalSprPoint,
 					 endSprPoint: endSprPoint,
+					 sprType: paramSprTypeCd,
 					 
 					 key: {
 						 key1: "sprPoint",

@@ -5,49 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 
 <div class="kt-portlet kt-portlet--mobile">
-	<!-- 카드형, 그리드형 보기 부분은 현재 주석처리
-	<div class="kt-portlet__head kt-portlet__head--lg">
-		<div class="kt-portlet__head-label">
-			<h4 class="kt-font-boldest kt-font-brand">
-				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
-			</h4>
-		</div>	
-		<div class="kt-portlet__head-toolbar">
-			<div class="kt-portlet__head-wrapper">
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type active" title="데이터 카드 형식으로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="6" data-view-type="01">
-						<i class="fa fa-table osl-padding-r0"></i>
-					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air btn-view-type" title="데이터 테이블 형식으로 보기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="7" data-view-type="02">
-						<i class="fa fa-list osl-padding-r0"></i>
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block ">
-		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
-			<div class="osl-datatable-search" data-datatable-id="dpl1000Table"></div>
-		</div>
-		<div class="col-lg-9 col-md-12 col-sm-12 text-right kt-padding-r-0">
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="select" title="배포 계획 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
-				<i class="fa fa-list"></i><span>조회</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="insert" title="배포 계획  등록" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insert" tabindex="2">
-				<i class="fa fa-plus"></i><span>등록</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="update" title="배포 계획  수정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="3">
-				<i class="fa fa-edit"></i><span>수정</span>
-			</button>
-			<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="dpl1000Table" data-datatable-action="delete" title="배포 계획  삭제" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="delete" tabindex="4">
-				<i class="fa fa-trash-alt"></i><span>삭제</span>
-			</button>
-		</div>
-	</div>
-	<div id="dpl1000CardTable"></div>
-	<div class="kt_datatable osl-datatable-footer__divide" id="dpl1000Table"></div>
-	 -->
-	 
+	
 	
 	<div class="kt-portlet__head kt-portlet__head--lg">
 		<div class="kt-portlet__head-label">
@@ -140,9 +98,6 @@ var OSLDpl2000Popup = function () {
 					}
 				},
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"dblClick": true, 
 				"update":false,
@@ -161,7 +116,8 @@ var OSLDpl2000Popup = function () {
 						};
 					var options = {
 							idKey: datatableId +"_"+ rowData.dplId,
-							modalTitle: "["+rowData.dplNm+"] 상세 정보",
+							
+							modalTitle: $.osl.lang("dpl2000.modal.title.dplDetail",rowData.dplNm),
 							autoHeight: false,
 							modalSize: 'xl',
 								closeConfirm: true,

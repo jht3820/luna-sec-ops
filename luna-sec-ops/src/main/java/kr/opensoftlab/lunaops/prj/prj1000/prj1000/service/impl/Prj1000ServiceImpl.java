@@ -411,6 +411,24 @@ public class Prj1000ServiceImpl extends EgovAbstractServiceImpl implements Prj10
 	    
 	    
 	    
+	    
+	    
+		String docFormConfFileId = idgenService.getNextStringId();
+		paramMap.put("docFormConfFileId", docFormConfFileId);
+		
+		
+		String docFormFileId = idgenService.getNextStringId();
+		paramMap.put("docFormFileId", docFormFileId);
+		
+		
+		String docAtchFileId = idgenService.getNextStringId();
+		paramMap.put("docAtchFileId", docAtchFileId);
+		
+		
+		String docWaitFileId = idgenService.getNextStringId();
+		paramMap.put("docWaitFileId", docWaitFileId);
+	    
+	    
 	    paramMap.put("docNm", prjNm);
 	    prj3000DAO.insertPrj3000RootMenuInfo(paramMap);
 	    

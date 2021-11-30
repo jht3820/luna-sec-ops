@@ -6,7 +6,7 @@
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId }">
 	<input type="hidden" name="templateId" id="templateId" value="${param.paramTemplateId }">
 	<input type="hidden" name="itemId" id="itemId" value="${param.paramItemId }">
-	<input type="hidden" id="callPage" name="callPage" val="${param.callPage}">
+	<input type="hidden" id="callPage" name="callPage" value="${param.callPage}">
 	<div class="kt-portlet">
 		<div class="kt-portlet__body">
 			<div class="row">
@@ -90,6 +90,31 @@
 					</div>
 				</div>
 			</div>
+			<div class="row kt-hide prjBasicItemColumn">
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemRequestCd">요청화면</span></label>
+						<div class="form-group kt-margin-b-10">
+							<label class="kt-checkbox kt-checkbox--bold">
+								<input type="checkbox" class="osl-preview-readonly" id="itemRequestCd" name="itemRequestCd" value="01">
+								<span></span>
+							</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemAcceptCd">접수화면</span></label>
+						<div class="form-group kt-margin-b-10">
+							<label class="kt-checkbox kt-checkbox--bold">
+								<input type="checkbox" class="osl-preview-readonly" id="itemAcceptCd" name="itemAcceptCd" value="01">
+								<span></span>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </form>
@@ -134,6 +159,9 @@ var OSLPrj1305Popup = function () {
 	
     
     var documentSetting = function () {
+    	if(callPage == 'OSLPrj1001Popup'){
+    		$(".prjBasicItemColumn").removeClass("kt-hide");
+    	}
     	
     	
     	$("#itemCode").change(function(){
@@ -159,6 +187,38 @@ var OSLPrj1305Popup = function () {
     	if(type == "update"){
     		
     		selectTemplateInfo();
+    	}else if(type == "updateJson"){
+    		var itemObj = $.parseJSON('${param.itemObj}');
+    		
+    		$.osl.setDataFormElem(itemObj,"frPrj1305", ["itemId","itemNm", "itemCode", "itemType", "itemPcRowNum", "itemTabletRowNum", "itemMobileRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemEssentialCd"]);
+			
+			if(itemObj.itemRequestCd == '01'){
+				$("#itemRequestCd").prop("checked",true);
+			}
+			if(itemObj.itemAcceptCd == '01'){
+				$("#itemAcceptCd").prop("checked",true);
+			}
+			
+	    	$("#itemCode").attr("data-osl-value", itemObj.itemCode);
+	    	$("#itemType").attr("data-osl-value", itemObj.itemType);
+	    	$("#itemEssentialCd").attr("data-osl-value", itemObj.itemEssentialCd);
+	    	
+			var commonCodeArr = [
+	 			{mstCd: "FLW00001", useYn: "Y",targetObj: "#itemCode", comboType:"OS"}, 
+	 			{mstCd: "FLW00003", useYn: "Y",targetObj: "#itemType", comboType:"OS"}, 
+	 			
+	 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#itemEssentialCd", comboType:"OS"} 
+			];
+	   	
+			
+			$.osl.getMulticommonCodeDataForm(commonCodeArr , false);
+
+			itemCodeChange();
+			
+			itemTypeChange();
+			
+			
+	    	commonCodeDataSelect(itemObj.itemCommonCode);
     	}else{
     		var commonCodeArr = [
 	 			{mstCd: "FLW00001", useYn: "Y",targetObj: "#itemCode", comboType:"OS"}, 
@@ -168,9 +228,13 @@ var OSLPrj1305Popup = function () {
 			];
    	
 			
-			$.osl.getMulticommonCodeDataForm(commonCodeArr , true);
+			$.osl.getMulticommonCodeDataForm(commonCodeArr , false);
 			
 	    	commonCodeDataSelect();
+			
+			
+	    	$("#itemCode option[value=03]").remove();
+	    	$("#itemCode option[value=05]").remove();
     	}
     	
     	
@@ -259,7 +323,7 @@ var OSLPrj1305Popup = function () {
 			}else{
 				var itemInfo=data.templateInfoMap
 				
-		    	$.osl.setDataFormElem(itemInfo,"frPrj1305", ["itemNm", "itemCode", "itemType", "itemPcRowNum", "itemTabletRowNum", "itemMobileRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemEssentialCd"]);
+		    	$.osl.setDataFormElem(itemInfo, "frPrj1305", ["itemNm", "itemCode", "itemType", "itemPcRowNum", "itemTabletRowNum", "itemMobileRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemEssentialCd"]);
 				
 				
 		    	$("#itemCode").attr("data-osl-value", itemInfo.itemCode);
@@ -304,6 +368,8 @@ var OSLPrj1305Popup = function () {
 			msg = $.osl.lang("prj1302.message.confirm.insert")
 		}else if(type=="update"){
 			msg = $.osl.lang("prj1302.message.confirm.update")
+		}else if(type=="updateJson"){
+			msg = $.osl.lang("prj1302.message.confirm.updateJson")
 		}
 		
 		$.osl.confirm(msg ,null,function(result) {
@@ -315,7 +381,9 @@ var OSLPrj1305Popup = function () {
 	        	$.each(formData, function(idx, map){
 	        		jsonData[map.name] = map.value;
 	        	});
-	        	jsonData.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+"00";
+	        	if(type!="updateJson"){
+	        		jsonData.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+"00";
+	        	}
 	        	
 	        	itemList = [];
 	        	itemList.push(jsonData);

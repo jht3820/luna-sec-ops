@@ -6,7 +6,7 @@
 	<input type="hidden" name="selReqChargerId" id="selReqChargerId"/>
 	<div class="osl-wizard" id="requestAcceptWizard" data-ktwizard-state="step-first">
 		<div class="osl-wizard__nav">
-			<div class="osl-wizard__nav-items osl-wizard__nav-items--clickable">
+			<div class="osl-wizard__nav-items">
 				<div class="osl-wizard__nav-item rounded-top" data-ktwizard-type="step" data-ktwizard-state="current">
 					<div class="osl-wizard-wrapper">
 						<div class="wizard-number">1</div>
@@ -71,7 +71,7 @@
 			<div class="osl-background-around kt-padding-10">
 				<div class="row">
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-						<div class="kt-portlet kt-portlet--mobile">
+						<div class="kt-portlet kt-portlet--mobile" id="newReqList">
 							<div class="kt-portlet__head kt-portlet__head--lg">
 								<div class="kt-portlet__head-label">
 									<h5 class="kt-font-boldest kt-font-brand">
@@ -85,7 +85,9 @@
 										</button>
 									</div>
 									<div class="kt-portlet__head-group">
-										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air osl-dash--all-folding" id="allPortletClose" title="전체 위젯 접기" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+											<i class="fa fa-chevron-down"></i>
+										</a>
 									</div>
 								</div>
 							</div>
@@ -109,65 +111,68 @@
 									</div>
 								</div>
 							</div>
-							<div class="kt-portlet__body">
-								<div class="row">
-									<div class="col-xl-2 kt-align-center">
-										<a href="#" class="kt-media kt-media--xl kt-media--circle">
-											<img type="img" id="usrImgId">
-										</a>
-									</div>
-									<div class="col-xl-4 col-lg-6">
-										<div class="form-group">
-											<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.usrNm">요청자 이름</span></label>
-											<input type="text" class="form-control" placeholder="요청자 이름" name="reqUsrNm" id="reqUsrNm" readonly="readonly">
+							<div class="kt-portlet__body position-relative kt-padding-0" id="selReqInfoPortletBody">
+								<div class="osl-div-cover w-100 h-100">요구사항을 선택해주세요.</div>
+								<div class="kt-padding-20">
+									<div class="row">
+										<div class="col-xl-2 kt-align-center">
+											<a href="#" class="kt-media kt-media--xl kt-media--circle">
+												<img type="img" id="usrImgId">
+											</a>
+										</div>
+										<div class="col-xl-4 col-lg-6">
+											<div class="form-group">
+												<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.usrNm">요청자 이름</span></label>
+												<input type="text" class="form-control" placeholder="요청자 이름" name="reqUsrNm" id="reqUsrNm" readonly="readonly">
+											</div>
+										</div>
+										<div class="col-xl-6 col-lg-6">
+											<div class="form-group">
+												<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
+												<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="reqUsrEmail" readonly="readonly">
+											</div>
 										</div>
 									</div>
-									<div class="col-xl-6 col-lg-6">
-										<div class="form-group">
-											<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.email">요청자 e-mail</span></label>
-											<input type="text" class="form-control" placeholder="요청자 e-mail" name="reqUsrEmail" id="reqUsrEmail" readonly="readonly">
+									<div class="row">
+										<div class="col-xl-6 col-lg-6">
+											<div class="form-group">
+												<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
+												<input type="text" class="form-control" name="reqUsrDeptNm" placeholder="요청자 소속"  id="reqUsrDeptNm" readonly="readonly">
+											</div>
+										</div>
+										<div class="col-xl-6 col-lg-6">
+											<div class="form-group">
+												<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.tel">요청자 연락처</span></label>
+												<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="reqUsrNum" readonly="readonly">
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-xl-6 col-lg-6">
-										<div class="form-group">
-											<label><i class="fa fa-envelope-square kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.deptNm">요청자 소속</span></label>
-											<input type="text" class="form-control" name="reqUsrDeptNm" placeholder="요청자 소속"  id="reqUsrDeptNm" readonly="readonly">
+									<div class="row">
+										<div class="col-xl-6">
+											<div class="form-group">
+												<label for="prjNm"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">프로젝트</span></label>
+												<input type="text" class="form-control" placeholder="프로젝트" name="prjNm" id="prjNm" readonly="readonly">
+											</div>
+										</div>
+										<div class="col-xl-6">
+											<div class="form-group">
+												<label><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDtm">요청 일자</span></label>
+												<input type="date" class="form-control" placeholder="요청일" name="reqDtm" id="reqDtm" readonly="readonly">
+											</div>
 										</div>
 									</div>
-									<div class="col-xl-6 col-lg-6">
-										<div class="form-group">
-											<label><i class="fa fa-phone-square-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.tel">요청자 연락처</span></label>
-											<input type="text" class="form-control" placeholder="요청자 연락처" name="reqUsrNum" id="reqUsrNum" readonly="readonly">
-										</div>
+									<div class="form-group">
+										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">그룹 요구사항 제목</span></label>
+										<input type="text" class="form-control" placeholder="그룹 요구사항 제목" name="reqGrpNm" id="reqGrpNm" autocomplete="off"  readonly="readonly">
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-xl-6">
-										<div class="form-group">
-											<label for="prjNm"><i class="fa fa-project-diagram kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">프로젝트</span></label>
-											<input type="text" class="form-control" placeholder="프로젝트" name="prjNm" id="prjNm" readonly="readonly">
-										</div>
+									<div class="form-group">
+										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">요청 제목</span></label>
+										<input type="text" class="form-control" placeholder="요청 제목" name="reqNm" id="reqNm" autocomplete="off"  readonly="readonly">
 									</div>
-									<div class="col-xl-6">
-										<div class="form-group">
-											<label><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDtm">요청 일자</span></label>
-											<input type="date" class="form-control" placeholder="요청일" name="reqDtm" id="reqDtm" readonly="readonly">
-										</div>
+									<div class="form-group">
+										<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDesc">요청 내용</span></label>
+										<textarea name="reqDesc" id="reqDesc" autocomplete="off" readonly="readonly"></textarea>
 									</div>
-								</div>
-								<div class="form-group">
-									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">그룹 요구사항 제목</span></label>
-									<input type="text" class="form-control" placeholder="그룹 요구사항 제목" name="reqGrpNm" id="reqGrpNm" autocomplete="off"  readonly="readonly">
-								</div>
-								<div class="form-group">
-									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqNm">요청 제목</span></label>
-									<input type="text" class="form-control" placeholder="요청 제목" name="reqNm" id="reqNm" autocomplete="off"  readonly="readonly">
-								</div>
-								<div class="form-group">
-									<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqDesc">요청 내용</span></label>
-									<textarea name="reqDesc" id="reqDesc" autocomplete="off" readonly="readonly"></textarea>
 								</div>
 							</div>
 						</div>
@@ -179,7 +184,7 @@
 			<div class="osl-background-around kt-padding-10">
 				<div class="row">
 					<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-						<div class="kt-portlet kt-portlet--mobile">
+						<div class="kt-portlet kt-portlet--mobile" id="processList">
 							<div class="kt-portlet__head kt-portlet__head--lg">
 								<div class="kt-portlet__head-label">
 									<h5 class="kt-font-boldest kt-font-brand">
@@ -204,7 +209,7 @@
 						</div>
 					</div>
 					<div class="col-xl-9 col-lg-6 col-md-12 col-sm-12">
-						<div class="kt-portlet kt-portlet--mobile">
+						<div class="kt-portlet kt-portlet--mobile" id="processFlowList">
 							<div class="kt-portlet__head kt-portlet__head--lg">
 								<div class="kt-portlet__head-label">
 									<h5 class="kt-font-boldest kt-font-brand">
@@ -247,7 +252,7 @@
 			<div class="osl-background-around kt-padding-10">
 				<div class="row">
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-						<div class="kt-portlet kt-portlet--mobile">
+						<div class="kt-portlet kt-portlet--mobile" id="ReqInfoPrtlet">
 							<div class="kt-portlet__head kt-portlet__head--lg">
 								<div class="kt-portlet__head-label">
 									<h5 class="kt-font-boldest kt-font-brand">
@@ -296,7 +301,7 @@
 						</div>
 					</div>
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-						<div class="kt-portlet kt-portlet--mobile" id="selReqInfoPrtlet">
+						<div class="kt-portlet kt-portlet--mobile" id="newReqInfoPrtlet">
 							<div class="kt-portlet__head kt-portlet__head--lg">
 								<div class="kt-portlet__head-label">
 									<h5 class="kt-font-boldest kt-font-brand">
@@ -370,6 +375,10 @@ var OSLCmm6200Popup = function () {
 	var zoomObj;
 	var currentZoom = 2;
 	
+	
+	var reqChargerSetting = true;
+	
+	
     
     var documentSetting = function () {
     	$("#usrImgId").attr("src",$.osl.user.usrImgUrlVal(""));
@@ -391,6 +400,14 @@ var OSLCmm6200Popup = function () {
 			disabledEditor: false,
 			height:60
     	});
+    	
+    	
+    	new KTPortlet('newReqList', $.osl.lang("portlet"));
+    	new KTPortlet('selReqInfoPrtlet', $.osl.lang("portlet"));
+    	new KTPortlet('processList', $.osl.lang("portlet"));
+    	new KTPortlet('processFlowList', $.osl.lang("portlet"));
+    	new KTPortlet('ReqInfoPrtlet', $.osl.lang("portlet"));
+    	new KTPortlet('newReqInfoPrtlet', $.osl.lang("portlet"));
     	
     	
 		$("#selectBasicItemBtn").click(function(){
@@ -517,6 +534,9 @@ var OSLCmm6200Popup = function () {
 		zoomObj = panzoom(flowChart[0],{
 			maxZoom: 2,
 			minZoom: 0.5,
+			beforeWheel: function(e) {
+		    	return true;
+			}
 		});
 		
 		
@@ -605,7 +625,7 @@ var OSLCmm6200Popup = function () {
 		    		};
 		    		var options = {
 		    				idKey: "cmm6209SubmitBtn",
-							modalTitle: $.osl.lang("req4101.modalTitle.userSearch"),
+							modalTitle: "접수 반려",
 							closeConfirm: true,
 							autoHeight:false,
 							modalSize: "xl",
@@ -696,6 +716,13 @@ var OSLCmm6200Popup = function () {
     					map.itemOrd = itemOrd+idx+1;
     					basicItemInsertList[idx] = map;
     				});
+    			}else{
+    		   		
+    				$.each(basicItemInsertList, function(idx, map){
+    					map.itemOrd = idx+1;
+    					basicItemInsertList[idx] = map;
+    				});
+    				
     			}
     	   		
 				if (result.value) {
@@ -884,7 +911,7 @@ var OSLCmm6200Popup = function () {
 			callback:{
 				ajaxDone: function(evt, list){
 					
-			    	$.osl.showLoadingBar(true, {target: "#selReqInfoPrtlet", message: "요구사항을 선택해주세요."});
+			    	
 				}
 			},
 			rows:{
@@ -898,11 +925,32 @@ var OSLCmm6200Popup = function () {
 			actionFn:{
 				"click": function(rowData, datatableId, type, rowNum, elem){
 					
-			    	$.osl.showLoadingBar(false, {target: "#selReqInfoPrtlet"});
-					
+			    	
+					$('.osl-div-cover').addClass('kt-hide');
 					
 					fnSelRequestInfo(rowData.prjId, rowData.reqId);
 				},
+			},
+			callback:{
+				ajaxDone: function(evt, list){
+					
+					if(reqChargerSetting && !$.osl.isNull(list) && list.length == 1){
+						var reqInfo = list[0];
+						
+						
+						var reqChargerId = reqInfo.reqChargerId;
+						var reqChargerNm = reqInfo.reqChargerNm;
+						
+						
+						if(!$.osl.isNull(reqChargerId)){
+							$("#selReqChargerId").val(reqChargerId);
+							$("#selReqChargerNm").val(reqChargerNm);
+						}
+						
+						
+						reqChargerSetting = false;
+					}
+				}
 			}
 		});
 	};
@@ -918,6 +966,7 @@ var OSLCmm6200Popup = function () {
 						params:{
 							paramPrjId: "",
 							useCd: "01",
+							processConfirmCd: "02",
 							isFlowCnt: true
 						}
 					}
@@ -941,15 +990,10 @@ var OSLCmm6200Popup = function () {
 				 }
 			},
 			rows:{
-				minHeight: 45,
-				clickCheckbox: true
+				minHeight: 45
 			},
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false,
-    				template: function(row){
-    					return row.processId;
-    				}	
-    			},
+				{field: 'processId', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'processNm', title: '프로세스명', textAlign: 'center', width: 100, search: true},
 				{field: 'regDtm', title: '등록일', textAlign: 'center', width: 100, search: true, searchType:"date",
 					template: function (row) {
@@ -1064,7 +1108,7 @@ var OSLCmm6200Popup = function () {
    								flowSignCd: map.flowSignCd,
    								flowSignStopCd: map.flowSignStopCd,
    								flowStartCd: map.flowStartCd,
-   								flowEndCd: map.flowEndCd,
+   								flowMiddleEndCd: map.flowMiddleEndCd,
    								flowWorkCd: map.flowWorkCd,
    								flowRevisionCd: map.flowRevisionCd,
    								flowDplCd: map.flowDplCd,

@@ -1,8 +1,9 @@
-package kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.service;
+package kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.service.impl;
 
 import java.util.List;
 import java.util.Map;
 
+import kr.opensoftlab.lunaops.com.dao.ComOslitsAbstractDAO;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.vo.Dpl1000VO;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.vo.Dpl1300VO;
 import kr.opensoftlab.sdf.excel.ExcelDataListResultHandler;
@@ -10,165 +11,229 @@ import kr.opensoftlab.sdf.jenkins.vo.BuildVO;
 import kr.opensoftlab.sdf.jenkins.vo.ChangePathsVO;
 import kr.opensoftlab.sdf.jenkins.vo.ChangeVO;
 
+import org.springframework.stereotype.Repository;
 
 
-public interface Dpl1000Service {
 
+@Repository("dpl1000DAO")
+public class Dpl1000DAO extends ComOslitsAbstractDAO {
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map>  selectDpl1000DplList(Map paramMap) throws Exception {
+		return  (List<Map>) list("dpl1000DAO.selectDpl1000DplList", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public int  selectDpl1000DplListCnt(Map paramMap) throws Exception {
+		return  (Integer) select("dpl1000DAO.selectDpl1000DplListCnt", paramMap);
+	} 
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public Map selectDpl1000DplInfo(Map map) throws Exception{
+		return (Map) select("dpl1000DAO.selectDpl1000DplInfo", map);
+	} 
+	
+	
+	@SuppressWarnings("rawtypes")
+	public String insertDpl1000DplInfo(Map paramMap) throws Exception{
+		return (String) insert("dpl1000DAO.insertDpl1000DplInfo", paramMap);
+    }
+	
+	
+	@SuppressWarnings("rawtypes")
+	public void updateDpl1000DplInfo(Map paramMap) throws Exception{
+		update("dpl1000DAO.updateDpl1000DplInfo", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public void deleteDpl1000DplInfo(Map paramMap) throws Exception{
+		update("dpl1000DAO.deleteDpl1000DplInfo", paramMap);
+    }
+	
+	
+	@SuppressWarnings("rawtypes")
+	public void insertDpl1300DeployJobInfo(Map paramMap) throws Exception{
+		insert("dpl1000DAO.insertDpl1300DeployJobInfo", paramMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public List selectDpl1300DplJobList(Map inputMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1300DplJobList", inputMap);
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<Map> selectDpl1300DplJobPagingList(Map paramMap) throws Exception {
+		return (List<Map>) list("dpl1000DAO.selectDpl1300DplJobPagingList", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public int selectDpl1300DplJobPagingListCnt(Map paramMap) throws Exception {
+		return (Integer)select("dpl1000DAO.selectDpl1300DplJobPagingListCnt", paramMap);
+	} 
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public List selectDpl1400DplBldNumList(Map paramMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1400DplBldNumList", paramMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public int selectDpl1400DplBldNumListCnt(Map paramMap)  throws Exception{
+		return (Integer) select("dpl1000DAO.selectDpl1400DplBldNumListCnt", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public void deleteDpl1300DplJobList(Map paramMap)  throws Exception{
+		 delete("dpl1000DAO.deleteDpl1300DplJobList", paramMap);
+	}
+	
+		
+	@SuppressWarnings("rawtypes")
+	public String selectDpl1500NewChgId(Map paramMap) throws Exception{
+		return (String)select("dpl1000DAO.selectDpl1500NewChgId", paramMap);
+	}
+	
+		
+	@SuppressWarnings("rawtypes")
+	public String insertDpl1500ModifyHistoryInfo(Map paramMap) throws Exception{
+		return (String)insert("dpl1000DAO.insertDpl1500ModifyHistoryInfo", paramMap);
+	}
+	
+	
+	@SuppressWarnings("rawtypes")
+	public List selectCmm6601SignHistoryList(Map paramMap)throws Exception{
+		return (List) list("dpl1000DAO.selectCmm6601SignHistoryList", paramMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public List selectDpl1000DplAllBldHistoryList(Map paramMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1000DplAllBldHistoryList", paramMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public Map selectDpl1400DplSelBuildInfo(Map map)  throws Exception{
+		return (Map) select("dpl1000DAO.selectDpl1400DplSelBuildInfo", map);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public List selectDpl1000DeployNmList(Map inputMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1000DeployNmList", inputMap);
+	}
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public List selectDpl1000DeployVerNormalList(Map inputMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1000DeployVerNormalList", inputMap);
+	}
+	
+	
+	@SuppressWarnings({"unchecked" })
+	public List<Dpl1000VO> selectDpl1000DeployVerInfoList(Dpl1000VO dpl1000VO)  throws Exception{
+		return (List<Dpl1000VO>) list("dpl1000DAO.selectDpl1000DeployVerInfoList", dpl1000VO);
+	} 
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	public Map selectDpl1000DeployVerInfo(Map map)  throws Exception{
+		return (Map) select("dpl1000DAO.selectDpl1000DeployVerInfo", map);
+	} 
+	
 	
 	@SuppressWarnings({ "rawtypes" })
-	public List<Map> selectDpl1000DplList(Map paramMap) throws Exception;
+	public List selectDpl1300dplJobGridList(Dpl1300VO dpl1300VO)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1300dplJobGridList", dpl1300VO);
+	} 
 	
 	
-	@SuppressWarnings("rawtypes")
-	public int selectDpl1000DplListCnt(Map paramMap) throws Exception;
-	
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	Map selectDpl1000DplInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void insertDpl1000DplInfo(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void updateDpl1000DplInfo(Map paramMap) throws Exception;
-	
-	
-	void deleteDpl1000DplList(Map<String, String> paramMap) throws Exception;
+	public int selectDpl1300dplJobGridListCnt(Dpl1300VO dpl1300VO) throws Exception {
+		return (Integer) select("dpl1000DAO.selectDpl1300dplJobGridListCnt", dpl1300VO);
+	}
 	
 	
 	@SuppressWarnings({"rawtypes" })
-	List selectDpl1300DplJobList(Map paramMap)  throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	List<Map> selectDpl1300DplJobPagingList(Map paramMap) throws Exception;
-	
+	public List selectDpl1000ReqCount(Map inputMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1000ReqCount", inputMap);
+	}
+
 	
 	@SuppressWarnings("rawtypes")
-	int selectDpl1300DplJobPagingListCnt(Map paramMap) throws Exception;
+	public void updateDpl1000DplStsCdInfo(Map paramMap) throws Exception{
+		update("dpl1000DAO.updateDpl1000DplStsCdInfo", paramMap);
+	}
+	
+	
+	public int selectDpl1000ListCnt(Dpl1000VO dpl1000vo) throws Exception {
+		return (Integer) select("dpl1000DAO.selectDpl1000ListCnt", dpl1000vo);
+	}
+	
+	
+	public void  selectDpl1000ExcelList(Dpl1000VO dpl1000vo, ExcelDataListResultHandler resultHandler) throws Exception {
+		listExcelDownSql("dpl1000DAO.selectDpl1000ExcelList", dpl1000vo, resultHandler);
+	}
+
+	@SuppressWarnings({"unchecked" })
+	public List<Dpl1000VO> selectDpl1000BuildInfoList(Dpl1000VO dpl1000VO)  throws Exception{
+		return (List<Dpl1000VO>) list("dpl1000DAO.selectDpl1000BuildInfoList", dpl1000VO);
+	} 
+
+	public int selectDpl1000BuildInfoListCnt(Dpl1000VO dpl1000vo) throws Exception {
+		return (Integer) select("dpl1000DAO.selectDpl1000BuildInfoListCnt", dpl1000vo);
+	}
+
+	
+	
+	public int insertDpl1400DeployJobBuildLogInfo(BuildVO buildVo) throws Exception{
+		return (int) insert("dpl1000DAO.insertDpl1400DeployJobBuildLogInfo", buildVo);
+    }
 	
 	
 	@SuppressWarnings({"rawtypes" })
-	List selectDpl1400DplBldNumList(Map paramMap) throws Exception;
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	int selectDpl1400DplBldNumListCnt(Map paramMap)  throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void deleteDpl1300DplJobList(Map paramMap)  throws Exception;
+	public List selectDpl1000DplHistoryList(Map paramMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1000DplHistoryList", paramMap);
+	}
 	
 		
 	@SuppressWarnings("rawtypes")
-	String selectDpl1500NewChgId(Map paramMap) throws Exception;
+	public List selectDpl1500ModifyHistoryList(Map paramMap) throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1500ModifyHistoryList", paramMap);
+	}
 	
 		
 	@SuppressWarnings("rawtypes")
-	String insertDpl1500ModifyHistoryInfo(Map paramMap) throws Exception;
+	public List selectDpl1000AllDplList(Map paramMap) throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1000AllDplList", paramMap);
+	}
 	
 	
-	@SuppressWarnings("rawtypes")
-	List<Map> selectCmm6601SignHistoryList(Map paramMap) throws Exception;
+	public void insertDpl1600DeployBuildChgLogInfo(ChangeVO changeSetInfo) throws Exception{
+		insert("dpl1000DAO.insertDpl1600DeployBuildChgLogInfo", changeSetInfo);
+	}
 	
-	
-	@SuppressWarnings({"rawtypes" })
-	List selectDpl1000DplAllBldHistoryList(Map paramMap)  throws Exception;
-	
-	
-	
-	
-	@SuppressWarnings("rawtypes")
-	List selectDpl1000DeployNmList(Map inputMap) throws Exception;
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	List selectDpl1000DeployVerNormalList(Map inputMap)  throws Exception;
-	
-	
-	List<Dpl1000VO> selectDpl1000DeployVerInfoList(Dpl1000VO dpl1000VO) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	Map selectDpl1000DeployVerInfo(Map map) throws Exception;
-	
-    
-	@SuppressWarnings("rawtypes")
-	List selectDpl1000ReqCount(Map inputMap) throws Exception;
-	
-	
-	List<Dpl1300VO> selectDpl1300dplJobGridList(Dpl1300VO dpl1300VO)  throws Exception;
-	
-	
-	int selectDpl1300dplJobGridListCnt(Dpl1300VO dpl1300VO) throws Exception;
-	
-	
-	@SuppressWarnings("rawtypes")
-	void updateDpl1000DplStsCdInfo(Map paramMap) throws Exception;
-	
-	
-	int selectDpl1000ListCnt(Dpl1000VO dpl1000VO) throws Exception;
-	
-	
-	
-	void selectDpl1000ExcelList(Dpl1000VO dpl1000vo,ExcelDataListResultHandler resultHandler) throws Exception;
-
-	int selectDpl1000BuildInfoListCnt(Dpl1000VO dpl1000vo) throws Exception;
-
-	List<Dpl1000VO> selectDpl1000BuildInfoList(Dpl1000VO dpl1000vo) throws Exception;
-
+	public void insertDpl1600DeployBuildChgPathLogInfo(ChangePathsVO ChangePathInfo) throws Exception{
+		insert("dpl1000DAO.insertDpl1600DeployBuildChgPathLogInfo", ChangePathInfo);
+	}
 
 	
 	@SuppressWarnings({"rawtypes" })
-	Map selectDpl1400DplJobBuildInfo(Map map)  throws Exception;
+	public List selectDpl1600SvnChangeLogsList(Map paramMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1600SvnChangeLogsList", paramMap);
+	}
 	
 	
 	@SuppressWarnings({"rawtypes" })
-	Map selectDpl1400DplSelBuildInfoAjax(Map map)  throws Exception;
-	
-	
-	int insertDpl1400DeployJobBuildLogInfo(BuildVO buildVo) throws Exception;
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	Map selectDpl1300ToStm9000JobInfo(Map map)  throws Exception;
-	
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	List selectDpl1000DplHistoryList(Map inputMap)  throws Exception;
-	
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	void insertDpl1000DplSignRequestList(Map paramMap)  throws Exception;
-	
-		
-	@SuppressWarnings("rawtypes")
-	void insertDpl1500DplInfoModifyList(Map paramMap) throws Exception;
-	
-		
-	@SuppressWarnings("rawtypes")
-	List selectDpl1500ModifyHistoryList(Map paramMap) throws Exception;
-	
-		
-	@SuppressWarnings("rawtypes")
-	List selectDpl1000AllDplList(Map paramMap) throws Exception;
-	
-
-	
-	void insertDpl1600DeployBuildChgLogInfo(ChangeVO changeSetInfo) throws Exception;
-	
-	void insertDpl1600DeployBuildChgPathLogInfo(ChangePathsVO ChangePathInfo) throws Exception;
-
-	
-	@SuppressWarnings({"rawtypes" })
-	List selectDpl1600SvnChangeLogsList(Map paramMap)  throws Exception;
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	List selectDpl1700SvnChangePathList(Map paramMap)  throws Exception;
+	public List selectDpl1700SvnChangePathList(Map paramMap)  throws Exception{
+		return (List) list("dpl1000DAO.selectDpl1700SvnChangePathList", paramMap);
+	}
 }
