@@ -1905,7 +1905,60 @@ var OSLCoreLangSetting = function () {
 				strgKey : "GIT TOKEN",
 			}
 		},
-		stm8002:{
+		stm8002 :{
+			title :{
+				revision : "리비전 목록",
+				file :"파일 목록",
+				actionTitle : {
+					revisionFile : "상세",
+					repository : "선택",
+				},
+			},
+			label : {
+				revisionNum : "리비전 번호",
+			},
+			revisionFile : {
+				actionTitle : "선택",
+				actionTooltip : {
+					dblClickTooltip : "파일 소스보기",
+					diffTooltip : "파일 비교"
+				},
+				message : {
+					selectOne : "${1}개가 선택되었습니다. </br>한개의 파일만 선택하세요."
+				}
+			},
+			repository:{
+				actionTooltip : {
+					chooseTooltip : "리비전 선택",
+				}
+			},
+			dirTree:{
+				message:{
+					selectRevision : "리비전을 선택하세요.",
+				}
+			},
+			placeholder : {
+				revision : {
+					start : "시작",
+					end : "종료",
+				}
+			},
+			actionBtn:{
+				selectTooltip :"리비전 조회",
+				selectFileTooltip : "리비전 파일 목록 조회",
+				chooseTooltip : "리비전 선택 완료",
+				chooseBtn : "선택 완료",
+				detailTooltip : "소스보기",
+				detailBtn : "상세",
+				diffTooltip : "파일 비교",
+				diffBtn : "DIFF"
+			},
+			message :{
+				selectRevision : "리비전을 선택하세요.",
+				auth: "접근 권한이 없습니다."
+			}
+		},
+		stm8003:{
 			title : "파일 리비전 목록",
 			revisionNum : "리비전 번호",
 			actionBtn : {
@@ -2428,7 +2481,9 @@ var OSLCoreLangSetting = function () {
 		bad1006:{
 			button:{
 				card : "카드형",
-				grid : "그리드형"
+				grid : "그리드형",
+				folding : "접기",
+				unfolding : "펼치기"
 			},
 			actionBtn:{
 				title: "수정 / 삭제 / 상세",
@@ -2442,7 +2497,7 @@ var OSLCoreLangSetting = function () {
 				insertTooltip : "게시글 추가",
 				updateTooltip : "게시글 수정",
 				deleteTooltip : "게시글 삭제",
-				dblTooltip : "게시글 상세"
+				dblClickTooltip : "게시글 상세"
 			},
 			notAuthority : {
 				basic : "해당 게시글에 대한 권한이 없습니다.",
@@ -2929,7 +2984,17 @@ var OSLCoreLangSetting = function () {
 				strgTxt : "Repository Description",
 				strgRepUrl : "Repository URL",
 			},
-			stm8002FileTable:{
+			stm8002RevisionFileTable:{
+				type : "Type",
+				name : "File Name",
+			},
+			stm8002RepTable:{
+				revision : "Revision",
+				comment : "Commit Log",
+				author : "Commiter ID",
+				logDate : "Date"
+			},
+			stm8004FileTable:{
 				revision : "Revision",
 				comment : "Commit Log",
 				author : "Commiter ID",
@@ -4410,7 +4475,60 @@ var OSLCoreLangSetting = function () {
 				strgKey : "GIT TOKEN",
 			}
 		},
-		stm8002:{
+		stm8002 :{
+			title :{
+				revision : "Revision List",
+				file :"File List",
+				actionTitle : {
+					revisionFile : "Detail",
+					repository : "Select",
+				},
+			},
+			label : {
+				revisionNum : "Revision Number",
+			},
+			revisionFile : {
+				actionTitle : "Select",
+				actionTooltip : {
+					dblClickTooltip : "Code View",
+					diffTooltip : "Code Diff"
+				},
+				message : {
+					selectOne : "Please, select only 1 file. </br>${1} file have been selected."
+				}
+			},
+			repository:{
+				actionTooltip : {
+					"chooseTooltip" : "Select Revision",
+				}
+			},
+			dirTree:{
+				message:{
+					selectRevision : "Please, select revision.",
+				}
+			},
+			placeholder : {
+				revision : {
+					start : "Start",
+					end : "End",
+				}
+			},
+			actionBtn:{
+				selectTooltip :"Select Revision",
+				selectFileTooltip : "Select Revision File List",
+				chooseTooltip : "Revision Selection Complete",
+				chooseBtn : "Complete",
+				detailTooltip : "Code View",
+				detailBtn : "View",
+				diffTooltip : "Code Diff",
+				diffBtn : "DIFF"
+			},
+			message :{
+				selectRevision : "Please, select revision.",
+				auth : "You don't have access rights."
+			}
+		},
+		stm8003:{
 			title : "File Revision List",
 			revisionNum : "Revision Number",
 			actionBtn : {
