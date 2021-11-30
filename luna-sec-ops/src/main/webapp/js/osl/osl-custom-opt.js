@@ -195,6 +195,22 @@ var OSLCoreCustomOptionSetting = function () {
 						
 						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 						optContentData = '<input type="text" class="form-control '+previewReadOnlyClass+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
+					}else if(map.itemType == "06"){ 
+						if(!optReadOnlyChk){
+							optReadOnly = optAddClass = '';
+						}
+						
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentData = '<input type="number" class="form-control basicItemNumber" placeholder="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" min="'+map.itemMinVal+'" max="'+map.itemMaxVal+'" maxlength="11" value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
+					}else if(map.itemType == "07"){ 
+						if(!optReadOnlyChk){
+							
+							
+							
+						}
+						
+						
+						
 					}
 				}else if(map.itemCode == "02"){ 
 					if(optReadOnlyChk){
@@ -321,6 +337,9 @@ var OSLCoreCustomOptionSetting = function () {
 					$("#"+htmlTargetObj).append(rtnStrValue);
 				}
 			}
+			
+			
+			$.osl.util.initInputNumber(".basicItemNumber");
 			
 			
 			$(".itemDelete").off();

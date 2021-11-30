@@ -29,6 +29,8 @@
 		<result property="itemEcceptCd"			column="ITEM_ACCEPT_CD"/>
 		<result property="itemEcceptNm"			column="ITEM_ACCEPT_NM"/>
 		<result property="itemOrd"				column="ITEM_ORD"/>
+		<result property="itemMinVal"			column="ITEM_MIN_VAL"/>
+		<result property="itemMaxVal"			column="ITEM_MAX_VAL"/>
 		<result property="useCd"				column="USE_CD"/>
 		<result property="useNm"				column="USE_NM"/>
 		<result property="regDtm"				column="REG_DTM"/>
@@ -63,6 +65,8 @@
 		<result property="itemEcceptCd"			column="ITEM_ACCEPT_CD"/>
 		<result property="itemEcceptNm"			column="ITEM_ACCEPT_NM"/>
 		<result property="itemOrd"				column="ITEM_ORD"/>
+		<result property="itemMinVal"			column="ITEM_MIN_VAL"/>
+		<result property="itemMaxVal"			column="ITEM_MAX_VAL"/>
 		<result property="useCd"				column="USE_CD"/>
 		<result property="useNm"				column="USE_NM"/>
 		<result property="regDtm"				column="REG_DTM"/>
@@ -94,6 +98,8 @@
 		<result property="itemEcceptCd"			column="ITEM_ACCEPT_CD"/>
 		<result property="itemEcceptNm"			column="ITEM_ACCEPT_NM"/>
 		<result property="itemOrd"				column="ITEM_ORD"/>
+		<result property="itemMinVal"			column="ITEM_MIN_VAL"/>
+		<result property="itemMaxVal"			column="ITEM_MAX_VAL"/>
 		<result property="useCd"				column="USE_CD"/>
 		<result property="useNm"				column="USE_NM"/>
 		<result property="regDtm"				column="REG_DTM"/>
@@ -127,6 +133,8 @@
 			       , A.ITEM_ACCEPT_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ACCEPT_CD, '1') AS ITEM_ACCEPT_NM
 			       , A.ITEM_ORD
+			       , A.ITEM_MIN_VAL
+			       , A.ITEM_MAX_VAL
 			       , A.USE_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.USE_CD, '1') AS USE_NM
 			       , A.REG_DTM
@@ -195,6 +203,8 @@
 			       , A.ITEM_ACCEPT_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ACCEPT_CD, '1') AS ITEM_ACCEPT_NM
 			       , A.ITEM_ORD
+			       , A.ITEM_MIN_VAL
+			       , A.ITEM_MAX_VAL
 			       , A.USE_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.USE_CD, '1') AS USE_NM
 			       , A.REG_DTM
@@ -275,6 +285,8 @@
 			       , A.ITEM_ACCEPT_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ACCEPT_CD, '1') AS ITEM_ACCEPT_NM
 			       , A.ITEM_ORD
+			       , A.ITEM_MIN_VAL
+			       , A.ITEM_MAX_VAL
 			       , A.USE_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.USE_CD, '1') AS USE_NM
 			       , A.REG_DTM
@@ -510,6 +522,7 @@
             ,	ITEM_PC_ROW_NUM		,	ITEM_TABLET_ROW_NUM	,	ITEM_MOBILE_ROW_NUM
             ,	ITEM_TYPE			,	ITEM_LENGTH			,	ITEM_ESSENTIAL_CD
             ,	ITEM_ACCEPT_CD		,	ITEM_ORD			,	USE_CD
+            , 	ITEM_MIN_VAL		, 	ITEM_MAX_VAL
             ,	REG_DTM				,	REG_USR_ID  		,	REG_USR_IP
             ,	MODIFY_DTM			,	MODIFY_USR_ID		,	MODIFY_USR_IP
         )VALUES(
@@ -518,6 +531,7 @@
             ,	#itemPcRowNum#		,	#itemTabletRowNum#		,	#itemMobileRowNum#
             ,	#itemType#	 		,	NVL(#itemLength#,255)	,	#itemEssentialCd#
             ,	#itemAcceptCd# 		,	NVL(#itemOrd#,0)		,	'01'
+            ,	#itemMinVal#		, 	#itemMaxVal#
             ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
             ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
         )		
@@ -542,6 +556,8 @@
             ,	ITEM_ESSENTIAL_CD   = #itemEssentialCd#
             ,	ITEM_ACCEPT_CD 	 	= #itemAcceptCd#
             ,	ITEM_ORD   			= #itemOrd#
+            ,	ITEM_MIN_VAL		= #itemMinVal#
+            ,	ITEM_MAX_VAL		= #itemMaxVal#
             ,	MODIFY_DTM      	= sysdate
             ,	MODIFY_USR_ID   	= #modifyusrid#
             ,	MODIFY_USR_IP   	= #modifyusrip#
@@ -682,6 +698,7 @@
             ,	ITEM_PC_ROW_NUM		,	ITEM_TABLET_ROW_NUM		,	ITEM_MOBILE_ROW_NUM
             ,	ITEM_TYPE			,	ITEM_LENGTH				,	ITEM_ESSENTIAL_CD
             ,	ITEM_ACCEPT_CD		,	ITEM_ORD				,	USE_CD
+            , 	ITEM_MIN_VAL		, 	ITEM_MAX_VAL
             ,	REG_DTM				,	REG_USR_ID  			,	REG_USR_IP
             ,	MODIFY_DTM			,	MODIFY_USR_ID			,	MODIFY_USR_IP
         )VALUES(
@@ -691,6 +708,7 @@
             ,	#itemPcRowNum#		,	#itemTabletRowNum#		,	#itemMobileRowNum#
             ,	#itemType#	 		,	NVL(#itemLength#,255)	,	#itemEssentialCd#
             ,	#itemAcceptCd# 		,	NVL(#itemOrd#,0)		,	'01'
+            ,	#itemMinVal#		, 	#itemMaxVal#
             ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
             ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
         )		
@@ -735,6 +753,8 @@
             ,	ITEM_ESSENTIAL_CD   = #itemEssentialCd#
             ,	ITEM_ACCEPT_CD 	 	= #itemAcceptCd#
             ,	ITEM_ORD   			= #itemOrd#
+            ,	ITEM_MIN_VAL		= #itemMinVal#
+            ,	ITEM_MAX_VAL		= #itemMaxVal#
             ,	MODIFY_DTM      	= sysdate
             ,	MODIFY_USR_ID   	= #modifyusrid#
             ,	MODIFY_USR_IP   	= #modifyusrip#

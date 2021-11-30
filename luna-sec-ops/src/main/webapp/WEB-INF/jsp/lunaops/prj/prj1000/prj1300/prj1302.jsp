@@ -89,6 +89,21 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="row itemTypeNumDiv kt-hide">
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemMinVal">숫자 최소값</span></label>
+						<input type="number" class="form-control itemTypeNum" placeholder="숫자 최소값" name="itemMinVal" id="itemMinVal" value="1" opttype="-1" min="-9999999999" max="99999999999" maxlength="11" required>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemMaxVal">숫자 최대값</span></label>
+						<input type="number" class="form-control itemTypeNum" placeholder="숫자 최대값" name="itemMaxVal" id="itemMaxVal" value="1" opttype="-1" min="-9999999999" max="99999999999" maxlength="11" required>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </form>
@@ -204,12 +219,22 @@ var OSLPrj1302Popup = function () {
     var itemTypeChange = function(){
     	var selType = $("#itemType").val();
 		if(selType=='01'){
+			$(".itemTypeNumDiv").addClass("kt-hide");
+			$(".itemTypeNum").prop("disabled",true);
 			$("#itemLength").prop("disabled",false);
 			$("#itemLength").val("255");
 		}else if(selType=='02'){
+			$(".itemTypeNumDiv").addClass("kt-hide");
+			$(".itemTypeNum").prop("disabled",true);
 			$("#itemLength").prop("disabled",false);
 			$("#itemLength").val("4000");
+		}else if(selType=='06'){
+			$(".itemTypeNumDiv").removeClass("kt-hide");
+			$("#itemLength").prop("disabled",true);
+			$(".itemTypeNum").prop("disabled",false);
 		}else{
+			$(".itemTypeNumDiv").addClass("kt-hide");
+			$(".itemTypeNum").prop("disabled",true);
 			$("#itemLength").prop("disabled",true);
 			$("#itemLength").val("");
 		}
@@ -260,7 +285,7 @@ var OSLPrj1302Popup = function () {
 			}else{
 				var itemInfo=data.templateInfoMap
 				// 조직 정보 세팅
-		    	$.osl.setDataFormElem(itemInfo,"frPrj1302", ["itemNm", "itemCode", "itemType", "itemPcRowNum", "itemTabletRowNum", "itemMobileRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemEssentialCd"]);
+		    	$.osl.setDataFormElem(itemInfo,"frPrj1302", ["itemNm", "itemCode", "itemType", "itemPcRowNum", "itemTabletRowNum", "itemMobileRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemEssentialCd", "itemMinVal", "itemMaxVal"]);
 				
 				
 		    	$("#itemCode").attr("data-osl-value", itemInfo.itemCode);
