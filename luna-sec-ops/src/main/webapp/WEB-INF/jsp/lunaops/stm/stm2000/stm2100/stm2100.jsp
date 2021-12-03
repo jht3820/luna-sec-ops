@@ -17,10 +17,10 @@
 					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm2100StmTable" data-datatable-action="update" title="게시판 속성 수정" data-title-lang-cd="stm2100.actionBtn.updateTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="update" tabindex="2">
-					<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
+					<i class="fas fa-tools"></i><span data-lang-cd="datatable.button.update">수정</span>
 				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm2100StmTable" data-datatable-action="detail" title="게시글 관리" data-title-lang-cd="stm2100.actionBtn.managmentTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="detail" tabindex="3">
-					<i class="fa flaticon-settings-1"></i><span data-lang-cd="stm2100.button.detail">관리</span>
+					<i class="fa fa-edit"></i><span data-lang-cd="stm2100.button.detail">관리</span>
 				</button>
 				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm2100StmTable" data-datatable-action="summery" title="게시판 통계" data-title-lang-cd="stm2100.actionBtn.summeryTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="summery" tabindex="4">
 					<i class="fa flaticon-information"></i><span data-lang-cd="stm2100.button.summery">통계</span>
@@ -39,7 +39,7 @@
 		</div>
 	</div>
 	<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">
-		<div class="col-lg-3 col-md-6 col-sm-12 kt-padding-r-0">
+		<div class="col-lg-7 col-md-10 col-sm-10 col-10 kt-padding-r-0">
 			<div class="osl-datatable-search kt-margin-b-0" data-datatable-id="stm2100StmTable"></div>
 		</div>
 	</div>
@@ -198,7 +198,8 @@
 					 "summery" : "",
 				 },
 				 actionBtnIcon:{
-					 "detail": "fa flaticon-settings-1",
+					 "update" : "fa-tools",
+					 "detail": "fa fa-edit",
 					 "summery" : "fa flaticon-information",
 				 }
 			 },
@@ -274,10 +275,17 @@
 						}
 	 				});
 
+	 				
+	 				$(".bad-charger-group-list").click(function(){
+	 					
+	 					return false;
+	 				});
+	 				
 					
 					$(".bad-charger-list").click(function(){
 						$.osl.user.usrInfoPopup($(this).data("user"));
 					});
+					
 					
 					$(".other-bad-charger-list").click(function(){
 						
@@ -390,7 +398,7 @@
 			 												
 			 												
 				 											if(value.authTypeCd=="01"){
-				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")'><span><i class='fa flaticon2-group kt-font-bold'></i></span></a>";
+				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle bad-charger-group-list' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")'><span><i class='fa flaticon2-group kt-font-bold'></i></span></a>";
 				 											}else{
 				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle bad-charger-list' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-user='"+value.authTargetId+"'><img src='/cmm/fms/getImage.do?fileSn=0&atchFileId="+value.authTargetImgId+"'></a>";
 				 											}
@@ -410,19 +418,19 @@
 				 						+ "</div>" 
 				 						+ "<div class='position-relative bad-card-body'>"
 				 							+ "<div class='row kt-margin-10 kt-margin-r-25 kt-margin-l-25'>"
-					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
+					 							+ "<div class='col-lg-3 col-md-3 col-sm-6 col-12'>"
 					 								+ "<label class='kt-margin-r-10'><i class='fa flaticon2-layers kt-margin-r-5'></i>"+$.osl.lang("stm2100.field.stmDsTypeNm")+"</label>"
 					 								+ "<span>"+$.osl.escapeHtml(row.stmDsTypeNm)+"</span>"
 					 							+ "</div>"
-					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
+					 							+ "<div class='col-lg-3 col-md-3 col-sm-6 col-12'>"
 					 								+ "<label class='kt-margin-r-10'><i class='fa flaticon2-layers kt-margin-r-5'></i>"+$.osl.lang("stm2100.field.cnt")+"</label>"
 					 								+ "<span>"+$.osl.escapeHtml(row.cnt)+"</span>"
 					 							+ "</div>"
-					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
+					 							+ "<div class='col-lg-3 col-md-3 col-sm-6 col-12'>"
 					 								+ "<label class='kt-margin-r-10'><i class='fa flaticon2-layers kt-margin-r-5'></i>"+$.osl.lang("stm2100.field.badCnt")+"</label>"
 					 								+ "<span>"+$.osl.escapeHtml(String(parseInt(row.cnt) - parseInt(row.delCnt)))+"</span>"
 					 							+ "</div>"
-					 							+ "<div class='col-lg-3 col-md-3 col-sm-3 col-3'>"
+					 							+ "<div class='col-lg-3 col-md-3 col-sm-6 col-12'>"
 					 								+ "<label class='kt-margin-r-10'><i class='fa flaticon2-layers kt-margin-r-5'></i>"+$.osl.lang("stm2100.field.delCnt")+"</label>"
 					 								+ "<span>"+$.osl.escapeHtml(row.delCnt)+"</span>"
 					 							+ "</div>"
@@ -442,7 +450,7 @@
 					 								
 				 									+ "<div class='row kt-margin-t-5 kt-margin-b-5'>"
 				 										
-						 								+"<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+						 								+"<div class='col-lg-6 col-md-6 col-sm-12 col-12'>"
 							 								+ "<div class='kt-padding-5'>"
 							 									+ "<i class='fa flaticon-exclamation-1 kt-margin-r-5'></i>"
 						 										+ "<span data-lang-cd='stm2102.label.notice'>"+$.osl.lang("stm2102.label.notice")+"</span>"
@@ -473,7 +481,7 @@
 						 				}
 					 						resultStr += "</div>"
 							 								
-									 					 + "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+									 					 + "<div class='col-lg-6 col-md-6 col-sm-12 col-12'>"
 							 								+  "<div class='kt-padding-5'>"
 								 									+ "<i class='fa flaticon-chat-1 kt-margin-r-5'></i>"
 							 										+ "<span data-lang-cd='stm2102.label.comment'>"+$.osl.lang("stm2102.label.comment")+"</span>"
@@ -498,14 +506,17 @@
 							 							
 							 							+ "<div class='row kt-margin-t-5 kt-margin-b-5'>"
 							 								
-							 								+ "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+							 								+ "<div class='col-lg-6 col-md-6 col-sm-12 col-12'>"
 								 								+ "<div class='kt-padding-5'>"
 								 									+ "<i class='fa flaticon-edit-1 kt-margin-r-5'></i>"
 							 										+ "<span data-lang-cd='stm2102.label.board'>"+$.osl.lang("stm2102.label.board")+"</span>"
 						 										+  "</div>";
 									 			if(badCntInfo != "N"){
 									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
-																		+ $.osl.lang("stm2102.summery.badAllCntY", badCntInfo.badCntAll , badCntInfo.badCntDel)
+																		+ $.osl.lang("stm2102.summery.badAllCntY.create", badCntInfo.badCntAll)
+																+  "</div>"
+									 							+ "<div class='kt-margin-5 kt-padding-l-20'>"
+																		+ $.osl.lang("stm2102.summery.badAllCntY.delete", badCntInfo.badCntDel)
 																+  "</div>";
 									 			}else{
 									 				resultStr += "<div class='kt-margin-5 kt-padding-l-20'>"
@@ -532,7 +543,7 @@
 									 			}
 						 					 	resultStr += "</div>"
 								 					 		
-									 					 	+ "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+									 					 	+ "<div class='col-lg-6 col-md-6 col-sm-12 col-12'>"
 								 								+ "<div class='kt-padding-5'>"
 								 									+ "<i class='fa flaticon-interface-9 kt-margin-r-5'></i>"
 																	+ "<span data-lang-cd='stm2102.label.tag'>"+$.osl.lang("stm2102.label.tag")+"</span>"
@@ -555,7 +566,7 @@
 								 							
 								 							+ "<div class='row kt-margin-t-5 kt-margin-b-5'>"
 								 								
-								 								+ "<div class='col-lg-6 col-md-6 col-sm-6 col-6'>"
+								 								+ "<div class='col-lg-6 col-md-6 col-sm-12 col-12'>"
 									 								+ "<div class='kt-padding-5'>"
 									 									+ "<i class='fa flaticon-tool-1 kt-margin-r-5'></i>"
 								 										+ "<span data-lang-cd='stm2102.label.attachFile'>"+$.osl.lang("stm2102.label.attachFile")+"</span>"
@@ -579,13 +590,13 @@
 															+ "</div>" 
 															
 															+ "<div class='row kt-padding-t-15 kt-padding-b-15 kt-align-right'>"
-																+ "<div class='col-12 kt-padding-0'>"
+																+ "<div class='col-12 kt-padding-0 kt-padding-r-5'>"
 																	+ "<button type='button' class='btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air updateBtn' data-datatable-action='update' title='"+$.osl.lang("stm2100.actionBtn.updateTooltip")+"' data-title-lang-cd='stm2100.actionBtn.updateTooltip' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' data-auth-button='update'>"
-																		+ "<i class='fa fa-edit'></i>"
+																		+ "<i class='fas fa-tools'></i>"
 																		+ "<span data-lang-cd='datatable.button.update'>"+$.osl.lang("datatable.button.update")+"</span>"
 																	+ "</button>"
 																	+ "<button type='button' class='btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air settingBtn' data-datatable-action='detail' title='"+$.osl.lang("stm2100.actionBtn.managmentTooltip")+"' data-title-lang-cd='stm2100.actionBtn.managmentTooltip' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' data-auth-button='detail'>"
-																		+ "<i class='fa flaticon-settings-1'></i>"
+																		+ "<i class='fa fa-edit'></i>"
 																		+ "<span data-lang-cd='stm2100.button.detail'>"+$.osl.lang("stm2100.button.detail")+"</span>"
 																	+ "</button>"
 																+ "</div>"
@@ -630,6 +641,7 @@
 					 type: "remote"
 				},
 				chart:{
+					
 					
 					colors: ["#586272", "#1cac81"],
 				},
