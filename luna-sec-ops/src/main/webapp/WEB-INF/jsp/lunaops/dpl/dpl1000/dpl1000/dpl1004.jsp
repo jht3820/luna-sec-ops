@@ -19,7 +19,7 @@
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
-							<i class="fa fa-th-large kt-margin-r-5"></i>배포 정보
+							<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.title.dplInfo">배포 정보</span>
 						</h5>
 					</div>
 				</div>
@@ -28,68 +28,68 @@
 					<div class="row kt-scroll" id="dplInfo">
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 							<div class="form-group">
-								<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 상태</label>
+								<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplStatus">배포 상태</span></label>
 								<input class="form-control" type="text" id="dplStsNm" name="dplStsNm" readonly="readonly" value="<c:out value="${dplInfo.dplStsNm}"/>" >
 							</div>	
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 							<div class="form-group">
-								<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 버전</label>
+								<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplVersion">배포 버전</span></label>
 								<input class="form-control" type="text" id="dplVer" name="dplVer" readonly="readonly" value="<c:out value="${dplInfo.dplVer}"/>" >
 							</div>	
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 							<div class="form-group">
-								<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 명</label>
+								<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplName">배포 명</span></label>
 								<input class="form-control" type="text" id="dplNm" name="dplNm" readonly="readonly" value="<c:out value="${dplInfo.dplNm}"/>" >
 							</div>	
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 							<div class="form-group">
-								<label class="col-form-label"><i class="fa fa-calendar-alt kt-margin-r-5"></i>배포 일자</label>
+								<label class="col-form-label"><i class="fa fa-calendar-alt kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplDate">배포 일자</span></label>
 								<input class="form-control" type="text" id="dplDt" name="dplDt" readonly="readonly" value="<c:out value="${dplInfo.dplDt}"/>" >
 							</div>	
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 							<div class="form-group">
-								<label class="col-form-label"><i class="fa fa-user-cog kt-margin-r-5"></i>배포자</label>
+								<label class="col-form-label"><i class="fa fa-user-cog kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplUser">배포자</span></label>
 								<input class="form-control" type="text" id="dplUsrNm" name="dplUsrNm" readonly="readonly" value="<c:out value="${dplInfo.dplUsrNm}"/>" >
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">	
 							<div class="form-group">
-								<label class="col-form-label"><i class="fa fa-file-signature kt-margin-r-5"></i>결재 사용 유무</label>
+								<label class="col-form-label"><i class="fa fa-file-signature kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplSignUse">결재 사용 유무</span></label>
 								<input class="form-control" type="text" id="dplSignUseNm" name="dplSignUseNm" readonly="readonly" value="<c:out value="${dplInfo.dplSignUseNm}"/>" >
 							</div>
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 							<div class="form-group">
-								<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 리비전</label>
+								<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplRevisionNum">배포 리비전</span></label>
 								<input class="form-control" type="text" id="dplRevisionNum" name="dplRevisionNum" readonly="readonly" value="<c:out value='${empty dplInfo.dplRevisionNum ? "Last Revision" :  dplInfo.dplRevisionNum }'/>" >
 							</div>	
 						</div>
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 							<div class="form-group">
-								<label class="col-form-label"><i class="fab fa-cloudsmith kt-margin-r-5"></i>배포 방법</label>
+								<label class="col-form-label"><i class="fab fa-cloudsmith kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplType">배포 방법</span></label>
 								<input class="form-control" type="text" id="dplTypeNm" name="dplTypeNm" readonly="readonly" value="<c:out value="${dplInfo.dplTypeNm}"/>" >
 							</div>	
 						</div>
 						<c:if test="${dplInfo.dplTypeCd == '01'}">
 							<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 								<div class="form-group">
-									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>실패 후 처리</label>
+									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplFailAction">실패 후 처리</span></label>
 									<input class="form-control" type="text" id="dplAutoAfterNm" name="dplAutoAfterNm" readonly="readonly" value="<c:out value="${dplInfo.dplAutoAfterNm}"/>" >
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 								<div class="form-group">
-									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>자동 실행 일시</label>
+									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplAutoTime">자동 실행 일시</span></label>
 									<input class="form-control" type="text" id="dplAutoTm" name="dplAutoTm" readonly="readonly" value='<fmt:formatDate value="${dplInfo.dplAutoDtm}" pattern="yyyy-MM-dd HH:mm:ss"/>' >
 								</div>	
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-r-20">
 								<div class="form-group">
-									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>원복 타입</label>
+									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplRestoreType">원복 타입</span></label>
 									<input class="form-control" type="text" id="dplRestoreNm" name="dplRestoreNm" readonly="readonly" value="<c:out value="${dplInfo.dplRestoreNm}"/>" >											
 								</div>	
 							</div>
@@ -101,13 +101,13 @@
 							<c:if test="${dplInfo.dplSignUseCd == '01'}">
 							<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 								<div class="form-group kt-margin-b-15">
-									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>결재 요청 의견</label>
+									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplSignText">결재 요청 의견</span></label>
 									<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 								<div class="form-group">
-									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
+									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplDesc">배포 설명</span></label>
 									<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
 								</div>
 							</div>
@@ -115,7 +115,7 @@
 							<c:if test="${dplInfo.dplSignUseCd == '02'}">
 							<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 								<div class="form-group">
-									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
+									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplDesc">배포 설명</span></label>
 									<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
 								</div>		
 							</div>
@@ -125,13 +125,13 @@
 							<c:if test="${dplInfo.dplSignUseCd == '01'}">
 							<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 								<div class="form-group kt-margin-b-15">
-									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>결재 요청 의견</label>
+									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplSignText">결재 요청 의견</span></label>
 									<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplSignTxt" name="dplSignTxt" readonly="readonly"><c:out value="${dplInfo.dplSignTxt}"/></textarea>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 								<div class="form-group">
-									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
+									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplDesc">배포 설명</span></label>
 									<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
 								</div>		
 							</div>
@@ -139,7 +139,7 @@
 							<c:if test="${dplInfo.dplSignUseCd == '02'}">
 							<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 								<div class="form-group">
-									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i>배포 설명</label>
+									<label class="col-form-label"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.dplDesc">배포 설명</span></label>
 									<textarea class="form-control osl-textarea__resize--none osl-min-h-px--150" id="dplDesc" name="dplDesc" readonly="readonly"><c:out value="${dplInfo.dplDesc}"/></textarea>
 								</div>		
 							</div>
@@ -155,13 +155,13 @@
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
-							<i class="fa fa-th-large kt-margin-r-5"></i>결재선 정보
+							<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="dpl1004.label.title.signLineInfo">결재선 정보</span>
 						</h5>
 					</div>
 					
 					<div class="kt-portlet__head-toolbar">
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" id="selectSignLine">
-							<i class="fas fa-arrow-up"></i><span data-lang-cd="dpl1001.button.upMoveBtn">결재선 지정</span>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-skin="brand" data-placement="bottom" data-auth-button="selectSignLine" data-title-lang-cd="dpl1004.tooltip.selSignLine" id="selectSignLine" data-toggle="kt-tooltip" title="결재선 지정">
+							<i class="fas fa-arrow-up"></i><span data-lang-cd="dpl1004.button.selSignLine">결재선 지정</span>
 						</button>
 					</div>
 					
@@ -174,7 +174,7 @@
 	</div>
 </form>
 <div class="modal-footer">
-	<button type="button" class="btn btn-brand" id="dpl1004SaveSignLine"><i class="fa fa-save"></i><span class="osl-resize__display--show">결재 요청</span></button>
+	<button type="button" class="btn btn-brand" id="dpl1004SaveSignLine"><i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="dpl1004.button.reqSign">결재 요청</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
@@ -222,7 +222,7 @@ var OSLDpl1004Popup = function () {
     	
     	
     	if(paramSubmitAction == "false"){
-    		$("#dpl1004SaveSignLine > span").text("결재선 저장");
+    		$("#dpl1004SaveSignLine > span").text($.osl.lang("dpl1004.button.reqSign"));
     	}
     	
 	    $("#selectSignLine").click(function(){
@@ -237,7 +237,7 @@ var OSLDpl1004Popup = function () {
 	    	
 	    	var options = {
 	    			idKey:dplId,
-					modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
+					modalTitle: $.osl.lang("cmm6600.modal.title.reqSignLine"),
 					autoHeight: false,
 					modalSize: "xl",
 					callback:[{
@@ -386,7 +386,6 @@ var OSLDpl1004Popup = function () {
 					
 					
 					$.each(data.signUsrInfList,function(idx,map){
-						
 						
 						
 			    		signUsrList.push(map);

@@ -14,19 +14,19 @@
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
-							<i class="fa fa-th-large kt-margin-r-5"></i>사용자 목록
+							<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="cmm6600.label.title.usrList">사용자 목록</span>
 						</h5>
 					</div>
 					
 					<div class="kt-portlet__head-toolbar">
 						<div class="kt-portlet__head-wrapper">
-							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="cmm6600SignLineUsrTree" data-tree-action="select" title="산출물 메뉴 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="산출물 메뉴 목록 조회">
-								<i class="fa fa-list"></i><span>조회</span>
+							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="cmm6600SignLineUsrTree" data-tree-action="select" title="사용자 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="사용자 목록 조회">
+								<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
 							</button>
 						</div>
 						<div class="kt-portlet__head-group">
-							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-tree-id="cmm6600SignLineUsrTree" data-tree-action="allNodeOpen"><i class="fa fa-plus"></i></a> 
-							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-tree-id="cmm6600SignLineUsrTree" data-tree-action="allNodeClose"> <i class="fa fa-minus"></i> </a> 
+							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 펼치기" data-title-lang-cd="tree.label.contextmenu.allNodeOpen" data-tree-id="cmm6600SignLineUsrTree" data-tree-action="allNodeOpen" data-skin="brand" data-placement="bottom" data-auth-button="allNodeOpen" tabindex="3" data-original-title="전체 노드 열기"><i class="fa fa-plus"></i></a> 
+							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md osl-tree-action" data-toggle="kt-tooltip" title="전체 접기" data-title-lang-cd="tree.label.contextmenu.allNodeClose" data-tree-id="cmm6600SignLineUsrTree" data-tree-action="allNodeClose" data-skin="brand" data-placement="bottom" data-auth-button="allNodeClose" tabindex="4" data-original-title="전체 노드 닫기"> <i class="fa fa-minus"></i> </a> 
 						</div>
 					</div>
 				</div>
@@ -50,7 +50,7 @@
 			
 			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 kt-margin-b-20-tablet kt-margin-b-20-mobile">
 				<div class="kt-portlet__body kt-padding-10 osl-align-center--imp">
-					<span class="kt-margin-t-20">결재 권한</span>
+					<div class="kt-margin-t-20 kt-font-boldest">결재 권한</div>
 					<div class="form-group kt-margin-b-10 kt-margin-t-20">
 						<label class='kt-radio kt-radio--tick kt-radio--brand align-text-top'>
 							<input type='radio' name='signAuth' value='01' checked='checked'>
@@ -83,16 +83,16 @@
 				<div class="kt-portlet__head kt-portlet__head--lg">
 					<div class="kt-portlet__head-label">
 						<h5 class="kt-font-boldest kt-font-brand">
-							<i class="fa fa-th-large kt-margin-r-5"></i>결재선 정보
+							<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="cmm6600.label.title.signLineInfo">결재선 정보</span>
 						</h5>
 					</div>
 					
 					<div class="kt-portlet__head-toolbar">
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air osl-tree-action" data-tree-id="cmm6600SignLineUsrTree" data-tree-action="upMoveBtn" title="위로" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="upMoveBtn" tabindex="3">
-							<i class="fas fa-arrow-up"></i><span data-lang-cd="dpl1001.button.upMoveBtn">위로</span>
+							<i class="fas fa-arrow-up"></i><span data-lang-cd="cmm6600.button.upMove">위로</span>
 						</button>
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air osl-tree-action" data-tree-id="cmm6600SignLineUsrTree" data-tree-action="downMoveBtn" title="아래로" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="downMoveBtn" tabindex="4">
-							<i class="fas fa-arrow-down"></i><span data-lang-cd="dpl1001.button.downMoveBtn">아래로</span>
+							<i class="fas fa-arrow-down"></i><span data-lang-cd="cmm6600.button.downMove">아래로</span>
 						</button>
 					</div>
 					
@@ -106,7 +106,7 @@
 </form>
 <div class="modal-footer">
 	<input type="hidden" name="cmm6601ModalCallbackBtn" id="cmm6601ModalCallbackBtn"/>
-	<button type="button" class="btn btn-brand" id="cmm6600SaveSignLine"><i class="fa fa-save"></i><span class="osl-resize__display--show">결재 요청</span></button>
+	<button type="button" class="btn btn-brand" id="cmm6600SaveSignLine"><i class="fa fa-save"></i><span class="osl-resize__display--show" data-lang-cd="cmm6600.button.saveSignLine">결재 요청</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
@@ -200,10 +200,16 @@ var OSLCmm6600Popup = function () {
 			callback:{
 				onclick: function(treeObj,selNode){
 					
-					
 				},
 				init: function(treeObj,data){
 					
+				},
+				onDblClick: function(treeObj, selNode){
+					console.log(selNode);
+					
+					var selectNodeIds = [];
+					selectNodeIds.push(selNode);
+					fnAllUsrInsert(selectNodeIds);
 				}
 			},
 			contextmenu: {
@@ -238,7 +244,7 @@ var OSLCmm6600Popup = function () {
 					
 					var selectNodeIds = treeObj.jstree("get_selected");
 					if($.osl.isNull(selectNodeIds)){
-						$.osl.alert($.osl.lang("prj3000.message.alert.treeSelect"));
+						$.osl.alert($.osl.lang("cmm6600.message.alert.treeSelect"));
 						return false;
 					}
 					
@@ -296,14 +302,6 @@ var OSLCmm6600Popup = function () {
 			}
 		});
 	    
-	   	
-	   	treeObj.bind("dblclick.jstree", function (event) {
-	   		
-			var selectNodeIds = treeObj.jstree("get_selected");
-			fnAllUsrInsert(selectNodeIds);
-	   	});
-	   	
-	  
 	    
 	  	if(!(targetCd == '03')){
 	  		
@@ -463,7 +461,7 @@ var OSLCmm6600Popup = function () {
 		
 		if(selUsrCard.length == 0){
 			
-			$.osl.alert("선택된 결재자가 없습니다.");
+			$.osl.alert($.osl.lang("message.alert.notSelSignUsr"));
 			return false;
 		}
 		
