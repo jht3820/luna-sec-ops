@@ -321,7 +321,9 @@ input:-webkit-autofill,
 .osl-min-h-px--700 {
   min-height: 700px; 
 }
-
+.osl-min-h-px--730 {
+  min-height: 730px; 
+}
 .osl-max-height--260{
 	max-height: 260px;
 }
@@ -986,6 +988,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 }
 .osl-req__process-mask__flow {
     height: auto;
+    min-width: 200px;
     min-height: 160px;
     background: #FAFAFA;
     -webkit-box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
@@ -1968,7 +1971,7 @@ label.required:after {
 }
 
 .osl-div-cover{
-    z-index: 1;
+    z-index: 4;
     width: 95%;
     height: 94%;
     position: absolute;
