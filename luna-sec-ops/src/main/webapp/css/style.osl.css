@@ -814,6 +814,7 @@ select[id^=usrOpt_] {
 }
 .osl-content-left-margin{
     margin-left: 1.5%;
+
 }
 .osl-tab-content-4.osl-content-right-margin{
     margin-right: 1.5%;
@@ -830,13 +831,13 @@ select[id^=usrOpt_] {
 	cursor: pointer;
 	height: 100%;
 	width: 50px;
+	text-align: center;
+	padding-top: 250px;
 	position: absolute;
-	right: 0;
 	top: 0;
+	right: 0;
 	background-color: #fff;
 	border-left: 1px solid #efefef;
-	display: flex;
-	align-items: center;
 }
 .osl-tab-content__folding-btn>.btn{
 	font-size: 1.6rem;
@@ -845,20 +846,17 @@ select[id^=usrOpt_] {
 .osl-margin--0-auto{
 	margin: 0 auto;
 }
-.osl-portlet-collapse,.osl-portlet-expand{
-	transition-duration: 0.5s;
+.osl-portlet-collapse{
+	width: 39%;
+	margin-right: 1%;
+	position: absolute;
+	left:0;
+	padding-right: 50px;
 }
-.osl-portlet-collapse.osl-portlet-collapse__custom-size{
-	max-width: 5%;
-	flex: 0 0 5%;
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 5%;
-}
-.osl-portlet-expand.osl-portlet-collapse__custom-size{
-	max-width: 95%;
-	flex: 0 0 95%;
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 95%;
+.osl-portlet-expand{
+	width: 60%;
+	position: absolute;
+	right:0;
 }
 .osl-swiper-container{
 	position: sticky !important;
@@ -3180,6 +3178,16 @@ form#frCmm6201 .osl-process__flow-container {
 	}
 	.osl-slideshow-img__limite{
 		max-height: 380px;
+	}
+	.osl-portlet-collapse{
+		width: 100%;
+		margin-right: 0;
+		position: relative;
+		padding-right: 0;
+	}
+	.osl-portlet-expand{
+		width: 100%;
+		position: relative;
 	}
 }
 @media (min-width: 1025px) {
