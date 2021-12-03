@@ -531,12 +531,35 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		cmm6600:{
+			label : {
+				signAuth : "결재 권한",
+				sign : "결재",
+				subSign : "대결",
+				allSign : "전결",
+				title : {
+					usrList : "사용자 목록",
+					signLineInfo : "결재선 정보" 
+				}
+			},
+			button : {
+				upMove : "위로",
+				downMove : "아래로",
+				saveSignLine : "결재선 저장"
+			},
 			message : {
 				alert : {
-					notRgsSignUsr : "등록된 결재자가 없습니다."
+					notRgsSignUsr : "등록된 결재자가 없습니다.",
+					treeSelect : "선택된 사용자가 없습니다.",
+					notSelSignUsr : "선택된 결재자가 없습니다."
 				},
 				confirm : {
 					saveString : "결재선 정보를 저장 하시겠습니까?"
+				}
+			},
+			modal : {
+				title : {
+					reqSignLine : "결재선 지정",
+					
 				}
 			}
 		},
@@ -1594,7 +1617,10 @@ var OSLCoreLangSetting = function () {
 				title:{
 					insertDpl:"신규 배포 계획 생성",
 					updateDpl:"배포 계획 수정",
-					detailDpl:"상세 정보"
+					detailDpl:"상세 정보",
+					signReq : "[${1}] 배포 계획 결재 요청",
+					selSignLine : "[${1}] 배포 계획 결재 현황",
+					reSignReq : "[${1}] 배포 계획 결재 재요청",
 				}
 			},
 			message:{
@@ -1606,6 +1632,34 @@ var OSLCoreLangSetting = function () {
 					signStandDplNotDelete:"결재 대기중인 배포 계획은 삭제가 불가능합니다.",
 					signImpossible:"결재 사용 유무가 아니오인 경우 결재를 사용할 수 없습니다."
 				}
+			}
+		},
+		dpl1004 : {
+			label:{
+				dplStatus : "배포 상태",
+				dplVersion : "배포 버전",
+				dplName : "배포 명",
+				dplDate: "배포 일자",
+				dplUser : "배포자",
+				dplSignUse : "결재 사용 유무",
+				dplRevisionNum : "배포 리비전",
+				dplType : "배포 방법",
+				dplFailAction : "실패 후 처리",
+				dplAutoTime : "자동 실행 시간",
+				dplRestoreType : "원복 타입",
+				dplSignText : "결재 요청 의견",
+				dplDesc : "배포 설명",
+				title : {
+					dplInfo : "배포 정보",
+					signLineInfo : "결재선 정보"
+				}
+			},
+			tooltip : {
+				selSignLine : "결재선 지정",
+			},
+			button : {
+				selSignLine : "결재선 지정",
+				reqSign : "결재 요청"
 			}
 		},
 		stm2100:{
@@ -3303,12 +3357,35 @@ var OSLCoreLangSetting = function () {
 			},
 		},
 		cmm6600:{
+			label : {
+				signAuth : "Signature authority",
+				sign : "Signature",
+				subSign : "대결",
+				allSign : "전결",
+				title : {
+					usrList : "User List",
+					signLineInfo : "Signature Line Info" 
+				}
+			},
+			button : {
+				upMove : "Up",
+				downMove : "Down",
+				saveSignLine : "Save signature line"
+			},
 			message : {
 				alert : {
-					notRgsSignUsr : "There are no registered approvers."
+					notRgsSignUsr : "There are no registered approvers.",
+					treeSelect : "Select a user in the tree on the left.",
+					notSelSignUsr : "There are no selected signature user"
 				},
 				confirm : {
 					saveString : "Do you want to save the approval line information?"
+				}
+			},
+			modal : {
+				title : {
+					reqSignLine : "Save Signature Line",
+					
 				}
 			}
 		},
@@ -4177,6 +4254,77 @@ var OSLCoreLangSetting = function () {
 			},
 			placeholder:{
 				mmrNM : "Title",
+			}
+		},
+		dpl1000:{
+			label:{
+				button:{
+					signLine:"Request Signature",
+					actionBtn:"기능 버튼"
+				}
+			},
+			tooltip:{
+				button:{
+					signReqDplBtn: "배포 계획 결재선 지정",
+					selectBtn: "배포 계획 조회",
+					insertBtn: "신규 배포 계획 추가",
+					updateBtn: "배포 계획 수정",
+					deleteBtn: "배포 계획 삭제"
+				},
+				actionBtn:{
+					signReqDplBtn: "Request Signature",
+					updateBtn: "배포 계획 수정",
+					deleteBtn: "배포 계획 삭제",	
+					detailBtn: "배포 계획 상세보기"
+				}
+			},
+			modal:{
+				title:{
+					insertDpl:"신규 배포 계획 생성",
+					updateDpl:"배포 계획 수정",
+					detailDpl:"상세 정보",
+					signReq : "[${1}] Deployment plan signature Request",
+					selSignLine : "[${1}] Deployment plan signature current situation",
+					reSignReq : "[${1}] Deployment plan signature re-request",
+				}
+			},
+			message:{
+				alert:{
+					successDplNotUpdate:"성공된 배포 계획은 수정이 불가능합니다.",
+					signConfDplNotUpdate:"결재 승인된 배포 계획은 수정이 불가능합니다.",
+					signStandDplNotUpdate:"결재 대기중인 배포 계획은 수정이 불가능합니다.",
+					signConfDplNotDelete:"결재 승인된 배포 계획은 삭제가 불가능합니다.",
+					signStandDplNotDelete:"결재 대기중인 배포 계획은 삭제가 불가능합니다.",
+					signImpossible:"결재 사용 유무가 아니오인 경우 결재를 사용할 수 없습니다."
+				}
+			}
+		},
+		dpl1004 : {
+			label:{
+				dplStatus : "Deployment Status",
+				dplVersion : "Deployment Version",
+				dplName : "Deployment Name",
+				dplDate: "Deployment Date",
+				dplUser : "Deployment Usr",
+				dplSignUse : "Signature Use",
+				dplRevisionNum : "Deployment Revisin",
+				dplType : "Deployment Type",
+				dplFailAction : "Action after failure",
+				dplAutoTime : "Auto Run Time",
+				dplRestoreType : "Restore Type",
+				dplSignText : "Sign Request Opinion",
+				dplDesc : "Deployment description",
+				title : {
+					dplInfo : "Deployment Information",
+					signLineInfo : "Signature Line Information"
+				}
+			},
+			tooltip : {
+				selSignLine : "Designation of approval line",
+			},
+			button : {
+				selSignLine : "Select Signature Line",
+				reqSign : "Request Signature"
 			}
 		},
 		stm2100:{
