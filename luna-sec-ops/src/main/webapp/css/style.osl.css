@@ -42,6 +42,9 @@
 .osl-margin-r-auto{
 	margin-right: auto;
 }
+.osl-padding-l-05rm{
+	padding-left:0.5rem !important;
+}
 .osl-flex-row-fluid{
 	-webkit-box-flex: 1;
     flex: 1 auto;
