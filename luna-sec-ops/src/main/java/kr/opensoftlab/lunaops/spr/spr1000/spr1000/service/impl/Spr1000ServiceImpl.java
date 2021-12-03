@@ -318,7 +318,7 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		Date today = new Date();
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		
-		paramMap.put("spr", dateformat.format(today));
+		paramMap.put("sprEdDt", dateformat.format(today));
 		spr1000DAO.updateSpr1000Info(paramMap);
 
 		
