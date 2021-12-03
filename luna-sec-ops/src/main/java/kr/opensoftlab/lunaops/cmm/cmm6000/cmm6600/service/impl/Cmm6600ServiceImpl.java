@@ -1,5 +1,6 @@
 package kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,24 +11,28 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import egovframework.com.cmm.service.impl.FileManageDAO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.opensoftlab.lunaops.arm.arm1000.arm1100.service.impl.Arm1100DAO;
 import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
-import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
+import kr.opensoftlab.lunaops.stm.stm3000.stm3000.service.impl.Stm3000DAO;
 
 
 
 @Service("cmm6600Service")
 public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm6600Service {
 
+	
    	@Resource(name = "cmm6600DAO")
    	private Cmm6600DAO cmm6600DAO;
    	
 	
     @Resource(name="arm1100DAO")
     private Arm1100DAO arm1100DAO;
+
+	
+    @Resource(name="stm3000DAO")
+    private Stm3000DAO stm3000DAO;
+    
    	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -37,9 +42,13 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 
 	
 	@Override
-	public void saveCmm6600SignLine(Map<String, String> paramMap) throws Exception {
+	public String saveCmm6600SignLine(Map<String, String> paramMap) throws Exception {
 		
 		String singUsrInfList = (String) paramMap.get("signUsrInfList");
+		String signLineId = cmm6600DAO.selectCmm6600NewSignLineId(paramMap);
+		
+		
+		paramMap.put("signLineId", signLineId);
 		
 		
 		if("update".equals(paramMap.get("type"))) {
@@ -65,9 +74,11 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				
 				String ord = jsonObj.getString("ord");
 				String usrId = jsonObj.getString("usrId");
+				String signAuthCd = jsonObj.getString("signAuthCd");
 				
 				paramMap.put("signUsrId", usrId);
 				paramMap.put("ord", ord);
+				paramMap.put("signAuthCd", signAuthCd);
 				
 				
 				cmm6600DAO.insertCmm6600SignLine(paramMap);
@@ -75,6 +86,8 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				
 				if("0".equals(ord)) {
 					paramMap.put("signTypeCd", "01");
+					
+					paramMap.put("subSignCd", "02");
 					cmm6600DAO.insertCmm6601SignInfo(paramMap);
 					
 				
@@ -99,7 +112,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 						
 						if("01".equals(paramMap.get("targetCd"))) {
 							ntfParam.put("armTitle", "[요구사항] 결재 담당자 지정"); 
-							ntfParam.put("armContent", "["+targetNm+"] 요구 사항에 "+ord+"번째 결재자로 지정되었습니다."); 
+							ntfParam.put("armContent", "["+targetNm+"] 요구 사항이 결재 대기 중입니다."); 
 						
 						}else if("02".equals(paramMap.get("targetCd"))) {
 							ntfParam.put("armTitle", "[배포 계획] 결재 요청"); 
@@ -111,6 +124,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				}
 			}
 		}
+		return signLineId;
 		
 	}
 
@@ -143,8 +157,9 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void insertCmm6601SignInfo(Map<String, String> paramMap) throws Exception {
+	public String insertCmm6601SignInfo(Map<String, String> paramMap) throws Exception {
 		String rowDatas = paramMap.get("rowDatas");
+		String signLineId = "";
 		
 		if(rowDatas != null && !"[]".equals(rowDatas)) {
 			
@@ -170,6 +185,8 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				
 				paramMap.put("ord", String.valueOf(ord));
 				paramMap.put("targetId", jsonObj.getString("dplId"));
+				paramMap.put("signLineId", jsonObj.getString("signLineId"));
+				signLineId = jsonObj.getString("signLineId");
 				
 				
 				ntfParamDft.put("armTypeCd", "04"); 
@@ -227,7 +244,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 					
 					}else {
 						
-						paramMap.put("ord", String.valueOf(ord+1));
+						paramMap.put("ord", String.valueOf(ord));
 						paramMap.put("signTypeCd", "02");
 						
 						
@@ -283,6 +300,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 			arm1100DAO.insertArm1100NtfInfo(ntfParamDft);
 			
 		}
+		return signLineId;
 	}
 
 	
@@ -311,6 +329,29 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	public int select6600MaxOrd(Map paramMap) throws Exception {
 		
 		return cmm6600DAO.select6600MaxOrd(paramMap);
+	}
+
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Map selectCmm6600CmmInfo(Map paramMap) throws Exception {
+		
+		
+		Map cmmInfoMap = cmm6600DAO.selectCmm6601CmmInfo(paramMap);
+		
+		
+		List<Map> signLineList = cmm6600DAO.selectCmm6600SignLineList(paramMap);
+		
+		
+		cmmInfoMap.put("signLineList", signLineList);
+		
+		return cmmInfoMap;
+	}
+
+	
+	@Override
+	public List<Map> selectCmm6600SignLineUsrTree(Map<String, String> paramMap) throws Exception {
+		return cmm6600DAO.selectCmm6600SignLineUsrTree(paramMap);
 	}
 }
 

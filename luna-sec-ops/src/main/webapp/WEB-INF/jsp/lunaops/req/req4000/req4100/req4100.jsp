@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
 <div class="kt-portlet kt-portlet--mobile">
-	<div class="kt-portlet__head kt-portlet__head--lg">
+	<div class="kt-portlet__head kt-portlet__head--lg flex-wrap kt-padding-t-10 kt-padding-b-10">
 		<div class="kt-portlet__head-label">
 			<h4 class="kt-font-boldest kt-font-brand">
 				<i class="fa fa-th-large kt-margin-r-5"></i><c:out value="${sessionScope.selMenuNm}"/>
@@ -42,7 +42,7 @@
 				<div class="osl-datatable-search" data-datatable-id="req4100ReqTable"></div>
 			</div>
 		</div>
-		<div class="kt_datatable osl-datatable-footer__divide" id="req4100ReqTable"></div>
+		<div class="kt_datatable osl-datatable-footer__divide kt-scroll ps" data-scroll-x="true" id="req4100ReqTable"></div>
 	</div>
 </div>
 
@@ -74,12 +74,12 @@ var OSLReq4100Popup = function () {
 				},
 			},
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'reqId', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 25, autoHide: false, sortable: false},
-				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, autoHide: false, search: true},
+				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, search: true},
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
-				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
+				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true,
 					
 				},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
@@ -151,9 +151,6 @@ var OSLReq4100Popup = function () {
 				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2},
 				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("req4100.actionBtn.title"),
 				"dblClick": true,
@@ -237,9 +234,10 @@ var OSLReq4100Popup = function () {
 						};
 					var options = {
 							idKey: rowData.reqId,
-							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							modalTitle: '요구사항 상세',
 							autoHeight: false,
 							modalSize: 'xl',
+							ftScrollUse: false
 							
 					 
 							
@@ -355,8 +353,9 @@ var OSLReq4100Popup = function () {
 						return false;
 					}
 					
-					if(rowDatas[0].reqProType != "02"){
-						$.osl.alert("처리중인 요구사항만 업무 처리가 가능합니다.");
+					
+					if(rowDatas[0].reqProType != "02" && rowDatas[0].reqProType != "04"){
+						$.osl.alert("최종완료, 처리중인 요구사항만 업무 처리가 가능합니다.");
 						return false;
 					}
 					

@@ -11,7 +11,6 @@ import javax.annotation.Resource;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,11 +19,11 @@ import com.google.gson.Gson;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.opensoftlab.lunaops.arm.arm1000.arm1000.service.impl.Arm1000DAO;
 import kr.opensoftlab.lunaops.arm.arm1000.arm1100.service.impl.Arm1100DAO;
+import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.service.Dpl1000Service;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.vo.Dpl1000VO;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.vo.Dpl1300VO;
 import kr.opensoftlab.lunaops.dpl.dpl2000.dpl2100.service.Dpl2100Service;
-import kr.opensoftlab.lunaops.stm.stm9000.stm9000.service.Stm9000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9100.service.Stm9100Service;
 import kr.opensoftlab.sdf.excel.ExcelDataListResultHandler;
 import kr.opensoftlab.sdf.jenkins.vo.AutoBuildVO;
@@ -49,8 +48,8 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
     @Resource(name = "dpl2100Service")
     private Dpl2100Service dpl2100Service;
     
-    @Resource(name = "stm9000Service")
-    private Stm9000Service stm9000Service;
+    
+    
     
 	@Resource(name = "stm9100Service")
 	private Stm9100Service stm9100Service;
@@ -59,6 +58,9 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
     @Resource(name="arm1100DAO")
     private Arm1100DAO arm1100DAO;
 	
+    
+    @Resource(name="cmm6600Service")
+    private Cmm6600Service cmm6600Service;
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Map<String, String> selectDpl1000JsonToMap(Map paramMap){
@@ -500,6 +502,12 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	}
 	
 	
+	@SuppressWarnings({"rawtypes" })
+	public Map selectDpl1400DplSelBuildInfo(Map map)  throws Exception{
+		return dpl1000DAO.selectDpl1400DplSelBuildInfo(map);
+	}
+	
+	
 	@SuppressWarnings("rawtypes")
 	public List selectDpl1000DeployNmList(Map inputMap) throws Exception {
 		return dpl1000DAO.selectDpl1000DeployNmList(inputMap);
@@ -593,18 +601,6 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	@Override
 	public int selectDpl1000BuildInfoListCnt(Dpl1000VO dpl1000VO) throws Exception{
 		return dpl1000DAO.selectDpl1000BuildInfoListCnt(dpl1000VO);
-	}
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	public Map selectDpl1400DplJobBuildInfo(Map map)  throws Exception{
-		return dpl1000DAO.selectDpl1400DplJobBuildInfo(map);
-	}
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	public Map selectDpl1400DplSelBuildInfoAjax(Map map)  throws Exception{
-		return dpl1000DAO.selectDpl1400DplSelBuildInfoAjax(map);
 	}
 	
 	
@@ -744,4 +740,20 @@ public class Dpl1000ServiceImpl  extends EgovAbstractServiceImpl implements Dpl1
 	public List selectDpl1700SvnChangePathList(Map paramMap)  throws Exception{
 		return dpl1000DAO.selectDpl1700SvnChangePathList(paramMap);
 	}
+
+	
+	@Override
+	public void saveDpl1000SignLine(Map<String, String> paramMap) throws Exception {
+		
+		String dplId = (String) paramMap.get("dplId");
+		String dplNm = (String) paramMap.get("dplNm");
+		
+		paramMap.put("targetId", dplId);
+		paramMap.put("targetNm", dplNm);
+		paramMap.put("targetCd", "02");
+		paramMap.put("type", "update");
+		
+		cmm6600Service.saveCmm6600SignLine(paramMap);
+	}
+
 }

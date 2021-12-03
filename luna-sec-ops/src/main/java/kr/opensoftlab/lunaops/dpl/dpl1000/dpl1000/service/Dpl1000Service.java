@@ -76,8 +76,11 @@ public interface Dpl1000Service {
 	
 	
 	@SuppressWarnings({"rawtypes" })
-	List selectDpl1000DplAllBldHistoryList(Map paramMap)  throws Exception;
+	List selectDpl1000DplAllBldHistoryList(Map paramMap) throws Exception;
 	
+	
+	@SuppressWarnings({"rawtypes" })
+	Map selectDpl1400DplSelBuildInfo(Map map) throws Exception;
 	
 	
 	
@@ -119,15 +122,6 @@ public interface Dpl1000Service {
 	int selectDpl1000BuildInfoListCnt(Dpl1000VO dpl1000vo) throws Exception;
 
 	List<Dpl1000VO> selectDpl1000BuildInfoList(Dpl1000VO dpl1000vo) throws Exception;
-
-
-	
-	@SuppressWarnings({"rawtypes" })
-	Map selectDpl1400DplJobBuildInfo(Map map)  throws Exception;
-	
-	
-	@SuppressWarnings({"rawtypes" })
-	Map selectDpl1400DplSelBuildInfoAjax(Map map)  throws Exception;
 	
 	
 	int insertDpl1400DeployJobBuildLogInfo(BuildVO buildVo) throws Exception;
@@ -171,4 +165,7 @@ public interface Dpl1000Service {
 	
 	@SuppressWarnings({"rawtypes" })
 	List selectDpl1700SvnChangePathList(Map paramMap)  throws Exception;
+
+	
+	void saveDpl1000SignLine(Map<String, String> paramMap) throws Exception;
 }

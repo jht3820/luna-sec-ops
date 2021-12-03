@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<input type="hidden" id="callPage" name="callPage" val="${param.callPage}">
+<input type="hidden" id="callPage" name="callPage" value="${param.callPage}">
+<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
 <div class="row">
 	
 	<div class="col-xl-4">
@@ -54,10 +55,13 @@
 				
 				<div class="kt-portlet__head-toolbar">
 					<div class="kt-portlet__head-wrapper">
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1304PrjTable" data-datatable-action="itemSelect" title="기본항목 선택" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1" data-original-title="기본항목 선택">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1304PrjTable" data-datatable-action="itemAllSelect" title="기본항목 전체선택" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="allSelect" tabindex="1" data-original-title="기본항목 전체선택">
+							<i class="fa fa-external-link-alt"></i><span>전체선택</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1304PrjTable" data-datatable-action="itemSelect" title="기본항목 선택" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="2" data-original-title="기본항목 선택">
 							<i class="fa fa-external-link-alt"></i><span>선택</span>
 						</button>
-						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1304PrjTable" data-datatable-action="select" title="기본항목 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="2" data-original-title="기본항목 조회">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="prj1304PrjTable" data-datatable-action="select" title="기본항목 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="3" data-original-title="기본항목 조회">
 							<i class="fa fa-list"></i><span>조회</span>
 						</button>
 					</div>
@@ -91,8 +95,9 @@ var OSLPrj1304Popup = function () {
 	
 	var prj1304PrjTable = "prj1304PrjTable";
 	
-	
+	//호출 페이지
 	var callPage = $("#callPage").val();
+	var paramPrjId = $("#paramPrjId").val();
 	
 	var itemList=[];
 	
@@ -101,27 +106,35 @@ var OSLPrj1304Popup = function () {
 	
 	var templateumentSetting = function(){
 		
+		if($.osl.isNull(paramPrjId)){
+			console.log(paramPrjId);
+			paramPrjId = $.osl.selPrjId;
+			console.log(paramPrjId);
+		}
 		
+		//Portlet 세팅
+		//new KTPortlet('prj1300TemplateTreeMenu', $.osl.lang("portlet"));
 		
-		
-		
-		
-		
-		
+		/**************************************/
+		/* 트리 메뉴 및 관련 메서드 시작                                      */
+		/**************************************/
+		// 조직 tree 세팅
 		treeObj = $.osl.tree.setting("prj1300TemplateTree",{
 			data:{
 				url:"<c:url value='/prj/prj1000/prj1300/selectPrj1300TemplateListAjax.do'/>",
-				paramPrjId: $.osl.selPrjId,
+				param:{
+					"paramPrjId": paramPrjId
+				},
 				key: "templateId",
 				pKey: "upperTemplateId",
 				labelKey: "templateNm"
 			},
 			search:{
-				
+				//대소문자 구분
 				case_insensitive : true,
-				
+				//검색 결과 노드만 표시
 				show_only_matches: true,
-				
+				//show_only_matches: true 일때 하위 노드도 같이 표시 할건지
 				show_only_matches_children: true,
 			},
 			callback:{
@@ -169,16 +182,13 @@ var OSLPrj1304Popup = function () {
 				{field: 'itemEssentialNm', title: '필수', textAlign: 'center', width: 100},
 				
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": "기능",
 				"width": 100,
 				"update": false,
 				"delete": false,
 				"itemSelect": true,
-				
+				/* ,"click": true */
 			},
 			actionTooltip:{
 				"itemSelect": "선택",
@@ -195,7 +205,7 @@ var OSLPrj1304Popup = function () {
 		        	}else{
 		        		itemList.push(rowDatas);
 		        	}
-		        	
+		        	//itemId 생성
 		        	$.each(itemList, function(idx, map){
 		        		var separator = "";
 		        		if(idx<10){
@@ -206,11 +216,39 @@ var OSLPrj1304Popup = function () {
 	        			map.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+separator;
 		        	});
 		        	
-		        	
+		        	//OSLPrj1102Popup.addItemList(itemList);
 
 		        	$("#prj1304ModalCallBackBtn").click();
 		        	
+					//모달 창 닫기
+					$.osl.layerPopupClose();
+				},
+				"itemAllSelect": function(rowDatas, datatableId, type, rowNum, elem){
+					var selectNodeIds = treeObj.jstree("get_selected");
+					if($.osl.isNull(selectNodeIds)){
+						$.osl.alert($.osl.lang("prj1300.message.alert.treeSelect"));
+						return false;
+					}
 					
+		        	itemList = [];
+	        		itemList = $.osl.datatable.list.prj1304PrjTable.targetDt.lastResponse.meta.allItemList;
+	        		
+		        	//itemId 생성
+		        	$.each(itemList, function(idx, map){
+		        		var separator = "";
+		        		if(idx<10){
+		        			separator = "0"+idx
+		        		}else{
+		        			separator = idx
+		        		}
+	        			map.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+separator;
+		        	});
+		        	
+		        	//OSLPrj1102Popup.addItemList(itemList);
+
+		        	$("#prj1304ModalCallBackBtn").click();
+		        	
+					//모달 창 닫기
 					$.osl.layerPopupClose();
 				}
 			},
@@ -227,7 +265,7 @@ var OSLPrj1304Popup = function () {
 	}
 	
 	return {
-	       
+	       // public functions
         init: function() {
         	templateumentSetting();
         },
@@ -238,7 +276,7 @@ var OSLPrj1304Popup = function () {
     };
 }();
 
-
+//Initialization
 $.osl.ready(function(){
 	OSLPrj1304Popup.init();
 });

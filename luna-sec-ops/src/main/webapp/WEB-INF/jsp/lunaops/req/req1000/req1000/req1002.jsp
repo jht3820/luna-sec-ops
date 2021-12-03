@@ -154,21 +154,26 @@
 			</div>
 		</div>
 	</div>
-	<div class="kt-portlet kt-portlet--collapsed kt-hide" data-ktportlet="true" id="req1002NewRequestOpt">
+	<div class="kt-portlet" data-ktportlet="true" id="req1002NewRequestOpt">
 		<div class="kt-portlet__head">
 			<div class="kt-portlet__head-label">
 				<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req1002.label.requestDefaultOptNm">접수 기본항목 입력</span>
 			</div>
 			<div class="kt-portlet__head-toolbar">
 				<div class="kt-portlet__head-group">
-					<div class="kt-portlet__head-group">
-						<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
+					<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" tabindex="1"><i class="fa fa-plus"></i></a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<div class="dropdown-item" id="insertBasicItemBtn"><i class="fa fa-plus kt-font-brand"></i>신규 항목 추가</div>
+						<div class="dropdown-item" id="selectBasicItemBtn"><i class="fa fa-list-alt kt-font-brand"></i>기본항목 불러오기</div>
 					</div>
+					<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 				</div>
 			</div>
 		</div>
 		<div class="kt-portlet__body">
-	
+			<div class="row" id="basicItemList">
+			
+			</div>
 		</div>
 	</div>
 </form>
@@ -181,21 +186,24 @@
 var OSLReq1002Popup = function () {
 	var formId = 'frReq1002';
 
-	
+	//edit 목록
 	var formEditList = [];
 	
-	
+	//파일 업로드 세팅
 	var fileUploadObj;
+
+	//프로젝트 기본항목 리스트
+	var basicItemList = new Array();
 	
-    
+    // Private functions
     var documentSetting = function () {
 
-    	
+    	//Portlet 세팅
     	new KTPortlet('req1002RequestUsrInfo', $.osl.lang("portlet"));
     	new KTPortlet('req1002ReqGroupInfo', $.osl.lang("portlet"));
     	new KTPortlet('req1002NewRequestOpt', $.osl.lang("portlet"));
     	
-    	
+    	//파일 업로드 세팅
     	fileUploadObj = $.osl.file.uploadSet("fileListDiv",{
     		maxFileSize: "${requestScope.fileSumMaxSize}",
     		meta: {"atchFileId": $("#atchFileId").val(), "fileSn": 0},
@@ -205,10 +213,12 @@ var OSLReq1002Popup = function () {
     		fileReadonly: true
     	});
     	
-    	
+    	//요구사항 정보 조회
 		selectReqInfo();
     };
-    
+    /**
+	 * 	요구사항 정보 조회
+	 */
 	 var selectReqInfo = function() {
     	var data = {
     			prjId :  $("#reqPrjId").val(),
@@ -216,24 +226,24 @@ var OSLReq1002Popup = function () {
     			reqUsrId : $("#reqUsrId").val()
     	};
     	
-		
+		//AJAX 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req4000/req4100/selectReq4100ReqInfoAjax.do'/>", "async":"false"}
 				,data);
 		
-		
+		//AJAX 전송 성공 함수
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				
+				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
 				
-				
+				//요구사항 정보 세팅
 		    	$.osl.setDataFormElem(data.reqInfoMap,"frReq1002");
 
-				
+				//요청자 정보 세팅
 		    	$("#reqUsrId").val(data.reqInfoMap.reqUsrId);
 		    	$("#usrNm").val(data.reqInfoMap.reqUsrNm);
 		    	$("#email").val(data.reqInfoMap.reqUsrEmail);
@@ -242,14 +252,14 @@ var OSLReq1002Popup = function () {
 		    	$("#deptId").val(data.reqInfoMap.reqUsrDeptId);
 		    	$("#usrImgId").attr("src",$.osl.user.usrImgUrlVal(data.reqInfoMap.reqUsrImgId));
 		    	
-		    	
+		    	//처리 유형이 접수 요청인 경우에만
 		    	if(data.reqInfoMap.reqProType=='01'){
-					
+					//프로세스명과 단계명 메시지 입력
 					$("#processNm").val($.osl.lang("req1002.message.notProcess"));
 					$("#flowNm").val($.osl.lang("req1002.message.notStep"));
 				}
 		    	
-		    	
+		    	//edit 세팅
 		    	formEditList.push($.osl.editorSetting("reqDesc", {
 		    		toolbar: false,
 	    			disableResizeEditor: false,
@@ -257,23 +267,23 @@ var OSLReq1002Popup = function () {
 	    			disabledEditor: true,
 	    			height:260
 		    	}));
-		    	
+		    	//edit 세팅하고 나서 textarea 보이기
 		    	$("#reqDesc").removeClass("kt-hide");
 		    	
-		    	
+		    	//그룹요구사항 내용 세팅
 		    	$("#reqGrpNo").val(data.reqInfoMap.reqGrpNo);
 		    	$("#reqGrpNm").val(data.reqInfoMap.reqGrpNm);
 		    	
-		    	
+		    	//그룹요구사항 내용이 있는지
 				if($.osl.isNull(data.reqInfoMap.reqGrpId)){
-					
-					
+					//연결된 요구사항이 없는 경우
+					//그룹 요구사항 message를 제목에 세팅
 					$("#reqGrpNo").val($.osl.lang("req1002.message.notGroupReqNo"));
 					$("#reqGrpNm").val($.osl.lang("req1002.message.notGroupReqInfo"));
-					
+					//내용이 없으므로 라벨도 숨기기
 					$("#groupReqDescDiv").addClass("kt-hide");
 				}else{
-					
+					//연결된 요구사항이 있는 경우
 			    	formEditList.push($.osl.editorSetting("reqGrpDesc", {
 			    		toolbar: false,
 		    			disableResizeEditor: false,
@@ -281,40 +291,50 @@ var OSLReq1002Popup = function () {
 		    			disabledEditor: true,
 		    			height:180
 		    		}));
-			    	
+			    	//edit 세팅하고 나서 textarea 보이기
 			    	$("#reqGroupDesc").removeClass("kt-hide");
 				}
 		    	
 				if($.osl.isNull(data.fileList)){
-		    		
+		    		//파일 목록이 없는 경우 해당 div 숨기기
 		    		$("#reqFileListDiv").addClass("kt-hide");
 		    	}else{
-		    		
+		    		//파일 목록이 있는 경우
 		    		$("#reqFileListDiv").removeClass("kt-hide");
 
+			    	//파일Sn넣기
+			    	//fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 			    	
-			    	
-			    	
-			    	
+			    	//파일 목록 세팅
 			    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
 		    	}
+				
+				basicItemList = data.basicItemList;
+				basicItemList = basicItemList.concat(data.basicItemInsertList);
+		    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+		    			//usrConfig
+		    			{
+		    				viewType: "preview",
+		    				readOnly: true
+						}
+	    		);
 				
 			}
 		});
 		
-		
+		//AJAX 전송
 		ajaxObj.send();
 	};
 
     return {
-        
+        // public functions
         init: function() {
         	documentSetting();
         },
         setUsrInfo: function(temp){
         	var parseTemp = JSON.parse(temp);
         	
-        	
+        	//사용자 정보 입력하기
         	$("#reqUsrId").val(parseTemp.usrId);
         	$("#deptId").val(parseTemp.deptId);
         	$("#usrNm").val(parseTemp.usrNm);
@@ -325,7 +345,7 @@ var OSLReq1002Popup = function () {
     };
 }();
 
-
+// Initialization
 $.osl.ready(function(){
 	OSLReq1002Popup.init();
 });

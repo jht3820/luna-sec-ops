@@ -328,9 +328,6 @@ var OSLSpr1100Popup = function () {
 					}
 				}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("spr1100.actionBtn.title.addBtn"),
 				"dblClick": true,

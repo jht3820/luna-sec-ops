@@ -15,4 +15,4 @@ public class Dpl3000DAO extends ComOslitsAbstractDAO {
 	public Map selectDpl1400DplJobBuildInfo(Map paramMap)  throws Exception{
 		return (Map) select("dpl3000DAO.selectDpl1400DplJobBuildInfo", paramMap);
 	}
-}
+} 

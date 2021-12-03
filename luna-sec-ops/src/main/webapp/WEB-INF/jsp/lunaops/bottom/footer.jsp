@@ -12,7 +12,7 @@
 					<div class="kt-footer kt-grid__item" id="kt_footer">
 						<div class="kt-container kt-container--fluid">
 							<div class="kt-footer__copyright">
-								Copyright ⓒ <a href="http://opensoftlab.kr" target="_blank" class="kt-link">Open Soft Lab Corp. </a> All Rights Reserved
+								Copyright ⓒ <a href="http:
 							</div>
 							<div class="kt-footer__menu">
 								<!-- <a href="/" target="_self" class="kt-link">Link1</a>
@@ -94,6 +94,7 @@
 		<script src="<c:url value='/plugins/panzoom/panzoom.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/swiper/swiper.min.js'/>" type="text/javascript"></script>
 		<script src="<c:url value='/plugins/bootstrap-progressbar/bootstrap-progressbar.js'/>" type="text/javascript"></script>
+		<script src="<c:url value='/plugins/long-press/long-press-event.min.js'/>" type="text/javascript"></script>
 		
 
 		<iframe id="fileDownFrame" name="fileDownFrame" src="/com/fms/FileDown.do" style="width:0;height:0;display:none;"></iframe>

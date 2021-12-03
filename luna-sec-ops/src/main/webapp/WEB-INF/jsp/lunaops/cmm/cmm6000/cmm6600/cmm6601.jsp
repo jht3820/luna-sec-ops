@@ -18,7 +18,7 @@
 					</div>
 				</div>
 				<div class="kt-margin-t-5 osl-align-center--imp" id="infomation">
-							결재 대기중인 파일이 존재할 경우 결재선을 수정할 수 없습니다.</div>
+							결재가 진행 중입니다.</div>
 				<div class="kt-portlet__body kt-padding-r-15">
 					<div class="kt-scroll kt-padding-r-10" data-height="275" id="signCardTable"></div>
 				</div>
@@ -44,6 +44,7 @@
 	</div>
 </form>
 <div class="modal-footer">
+	<button type="button" class="btn btn-brand kt-hide" id="cmm6601ReSignLineBtn"><i class="fa fa-file-signature"></i><span class="osl-resize__display--show" data-lang-cd="cmm6601.label.reSign">재결재 요청</span></button>
 	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
 </div>
 <script>
@@ -69,6 +70,9 @@ var OSLCmm6601Popup = function () {
 	
 	
 	var signType = $("#paramSignType").val();
+	
+	
+	var reqSignUsrId = '';
 	
     
     var documentSetting = function () {
@@ -139,6 +143,13 @@ var OSLCmm6601Popup = function () {
 			ajaxObj.send();
 	  		
 	  	});
+	  	
+	  	var loginUsrId = $.osl.user.userInfo.usrId;
+	  	
+	  	
+	  	if(reqSignUsrId == loginUsrId && signType == '결재 대기'){
+	  		$("#cmm6601ReSignLineBtn").removeClass("kt-hide");
+	  	}
 	};
    
 	
@@ -178,6 +189,7 @@ var OSLCmm6601Popup = function () {
   		
   		if(userInfo.ord == 0){
 			signTypeNm = '기안';
+			reqSignUsrId = userInfo.usrId;
 		}
   		
 		else if(userInfo.ord < ord){
@@ -207,6 +219,30 @@ var OSLCmm6601Popup = function () {
   			}
   		}
   		
+   		var badgeColor;
+   		var badgeText;
+   		
+   		
+   		if(userInfo.signAuthCd == '01'){
+   			badgeColor = 'badge-success';
+   			badgeText = '결재';
+   		}
+   		
+   		else if(userInfo.signAuthCd == '02'){
+   			badgeColor = 'badge-info';
+   			badgeText = '대결';
+   		}
+   		
+   		else if(userInfo.signAuthCd == '03'){
+   			badgeColor = 'badge-warning';
+   			badgeText = '전결';
+   		}
+   		
+   		else{
+   			badgeColor = 'badge-dark';
+   			badgeText = '기안';
+   		}
+   		
 		usrStr += 
 			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'" data-sign-type="'+signTypeNm+'" data-ord="'+userInfo.ord+'"> '
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
@@ -219,12 +255,13 @@ var OSLCmm6601Popup = function () {
 					+'<div class="kt-media kt-media--circle kt-media--md">'
 						+'<img src="'+$.osl.user.usrImgUrlVal(userInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 					+'</div>'
+					+'<div class="badge '+badgeColor+' kt-margin-r-15 float-left">'+badgeText+'</div>'
 					+'<div class="kt-widget__wrapper">'
 						+'<div class="kt-widget__label  osl-min-h-px--57 justify-content-center">'
-							+'<div class="kt-widget__title osl-word__break osl-word__break--w150">'
+							+'<div class="kt-widget__title osl-word__break osl-word__break--w120">'
 								+$.osl.escapeHtml(userInfo.usrNm)
 							+'</div>'
-							+'<small class="osl-word__break osl-word__break--w200">'+$.osl.escapeHtml(userInfo.email)+'</small>'
+							+'<small class="osl-word__break osl-word__break--w120">'+$.osl.escapeHtml(userInfo.email)+'</small>'
 							+duty
 						+'</div>'
 					+'</div>'

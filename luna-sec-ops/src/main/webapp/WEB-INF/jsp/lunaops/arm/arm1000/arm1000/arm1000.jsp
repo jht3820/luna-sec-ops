@@ -185,8 +185,7 @@ var OSLArm1000Popup = function () {
 							$(row).css("font-weight", "bold");
 						}
 					}
-				},
-				clickCheckbox: true,
+				}
 			},
 			actionBtn:{
 				"width": 120,
@@ -363,8 +362,7 @@ var OSLArm1000Popup = function () {
 					"detail" : " kt-hide"
 				},
 				actionBtnIcon:{
-					"reInsert" : "fas fa-envelope-open-text",
-					"check" : "fa flaticon2-check-mark",
+					"reInsert" : "fas fa-envelope-open-text"
 				}
 			},
 			callback:{

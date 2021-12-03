@@ -3,6 +3,80 @@
 <sqlMap namespace="prj1000DAO">
 	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 
+	<resultMap id="resultMapSelectAllPrj1002" class="egovMap">
+		<result property="rn"  					column="RN"/>
+		<result property="prjId"				column="PRJ_ID"/>
+		<result property="itemId"				column="ITEM_ID"/>
+		<result property="reqId"				column="REQ_ID"/>
+		<result property="itemAcceptCd"			column="ITEM_ACCEPT_CD"/>
+		<result property="itemRequestCd"		column="ITEM_REQUEST_CD"/>
+		<result property="itemDivision"			column="ITEM_DIVISION"/>
+		<result property="itemNm"				column="ITEM_NM"/>
+		<result property="itemValue"			column="ITEM_VALUE"/>
+		<result property="itemValueNm"			column="ITEM_VALUE_NM"/>
+		<result property="itemCode"				column="ITEM_CODE"/>
+		<result property="itemCodeNm"			column="ITEM_CODE_NM"/>
+		<result property="itemCommonCode"		column="ITEM_COMMON_CODE"/>
+		<result property="itemCommonCodeNm"		column="ITEM_COMMON_CODE_NM"/>
+		<result property="itemPcRowNum"			column="ITEM_PC_ROW_NUM"/>
+		<result property="itemTabletRowNum"		column="ITEM_TABLET_ROW_NUM"/>
+		<result property="itemMobileRowNum"		column="ITEM_MOBILE_ROW_NUM"/>
+		<result property="itemType"				column="ITEM_TYPE"/>
+		<result property="itemTypeNm"			column="ITEM_TYPE_NM"/>
+		<result property="itemLength"			column="ITEM_LENGTH"/>
+		<result property="itemEssentialCd"		column="ITEM_ESSENTIAL_CD"/>
+		<result property="itemEssentialNm"		column="ITEM_ESSENTIAL_NM"/>
+		<result property="itemEcceptCd"			column="ITEM_ACCEPT_CD"/>
+		<result property="itemEcceptNm"			column="ITEM_ACCEPT_NM"/>
+		<result property="itemOrd"				column="ITEM_ORD"/>
+		<result property="itemMinVal"			column="ITEM_MIN_VAL"/>
+		<result property="itemMaxVal"			column="ITEM_MAX_VAL"/>
+		<result property="useCd"				column="USE_CD"/>
+		<result property="useNm"				column="USE_NM"/>
+		<result property="regDtm"				column="REG_DTM"/>
+		<result property="regUsrId"				column="REG_USR_ID"/>
+		<result property="regUsrIp"				column="REG_USR_IP"/>
+		<result property="modifyDtm"			column="MODIFY_DTM"/>
+		<result property="modifyusrid"			column="MODIFY_USR_ID"/>
+		<result property="modifyusrip"			column="MODIFY_USR_IP"/>
+    </resultMap>
+    
+   	<resultMap id="resultMapSelectPrj1002" class="egovMap">
+		<result property="rn"  					column="RN"/>
+		<result property="prjId"				column="PRJ_ID"/>
+		<result property="itemId"				column="ITEM_ID"/>
+		<result property="reqId"				column="REQ_ID"/>
+		<result property="itemAcceptCd"			column="ITEM_ACCEPT_CD"/>
+		<result property="itemRequestCd"		column="ITEM_REQUEST_CD"/>
+		<result property="itemDivision"			column="ITEM_DIVISION"/>
+		<result property="itemNm"				column="ITEM_NM"/>
+		<result property="itemCode"				column="ITEM_CODE"/>
+		<result property="itemCodeNm"			column="ITEM_CODE_NM"/>
+		<result property="itemCommonCode"		column="ITEM_COMMON_CODE"/>
+		<result property="itemCommonCodeNm"		column="ITEM_COMMON_CODE_NM"/>
+		<result property="itemPcRowNum"			column="ITEM_PC_ROW_NUM"/>
+		<result property="itemTabletRowNum"		column="ITEM_TABLET_ROW_NUM"/>
+		<result property="itemMobileRowNum"		column="ITEM_MOBILE_ROW_NUM"/>
+		<result property="itemType"				column="ITEM_TYPE"/>
+		<result property="itemTypeNm"			column="ITEM_TYPE_NM"/>
+		<result property="itemLength"			column="ITEM_LENGTH"/>
+		<result property="itemEssentialCd"		column="ITEM_ESSENTIAL_CD"/>
+		<result property="itemEssentialNm"		column="ITEM_ESSENTIAL_NM"/>
+		<result property="itemEcceptCd"			column="ITEM_ACCEPT_CD"/>
+		<result property="itemEcceptNm"			column="ITEM_ACCEPT_NM"/>
+		<result property="itemOrd"				column="ITEM_ORD"/>
+		<result property="itemMinVal"			column="ITEM_MIN_VAL"/>
+		<result property="itemMaxVal"			column="ITEM_MAX_VAL"/>
+		<result property="useCd"				column="USE_CD"/>
+		<result property="useNm"				column="USE_NM"/>
+		<result property="regDtm"				column="REG_DTM"/>
+		<result property="regUsrId"				column="REG_USR_ID"/>
+		<result property="regUsrIp"				column="REG_USR_IP"/>
+		<result property="modifyDtm"			column="MODIFY_DTM"/>
+		<result property="modifyusrid"			column="MODIFY_USR_ID"/>
+		<result property="modifyusrip"			column="MODIFY_USR_IP"/>
+    </resultMap>
+    
 	<sql id = "selectPrj1000PrjGrpList">
 		SELECT
 			ROWNUM AS RN
@@ -499,6 +573,7 @@
 					AND A.DEL_CD = '02'
 					AND A.USE_CD = '01'
 					AND A.BLOCK = '01'
+					<!-- 
 	        		AND	NOT EXISTS
 	        		(
 						SELECT	Z.PRJ_AUTH_TARGET_ID
@@ -508,6 +583,7 @@
 	                    AND		Z.PRJ_AUTH_TARGET_ID = A.USR_ID
 	                    AND		Z.PRJ_ID = #prjId#
 					)
+					 -->
 				UNION
 				SELECT
 					'02' AS AUTH_TYPE_CD,
@@ -526,6 +602,7 @@
 				AND A.LIC_GRP_ID = #licGrpId#
 				AND A.PRJ_ID = #prjId#
 				AND A.USE_CD = '01'
+				<!-- 
 				AND	NOT EXISTS
 	       		(
 					SELECT	Z.PRJ_AUTH_TARGET_ID
@@ -535,6 +612,7 @@
 	                AND		Z.PRJ_AUTH_TARGET_ID = A.AUTH_GRP_ID
 	                AND		Z.PRJ_ID = A.PRJ_ID
 				)
+				 -->
 			) SUBT1
 			WHERE 1=1
 			<isNotEmpty property="prjAuthTypeCd">
@@ -573,6 +651,180 @@
 			</isNotEmpty>
 		</isNotEmpty>
 	</sql>
+	
+	<sql id = "selectPrj1002ItemList">
+    	SELECT T1.*, ROWNUM RN
+		FROM
+		(
+			SELECT	 A.PRJ_ID
+			       , A.ITEM_ID
+			       , A.REQ_ID
+			       , A.ITEM_DIVISION
+			       , A.ITEM_NM
+			       , A.ITEM_CODE
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00001', A.ITEM_CODE, '1') AS ITEM_CODE_NM
+			       , A.ITEM_COMMON_CODE
+			       , SF_STM4000_MST_CD_NM(#licGrpId#, A.ITEM_COMMON_CODE) AS ITEM_COMMON_CODE_NM
+			       , A.ITEM_PC_ROW_NUM
+			       , A.ITEM_TABLET_ROW_NUM
+			       , A.ITEM_MOBILE_ROW_NUM
+			       , A.ITEM_TYPE
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00003', A.ITEM_TYPE, '1') AS ITEM_TYPE_NM
+			       , A.ITEM_LENGTH
+			       , A.ITEM_ESSENTIAL_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ESSENTIAL_CD, '1') AS ITEM_ESSENTIAL_NM
+			       , A.ITEM_ACCEPT_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ACCEPT_CD, '1') AS ITEM_ACCEPT_NM
+			       , A.ITEM_REQUEST_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_REQUEST_CD, '1') AS ITEM_REQUEST_NM
+			       , A.ITEM_ORD
+			       , A.ITEM_MIN_VAL
+			       , A.ITEM_MAX_VAL
+			       , A.USE_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.USE_CD, '1') AS USE_NM
+			       , A.REG_DTM
+			       , A.REG_USR_ID
+			       , A.REG_USR_IP
+			       , A.MODIFY_DTM
+			       , A.MODIFY_USR_ID
+			       , A.MODIFY_USR_IP
+           	FROM	PRJ1002 A
+           	WHERE	1=1
+           		AND A.PRJ_ID		=	#prjId#
+           		<isNotEmpty property="itemId">
+           			AND	A.ITEM_ID		=	#itemId#
+           		</isNotEmpty>
+           		<isNotEmpty property="reqId">
+           			AND	A.REQ_ID		in	(#reqId#,'ROOTSYSTEM_FLW')
+           		</isNotEmpty>
+           		<isEmpty property="reqId">
+           			AND	A.REQ_ID		=	'ROOTSYSTEM_FLW'
+           		</isEmpty>
+           		<isNotEmpty property="itemAcceptCd">
+           			AND	A.ITEM_ACCEPT_CD		=	#itemAcceptCd#
+           		</isNotEmpty>
+           		<isNotEmpty property="itemRequestCd">
+           			AND	A.ITEM_REQUEST_CD		=	#itemRequestCd#
+           		</isNotEmpty>
+		    <isNotEmpty property="searchTargetData">
+				<isNotEmpty property="searchTargetId">
+					<isEqual property="searchTargetId" compareValue="itemNm">
+						AND	A.ITEM_NM LIKE '%'||  #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="itemCode">
+						AND	A.ITEM_CODE = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="itemType">
+						AND	A.ITEM_TYPE = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="itemEssentialCd">
+						AND	A.ITEM_ESSENTIAL_CD = #searchTargetData#
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isNotEmpty property="paramSortFieldId">
+				<isNotEmpty property="sortDirection">
+					ORDER BY $paramSortFieldId$
+					<isEqual property="sortDirection" compareValue="desc">
+						DESC
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty property="paramSortFieldId">
+				ORDER BY A.ITEM_ORD
+			</isEmpty>
+		) T1 WHERE 1 = 1
+    </sql>
+    
+    <sql id = "selectPrj1002AllItemList">
+    	SELECT T1.*, ROWNUM RN
+		FROM
+		(
+			SELECT	 A.PRJ_ID
+			       , A.ITEM_ID
+			       , B.ITEM_VALUE
+			       , B.ITEM_VALUE_NM
+			       , A.REQ_ID
+			       , A.ITEM_DIVISION
+			       , A.ITEM_NM
+			       , A.ITEM_CODE
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00001', A.ITEM_CODE, '1') AS ITEM_CODE_NM
+			       , A.ITEM_COMMON_CODE
+			       , SF_STM4000_MST_CD_NM(#licGrpId#, A.ITEM_COMMON_CODE) AS ITEM_COMMON_CODE_NM
+			       , A.ITEM_PC_ROW_NUM
+			       , A.ITEM_TABLET_ROW_NUM
+			       , A.ITEM_MOBILE_ROW_NUM
+			       , A.ITEM_TYPE
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'FLW00003', A.ITEM_TYPE, '1') AS ITEM_TYPE_NM
+			       , A.ITEM_LENGTH
+			       , A.ITEM_ESSENTIAL_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ESSENTIAL_CD, '1') AS ITEM_ESSENTIAL_NM
+			       , A.ITEM_ACCEPT_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_ACCEPT_CD, '1') AS ITEM_ACCEPT_NM
+			       , A.ITEM_REQUEST_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_REQUEST_CD, '1') AS ITEM_REQUEST_NM
+			       , A.ITEM_ORD
+			       , A.ITEM_MIN_VAL
+			       , A.ITEM_MAX_VAL
+			       , A.USE_CD
+			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.USE_CD, '1') AS USE_NM
+			       , A.REG_DTM
+			       , A.REG_USR_ID
+			       , A.REG_USR_IP
+			       , A.MODIFY_DTM
+			       , A.MODIFY_USR_ID
+			       , A.MODIFY_USR_IP
+           	FROM	PRJ1002 A
+           	LEFT JOIN PRJ1003 B ON (A.PRJ_ID = B.PRJ_ID AND A.ITEM_ID = B.ITEM_ID AND B.REQ_ID=#reqId#)
+           	WHERE	1=1
+           		AND A.PRJ_ID		=	#prjId#
+           		<isNotEmpty property="itemId">
+           			AND	A.ITEM_ID		=	#itemId#
+           		</isNotEmpty>
+           		<isNotEmpty property="itemDivision">
+           			AND	A.ITEM_DIVISION		=	#itemDivision#
+           		</isNotEmpty>
+           		<isNotEmpty property="itemAcceptCd">
+           			AND	A.ITEM_ACCEPT_CD		=	#itemAcceptCd#
+           		</isNotEmpty>
+           		<isNotEmpty property="itemRequestCd">
+           			AND	A.ITEM_REQUEST_CD		=	#itemRequestCd#
+           		</isNotEmpty>
+           		<isNotEmpty property="reqId">
+           			AND	A.REQ_ID		in	(#reqId#,'ROOTSYSTEM_FLW')
+           		</isNotEmpty>
+           		<isEmpty property="reqId">
+           			AND	A.REQ_ID		=	'ROOTSYSTEM_FLW'
+           		</isEmpty>
+		    <isNotEmpty property="searchTargetData">
+				<isNotEmpty property="searchTargetId">
+					<isEqual property="searchTargetId" compareValue="itemNm">
+						AND	A.ITEM_NM LIKE '%'||  #searchTargetData# ||'%'
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="itemCode">
+						AND	A.ITEM_CODE = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="itemType">
+						AND	A.ITEM_TYPE = #searchTargetData#
+					</isEqual>
+					<isEqual property="searchTargetId" compareValue="itemEssentialCd">
+						AND	A.ITEM_ESSENTIAL_CD = #searchTargetData#
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isNotEmpty property="paramSortFieldId">
+				<isNotEmpty property="sortDirection">
+					ORDER BY $paramSortFieldId$
+					<isEqual property="sortDirection" compareValue="desc">
+						DESC
+					</isEqual>
+				</isNotEmpty>
+			</isNotEmpty>
+			<isEmpty property="paramSortFieldId">
+				ORDER BY A.ITEM_ORD
+			</isEmpty>
+		) T1 WHERE 1 = 1
+    </sql>
 	
 	
 	<select id="prj1000DAO.selectPrj1000PrjGrpAllList" parameterClass="java.util.Map" resultClass="egovMap">
@@ -1049,5 +1301,216 @@
 		<isNotEmpty property="prjAuthTargetId">
 			AND A.PRJ_AUTH_TARGET_ID = #prjAuthTargetId#
 		</isNotEmpty>
+	</delete>
+	
+	
+	
+	
+    <select id="prj1000DAO.selectPrj1002AllItemList" parameterClass="java.util.Map" resultMap="resultMapSelectAllPrj1002">
+	    
+		SELECT *
+		FROM
+			(
+				<include refid="selectPrj1002AllItemList"/>
+	    	) Z
+    	WHERE 1=1 
+    </select>
+    
+	
+    <select id="prj1000DAO.selectPrj1002ItemList" parameterClass="java.util.Map" resultMap="resultMapSelectPrj1002">
+	    
+		SELECT *
+		FROM
+			(
+					<include refid="selectPrj1002ItemList"/>
+	    	) Z
+    	WHERE 1=1 
+    	AND 	Z.RN BETWEEN (#firstIndex#+1) AND #lastIndex#
+    </select>
+    
+    
+    <select id="prj1000DAO.selectPrj1002ItemListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
+	    
+	    SELECT
+			COUNT(*)
+		FROM	(
+			<include refid="selectPrj1002ItemList"/>
+						) A
+    </select>
+    
+    
+    <select id="prj1000DAO.selectPrj1003ItemListCnt" parameterClass="java.util.Map"  resultClass="java.lang.Integer">
+	    
+	    SELECT
+			COUNT(*)
+		FROM	(
+			SELECT	 A.PRJ_ID
+			       , A.ITEM_ID
+			       , A.REQ_ID
+			       , A.ITEM_VALUE
+			       , A.ITEM_VALUE_NM
+           	FROM	PRJ1003 A
+           	WHERE	1=1
+           		AND A.PRJ_ID		=	#prjId#
+       			AND	A.ITEM_ID		=	#itemId#
+       			AND	A.REQ_ID		=	#reqId#
+		) A
+    </select>
+    
+	
+	<select id="prj1000DAO.selectPrj1002ItemInfo" parameterClass="java.util.Map" resultClass="egovMap">
+		
+		SELECT *
+		FROM
+			(
+				<include refid="selectPrj1002ItemList"/>
+	    	) Z
+    	WHERE 	1=1 
+		        AND	Z.PRJ_ID		=	#prjId#
+		        AND	Z.ITEM_ID		=	#itemId#
+	</select>
+	
+	
+	<insert id="prj1000DAO.insertPrj1002ItemAjax" parameterClass="java.util.Map">
+		
+		<![CDATA[
+			INSERT INTO PRJ1002
+			(
+                PRJ_ID					,	ITEM_ID					
+            ,	REQ_ID				,	ITEM_DIVISION
+            , 	ITEM_NM				,	ITEM_CODE				,	ITEM_COMMON_CODE	
+            ,	ITEM_PC_ROW_NUM		,	ITEM_TABLET_ROW_NUM		,	ITEM_MOBILE_ROW_NUM
+            ,	ITEM_TYPE			,	ITEM_LENGTH				,	ITEM_ESSENTIAL_CD
+            ,	ITEM_ACCEPT_CD		,	ITEM_REQUEST_CD			,	ITEM_ORD				,	USE_CD
+            , 	ITEM_MIN_VAL		, 	ITEM_MAX_VAL
+            ,	REG_DTM				,	REG_USR_ID  			,	REG_USR_IP
+            ,	MODIFY_DTM			,	MODIFY_USR_ID			,	MODIFY_USR_IP
+        )VALUES(
+                #prjId#					,	#itemId#
+            ,	#reqId# 			,	#itemDivision#
+            ,	#itemNm# 			,	#itemCode#				,	#itemCommonCode#	
+            ,	#itemPcRowNum#		,	#itemTabletRowNum#		,	#itemMobileRowNum#
+            ,	#itemType#	 		,	NVL(#itemLength#,255)	,	#itemEssentialCd#
+            ,	#itemAcceptCd# 		, 	#itemRequestCd#			,	NVL(#itemOrd#,0)		,	'01'
+            ,	#itemMinVal#		, 	#itemMaxVal#
+            ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
+            ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
+        )		
+		
+		]]>
+	</insert>
+	
+	
+	<insert id="prj1000DAO.insertPrj1003ItemAjax" parameterClass="java.util.Map">
+		
+		<![CDATA[
+			INSERT INTO PRJ1003
+			(
+               	PRJ_ID				,	ITEM_ID		,	REQ_ID
+            ,	ITEM_VALUE			,	ITEM_VALUE_NM	
+            ,	REG_DTM				,	REG_USR_ID  		,	REG_USR_IP
+            ,	MODIFY_DTM			,	MODIFY_USR_ID		,	MODIFY_USR_IP
+        )VALUES(
+                #prjId#				,	#itemId#	,	#reqId#
+            ,	#itemValue#			,	#itemValueNm#	
+            ,	SYSDATE				,	#regUsrId#			,	#regUsrIp#
+            ,	SYSDATE				,	#regUsrId#			,	#regUsrIp#
+        )		
+		
+		]]>
+	</insert>
+	
+	
+	<update id="prj1000DAO.updatePrj1002ItemAjax" parameterClass="java.util.Map">
+		
+		UPDATE	PRJ1002 A
+        SET		
+             	ITEM_NM				= #itemNm#
+            ,	ITEM_CODE   		= #itemCode#
+            ,	ITEM_COMMON_CODE	= #itemCommonCode#
+            ,	ITEM_PC_ROW_NUM   	= #itemPcRowNum#
+            ,	ITEM_TABLET_ROW_NUM	= #itemTabletRowNum#
+            ,	ITEM_MOBILE_ROW_NUM	= #itemMobileRowNum#
+            ,	ITEM_TYPE   		= #itemType#
+            ,	ITEM_LENGTH   		= #itemLength#
+            ,	ITEM_ESSENTIAL_CD   = #itemEssentialCd#
+            <isNotEmpty property="itemAcceptCd">
+            ,	ITEM_ACCEPT_CD 	 	= #itemAcceptCd#
+            </isNotEmpty>
+            <isEmpty property="itemAcceptCd">
+            ,	ITEM_ACCEPT_CD 	 	= '02'
+            </isEmpty>
+            
+            <isNotEmpty property="itemRequestCd">
+            ,	ITEM_REQUEST_CD 	= #itemRequestCd#
+            </isNotEmpty>
+            <isEmpty property="itemRequestCd">
+            ,	ITEM_REQUEST_CD 	= '02'
+            </isEmpty>
+            ,	ITEM_ORD   			= #itemOrd#
+            ,	ITEM_MIN_VAL		= #itemMinVal#
+            ,	ITEM_MAX_VAL		= #itemMaxVal#
+            ,	MODIFY_DTM      	= sysdate
+            ,	MODIFY_USR_ID   	= #modifyusrid#
+            ,	MODIFY_USR_IP   	= #modifyusrip#
+        WHERE	1=1
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.ITEM_ID		=	#itemId#
+	</update>
+	
+	
+	
+	<update id="prj1000DAO.updatePrj1003ItemAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		UPDATE	PRJ1003 A
+        SET		
+             	ITEM_VALUE			= #itemValue#
+            ,	ITEM_VALUE_NM  		= #itemValueNm#
+            ,	MODIFY_DTM      	= sysdate
+            ,	MODIFY_USR_ID   	= #modifyusrid#
+            ,	MODIFY_USR_IP   	= #modifyusrip#
+        WHERE	1=1
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.ITEM_ID		=	#itemId#
+	]]>
+	</update>
+	
+	
+	<delete id="prj1000DAO.deletePrj1002ItemAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		DELETE	
+		FROM	PRJ1002 A
+        WHERE	1=1
+	        AND	A.PRJ_ID		=	#prjId#
+	]]>
+	</delete>
+	
+	
+	
+	<delete id="prj1000DAO.deletePrj1002ItemInfoAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		DELETE	
+		FROM	PRJ1002 A
+        WHERE	1=1
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.ITEM_ID		=	#itemId#
+	        AND	A.REQ_ID		=	#reqId#
+	]]>
+	</delete>
+	
+	
+	<delete id="prj1000DAO.deletePrj1003ItemAjax" parameterClass="java.util.Map">
+	<![CDATA[
+		
+		DELETE	
+		FROM	PRJ1003 A
+        WHERE	1=1
+	        AND	A.PRJ_ID		=	#prjId#
+	        AND	A.ITEM_ID		=	#itemId#
+	        AND	A.REQ_ID		=	#reqId#
+	]]>
 	</delete>
 </sqlMap>
