@@ -275,12 +275,6 @@
 						}
 	 				});
 
-	 				
-	 				$(".bad-charger-group-list").click(function(){
-	 					
-	 					return false;
-	 				});
-	 				
 					
 					$(".bad-charger-list").click(function(){
 						$.osl.user.usrInfoPopup($(this).data("user"));
@@ -398,16 +392,16 @@
 			 												
 			 												
 				 											if(value.authTypeCd=="01"){
-				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle bad-charger-group-list' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")'><span><i class='fa flaticon2-group kt-font-bold'></i></span></a>";
+				 												resultStr += "<div class='kt-media kt-media--xs kt-media--circle osl-cursor__pointer' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"("+$.osl.escapeHtml(value.prjNm)+")'><span><i class='fa flaticon2-group kt-font-bold'></i></span></div>";
 				 											}else{
-				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle bad-charger-list' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-user='"+value.authTargetId+"'><img src='/cmm/fms/getImage.do?fileSn=0&atchFileId="+value.authTargetImgId+"'></a>";
+				 												resultStr += "<div class='kt-media kt-media--xs kt-media--circle bad-charger-list osl-cursor__pointer' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-original-title='"+$.osl.escapeHtml(value.authTargetNm)+"' data-user='"+value.authTargetId+"'><img src='/cmm/fms/getImage.do?fileSn=0&atchFileId="+value.authTargetImgId+"'></div>";
 				 											}
 			 												
 				 											lastCount = badChargerList.length - (index+1);
 			 											}else{
 			 												if(index == 6){
 			 													
-				 												resultStr += "<a href='#' class='kt-media kt-media--xs kt-media--circle other-bad-charger-list' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' data-original-title='"+$.osl.lang("stm2101.label.otherAdmin")+" "+lastCount+"'><span>+"+lastCount+"</span></a>";
+				 												resultStr += "<div class='kt-media kt-media--xs kt-media--circle other-bad-charger-list osl-cursor__pointer' data-toggle='kt-tooltip' data-skin='brand' data-placement='top' data-original-title='"+$.osl.lang("stm2101.label.otherAdmin")+" "+lastCount+"'><span>+"+lastCount+"</span></div>";
 			 												}
 			 											}
 			 										});

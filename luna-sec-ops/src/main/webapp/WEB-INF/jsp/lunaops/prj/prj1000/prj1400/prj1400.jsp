@@ -273,10 +273,10 @@ var OSLPrj1400Popup = function () {
 									if(authIdx > 10){
 										
 										var endAuthCnt = (prjAuthTargetList.length-authIdx);
-										prjGrpAuthList += '<a href="#" class="kt-media kt-media--xs kt-media--circle" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" title="" data-original-title="그 외 담당자 +'+endAuthCnt+'"><span>'+endAuthCnt+'+</span></a>';
+										prjGrpAuthList += '<div class="kt-media kt-media--xs kt-media--circle osl-cursor__pointer" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" title="" data-original-title="그 외 담당자 +'+endAuthCnt+'"><span>'+endAuthCnt+'+</span></div>';
 										return false;
 									}else{
-										prjGrpAuthList += '<a href="#" class="kt-media kt-media--xs kt-media--circle" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" title="'+authMap.authTargetNm+'" data-original-title="'+authMap.authTargetNm+'" onclick="$.osl.user.usrInfoPopup(\''+authMap.authTargetId+'\');"><img src="'+authMap.authImg+'"></a>';
+										prjGrpAuthList += '<div class="kt-media kt-media--xs kt-media--circle osl-cursor__pointer" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" title="'+authMap.authTargetNm+'" data-original-title="'+authMap.authTargetNm+'" onclick="$.osl.user.usrInfoPopup(\''+authMap.authTargetId+'\');"><img src="'+authMap.authImg+'"></div>';
 									}
 								});
 							}catch(subE){
@@ -372,14 +372,14 @@ var OSLPrj1400Popup = function () {
 													+'<div class="osl-widget-info__item">'
 														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqPointer.png"></div>'
 														+'<div class="osl-widget-info__item-info">'
-															+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1400.projectCnt")+'</a>'
+															+'<div class="osl-widget-info__item-title osl-cursor__pointer">'+$.osl.lang("prj1400.projectCnt")+'</div>'
 															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.prjChildCnt)+'</div>'
 														+'</div>'
 													+'</div>'
 													+'<div class="osl-widget-info__item">'
 														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqAll.png"></div>'
 														+'<div class="osl-widget-info__item-info">'
-															+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1400.requestAll")+'</a>'
+															+'<div class="osl-widget-info__item-title osl-cursor__pointer">'+$.osl.lang("prj1400.requestAll")+'</div>'
 															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqAllCnt)+'</div>'
 														+'</div>'
 													+'</div>'
@@ -390,14 +390,14 @@ var OSLPrj1400Popup = function () {
 													+'<div class="osl-widget-info__item">'
 														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqInProgress.png"></div>'
 														+'<div class="osl-widget-info__item-info">'
-															+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1400.requestInProgress")+'</a>'
+															+'<div class="osl-widget-info__item-title osl-cursor__pointer">'+$.osl.lang("prj1400.requestInProgress")+'</div>'
 															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqInProgressCnt)+'</div>'
 														+'</div>'
 													+'</div>'
 													+'<div class="osl-widget-info__item">'
 														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqDone.png"></div>'
 														+'<div class="osl-widget-info__item-info">'
-															+'<a href="#" class="osl-widget-info__item-title">'+$.osl.lang("prj1400.requestDone")+'</a>'
+															+'<div class="osl-widget-info__item-title osl-cursor__pointer">'+$.osl.lang("prj1400.requestDone")+'</div>'
 															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.reqDoneCnt)+'</div>'
 														+'</div>'
 													+'</div>'

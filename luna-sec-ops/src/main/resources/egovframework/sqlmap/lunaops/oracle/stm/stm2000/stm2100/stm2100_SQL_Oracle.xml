@@ -211,6 +211,7 @@
 			ON(
 				D.PRJ_ID = A.PRJ_GRP_ID
 			)
+			WHERE 1 = 1
 			AND A.LIC_GRP_ID = #licGrpId#
 			AND A.MENU_ID = #menuId#
 			
@@ -348,6 +349,7 @@
 			ON(
 				D.PRJ_ID = A.PRJ_GRP_ID
 			)
+			WHERE 1 = 1
 			AND A.LIC_GRP_ID = #licGrpId#
 			AND A.MENU_ID = #menuId#
 			
