@@ -2117,7 +2117,7 @@ label.required:after {
 }
 .osl-slideshow-container{
 	max-width: 400px;
-	height: 400px;
+	height: 420px;
 	line-height: 400px;
 	margin: 0 auto;
 }
@@ -2178,7 +2178,7 @@ label.required:after {
  	max-width: 360px; 
 	max-height: 240px;
 	vertical-align: middle;
-} 
+}
 .osl-tag__list-div{
 	overflow: hidden;
 }
@@ -2196,6 +2196,19 @@ label.required:after {
 	line-height: 40px;
 	float:left;
 	text-align: center;
+}
+.osl-bad__writer-div{
+	line-height: 40px;
+	float: left;
+	text-align: left !important;
+}
+.osl-bad__sub-div{
+	line-height: 40px;
+	float: right;
+	text-align: right !important;
+}
+.osl-bad__sub-div>div:first-child{
+	margin-left: auto;
 }
 .osl-portlet__head-label>div:nth-child(2){
 	text-align: right;
@@ -3158,7 +3171,7 @@ form#frCmm6201 .osl-process__flow-container {
 	
 	.osl-slideshow-container{
 		max-width: 380px;
-		height: 380px;
+		height: 400px;
 		line-height: 380px;
 	}
 	.osl-slideshow-img__limite{
@@ -3403,6 +3416,12 @@ form#frCmm6201 .osl-process__flow-container {
 	.osl-portlet__head-label>div{
 		width: 35%;
 	}
+	.osl-portlet__head-label>div.osl-bad__writer-div{
+		width: 40% !important;
+	}
+	.osl-portlet__head-label>div.osl-bad__sub-div{
+		width: 60% !important;
+	}
 	.osl-bad-columns-2__left{
 		width: 100%;
 	}
@@ -3496,6 +3515,19 @@ form#frCmm6201 .osl-process__flow-container {
 	.osl-tab-content--full>.osl-tab-content-8{
 		margin-left: 0;
 	}
+	
+	.osl-portlet__head-label>div.osl-bad__writer-div{
+		width: 100% !important;
+	}
+	.osl-portlet__head-label>div.osl-bad__sub-div{
+		width: 100% !important;
+	}
+	.osl-bad__sub-div>div:first-child{
+		margin-left: 0;
+	}
+	.osl-bad__sub-div>div:last-child{
+		margin-left: auto !important;
+	}
 }
 @media (min-width:1024px){
 	.osl-timeline-item-right{
@@ -3550,7 +3582,7 @@ form#frCmm6201 .osl-process__flow-container {
 	
 	.osl-slideshow-container{
 		max-width: 300px;
-		height: 300px;
+		height: 320px;
 		line-height: 300px;
 	}
 	.osl-slideshow-img__limite{
@@ -3574,6 +3606,13 @@ form#frCmm6201 .osl-process__flow-container {
 	
 	.osl-flex-flow--column-mobile{
 		flex-flow: column !important;
+	}
+	
+	.osl-gallery__img{
+		height: 50vw;
+	}
+	.osl-gallery__img-limite {
+	    max-height: 50vw !important;
 	}
 }
 
@@ -3684,6 +3723,14 @@ form#frCmm6201 .osl-process__flow-container {
 	}
 	.osl-user-card-v2__details-mobile{
 		max-width : 200px !important;
+	}
+	.osl-portlet__head-label>div.osl-bad__sub-div{
+		height: 40px !important;
+		line-height: 40px !important;
+	}
+	.osl-bad__sub-div > div{
+		height: 40px !important;
+		line-height: 40px !important;
 	}
 }
 
