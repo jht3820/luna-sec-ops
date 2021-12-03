@@ -21,7 +21,7 @@
 							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div class="form-group">
 									<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span>프로세스명</span></label>
-									<input type="text" class="form-control" placeholder="프로세스명" name="processNm" id="processNm" opttype="-1" required>
+									<input type="text" class="form-control" placeholder="프로세스명" name="processNm" id="processNm" maxlength="50" opttype="-1" required>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-12 col-sm-12">

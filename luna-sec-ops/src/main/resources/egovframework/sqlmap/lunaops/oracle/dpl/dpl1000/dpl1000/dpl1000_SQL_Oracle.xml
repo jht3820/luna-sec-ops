@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="dpl1000DAO">
 
@@ -10,6 +10,34 @@
 	<typeAlias alias="BuildVO"	type="kr.opensoftlab.sdf.jenkins.vo.BuildVO"/>
 	<typeAlias alias="ChangeVO"	type="kr.opensoftlab.sdf.jenkins.vo.ChangeVO"/>
 	<typeAlias alias="ChangePathsVO"	type="kr.opensoftlab.sdf.jenkins.vo.ChangePathsVO"/>
+	
+	
+    <resultMap id="resultMapDpl1400SelBuildInfo" class="HashMap">
+		<result property="prjId" 				column="PRJ_ID" />
+		<result property="dplId" 				column="DPL_ID" />
+		<result property="dplNm" 				column="DPL_NM" />
+		<result property="jenId" 				column="JEN_ID" />
+		<result property="jobId" 				column="JOB_ID" />
+		<result property="jobRestoreId" 		column="JOB_RESTORE_ID" />
+		<result property="bldSeq" 				column="BLD_SEQ" />
+		<result property="bldNum" 				column="BLD_NUM" />
+		<result property="bldMainNum" 			column="BLD_MAIN_NUM" />
+		<result property="bldResult" 			column="BLD_RESULT" />
+		<result property="bldResultMsg" 		column="BLD_RESULT_MSG" />
+		<result property="bldDurationTm" 		column="BLD_DURATION_TM" />
+		<result property="bldStartDtm" 			column="BLD_START_DTM" />
+		<result property="bldConsoleLog" 		column="BLD_CONSOLE_LOG" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="bldRestoreNum"		column="BLD_RESTORE_NUM" />
+		<result property="bldRestoreResult" 	column="BLD_RESTORE_RESULT" />
+		<result property="bldRestoreResultMsg" 	column="BLD_RESTORE_RESULT_MSG" />
+		<result property="bldConsoleRestoreLog" column="BLD_CONSOLE_RESTORE_LOG" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="regDtm" 				column="REG_DTM" />
+		<result property="regUsrId" 			column="REG_USR_ID" />
+		<result property="regUsrIp" 			column="REG_USR_IP" />
+		<result property="modifyDtm" 			column="MODIFY_DTM" />
+		<result property="modifyUsrId" 			column="MODIFY_USR_ID" />
+		<result property="modifyUsrIp" 			column="MODIFY_USR_IP" />
+	</resultMap> 
 	
 	
 	<sql id="selectDpl1000DplListbase">
@@ -95,6 +123,7 @@
 								, 	TARGET_ID
 								, 	TARGET_CD
 								, 	MAX(SIGN_DTM) AS MAX_SIGN_DTM 
+                				,	MAX(SIGN_LINE_ID) AS SIGN_LINE_ID
 							FROM 	CMM6601 
 							GROUP BY  LIC_GRP_ID
 									, PRJ_ID
@@ -102,13 +131,16 @@
 									, TARGET_ID
 						) B
 		    ON (A.PRJ_ID = B.PRJ_ID AND A.DPL_ID = B.TARGET_ID)
-		    LEFT JOIN CMM6601 C
-		    ON (B.LIC_GRP_ID = C.LIC_GRP_ID AND B.PRJ_ID = C.PRJ_ID AND B.TARGET_ID = C.TARGET_ID AND B.TARGET_CD = C.TARGET_CD AND B.MAX_SIGN_DTM = C.SIGN_DTM)
-		    LEFT JOIN CMM6600 D
+		    LEFT JOIN CMM6601 C 
+		    ON (B.LIC_GRP_ID = C.LIC_GRP_ID AND B.PRJ_ID = C.PRJ_ID AND B.TARGET_ID = C.TARGET_ID AND B.TARGET_CD = C.TARGET_CD AND B.MAX_SIGN_DTM = C.SIGN_DTM AND B.SIGN_LINE_ID = C.SIGN_LINE_ID)
+		    LEFT JOIN (SELECT * FROM CMM6600 WHERE DEL_CD = '02') D
 		    ON (B.LIC_GRP_ID = D.LIC_GRP_ID AND B.PRJ_ID = D.PRJ_ID AND B.TARGET_ID = D.TARGET_ID AND B.TARGET_CD = D.TARGET_CD AND (C.ORD+1) = D.ORD)
 			WHERE 1=1
 			AND A.PRJ_ID = #prjId#
 			AND A.DPL_DEL_CD = '02'
+			<isNotEmpty property="paramDplStsCd">
+				AND A.DPL_STS_CD = #paramDplStsCd#
+			</isNotEmpty>
 			<isNotEmpty property="paramSortFieldId">
 				<isNotEmpty property="sortDirection">
 					ORDER BY $paramSortFieldId$
@@ -125,6 +157,9 @@
 			</isEmpty> 
 		) SUB1
 		WHERE 1=1
+		<isNotEmpty property="paramSearchData">
+			AND SUB1.DPL_NM LIKE '%'|| #paramSearchData# ||'%'
+		</isNotEmpty>
 		<isNotEmpty property="searchTargetData">
 			<isNotEmpty property="searchTargetId">
 				<isEqual property="searchTargetId" compareValue="dplNm">
@@ -640,7 +675,7 @@
 		SELECT
 				SUB1.LIC_GRP_ID
 			,	SUB1.PRJ_ID
-			,	SUB1.SIGN_ID
+			,	SUB1.SIGN_LINE_ID
 			,	SUB1.TARGET_CD
 			,	SUB1.TARGET_ID
 			,	SUB1.ORD
@@ -668,7 +703,7 @@
 			SELECT	
 		    			A.LIC_GRP_ID
 		    		,	A.PRJ_ID
-		    		,	A.SIGN_ID
+		    		,	A.SIGN_LINE_ID
 		    		,	A.TARGET_CD
 		    		,	A.TARGET_ID
 		    		,	A.ORD
@@ -686,13 +721,12 @@
 		    		,	'SIG' AS TYPE
 		    	FROM	CMM6601 A
 		    	LEFT JOIN CMM6600 B
-		    	ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID =B.TARGET_ID AND A.TARGET_CD =B.TARGET_CD AND (A.ORD+1) = B.ORD)
+		    	ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID =B.TARGET_ID AND A.TARGET_CD =B.TARGET_CD AND (A.ORD+1) = B.ORD AND A.SIGN_LINE_ID = B.SIGN_LINE_ID)
 		    	WHERE   1 = 1
 		    	AND		A.LIC_GRP_ID = #licGrpId#
 		    	AND		A.PRJ_ID	   = #prjId#
 		    	AND		A.TARGET_ID  = #targetId#
     			AND		A.TARGET_CD  = #targetCd#
-    			
 		) SUB1
 		WHERE 1=1
 		ORDER BY SUB1.SIGN_DTM DESC
@@ -711,13 +745,13 @@
                 , 	SUB1.BLD_SEQ
                 , 	SUB1.BLD_NUM
                 , 	SUB1.BLD_RESULT
-                , 	SF_STM4001_COM_CD_INFO(#licGrpId#, 'DPL00002', SUB1.JOB_TYPE_CD, '1') AS JOB_TYPE_NM
+                , 	(SELECT X.SUB_CD_NM FROM STM4001 X WHERE X.LIC_GRP_ID = #licGrpId# AND X.MST_CD = 'DPL00002' AND X.SUB_CD = SUB1.JOB_TYPE_CD) AS JOB_TYPE_NM
                 , 	SUB1.REG_DTM
                 , 	SUB1.BLD_RESULT_MSG
                	, 	SUB1.REG_USR_ID
-                , 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 1) AS REG_USR_NM
-				, 	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, 6) AS REG_USR_IMG
-				,	SF_STM3000_USR_INFO(SUB1.REG_USR_ID, '2')  AS REG_USR_EMAIL
+                ,	(SELECT X.USR_NM FROM STM3000 X WHERE X.LIC_GRP_ID = #licGrpId# AND X.USR_ID = SUB1.REG_USR_ID)  AS REG_USR_NM
+                ,	(SELECT X.USR_IMG_ID FROM STM3000 X WHERE X.LIC_GRP_ID = #licGrpId# AND X.USR_ID = SUB1.REG_USR_ID)  AS REG_USR_IMG_ID
+                ,	(SELECT X.EMAIL FROM STM3000 X WHERE X.LIC_GRP_ID = #licGrpId# AND X.USR_ID = SUB1.REG_USR_ID)  AS REG_USR_EMAIL
             FROM
             (
  				SELECT 
@@ -742,6 +776,74 @@
                 ORDER BY A.REG_DTM DESC
             ) SUB1
      </select>
+     
+    
+	<select id="dpl1000DAO.selectDpl1400DplSelBuildInfo" parameterClass="java.util.Map" resultMap="resultMapDpl1400SelBuildInfo">
+		<![CDATA[
+			
+			SELECT
+					SUB1.PRJ_ID
+				,	SUB1.DPL_ID
+				,	(SELECT X.DPL_NM FROM DPL1000 X WHERE X.PRJ_ID = SUB1.PRJ_ID AND X.DPL_ID = SUB1.DPL_ID) AS DPL_NM
+				,	SUB1.JEN_ID
+				,	SUB1.JOB_ID
+				,	SUB1.JOB_RESTORE_ID
+				,	SUB1.BLD_SEQ
+				,	SUB1.BLD_NUM
+				,	SUB1.BLD_MAIN_NUM
+				,	SUB1.BLD_RESULT
+				,	SUB1.BLD_RESULT_MSG
+				,	SUB1.BLD_DURATION_TM
+				,	SUB1.BLD_START_DTM
+				,	SUB1.BLD_CONSOLE_LOG
+				,	SUB1.BLD_RESTORE_NUM
+				,	SUB1.BLD_RESTORE_RESULT
+				,	SUB1.BLD_RESTORE_RESULT_MSG
+				,	SUB1.BLD_CONSOLE_RESTORE_LOG
+				,	SUB1.REG_DTM
+				,	SUB1.REG_USR_ID
+				,	SUB1.REG_USR_IP
+				,	SUB1.MODIFY_DTM
+				,	SUB1.MODIFY_USR_ID
+				,	SUB1.MODIFY_USR_IP
+			FROM
+			(
+				SELECT
+						A.PRJ_ID
+					,	A.DPL_ID
+					,	A.JEN_ID
+					,	A.JOB_ID
+					,	B.JOB_RESTORE_ID
+					,	A.BLD_SEQ
+					,	A.BLD_NUM
+					,	A.BLD_MAIN_NUM
+					,	A.BLD_RESULT
+					,	A.BLD_RESULT_MSG
+					,	A.BLD_DURATION_TM
+					,	A.BLD_START_DTM
+					,	A.BLD_CONSOLE_LOG
+					,	'' AS BLD_RESTORE_NUM
+					,	'' AS BLD_RESTORE_RESULT
+					,	'' AS BLD_RESTORE_RESULT_MSG
+					,	'' AS BLD_CONSOLE_RESTORE_LOG
+					,	A.REG_DTM
+					,	A.REG_USR_ID
+					,	A.REG_USR_IP
+					,	A.MODIFY_DTM
+					,	A.MODIFY_USR_ID
+					,	A.MODIFY_USR_IP
+				FROM DPL1400 A 
+				LEFT JOIN STM9001 B 
+				ON(B.LIC_GRP_ID = #licGrpId# AND B.JEN_ID = A.JEN_ID AND B.JOB_ID = A.JOB_ID)
+				WHERE 1=1
+				AND A.PRJ_ID = #prjId# 
+				AND A.DPL_ID = #dplId# 
+				AND A.JEN_ID = #jenId#
+				AND A.JOB_ID = #jobId#
+				AND A.BLD_SEQ = #bldSeq#
+			) SUB1
+		]]>
+	</select>
     
 	
 	
@@ -817,33 +919,6 @@
 		<result property="modifyUsrIp"      column="MODIFY_USR_IP" />  
     </resultMap>
     
-    <resultMap id="resultMapSelectDpl1400" class="HashMap">
-		<result property="prjId" column="PRJ_ID" />
-		<result property="dplId" column="DPL_ID" />
-		<result property="dplNm" column="DPL_NM" />
-		<result property="jenId" column="JEN_ID" />
-		<result property="jobId" column="JOB_ID" />
-		<result property="jobRestoreId" column="JOB_RESTORE_ID" />
-		<result property="bldSeq" column="BLD_SEQ" />
-		<result property="bldNum" column="BLD_NUM" />
-		<result property="bldMainNum" column="BLD_MAIN_NUM" />
-		<result property="bldResult" column="BLD_RESULT" />
-		<result property="bldResultMsg" column="BLD_RESULT_MSG" />
-		<result property="bldDurationTm" column="BLD_DURATION_TM" />
-		<result property="bldStartDtm" column="BLD_START_DTM" />
-		<result property="bldConsoleLog" column="BLD_CONSOLE_LOG" jdbcType="CLOB" javaType="java.lang.String"/>
-		<result property="bldRestoreNum" column="BLD_RESTORE_NUM" />
-		<result property="bldRestoreResult" column="BLD_RESTORE_RESULT" />
-		<result property="bldRestoreResultMsg" column="BLD_RESTORE_RESULT_MSG" />
-		<result property="bldConsoleRestoreLog" column="BLD_CONSOLE_RESTORE_LOG" jdbcType="CLOB" javaType="java.lang.String"/>
-		<result property="regDtm" column="REG_DTM" />
-		<result property="regUsrId" column="REG_USR_ID" />
-		<result property="regUsrIp" column="REG_USR_IP" />
-		<result property="modifyDtm" column="MODIFY_DTM" />
-		<result property="modifyUsrId" column="MODIFY_USR_ID" />
-		<result property="modifyUsrIp" column="MODIFY_USR_IP" />
-	</resultMap>
-	
    	<sql id="dpl1000DAO.selectDpl1000BaseList">
 		<![CDATA[
 		SELECT *
@@ -1091,143 +1166,6 @@
 			<include refid="dpl1000DAO.selectDpl1000BuildList"/>
 		) A
     </select>
-	
-	
-	
-	<select id="dpl1000DAO.selectDpl1400DplJobBuildInfo" parameterClass="java.util.Map" resultMap="resultMapSelectDpl1400">
-		<![CDATA[
-			
-			SELECT
-				A.PRJ_ID
-				,A.DPL_ID
-				,SF_DPL1000_DPL_INFO(A.PRJ_ID, A.DPL_ID,'1') AS DPL_NM
-				,A.JEN_ID
-				,A.JOB_ID
-                ,B.JOB_RESTORE_ID
-				,A.BLD_SEQ
-				,A.BLD_NUM
-				,C.BLD_MAIN_NUM
-				,A.BLD_RESULT
-				,A.BLD_RESULT_MSG
-				,A.BLD_DURATION_TM
-				,A.BLD_START_DTM
-				,A.BLD_CONSOLE_LOG
-				,C.BLD_NUM AS BLD_RESTORE_NUM
-				,C.BLD_RESULT AS BLD_RESTORE_RESULT
-                ,C.BLD_RESULT_MSG AS BLD_RESTORE_RESULT_MSG
-                ,C.BLD_CONSOLE_LOG AS BLD_CONSOLE_RESTORE_LOG
-                ,A.REG_DTM
-				,A.REG_USR_ID
-				,A.REG_USR_IP
-				,A.MODIFY_DTM
-				,A.MODIFY_USR_ID
-				,A.MODIFY_USR_IP
-			FROM DPL1400 A LEFT JOIN STM9001 B ON(B.LIC_GRP_ID = #licGrpId# AND B.JEN_ID = A.JEN_ID AND B.JOB_ID = A.JOB_ID)
-               LEFT JOIN (
-               	SELECT *
-                   FROM DPL1400 Y
-                   WHERE 1=1
-                   AND Y.BLD_SEQ = (
-                               SELECT
-                                             BLD_SEQ
-                                 FROM
-                                           DPL1400 Z
-                                  WHERE 	1=1
-                                   AND Z.PRJ_ID = Y.PRJ_ID
-                                   AND Z.DPL_ID = Y.DPL_ID 
-                                   AND Z.JEN_ID = Y.JEN_ID
-                                   AND Z.JOB_ID = Y.JOB_ID
-                                   AND 	ROWNUM 		= 1
-                               )
-               ) C ON (C.PRJ_ID = A.PRJ_ID AND C.DPL_ID = A.DPL_ID AND C.JEN_ID = A.JEN_ID AND C.JOB_ID = B.JOB_RESTORE_ID AND C.BLD_MAIN_NUM = A.BLD_NUM)
-			WHERE 1=1
-				AND A.PRJ_ID = #prjId# 
-				AND A.DPL_ID = #dplId# 
-				AND A.JEN_ID = #jenId#
-				AND A.JOB_ID = #jobId#
-				AND A.BLD_SEQ = (
-               			SELECT 
-					            	  BLD_SEQ
-					      FROM 
-					      			DPL1400 Z 
-						   WHERE 	1=1
-							AND 	Z.PRJ_ID 	= A.PRJ_ID
-							AND 	Z.DPL_ID 	= A.DPL_ID
-                               AND 	Z.JEN_ID 	= A.JEN_ID
-                               AND 	Z.JOB_ID 	= A.JOB_ID
-							AND 	ROWNUM 		= 1
-       					)
-		]]>
-	</select>
-	
-	
-	<select id="dpl1000DAO.selectDpl1400DplSelBuildInfoAjax" parameterClass="java.util.Map" resultMap="resultMapSelectDpl1400">
-		<![CDATA[
-			
-			SELECT
-					SUB1.PRJ_ID
-				,	SUB1.DPL_ID
-				,	SF_DPL1000_DPL_INFO(SUB1.PRJ_ID, SUB1.DPL_ID,'1') AS DPL_NM
-				,	SUB1.JEN_ID
-				,	SUB1.JOB_ID
-				,	SUB1.JOB_RESTORE_ID
-				,	SUB1.BLD_SEQ
-				,	SUB1.BLD_NUM
-				,	SUB1.BLD_MAIN_NUM
-				,	SUB1.BLD_RESULT
-				,	SUB1.BLD_RESULT_MSG
-				,	SUB1.BLD_DURATION_TM
-				,	SUB1.BLD_START_DTM
-				,	SUB1.BLD_CONSOLE_LOG
-				,	SUB1.BLD_RESTORE_NUM
-				,	SUB1.BLD_RESTORE_RESULT
-				,	SUB1.BLD_RESTORE_RESULT_MSG
-				,	SUB1.BLD_CONSOLE_RESTORE_LOG
-				,	SUB1.REG_DTM
-				,	SUB1.REG_USR_ID
-				,	SUB1.REG_USR_IP
-				,	SUB1.MODIFY_DTM
-				,	SUB1.MODIFY_USR_ID
-				,	SUB1.MODIFY_USR_IP
-			FROM
-			(
-				SELECT
-						A.PRJ_ID
-					,	A.DPL_ID
-					,	A.JEN_ID
-					,	A.JOB_ID
-					,	B.JOB_RESTORE_ID
-					,	A.BLD_SEQ
-					,	A.BLD_NUM
-					,	A.BLD_MAIN_NUM
-					,	A.BLD_RESULT
-					,	A.BLD_RESULT_MSG
-					,	A.BLD_DURATION_TM
-					,	A.BLD_START_DTM
-					,	A.BLD_CONSOLE_LOG
-					,	'' AS BLD_RESTORE_NUM
-					,	'' AS BLD_RESTORE_RESULT
-					,	'' AS BLD_RESTORE_RESULT_MSG
-					,	'' AS BLD_CONSOLE_RESTORE_LOG
-					,	A.REG_DTM
-					,	A.REG_USR_ID
-					,	A.REG_USR_IP
-					,	A.MODIFY_DTM
-					,	A.MODIFY_USR_ID
-					,	A.MODIFY_USR_IP
-				FROM DPL1400 A 
-				LEFT JOIN STM9001 B 
-				ON(B.LIC_GRP_ID = #licGrpId# AND B.JEN_ID = A.JEN_ID AND B.JOB_ID = A.JOB_ID)
-				WHERE 1=1
-				AND A.PRJ_ID = #prjId# 
-				AND A.DPL_ID = #dplId# 
-				AND A.JEN_ID = #jenId#
-				AND A.JOB_ID = #jobId#
-				AND A.BLD_SEQ = #bldSeq#
-			) SUB1
-		]]>
-	</select>
-	
 	
 	
 	<insert id="dpl1000DAO.insertDpl1400DeployJobBuildLogInfo" parameterClass="BuildVO">

@@ -209,9 +209,6 @@
 				}
 			],
 			searchColumns: searchAdd,
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("bad1000.actionBtn.title"),
 				"width" : 200,

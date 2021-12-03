@@ -375,6 +375,10 @@ var OSLCmm6200Popup = function () {
 	var zoomObj;
 	var currentZoom = 2;
 	
+	
+	var reqChargerSetting = true;
+	
+	
     
     var documentSetting = function () {
     	$("#usrImgId").attr("src",$.osl.user.usrImgUrlVal(""));
@@ -712,6 +716,13 @@ var OSLCmm6200Popup = function () {
     					map.itemOrd = itemOrd+idx+1;
     					basicItemInsertList[idx] = map;
     				});
+    			}else{
+    		   		
+    				$.each(basicItemInsertList, function(idx, map){
+    					map.itemOrd = idx+1;
+    					basicItemInsertList[idx] = map;
+    				});
+    				
     			}
     	   		
 				if (result.value) {
@@ -919,6 +930,27 @@ var OSLCmm6200Popup = function () {
 					
 					fnSelRequestInfo(rowData.prjId, rowData.reqId);
 				},
+			},
+			callback:{
+				ajaxDone: function(evt, list){
+					
+					if(reqChargerSetting && !$.osl.isNull(list) && list.length == 1){
+						var reqInfo = list[0];
+						
+						
+						var reqChargerId = reqInfo.reqChargerId;
+						var reqChargerNm = reqInfo.reqChargerNm;
+						
+						
+						if(!$.osl.isNull(reqChargerId)){
+							$("#selReqChargerId").val(reqChargerId);
+							$("#selReqChargerNm").val(reqChargerNm);
+						}
+						
+						
+						reqChargerSetting = false;
+					}
+				}
 			}
 		});
 	};
@@ -958,8 +990,7 @@ var OSLCmm6200Popup = function () {
 				 }
 			},
 			rows:{
-				minHeight: 45,
-				clickCheckbox: true
+				minHeight: 45
 			},
 			columns: [
 				{field: 'processId', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
@@ -1077,7 +1108,7 @@ var OSLCmm6200Popup = function () {
    								flowSignCd: map.flowSignCd,
    								flowSignStopCd: map.flowSignStopCd,
    								flowStartCd: map.flowStartCd,
-   								flowEndCd: map.flowEndCd,
+   								flowMiddleEndCd: map.flowMiddleEndCd,
    								flowWorkCd: map.flowWorkCd,
    								flowRevisionCd: map.flowRevisionCd,
    								flowDplCd: map.flowDplCd,

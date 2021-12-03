@@ -33,6 +33,9 @@
 			<isNotEmpty property="strgRepId">
 				AND A.STRG_REP_ID = #strgRepId#
 			</isNotEmpty>
+			<isNotEmpty property="useCd">
+				AND A.USE_CD = #useCd#
+			</isNotEmpty>
 			<isNotEmpty property="searchTargetData">
 				<isNotEmpty property="searchTargetId">
 					<isEqual property="searchTargetId" compareValue="strgTypeCd">

@@ -401,7 +401,28 @@ var OSLPrj1100Popup = function () {
 			}
 			
 			else if(flowAction == "detail"){
-				console.log("detail");
+				var selFlowId = flowChart.flowchart("getSelectedOperatorId");
+				if($.osl.isNull(selFlowId)){
+					$.osl.alert($.osl.lang("prj1100.alert.selNoneFlow"));
+					return false;
+				}
+				
+				var data = {
+						paramPrjGrpId: $.osl.selPrjGrpId,
+						paramPrjId: $.osl.selPrjId,
+						paramProcessId: selProcessId,
+						paramFlowId: selFlowId,
+						paramFlowchartTarget: "#flowChartDiv"
+				};
+				var options = {
+					autoHeight: false,
+					modalSize: "xl",
+					idKey: selProcessId,
+					modalTitle: $.osl.lang("prj1103.insert.title"),
+					closeConfirm: false,
+				};
+				
+				$.osl.layerPopupOpen('/prj/prj1000/prj1100/selectPrj1103View.do',data,options);
 			}
 			
 			else if(flowAction == "zommCtrl"){
@@ -934,6 +955,7 @@ var OSLPrj1100Popup = function () {
    								id: map.flowId,
    								flowNextId: flowNextId,
    								title: $.osl.escapeHtml(map.flowNm),
+   								flowDesc: $.osl.escapeHtml(map.flowDesc),
    								editable: true,
    								inputs: {input_1: {label: '이전'}},
    								outputs: {output_1: {label: '다음'}},
@@ -947,6 +969,7 @@ var OSLPrj1100Popup = function () {
    								flowRevisionCd: map.flowRevisionCd,
    								flowDplCd: map.flowDplCd,
    								flowAuthCd: map.flowAuthCd,
+   								flowMiddleEndCd: map.flowMiddleEndCd,
    								basicItemList: map.basicItemList
    							}
    						};

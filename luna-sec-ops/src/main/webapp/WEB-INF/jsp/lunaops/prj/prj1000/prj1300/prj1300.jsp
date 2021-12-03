@@ -126,7 +126,9 @@ var OSLPrj1300Popup = function () {
 		treeObj = $.osl.tree.setting("prj1300TemplateTree",{
 			data:{
 				url:"<c:url value='/prj/prj1000/prj1300/selectPrj1300TemplateListAjax.do'/>",
-				paramPrjId: $.osl.selPrjId,
+				param:{
+					paramPrjId: $.osl.selPrjId,
+				},
 				key: "templateId",
 				pKey: "upperTemplateId",
 				labelKey: "templateNm"
@@ -302,9 +304,6 @@ var OSLPrj1300Popup = function () {
 				{field: 'itemOrd', title: '순서', textAlign: 'center', width: 100}
 				
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title": $.osl.lang("datatable.action.functionNm"),
 				"width": 100,

@@ -2,56 +2,42 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <input type="hidden" name="type" id="type" value="<c:out value='${param.type}'/>">
 <input type="hidden" name="strgRepId" id="strgRepId" value="<c:out value='${param.strgRepId}'/>">
-<input type="hidden" name="filePath" id="filePath" value="<c:out value='${param.filePath}'/>">
-<input type="hidden" name="fileName" id="fileName" value="<c:out value='${param.fileName}'/>">
-<input type="hidden" name="diffRevision01" id="diffRevision01" value="<c:out value='${param.diffRevision01}'/>">
-<input type="hidden" name="diffRevision02" id="diffRevision02" value="<c:out value='${param.diffRevision02}'/>">
-<div class="row">
-	<div class="col-lg-6 col-md-6 col-sm-12 col-12 kt-padding-b-10">
-		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-			<div class="kt-portlet__head">
-				<div class="kt-portlet__head-label kt-portlet__head--lg">
-					<h5 class="kt-font-boldest kt-font-brand">
-						<i class="fa fa-th-large kt-margin-r-5"></i>
-						<span id="beforeRevision"></span>
-					</h5>
-				</div>
-				<div class="kt-portlet__head-toolbar">
-					<div class="kt-portlet__head-group">
-					</div>
-				</div>
-			</div>
-			<div class="kt-portlet__body kt-padding-15 osl-min-h-px--575 osl-contents-frame">
-				<div class="osl-code__line-frame" id="codeLineFrameBefore"></div>
-				<pre id="preBefore">
-					<code class="osl-code-bg" id="stm8003BeforeFileInfo">
-					</code>
-				</pre>
+<input type="hidden" name="revision" id="revision" value="<c:out value='${param.revision}'/>">
+<input type="hidden" name="filePath" id="filePath" value="<c:out value='${param.path}'/>">
+<input type="hidden" name="fileName" id="fileName" value="<c:out value='${param.name}'/>">
+<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
+	<div class="kt-portlet__head">
+		<div class="kt-portlet__head-label kt-portlet__head--lg">
+			<h5 class="kt-font-boldest kt-font-brand">
+				<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="stm8003.title">파일 리비전 목록</span>
+			</h5>
+		</div>
+	</div>
+	<div class="kt-portlet__head">
+		<div class="kt-portlet__head-label kt-portlet__head--lg">
+			<h6 class="kt-font-boldest kt-font-brand kt-margin-r-20">
+				<span data-lang-cd="stm8003.revisionNum">리비전 번호</span>
+			</h6>
+			<input type="text" class="osl-outline--secondary rounded kt-margin-r-10 kt-padding-10 osl-w-px-80 osl-h-px-35" placeholder="시작" authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchStNum" name="searchStNum" value="${param.searchStNum}">
+			<span class="osl-h-px-38 osl-line-height--38 font-weight-bolder">&nbsp;-&nbsp;</span>
+			<input type="text" class="osl-outline--secondary rounded kt-margin-l-10 kt-padding-10 osl-w-px-80 osl-h-px-35" placeholder="종료"  authocomplate="off" regexstr="^[0-9]{0,4}$" maxlength="4" id="searchEdNum" name="searchEdNum" value="${param.searchEdNum}">
+		</div>
+		<div class="kt-portlet__head-toolbar">
+			<div class="kt-portlet__head-group">
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8003FileTable" data-datatable-action="select" title="파일 리비전 조회" data-title-lang-cd="stm8003.actionBtn.selectTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+					<i class="fa fa-list"></i><span data-lang-cd="datatable.button.select">조회</span>
+				</button>
+				<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="stm8003FileTable" data-datatable-action="diff" title="DIFF" data-title-lang-cd="stm8003.actionBtn.diffTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="diff" tabindex="2">
+					<i class="fas fa-code"></i><span data-lang-cd="stm8003.actionBtn.diffBtn">DIFF</span>
+				</button>
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-6 col-md-6 col-sm-12 col-12 kt-padding-b-10">
-		<div class="kt-portlet kt-portlet--mobile kt-margin-b-0">
-			<div class="kt-portlet__head">
-				<div class="kt-portlet__head-label kt-portlet__head--lg">
-					<h5 class="kt-font-boldest kt-font-brand">
-						<i class="fa fa-th-large kt-margin-r-5"></i>
-						<span id="afterRevision"></span>
-					</h5>
-				</div>
-				<div class="kt-portlet__head-toolbar">
-					<div class="kt-portlet__head-group">
-					</div>
-				</div>
-			</div>
-			<div class="kt-portlet__body kt-padding-15 osl-min-h-px--575 osl-contents-frame">
-				<div class="osl-code__line-frame" id="codeLineFrameAfter"></div>
-				<pre id="preAfter">
-					<code class="osl-code-bg" id="stm8003AfterFileInfo">
-					</code>
-				</pre>
-			</div>
+	<div class="kt-portlet__body kt-padding-15">
+		<div class="col-lg-7 col-md-12 col-sm-12 col-12">
+			<div class="osl-datatable-search" data-datatable-id="stm8003FileTable"></div>
 		</div>
+		<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="stm8003FileTable"></div>
 	</div>
 </div>
 
@@ -62,172 +48,168 @@ var OSLStm8003Popup = function() {
 	var strgRepId = $("#strgRepId").val();
 	var filePath = $("#filePath").val();
 	var fileName = $("#fileName").val();
-	var diffRevision01 = $("#diffRevision01").val();
-	var diffRevision02 = $("#diffRevision02").val();
+	var searchStNum = $("#searchStNum").val();
+	var searchEdNum = $("#searchEdNum").val();
+	var revision = $("#revision").val();
 	
-	
-	 var documentSetting = function() {
-		 getFileDiffInfo();
-	}
-	
-	
-	var getFileDiffInfo = function(){
-		
-		var data = {
-				type : type,
-				strgRepId : strgRepId,
-				filePath : filePath,
-				diffRevision01 :diffRevision01,
-				diffRevision02 :diffRevision02,
-			};
+	var datatableId = "stm8003FileTable";
 
+	//기본 설정
+	 var documentSetting = function() {
 		
-   		var ajaxObj = new $.osl.ajaxRequestAction(
-   				{"url":"<c:url value='/stm/stm8000/stm8000/selectStm8000FileDiffInfoAjax.do'/>", "async":false}
-   				, data);
+		//placeholder 세팅
+		$("#searchStNum").attr("placeholder",$.osl.lang("stm8003.placeholder.revision.start"));
+		$("#searchEdNum").attr("placeholder",$.osl.lang("stm8003.placeholder.revision.end"));
 		
-   		
-   		ajaxObj.setFnSuccess(function(data){
-   			if(data.errorYn == "Y"){
-   				
-				$("#stm8003BeforeFileInfo").html(data.message);
-				$("#stm8003AfterFileInfo").html(data.message);
-   				$.osl.alert(data.message,{type: 'error'});
-   			}else{
-   				$("#beforeRevision").text("[Revision "+data.beforeRevision+"] "+ fileName);
-   				$("#afterRevision").text("[Revision "+data.afterRevision+"] " + fileName);
-   				
-   				var beforeContent = data.beforeContent;
-   				var afterContent = data.afterContent;
-   				
-	   			
-				
-				if($.osl.isNull(beforeContent)){
-					$("#stm8003BeforeFileInfo").html("<span class='kt-font-inverse-brand  kt-padding-l-10 osl-font-lg osl-font'>"+"로그가 없습니다."+"</span>");
-					return false;
-				}
-	   			
-				
-				if($.osl.isNull(afterContent)){
-					$("#stm8003AfterFileInfo").html("<span class='kt-font-inverse-brand  kt-padding-l-10 osl-font-lg osl-font'>"+"로그가 없습니다."+"</span>");
-					return false;
-				}
-				
-				$("#stm8003BeforeFileInfo").html($.osl.escapeHtml(beforeContent));
-				$("#stm8003BeforeFileInfo").each(function(i, block) {hljs.highlightBlock(block);});
-				$("#stm8003AfterFileInfo").html($.osl.escapeHtml(afterContent));
-				$("#stm8003AfterFileInfo").each(function(i, block) {hljs.highlightBlock(block);});
-	   			 
-				
-				var oldVal = "";
-				var newVal = "";
-				
-				var dmp = new diff_match_patch();
-				var diffs = dmp.diff_main($('#stm8003BeforeFileInfo').html(), $('#stm8003AfterFileInfo').html());
-				dmp.diff_cleanupEfficiency(diffs);
-				
-				
-				for (var i = 0, j = diffs.length; i < j; i++) {
-			        var arr = diffs[i];
-			        if (arr[0] == 0) {	
-			            oldVal += arr[1];
-			            newVal += arr[1];
-			        } else if (arr[0] == -1) { 
-			            oldVal += "<span class='osl-code__text-remove'>" + arr[1] + "</span>";
-			        } else { 
-			            newVal += "<span class='osl-code__text-add'>" + arr[1] + "</span>";
-			        }
-			    }
-				
-				$("#stm8003BeforeFileInfo").html(oldVal);
-				$("#stm8003AfterFileInfo").html(newVal);
-				
-				
-				var beforeCodeLineCnt = 0;
-				var afterCodeLineCnt = 0;
-				
-				
-				if(!$.osl.isNull(oldVal)){
-					
-					var beforeCodeLine = oldVal.split("\n");
-					beforeCodeLineCnt = beforeCodeLine.length;
-					
-					
-					var codeWindowHeight = $("#stm8003BeforeFileInfo").height() - 50;
-					
-					
-					codeWindowHeight = codeWindowHeight;
-					
-					
-					var codeScrollLine = parseFloat((codeWindowHeight/beforeCodeLineCnt));
-					
-					
-					$.each(beforeCodeLine, function(idx, map){
-						
-						if(map.indexOf('osl-code__text-add') != -1){
-							
-							
-							var targetLineScrollTop = ((idx+1)*codeScrollLine);
-							targetLineScrollTop += 44;
-							
-							$("#contentsFrameBefore").append('<div class="osl-code__diff-line-scroll-defore" style="top:'+targetLineScrollTop+'px;"></div>');
+		//해당하는 파일의 버전별 리비전 정보 가져오기
+		 $.osl.datatable.setting(datatableId,{
+				data: {
+					source: {
+						read: {
+							url: "/stm/stm8000/stm8000/selectStm8000FileRevisionListAjax.do",
+							params : {
+								type : type,
+								strgRepId : strgRepId,
+								filePath : filePath,
+								searchStNum :searchStNum,
+								searchEdNum :searchEdNum,
+							}
 						}
-					});
-				}
-				
-				if(!$.osl.isNull(newVal)){
-					
-					var afterCodeLine = newVal.split("\n");
-					afterCodeLineCnt = afterCodeLine.length;
-					
-					
-					var codeWindowHeight = $("#stm8003AfterFileInfo").height() - 50;
-					
-					
-					var codeScrollLine = parseFloat((codeWindowHeight/afterCodeLineCnt));
-					
-					
-					$.each(afterCodeLine, function(idx, map){
+					},
+				},
+				columns: [
+					{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+					{field: 'revision', title: '리비전', textAlign: 'center', width: 40, autoHide: false, sortable: false},
+					{field: 'comment', title: '내용', textAlign: 'left', width: 240, sortable: false, search:true},
+					{field: 'author', title: '등록자', textAlign: 'center', width: 80, sortable: false, search:true},
+					{field: 'logDate', title: '등록일', textAlign: 'center', width: 80, sortable: false, search:true, searchType:"daterange",
+						template : function(row){
+							var paramDatetime = new Date(row.logDate);
+			                var agoTimeStr = $.osl.datetimeAgo(paramDatetime, {fullTime: "d", returnFormat: "yyyy-MM-dd"});
+			                return agoTimeStr.agoString;
+						},
+					},
+				],
+				actionBtn:{
+					"title" : $.osl.lang("stm8003.actionBtn.title"),
+					"widht" : 30,
+					"insert" : false,
+					"update" : false,
+					"delete" : false,
+					"dblClick" : true,
+					"diff" : true,
+				},
+				actionTooltip:{
+					"dblClick" : $.osl.lang("stm8003.actionBtn.diffTooltip"),
+					"diff" : $.osl.lang("stm8003.actionBtn.diffTooltip")
+				},
+				actionFn:{
+					"select": function(datatableId, elem, datatable){
+						//검색 대상 가져오기
+						var searchTypeTarget = $(".osl-datatable-search__dropdown[data-datatable-id="+datatableId+"] > .dropdown-item.active");
 						
-						if(map.indexOf('osl-code__text-remove') != -1){
+						//검색 값
+						var searchData = $("#searchData_"+datatableId);
+
+						//대상 정보 가져오기
+						var searchFieldId = searchTypeTarget.data("field-id");
+						var searchType = searchTypeTarget.data("opt-type");
+						var searchCd = $(this).data("opt-mst-cd");
+						
+						//입력된 검색값 초기화
+						datatable.setDataSourceQuery({});
+						
+						//시작, 종료 리비전 넣기
+						searchStNum = $("#searchStNum").val();
+						searchEdNum = $("#searchEdNum").val();
+						
+						datatable.setDataSourceParam("searchStNum", searchStNum);
+						datatable.setDataSourceParam("searchEdNum", searchEdNum);						
+
+						//전체가 아닌경우 해당 타입으로 검색
+						if(searchType != "all"){
+							var searchDataValue = searchData.val();
 							
-							var targetLineScrollTop = ((idx+1)*codeScrollLine);
-							targetLineScrollTop += 44;
+							//공통코드인경우 select값 가져오기
+							if(searchType == "select"){
+								searchDataValue = $("#searchSelect_"+datatableId).val();
+							}
+							datatable.search(searchDataValue,searchFieldId);
 							
-							$("#contentsFrameAfter").append('<div class="osl-code__diff-line-scroll-after" style="top:'+targetLineScrollTop+'px;"></div>');
+						}else{
+							datatable.search();
 						}
-					});
+						
+						//데이터 테이블 재호출
+ 						datatable.reload();
+					},
+					"dblClick": function(rowData){
+						var data = {
+								type : type,
+								strgRepId : strgRepId,
+								filePath : filePath,
+								fileName : fileName,
+								diffRevision01 : revision, //기준이 되는 revision
+								diffRevision02 : rowData.revision,
+							};
+							var options = {
+								idKey:"stm8003_diff",
+								modalTitle: "["+fileName+"] DIFF",
+								modalSize: "xl",
+								autoHeight: false,
+								ftScrollUse: false
+							};
+							
+						$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8004View.do',data,options);
+					},
+					"diff": function(rowDatas, datatableId, type, rowNum){
+						var rowData;
+						//리스트인 경우
+						if(type == "list"){
+							if(rowNum != 1){
+								$.osl.alert($.osl.lang("stm8003.message.selectFile", rowNum), {"type":"warning"});
+								return false;
+							}else{
+								rowData = rowDatas[0];
+							}
+						}else{
+							//인포인 경우
+							rowData = rowDatas;
+						}
+						
+						var data = {
+								type : type,
+								strgRepId : strgRepId,
+								filePath : filePath,
+								fileName : fileName,
+								diffRevision01 : revision, //기준이 되는 revision
+								diffRevision02 : rowData.revision,
+							};
+							var options = {
+								idKey:"stm8003_diff",
+								modalTitle: "["+fileName+"] DIFF",
+								modalSize: "xl",
+								autoHeight: false,
+								ftScrollUse: false
+							};
+							
+						$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8004View.do',data,options);
+					}
+				},
+				theme:{
+					 actionBtn:{
+						 "dblClick": "",
+						 "diff": " kt-hide"
+					 }
+				},
+				callback:{
+					initComplete: function(evt, config){
+					},
+					ajaxDone: function(evt, list){
+					}
 				}
-				
-				
-				for(var i=0;i<beforeCodeLineCnt;i++){
-					$("#codeLineFrameBefore").append('<div class="osl-code__line-div">'+(i+1)+'</div>');
-				}
-				for(var i=0;i<afterCodeLineCnt;i++){
-					$("#codeLineFrameAfter").append('<div class="osl-code__line-div">'+(i+1)+'</div>');
-				}
-				
-				$("#stm8003BeforeFileInfo").prepend($("#codeLineFrameBefore"));
-				$("#stm8003AfterFileInfo").prepend($("#codeLineFrameAfter"));
-				
-				
-				$("#stm8003BeforeFileInfo").scroll(function(){
-					
-					$('#stm8003AfterFileInfo').scrollTop($("#stm8003BeforeFileInfo").scrollTop());
-					$('#stm8003AfterFileInfo').scrollLeft($("#stm8003BeforeFileInfo").scrollLeft());
-					
-					
-					$('#codeLineFrameBefore').scrollTop($("#stm8003BeforeFileInfo").scrollTop());
-				});
-				$("#stm8003AfterFileInfo").scroll(function(){
-					
-					
-					$('#codeLineFrameAfter').scrollTop($("#stm8003AfterFileInfo").scrollTop());
-				});
-   			}
-   		});
-  	 	
-   		ajaxObj.send();
+			}
+		);
 	};
 
 	return {

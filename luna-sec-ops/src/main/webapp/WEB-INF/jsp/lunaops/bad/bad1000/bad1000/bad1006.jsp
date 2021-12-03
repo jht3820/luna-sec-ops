@@ -436,7 +436,7 @@
 						}
 						resultStr = "<div class='row'>";
 						$.each(list, function(idx, value){
-							resultStr += "<div class='col-lg-4 col-md-6 col-sm-12 col-12'>" 
+							resultStr += "<div class='col-4'>" 
 										+ "<div class='kt-portlet kt-portlet--mobile osl-gallery__card'>"
 							 				+ "<div class='kt-portlet__head kt-portlet__head--sm kt-padding-10'>"
 								 				+ "<div class='kt-portlet__head-label kt-font-boldest osl-word__break osl-line-height--38'>"
@@ -475,7 +475,7 @@
 	 									resultStr += "</div>"
 	 											+ "</div>"
 								 				+ "<div class='kt-margin-b-10 osl-margin-auto osl-gallery__img'>"
-								 					+ "<img class='kt-hide' src = '/cmm/fms/getImage.do?fileSn="+value.fileSn+"&atchFileId="+value.atchFileId+"'/>"
+								 					+ "<img src = '/cmm/fms/getImage.do?fileSn="+value.fileSn+"&atchFileId="+value.atchFileId+"'/>"
 							 					+ "</div>"
 												+ "<div class='row kt-margin-b-10 osl-display--inline-flex'>";
 										var paramDatetime = new Date(value.badWtdtm);
@@ -487,14 +487,16 @@
 							
 							if(!$.osl.isNull(tagBadIdList) && tagBadIdList.indexOf(value.badId) >= 0){
 								resultStr += "<div class='btn btn-clean btn-icon kt-padding-0 border-0 osl-w-px-34 osl-h-px-34 tag-polding'>" 
-												+ "<i class='fas fa-caret-right'></i>"
+												+ "<i class='fas fa-caret-up'></i>"
 											+ "</div>";
 								$.each(tagList, function(index, item){
 									if(value.badId == item.badId){
 										if(item.tagNm != null && item.tagNm != ""){
 											
 						                	resultStr += "<tag title='"+$.osl.escapeHtml(item.tagNm)+"' contenteditable='false' spellcheck='false' class='tagify tagify__tag--brand tagify--noAnim kt-padding-5 osl-display--inline-flex osl-margin-3' role='tag' value='"+$.osl.escapeHtml(item.tagNm)+"'>"
+						                					
 						                						+ "<div class='tagify__tag-text kt-margin-l-5 kt-margin-r-5'>"+$.osl.escapeHtml(item.tagNm)+"</div>"
+					                						
 				                						+ "</tag>";
 										}
 									}
@@ -506,7 +508,7 @@
 	 						if(value.badPw == "01" && value.stmPwYnCd == '01'){
 								resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-r-5 osl-line-height--38'></i>";
 							}
-								resultStr += "<span class='btn btn-clean btn-icon info-btn' data-bad-id='"+value.badId+"' data-bad-num='"+value.badNum+"' data-atch-file-id='"+value.atchFileId+"' data-bad-pw='"+value.badPw+"' data-bad-usr-id='"+value.badUsrId+"' data-del-cd='"+value.delCd+"' title='게시글 상세' data-title-lang-cd='bad1006.actionTooltip.dblClickTooltip' data-toggle='kt-tooltip' data-skin='brand' data-placement='top'>"
+								resultStr += "<span class='btn btn-clean btn-icon info-btn' data-bad-id='"+value.badId+"' data-bad-num='"+value.badNum+"' data-atch-file-id='"+value.atchFileId+"' data-bad-pw='"+value.badPw+"' data-bad-usr-id='"+value.badUsrId+"' data-del-cd='"+value.delCd+"'>"
 												+ "<i class='la la-external-link'></i>"
 											+ "</span>"
 										+ "</div>"
@@ -517,10 +519,6 @@
 						resultStr += "</div>";
 						$("#bad1006BadCard").append(resultStr);
 						
-						
-						KTApp.initTooltips();
-						
-						
 						$('.osl-gallery__img>img').on('load',function(){
 				    		$.each($(".osl-gallery__img>img"), function(idx, map){
 					    		var w = map.naturalWidth;
@@ -530,29 +528,23 @@
 					    		}else{
 					    			$(map).attr("class","osl-gallery__img-limite");
 					    		}
-					    		
-					    		var parentsH = $(map).parent(".osl-gallery__img").height();
-					    		$(map).attr("style", "margin-top:"+((parentsH-$(map).height())/2)+"px;");
-					    		
-					    		
-					    		$(map).removeClass("kt-hide");
 				    		});
 				    	});
 						 
 						 
 						 $(".tag-polding").click(function(){
-							var topTagDiv = $(this).parents(".osl-tag__list-div");
-							var icon = $(this).children("i");
+							 var topTagDiv = $(this).parents(".osl-tag__list-div");
+							 var icon = $(this).children("i");
 							 
-							if(topTagDiv.hasClass("osl-h-px-34")){
-								topTagDiv.removeClass("osl-h-px-34");
-								icon.removeClass("fa-caret-right");
-								icon.addClass("fa-caret-down");
-							}else{
-								topTagDiv.addClass("osl-h-px-34");
-								icon.removeClass("fa-caret-down");
-								icon.addClass("fa-caret-right");
-							}
+							 if(topTagDiv.hasClass("osl-h-px-34")){
+								 topTagDiv.removeClass("osl-h-px-34");
+								 icon.removeClass("fa-caret-up");
+								 icon.addClass("fa-caret-down");
+							 }else{
+								 topTagDiv.addClass("osl-h-px-34");
+								 icon.removeClass("fa-caret-down");
+								 icon.addClass("fa-caret-up");
+							 }
 						 });
 						 
 						

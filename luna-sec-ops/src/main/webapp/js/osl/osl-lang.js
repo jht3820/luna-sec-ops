@@ -563,6 +563,15 @@ var OSLCoreLangSetting = function () {
 				}
 			}
 		},
+		cmm6600:{
+			label:{
+				actionBtn:"선택",
+				selDropDownMenu:"배포 명"
+			},
+			tooltip:{
+				click:"배포 계획 선택"
+			}
+		},
 		cmm6800 :{
 			title :{
 				revision : "리비전 목록",
@@ -857,12 +866,14 @@ var OSLCoreLangSetting = function () {
 			},
 			button : {
 				insert : "작성 완료",
-				update : "수정 완료"
+				update : "수정 완료",
+				updateJson : "수정 완료"
 			},
 			message : {
 				confirm : {
 					insert : "기본항목을 추가 하시겠습니까?",
 					update : "기본항목을 수정 하시겠습니까?",
+					updateJson : "기본항목을 수정 하시겠습니까?",
 					itemNotSelect : "기본항목을 1개 이상 선택해주세요.",
 				}
 			}
@@ -1553,6 +1564,46 @@ var OSLCoreLangSetting = function () {
 				mmrNM : "제목",
 			}
 		},
+		dpl1000:{
+			label:{
+				button:{
+					signLine:"결재선 지정",
+					actionBtn:"기능 버튼"
+				}
+			},
+			tooltip:{
+				button:{
+					signReqDplBtn: "배포 계획 결재선 지정",
+					selectBtn: "배포 계획 조회",
+					insertBtn: "신규 배포 계획 추가",
+					updateBtn: "배포 계획 수정",
+					deleteBtn: "배포 계획 삭제"
+				},
+				actionBtn:{
+					signReqDplBtn: "결재선 지정",
+					updateBtn: "배포 계획 수정",
+					deleteBtn: "배포 계획 삭제",	
+					detailBtn: "배포 계획 상세보기"
+				}
+			},
+			modal:{
+				title:{
+					insertDpl:"신규 배포 계획 생성",
+					updateDpl:"배포 계획 수정",
+					detailDpl:"상세 정보"
+				}
+			},
+			message:{
+				alert:{
+					successDplNotUpdate:"성공된 배포 계획은 수정이 불가능합니다.",
+					signConfDplNotUpdate:"결재 승인된 배포 계획은 수정이 불가능합니다.",
+					signStandDplNotUpdate:"결재 대기중인 배포 계획은 수정이 불가능합니다.",
+					signConfDplNotDelete:"결재 승인된 배포 계획은 삭제가 불가능합니다.",
+					signStandDplNotDelete:"결재 대기중인 배포 계획은 삭제가 불가능합니다.",
+					signImpossible:"결재 사용 유무가 아니오인 경우 결재를 사용할 수 없습니다."
+				}
+			}
+		},
 		stm2100:{
 			selectStmInfoCnt : "1건의 게시판만 선택하세요. </br> ${1}건의 게시판이 선택되었습니다." ,
 			notAuthority : {
@@ -1830,6 +1881,10 @@ var OSLCoreLangSetting = function () {
 		},
 		stm8001:{
 			complete: "완료",
+			submit: {
+				insertBtn : "등록 완료",
+				updateBtn : "수정 완료"
+			},
 			label:{
 				strgTypeCd : "유형",
 				useCd : "사용여부",
@@ -1850,7 +1905,60 @@ var OSLCoreLangSetting = function () {
 				strgKey : "GIT TOKEN",
 			}
 		},
-		stm8002:{
+		stm8002 :{
+			title :{
+				revision : "리비전 목록",
+				file :"파일 목록",
+				actionTitle : {
+					revisionFile : "상세",
+					repository : "선택",
+				},
+			},
+			label : {
+				revisionNum : "리비전 번호",
+			},
+			revisionFile : {
+				actionTitle : "선택",
+				actionTooltip : {
+					dblClickTooltip : "파일 소스보기",
+					diffTooltip : "파일 비교"
+				},
+				message : {
+					selectOne : "${1}개가 선택되었습니다. </br>한개의 파일만 선택하세요."
+				}
+			},
+			repository:{
+				actionTooltip : {
+					chooseTooltip : "리비전 선택",
+				}
+			},
+			dirTree:{
+				message:{
+					selectRevision : "리비전을 선택하세요.",
+				}
+			},
+			placeholder : {
+				revision : {
+					start : "시작",
+					end : "종료",
+				}
+			},
+			actionBtn:{
+				selectTooltip :"리비전 조회",
+				selectFileTooltip : "리비전 파일 목록 조회",
+				chooseTooltip : "리비전 선택 완료",
+				chooseBtn : "선택 완료",
+				detailTooltip : "소스보기",
+				detailBtn : "상세",
+				diffTooltip : "파일 비교",
+				diffBtn : "DIFF"
+			},
+			message :{
+				selectRevision : "리비전을 선택하세요.",
+				auth: "접근 권한이 없습니다."
+			}
+		},
+		stm8003:{
 			title : "파일 리비전 목록",
 			revisionNum : "리비전 번호",
 			actionBtn : {
@@ -2369,6 +2477,174 @@ var OSLCoreLangSetting = function () {
 			button:{
 				submit : "삭제",
 			}
+		},
+		bad1006:{
+			button:{
+				card : "카드형",
+				grid : "그리드형",
+				folding : "접기",
+				unfolding : "펼치기"
+			},
+			actionBtn:{
+				title: "수정 / 삭제 / 상세",
+				detailBtn : "상세",
+				updateBtn:"게시글 수정",
+				deleteBtn:"게시글 삭제",
+				dblClick:"게시글 상세보기",
+			},
+			actionTooltip : {
+				selectTooltip: " 게시글 조회",
+				insertTooltip : "게시글 추가",
+				updateTooltip : "게시글 수정",
+				deleteTooltip : "게시글 삭제",
+				dblClickTooltip : "게시글 상세"
+			},
+			notAuthority : {
+				basic : "해당 게시글에 대한 권한이 없습니다.",
+				insertMessage : "게시글 등록 권한이 없습니다.",
+				selectMessage : "해당 게시글에 대한 읽기 권한이 없습니다.",
+				updateMessage : "해당 게시글에 대한 수정 권한이 없습니다.",
+				deleteMessage : "해당 게시글에 대한 삭제 권한이 없습니다.",
+			},
+			notWriter : {
+				deleteMessage : "본인이 작성한 게시글만 삭제 가능합니다.",
+			},
+			label:{
+				deleteBadge: "삭제",
+				noticeBadge: "공지",
+				hit : "조회수",
+			},
+			field:{
+				
+				tagNm:"태그",
+				
+				badContent: "내용",
+				badNtcCheck : "공지유무",
+				delCd:"삭제유무",
+				cmtContent:"댓글내용",
+			},
+			title:{
+				passwordCheck:"비밀번호 확인",
+				boardCheck:{
+					oneStep: "[ NO.${1} ] 게시글",
+					twoStep: "[ NO.${1} ] 게시글 외 ${2} 건"
+				},
+				deleteReason: "삭제 사유",
+			},
+			alert:{
+				selectBadInfoCnt : "1건의 게시글을 선택하세요. </br> ${1}건의 게시글이 선택되었습니다." ,
+				notUser : "없는 회원입니다."
+			}
+		},
+		bad1007 : {
+			button:{
+				restore : "복구",
+				submit : "등록",
+			},
+			actionBtn:{
+				title : "삭제"
+			},
+			actionTooltip : {
+				updateTooltip : "게시글 수정",
+				deleteTooltip : "게시글 삭제",
+				restoreTooltip : "게시글 복원",
+				selectCommentTooltip : "댓글 조회",
+				deleteCommentTooltip : "댓글 삭제",
+			},
+			label:{
+				tag : "태그",
+				comment : "댓글",
+			},
+			notAuthority : {
+				updateMessage : "해당 게시글에 대한 수정 권한이 없습니다.",
+				restoreMessage : "해당 게시글에 대한 복원 권한이 없습니다.",
+				deleteMessage : "해당 게시글에 대한 삭제 권한이 없습니다.",
+				deleteCmtMessage : "해당 댓글에 대한 삭제 권한이 없습니다.",
+			},
+			notCmtWriter : {
+				deleteMessage : "본인이 작성한 댓글만 삭제 가능합니다.",
+			},
+			title:{
+				boardCheck:{
+					oneStep: "[ NO.${1} ] 게시글",
+				},
+				deleteReason: "삭제 사유",
+			},
+			confirm : {
+				fileDownload : "이미지를 다운로드하시겠습니까?",
+				
+			}
+		},
+		bad1008:{
+			insert: "글 작성을 완료하시겠습니까?",
+			button : {
+				submit : "등록",
+				insertSubmit : "등록"
+			},
+			label:{
+				title : "제목",
+				attachments : "파일 첨부",
+				content : "내용",
+				noticeCheck : "공지사항 사용",
+				noticeDate : "공지 기간",
+				noticeDateIgnore : "공지기간 무시",
+				secretCheck : "비밀글 사용",
+				password : "PW",
+				passwordCheck : "PW 확인",
+				commentCheck : "댓글 허용",
+				tag : "태그",
+			},
+			placeholder:{
+				badTitle : "제목",
+				badContent : "내용",
+				password : "알파벳, 숫자 4-12자 이내",
+				nullPassword : "공백인 경우 기존 비밀번호 사용",
+			},
+			regex:{
+				password : "알파벳, 숫자 4-12자 이내",
+			},
+			formCheck : {
+				fileCntMessage : "첨부파일 가능한 개수는 ${1}개입니다.",
+				passwordMessage : "비밀글에 사용할 비밀번호를 입력해주세요.",
+				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
+				tagMatching : "태그값이 중복됩니다.",
+			},
+		},
+		bad1009:{
+			update: "글 수정을 완료하시겠습니까?",
+			label:{
+				title:"제목",
+				content:"내용",
+				noticeCheck:"공지사항 사용",
+				noticeDate:"공지 기간",
+				noticeDateIgnore:"공지 기간 무시",
+				secretCheck:"비밀글 사용",
+				password:"PW",
+				passwordCheck:"PW 확인",
+				commentCheck:"댓글 허용",
+				attachFile : "파일 첨부",
+				tag : "태그",
+			},
+			button:{
+				deleteResetBtn:"삭제 초기화",
+				updateSubmit : "수정 완료",
+				submit : "등록",
+			},
+			placeholder:{
+				badTitle : "제목",
+				badContent : "내용",
+				password : "알파벳, 숫자 4-12자 이내",
+				nullPassword : "공백인 경우 기존 비밀번호 사용",
+			},
+			regex:{
+				password : "알파벳, 숫자 4-12자 이내",
+			},
+			formCheck : {
+				fileCntMessage : "첨부파일 가능한 개수는 ${1}개입니다.",
+				passwordMessage : "비밀글에 사용할 비밀번호를 입력해주세요.",
+				passwordMatching : "입력된 비밀번호가 서로 다릅니다.",
+				tagMatching : "태그값이 중복됩니다.",
+			},
 		}
 	};
 	
@@ -2521,6 +2797,19 @@ var OSLCoreLangSetting = function () {
 				tel : "Contact",
 				deptName: "Department",
 			},
+			cmm6700DplTable:{
+				dplSignUseNm : "Sign Use",
+				nowSignTypeNm : "Sign Status",
+				lastSignUsrNm : "Sign User",
+				dplStsNm:"Deploy Status",
+				dplNm:"Deploy Title",
+				dplDt:"Deploy Date",
+				dplVer:"Deploy Version",
+				dplTypeNm:"Deploy Type",
+				dplRevisionNum:"Deploy Revision Number",
+				dplDt : "Deploy Date",
+				dplUsrNm : "Deploy User"	
+			},
 			cmm6800RevisionFileTable:{
 				type : "Type",
 				name : "File Name",
@@ -2539,12 +2828,17 @@ var OSLCoreLangSetting = function () {
 				endDt:"Project End Day",
 			},
 			dpl1000DplTable:{
+				dplSignUseNm : "Sign Use",
+				nowSignTypeNm : "Sign Status",
+				lastSignUsrNm : "Sign User",
 				dplStsNm:"Deploy Status",
 				dplNm:"Deploy Title",
 				dplDt:"Deploy Date",
 				dplVer:"Deploy Version",
 				dplTypeNm:"Deploy Type",
-				dplDesc:"Deploy Description",
+				dplRevisionNum:"Deploy Revision Number",
+				dplDt : "Deploy Date",
+				dplUsrNm : "Deploy User"	
 			},
 			dpl4000DplTable:{
 				dplSignUseNm: "Approval Used Check",
@@ -2690,7 +2984,17 @@ var OSLCoreLangSetting = function () {
 				strgTxt : "Repository Description",
 				strgRepUrl : "Repository URL",
 			},
-			stm8002FileTable:{
+			stm8002RevisionFileTable:{
+				type : "Type",
+				name : "File Name",
+			},
+			stm8002RepTable:{
+				revision : "Revision",
+				comment : "Commit Log",
+				author : "Commiter ID",
+				logDate : "Date"
+			},
+			stm8004FileTable:{
 				revision : "Revision",
 				comment : "Commit Log",
 				author : "Commiter ID",
@@ -4147,6 +4451,10 @@ var OSLCoreLangSetting = function () {
 		},
 		stm8001:{
 			complete: "Submit",
+			submit: {
+				insertBtn : "Insert Submit",
+				updateBtn : "Update Submit"
+			},
 			label:{
 				strgTypeCd : "Tyep",
 				useCd : "Used",
@@ -4167,7 +4475,60 @@ var OSLCoreLangSetting = function () {
 				strgKey : "GIT TOKEN",
 			}
 		},
-		stm8002:{
+		stm8002 :{
+			title :{
+				revision : "Revision List",
+				file :"File List",
+				actionTitle : {
+					revisionFile : "Detail",
+					repository : "Select",
+				},
+			},
+			label : {
+				revisionNum : "Revision Number",
+			},
+			revisionFile : {
+				actionTitle : "Select",
+				actionTooltip : {
+					dblClickTooltip : "Code View",
+					diffTooltip : "Code Diff"
+				},
+				message : {
+					selectOne : "Please, select only 1 file. </br>${1} file have been selected."
+				}
+			},
+			repository:{
+				actionTooltip : {
+					"chooseTooltip" : "Select Revision",
+				}
+			},
+			dirTree:{
+				message:{
+					selectRevision : "Please, select revision.",
+				}
+			},
+			placeholder : {
+				revision : {
+					start : "Start",
+					end : "End",
+				}
+			},
+			actionBtn:{
+				selectTooltip :"Select Revision",
+				selectFileTooltip : "Select Revision File List",
+				chooseTooltip : "Revision Selection Complete",
+				chooseBtn : "Complete",
+				detailTooltip : "Code View",
+				detailBtn : "View",
+				diffTooltip : "Code Diff",
+				diffBtn : "DIFF"
+			},
+			message :{
+				selectRevision : "Please, select revision.",
+				auth : "You don't have access rights."
+			}
+		},
+		stm8003:{
 			title : "File Revision List",
 			revisionNum : "Revision Number",
 			actionBtn : {

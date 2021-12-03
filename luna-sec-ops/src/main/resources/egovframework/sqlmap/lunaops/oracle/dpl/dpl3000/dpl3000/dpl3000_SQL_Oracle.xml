@@ -10,7 +10,7 @@
 	<typeAlias alias="ChangePathsVO"	type="kr.opensoftlab.sdf.jenkins.vo.ChangePathsVO"/>
 	
 	
-    <resultMap id="resultMapSelectDpl1400JobBuildInfo" class="HashMap">
+    <resultMap id="resultMapDpl1400JobBuildInfo" class="HashMap">
 		<result property="prjId" 				column="PRJ_ID" />
 		<result property="dplId" 				column="DPL_ID" />
 		<result property="dplNm" 				column="DPL_NM" />
@@ -39,7 +39,7 @@
 
 	
 	
-	<select id="dpl3000DAO.selectDpl1400DplJobBuildInfo" parameterClass="java.util.Map" resultMap="resultMapSelectDpl1400JobBuildInfo">
+	<select id="dpl3000DAO.selectDpl1400DplJobBuildInfo" parameterClass="java.util.Map" resultMap="resultMapDpl1400JobBuildInfo">
 		<![CDATA[
 			
 			 SELECT

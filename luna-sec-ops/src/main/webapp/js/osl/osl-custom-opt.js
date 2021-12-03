@@ -39,6 +39,10 @@ var OSLCoreCustomOptionSetting = function () {
 				
 				"delAt": false,
 				
+				"updAt": false,
+				
+				"badgeAt": false,
+				
 				"readOnly": false,
 				
 				"actionFn":{},	
@@ -191,6 +195,22 @@ var OSLCoreCustomOptionSetting = function () {
 						
 						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
 						optContentData = '<input type="text" class="form-control '+previewReadOnlyClass+'" title="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" readonly="readonly"  value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
+					}else if(map.itemType == "06"){ 
+						if(!optReadOnlyChk){
+							optReadOnly = optAddClass = '';
+						}
+						
+						optContentLabel = '<label class="'+requiredLabelTxt+'"><i class="fa fa-edit kt-margin-r-5"></i><span>'+itemNm+'</span></label>'
+						optContentData = '<input type="number" class="form-control basicItemNumber" placeholder="'+itemNm+'" id="'+map.itemId+'" name="'+map.itemId+'" min="'+map.itemMinVal+'" max="'+map.itemMaxVal+'" maxlength="11" value="'+itemValue+'" '+optReadOnly+' '+requiredTxt+'/>';
+					}else if(map.itemType == "07"){ 
+						if(!optReadOnlyChk){
+							
+							
+							
+						}
+						
+						
+						
 					}
 				}else if(map.itemCode == "02"){ 
 					if(optReadOnlyChk){
@@ -266,17 +286,40 @@ var OSLCoreCustomOptionSetting = function () {
 					
 				}
 				var delBtn = "";
+				var updBtn = "";
+				var optBadge = "";
+				var badgeColor = "";
 				
 				
 				if(config.delAt){
 					delBtn = "<button type='button' class='osl-uppy__right close itemDelete' data-item-id='"+map.itemId+"'><i class='fa fa-window-close'></i></button>";
+				}
+				if(config.updAt){
+					updBtn = "<button type='button' class='osl-uppy__right close kt-margin-r-5 itemUpdateBtn' data-item-id='"+map.itemId+"'><i class='fa fa-pen-square'></i></button>";
+				}
+				if(config.badgeAt){
+					if(map.itemRequestCd == '01'){
+						badgeColor = 'badge-info';
+					}else{
+						badgeColor = "osl-badge-lightgray";
+					}
+					optBadge += "<div class='badge "+badgeColor+" d-inline-block kt-margin-l-5 osl-basic-item-badge itemBadgeBtn' data-item-id='"+map.itemId+"' data-target-nm='itemRequestCd'>요청</div>";
+
+					if(map.itemAcceptCd == '01'){
+						badgeColor = 'badge-info';
+					}else{
+						badgeColor = "osl-badge-lightgray";
+					}
+					optBadge += "<div class='badge "+badgeColor+" d-inline-block kt-margin-l-5 osl-basic-item-badge itemBadgeBtn' data-item-id='"+map.itemId+"' data-target-nm='itemAcceptCd'>접수</div>";
 				}
 				
 				var optCompleData =
 							'<div class="'+optionPcWidthSize+' '+optionTabletWidthSize+' '+optionMobileWidthSize+' basicItemDiv">'
 							+'	<div class="form-group">'
 							+		optContentLabel
+							+		optBadge
 							+		delBtn
+							+		updBtn
 							+		optContentData
 							+'	</div>'
 							+'</div>';
@@ -296,12 +339,29 @@ var OSLCoreCustomOptionSetting = function () {
 			}
 			
 			
+			$.osl.util.initInputNumber(".basicItemNumber");
+			
+			
 			$(".itemDelete").off();
 			$(".itemDelete").click(function(){
 				if(config.actionFn.hasOwnProperty("delete")){
 					config.actionFn.delete($(this));
 				}else{
 					$(this).parents(".basicItemDiv:first").remove();
+				}
+			});
+			
+			$(".itemBadgeBtn").off();
+			$(".itemBadgeBtn").click(function(){
+				if(config.actionFn.hasOwnProperty("update")){
+					config.actionFn.update($(this), "01");
+				}
+			});
+			
+			$(".itemUpdateBtn").off();
+			$(".itemUpdateBtn").click(function(){
+				if(config.actionFn.hasOwnProperty("updateBtn")){
+					config.actionFn.updateBtn($(this));
 				}
 			});
 			
