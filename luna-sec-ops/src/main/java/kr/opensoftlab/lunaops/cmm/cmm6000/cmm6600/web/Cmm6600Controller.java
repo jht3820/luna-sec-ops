@@ -76,25 +76,7 @@ public class Cmm6600Controller {
 			paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
 			
 			
-			
-			List<Map> signUsrList = cmm6600Service.selectCmm6600SignLineUsrTree(paramMap);
-			
-			
-			model.addAttribute("errorYn", "N");
-			model.addAttribute("signUsrInfList", signUsrList);
-			
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectCmm6600SignLineUsrTree()", ex);
-			
-			
-			model.addAttribute("errorYn", "Y");
-			throw new Exception(ex.getMessage());
-		}
-    }
-    
-    
+			/
     @SuppressWarnings("rawtypes")
 	@RequestMapping(value="/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do")
     public ModelAndView selectCmm6600SignUsrListAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
@@ -102,51 +84,14 @@ public class Cmm6600Controller {
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 			
-			
-			List<Map> signUsrList = cmm6600Service.selectCmm6600SignUsrList(paramMap);
-			
-			
-			model.addAttribute("errorYn", "N");
-			model.addAttribute("signUsrInfList", signUsrList);
-			
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("selectCmm6600SignUsrListAjax()", ex);
-			
-			
-			model.addAttribute("errorYn", "Y");
-			throw new Exception(ex.getMessage());
-		}
-    }
-    
-    
-    
+			/
 	@RequestMapping(value="/cmm/cmm6000/cmm6600/saveCmm6600SignLineAjax.do")
     public ModelAndView savecmm6600SignLineAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
     	try{
 			
 			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
 			
-			
-			cmm6600Service.saveCmm6600SignLine(paramMap);
-			
-			
-			model.addAttribute("errorYn", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("insertCmm6600SignLineAjax()", ex);
-			
-			
-			model.addAttribute("errorYn", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
-			throw new Exception(ex.getMessage());
-		}
-    }
-	
-	 
+			/
 	@RequestMapping(value = "/cmm/cmm6000/cmm6600/insertCmm6601SignInfoAjax.do")
 	public ModelAndView insertCmm6601SignInfoAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
     	try{
@@ -161,30 +106,7 @@ public class Cmm6600Controller {
 			paramMap.put("prjId", (String)ss.getAttribute("selPrjId"));
 			paramMap.put("targetCd", "02");
 			
-			
-			String signLineId = cmm6600Service.insertCmm6601SignInfo(paramMap);
-			
-			
-			model.addAttribute("errorYn", "N");
-			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
-			
-			paramMap.put("signLineId", signLineId);
-			Map cmmInfo = cmm6600Service.selectCmm6600CmmInfo(paramMap);
-			
-			model.addAttribute("cmmInfo", cmmInfo);
-			return new ModelAndView("jsonView");
-		}
-		catch(Exception ex){
-			Log.error("insertCmm6601SignAprInfoAjax()", ex);
-			
-			
-			model.addAttribute("errorYn", "Y");
-			model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
-			throw new Exception(ex.getMessage());
-		}
-    }
-	
-	
+			/
     @SuppressWarnings("rawtypes")
 	@RequestMapping(value="/cmm/cmm6000/cmm6600/selectCmm6601SignInfoAjax.do")
     public ModelAndView selectCmm6600SignInfoAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {

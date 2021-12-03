@@ -313,6 +313,9 @@ var OSLCmm6601Popup = function () {
         
         init: function() {
         	documentSetting();
+        },
+        getNowSignOrd : function(){
+        	return ord;
         }
     };
 }();
