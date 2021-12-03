@@ -1430,6 +1430,7 @@ tr.kt-datatable__row.osl-datatable__row-assign--none {
 	overflow: hidden;
 }
 .osl-word__break--w100{max-width: 100px;}
+.osl-word__break--w120{max-width: 120px;}
 .osl-word__break--w150{max-width: 150px;}
 .osl-word__break--w200{max-width: 200px;}
 

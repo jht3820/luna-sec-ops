@@ -132,4 +132,9 @@ public class Stm3000DAO extends ComOslitsAbstractDAO {
 		delete("stm3000DAO.deleteStm3005SubSignUsrInfo", paramMap);
 	}
 	
+	
+	@SuppressWarnings({ "unchecked"})
+	public List<String> selectStm3005InsSubSignUsr(Map<String, Object> paramList) throws Exception{
+		return (List<String>) list("stm3000DAO.selectStm3005InsSubSignUsr", paramList);
+	}
 }

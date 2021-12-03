@@ -314,6 +314,7 @@ var OSLDpl1004Popup = function () {
 							+'<div class="kt-media kt-media--circle kt-media--md">'
 								+'<img src="'+$.osl.user.usrImgUrlVal(myInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 							+'</div>'
+							+'<div class="badge badge-dark kt-margin-r-15 float-left">기안</div>'
 							+'<div class="kt-widget__wrapper">'
 								+'<div class="kt-widget__label">'
 									+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
@@ -433,7 +434,6 @@ var OSLDpl1004Popup = function () {
 						signUsrCardList += dplUserSetting(map);
 			    		
 					});
-					console.log(signUsrList);
 					$("#dplSignCardTable").html(signUsrCardList);
 					
 					updateLastUsrCard();
@@ -468,7 +468,25 @@ var OSLDpl1004Popup = function () {
   			}
   		}
   		
-  		
+   		var badgeColor;
+   		var badgeText;
+   		
+   		
+   		if(userInfo.signAuthCd == '01'){
+   			badgeColor = 'badge-success';
+   			badgeText = '결재';
+   		}
+   		
+   		else if(userInfo.signAuthCd == '02'){
+   			badgeColor = 'badge-info';
+   			badgeText = '대결';
+   		}
+   		
+   		else if(userInfo.signAuthCd == '03'){
+   			badgeColor = 'badge-warning';
+   			badgeText = '전결';
+   		}
+   		
 		var usrStr = 
 			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded dpl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'" data-ord="'+ord+'">'
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
@@ -481,6 +499,7 @@ var OSLDpl1004Popup = function () {
 					+'<div class="kt-media kt-media--circle kt-media--md">'
 						+'<img src="'+$.osl.user.usrImgUrlVal(userInfo.usrImgId)+'" onerror="this.src=\'/media/users/default.jpg\'"/>'
 					+'</div>'
+					+'<div class="badge '+badgeColor+' kt-margin-r-15 float-left">'+badgeText+'</div>'
 					+'<div class="kt-widget__wrapper">'
 						+'<div class="kt-widget__label osl-min-h-px--57 justify-content-center">'
 							+'<div class="kt-widget__title osl-word__break osl-word__break--w200">'
@@ -491,7 +510,8 @@ var OSLDpl1004Popup = function () {
 						+'</div>'
 					+'</div>'
 				+'</div>'
-			+'</div>';	
+			+'</div>';
+			
 		
 		selectUsrArray.push(userInfo.usrId);
 		
@@ -546,7 +566,6 @@ var OSLDpl1004Popup = function () {
 				$.osl.datatable.list["dpl1000Table"].targetDt.reload();
 				
 				$.osl.layerPopupClose();
-				
 			}
 		});
 		

@@ -65,6 +65,37 @@ public class Cmm6600Controller {
     
     
     @SuppressWarnings("rawtypes")
+	@RequestMapping(value="/cmm/cmm6000/cmm6600/selectCmm6600SignLineUsrTree.do")
+    public ModelAndView selectCmm6600SignLineUsrTree(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+    	try{
+			
+			Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+			
+			HttpSession ss = request.getSession();
+			
+			paramMap.put("prjId", (String) ss.getAttribute("selPrjId"));
+			
+			
+			
+			List<Map> signUsrList = cmm6600Service.selectCmm6600SignLineUsrTree(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("signUsrInfList", signUsrList);
+			
+			return new ModelAndView("jsonView");
+		}
+		catch(Exception ex){
+			Log.error("selectCmm6600SignLineUsrTree()", ex);
+			
+			
+			model.addAttribute("errorYn", "Y");
+			throw new Exception(ex.getMessage());
+		}
+    }
+    
+    
+    @SuppressWarnings("rawtypes")
 	@RequestMapping(value="/cmm/cmm6000/cmm6600/selectCmm6600SignUsrListAjax.do")
     public ModelAndView selectCmm6600SignUsrListAjax(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
     	try{
