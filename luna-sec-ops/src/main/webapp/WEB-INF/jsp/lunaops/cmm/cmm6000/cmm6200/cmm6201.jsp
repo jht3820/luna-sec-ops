@@ -463,24 +463,35 @@
 			<div class="osl-background-around kt-padding-10">
 				<div class="row">
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-						<div class="kt-portlet" id="cmm6201RevisionSel">
+						<div class="kt-portlet kt-hide" id="cmm6201RevisionSel">
 							<div class="kt-portlet__head">
 								<div class="kt-portlet__head-label">
-									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">리비전 관리</span>
+									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">선택 리비전 목록</span>
 								</div>
 								<div class="kt-portlet__head-toolbar">
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-preview-hide" name="cmm6201RevisionSelBtn" id="cmm6201RevisionSelBtn" title="리비전 선택" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+										<i class="fa fa-check"></i><span data-lang-cd="datatable.button.select">리비전 선택</span>
+									</button>
+									<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air osl-preview-hide" name="cmm6201RevisionDelBtn" id="cmm6201RevisionDelBtn" title="리비전 제거" data-title-lang-cd="prj1000.button.title.select" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="1">
+										<i class="fa fa-times"></i><span data-lang-cd="datatable.button.delete">리비전 제거</span>
+									</button>
 									<div class="kt-portlet__head-group">
 										<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 									</div>
 								</div>
 							</div>
 							<div class="kt-portlet__body">
-							
+								<div class="row">
+									<div class="col-lg-6 col-md-12 col-sm-12 col-12">
+										<div class="osl-datatable-search kt-margin-b-0 kt-margin-r-10" data-datatable-id="cmm6201SelRevisionTable"></div>
+									</div>
+								</div>
+								<div class="kt_datatable" id="cmm6201SelRevisionTable"></div>
 							</div>
 						</div>
 					</div>
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-						<div class="kt-portlet" id="cmm6201DeploySel">
+						<div class="kt-portlet kt-hide" id="cmm6201DeploySel">
 							<div class="kt-portlet__head">
 								<div class="kt-portlet__head-label">
 									<i class="fa fa-th-large kt-margin-r-5"></i><span data-lang-cd="req4101.label.reqUser.title">배포 관리</span>
@@ -549,7 +560,7 @@
 	<input type="hidden" name="cmm6201ModalCallbackBtn" id="cmm6201ModalCallbackBtn"/>
 	<button type="button" class="btn btn-outline-primary kt-hide" id="cmm6201SignAcceptSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">결재 승인</span></button>
 	<button type="button" class="btn btn-outline-danger kt-hide" id="cmm6201SignRejectSubmit"><i class="fa fa-check-square"></i><span class="osl-resize__display--show" data-lang-cd="req4101.complete">결재 반려</span></button>
-	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">Close</span></button>
+	<button type="button" class="btn btn-outline-brand" data-dismiss="modal"><i class="fa fa-window-close"></i><span class="osl-resize__display--show" data-lang-cd="modal.close">닫기</span></button>
 </div>
 <script>
 "use strict";
@@ -582,6 +593,8 @@ var OSLCmm6201Popup = function () {
 	
 	var cmm6201ProcessAuthUsrTable;
 	
+	var cmm6201SelRevisionTable;
+	
 	
 	var cmm6201UsrTable;
 	
@@ -603,10 +616,21 @@ var OSLCmm6201Popup = function () {
 	var selFlowId;
 	
 	
+	var currentFlowFunc = {
+			
+			signRequiredCd: "02",
+			
+			flowRevisionCd: "02",
+			
+			flowDplCd: "02"
+	};
+	
+	
+	var okRevision = false;
+	var okFileCode = false;
+	 
+	
 	var reqProcessAuthFlag;
-	
-	
-	var signRequiredCd;
 	
 	
 	var signUsrList;
@@ -1004,6 +1028,28 @@ var OSLCmm6201Popup = function () {
 			}
     	});
 		
+		
+		$("#cmm6201RevisionSelBtn").click(function(){
+			var data = {
+					paramPrjId: paramPrjId
+				};
+			var options = {
+					idKey: paramReqId,
+					modalTitle: "리비전 선택",
+					modalSize: "fs",
+					closeConfirm: false,
+					callback: [{
+						targetId: "cmm6800ModalCallbackBtn",
+						actionFn: function(thisObj){
+							var revisionList = OSLCmm6800Popup.getRevisionList();
+							console.log(revisionList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/cmm/cmm6000/cmm6800/selectCmm6800View.do',data,options);
+		});
+		
     	
     	fnRequestProcessData();
     };
@@ -1076,6 +1122,109 @@ var OSLCmm6201Popup = function () {
 				}
 			}
 		});
+	};
+	
+    
+	var selRevisionTableSetting = function(){
+		
+		cmm6201SelRevisionTable = $.osl.datatable.setting("cmm6201SelRevisionTable",{
+			data:{
+				source:{
+					read:{
+						url: "/stm/stm8000/stm8100/selectStm8100AssStrgListAjax.do",
+						params:{
+							prjId: paramPrjId
+						}
+					}
+				},
+				pageSize: 5
+			},
+			toolbar:{
+				items:{
+					pagination:{
+						pageSizeSelect : [5, 10, 20, 30, 50, 100]
+					}
+				}
+			},
+			rows:{
+				minHeight: 40
+			},
+			columns:[
+				{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+				{field: 'strgTypeNm', title: '유형', textAlign: 'left', width: 40, search: true, searchType:"select", searchCd: "STM00004", searchField:"strgTypeCd", sortField: "strgTypeCd"},
+				{field: 'strgRepTitle', title: '저장소명', textAlign: 'left', width: 200, search: true},
+				{field: 'strgRepUrl', title: '저장소 URL', textAlign: 'left', width: 240},
+				{field: 'strgTxt', title: '저장소 설명', textAlign: 'left', width: 240, search: true},
+			],
+			actionBtn:{
+				"title" : "리비전 선택",
+				"width" : 50,
+				"dblClick": true,
+				"delete":false,
+				"update":false
+			},
+			actionTooltip:{
+				"dblClick" : "리비전 선택",
+			},
+			actionFn:{
+				"dblClick": function(rowData, datatableId, type, rowNum, elem){
+					var data = {
+							paramPrjId: paramPrjId
+						};
+					var options = {
+							idKey: rowData.strgRepId,
+							modalTitle: "["+$.osl.escapeHtml(rowData.strgRepTitle)+"] "+$.osl.lang("stm8000.title.dblClickTitle"),
+							modalSize: "fs",
+							closeConfirm: false
+						};
+					
+					$.osl.layerPopupOpen('/cmm/cmm6000/cmm6800/selectCmm6800View.do',data,options);
+				},
+			},
+			theme:{
+				actionBtnIcon:{
+					"dblClick" : "fa fa-code",
+				}
+			},
+		});
+	};
+	
+	
+	var authCheck = function(strgRepId){
+		var data = {
+				strgRepId : strgRepId,
+		};
+		
+		
+    	var ajaxObj = new $.osl.ajaxRequestAction(
+	   			{"url":"<c:url value='/stm/stm8000/stm8000/selectStm8000AuthCheckAjax.do'/>", "async": false}
+				, data);
+		
+    	
+    	ajaxObj.setFnSuccess(function(data){
+    		if(data.errorYn == "Y"){
+				$.osl.alert(data.message,{type: 'error'});
+				
+				$.osl.layerPopupClose();
+			}else{
+				var result = data.result;
+				
+				
+				if(result.resultRevision == "Y"){
+					okRevision = true;
+				}else{
+					okRevision = false;
+				}
+				
+				if(result.resultFileCode == "Y"){
+					okFileCode = true;
+				}else{
+					okFileCode = false;
+				}
+			}
+    	});
+    	
+		ajaxObj.send();
 	};
 	
 	
@@ -1186,9 +1335,18 @@ var OSLCmm6201Popup = function () {
  				paramFlowId = flowInfo.flowId;
  				
  				
- 				if(flowInfo.flowRevisionCd == "01" || flowInfo.flowDplCd == "01"){
+ 				if(flowInfo.flowRevisionCd == "01"){
  					
  					$("#flowPluginStep").removeClass("disabled");
+ 					$("#cmm6201RevisionSel").removeClass("kt-hide");
+ 					currentFlowFunc.flowRevisionCd = flowInfo.flowRevisionCd;
+ 				}
+ 				
+ 				if(flowInfo.flowDplCd == "01"){
+ 					
+ 					$("#flowPluginStep").removeClass("disabled");
+ 					$("#cmm6201DeploySel").removeClass("kt-hide");
+ 					currentFlowFunc.flowDplCd = flowInfo.flowDplCd;
  				}
  				
  				
@@ -1387,7 +1545,7 @@ var OSLCmm6201Popup = function () {
  				}
  				
  				
-				signRequiredCd = flowInfo.flowSignCd;
+				currentFlowFunc.signRequiredCd = flowInfo.flowSignCd;
 				
 				
 				if(flowInfo.flowSignCd == "01"){
@@ -1651,6 +1809,19 @@ var OSLCmm6201Popup = function () {
 							}
 						}
 					}
+					
+					else if(wizardObj.currentStep == 3){
+						
+						if(reqProcessAuthFlag && currentFlowFunc.flowRevisionCd == "01"){
+							if($.osl.isNull(cmm6201SelRevisionTable)){
+								
+								selRevisionTableSetting();
+							}else{
+								
+								cmm6201SelRevisionTable.targetDt.reload();
+							}
+						}
+					}
 					else if(wizardObj.currentStep == 4){
 						if($.osl.isNull(selFlowId)){
 							
@@ -1903,7 +2074,7 @@ var OSLCmm6201Popup = function () {
 		}
 
 		
-		if(signRequiredCd == "01"){
+		if(currentFlowFunc.signRequiredCd == "01"){
 			if($("#cmm6201SignOrdList > .kt-widget__top").length == 0){
 				$.osl.alert("결재선 등록이 필요합니다.");
 				return false;
@@ -1931,7 +2102,7 @@ var OSLCmm6201Popup = function () {
     			addConfirmMsgStr += "같은 단계 진행 시 </br>입력 항목 정보만 저장됩니다.</br></br>";
     		}
     		
-    		else if(signRequiredCd == "01"){
+    		else if(currentFlowFunc.signRequiredCd == "01"){
     			addConfirmMsgStr += "지정된 결재선으로 결재 처리가 진행됩니다.</br></br>";
     		}
 		}else{
@@ -1958,10 +2129,10 @@ var OSLCmm6201Popup = function () {
    			
    			fd.append("selFlowId",paramFlowId);
    		}
-		fd.append("signRequiredCd", signRequiredCd);
+		fd.append("signRequiredCd", currentFlowFunc.signRequiredCd);
 		
 		
-		if(signRequiredCd == "01"){
+		if(currentFlowFunc.signRequiredCd == "01"){
 			fd.append("signUsrList",JSON.stringify(signUsrList));
 		}
 

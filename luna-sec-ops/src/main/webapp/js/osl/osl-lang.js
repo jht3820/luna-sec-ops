@@ -94,6 +94,10 @@ var OSLCoreLangSetting = function () {
 				delete:{
 					nonSelect:"삭제하려는 데이터를 선택해주세요",
 					confirm: "${1}건의 데이터를 삭제하시겠습니까?"
+				},
+				dblClick:{
+					nonSelect:"데이터를 선택해주세요",
+					manySelect: "1건의 데이터만 선택해주세요.</br> ${1}건의 데이터가 선택되었습니다."
 				}
 			},
 			translate:{
