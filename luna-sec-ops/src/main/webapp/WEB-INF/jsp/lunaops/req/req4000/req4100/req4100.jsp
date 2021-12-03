@@ -234,9 +234,10 @@ var OSLReq4100Popup = function () {
 						};
 					var options = {
 							idKey: rowData.reqId,
-							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							modalTitle: '요구사항 상세',
 							autoHeight: false,
 							modalSize: 'xl',
+							ftScrollUse: false
 							
 					 
 							

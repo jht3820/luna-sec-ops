@@ -362,8 +362,7 @@ var OSLArm1000Popup = function () {
 					"detail" : " kt-hide"
 				},
 				actionBtnIcon:{
-					"reInsert" : "fas fa-envelope-open-text",
-					"check" : "fa flaticon2-check-mark",
+					"reInsert" : "fas fa-envelope-open-text"
 				}
 			},
 			callback:{
