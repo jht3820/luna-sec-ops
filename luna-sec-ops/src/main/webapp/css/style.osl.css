@@ -719,6 +719,10 @@ select[id^=usrOpt_] {
 	display:none;
 }
 
+.osl-cursor__pointer{
+	cursor: pointer;
+}
+
 .osl-user__active--block{
 	display: none;
 }
