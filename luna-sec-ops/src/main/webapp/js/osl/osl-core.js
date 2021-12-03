@@ -346,52 +346,6 @@
 					maxNumberOfFiles: 10,
 					minNumberOfFiles: 0,
 					allowedFileTypes: null,	
-					locale:Uppy.locales.ko_KR,
-					meta: {},
-					onBeforeUpload: $.noop,
-					onBeforeFileAdded: $.noop,
-				};
-				
-				
-				config = $.extend(true, defaultConfig, config);
-				
-				var targetObj = $("#"+targetId);
-				if(targetObj.length > 0){
-					rtnObject = Uppy.Core({
-						targetId: targetId,
-						autoProceed: config.autoProceed,
-						restrictions: {
-							maxFileSize: ((1024*1024)*parseInt(config.maxFileSize)),
-							maxNumberOfFiles: config.maxNumberOfFiles,
-							minNumberOfFiles: config.minNumberOfFiles,
-							allowedFileTypes: config.allowedFileTypes
-						},
-						locale:config.locale,
-						meta: config.meta,
-						onBeforeUpload: function(files){
-							return config.onBeforeUpload(files);
-						},
-						onBeforeFileAdded: function(currentFile, files){
-							
-							if(currentFile.source != "database" && config.fileReadonly){
-								$.osl.toastr($.osl.lang("file.error.fileReadonly"),{type:"warning"});
-								return false;
-							}
-							return config.onBeforeFileAdded(currentFile, files);
-						},
-						debug: config.debug,
-						logger: config.logger,
-						fileDownload: config.fileDownload
-					});
-					
-					rtnObject.use(Uppy.Dashboard, config);
-					rtnObject.use(Uppy.XHRUpload, { endpoint: config.url,formData: true });
-				}
-				
-				return rtnObject;
-			},
-			
-			
 			makeAtchfileId: function(callback){
 				
 				var ajaxObj = new $.osl.ajaxRequestAction(
@@ -837,7 +791,9 @@
 				            	
 				            	"init": $.noop,
 				            	
-								"onclick": $.noop
+								"onclick": $.noop,
+								
+								"onDblClick": $.noop
 							}
 				        };
 					
@@ -922,6 +878,12 @@
 			            config.callback.onclick(treeObj, selNode);
 			        }).bind('deselect_node.jstree', function(event, data){
 			        	treeObj.jstree().selNode = null;
+			        }).bind('dblclick.jstree', function(event){
+			        	var selNodeId = event.target.id;
+			        	var selNode = treeObj.jstree().get_node(selNodeId);
+			        	
+			        	
+			            config.callback.onDblClick(treeObj, selNode);
 			        }).bind('search.jstree', function(nodes, str, res){
 			        	
 			        	if(str.nodes.length == 0){
@@ -965,7 +927,7 @@
 									+'</span>'
 								+'</div>'
 								+'<div class="input-group-append">'
-									+'<button class="btn '+btnStyleStr+' osl-tree-search__button" type="button" data-tree-id="'+targetId+'">'
+									+'<button type="button" class="btn '+btnStyleStr+' osl-tree-search__button" data-tree-id="'+targetId+'">'
 										+'<i class="fa fa-search"></i><span class=""><span>'+$.osl.lang("tree.search.title")+'</span></span>'
 									'</button>'
 								+'</div>'
@@ -1007,6 +969,7 @@
 									
 									thisObj.children("i").addClass("la la-search");
 								},300);
+								return false;
 							}
 						});
 						
@@ -2536,7 +2499,34 @@
 									event.preventDefault();
 									event.returnValue = false;
 								}
-								var rowData = datatables.targetDt.dataSet[rowNum];
+								
+								var rowData;
+								
+								
+								if(type == "list"){
+									
+									var selRecords = datatables.targetDt.getSelectedRecords();
+									
+									
+									if(selRecords.length == 0){
+										$.osl.alert($.osl.lang("datatable.action.dblClick.nonSelect"));
+										return true;
+									}
+									
+									else if(selRecords.length > 1){
+										$.osl.alert($.osl.lang("datatable.action.update.manySelect",selRecords.length));
+										return true;
+									}
+									else{
+										var rowIdx = datatables.targetDt.getSelectedRecords().data("row");
+										
+										rowData = datatables.targetDt.dataSet[rowIdx];
+									}
+								}
+								
+								else if(type == "info"){
+									rowData = datatables.targetDt.dataSet[rowNum];
+								}
 								
 								
 								datatables.config.actionFn["dblClick"](rowData, datatableId, type, rowNum, elem );
@@ -2557,6 +2547,7 @@
 									event.preventDefault();
 									event.returnValue = false;
 								}
+								
 								var rowData = datatables.targetDt.dataSet[rowNum];
 								
 								
@@ -3640,7 +3631,7 @@
 					var maxYear = moment().subtract(-10, 'year').format('YYYY');
 					
 					var defaultConfig = {
-							parentEl: 'body',
+							parentEl: $(targetObj).parent(),
 				            buttonClasses: 'btn btn-sm',
 				            applyClass: "btn-primary",
 				            cancelClass: "btn-secondary",
@@ -3969,6 +3960,44 @@
 			document.hideMoveForm.authGrpId.value = authGrpId;
 			document.hideMoveForm.action= "/cmm/cmm9000/cmm9000/selectCmm9000PageChgView.do";
 			document.hideMoveForm.submit();
+		},
+		
+		util:{
+			
+			initInputNumbers: function(){
+				this.initInputNumber("input[type=number]");
+			},
+			
+			initInputNumber: function(target){
+				
+				var inputNumberList = $(target);
+				if(!$.osl.isNull(inputNumberList) && inputNumberList.length > 0){
+					$.each(inputNumberList, function(idx, map){
+						
+						var readonly = $(map).attr("readonly");
+						if(!$.osl.isNull(readonly) || (readonly == true || readonly == "readonly")){
+							return true;
+						}
+						
+						var min = $(map).attr("min") || 0;
+						var max = $(map).attr("max") || 9999999;
+						var step = $(map).attr("step") || 1;
+						var boostat = $(map).attr("boostat") || 5;
+						var maxboostedstep = $(map).attr("maxboostedstep") || 10;
+						
+						
+				    	$(map).TouchSpin({
+				            buttondown_class: 'btn btn-secondary',
+				            buttonup_class: 'btn btn-secondary',
+				            min: parseInt(min),
+				            max: parseInt(max),
+				            step: step,
+				            boostat: boostat,
+				            maxboostedstep: maxboostedstep,
+				        });
+					});
+				}
+			}
 		}
 	};
 	
