@@ -246,9 +246,6 @@ var OSLDpl1100Popup = function () {
 					}
 				}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("dpl1100.actionBtn.title.removeBtn"),
 				"dblClick": true,
@@ -313,9 +310,6 @@ var OSLDpl1100Popup = function () {
 					}
 				}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("dpl1100.actionBtn.title.addBtn"),
 				"dblClick": true,

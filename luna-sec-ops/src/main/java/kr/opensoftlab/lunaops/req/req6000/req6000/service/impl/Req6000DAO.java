@@ -29,4 +29,5 @@ public class Req6000DAO extends ComOslitsAbstractDAO {
 	public int deleteReq6001ReqChgInfo(Map paramMap) throws Exception{
 		return (int) delete("req6000DAO.deleteReq6001ReqChgInfo", paramMap);
 	}
+	
 }

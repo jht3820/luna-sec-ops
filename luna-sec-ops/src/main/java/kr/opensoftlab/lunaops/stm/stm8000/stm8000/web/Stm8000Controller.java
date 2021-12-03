@@ -123,7 +123,7 @@ public class Stm8000Controller {
 			paramMap.put("licGrpId", loginVO.getLicGrpId());
 			
 			
-			String connectResult = stm8000Service.selectStm8000StmConnectCheck(paramMap);
+			String connectResult = stm8000Service.selectStm8000SvnConnectCheck(paramMap);
 			model.addAttribute("connectResult", connectResult);
 			
 			

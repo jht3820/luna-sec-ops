@@ -1322,4 +1322,5 @@
 				AND A.FLOW_START_CD		= '01'
 		]]>
 	</select>
+	
 </sqlMap>

@@ -6,7 +6,7 @@
 	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId }">
 	<input type="hidden" name="templateId" id="templateId" value="${param.paramTemplateId }">
 	<input type="hidden" name="itemId" id="itemId" value="${param.paramItemId }">
-	<input type="hidden" id="callPage" name="callPage" val="${param.callPage}">
+	<input type="hidden" id="callPage" name="callPage" value="${param.callPage}">
 	<div class="kt-portlet">
 		<div class="kt-portlet__body">
 			<div class="row">
@@ -90,6 +90,46 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="row itemTypeNumDiv kt-hide">
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemMinVal">숫자 최소값</span></label>
+						<input type="number" class="form-control itemTypeNum" placeholder="숫자 최소값" name="itemMinVal" id="itemMinVal" value="1" opttype="-1" min="-9999999999" max="99999999999" maxlength="11" required>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemMaxVal">숫자 최대값</span></label>
+						<input type="number" class="form-control itemTypeNum" placeholder="숫자 최대값" name="itemMaxVal" id="itemMaxVal" value="1" opttype="-1" min="-9999999999" max="99999999999" maxlength="11" required>
+					</div>
+				</div>
+			</div>
+			<div class="row kt-hide prjBasicItemColumn">
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemRequestCd">요청화면</span></label>
+						<div class="form-group kt-margin-b-10">
+							<label class="kt-checkbox kt-checkbox--bold kt-checkbox--success">
+								<input type="checkbox" class="osl-preview-readonly" id="itemRequestCd" name="itemRequestCd" value="01">
+								<span></span>
+							</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="form-group">
+						<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="prj1302.label.itemAcceptCd">접수화면</span></label>
+						<div class="form-group kt-margin-b-10">
+							<label class="kt-checkbox kt-checkbox--bold kt-checkbox--success">
+								<input type="checkbox" class="osl-preview-readonly" id="itemAcceptCd" name="itemAcceptCd" value="01">
+								<span></span>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </form>
@@ -134,6 +174,9 @@ var OSLPrj1305Popup = function () {
 	
     // Private functions
     var documentSetting = function () {
+    	if(callPage == 'OSLPrj1001Popup'){
+    		$(".prjBasicItemColumn").removeClass("kt-hide");
+    	}
     	
     	//항목 분류에 따른 disabled 처리
     	$("#itemCode").change(function(){
@@ -159,6 +202,38 @@ var OSLPrj1305Popup = function () {
     	if(type == "update"){
     		// 조직 단건 조회
     		selectTemplateInfo();
+    	}else if(type == "updateJson"){
+    		var itemObj = $.parseJSON('${param.itemObj}');
+    		
+    		$.osl.setDataFormElem(itemObj,"frPrj1305", ["itemId","itemNm", "itemCode", "itemType", "itemPcRowNum", "itemTabletRowNum", "itemMobileRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemEssentialCd", "itemMinVal", "itemMaxVal"]);
+			
+			if(itemObj.itemRequestCd == '01'){
+				$("#itemRequestCd").prop("checked",true);
+			}
+			if(itemObj.itemAcceptCd == '01'){
+				$("#itemAcceptCd").prop("checked",true);
+			}
+			
+	    	$("#itemCode").attr("data-osl-value", itemObj.itemCode);
+	    	$("#itemType").attr("data-osl-value", itemObj.itemType);
+	    	$("#itemEssentialCd").attr("data-osl-value", itemObj.itemEssentialCd);
+	    	
+			var commonCodeArr = [
+	 			{mstCd: "FLW00001", useYn: "Y",targetObj: "#itemCode", comboType:"OS"}, // 항목분류
+	 			{mstCd: "FLW00003", useYn: "Y",targetObj: "#itemType", comboType:"OS"}, // 항목타입
+	 			//{mstCd: "PRJ00017", useYn: "Y",targetObj: "#itemCommonCode", comboType:"OS"}, // 공통코드
+	 			{mstCd: "CMM00001", useYn: "Y",targetObj: "#itemEssentialCd", comboType:"OS"} // 필수유무
+			];
+	   	
+			//공통코드 채우기
+			$.osl.getMulticommonCodeDataForm(commonCodeArr , false);
+
+			itemCodeChange();
+			
+			itemTypeChange();
+			
+			//itemCommonCode 채우기
+	    	commonCodeDataSelect(itemObj.itemCommonCode);
     	}else{
     		var commonCodeArr = [
 	 			{mstCd: "FLW00001", useYn: "Y",targetObj: "#itemCode", comboType:"OS"}, // 항목분류
@@ -211,12 +286,22 @@ var OSLPrj1305Popup = function () {
     var itemTypeChange = function(){
     	var selType = $("#itemType").val();
 		if(selType=='01'){
+			$(".itemTypeNumDiv").addClass("kt-hide");
+			$(".itemTypeNum").prop("disabled",true);
 			$("#itemLength").prop("disabled",false);
 			$("#itemLength").val("255");
 		}else if(selType=='02'){
+			$(".itemTypeNumDiv").addClass("kt-hide");
+			$(".itemTypeNum").prop("disabled",true);
 			$("#itemLength").prop("disabled",false);
 			$("#itemLength").val("4000");
+		}else if(selType=='06'){
+			$(".itemTypeNumDiv").removeClass("kt-hide");
+			$("#itemLength").prop("disabled",true);
+			$(".itemTypeNum").prop("disabled",false);
 		}else{
+			$(".itemTypeNumDiv").addClass("kt-hide");
+			$(".itemTypeNum").prop("disabled",true);
 			$("#itemLength").prop("disabled",true);
 			$("#itemLength").val("");
 		}
@@ -267,7 +352,7 @@ var OSLPrj1305Popup = function () {
 			}else{
 				var itemInfo=data.templateInfoMap
 				// 조직 정보 세팅
-		    	$.osl.setDataFormElem(itemInfo,"frPrj1305", ["itemNm", "itemCode", "itemType", "itemPcRowNum", "itemTabletRowNum", "itemMobileRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemEssentialCd"]);
+		    	$.osl.setDataFormElem(itemInfo, "frPrj1305", ["itemNm", "itemCode", "itemType", "itemPcRowNum", "itemTabletRowNum", "itemMobileRowNum", "itemOrd", "itemCommonCode", "itemLength", "itemMinVal", "itemMaxVal"]);
 				
 				
 		    	$("#itemCode").attr("data-osl-value", itemInfo.itemCode);
@@ -315,6 +400,8 @@ var OSLPrj1305Popup = function () {
 			msg = $.osl.lang("prj1302.message.confirm.insert")
 		}else if(type=="update"){
 			msg = $.osl.lang("prj1302.message.confirm.update")
+		}else if(type=="updateJson"){
+			msg = $.osl.lang("prj1302.message.confirm.updateJson")
 		}
 		
 		$.osl.confirm(msg ,null,function(result) {
@@ -326,7 +413,9 @@ var OSLPrj1305Popup = function () {
 	        	$.each(formData, function(idx, map){
 	        		jsonData[map.name] = map.value;
 	        	});
-	        	jsonData.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+"00";
+	        	if(type!="updateJson"){
+	        		jsonData.itemId = 'ITM'+new Date().format('yyMMddHHmmssms')+"00";
+	        	}
 	        	
 	        	itemList = [];
 	        	itemList.push(jsonData);

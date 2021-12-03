@@ -13,6 +13,7 @@
 			,	A.TARGET_ID
 			,	A.TARGET_CD
 			,	A.ORD
+			,	A.SIGN_LINE_ID
 			,	A.SIGN_USR_ID
 			,	A.REG_DTM
 			,	A.REG_USR_ID
@@ -30,12 +31,13 @@
 			,	NVL(SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00007', B.USR_POSITION_CD, '1'), '-') AS USR_POSITION_NM
 		FROM	CMM6600 A
 		JOIN	STM3000 B
-		ON		A.SIGN_USR_ID = B.USR_ID
+		ON		(A.SIGN_USR_ID = B.USR_ID)
 		WHERE	1 = 1
 		AND		A.LIC_GRP_ID = #licGrpId#
 		AND		A.PRJ_ID = #prjId#
 		AND		A.TARGET_ID = #targetId#
 		AND		A.TARGET_CD = #targetCd#
+		AND		A.DEL_CD = '02'
 		<isEqual property="targetCd" compareValue="01">
 			AND		A.SUB_TARGET_FST_ID = #subTargetFstId#
 			AND		A.SUB_TARGET_SCD_ID = #subTargetScdId#
@@ -56,6 +58,7 @@
 				,	A.TARGET_ID
 				,	A.TARGET_CD
 				,	A.ORD
+				,	A.SIGN_LINE_ID
 				, 	CASE WHEN A.SIGN_TYPE_CD='01' OR A.SIGN_TYPE_CD='02' THEN E.SIGN_USR_ID ELSE A.SIGN_USR_ID END AS LAST_SIGN_USR_ID
 				, 	CASE WHEN A.SIGN_TYPE_CD='01' OR A.SIGN_TYPE_CD='02' THEN SF_STM3000_USR_INFO( E.SIGN_USR_ID , '1') ELSE SF_STM3000_USR_INFO(A.SIGN_USR_ID, '1') END AS LAST_SIGN_USR_NM
 				,	CASE WHEN A.SIGN_TYPE_CD='01' OR A.SIGN_TYPE_CD='02' THEN SF_STM3000_USR_INFO(E.SIGN_USR_ID , '6') ELSE SF_STM3000_USR_INFO(A.SIGN_USR_ID, '6') END AS LAST_SIGN_USR_IMG_ID
@@ -103,6 +106,7 @@
 								,	MAX(SIGN_DTM) AS SIGN_DTM
 								,	SUB_TARGET_FST_ID
 								,	SUB_TARGET_SCD_ID
+                  				, 	SIGN_LINE_ID
 							FROM	CMM6601
 							WHERE	1 = 1
 							AND		ORD = 0
@@ -116,9 +120,10 @@
 									,	TARGET_ID
 									,	TARGET_CD
 									,	SUB_TARGET_FST_ID
-									,	SUB_TARGET_SCD_ID							
+									,	SUB_TARGET_SCD_ID
+                  					, 	SIGN_LINE_ID							
 							) B
-				ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID = B.TARGET_ID AND A.TARGET_CD = B.TARGET_CD AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(B.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(B.SUB_TARGET_SCD_ID,'0'))
+				ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID = B.TARGET_ID AND A.TARGET_CD = B.TARGET_CD AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(B.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(B.SUB_TARGET_SCD_ID,'0') AND A.SIGN_LINE_ID = B.SIGN_LINE_ID)
 				INNER JOIN (
 							SELECT  MAX(SIGN_DTM) AS SIGN_DTM
 								,	LIC_GRP_ID
@@ -127,6 +132,7 @@
 								,	TARGET_CD
 								,	SUB_TARGET_FST_ID
 								,	SUB_TARGET_SCD_ID
+                  				, 	SIGN_LINE_ID
 							FROM	CMM6601
 							WHERE	1 = 1
 							AND		LIC_GRP_ID = #licGrpId#
@@ -138,10 +144,16 @@
 									,	TARGET_CD
 									,	SUB_TARGET_FST_ID
 									,	SUB_TARGET_SCD_ID
+                  					, 	SIGN_LINE_ID
 							) C
-				ON (A.LIC_GRP_ID = C.LIC_GRP_ID AND A.PRJ_ID = C.PRJ_ID AND A.TARGET_ID = C.TARGET_ID AND A.TARGET_CD = C.TARGET_CD AND A.SIGN_DTM = C.SIGN_DTM AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(C.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(C.SUB_TARGET_SCD_ID,'0'))
-				LEFT JOIN CMM6600 E
-				ON (A.LIC_GRP_ID = E.LIC_GRP_ID AND A.PRJ_ID = E.PRJ_ID AND A.TARGET_ID =E.TARGET_ID AND A.TARGET_CD =E.TARGET_CD AND (A.ORD+1) = E.ORD AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(E.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(E.SUB_TARGET_SCD_ID,'0'))
+				ON (A.LIC_GRP_ID = C.LIC_GRP_ID AND A.PRJ_ID = C.PRJ_ID AND A.TARGET_ID = C.TARGET_ID AND A.TARGET_CD = C.TARGET_CD AND A.SIGN_DTM = C.SIGN_DTM AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(C.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(C.SUB_TARGET_SCD_ID,'0') AND A.SIGN_LINE_ID = C.SIGN_LINE_ID)
+				LEFT JOIN (
+							SELECT	*
+							FROM	CMM6600
+							WHERE	1 = 1
+							AND		DEL_CD = '02'
+						   ) E
+				ON (A.LIC_GRP_ID = E.LIC_GRP_ID AND A.PRJ_ID = E.PRJ_ID AND A.TARGET_ID =E.TARGET_ID AND A.TARGET_CD =E.TARGET_CD AND (A.ORD+1) = E.ORD AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(E.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(E.SUB_TARGET_SCD_ID,'0') AND A.SIGN_LINE_ID = E.SIGN_LINE_ID)
 				<isEqual property="targetCd" compareValue = "02">
 					INNER JOIN DPL1000 D
 					ON (A.PRJ_ID = D.PRJ_ID AND A.TARGET_ID = D.DPL_ID)
@@ -208,6 +220,7 @@
 			    ,	A.TARGET_ID
 			    ,	A.TARGET_CD
 				,	A.ORD
+				,	A.SIGN_LINE_ID
 			    ,	A.SIGN_USR_ID
 			    ,	SF_STM3000_USR_INFO( A.SIGN_USR_ID , '1') AS SIGN_USR_NM
 			    ,	SF_STM3000_USR_INFO( A.SIGN_USR_ID , '6') AS SIGN_USR_IMG_ID
@@ -217,10 +230,10 @@
 			    , 	CASE WHEN A.SIGN_TYPE_CD='01' OR A.SIGN_TYPE_CD='02' THEN  '02' ELSE A.SIGN_TYPE_CD END AS NOW_SIGN_TYPE_CD
 			    ,	CASE WHEN A.SIGN_TYPE_CD='01' THEN   SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', '02', '1') ELSE SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') END AS NOW_SIGN_TYPE_NM
 			    ,  	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
-			    ,	(SELECT SIGN_USR_ID FROM CMM6600 WHERE 1 = 1 AND LIC_GRP_ID = #licGrpId# AND	PRJ_ID	= #prjId# AND	TARGET_CD ='02' AND ORD = 0 AND TARGET_ID = A.TARGET_ID) AS SIGN_DRF_USR_ID
-			    ,	SF_STM3000_USR_INFO((SELECT SIGN_USR_ID FROM CMM6600 WHERE 1 = 1 AND LIC_GRP_ID = #licGrpId# AND	PRJ_ID	= #prjId# AND	TARGET_CD =#targetCd# AND ORD = 0 AND TARGET_ID = A.TARGET_ID) , '1') AS SIGN_DRF_USR_NM
-			    ,	SF_STM3000_USR_INFO((SELECT SIGN_USR_ID FROM CMM6600 WHERE 1 = 1 AND LIC_GRP_ID = #licGrpId# AND	PRJ_ID	= #prjId# AND	TARGET_CD =#targetCd# AND ORD = 0 AND TARGET_ID = A.TARGET_ID) , '6') AS SIGN_DRF_USR_IMG_ID
-			    ,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH:MM:SS') AS SIGN_DTM
+			    ,	(SELECT SIGN_USR_ID FROM CMM6600 WHERE 1 = 1 AND LIC_GRP_ID = #licGrpId# AND	PRJ_ID	= #prjId# AND	TARGET_CD ='02' AND ORD = 0 AND TARGET_ID = A.TARGET_ID AND DEL_CD = '02') AS SIGN_DRF_USR_ID
+			    ,	SF_STM3000_USR_INFO((SELECT SIGN_USR_ID FROM CMM6600 WHERE 1 = 1 AND LIC_GRP_ID = #licGrpId# AND	PRJ_ID	= #prjId# AND	TARGET_CD =#targetCd# AND ORD = 0 AND TARGET_ID = A.TARGET_ID AND DEL_CD = '02') , '1') AS SIGN_DRF_USR_NM
+			    ,	SF_STM3000_USR_INFO((SELECT SIGN_USR_ID FROM CMM6600 WHERE 1 = 1 AND LIC_GRP_ID = #licGrpId# AND	PRJ_ID	= #prjId# AND	TARGET_CD =#targetCd# AND ORD = 0 AND TARGET_ID = A.TARGET_ID AND DEL_CD = '02') , '6') AS SIGN_DRF_USR_IMG_ID
+			    ,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH24:MI:SS') AS SIGN_DTM
 				,	A.REG_DTM
 				,	A.REG_USR_ID
 				,	A.REG_USR_IP
@@ -257,6 +270,7 @@
 							,	TARGET_CD
 							,	SUB_TARGET_FST_ID
 							,	SUB_TARGET_SCD_ID
+                  			, 	SIGN_LINE_ID
 						FROM	CMM6601
 						WHERE	1 = 1
 						GROUP BY	LIC_GRP_ID
@@ -265,10 +279,16 @@
 								,	TARGET_CD
 								,	SUB_TARGET_FST_ID
 								,	SUB_TARGET_SCD_ID
+ 			                    , 	SIGN_LINE_ID
 						) C
-			ON (A.LIC_GRP_ID = C.LIC_GRP_ID AND A.PRJ_ID = C.PRJ_ID AND A.TARGET_ID = C.TARGET_ID AND A.TARGET_CD = C.TARGET_CD AND A.SIGN_DTM = C.SIGN_DTM AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(C.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(C.SUB_TARGET_SCD_ID,'0'))
-			LEFT JOIN CMM6600 B
-			ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID =B.TARGET_ID AND A.TARGET_CD =B.TARGET_CD AND (A.ORD+1) = B.ORD AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(B.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(B.SUB_TARGET_SCD_ID,'0'))
+			ON (A.LIC_GRP_ID = C.LIC_GRP_ID AND A.PRJ_ID = C.PRJ_ID AND A.TARGET_ID = C.TARGET_ID AND A.TARGET_CD = C.TARGET_CD AND A.SIGN_DTM = C.SIGN_DTM AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(C.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(C.SUB_TARGET_SCD_ID,'0') AND A.SIGN_LINE_ID = C.SIGN_LINE_ID)
+			LEFT JOIN (
+						SELECT	*
+						FROM	CMM6600
+						WHERE	1 = 1
+						AND		DEL_CD = '02'
+						) B
+			ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID =B.TARGET_ID AND A.TARGET_CD =B.TARGET_CD AND (A.ORD+1) = B.ORD AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(B.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(B.SUB_TARGET_SCD_ID,'0') AND A.SIGN_LINE_ID = B.SIGN_LINE_ID)
 			INNER JOIN (
 						SELECT 	*
 						FROM	CMM6600
@@ -277,9 +297,10 @@
 						AND		PRJ_ID	= #prjId#
 						AND		TARGET_CD = #targetCd#
 						AND		SIGN_USR_ID = #usrId#
+						AND		DEL_CD = '02'
 						AND		ORD != 0
 						) E
-			ON (A.LIC_GRP_ID = E.LIC_GRP_ID AND A.PRJ_ID = E.PRJ_ID AND A.TARGET_CD = E.TARGET_CD AND A.TARGET_ID = E.TARGET_ID AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(E.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(E.SUB_TARGET_SCD_ID,'0'))
+			ON (A.LIC_GRP_ID = E.LIC_GRP_ID AND A.PRJ_ID = E.PRJ_ID AND A.TARGET_CD = E.TARGET_CD AND A.TARGET_ID = E.TARGET_ID AND NVL(A.SUB_TARGET_FST_ID,'0') = NVL(E.SUB_TARGET_FST_ID,'0') AND NVL(A.SUB_TARGET_SCD_ID,'0') = NVL(E.SUB_TARGET_SCD_ID,'0') AND A.SIGN_LINE_ID = E.SIGN_LINE_ID)
 			<isEqual property="targetCd" compareValue = "02">
 				INNER JOIN DPL1000 D
 				ON (A.PRJ_ID = D.PRJ_ID AND A.TARGET_ID = D.DPL_ID)
@@ -290,6 +311,7 @@
 			AND		A.TARGET_CD = #targetCd#
 			AND   	A.SIGN_TYPE_CD != '03'
 			AND   	A.SIGN_TYPE_CD != '04'
+			AND		B.DEL_CD = '02'
 			<isEqual property="targetCd" compareValue="01">
 				AND		A.SUB_TARGET_FST_ID = #subTargetFstId#
 				AND		A.SUB_TARGET_SCD_ID = #subTargetScdId#
@@ -389,56 +411,62 @@
     </select>
 	
 	
+	<select id="cmm6600DAO.selectCmm6600NewSignLineId" parameterClass = "java.util.Map" resultClass = "String">
+		<![CDATA[
+			 
+			SELECT	NVL( 
+							SUBSTR(NEW_SIGN_LINE_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_SIGN_LINE_ID, 12, 5)) + 1) , 5, '0')
+						,	'SNL' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
+            		) AS NEW_SIGN_LINE_ID 
+			FROM	(
+			            SELECT	MAX(SIGN_LINE_ID)  AS NEW_SIGN_LINE_ID
+			            FROM	CMM6600 A
+			            WHERE	1=1
+			            AND		A.LIC_GRP_ID = #licGrpId#
+                        AND		A.PRJ_ID = #prjId#
+			            AND		A.SIGN_LINE_ID LIKE 'SNL' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '%'
+					)
+		]]>
+	</select>
+	
 	
 	<insert id="cmm6600DAO.insertCmm6600SignLine" parameterClass = "java.util.Map">
-		<selectKey resultClass="java.lang.String" keyProperty="newSignLineId">
-			<![CDATA[
-				 
-				SELECT	NVL( 
-								SUBSTR(NEW_SIGN_LINE_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_SIGN_LINE_ID, 12, 5)) + 1) , 5, '0')
-							,	'SNL' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
-	            		) AS NEW_SIGN_LINE_ID 
-				FROM	(
-				            SELECT	MAX(SIGN_LINE_ID)  AS NEW_SIGN_LINE_ID
-				            FROM	CMM6600 A
-				            WHERE	1=1
-				            AND		A.LIC_GRP_ID = #licGrpId#
-	                        AND		A.PRJ_ID = #prjId#
-				            AND		A.SIGN_LINE_ID LIKE 'SNL' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '%'
-						)
-			]]>
-		</selectKey>
 		
 		INSERT INTO CMM6600
 		(
 				LIC_GRP_ID		,	PRJ_ID			,	SIGN_LINE_ID		,	TARGET_CD		
 			,	TARGET_ID 		,	ORD				,	SUB_TARGET_FST_ID	,	SUB_TARGET_SCD_ID		
-			,	SIGN_USR_ID		,	REG_DTM			,	REG_USR_ID  		,	REG_USR_IP		
-			,	MODIFY_DTM		,	MODIFY_USR_ID	,	MODIFY_USR_IP
+			,	SIGN_USR_ID		,	DEL_CD			,	REG_DTM				,	REG_USR_ID  		
+			,	REG_USR_IP 		,	MODIFY_DTM		,	MODIFY_USR_ID		,	MODIFY_USR_IP
 		)
 		VALUES
 		(
-				#licGrpId#		,	#prjId#			,	#newSignLineId#	,	#targetCd#		
+				#licGrpId#		,	#prjId#			,	#signLineId#	,	#targetCd#		
 			,	#targetId# 		,	#ord#			,	#subTargetFstId#,	#subTargetScdId#			
-			,	#signUsrId#		,	SYSDATE			,	#regUsrId# 		,	#regUsrIp#		
-			,	SYSDATE			,	#modifyUsrId#	,	#modifyUsrIp#
+			,	#signUsrId#		,	'02'			,	SYSDATE			,	#regUsrId# 		
+			,	#regUsrIp# 		,	SYSDATE			,	#modifyUsrId#	,	#modifyUsrIp#
 		)
 	</insert>
 	
 	
-	<delete id="cmm6600DAO.deleteCmm6600SignLine" parameterClass = "java.util.Map">
+	<update id="cmm6600DAO.deleteCmm6600SignLine" parameterClass = "java.util.Map">
 		
-		DELETE FROM CMM6600
+		UPDATE  CMM6600
+		SET		DEL_CD = '01'
+			,	MODIFY_DTM = SYSDATE
+			,	MODIFY_USR_ID = #modifyUsrId#
+			,	MODIFY_USR_IP = #modifyUsrIp#
 		WHERE	1 = 1
 		AND		LIC_GRP_ID  = #licGrpId#
 		AND		PRJ_ID		= #prjId#
 		AND		TARGET_ID	= #targetId#
 		AND		TARGET_CD	= #targetCd#
+		AND		DEL_CD 		= '02'
 		<isEqual property="targetCd" compareValue="01">
 			AND		SUB_TARGET_FST_ID = #subTargetFstId#
 			AND		SUB_TARGET_SCD_ID = #subTargetScdId#
 		</isEqual>
-	</delete>
+	</update>
 	
 	
 	<select id = "cmm6600DAO.selectCmm6600MaxOrd" parameterClass = "java.util.Map" resultClass = "java.lang.Integer">
@@ -450,6 +478,7 @@
 		AND		PRJ_ID	= #prjId#
 		AND		TARGET_ID = #targetId#
 		AND		TARGET_CD = #targetCd#
+		AND		DEL_CD	= '02'
 		<isEqual property="targetCd" compareValue="01">
 			AND		SUB_TARGET_FST_ID = #subTargetFstId#
 			AND		SUB_TARGET_SCD_ID = #subTargetScdId#
@@ -480,6 +509,7 @@
 		AND		TARGET_ID	= #targetId#
 		AND		TARGET_CD	= #targetCd#
 		AND		ORD			= #ord#
+		AND		DEL_CD		= '02'
 		<isEqual property="targetCd" compareValue="01">
 			AND		SUB_TARGET_FST_ID = #subTargetFstId#
 			AND		SUB_TARGET_SCD_ID = #subTargetScdId#
@@ -490,42 +520,26 @@
 	
 	
 	<insert id="cmm6600DAO.insertCmm6601SignInfo" parameterClass = "java.util.Map" >
-		<selectKey resultClass="java.lang.String" keyProperty="newSignId">
-		<![CDATA[
-			 
-			SELECT	NVL( 
-							SUBSTR(NEW_SIGN_ID, 1, 11) || LPAD( (TO_NUMBER(SUBSTR(NEW_SIGN_ID, 12, 5)) + 1) , 5, '0')
-						,	'SIG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '00001'
-            		) AS NEW_REQ_ID 
-			FROM	(
-			            SELECT	MAX(SIGN_ID)  AS NEW_SIGN_ID
-			            FROM	CMM6601 A
-			            WHERE	1=1
-			            AND		A.LIC_GRP_ID = #licGrpId#
-                        AND		A.PRJ_ID = #prjId#
-			            AND		A.SIGN_ID LIKE 'SIG' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '%'
-					)
-		]]>
-		</selectKey>
 		
 		INSERT INTO CMM6601
 		(
-				LIC_GRP_ID		,	PRJ_ID			,	SIGN_ID			,	TARGET_CD
-			,	TARGET_ID		,	ORD				,	SUB_TARGET_FST_ID,	SUB_TARGET_SCD_ID
-			,	SIGN_USR_ID		,	SIGN_TYPE_CD
-			,	SIGN_RES		,	SIGN_DTM		,	REG_DTM			,	REG_USR_ID
-			,	REG_USR_IP		,	MODIFY_DTM		,	MODIFY_USR_ID	,	MODIFY_USR_IP
+				LIC_GRP_ID			,	PRJ_ID			,	SIGN_LINE_ID	,	TARGET_CD
+			,	TARGET_ID			,	ORD				,	SIGN_USR_ID		,	SUB_TARGET_FST_ID
+			,	SUB_TARGET_SCD_ID	,	SIGN_TYPE_CD	,	SUB_SIGN_CD 	,	SIGN_RES			
+			,	SIGN_DTM			,	REG_DTM			,	REG_USR_ID 		,	REG_USR_IP			
+			,	MODIFY_DTM			,	MODIFY_USR_ID	,	MODIFY_USR_IP
 		)
-		VALUES
+		VALUES 
 		(
-				#licGrpId#		,	#prjId#			,	#newSignId#		,	#targetCd#	
-			,	#targetId#		,	#ord#			,	#subTargetFstId#,	#subTargetScdId#
-			,	#signUsrId#		,	#signTypeCd#
-			,	#signRes#		,	SYSDATE			,	SYSDATE			,	#regUsrId#
-			,	#regUsrIp#		,	SYSDATE			,	#modifyUsrId#	,	#modifyUsrIp#
+				#licGrpId#			,	#prjId#			,	#signLineId#	,	#targetCd#	
+			,	#targetId#			,	#ord#			,	#signUsrId#		,	#subTargetFstId#
+			,	#subTargetScdId#	,	#signTypeCd#	,	#subSignCd#		,	#signRes#		
+			,	SYSDATE				,	SYSDATE			,	#regUsrId# 		,	#regUsrIp#		
+			,	SYSDATE				,	#modifyUsrId#	,	#modifyUsrIp#
 		
 		)
 	</insert>
+	
 	
 	<select id="cmm6600DAO.selectCmm6601SignInfo" parameterClass="java.util.Map" resultClass="egovMap">
 		
@@ -554,14 +568,16 @@
 						,	TARGET_ID
 						,	TARGET_CD
 						,	ORD
+		                , SIGN_LINE_ID
 					FROM	CMM6601
 					GROUP BY	LIC_GRP_ID
 							,	PRJ_ID
 							,	TARGET_CD
 							,	TARGET_ID
 							,	ORD
+		                  , SIGN_LINE_ID
 					) B
-		ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID = B.TARGET_ID AND A.TARGET_CD = B.TARGET_CD AND A.ORD=B.ORD)
+		ON (A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID = B.TARGET_ID AND A.TARGET_CD = B.TARGET_CD AND A.ORD=B.ORD AND A.SIGN_LINE_ID = B.SIGN_LINE_ID)
 		WHERE 	1 = 1
 		AND		A.LIC_GRP_ID 	= #licGrpId#
 		AND		A.PRJ_ID		= #prjId#
@@ -569,5 +585,120 @@
 		AND		A.TARGET_CD	= #targetCd#
 		AND		A.ORD			= #ord#
 		
+	</select>
+	
+	
+	<select id="cmm6600DAO.selectCmm6601CmmInfo" parameterClass = "java.util.Map" resultClass ="egovMap">
+		
+		SELECT
+				A.LIC_GRP_ID
+			,	A.PRJ_ID
+		    ,	A.SIGN_LINE_ID
+		    ,	A.TARGET_ID
+		    ,	A.TARGET_CD
+		    ,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00009', A.TARGET_CD, '1') AS TARGET_CD_NM
+		    ,	A.ORD
+		    ,	A.SIGN_USR_ID
+		    ,	SF_STM3000_USR_INFO(A.SIGN_USR_ID , '1') AS SIGN_USR_NM
+		    ,	SF_STM3000_USR_INFO(A.SIGN_USR_ID , '2') AS SIGN_USR_EMAIL
+		    ,	SF_STM3000_USR_INFO(A.SIGN_USR_ID , '6') AS SIGN_USR_IMG_ID
+		    ,	A.SIGN_TYPE_CD
+		    ,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
+		    ,	A.SUB_SIGN_CD
+		    ,	G.SIGN_USR_ID AS REQ_SIGN_USR_ID
+    		, 	G.ORD AS REQ_ORD
+    		, 	SF_STM3000_USR_INFO(G.SIGN_USR_ID , '1') AS REQ_SIGN_USR_NM
+    		,	SF_STM3000_USR_INFO(G.SIGN_USR_ID , '2') AS REQ_SIGN_USR_EMAIL
+    		,	SF_STM3000_USR_INFO(G.SIGN_USR_ID , '6') AS REQ_SIGN_USR_IMG_ID
+			, 	B.SIGN_USR_ID AS NEXT_SIGN_USR_ID
+		    ,	B.ORD AS NEXT_ORD
+		    ,	SF_STM3000_USR_INFO(B.SIGN_USR_ID , '1') AS NEXT_SIGN_USR_NM
+		    ,	SF_STM3000_USR_INFO(B.SIGN_USR_ID , '2') AS NEXT_SIGN_USR_EMAIL
+		    ,	SF_STM3000_USR_INFO(B.SIGN_USR_ID , '6') AS NEXT_SIGN_USR_IMG_ID
+		    ,	A.SIGN_RES
+		    ,	E.ABS_ST_DTM
+		    ,	E.ABS_ED_DTM
+		    , 	F.SUB_SIGN_USR_ID
+		    ,	SF_STM3000_USR_INFO(F.SUB_SIGN_USR_ID , '1') AS SUB_SIGN_USR_NM
+		    ,	SF_STM3000_USR_INFO(F.SUB_SIGN_USR_ID , '2') AS SUB_SIGN_USR_EMAIL
+		    ,	SF_STM3000_USR_INFO(F.SUB_SIGN_USR_ID , '6') AS SUB_SIGN_USR_IMG_ID
+		    ,	E.BLOCK	AS NEXT_USR_BLOCK
+		    , 	E.DEL_CD AS NEXT_USR_DEL_CD
+		    , 	D.ORD AS LAST_ORD
+		    ,	D.SIGN_USR_ID AS LAST_SIGN_USR_ID
+		    ,	SF_STM3000_USR_INFO(D.SIGN_USR_ID , '1') AS LAST_SIGN_USR_NM
+		    ,	SF_STM3000_USR_INFO(D.SIGN_USR_ID , '2') AS LAST_SIGN_USR_EMAIL
+		    ,	SF_STM3000_USR_INFO(D.SIGN_USR_ID , '6') AS LAST_SIGN_USR_IMG_ID
+		FROM	CMM6601 A
+		INNER JOIN FROM	 CMM6600 G
+		ON ( A.LIC_GRP_ID = G.LIC_GRP_ID AND A.PRJ_ID = G.PRJ_ID AND A.TARGET_ID = G.TARGET_ID AND A.TARGET_CD = G.TARGET_CD AND A.SIGN_LINE_ID = G.SIGN_LINE_ID AND G.DEL_CD = '02' AND G.ORD = 0 )
+		INNER JOIN (
+					SELECT 	MAX(REG_DTM) AS MAX_REG_DTM
+		            	,	SIGN_LINE_ID
+		            FROM	CMM6601
+		            GROUP BY	SIGN_LINE_ID
+					) C
+		ON (A.SIGN_LINE_ID = C.SIGN_LINE_ID AND A.REG_DTM = C.MAX_REG_DTM)
+		LEFT JOIN FROM	CMM6600 B
+		ON ( A.LIC_GRP_ID = B.LIC_GRP_ID AND A.PRJ_ID = B.PRJ_ID AND A.TARGET_ID = B.TARGET_ID AND A.TARGET_CD = B.TARGET_CD AND (A.ORD+1)=B.ORD AND A.SIGN_LINE_ID = B.SIGN_LINE_ID AND B.DEL_CD = '02')
+		INNER JOIN (
+					SELECT	*
+		            FROM	CMM6600
+		            WHERE   1 = 1
+		            AND		DEL_CD = '02'
+		            AND		SIGN_LINE_ID = #signLineId#
+		            AND		ORD = (
+		            				SELECT  MAX(ORD)
+		                            FROM	CMM6600
+		                            WHERE	1 = 1
+		                            AND		DEL_CD = '02'
+		                            AND		SIGN_LINE_ID = #signLineId#
+		                            GROUP BY SIGN_LINE_ID
+		            				)
+		            ) D
+		ON (A.SIGN_LINE_ID = D.SIGN_LINE_ID)
+		LEFT JOIN STM3000 E
+		ON (B.SIGN_USR_ID = E.USR_ID)
+		LEFT JOIN STM3005 F
+		ON (B.SIGN_USR_ID = F.USR_ID AND B.PRJ_ID = F.PRJ_ID AND B.LIC_GRP_ID = F.LIC_GRP_ID)
+		WHERE 1 = 1
+		AND		A.LIC_GRP_ID = #licGrpId#
+		AND		A.PRJ_ID = #prjId#
+		AND		A.SIGN_LINE_ID = #signLineId#
+	</select> 
+	
+	
+	<select id="cmm6600DAO.selectCmm6600SignLineList" parameterClass = "java.util.Map" resultClass = "egovMap">
+		
+		SELECT	A.LIC_GRP_ID
+			, 	A.PRJ_ID
+			,	A.TARGET_ID
+			,	A.TARGET_CD
+			,	A.ORD
+			,	A.SIGN_LINE_ID
+			,	A.SIGN_USR_ID
+			,	A.REG_DTM
+			,	A.REG_USR_ID
+			,	A.REG_USR_IP
+			,	A.MODIFY_DTM
+			,	A.MODIFY_USR_ID
+			,	A.MODIFY_USR_IP
+			,	B.USR_ID
+			,   B.USR_IMG_ID
+			,	B.USR_NM
+			,	B.EMAIL
+			,	B.USR_DUTY_CD
+			,   NVL(SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00008', B.USR_DUTY_CD, '1'), '-') AS USR_DUTY_NM
+			,	B.USR_POSITION_CD
+			,	NVL(SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00007', B.USR_POSITION_CD, '1'), '-') AS USR_POSITION_NM
+		FROM	CMM6600 A
+		JOIN	STM3000 B
+		ON		(A.SIGN_USR_ID = B.USR_ID)
+		WHERE	1 = 1
+		AND		A.LIC_GRP_ID = #licGrpId#
+		AND		A.PRJ_ID = #prjId#
+		AND		A.SIGN_LINE_ID = #signLineId#
+		AND		A.DEL_CD = '02'
+		ORDER BY ORD ASC
 	</select>
 </sqlMap>            

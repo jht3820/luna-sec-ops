@@ -56,7 +56,16 @@ var OSLReq1000Popup = function () {
 				{field: 'reqOrd', title: '순번', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title: '처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProTypeCd", sortField: "reqProTypeCd"},
 				{field: 'reqNm', title: '요청 제목', textAlign: 'left', width: 500, search: true,
-									
+					/* 
+					template: function(row){
+						var resultStr = $.osl.escapeHtml(row.reqNm);
+						//비밀번호가 있는 경우
+						if(row.reqPw == "Y"){
+							resultStr += "<i class='la la-unlock kt-icon-xl kt-margin-l-5 kt-margin-r-5'></i>";
+						}
+						return resultStr;
+					}
+					 */				
 				},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
 				{field: 'reqUsrNm', title: '요청자', textAlign: 'center', width: 150, search: true,
@@ -77,12 +86,9 @@ var OSLReq1000Popup = function () {
 			searchColumns:[
 				{field: 'prjGrpNm', title: '프로젝트 그룹명', searchOrd: 0}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"dblClick": true 
-				
+				/* ,"click": true */
 			},
 			actionTooltip:{
 				"update": "요구사항 수정",
@@ -121,24 +127,24 @@ var OSLReq1000Popup = function () {
 					$.osl.layerPopupOpen('/req/req1000/req1000/selectReq1001View.do',data,options);
 				},
 				"delete":function(rowDatas, datatableId, type, rowNum, elem){
-					
+					//AJAX 설정
 					var ajaxObj = new $.osl.ajaxRequestAction(
 							{"url":"<c:url value='/req/req1000/req1000/deleteReq1001ReqListAjax.do'/>"}
 							,{deleteDataList: JSON.stringify(rowDatas)});
-					
+					//AJAX 전송 성공 함수
 					ajaxObj.setFnSuccess(function(data){
 						if(data.errorYn == "Y"){
 			   				$.osl.alert(data.message,{type: 'error'});
 			   			}else{
-			   				
+			   				//삭제 성공
 			   				$.osl.toastr(data.message);
 			   				
-			   				
+			   				//datatable 조회
 			   				$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			   			}
 					});
 					
-					
+					//AJAX 전송
 					ajaxObj.send();
 				},
 				"dblClick":function(rowData, datatableId, type, rowNum, elem){
@@ -148,7 +154,6 @@ var OSLReq1000Popup = function () {
 							paramReqId: rowData.reqId,
 							paramReqUsrId: rowData.reqUsrId
 						};
-					console.log(data);
 					var options = {
 							idKey: rowData.reqId,
 							modalTitle: $.osl.lang("req1001.title"),
@@ -162,7 +167,7 @@ var OSLReq1000Popup = function () {
 	};
 	
 	return {
-        
+        // public functions
         init: function() {
         	documentSetting();
         }

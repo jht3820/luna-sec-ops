@@ -40,7 +40,7 @@
 							<i class="fa fa-th-large kt-margin-r-5"></i>결재선 정보
 						</h5>
 					</div>
-					
+					<!-- begin::버튼영역 -->
 					<div class="kt-portlet__head-toolbar">
 						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm btn-elevate btn-elevate-air" data-datatable-id="stm3000UsrTable" data-datatable-action="upMoveBtn" title="위로" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="upMoveBtn" tabindex="3">
 							<i class="fas fa-arrow-up"></i><span data-lang-cd="dpl1001.button.upMoveBtn">위로</span>
@@ -49,7 +49,7 @@
 							<i class="fas fa-arrow-down"></i><span data-lang-cd="dpl1001.button.downMoveBtn">아래로</span>
 						</button>
 					</div>
-					
+					<!-- end::버튼 영역 -->
 				</div>
 				<div class="kt-portlet__body kt-padding-r-15">
 					<div class="kt-scroll kt-padding-r-10" data-height="525" id="signCardTable"></div>
@@ -73,7 +73,6 @@ var OSLCmm6600Popup = function () {
     
     var selectUsrArray=[];
     
-    var usrStr = '';
 	
 	var usrIdDupleList = 0;
 	
@@ -103,7 +102,7 @@ var OSLCmm6600Popup = function () {
 	
     
     var documentSetting = function () {
-    	selectSignUsrInfList();
+    	
     	
     	
     	if(paramSubmitAction == "false"){
@@ -119,7 +118,7 @@ var OSLCmm6600Popup = function () {
 	   		}
 	   	});
 	    
-	  
+	  	
 	   	$.osl.datatable.setting("stm3000UsrTable",{
 			data: {
 				source: {
@@ -181,7 +180,6 @@ var OSLCmm6600Popup = function () {
 				}
 			},
 			rows:{
-				clickCheckbox: true,
 				beforeTemplate: function (row, data, index){
 					
 					if(selectUsrArray.indexOf(data.usrId) > -1){
@@ -287,7 +285,6 @@ var OSLCmm6600Popup = function () {
 			
 			$("#signCardTable").parent().prepend(myUsrStr);
 			
-			
 			var paramSignUsrList = $("#"+formId+" #paramSignUsrList").val();
 			var signUsrListJson;
 			
@@ -300,12 +297,14 @@ var OSLCmm6600Popup = function () {
 				
 				
 				$.each(signUsrListJson, function(idx, map){
+					if(map.ord == 0){
+						return true;
+					}
+					
 					if(map.type == "02" || $.osl.isNull(map.type)){
 						signUsrList.push(map);
 					}
 				});
-				
-				
 				fnAllUsrInsert(signUsrList);	
 			}
 	  	}
@@ -499,14 +498,10 @@ var OSLCmm6600Popup = function () {
 		
 		
 		ajaxObj.send();
-    	
-    	
-    	
-		
 	}
   	
     
-    function fnAllUsrInsert(selDatas){
+    var fnAllUsrInsert = function(selDatas){
       	
     	var datatable = $.osl.datatable.list["stm3000UsrTable"].targetDt;
       	
@@ -563,7 +558,7 @@ var OSLCmm6600Popup = function () {
     };
     
   	
-   	function userSetting(userInfo){
+   	var userSetting = function(userInfo){
   		var duty = '';
    		if((!$.osl.isNull(userInfo.usrDutyCd)) && (!$.osl.isNull(userInfo.usrPositionCd))){
   			duty 	+= 	'<span class="kt-widget__desc">'
@@ -584,8 +579,7 @@ var OSLCmm6600Popup = function () {
   			}
   		}
   		
-  		
-		usrStr += 
+		var usrStr = 
 			'<div class="kt-widget kt-margin-b-10 kt-widget--general-2 rounded osl-sign-card osl-widget-draggable" data-usr-id="'+userInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(userInfo.usrNm)+'" data-ord="'+ord+'">'
 				+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
 				+'<div class="kt-margin-r-10 font-weight-bolder osl-min-width-48">'
@@ -614,7 +608,6 @@ var OSLCmm6600Popup = function () {
 		
 		selectUsrArray.push(userInfo.usrId);
 		
-		usrStr='';	
 		
 		ord++;
 		
@@ -653,9 +646,7 @@ var OSLCmm6600Popup = function () {
 	
     var saveFormAction = function(){
     	signUsrInfs = [];
-    	
     	var selSignUsrInfs = $('.osl-sign-card');
-    	
     	if(selSignUsrInfs.length == 0){
     		
     		$.osl.alert($.osl.lang("cmm6600.message.alert.notRgsSignUsr"));
@@ -673,6 +664,7 @@ var OSLCmm6600Popup = function () {
 	    	signUsrInfs.push(myInfo);
     	}
     	
+    	
     	$.each(selSignUsrInfs,function(idx, map){
     		var usrId = $(this).data("usr-id");
     		var ord = $(this).data("ord");
@@ -688,7 +680,7 @@ var OSLCmm6600Popup = function () {
     		signUsrInf["ord"] = ord;
     		signUsrInf["type"] = "02";
     		signUsrInfs.push(signUsrInf);
-    	})
+    	});
     	
     	
     	if($.osl.isNull(paramSubmitAction) || paramSubmitAction == "true"){

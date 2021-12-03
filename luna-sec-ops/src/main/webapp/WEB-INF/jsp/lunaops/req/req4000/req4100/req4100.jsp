@@ -42,7 +42,7 @@
 				<div class="osl-datatable-search" data-datatable-id="req4100ReqTable"></div>
 			</div>
 		</div>
-		<div class="kt_datatable osl-datatable-footer__divide" id="req4100ReqTable"></div>
+		<div class="kt_datatable osl-datatable-footer__divide kt-scroll ps" data-scroll-x="true" id="req4100ReqTable"></div>
 	</div>
 </div>
 
@@ -79,7 +79,7 @@ var OSLReq4100Popup = function () {
 				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, search: true},
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
-				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
+				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true,
 					
 				},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
@@ -151,9 +151,6 @@ var OSLReq4100Popup = function () {
 				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2},
 				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : $.osl.lang("req4100.actionBtn.title"),
 				"dblClick": true,
@@ -355,8 +352,9 @@ var OSLReq4100Popup = function () {
 						return false;
 					}
 					
-					if(rowDatas[0].reqProType != "02"){
-						$.osl.alert("처리중인 요구사항만 업무 처리가 가능합니다.");
+					
+					if(rowDatas[0].reqProType != "02" && rowDatas[0].reqProType != "04"){
+						$.osl.alert("최종완료, 처리중인 요구사항만 업무 처리가 가능합니다.");
 						return false;
 					}
 					

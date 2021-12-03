@@ -35,6 +35,7 @@ import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.fms.web.service.FileMngService;
+import kr.opensoftlab.lunaops.prj.prj1000.prj1000.service.Prj1000Service;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1100.service.impl.Prj1100DAO;
 import kr.opensoftlab.lunaops.prj.prj1000.prj1300.service.Prj1300Service;
 import kr.opensoftlab.lunaops.req.req3000.req3000.service.impl.Req3000DAO;
@@ -61,6 +62,10 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	
     @Resource(name = "prj1300Service")
     private Prj1300Service prj1300Service;
+    
+	
+    @Resource(name = "prj1000Service")
+    private Prj1000Service prj1000Service;
     
 	
 	@Resource(name = "req6000Service")
@@ -171,7 +176,7 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	}
 	
 	
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String insertReq4100ReqCopy(Map<String, String> paramMap) throws Exception{
 
 		Map<String, String> convertParamMap = selectReq4100JsonToMap(paramMap);
@@ -335,6 +340,51 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 				}
 			}
 		}
+		
+		
+		
+		
+		JSONParser jsonParser = new JSONParser();
+		String basicItemList = (String) paramMap.get("basicItemList");
+		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+		String basicItemDelList = (String) paramMap.get("basicItemDelList");
+		JSONArray basicItemJsonArray = (JSONArray) (JSONArray) jsonParser.parse(basicItemList);;
+		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
+		
+		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", insNewReqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			itemMap.put("itemDivision", "04");
+			itemMap.put("itemRequestCd", "01");
+
+			prj1000Service.savePrj1003ItemAjax(itemMap);
+		}
+		
+		for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", insNewReqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			itemMap.put("itemDivision", "04");
+			itemMap.put("itemRequestCd", "01");
+
+			prj1000Service.savePrj1002ItemAjax(itemMap);
+			prj1000Service.savePrj1003ItemAjax(itemMap);
+		}
+		
+		for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
+			JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
+			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+			itemMap.put("prjId", prjId);
+			itemMap.put("reqId", insNewReqId);
+			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+			prj1000Service.deletePrj1002ItemInfoAjax(itemMap);
+		}
 		return insNewReqId;
 	}
 	
@@ -347,6 +397,8 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object saveReq4100ReqInfo(Map paramMap) throws Exception{
+
+		JSONParser jsonParser = new JSONParser();
 		
 		Map<String, String> convertParamMap = selectReq4100JsonToMap(paramMap);
 
@@ -412,7 +464,39 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
     			
     			req4100DAO.updateReq4101ReqPwInfo(newReqMap);
     		}
-    		 		
+    		
+    		
+    		
+    		String basicItemList = (String) paramMap.get("basicItemList");
+    		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+    		JSONArray basicItemJsonArray = (JSONArray) (JSONArray) jsonParser.parse(basicItemList);;
+    		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+    		
+    		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", insNewReqId);
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "04");
+    			itemMap.put("itemRequestCd", "01");
+
+    			prj1000Service.savePrj1003ItemAjax(itemMap);
+    		}
+    		
+    		for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", insNewReqId);
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "04");
+    			itemMap.put("itemRequestCd", "01");
+
+    			prj1000Service.savePrj1002ItemAjax(itemMap);
+    			prj1000Service.savePrj1003ItemAjax(itemMap);
+    		}
+    		
 			return insNewReqId;
 		}
 		
@@ -470,8 +554,6 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 			
 			String removeFileStr = (String) paramMap.get("fileHistory");
 			
-			
-			JSONParser jsonParser = new JSONParser();
 			JSONArray jsonArray = (JSONArray) jsonParser.parse(removeFileStr);
 			
 			List<String> removeFileSn = new ArrayList<String>();
@@ -521,6 +603,49 @@ public class Req4100ServiceImpl extends EgovAbstractServiceImpl implements Req41
 					}
 				}
 			}
+			
+			
+    		
+    		String basicItemList = (String) paramMap.get("basicItemList");
+    		String basicItemInsertList = (String) paramMap.get("basicItemInsertList");
+    		String basicItemDelList = (String) paramMap.get("basicItemDelList");
+    		JSONArray basicItemJsonArray = (JSONArray) (JSONArray) jsonParser.parse(basicItemList);;
+    		JSONArray basicItemInsertJsonArray = (JSONArray) jsonParser.parse(basicItemInsertList);
+    		JSONArray basicItemDelJsonArray = (JSONArray) jsonParser.parse(basicItemDelList);
+    		
+    		for(int idx=0;idx<basicItemJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqInfoMap.get("reqId"));
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "04");
+    			itemMap.put("itemRequestCd", "01");
+
+    			prj1000Service.savePrj1003ItemAjax(itemMap);
+    		}
+    		
+    		for(int idx=0;idx<basicItemInsertJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemInsertJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqInfoMap.get("reqId"));
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			itemMap.put("itemDivision", "04");
+    			itemMap.put("itemRequestCd", "01");
+
+    			prj1000Service.savePrj1002ItemAjax(itemMap);
+    			prj1000Service.savePrj1003ItemAjax(itemMap);
+    		}
+    		
+    		for(int idx=0;idx<basicItemDelJsonArray.size();idx++) {
+    			JSONObject itemInfo = (JSONObject) basicItemDelJsonArray.get(idx);
+    			Map itemMap = new Gson().fromJson(itemInfo.toString(), HashMap.class);
+    			itemMap.put("prjId", prjId);
+    			itemMap.put("reqId", reqInfoMap.get("reqId"));
+    			itemMap.put("licGrpId", paramMap.get("licGrpId"));
+    			prj1000Service.deletePrj1002ItemInfoAjax(itemMap);
+    		}
 			
 			
 			if(uptCnt == 0 ){
