@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <form class="kt-form" id="frSpr1004">
 	<input type="hidden" name="modalId" id="modalId" value="${param.modalId}">
-	<input type="hidden" name="paramPrjGrpId" id="paramPrjGrpId" value="${param.paramPrjGrpId}">
-	<input type="hidden" name="paramPrjId" id="paramPrjId" value="${param.paramPrjId}">
-	<input type="hidden" name="paramSprId" id="paramSprId" value="${param.paramSprId}">
-	<input type="hidden" name="paramStDt" id="paramStDt" value="${param.paramStartDt}">
-	<input type="hidden" name="paramEdDt" id="paramEdDt" value="${param.paramEndDt}">
-	<input type="hidden" name="paramSprDesc" id="paramSprDesc" value="${param.paramSprDesc}">
+	<input type="hidden" id="paramSprId" name="paramSprId" value="${param.paramSprId}">
+	<input type="hidden" id="sprStDt" name="sprStDt" value="${param.paramSprStDt}">
+	<input type="hidden" id="sprEdDt" name="sprEdDt" value="${param.paramSprEdDt}">
+	<input type="hidden" id="sprTypeCd" name="sprTypeCd" value="${param.paramSprTypeCd}">
+	<input type="hidden" id="sprTypeNm" name="sprTypeNm" value="${param.paramSprTypeNm}">
+	<input type="hidden" id="sprRestDay" name="sprRestDay" value="${param.paramSprRestDay}">
+	<input type="hidden" id="sprEndPercent" name="sprEndPercent" value="${param.paramSprEndPercent}">
+	<input type="hidden" id="sprUseCd" name="sprUseCd" value="${param.paramUseCd}">
 	<div class="kt-portlet__body">
 		<div class="osl-wizard" id="kt_wizard_v3" data-ktwizard-state="step-first">
 			
@@ -100,86 +102,203 @@
 			
 			
 			<div class="osl-wizard__content w-100 kt-bg-light kt-padding-30 kt-padding-l-40 kt-padding-r-40" data-ktwizard-type="step-content">
-				<div class="row kt-padding-l-20 kt-padding-r-20">
+				<div class="osl-background-around kt-padding-10">
 					
-					<div class="col-12 text-center kt-margin-t-20"><h1 class="font-weight-bold">${param.paramSprNm}</h1></div>
-					
-					
-					
-					<div class="col-12 text-right">${param.paramStartDt} - ${param.paramEndDt}</div>
-					<div class="col-12 text-right">${sessionScope.loginVO.usrNm}</div>
-					<div class="col-12 text-right">${param.paramSprDesc}</div>
-					
-					
-					
-					<div class="table border kt-margin-t-20">
-						<div class="row kt-margin-0">
-							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">전체 배정 백로그</div>
-							<div class="col-6 text-center kt-padding-15" id="sprStat01"></div>
-						</div>
-						<div class="row kt-margin-0 border-top">
-							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">최종 완료 백로그</div>
-							<div class="col-6 text-center kt-padding-15" id="sprStat02"></div>
-						</div>
-						<div class="row kt-margin-0 border-top">
-							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">미 완료 백로그</div>
-							<div class="col-6 text-center kt-padding-15" id="sprStat03"></div>
-						</div>
-						<div class="row kt-margin-0 border-top">
-							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">평균 완료 소요시간</div>
-							<div class="col-6 text-center kt-padding-15" id="sprStat04"></div>
-						</div>
-						<div class="row kt-margin-0 border-top">
-							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">진척률</div>
-							<div class="col-6 text-center kt-padding-15" id="sprStat05"></div>
-						</div>
-						<div class="row kt-margin-0 border-top">
-							<div class="col-6 text-center kt-bg-light-dark kt-padding-15 border-right font-weight-bold">완료 스토리 포인트 공수</div>
-							<div class="col-6 text-center kt-padding-15" id="sprStat06"></div>
+					<div class="kt-portlet">
+						<div class="kt-portlet__body">
+							<div class="row kt-padding-l-20 kt-padding-r-20">
+								
+								<div class="col-lg-5 col-md-12 col-sm-12 col-12 d-flex align-items-center">
+									<div class="d-flex kt-padding-l-15">
+										<div id="sprTypeCdCircle" class="kt-media kt-media--xl kt-media--circle osl-margin-r-2rm"><span id="sprTypeCdSpan"></span></div>
+										<div class="d-flex flex-column osl-margin-r-auto osl-word__break">
+											<h5 id="sprNm" class="kt-font-boldest text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="">${param.paramSprNm}</h5>
+											<span id="sprDesc" class="text-muted text-truncate" title="" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" data-original-title="">${param.paramSprDesc}</span>
+										</div>
+									</div>	
+								</div>
+								
+								<div class="col-lg-7 col-md-12 col-sm-12 col-12">
+									<div class="d-flex flex-wrap osl-margin-t-2rm kt-padding-l-20">
+										<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">
+											<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>시작일</span>
+											<h5><span class="badge badge-primary">${param.paramSprStDt}</span></h5>
+										</div>
+										<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">
+											<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>종료일</span>
+											<h5><span class="badge badge-danger">${param.paramSprEdDt}</span></h5>
+										</div>
+										<div class="osl-margin-r-3rm osl-margin-b-175rm d-flex flex-column">
+											<span class="osl-margin-b-1rm"><i class="far fa-calendar-alt kt-font-brand kt-margin-r-5"></i>남은 일수</span>
+											<h5><span class="badge badge-warning osl-min-width-85">${param.paramRestDay}</span></h5>
+										</div>
+										<div class="osl-flex-row-fluid osl-margin-b-175rm">
+											<div class="osl-progress">
+												<div class="osl-margin-b-1rm">
+													<i class="fa fa-chart-line kt-font-brand kt-margin-r-5"></i>
+													<span>진척률</span>
+												</div>
+												<div class="progress osl-prj-group-md">
+													<div id="progressBar" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width:0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="d-flex flex-wrap">
+								<div class="kt-pricing-v1 kt-padding-l-0">
+									<div class="kt-pricing-v1__header">
+										<div class="kt-iconbox osl-remove__box-shadow">
+											<div class="kt-iconbox__icon">
+												<div class="kt-iconbox__icon-bg"></div>
+												<img src="/media/osl/icon/reqAll.png">
+											</div>
+										</div>
+									</div>
+									<div class="kt-pricing-v1__body">
+										<div class="kt-iconbox__title">
+											전체 배정 백로그
+										</div>
+										<div class="kt-pricing-v1__price" id="sprStat01">
+											<span class="kt-pricing-v1__price-currency">개</span>
+										</div>
+									</div>
+								</div>
+								<div class="kt-pricing-v1 osl-padding-l-05rm">
+									<div class="kt-pricing-v1__header">
+										<div class="kt-iconbox osl-remove__box-shadow">
+											<div class="kt-iconbox__icon">
+												<div class="kt-iconbox__icon-bg"></div>
+												<img src="/media/osl/icon/reqDone.png">
+											</div>
+										</div>
+									</div>
+									<div class="kt-pricing-v1__body">
+										<div class="kt-iconbox__title">
+											최종 완료 백로그
+										</div>
+										<div class="kt-pricing-v1__price" id="sprStat02">
+											<span class="kt-pricing-v1__price-currency">개</span>
+										</div>
+									</div>
+								</div>
+								<div class="kt-pricing-v1 osl-padding-l-05rm">
+									<div class="kt-pricing-v1__header">
+										<div class="kt-iconbox osl-remove__box-shadow">
+											<div class="kt-iconbox__icon">
+												<div class="kt-iconbox__icon-bg"></div>
+												<img src="/media/osl/icon/reqPointer.png">
+											</div>
+										</div>
+									</div>
+									<div class="kt-pricing-v1__body">
+										<div class="kt-iconbox__title">
+											미 완료 백로그
+										</div>
+										<div class="kt-pricing-v1__price" id="sprStat03">
+											<span class="kt-pricing-v1__price-currency">개</span>
+										</div>
+									</div>
+								</div>
+								<div class="kt-pricing-v1 osl-padding-l-05rm">
+									<div class="kt-pricing-v1__header">
+										<div class="kt-iconbox osl-remove__box-shadow">
+											<div class="kt-iconbox__icon">
+												<div class="kt-iconbox__icon-bg"></div>
+												<img src="/media/osl/icon/reqInProgress.png">
+											</div>
+										</div>
+									</div>
+									<div class="kt-pricing-v1__body">
+										<div class="kt-iconbox__title">
+											평균 완료 소요시간
+										</div>
+										<div class="kt-pricing-v1__price" id="sprStat04">
+											<span class="kt-pricing-v1__price-currency">시간</span>
+										</div>
+									</div>
+								</div>
+								<div class="kt-pricing-v1 osl-padding-l-05rm">
+									<div class="kt-pricing-v1__header">
+										<div class="kt-iconbox osl-remove__box-shadow">
+											<div class="kt-iconbox__icon">
+												<div class="kt-iconbox__icon-bg"></div>
+												<img src="/media/osl/icon/reqInProgress.png">
+											</div>
+										</div>
+									</div>
+									<div class="kt-pricing-v1__body">
+										<div class="kt-iconbox__title">
+											완료 스토리 포인트 공수
+										</div>
+										<div class="kt-pricing-v1__price" id="sprStat06">
+											<span class="kt-pricing-v1__price-currency">시간 /  1 스토리 포인트</span>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 					
-				</div>
-				
-				
-				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
-					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
-						<div class="border osl-min-h-px--140 osl-card__data--empty" id="burnUpChart"></div>
-					</div>
-					<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
-						<div class="border osl-min-h-px--140 osl-card__data--empty" id="burnDownChart"></div>
-					</div>
-				</div>
-				<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 ">
-					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
-						<div class="border osl-min-h-px--140 osl-card__data--empty" id="velocityChart"></div>
-					</div>
-				</div>
-				
-				
-				
-				<div class="row kt-margin-t-20">
-					<div class="col-lg-12 col-md-12 col-sm-12 kt-padding-20">
-						<div class="row">
+					<div class="kt-portlet">
+						<div class="kt-portlet__head">
+							<div class="kt-portlet__head-label">
+								<h5 class="kt-font-boldest kt-font-brand">
+									<i class="fa fa-th-large kt-margin-r-5"></i>스프린트 차트
+								</h5>
+							</div>
+						</div>
+						<div class="kt-portlet__body">
 							
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<div class="osl-datatable-search" data-datatable-id="sprDetailTable"></div>
+							<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40">
+								<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-10">
+									<div class="border osl-min-h-px--140 osl-card__data--empty" id="burnUpChart"></div>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 kt-padding-l-10 kt-padding-r-0">
+									<div class="border osl-min-h-px--140 osl-card__data--empty" id="burnDownChart"></div>
+								</div>
+							</div>
+							<div class="row kt-padding-l-20 kt-padding-r-20 kt-margin-t-40 ">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 kt-padding-l-0 kt-padding-r-0">
+									<div class="border osl-min-h-px--140 osl-card__data--empty" id="velocityChart"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					<div class="kt-portlet kt-margin-b-0 kt-padding-b-0">
+						<div class="kt-portlet__head">
+							<div class="kt-portlet__head-label">
+								<h5 class="kt-font-boldest kt-font-brand">
+									<i class="fa fa-th-large kt-margin-r-5"></i>스프린트 데이터 테이블
+								</h5>
+							</div>
+						</div>
+						<div class="kt-portlet__body">
+							<div class="row">
+								
+								<div class="col-lg-6 col-md-6 col-sm-12">
+									<div class="osl-datatable-search" data-datatable-id="sprDetailTable"></div>
+								</div>
+								
+								
+								<div class="col-lg-6 col-md-6 col-sm-12">
+									<button type="button" class="btn btn-brand float-right" data-datatable-id="sprDetailTable" data-datatable-action="select" title="스프린트 상세정보 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
+										<i class="fa fa-list"></i><span>조회</span>
+									</button>
+								</div>
+								
 							</div>
 							
-							
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<button type="button" class="btn btn-brand float-right" data-datatable-id="sprDetailTable" data-datatable-action="select" title="스프린트 상세정보 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
-									<i class="fa fa-list"></i><span>조회</span>
-								</button>
-							</div>
+							<div class="kt_datatable" id="sprDetailTable"></div>
 							
 						</div>
-						
-						<div class="kt_datatable" id="sprDetailTable"></div>
-						
 					</div>
+					
 				</div>
-				
 			</div>
 			
 		</div>
@@ -207,19 +326,35 @@ var OSLSpr1004Popup = function () {
 	var datatableInitFlag = {3:false};
 	var datatableSetting = {};
 	
-	
-	var paramSprId = $("#paramSprId").val();
+	var endReqSpendTime = []
 	
 	var totalSprPoint = 0;
 	
 	var endSprPoint = 0;
 	
+	var paramSprId = $("#paramSprId").val();
+	
+	var paramSprStDt = $("#sprStDt").val();
+	
+	var paramSprEdDt = $("#sprEdDt").val();
+	
+	var paramSprTypeCd = $("#sprTypeCd").val();
+	
+	var paramSprTypeNm = $("#sprTypeNm").val();
+	
+	var paramSprNm = $("#sprNm").val();
+	
+	var paramSprDesc = $("#sprDesc").val();
+	
+	var paramSprEndPercent = $("#sprEndPercent").val();
+	
+	var paramUseCd = $("#sprUseCd").val();
+	
 	var formValidate = $.osl.validate(formId);
 	
+	var paramSprStDt = $("#sprStDt").val();
 	
-	var paramSprStDt = $("#paramStDt").val();
-	
-	var paramSprEdDt = $("#paramEdDt").val();
+	var paramSprEdDt = $("#sprEdDt").val();
 	
 	
 	var wizardData = {
@@ -228,6 +363,35 @@ var OSLSpr1004Popup = function () {
 	};
 	
 	var documentSetting = function(){
+		
+		var sprTypeClass = "kt-media--primary";
+		var sprTypeNm = paramSprTypeNm;
+		
+		if(paramSprTypeCd == "02"){
+			sprTypeClass = "kt-media--danger";
+		}else if(paramSprTypeCd == "03"){
+			sprTypeClass = "kt-media--warning";
+		}
+		
+		else if(paramUseCd == "02"){
+			sprTypeClass = "kt-media--dark";
+			sprTypeNm = "미 사용";
+		}
+		
+		$("#sprTypeCdCircle").addClass(sprTypeClass);
+		
+		$("#sprTypeCdSpan").text(sprTypeNm);
+		
+		
+		$("#progressBar").css("width", paramSprEndPercent+"%");
+		
+		$("#progressBar").attr("aria-valuenow", paramSprEndPercent);
+		
+		$("#progressBar").text(paramSprEndPercent+"%");
+		
+		
+		$("#sprNm").data("original-title", paramSprNm);
+		$("#sprDesc").data("original-title", paramSprDesc);
 		
     	formEditList.push($.osl.editorSetting("mmrDescInput", {formValidate: formValidate,'minHeight': 220, disableResizeEditor: false}));
 		
@@ -369,7 +533,7 @@ var OSLSpr1004Popup = function () {
     				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 100, search: true,
     					template: function (row) {
     						if($.osl.isNull(row.reqChargerNm)){
-    							row.reqChargerNm = "";
+    							return row.reqChargerNm = "-";
     						}
     						var usrData = {
     							html: row.reqChargerNm,
@@ -386,12 +550,12 @@ var OSLSpr1004Popup = function () {
     				},
     				{field: 'timeRequired', title: '실 소요시간', textAlign: 'center', width: 100,
     					template: function (row) {
-    						if(row.reqProType == '01'){
-    							return '-';
-    						}else if(row.reqProType == '04'){
-    							return $.osl.escapeHtml(String(row.endTimeRequired)); 
+    						var spendTime = calcSpendTime(row);
+    						
+    						if(row.reqProType == "04"){
+    							endReqSpendTime.push(Number(spendTime));
     						}
-    						return $.osl.escapeHtml(String(row.notEndTimeRequired));
+    						return spendTime + "시간";
     					},
     				},
     				{field: 'sprPoint', title: '스토리포인트', textAlign: 'center', width: 80,
@@ -405,6 +569,9 @@ var OSLSpr1004Popup = function () {
     					}
     				}
     			],
+    			rows:{
+    				minHeight:50,
+    			},
     			actionBtn:{
     				select:false,
     				delete:false,
@@ -418,12 +585,14 @@ var OSLSpr1004Popup = function () {
     	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
     	 				}
     	 				reqInfo = JSON.stringify(list);
-    	 				console.log(reqInfo)
-    	 				
-    	 				selectSprInfoStat();
     	 				
     	 				
-    	 				drawAllChart();
+    	 				if($("#burnDownChart").children().length == 0){
+	    	 				
+	    	 				selectSprInfoStat();
+    		 				
+    		 				drawAllChart();
+    	 				}
     	 				
     				}
     			}
@@ -513,12 +682,10 @@ var OSLSpr1004Popup = function () {
 	       	
 	   		var fd = $.osl.formDataToJsonArray(formId);
 	       	
+	       	
 	       	fd.append("mmrNm", $("#mmrNmInput").val());
 	       	
 	       	fd.append("mmrDesc", $("#mmrDescInput").val());
-	       	
-	       	fd.append("sprId", paramSprId);
-	       	
 	       	
 	       	fd.append("reqInfo", reqInfo);
 	       	
@@ -537,9 +704,9 @@ var OSLSpr1004Popup = function () {
 	   				$.osl.layerPopupClose();
 	   				
 	   				
-	   				if($("button[data-datatable-id=spr1000Table][data-datatable-action=select]").length > 0){
-		   				$("button[data-datatable-id=spr1000Table][data-datatable-action=select]").click();
-	   				}
+	   				
+	   				$("button[data-datatable-id=spr1000Table][data-datatable-action=select]").click();
+	   				
 	   				
 	   			}
 	   		});
@@ -571,31 +738,39 @@ var OSLSpr1004Popup = function () {
  			if(data.errorYn == "Y"){
  				$.osl.alert(data.message,{type: 'error'});
  			}else{
+ 				var timeSum = 0;
+ 				for(var index = 0;index < endReqSpendTime.length;index++){
+ 					timeSum+=endReqSpendTime[index];
+ 				}
  				
  				var sprStat= data.sprStat;
  				
- 				$("#sprStat01").html($.osl.escapeHtml(sprStat.allCntSum));
+ 				$("#sprStat01").prepend($.osl.escapeHtml(sprStat.allCntSum));
  				
- 				$("#sprStat02").html($.osl.escapeHtml(sprStat.endCntSum));
+ 				$("#sprStat02").prepend($.osl.escapeHtml(sprStat.endCntSum));
  				
- 				$("#sprStat03").html($.osl.escapeHtml(sprStat.notEndCntSum));
+ 				$("#sprStat03").prepend($.osl.escapeHtml(sprStat.notEndCntSum));
  				
- 				if($.osl.escapeHtml(sprStat.avgTime)=='NaN'){
-	 				$("#sprStat04").html("0");
+ 				if(endReqSpendTime.length == 0){
+	 				$("#sprStat04").prepend("0");
  				}else{
- 					$("#sprStat04").html($.osl.escapeHtml(sprStat.avgTime.toFixed(2)+" 시간"));
+ 					$("#sprStat04").prepend(endReqSpendTime.reduce(getMean,0).toFixed(2));
  				}
+ 			
  				
  				if($.osl.escapeHtml(sprStat.sprEndPercent)=='NaN'){
-	 				$("#sprStat05").html($.osl.escapeHtml("0 %"));
+	 				$("#sprStat05").prepend($.osl.escapeHtml("0"));
  				}else{
- 					$("#sprStat05").html($.osl.escapeHtml(sprStat.sprEndPercent.toFixed(2))+" %");
+ 					$("#sprStat05").prepend($.osl.escapeHtml(sprStat.sprEndPercent.toFixed(2)));
  				}
+ 				var sprPerTime = timeSum/sprStat.endSprPoint;
+ 				
  				if($.osl.escapeHtml(sprStat.sprPerTime)=='NaN'){
-	 				$("#sprStat06").html("0 시간   /  1 스토리 포인트");
+	 				$("#sprStat06").prepend("0");
  				}else{
- 					$("#sprStat06").html($.osl.escapeHtml(sprStat.sprPerTime.toFixed(2)) + "시간 /  1 스토리 포인트");
+ 					$("#sprStat06").prepend($.osl.escapeHtml(sprPerTime.toFixed(2)));
  				}
+ 				
  				
  				totalSprPoint = sprStat.sprPoint;
  			}
@@ -606,6 +781,13 @@ var OSLSpr1004Popup = function () {
  		
  	};
  	
+ 	var getMean = function(accumulator, value, index, array){
+		  var sumOfAccAndVal = accumulator + value;
+		  if (index === array.length - 1) {
+		    return (sumOfAccAndVal) / array.length;
+		  }
+		  return sumOfAccAndVal;
+	};
  	
  	var drawAllChart = function(){
  		var ajaxObj = new $.osl.ajaxRequestAction(
@@ -615,9 +797,7 @@ var OSLSpr1004Popup = function () {
  			if(data.errorYn == "Y"){
  				$.osl.alert(data.message,{type: 'error'});
  			}else{
- 				
  				var chartData = data.chartData;
- 				
  				var today = new Date();
  				var endDt  = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + today.getDate();
  				
@@ -1030,6 +1210,156 @@ var OSLSpr1004Popup = function () {
  	   	return resDay;
  	}
  	
+ 	var calcSpendTime = function(rowData){
+ 		var wkInfo = rowData;
+ 		
+ 		
+ 		if($.osl.isNull(wkInfo.reqChargerId)){
+ 			return 0;
+ 		}
+ 		
+ 		if($.osl.isNull(wkInfo.reqStDuDtm) || $.osl.isNull(wkInfo.reqEdDuDtm)){
+ 			return 0;
+ 		}
+ 		
+ 		if(wkInfo.reqProType == "04"){
+ 			
+ 			
+ 	 		var spendTime = wkInfo.endTimeRequired;
+ 			
+ 		
+ 		}else if(wkInfo.reqProType == "01"){
+ 			
+ 			return 0;
+ 			
+ 		
+ 		}else if(paramSprTypeCd == "03"){
+ 			
+ 			var spendTime = wkInfo.notEndTimeRequired + 1;
+ 			
+ 		
+ 		}else{
+ 			
+ 			var spendTime = wkInfo.notEndTimeRequired;
+ 		}
+ 		
+ 		
+ 		var wkStTm = moment(wkInfo.wkStTm, "HHmm");
+ 		
+ 		var wkEdTm = moment(wkInfo.wkEdTm, "HHmm");
+ 		
+ 		var bkStTm = moment(wkInfo.bkStTm, "HHmm");
+ 		
+ 		var bkEdTm = moment(wkInfo.bkEdTm, "HHmm");
+ 		
+ 		var reqStDtm = moment(wkInfo.reqStDtm, 'YYYY-MM-DD HH:mm:ss');
+ 		
+ 		var reqEdDtm = moment(wkInfo.reqEdDtm, 'YYYY-MM-DD HH:mm:ss');
+ 		
+ 		var reqStDuDtm = moment(wkInfo.reqStDuDtm, 'YYYY-MM-DD');
+ 		
+ 		var reqEdDuDtm = moment(wkInfo.reqEdDuDtm, 'YYYY-MM-DD');
+ 		
+ 		
+ 		var reqStTm = moment(reqStDtm.format("HHmm"),"HHmm");
+ 		
+ 		var reqEdTm = moment(reqEdDtm.format("HHmm"),"HHmm");
+ 		
+ 		var nowTime = moment(moment().format("HHmm"),"HHmm");
+ 		
+ 		
+ 		var wkDiff = wkEdTm.diff(wkStTm);
+ 		var bkDiff = bkEdTm.diff(bkStTm);
+ 		
+ 		
+ 		var wkTime = wkDiff-bkDiff;
+ 		
+ 		
+ 		if(wkTime <= 0){
+ 			return 0;
+ 		}
+ 		
+ 		
+ 		var stDtWkTm = 0;
+ 		
+ 		
+ 		if(bkStTm.diff(reqStTm) < 0 ){
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm) - 3600000;
+ 		}else if(bkEdTm.diff(reqStTm) <= 0 && bkStTm.diff(reqStTm) >= 0){
+ 			
+ 			var restTime = bkEdTm.diff(reqStTm);
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm) - restTime;
+ 		}else{
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm)
+ 		}
+ 		
+ 		
+ 		var edDtWkTm = 0;
+ 		
+ 		if(wkInfo.reqProType == "04"){
+ 			
+ 	 		if(bkEdTm.diff(reqEdTm) < 0 ){
+ 	 			
+ 	 			edDtWkTm = reqEdTm.diff(wkStTm);
+ 	 		}else if(bkEdTm.diff(reqEdTm) <= 0 && bkStTm.diff(reqEdTm) >= 0){
+ 	 			
+ 	 			var restTime = reqEdTm.diff(bkStTm);
+ 	 			
+ 	 			edDtWkTm = wkEdTm.diff(reqStTm) - restTime;
+ 	 		}else{
+ 	 			
+ 	 			edDtWkTm = reqEdTm.diff(wkStTm) - 3600000;
+ 	 		}
+ 		
+ 		}else{
+ 			
+ 			if(paramSprTypeCd == "03"){
+ 				
+ 				
+ 	 			edDtWkTm = 0;
+ 				
+	 		
+ 			}else{
+ 				
+ 				
+	 	 		if(bkEdTm.diff(nowTime) < 0 ){
+	 	 			
+	 	 			
+	 	 			edDtWkTm = reqEdTm.diff(wkStTm);
+	 	 			
+	 	 		}else if(bkEdTm.diff(nowTime) <= 0 && bkStTm.diff(nowTime) >= 0){
+	 	 			
+	 	 			
+	 	 			var restTime = nowTime.diff(bkStTm);
+	 	 			
+	 	 			edDtWkTm = nowTime.diff(reqStTm) - restTime;
+	 	 			
+	 	 		}else{
+	 	 			
+	 	 			edDtWkTm = nowTime.diff(wkStTm) - 3600000;
+	 	 		}
+ 			}
+ 		}
+ 		if($.osl.isNull(wkInfo.reqStDtm) || $.osl.isNull(wkInfo.reqEdDtm)){
+ 			
+ 			var reqSpendTime = moment.duration(wkTime).asHours()*spendTime;
+ 			
+ 		}else{
+	 		
+	 		var fullTime = moment.duration(wkTime).asHours()*(spendTime-2);
+	 		
+	 		var startTime = moment.duration(stDtWkTm).asHours();
+	 		
+	 		var endTime = moment.duration(edDtWkTm).asHours();
+	 		
+	 		var reqSpendTime = fullTime + startTime + endTime;
+ 		}
+ 		
+ 		return reqSpendTime.toFixed(1);
+ 	}
 	return {
         
         init: function() {

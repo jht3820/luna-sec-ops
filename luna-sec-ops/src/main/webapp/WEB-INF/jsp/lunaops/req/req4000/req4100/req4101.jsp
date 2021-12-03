@@ -147,19 +147,26 @@
 					</div>
 				</div>
 			</div>
-			<div class="kt-portlet kt-portlet--collapsed kt-hide" data-ktportlet="true" id="req4101NewRequestOpt">
+			<div class="kt-portlet" data-ktportlet="true" id="req4101NewRequestOpt">
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
-						<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.requestDefaultOptNm">접수 기본항목 입력</span>
+						<i class="fa fa-user kt-margin-r-5"></i><span data-lang-cd="req4101.label.requestDefaultOptNm">요청 기본항목 입력</span>
 					</div>
 					<div class="kt-portlet__head-toolbar">
 						<div class="kt-portlet__head-group">
+							<a href="#" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air" data-toggle="dropdown" data-skin="brand" data-placement="bottom" tabindex="1"><i class="fa fa-plus"></i></a>
+							<div class="dropdown-menu dropdown-menu-right">
+								<div class="dropdown-item" id="insertBasicItemBtn"><i class="fa fa-plus kt-font-brand"></i>신규 항목 추가</div>
+								<div class="dropdown-item" id="selectBasicItemBtn"><i class="fa fa-list-alt kt-font-brand"></i>기본항목 불러오기</div>
+							</div>
 							<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md"><i class="fa fa-chevron-down"></i></a>
 						</div>
 					</div>
 				</div>
 				<div class="kt-portlet__body">
-				
+					<div class="row" id="basicItemList">
+					
+					</div>
 				</div>
 			</div>
 		</div> 
@@ -205,47 +212,56 @@
 var OSLReq4101Popup = function () {
 	var formId = 'frReq4101';
 	var dataTableId = 'prepListTable';
-	
+	//edit 목록
 	var formEditList = [];
 	
-	
+	//form validate 주입
 	var formValidate = $.osl.validate(formId);
 
-	
+	//atchfileId
 	var atchFileId;
 
-	
+	//파일 업로드 세팅
 	var fileUploadObj;
 	
-	
+	//수정 중 삭제한 파일Sn 목록
 	var uploadRemoveFiles = [];
 	
-	
+	//선행처리 카드형
 	var currentViewType = "01";
 
-	
+	var paramPrjId = $("#reqPrjId").val();
+	var paramReqId = $("#reqId").val();
+	//type
 	var type;
 	
+	//프로젝트 기본항목 리스트
+	var basicItemList = new Array();
+	//프로젝트 기본항목 추가 리스트
+	var basicItemInsertList = new Array();
+	//프로젝트 기본항목 삭제 리스트
+	var basicItemDelList = new Array();
 	
+	//비밀번호 기존 존재 여부
+	//var pw;
 	
-	
-    
+    // Private functions
     var documentSetting = function () {
     	
-    	
+    	//프로젝트 목록 세팅
     	$("#reqPrjSelect").html($.osl.prjGrpAuthSelSetting(2,true));
     	
     	type = $("#type").val();
     	
-    	
+    	//문구 세팅 
     	$("#req4101SaveSubmit > span").text($.osl.lang("req4101.button."+type+"Btn"));
     	
-    	
+    	//Portlet 세팅
     	new KTPortlet('req4101RequestUsrInfo', $.osl.lang("portlet"));
     	new KTPortlet('req4101ReqGrpInfo', $.osl.lang("portlet"));
     	new KTPortlet('req4101NewRequestOpt', $.osl.lang("portlet"));
     	
-    	
+    	//palceholder 세팅
 		$("#usrNm").attr("placeholder",$.osl.lang("req4101.placeholder.usrNm"));
 		$("#email").attr("placeholder",$.osl.lang("req4101.placeholder.email"));
 		$("#deptName").attr("placeholder",$.osl.lang("req4101.placeholder.deptNm"));
@@ -254,15 +270,62 @@ var OSLReq4101Popup = function () {
     	$("#ReqGrpNm").attr("placeholder",$.osl.lang("req4101.placeholder.selectGroup"));
 		$("#reqDtm").attr("placeholder",$.osl.lang("req4101.placeholder.reqDtm"));
 		$("#reqNm").attr("placeholder",$.osl.lang("req4101.placeholder.reqNm"));
+		//$("#reqPw").attr("placeholder",$.osl.lang("req4101.placeholder.password"));
+		//$("#reqPwCheck").attr("placeholder",$.osl.lang("req4101.placeholder.password"));
 		
+		//regexerrorstr 세팅
+		//$("#reqPw").attr("regexerrorstr", $.osl.lang("req4101.regex.password"));
+		//$("#reqPwCheck").attr("regexerrorstr", $.osl.lang("req4101.regex.password"));
 		
+		//기본항목 불러오기 버튼
+		$("#selectBasicItemBtn").click(function(){
+			var data = {
+					callPage:"OSLReq4101Popup",
+					paramPrjId: paramPrjId 
+				};
+			var options = {
+					idKey: "prj1304",
+					modalTitle: "기본항목 리스트",
+					modalSize: "xl",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1304ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1304Popup.getItemList();
+							OSLReq4101Popup.addItemList(itemList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1304View.do',data,options);
+		});
+			
+		//기본항목 추가하기 버튼
+		$("#insertBasicItemBtn").click(function(){
+			var data = {
+					type:"insert",
+					callPage:"OSLReq4101Popup"
+				};
+			var options = {
+					idKey: "prj1305",
+					modalTitle: "요구사항 요청 기본항목 추가",
+					modalSize: "lg",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1305ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1305Popup.getItemList();
+							OSLReq4101Popup.addItemList(itemList);
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1305View.do',data,options);
+		});
 		
-		
-		
-		
-		
-    	
-    	
+    	//파일 업로드 세팅
     	fileUploadObj = $.osl.file.uploadSet("req4101FileUpload",{
     		url: '/req/req4000/req4100/insertReq4101ReqAtchFileInfo.do',
     		maxFileSize: "${requestScope.fileSumMaxSize}",
@@ -270,13 +333,13 @@ var OSLReq4101Popup = function () {
     		maxNumberOfFiles:20,
     		height: 260,
     		
-    		
+    		//submit 전 실행 함수
     		onBeforeUpload: function(files){
     			var rtnValue = files;
     			var uploadFiles = {};
     			
     			if(type=="insert"){
-    				
+    				//atchFileId 생성
     				$.osl.file.makeAtchfileId(function(data){
     					if(data.errorYn == "Y"){
     						$.osl.toastr(data.message);
@@ -286,7 +349,7 @@ var OSLReq4101Popup = function () {
     						$("#atchFileId").val(data.atchFileIdString);
     					 	fileUploadObj.setMeta({atchFileId: data.atchFileIdString});
     					 
-    						
+    						//파일명 뒤에 ms 붙이기
     	    				$.each(files, function(idx, map){
     	    					map.meta.atchFileId = data.atchFileIdString;
     	    					
@@ -295,28 +358,28 @@ var OSLReq4101Popup = function () {
     							uploadFiles = $.extend(uploadFiles, jsonTmp);
     	    				});
     						
-	   						
+	   						//요구사항 등록
 	   						submitInsertAction();
 	   					}
     				});
-    			}else{ 
-    				
+    			}else{ //수정 복사일 때
+    				//atchFileId
     		    	atchFileId = $("#atchFileId").val();
-    				
+    				//게시글의 atchFileId가 없는 경우 - 복사일 땐 미리 atchFileId를 비워 실행하도록 함
     				if($.osl.isNull(atchFileId)){
-    					
+    					//atchFileId 생성
     					$.osl.file.makeAtchfileId(function(data){
-    						
+    						//atchFileId 생성 중 오류 발생 시
     						if(data.errorYn == "Y"){
     							$.osl.toastr(data.message);
     							rtnValue = [];
     						}else{
-    							
+    							//오류가 없을 경우 생성된 atchFileId를 저장
     							atchFileId = data.atchFileIdString;
     							$("#atchFileId").val(atchFileId);
     						 	fileUploadObj.setMeta({atchFileId: atchFileId});
     						 
-    							
+    							//파일명 뒤에 ms 붙이기
     		    				$.each(files, function(idx, map){
     		    					if(map.source != "database"){
     	        						map.meta.atchFileId = atchFileId;
@@ -331,8 +394,8 @@ var OSLReq4101Popup = function () {
     					});
     				}else{
     					atchFileId = $("#atchFileId").val();
-    					
-        				
+    					//atchFileId가 있는 경우 - 기존 파일 존재
+        				//database 파일 제외하기
         				$.each(files, function(idx, map){
         					if(map.source != "database"){
         						map.meta.atchFileId = atchFileId;
@@ -345,45 +408,45 @@ var OSLReq4101Popup = function () {
         				});
     				}
 
-    				
+    				//atchFileId 생성 및 목록 추린 후
     				rtnValue = uploadFiles;
     				if(type=="update"){
-	    				
+	    				//요구사항 수정
 						submitUpdateAction();
     				}else if(type=="copy"){
-   						
+   						//요구사항 등록(복사)
    						submitCopyAction();
     				}
     			}
 			},
-			
+			//uppy에 파일 업로드 할 때
 			onBeforeFileAdded: function(currentFile, files){
 				if(type=="copy"){
-					
-					
+					//복사일 때
+					//복사할 때 불러온 파일인 경우 (삭제되지 않은 데이터 베이스 파일)
 					if(currentFile.source != "remove"){
-						
+						//debugger;
 						var newNm = new Date().format("ssms")+"_"+currentFile.name;
 						currentFile.name = newNm;
 						currentFile.meta.name = newNm;
 						currentFile.meta.atchFileId = $("#atchFileId").val();
 						
 						if(currentFile.source == "Dashboard"){
-			    			
+			    			//fileSn default
 			    			var fileSn = fileUploadObj.getState().meta.fileSn;
 			    			fileUploadObj.setMeta({fileSn: (fileSn + 1)});
 						}
 					}
 				}else{
-					
-					
+					//등록 수정
+					//추가로 등록한 파일인 경우(삭제되지 않은 업로드 파일)
 					if(currentFile.source != "database" && currentFile.source != "remove"){
 						var newNm = new Date().format("ssms")+"_"+currentFile.name;
 						currentFile.name = newNm;
 						currentFile.meta.name = newNm;
 						currentFile.meta.atchFileId = $("#atchFileId").val();
 						
-		    			
+		    			//fileSn default
 		    			var fileSn = fileUploadObj.getState().meta.fileSn;
 		    			currentFile.meta.fileSn = fileSn;
 		    			fileUploadObj.setMeta({fileSn: (fileSn+1)});
@@ -392,20 +455,20 @@ var OSLReq4101Popup = function () {
 			}
 		});
     	
-    	
-		
+    	//기존 파일
+		//fileUploadObj.setMeta({atchFileId: atchFileId});
     	if(type!="insert"){
-    		
+    		//수정, 복사인경우 파일 삭제 기록하기
     	   	fileUploadObj.on('file-removed', function(file) {
     	   		file["fileSn"] = file.meta.fileSn;
     	   		file.source = "remove";
     	   		uploadRemoveFiles.push(file);
     	   		
-    	   		
+    	   		//삭제 취소 버튼 활성화
     	   		$("#fileRemoveResetBtn").removeClass("d-none");
     		});
     	   	
-    	   	
+    	   	//삭제 초기화 버튼 클릭 시 삭제한 파일 다시 추가
     	   	$("#fileRemoveResetBtn").click(function(){
     	   		$("#fileRemoveResetBtn").addClass("d-none");
     	   		
@@ -423,9 +486,9 @@ var OSLReq4101Popup = function () {
     	   		});
 
 	    		setTimeout(function(){
-	    			
+	    			//파일 preview에 click 이벤트 걸기
 	    			$.each(fileUploadObj.getFiles(), function(idx, map){
-	    				
+	    				//database에 등록된 파일만 다운로드 가능
 	    				if(map.source == "database"){
 	    					var target = $("#uppy_"+$.escapeSelector(map.id)+" > .uppy-DashboardItem-preview");
 	    					target.addClass("osl-cursor-pointer");
@@ -441,8 +504,8 @@ var OSLReq4101Popup = function () {
     		});
     	}
     	
-    	
-    	
+    	//데이터 테이블 셋팅
+    	//검색어
     	var txt = $("#reqNm").val();
     	$.osl.datatable.setting(dataTableId,{
     		data : {
@@ -513,42 +576,42 @@ var OSLReq4101Popup = function () {
 				 },
     			ajaxDone: function(evt, list, datatableInfo){
 		    		if(txt.trim().length<2){
-		    			
-					   	
+		    			//모달창 크기 변경
+					   	//현재 창에서 모달 찾기
 	   					$.each($(".modal.show"), function(idx, modalPop){
-	   						
+	   						//팝업된 모달 창 중에서 찾고자 하는 idkey를 가진 모달창 선택
 	   						if(modalPop.getAttribute("data-idkey") == "req4100ReqTable"){
-	   							
+	   							//모달 크기 줄이고 그전 모달 크기 class 제거
 	   							$(modalPop.children).addClass("modal-lg");
 	   							$(modalPop.children).removeClass("modal-xl");
-	   							
+	   							//표출 화면 col 변경
 	   							$("#mainCol").removeClass("col-xl-8");     
 	   							$("#mainCol").addClass("col-xl-12");
 	   							
-	   							
+	   							//선행처리 부분 숨기기
 	   							$("#subCol").addClass("kt-hide");
 	   						}
 						});
 		    		}else{
-		    			
-					   	
+		    			//모달창 크기 변경
+					   	//현재 창에서 모달 찾기
 	   					$.each($(".modal.show"), function(idx, modalPop){
-	   						
+	   						//팝업된 모달 창 중에서 찾고자 하는 idkey를 가진 모달창 선택
 	   						if(modalPop.getAttribute("data-idkey") == "req4100ReqTable"){
-	   							
+	   							//모달 크기 키우고 그전 모달 크기 class 제거
 	   							$(modalPop.children).addClass("modal-xl");
 	   							$(modalPop.children).removeClass("modal-lg");
-	   							
+	   							//표출 화면 col 변경
 	   							$("#mainCol").addClass("col-xl-8");     
 	   							$("#mainCol").removeClass("col-xl-12");
 	   							
-	   							
+	   							//선행처리 부분 나타내기
 	   							$("#subCol").removeClass("kt-hide");
 	   						}
 						});
 		    		}    	
 		    		
-    				
+    				//카드형 출력
     				var resultStr = "<div class='osl-display__flex kt-margin-5'>";
     				if(list.length != 0){
     					resultStr +=	"<div><span data-lang-cd='req4101.prepData.result'>"+$.osl.lang("req4101.prepData.result")+"</span></div>"
@@ -609,11 +672,11 @@ var OSLReq4101Popup = function () {
     				});
     				$("#prepListDiv").html(resultStr);
 					$.each(list, function(idx, row){
-						
+						//Portlet 세팅
 						new KTPortlet(row.reqOrd.replace('-',''), $.osl.lang("portlet"));
 					});
 					
-					
+					//상세보기 클릭 시
 					$(".detailBtn").click(function(){
 						var item = $(this).parents().parents().parents().parents();
 						var data = {
@@ -631,31 +694,31 @@ var OSLReq4101Popup = function () {
     		}
     	});
     	
-    	
+    	//뷰 변경 이벤트 - 카드형 그리드형 선택 확인
 		$(".btn-view-type").click(function(){
 			var viewType = $(this).data("view-type");
 			
-			
+			//active 교체
 			$(".btn-view-type.active").removeClass("active");
 			$(this).addClass("active");
 			
 			currentViewType = viewType;
 			
-			
+			//뷰어 변경
 			viewTypeChange();
 		});
     	
-    	
+    	//등록인경우
     	if(type == "insert"){
-    		
+    		//요청자 정보 세팅 - default : 로그인 사용자
         	$.osl.setDataFormElem($.osl.user.userInfo,"frReq4101", ["usrNm","email","telno","deptName","deptId","usrImgId"]);
-			
+			//요청자 정보 id 넣기
 			$("#reqUsrId").val($.osl.user.userInfo.usrId);
 			
-	    	
+	    	//현재 날짜 지정
 	    	$("#reqDtm").val(new Date().format("yyyy-MM-dd"));
 	    	
-	    	
+	    	//edit 세팅
 	    	formEditList.push($.osl.editorSetting("reqDesc", {formValidate: formValidate, disableResizeEditor: false, 'minHeight': 190}));
 	    	formEditList.push($.osl.editorSetting("reqGrpDesc", {
 	    		toolbar: false,
@@ -665,50 +728,124 @@ var OSLReq4101Popup = function () {
     			height:180,
     		}));
 	    	
-	    	
+	    	//edit 세팅하고 나서 textarea 보이기
 	    	$("#reqDesc").removeClass("kt-hide");
 	    	$("#reqGrpDesc").removeClass("kt-hide");
 	    	
-	    	
+	    	//datepicker 세팅
 			$.osl.date.datepicker($("#reqDtm"), {});
+	    	
+	    	//기본항목 리스트 조회(요구사항 요청 체크 된거만)
+			var data = {
+	    			prjId :  paramPrjId,
+	    			reqId :  paramReqId,
+	    			itemRequestCd : '01'//요구사항 요청화면 체크 된 항목만 조회
+	    	};
+	    	
+			//AJAX 설정
+			var ajaxObj = new $.osl.ajaxRequestAction(
+					{"url":"<c:url value='/prj/prj1000/prj1000/selectPrj1002AllItemListAjax.do'/>", "async":"true"}
+					,data);
+			//AJAX 전송 성공 함수
+			ajaxObj.setFnSuccess(function(data){
+				if(data.errorYn == "Y"){
+					$.osl.alert(data.message,{type: 'error'});
+
+					//모달 창 닫기
+					$.osl.layerPopupClose();
+				}else{
+			    	basicItemList = data.itemList;
+			    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+			    			//usrConfig
+			    			{
+								actionFn:{
+									delete: function($this){
+										var targetId = $this.data("itemId");
+										$this.parents(".basicItemDiv:first").remove();
+										basicItemDelList.push({"itemId":targetId});
+				
+										var delIdx = ""
+										$.each(basicItemList,function(idx, map){
+											if(map.itemId == targetId){
+													delIdx = idx;						
+											}
+										});
+										if(delIdx!==""){
+											basicItemList.splice(delIdx,1);
+										}
+									}
+								}
+							}
+		    		);
+				}
+			});
+			
+			//AJAX 전송
+			ajaxObj.send();
     	}else{
-    		
-    		
+    		//수정 복사
+    		//요구사항 정보 조회
     		selectReqInfo();
     	}
-    	
+    	/* 
+    	//요청자 명에 포커스 될 때
+    	$("#usrNm").focus(function(){
+    		//관련 항목 모두 비우기
+    		$("#reqUsrId").val("");
+    		$("#usrNm").val("");
+    		$("#email").val("");
+    		$("#telno").val("");
+    		$("#deptName").val("");
+    		$("#deptId").val("");
+    		$("#usrImgId").val(""); //이미지 default 넣기
+    	});
+    	 */
     	 
-    	
+    	//그룹 요구사항 명에 포커스 될 때
     	$("#reqGrpNm").focus(function(){
     		
-    		
+    		//관련 항목 모두 비우기
     		$("#reqGrpNm").val("");
     		$("#reqGrpDesc").val("");
     		
     	});
    		
-    	
+    	//엔터키
 		$("#usrNm").keydown(function(e){
 			if(e.keyCode=='13'){
-				
+				//해당 값으로 검색화면 띄우기
 				$("#searchUsrNmBtn").click();
 			}
-			
+			//입력이 들어오면 아이디 모두 초기화
 			$("#reqUsrId").val("");
 		});
 		
-    	
+    	//엔터키로 그룹 요구사항 정보 조회
     	$("#reqGrpNm").keydown(function(e){
 			if(e.keyCode=='13'){
-				
+				//해당 값으로 검색화면 띄우기
 				$("#searchReqGrpBtn").click();
 			}
-			
-			
+			//입력이 들어오면 아이디 모두 초기화
+			//$("#reqGrpId").val("");
 		});
 
-    	
-    	
+    	/*
+    	//포커스가 아웃될 경우
+   		$("#usrNm").blur(function(){
+   			//입력된 요청자 명이 있을 경우
+   			if($("#usrNm").val()!=""){
+   				//검색해서 이미 요청자 정보가 들어가 있는 경우(email로 확인)
+   				if($("#email").val()!=""){
+   					return;
+   				}else{
+		   			//해당 값으로 검색화면 띄우기
+  					$("#searchUsrNmBtn").click();
+   				}
+   			}
+   		});
+    	*/
+    	//요청자 명 검색버튼 클릭 시
     	$("#searchUsrNmBtn").click(function(){
     		var data = {
     				usrNm : $("#usrNm").val()
@@ -732,7 +869,7 @@ var OSLReq4101Popup = function () {
     		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
     	});
     	
-    	
+    	//그룹요구사항명 검색버튼 클릭 시
     	$("#searchReqGrpBtn").click(function(){
     		var data = {
     				reqGrpNm : $("#reqGrpNm").val()
@@ -755,25 +892,49 @@ var OSLReq4101Popup = function () {
     		};
     		$.osl.layerPopupOpen('/req/req4000/req4100/selectReq4104View.do',data,options);
     	});
-    	
-    	
+    	/* 
+    	//요구사항 잠금 기능
+    	$("#reqPwCheckbox").click(function(){
+    		if($("#reqPwCheckbox").is(":checked")==true){
+    			//세부 속성 보이기
+    			$("#pwOption").removeClass("kt-hide");
+    		}else{
+    			//세부 속성 숨기기
+    			$("#pwOption").addClass("kt-hide");
+    		}
+    	});
+    	 */
+    	//제목에 텍스트 입력 시 이벤트
     	$("#reqNm").on("propertychange paste input", function(e){
     		txt = $(this).val();
-    		
+    		//데이터 테이블 검색 조건 변경 - 강제
 			$.osl.datatable.list[dataTableId].targetDt.setDataSourceParam("searchDataTxt",txt);
-    		
+    		//데이터 테이블 조회
  			$("button[data-datatable-id=prepListTable][data-datatable-action=select]").click();
     	});
     	
-    	
+    	//submit 동작
     	$("#req4101SaveSubmit").click(function(){
 			var form = $('#'+formId);    		
         	
-    		
+    		//폼 유효 값 체크
     		if (!form.valid()) {
     			return;
     		}
-    		
+    		/* 
+    		//요구사항 잠금 사용 시 패스워드 확인
+    		if($("#reqPwCheckbox").is(":checked")==true){
+    			if(pw!="Y"){
+    				//기존에 비밀번호가 있던 경우가 아니라면
+    				//잠금 사용했으나 비밀번호 미 입력 시
+    				if($("#reqPw").val()==""){
+    					$.osl.alert($.osl.lang("req4101.formCheck.passwordMessage"));
+    					$("#reqPw").focus();
+   						return false;
+    				}
+    			}
+        	}
+    		*/
     		$.osl.confirm($.osl.lang("req4101.saveString."+type+"Str"),{"html" : true},function(result) {
     	        if (result.value) {
     	        	fileUploadObj.upload();
@@ -782,31 +943,33 @@ var OSLReq4101Popup = function () {
     	});
     };
     
-    
+    /**
+	 * 	요구사항 정보 조회
+	 */
 	 var selectReqInfo = function() {
     	var data = {
-    			prjId :  $("#reqPrjId").val(),
-    			reqId :  $("#reqId").val(),
+    			prjId :  paramPrjId,
+    			reqId :  paramReqId,
     	};
     	
-		
+		//AJAX 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req4000/req4100/selectReq4100ReqInfoAjax.do'/>", "async":"true"}
 				,data);
-		
+		//AJAX 전송 성공 함수
 		ajaxObj.setFnSuccess(function(data){
 			if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				
+				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
-				
+				//수정할때 호출
 		    	$.osl.setDataFormElem(data.reqInfoMap,"frReq4101");
 				
-				
+				//수정인 경우 불러온 요청자 정보 그대로 세팅
 				if(type=="update"){
-					
+					//요청자 정보 세팅
 			    	$("#reqUsrId").val(data.reqInfoMap.reqUsrId);
 			    	$("#usrNm").val(data.reqInfoMap.reqUsrNm);
 			    	$("#email").val(data.reqInfoMap.reqUsrEmail);
@@ -815,28 +978,28 @@ var OSLReq4101Popup = function () {
 			    	$("#deptId").val(data.reqInfoMap.reqUsrDeptId);
 			    	$("#usrImgId").attr("src",$.osl.user.usrImgUrlVal(data.reqInfoMap.reqUsrImgId));
 				}else{
-					
-					
+					//복사인 경우 현재 로그인한 사용자 정보 그대로 세팅
+					//요청자 정보 세팅 - 로그인 사용자
 		        	$.osl.setDataFormElem($.osl.user.userInfo,"frReq4101", ["usrNm","email","telno","deptName","deptId","usrImgId"]);
-			    	
+			    	//현재 날짜 지정
 			    	$("#reqDtm").val(new Date().format("yyyy-MM-dd"));
 				}
 		    	
 		    	$("#reqPrjSelect").val($.osl.escapeHtml(data.reqInfoMap.prjId)).trigger('change.select2');
 		    	
 		    	if("Y"==$("#changePrj").val()){
-			    	
+			    	//프로젝트 그룹 수정할 수 있도록
 		    		$("#reqPrjSelect").prop("disabled", false);
-			    	
+			    	//새로운 atchFileId를 등록해야 하므로
 			    	$("#atchFileId").val("");
-			    	
+			    	//복사하려는 기존 atchFileId
 			    	$("#oriAtchFileId").val(data.reqInfoMap.atchFileId);
 				}else{
 			    	$("#reqPrjSelect").prop("disabled", true);
 			    	$("#oriAtchFileId").val(data.reqInfoMap.atchFileId);
 				}
 		    	
-		    	
+		    	//edit 세팅
 		    	formEditList.push($.osl.editorSetting("reqDesc", {formValidate: formValidate, disableResizeEditor: false, 'minHeight': 190}));
 		    	
 		    	formEditList.push($.osl.editorSetting("reqGrpDesc", {
@@ -846,95 +1009,165 @@ var OSLReq4101Popup = function () {
 	    			disabledEditor: true,
 	    			height:180,
 	    		}));
-		    	
+		    	//edit 세팅하고 나서 textarea 보이기
 		    	$("#reqDesc").removeClass("kt-hide");
 		    	$("#reqGrpDesc").removeClass("kt-hide");
 		    	
-		    	
+		    	//datepicker 세팅
 				$.osl.date.datepicker($("#reqDtm"), {});
-		    	
-		    	
+		    	/* 
+		    	//요구사항 잠금 설정한 경우
+		    	if(!$.osl.isNull(data.reqInfoMap.reqPw)){
+		    		$("#reqPwCheckbox").attr("checked", true);
+		    		$("#pwOption").removeClass("kt-hide");
+		    		pw = "Y";
+		    		//비밀번호는 비우기
+					$("#reqPw").val("");
+					$("#reqPw").attr("placeholder",$.osl.lang("req4101.placeholder.nullPassword"));
+					$("#reqPwCheck").attr("placeholder",$.osl.lang("req4101.placeholder.nullPassword"));
+		    	}
+		     */
+		    	//파일Sn넣기
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
-		    	
+		    	//파일 목록 세팅
 		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
+		    	
+		    	basicItemList = data.basicItemList;
+		    	basicItemInsertList = data.basicItemInsertList;
+		    	$.osl.customOpt.setting(basicItemList,  "basicItemList",
+		    			//usrConfig
+		    			{
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemList.splice(delIdx,1);
+									}
+								}
+							}
+						}
+	    		);
+		    	
+		    	$.osl.customOpt.setting(basicItemInsertList,  "basicItemList",
+		    			//usrConfig
+		    			{
+				    		htmlAppendType: true,
+							delAt: true,
+							updAt: true,
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemInsertList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemInsertList.splice(delIdx,1);
+									}
+								},
+								update: OSLReq4101Popup.basicItemUpdate,
+								updateBtn: OSLReq4101Popup.basicItemUpdateBtn
+							}
+						}
+	    		);
 			}
 		});
 		
-		
+		//AJAX 전송 오류 함수
 		ajaxObj.setFnError(function(xhr, status, err){
 			data = JSON.parse(data);
 			jAlert(data.message, "알림창");
 		});
 		
-		
+		//AJAX 전송
 		ajaxObj.send();
 	};
     
-    
+    //atchFileId 생성 완료 시 요구사항 등록 시작
     var submitInsertAction = function(){
     	var form = $('#'+formId);    		
     	
-		
+		//폼 유효 값 체크
 		if (!form.valid()) {
 			return;
 		}
 
-       	
+       	//formData
    		var fd = $.osl.formDataToJsonArray(formId);
 
-       	
+       	//파일 목록 추가하기 (수정이력 관리)
        	fd.append("fileHistory",JSON.stringify(fileUploadObj.getFiles()));
        	
-      	
+      	//파일명 뒤에 ms 붙이기
 		$.each(fileUploadObj.getFiles(), function(idx, map){
 			map.meta.atchFileId = $("#atchFileId").val();
 			fd.append("file",map);
 		});
       
-      	
+      	//프로젝트 그룹 ID
 		var prjGrpId = $("#reqPrjSelect option[value="+$("#reqPrjSelect").val()+"]").data("prj-grp-id");
 		fd.append("prjGrpId",prjGrpId);
 
+		//기본항목 셋팅
+		itemListValueSetting();
+		fd.append("basicItemList", JSON.stringify(basicItemList));
+		fd.append("basicItemInsertList", JSON.stringify(basicItemInsertList));
+		fd.append("basicItemDelList", JSON.stringify(basicItemDelList));
 		
+		//AJAX 설정
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/req/req4000/req4100/insertReq4101ReqInfoAjax.do'/>"
    			, "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
 			,fd);
 
-   		
+   		//AJAX 전송 성공 함수
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				
+   				//등록 성공
    				$.osl.toastr(data.message);
 
-   				
+   				//모달 창 닫기
    				$.osl.layerPopupClose();
    				
-   				
+   				//datatable 조회
    				$("button[data-datatable-id=req4100ReqTable][data-datatable-action=select]").click();
    			}
    		});
    		
-   		
+   		//AJAX 전송
    		ajaxObj.send();
 		
     };
     
-    
+    //요구사항 수정 시작
     var submitUpdateAction = function(){
 		var form = $('#'+formId);    		
     	
-		
+		//폼 유효 값 체크
 		if (!form.valid()) {
 			return;
 		}
 
-       	
+       	//formData
    		var fd = $.osl.formDataToJsonArray(formId);
        	
-       	
+       	//파일 목록 추가하기 (수정이력 관리)
        	var uploadFileList = [];
        	$.each(fileUploadObj.getFiles(), function(idx, map){
        		if(!map.hasOwnProperty("source") || map.source == "database"){
@@ -945,106 +1178,177 @@ var OSLReq4101Popup = function () {
 
        	uploadFileList = uploadFileList.concat(uploadRemoveFiles);
 
-       	
+       	//파일 정보
        	fd.append("fileHistory",JSON.stringify(uploadFileList));
 
+		//기본항목 셋팅
+		itemListValueSetting();
+		fd.append("basicItemList", JSON.stringify(basicItemList));
+		fd.append("basicItemInsertList", JSON.stringify(basicItemInsertList));
+		fd.append("basicItemDelList", JSON.stringify(basicItemDelList));
        	
+       	//AJAX 설정
    		var ajaxObj = new $.osl.ajaxRequestAction(
    				{"url":"<c:url value='/req/req4000/req4100/updateReq4101ReqInfoAjax.do'/>", "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
    				,fd);
 
-   		
+   		//AJAX 전송 성공 함수
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				
+   				//등록 성공
    				$.osl.toastr(data.message);
 
-   				
+   				//모달 창 닫기
    				$.osl.layerPopupClose();
    				
-   				
+   				//datatable 조회
    				$("button[data-datatable-id=req4100ReqTable][data-datatable-action=select]").click();
    			}
    		});
    		
-   		
+   		//AJAX 전송
    		ajaxObj.send();
     };
     
-  
+  //atchFileId 생성 완료 시 요구사항 복사 시작
     var submitCopyAction = function(){
     	var form = $('#'+formId);    		
     	
-		
+		//폼 유효 값 체크
 		if (!form.valid()) {
 			return;
 		}
 
-       	
+       	//formData
    		var fd = $.osl.formDataToJsonArray(formId);
 
-       	
+       	//파일 목록 추가하기 (수정이력 관리)
        	fd.append("fileHistory",JSON.stringify(fileUploadObj.getFiles()));
        	
-      	
+      	//파일명 뒤에 ms 붙이기
 		$.each(fileUploadObj.getFiles(), function(idx, map){
 			map.meta.atchFileId = $("#atchFileId").val();
 			fd.append("file",map);
 		});
       
-      	
+      	//프로젝트 그룹 ID
 		var prjGrpId = $("#reqPrjSelect option[value="+$("#reqPrjSelect").val()+"]").data("prj-grp-id");
 		fd.append("prjGrpId",prjGrpId);
 
+		//기본항목 셋팅
+		itemListValueSetting();
+		fd.append("basicItemList", JSON.stringify(basicItemList));
+		fd.append("basicItemInsertList", JSON.stringify(basicItemInsertList));
+		fd.append("basicItemDelList", JSON.stringify(basicItemDelList));
 		
+		//AJAX 설정
    		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/req/req4000/req4100/insertReq4100ReqCopyAjax.do'/>"
    			, "loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false}
 			,fd);
 
-   		
+   		//AJAX 전송 성공 함수
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
    				$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				
+   				//등록 성공
    				$.osl.toastr(data.message);
 
-   				
+   				//모달 창 닫기
    				$.osl.layerPopupClose();
    				
-   				
+   				//datatable 조회
    				$("button[data-datatable-id=req4100ReqTable][data-datatable-action=select]").click();
    			}
    		});
    		
-   		
+   		//AJAX 전송
    		ajaxObj.send();
 		
     };
     
+    /*
+	 * function : itemListValueSetting
+	 * function 설명 : 기본항목 값 셋팅
+	 */
+    var itemListValueSetting = function(){
+    	//기본항목 데이터 저장
+		$.each(basicItemList, function(idx, map){
+			if(map.itemCode == "01"){ //기타
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "02"){ //공통코드 (selectBox)
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "03"){ //첨부파일
+			}else if(map.itemCode == "04"){ //담당자
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}else if(map.itemCode == "05"){ //분류
+			}else if(map.itemCode == "06"){ //조직
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}
+		});
+   		
+		//기본항목 데이터 저장
+		$.each(basicItemInsertList, function(idx, map){
+			if(map.itemCode == "01"){ //기타
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "02"){ //공통코드 (selectBox)
+				map.itemValue = $("#"+map.itemId).val();
+			}else if(map.itemCode == "03"){ //첨부파일
+			}else if(map.itemCode == "04"){ //담당자
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}else if(map.itemCode == "05"){ //분류
+			}else if(map.itemCode == "06"){ //조직
+				map.itemValue = $("#"+map.itemId).val();
+				map.itemValueNm = $("#"+map.itemId+"Nm").val();
+			}
+		});
+
+		if(basicItemList.length>0){
+			var itemOrd = basicItemList[basicItemList.length-1].itemOrd;
+	   		//ord정렬
+			$.each(basicItemInsertList, function(idx, map){
+				map.itemOrd = itemOrd+idx+1;
+				basicItemInsertList[idx] = map;
+			});
+		}else{
+	   		//ord정렬
+			$.each(basicItemInsertList, function(idx, map){
+				map.itemOrd = idx+1;
+				basicItemInsertList[idx] = map;
+			});
+			
+		}
+    }
     
+    /*
+	 * function : viewTypeChange
+	 * function 설명 : 화면 출력 타입 변경(카드형, 그리드형)
+	 */
 	 var viewTypeChange = function(){
-		
-		if(currentViewType == "01"){	
+		//현재 viewType에 따라 show/hide
+		if(currentViewType == "01"){	//카드 형식
 			$("#prepListTable .kt-datatable__table").css({visibility: "hidden", height: 0});
 			$("#prepListDiv").show();
-		}else{	
+		}else{	//데이터테이블 형식
 			$("#prepListTable .kt-datatable__table").css({visibility: "hidden", height: "auto"});
 			$("#prepListDiv").hide();
 		}
 	}
 
     return {
-        
+        // public functions
         init: function() {
         	documentSetting();
         },
         setUsrInfo: function(temp){
         	var parseTemp = JSON.parse(temp);
         	
-        	
+        	//사용자 정보 입력하기
         	$("#reqUsrId").val(parseTemp.usrId);
         	$("#deptId").val(parseTemp.deptId);
         	$("#usrNm").val(parseTemp.usrNm);
@@ -1055,7 +1359,7 @@ var OSLReq4101Popup = function () {
         setReqGrpInfo: function(temp){
         	var parseTemp = JSON.parse(temp);
         	
-        	
+        	//그룹 요구사항 정보 입력하기
         	$('#reqGrpId').val(parseTemp.reqGrpId);
         	$("#reqGrpNm").val(parseTemp.reqGrpNm);
 			$("#reqGrpDesc").val(parseTemp.reqGrpDesc);
@@ -1068,11 +1372,179 @@ var OSLReq4101Popup = function () {
     		}));
 			$("#reqGrpKey").val(parseTemp.reqGrpKey);
 			
-        }
+        },
+    	addItemList: function(itemList){
+	    	basicItemInsertList = basicItemInsertList.concat(itemList);
+	    	
+	    	//기본항목 html 생성
+	    	$.osl.customOpt.setting(itemList,  "basicItemList",
+	    			//usrConfig
+	    			{
+						htmlAppendType: true,
+						delAt: true,
+						updAt: true,
+						actionFn:{
+							delete:function($this){
+								var targetId = $this.data("itemId");
+								$this.parents(".basicItemDiv:first").remove();
+								basicItemDelList.push({"itemId":targetId});
+		
+								var delIdx = ""
+								$.each(basicItemInsertList,function(idx, map){
+									if(map.itemId == targetId){
+										delIdx = idx;						
+									}
+								});
+								if(delIdx!==""){
+									basicItemInsertList.splice(delIdx,1);
+								}
+							},
+							update: OSLReq4101Popup.basicItemUpdate,
+							updateBtn: OSLReq4101Popup.basicItemUpdateBtn
+						}
+					}
+    		); 
+    	},
+    	basicItemUpdate: function($this, updType){
+			var stat = false;
+    		if(updType=="02"){
+    			//뱃지 클릭 이벤트
+    			var target = $this[0]; //json 배열
+    			$.each(basicItemList,function(idx, map){
+    				if(map.itemId == target.itemId){
+    					basicItemList[idx] = target;
+    					stat=true;
+    				}
+    			});
+    			if(!stat){
+    				$.each(basicItemInsertList,function(idx, map){
+        				if(map.itemId == target.itemId){
+        					basicItemInsertList[idx] = target;
+        				}
+        			});
+    			}
+    			
+    			$("#basicItemList").html("");
+    			$.osl.customOpt.setting(basicItemList,  "basicItemList",
+		    			//usrConfig
+		    			{
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemList.splice(delIdx,1);
+									}
+								},
+							}
+						}
+	    		);
+    			$.osl.customOpt.setting(basicItemInsertList,  "basicItemList",
+		    			//usrConfig
+		    			{
+    						viewType: "preview",
+							delAt: true,
+							updAt: true,
+							htmlAppendType: true,
+							actionFn:{
+								delete: function($this){
+									var targetId = $this.data("itemId");
+									$this.parents(".basicItemDiv:first").remove();
+									basicItemDelList.push({"itemId":targetId});
+			
+									var delIdx = ""
+									$.each(basicItemList,function(idx, map){
+										if(map.itemId == targetId){
+												delIdx = idx;						
+										}
+									});
+									if(delIdx!==""){
+										basicItemList.splice(delIdx,1);
+									}
+								},
+								update: OSLReq4101Popup.basicItemUpdate,
+								updateBtn: OSLReq4101Popup.basicItemUpdateBtn
+							}
+						}
+	    		);
+    		}
+		},
+		basicItemUpdateBtn: function($this){
+			var targetItemId = $this.data("itemId");
+			var itemObj = "";
+
+			$.each(basicItemList,function(idx, map){
+				if(map.itemCode == "01"){ //기타
+					map.itemValue = $("#"+map.itemId).val();
+				}else if(map.itemCode == "02"){ //공통코드 (selectBox)
+					map.itemValue = $("#"+map.itemId).val();
+				}else if(map.itemCode == "03"){ //첨부파일
+				}else if(map.itemCode == "04"){ //담당자
+					map.itemValue = $("#"+map.itemId).val();
+					map.itemValueNm = $("#"+map.itemId+"Nm").val();
+				}else if(map.itemCode == "05"){ //분류
+				}else if(map.itemCode == "06"){ //조직
+					map.itemValue = $("#"+map.itemId).val();
+					map.itemValueNm = $("#"+map.itemId+"Nm").val();
+				}
+				if(map.itemId == targetItemId){
+					itemObj = map;
+					stat=true;
+				}
+			});
+			$.each(basicItemInsertList,function(idx, map){
+				if(map.itemCode == "01"){ //기타
+   					map.itemValue = $("#"+map.itemId).val();
+   				}else if(map.itemCode == "02"){ //공통코드 (selectBox)
+   					map.itemValue = $("#"+map.itemId).val();
+   				}else if(map.itemCode == "03"){ //첨부파일
+   				}else if(map.itemCode == "04"){ //담당자
+   					map.itemValue = $("#"+map.itemId).val();
+   					map.itemValueNm = $("#"+map.itemId+"Nm").val();
+   				}else if(map.itemCode == "05"){ //분류
+   				}else if(map.itemCode == "06"){ //조직
+   					map.itemValue = $("#"+map.itemId).val();
+   					map.itemValueNm = $("#"+map.itemId+"Nm").val();
+   				}
+				if(map.itemId == targetItemId){
+					itemObj = map;
+				}
+			});
+			
+			var data = {
+					type:"updateJson",
+					callPage:"OSLReq4101Popup",
+					itemObj: JSON.stringify(itemObj)
+				};
+			var options = {
+					idKey: "prj1305",
+					modalTitle: "프로젝트 기본항목 수정",
+					modalSize: "lg",
+					closeConfirm: false,
+					autoHeight: false,
+					callback: [{
+						targetId: "prj1305ModalCallBackBtn",
+						actionFn: function(thisObj){
+							var itemList = OSLPrj1305Popup.getItemList();
+							OSLReq4101Popup.basicItemUpdate(itemList, "02");
+						}
+					}]
+				};
+			
+			$.osl.layerPopupOpen('/prj/prj1000/prj1300/selectPrj1305View.do',data,options);
+		}
     };
 }();
 
-
+// Initialization
 $.osl.ready(function(){
 	OSLReq4101Popup.init();
 });

@@ -58,6 +58,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		
 		
 		paramMap.put("flowNm", "최종 완료");
+		paramMap.put("flowDesc", "최종 완료");
 		paramMap.put("flowLeft", "20");
 		paramMap.put("flowTop", "20");
 		paramMap.put("flowStartCd", "02");
@@ -65,7 +66,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		paramMap.put("flowEssentialCd", "02");
 		paramMap.put("flowSignCd", "02");
 		paramMap.put("flowSignStopCd", "02");
-		paramMap.put("flowEndCd", "02");
+		paramMap.put("flowMiddleEndCd", "02");
 		paramMap.put("flowWorkCd", "02");
 		paramMap.put("flowRevisionCd", "02");
 		paramMap.put("flowDplCd", "02");
@@ -172,6 +173,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 				newMap.put("flowLeft", newFlowData.get("left"));
 				newMap.put("flowTop", newFlowData.get("top"));
 				newMap.put("flowNm", newFlowProp.get("title"));
+				newMap.put("flowDesc", newFlowProp.get("flowDesc"));
 				newMap.put("regUsrId", paramMap.get("regUsrId"));
 				newMap.put("regUsrIp", paramMap.get("regUsrIp"));
 				newMap.put("modifyUsrId", paramMap.get("modifyUsrId"));
@@ -282,6 +284,7 @@ public class Prj1100ServiceImpl extends EgovAbstractServiceImpl implements Prj11
 		    flowMapData.put("flowLeft", left);
 		    flowMapData.put("flowTop", top);
 		    flowMapData.put("flowNm", flowMapData.get("title"));
+		    flowMapData.put("flowDesc", flowMapData.get("flowDesc"));
 		    flowMapData.put("flowStartCd", paramMap.get("flowStartCd"));
 		    flowMapData.put("flowDoneCd", paramMap.get("flowDoneCd"));
 		    flowMapData.put("modifyUsrId", paramMap.get("modifyUsrId"));

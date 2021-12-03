@@ -791,7 +791,9 @@
 				            	
 				            	"init": $.noop,
 				            	
-								"onclick": $.noop
+								"onclick": $.noop,
+								
+								"onDblClick": $.noop
 							}
 				        };
 					
@@ -876,6 +878,12 @@
 			            config.callback.onclick(treeObj, selNode);
 			        }).bind('deselect_node.jstree', function(event, data){
 			        	treeObj.jstree().selNode = null;
+			        }).bind('dblclick.jstree', function(event){
+			        	var selNodeId = event.target.id;
+			        	var selNode = treeObj.jstree().get_node(selNodeId);
+			        	
+			        	
+			            config.callback.onDblClick(treeObj, selNode);
 			        }).bind('search.jstree', function(nodes, str, res){
 			        	
 			        	if(str.nodes.length == 0){
@@ -919,7 +927,7 @@
 									+'</span>'
 								+'</div>'
 								+'<div class="input-group-append">'
-									+'<button class="btn '+btnStyleStr+' osl-tree-search__button" type="button" data-tree-id="'+targetId+'">'
+									+'<button type="button" class="btn '+btnStyleStr+' osl-tree-search__button" data-tree-id="'+targetId+'">'
 										+'<i class="fa fa-search"></i><span class=""><span>'+$.osl.lang("tree.search.title")+'</span></span>'
 									'</button>'
 								+'</div>'
@@ -961,6 +969,7 @@
 									
 									thisObj.children("i").addClass("la la-search");
 								},300);
+								return false;
 							}
 						});
 						
@@ -2249,6 +2258,7 @@
 						if($(row).find("[data-datatable-id="+targetId+"][data-datatable-action]").length > 0){
 							var btnRowNum = $(row).data("row");
 							
+							
 							$.each($(row).find("[data-datatable-id="+targetId+"][data-datatable-action]"), function(idx, map){
 								var btnDatatableId = $(map).data("datatable-id");
 								var btnAction = $(map).data("datatable-action");
@@ -2278,6 +2288,35 @@
 							
 							KTApp.initTooltips();
 						}
+					},
+					
+					detail: function(){
+						$(datatables.targetDt.tableBody).on("click", "tr.kt-datatable__row-detail [data-datatable-id="+targetId+"][data-datatable-action]",function(){
+							var row = $(this).parents(".kt-datatable__row-detail").prev();
+							var btnRowNum = row.data("row");
+							
+							var btnDatatableId = $(this).data("datatable-id");
+							var btnAction = $(this).data("datatable-action");
+							
+							
+							if(btnEvt.action.hasOwnProperty(btnAction)){
+								btnEvt.action[btnAction](this, btnDatatableId, "info", btnRowNum, row);
+								this.click();
+							}else{
+								
+								if(targetConfig.actionFn.hasOwnProperty(btnAction)){
+									
+									event.cancelable = true;
+									event.stopPropagation();
+									event.preventDefault();
+									event.returnValue = false;
+
+									var tmp_rowData = datatables.targetDt.dataSet[btnRowNum];
+									
+									targetConfig.actionFn[btnAction](tmp_rowData, btnDatatableId, "info", btnRowNum, this);
+								}
+							}
+						});
 					},
 					
 					action: {
@@ -2460,15 +2499,47 @@
 									event.preventDefault();
 									event.returnValue = false;
 								}
-								var rowData = datatables.targetDt.dataSet[rowNum];
+								
+								var rowData;
+								
+								
+								if(type == "list"){
+									
+									var selRecords = datatables.targetDt.getSelectedRecords();
+									
+									
+									if(selRecords.length == 0){
+										$.osl.alert($.osl.lang("datatable.action.dblClick.nonSelect"));
+										return true;
+									}
+									
+									else if(selRecords.length > 1){
+										$.osl.alert($.osl.lang("datatable.action.update.manySelect",selRecords.length));
+										return true;
+									}
+									else{
+										var rowIdx = datatables.targetDt.getSelectedRecords().data("row");
+										
+										rowData = datatables.targetDt.dataSet[rowIdx];
+									}
+								}
+								
+								else if(type == "info"){
+									rowData = datatables.targetDt.dataSet[rowNum];
+								}
 								
 								
 								datatables.config.actionFn["dblClick"](rowData, datatableId, type, rowNum, elem );
 							});
 
 							
+							if(!$.osl.isNull($(row).data("long-press-delay"))){
+								$(row).data("long-press-delay", 500);
+							}
+							
+							
 							$(row).off("dblclick");
-							$(row).on('dblclick', function (event) {
+							$(row).on('dblclick long-press', function (event) {
 								if(bubleFlag != false){
 									
 									event.cancelable = true;
@@ -2476,6 +2547,7 @@
 									event.preventDefault();
 									event.returnValue = false;
 								}
+								
 								var rowData = datatables.targetDt.dataSet[rowNum];
 								
 								
@@ -2827,7 +2899,8 @@
 						},
 						layout: {
 							scroll: false,
-							footer: false
+							footer: false,
+							customScrollbar: true
 						},
 						translate:{
 							records:{
@@ -2855,8 +2928,12 @@
 							beforeTemplate: function (row, data, index){
 								
 							},
-							clickCheckbox: false,
-							minHeight: null
+							afterTemplate: function(row, data, index){
+								
+							},
+							clickCheckbox: true,
+							minHeight: null,
+							autoHide: true
 						},
 						sortable: true,
 						pagination: true,
@@ -2865,7 +2942,7 @@
 						searchColumns: [],
 						cardUiTarget: null,
 						actionBtn:{
-							"autoHide": false,
+							"autoHide": true,
 							"title": "Actions",
 							"width": false,
 							"lastPush": true,
@@ -2947,46 +3024,62 @@
 						
 					
 					targetConfig = $.extend(true, targetConfig, config, config);
-
+					
 					
 					targetConfig.rows["afterTemplate"] = function(row, data, index){
 						
-						if(config.hasOwnProperty("rows")){
+						row.click(function(){
+							var targetRow = $(this).closest("tr");
+							var targetElem = targetRow.find("label.kt-checkbox").children("input[type=checkbox]");
 							
-							if(config.rows.hasOwnProperty("minHeight")){
-								var minHeight = config.rows.minHeight;
+							if($(event.target).parents(".kt-datatable__cell--check").length > 0){
+								return true;
+							}
+							
+							else if($(event.target).hasClass("kt-datatable__cell--check")){
+								datatables.targetDt.setActive(targetElem);
+								targetElem.prop("checked", true);
+								return true;
+							}
+							
+							
+							var selNodes = datatables.targetDt.getSelectedRecords();
+							datatables.targetDt.setInactive(selNodes);
+							
+							$("#"+targetId +" .osl-datatable__row--selected").removeClass("osl-datatable__row--selected");
+							
+							
+							targetRow.addClass("osl-datatable__row--selected");
+							
+							
+							if(targetConfig.hasOwnProperty("rows") && targetConfig.rows.hasOwnProperty("clickCheckbox")){
+								
+								if(targetConfig.rows.clickCheckbox == true){
+
+									
+									datatables.targetDt.setActive(targetElem);
+									
+									selNodes.find("label.kt-checkbox").children("input[type=checkbox]").prop("checked", false);
+									targetElem.prop("checked", true);
+								}
+							}
+						});
+						
+						
+						if(targetConfig.hasOwnProperty("rows")){
+							
+							if(targetConfig.rows.hasOwnProperty("minHeight")){
+								var minHeight = targetConfig.rows.minHeight;
 								
 								
 								if(!$.osl.isNull(minHeight) && $.isNumeric(minHeight)){
 									$(row).css({"min-height": parseInt(minHeight)+"px"});
 								}
 							}
-							if(config.rows.hasOwnProperty("clickCheckbox")){
-								
-								if(config.rows.clickCheckbox == true){
-									
-									row.click(function(){
-										var targetRow = $(this).closest("tr");
-										var targetElem = targetRow.find("label.kt-checkbox").children("input[type=checkbox]");
-										
-										if(targetElem.is(":checked") == true){
-											targetElem.prop("checked", false);
-											datatables.targetDt.setInactive(targetElem);
-											
-											targetRow.removeClass("osl-datatable__row--selected");
-											targetRow.addClass("kt-datatable__row--even");
-										}else{
-											targetElem.prop("checked", true);
-											datatables.targetDt.setActive(targetElem);
-										}
-										
-									});
-								}
-							}
 						}
 						
 						
-						if(config.hasOwnProperty("rows") && config.rows.hasOwnProperty("afterTemplate")){
+						if(config.hasOwnProperty("rows") && config.rows.hasOwnProperty("afterTemplate")) {
 							config.rows.afterTemplate(row, data, index);
 						}
 						btnEvt["info"](row);
@@ -3297,6 +3390,9 @@
 					
 					$(ktDatatableTarget).on("kt-datatable--on-init",function(evt,config){
 						targetConfig.callback.initComplete(evt.target, config, datatableInfo);
+
+						
+						btnEvt["detail"]();
 						
 						
 						if(!$.osl.isNull(targetConfig.cardUiTarget)){
@@ -3535,7 +3631,7 @@
 					var maxYear = moment().subtract(-10, 'year').format('YYYY');
 					
 					var defaultConfig = {
-							parentEl: 'body',
+							parentEl: $(targetObj).parent(),
 				            buttonClasses: 'btn btn-sm',
 				            applyClass: "btn-primary",
 				            cancelClass: "btn-secondary",
@@ -3864,6 +3960,44 @@
 			document.hideMoveForm.authGrpId.value = authGrpId;
 			document.hideMoveForm.action= "/cmm/cmm9000/cmm9000/selectCmm9000PageChgView.do";
 			document.hideMoveForm.submit();
+		},
+		
+		util:{
+			
+			initInputNumbers: function(){
+				this.initInputNumber("input[type=number]");
+			},
+			
+			initInputNumber: function(target){
+				
+				var inputNumberList = $(target);
+				if(!$.osl.isNull(inputNumberList) && inputNumberList.length > 0){
+					$.each(inputNumberList, function(idx, map){
+						
+						var readonly = $(map).attr("readonly");
+						if(!$.osl.isNull(readonly) || (readonly == true || readonly == "readonly")){
+							return true;
+						}
+						
+						var min = $(map).attr("min") || 0;
+						var max = $(map).attr("max") || 9999999;
+						var step = $(map).attr("step") || 1;
+						var boostat = $(map).attr("boostat") || 5;
+						var maxboostedstep = $(map).attr("maxboostedstep") || 10;
+						
+						
+				    	$(map).TouchSpin({
+				            buttondown_class: 'btn btn-secondary',
+				            buttonup_class: 'btn btn-secondary',
+				            min: parseInt(min),
+				            max: parseInt(max),
+				            step: step,
+				            boostat: boostat,
+				            maxboostedstep: maxboostedstep,
+				        });
+					});
+				}
+			}
 		}
 	};
 	
@@ -4335,6 +4469,11 @@
 					if(ruleVal == "required"){
 						ruleVal = true;
 					}
+					
+					if(messageId == "min" || messageId == "max"){
+						ruleVal = parseInt(ruleVal);
+					}
+					
 					
 					if(messageId == "regexstr"){
 						

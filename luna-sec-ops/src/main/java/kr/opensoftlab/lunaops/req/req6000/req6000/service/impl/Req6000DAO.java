@@ -30,8 +30,4 @@ public class Req6000DAO extends ComOslitsAbstractDAO {
 		return (int) delete("req6000DAO.deleteReq6001ReqChgInfo", paramMap);
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public void insertReq6001SnapShot(Map paramMap) throws Exception{
-		insert("req6000DAO.insertReq6001SnapShot", paramMap);
-	}
 }

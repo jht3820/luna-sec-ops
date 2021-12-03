@@ -70,6 +70,8 @@
 		<result property="modifyUsrIp" column="MODIFY_USR_IP" />
 		<result property="prjNm" column="PRJ_NM" />
 		<result property="pwModifyDtm" column="PW_MODIFY_DTM" />
+		<result property="absStDtm" column="ABS_ST_DTM" />
+		<result property="absEdDtm" column="ABS_ED_DTM" />
 	</resultMap>
 	
 	
@@ -133,6 +135,8 @@
 		          	WHERE A.USR_ID = #usrId#
 					AND A.LIC_GRP_ID = #licGrpId# 
 				) AS PW_MODIFY_DTM
+			,	TO_CHAR(A.ABS_ST_DTM, 'YYYY-MM-DD HH24:MI:SS') AS ABS_ST_DTM
+			,	TO_CHAR(A.ABS_ED_DTM, 'YYYY-MM-DD HH24:MI:SS') AS ABS_ED_DTM
 		FROM STM3000 A
 		WHERE 1=1
 		AND A.LIC_GRP_ID = #licGrpId#
@@ -196,6 +200,12 @@
 			,	USR_DUTY_CD			= #usrDutyCd#
 			,	REQ_MAIN_COLOR		= #reqMainColor#
 			,	REQ_FONT_COLOR		= #reqFontColor#
+			,	WK_ST_TM			= REPLACE(#wkStTm#,':','')
+			,	WK_ED_TM			= REPLACE(#wkEdTm#,':','')
+			,	BK_ST_TM			= REPLACE(#bkStTm#,':','')
+			,	BK_ED_TM			= REPLACE(#bkEdTm#,':','')
+			,	ABS_ST_DTM			= #absStDtm#
+			,	ABS_ED_DTM			= #absEdDtm#
 			,	MODIFY_DTM			= SYSDATE
 			,	MODIFY_USR_ID		= #modifyUsrId#
 			,	MODIFY_USR_IP		= #modifyUsrIp#

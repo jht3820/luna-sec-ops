@@ -28,22 +28,28 @@
 				<ul class="kt-nav kt-nav--bolder kt-nav--fit-ver kt-nav--v4" role="tablist" id="myPageAsideMenu">
 					<li class="kt-nav__item active" data-aside-menu="usrProfile">
 						<a class="kt-nav__link active" href="#" role="tab">
-							<span class="kt-nav__link-icon"><i class="flaticon2-user"></i></span>
+							<span class="kt-nav__link-icon"><i class="fas fa-user"></i></span>
 							<span class="kt-nav__link-text">사용자 프로필</span>
 						</a>
 					</li>
 					<c:if test="${requestScope.ldapUse == 'N'}">
 						<li class="kt-nav__item" data-aside-menu="passwordChange">
 							<a class="kt-nav__link" href="#" role="tab">
-								<span class="kt-nav__link-icon"><i class="flaticon-lock"></i></span>
+								<span class="kt-nav__link-icon"><i class="fas fa-lock"></i></span>
 								<span class="kt-nav__link-text">비밀번호 변경</span>
 							</a>
 						</li>
 					</c:if>
 					<li class="kt-nav__item" data-aside-menu="usrShortCut" id="shortcutAside">
 						<a class="kt-nav__link active" href="#" role="tab">
-							<span class="kt-nav__link-icon"><i class="flaticon-cogwheel-1"></i></span>
+							<span class="kt-nav__link-icon"><i class="fas fa-cog"></i></span>
 							<span class="kt-nav__link-text">단축키 설정</span>
+						</a>
+					</li>
+					<li class="kt-nav__item" data-aside-menu="subSign" id="subSign">
+						<a class="kt-nav__link active" href="#" role="tab">
+							<span class="kt-nav__link-icon"><i class="fa fa-file-signature"></i></span>
+							<span class="kt-nav__link-text">대결자 지정</span>
 						</a>
 					</li>
 					<!-- 기타정보는 사용시 추가
@@ -74,6 +80,8 @@
 				<input type="hidden" name="orgDeptNm" id="orgDeptNm">
 				<input type="hidden" name="orgEmail" id="orgEmail" >
 				<input type="hidden" name="usrImgId" id="usrImgId">
+				<input type="hidden" name="absStDtm" id="absStDtm">
+				<input type="hidden" name="absEdDtm" id="absEdDtm">
 				<div class="kt-portlet__body">
 					<div class="kt-section kt-section--first">
 						<div class="row kt-margin-b-10">
@@ -142,12 +150,51 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-xl-3">
+								<div class="form-group">
+									<label for="exampleSelect1"><i class="fa fa-id-badge kt-margin-r-5"></i>근무 시작시간</label>
+									<input type="text" class="form-control" id="wkStTm" name="wkStTm">
+								</div>
+							</div>
+							<div class="col-xl-3">
+								<div class="form-group">
+									<label for="exampleSelect1"><i class="fa fa-id-badge kt-margin-r-5"></i>근무 종료시간</label>
+									<input type="text" class="form-control" id="wkEdTm" name="wkEdTm">
+								</div>
+							</div>
+							<div class="col-xl-3">
+								<div class="form-group">
+									<label for="exampleSelect1"><i class="fa fa-id-badge kt-margin-r-5"></i>휴식 시작시간</label>
+									<input type="text" class="form-control"id="bkStTm" name="bkStTm">
+								</div>
+							</div>
+							<div class="col-xl-3">
+								<div class="form-group">
+									<label for="exampleSelect1"><i class="fa fa-id-badge kt-margin-r-5"></i>휴식 종료시간</label>
+									<input type="text" class="form-control" id="bkEdTm" name="bkEdTm">
+								</div>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="required"><i class="fa fa-id-card kt-margin-r-5"></i>부서</label>
 							<div class="input-group">
 								<input type="text" class="form-control" label="부서" placeholder="부서 검색 시 검색결과가 1건일 경우 자동세팅 됩니다." id="deptName" name="deptName" required>
 								<div class="input-group-append">
 									<button class="btn btn-outline-brand" type="button" id="btn_searchDept">부서검색</button>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xl-12">
+								<div class="form-group">
+									<label for="reqStDtm"><i class="far fa-clock kt-margin-r-5"></i><span data-lang-cd="req4101.label.prjNm">부재 기간</span></label>
+									<div class="input-group">
+										<input type="text" class="form-control osl-preview-readonly  osl-input-readonly-none" name="subSignRange" id="subSignRange" readonly="readonly">
+										<div class="input-group-append">
+											<button class="btn btn-outline-brand" type="button" id="btn_endSubSign">부재종료</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -271,6 +318,100 @@
 		</div>
 		
 		
+		
+		<div class="row d-none" id="subSignUsrTab" data-aside-menu="subSign">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+				<div class="kt-portlet">
+					<div class="kt-portlet__head">
+						<div class="kt-portlet__head-label">
+							<h4 class="kt-font-boldest">대결자 지정</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+				<div class="kt-portlet">
+					<div class="kt-portlet__head">
+						<div class="kt-portlet__head-label">
+							<i class="fa flaticon-layer kt-margin-r-5"></i><span data-lang-cd="usr1100.title.shortcut">권한 프로젝트</span>
+						</div>
+						
+						<div class="kt-portlet__head-toolbar">
+							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6000PrjTable" data-datatable-action="insertAllPrjSubSignUsr" title="전체 프로젝트 대결자 지정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insertAllPrjSubSignUsr" tabindex="1">
+								<i class="fa fa-list"></i><span>전체 대결자 지정</span>
+							</button>
+							<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 kt-margin-r-5 btn-elevate btn-elevate-air" data-datatable-id="cmm6000PrjTable" data-datatable-action="insertSelPrjSubSignUsr" title="선택 프로젝트 대결자 지정" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="insertSelPrjSubSignUsr" tabindex="2">
+								<i class="fa fa-file-signature"></i><span>선택 대결자 지정</span>
+							</button>
+						</div>
+						
+					</div>
+					<div class="kt-portlet__body">
+						<div class="osl-datatable-search" data-datatable-id="cmm6000PrjTable"></div>
+						<div class="kt-datatable" id="cmm6000PrjTable"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+				<div class="kt-portlet">
+					<div class="kt-portlet__head">
+						<div class="kt-portlet__head-label">
+							<i class="fa flaticon-layer kt-margin-r-5"></i><span data-lang-cd="usr1100.title.shortcut">대결자 정보</span>
+						</div>
+					</div>
+					<div class="kt-portlet__body">
+						<form class="kt-form kt-form--label-right" id="frUsr1000SubSignUsrInfo">
+							<div class="row">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+									<div class="form-group">
+										<label><i class="fa fa-edit kt-margin-r-5"></i>대결자명</span></label> 
+										<input type="text" class="form-control" placeholder="대결자명" name="subSignUsrNm" id="subSignUsrNm" readonly="readonly">
+									</div>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+									<div class="form-group">
+										<label><i class="fa fa-envelope kt-margin-r-5"></i>대결 권한 프로젝트명</label>
+										<input type="email" class="form-control" label="프로젝트명" placeholder="프로젝트명" id="subSignUsrPrjNm" name="subSignUsrPrjNm" readonly="readonly">
+									</div>	
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+									<div class="form-group">
+										<label><i class="fa fa-envelope kt-margin-r-5"></i>이메일</label>
+										<input type="email" class="form-control" label="이메일" placeholder="이메일" id="subSignUsrEmail" name="subSignUsrEmail" readonly="readonly">
+									</div>	
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+									<div class="form-group">
+										<label><i class="fa fa-phone-alt kt-margin-r-5"></i>연락처</label>
+										<input type="text" class="form-control" label="연락처" placeholder="연락처" id="subSignUsrTelno" name="subSignUsrTelno" readonly="readonly">
+									</div>	
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+									<div class="form-group">
+										<label><i class="fa fa-id-card kt-margin-r-5"></i>부서명</label>
+										<input type="text" class="form-control" label="부서명" placeholder="부서명" id="subSignUsrDeptNm" name="subSignUsrDeptNm" readonly="readonly">
+									</div>	
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+									<div class="form-group">
+										<label><i class="fa fa-id-badge kt-margin-r-5"></i>직급</label>
+										<input type="text" class="form-control" label="직급" placeholder="직급" id="subSignUsrPositionCd" name="subSignUsrPositionCd" readonly="readonly">
+									</div>	
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+									<div class="form-group">
+										<label><i class="fa fa-id-badge kt-margin-r-5"></i>직책</label>
+										<input type="text" class="form-control" label="직책" placeholder="직책" id="subSignUsrDutyCd" name="subSignUsrDutyCd" readonly="readonly">
+									</div>	
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
 	</div>
 	
 </div>
@@ -282,6 +423,7 @@ var OSLUsr1000Popup = function () {
 	var profileFormId = 'frUsr1000UserInfo';
 	var passwordFormId = 'frUsr1000UserPassword';
 	var shortcutFormId = 'frUsr1000UserShortCut';
+	var subSignUsrFormId = 'frUsr1000SubSignUsrInfo';
 	
 	
 	new KTAvatar("usrImg_avatar");
@@ -339,6 +481,85 @@ var OSLUsr1000Popup = function () {
 		
     	autosize($("#etc"));
 		
+    	
+		$.osl.date.daterangepicker($("#"+profileFormId+" #subSignRange"), {
+				timePicker: true, 
+				timePicker24Hour: true,
+				locale: {
+					format: 'YYYY-MM-DD HH:mm'
+		        }
+			},function(defaultConfig, start, end, label){
+				var stDtStr = new Date(start._d).format("yyyy-MM-dd HH:mm");
+				var edDtStr = new Date(end._d).format("yyyy-MM-dd HH:mm");
+				
+				$("#absStDtm").val(stDtStr);
+				$("#absEdDtm").val(edDtStr);
+		});
+    	
+		
+        $.osl.date.daterangepicker($("#wkStTm"), {
+        	singleDatePicker: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 1,
+           autoUpdateInput:false,
+             locale: { 
+                format: 'HH:mm' 
+             }, 
+        },function(defaultConfig, start, end, label){
+           $("#wkStTm").val(new Date(start._d).format('HH:mm'))
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+		
+		
+        $.osl.date.daterangepicker($("#wkEdTm"), {
+        	singleDatePicker: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 1,
+           autoUpdateInput:false,
+             locale: { 
+                format: 'HH:mm' 
+             }, 
+        },function(defaultConfig, start, end, label){
+           $("#wkEdTm").val(new Date(start._d).format('HH:mm'))
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+		
+		
+        $.osl.date.daterangepicker($("#bkStTm"), {
+        	singleDatePicker: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 1,
+           autoUpdateInput:false,
+             locale: { 
+                format: 'HH:mm' 
+             }, 
+        },function(defaultConfig, start, end, label){
+           $("#bkStTm").val(new Date(start._d).format('HH:mm'))
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+		
+		
+        $.osl.date.daterangepicker($("#bkEdTm"), {
+        	singleDatePicker: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 1,
+           autoUpdateInput:false,
+             locale: { 
+                format: 'HH:mm' 
+             }, 
+        },function(defaultConfig, start, end, label){
+           $("#bkEdTm").val(new Date(start._d).format('HH:mm'))
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+        
 		
 		selectUsrInfo();
   		
@@ -371,6 +592,7 @@ var OSLUsr1000Popup = function () {
     		
     		
 			$("#personalInfo_right_wrapper").children(".kt-portlet").addClass("d-none");
+			$("#personalInfo_right_wrapper").children("#subSignUsrTab").addClass("d-none");
 			$("#personalInfo_right_wrapper").children("[data-aside-menu="+menuNm+"]").removeClass("d-none");
 			
     	});
@@ -485,6 +707,16 @@ var OSLUsr1000Popup = function () {
     	});
     	
     	
+    	$("#btn_endSubSign").click(function(){
+    		
+    		
+    		$("#subSignRange").val("");
+    		$("#absStDtm").val("");
+    		$("#absEdDtm").val("");
+    		
+    	});
+    	
+    	
     	$("#usr1000ProfileSubmit").click(function(){
 			
     		var profileForm = $('#'+profileFormId);
@@ -540,7 +772,196 @@ var OSLUsr1000Popup = function () {
     		
     	});
     	
-    
+		var datatableId = "cmm6000PrjTable";
+		
+		
+    	$.osl.datatable.setting(datatableId,{
+    		data : {
+    			source:{
+    				read:{
+    					url:"/cmm/cmm6000/cmm6000/selectCmm6000PrjListAjax.do",
+    				}
+    			}
+    		},
+    		columns:[
+    			{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
+    			{field: 'rn', title:"No.", textAlign: 'center', width: 10, autoHide: false, sortable: false},
+				{field: 'upPrjNm', title: '프로젝트 그룹 명', textAlign: 'left', width: 150, search: true, sortable: false},
+				{field: 'prjId', title: '프로젝트 Id', textAlign: 'center', width: 150, search: true},
+				{field: 'prjNm', title: '프로젝트 명', textAlign: 'left', width: 150, autoHide: false, search: true, sortable:false},
+    		],
+    		actionBtn:{
+    			title : $.osl.lang("cmm6000.actionBtn.title"),
+    			width : 80,
+    			"update" : false,
+    			"delete" : false,
+    			"click" : true,
+    			"insertAllPrjSubSignUsr" : false,
+    			"insertSelPrjSubSignUsr" : true,
+    		},
+    		actionTooltip:{
+    			"insertSelPrjSubSignUsr": "대결자 지정",
+    			"click" : "대결자 정보 조회"
+    		},
+    		actionFn:{
+    			"click" : function(rowData,datatableId, elem, datatable){
+    				selectUsr1000SubSignUsrInfo(rowData);
+    			},
+    			"insertAllPrjSubSignUsr":function(rowData){
+    				var data = {
+    	    				
+    	    		};
+    	    		var options = {
+    	    				idKey: "searchUsr",
+    						modalTitle: $.osl.lang("req4101.modalTitle.userSearch"),
+    						closeConfirm: true,
+    						autoHeight:false,
+    						modalSize: "xl",
+    						callback:[{
+    							targetId: "selectUsr",
+    							actionFn: function(thisObj){
+    								var selUsrInfo = OSLCmm6401Popup.getUsrInfo();
+    								if(!$.osl.isNull(selUsrInfo)){
+    									var selUsrInfo = JSON.parse(selUsrInfo);
+    									var subSignUsrId = selUsrInfo.usrId;
+    									
+    									
+    									var ajaxObj = new $.osl.ajaxRequestAction(
+    											{"url":"<c:url value='/usr/usr1000/usr1000/saveUsr1000AllSubSignUsrAjax.do'/>"}
+    											,{"subSignUsrId": subSignUsrId});
+    									
+    									
+    									ajaxObj.setFnSuccess(function(data){
+    										
+    										if(data.errorYn == "Y"){
+    											$.osl.alert(data.message,{type: 'error'});
+    											
+    											$.osl.layerPopupClose();
+    										}else{
+    											
+    											
+    						    				$.osl.toastr(data.message);
+    											
+    										}
+    									});
+    									
+    									
+    									ajaxObj.send();
+    								}
+    							}
+    						}]
+    	    		};
+    	    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
+    			},
+    			"insertSelPrjSubSignUsr":function(rowDatas, datatableId, type, rowNum, elem){
+    				
+					var rowData;
+					
+					if(type == "list"){
+						
+						
+						var rowLeng = rowDatas.length;
+						
+						
+						if(rowLeng == 0){
+							$.osl.alert($.osl.lang("datatable.action.update.nonSelect"));
+							return true;
+						}
+						
+						else if(rowLeng > 1){
+							$.osl.alert($.osl.lang("datatable.action.update.manySelect",rowLeng));
+							return true;
+						}else{
+							rowData = rowDatas[0];
+						}
+					}else{
+						rowData = rowDatas;
+					}
+    				
+					var data = {
+    	    				paramPrjId : rowData.prjId
+    	    		};
+    	    		var options = {
+    	    				idKey: "searchUsr",
+    						modalTitle: $.osl.lang("req4101.modalTitle.userSearch"),
+    						closeConfirm: true,
+    						autoHeight:false,
+    						modalSize: "xl",
+    						callback:[{
+    							targetId: "selectUsr",
+    							actionFn: function(thisObj){
+    								var selUsrInfo = OSLCmm6401Popup.getUsrInfo();
+    								if(!$.osl.isNull(selUsrInfo)){
+    									var selUsrInfo = JSON.parse(selUsrInfo);
+    									var subSignUsrId = selUsrInfo.usrId;
+    									
+    									
+    									var ajaxObj = new $.osl.ajaxRequestAction(
+    											{"url":"<c:url value='/usr/usr1000/usr1000/saveUsr1000SelSubSignUsrAjax.do'/>"}
+    											,{"subSignUsrId": subSignUsrId, "paramPrjId": rowData.prjId});
+    									
+    									
+    									ajaxObj.setFnSuccess(function(data){
+    										
+    										if(data.errorYn == "Y"){
+    											$.osl.alert(data.message,{type: 'error'});
+    											
+    											$.osl.layerPopupClose();
+    										}else{
+    											
+    											
+    						    				$.osl.toastr(data.message);
+    											
+    						    				$.osl.datatable.list[datatableId].targetDt.row("[data-row="+rowNum+"]").nodes().click();    										}
+    									});
+    									
+    									
+    									ajaxObj.send();
+    								}
+    							}
+    						}]
+    	    		};
+    	    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
+    			}
+    		},
+    		theme:{
+    			actionBtnIcon:{
+    				"insertSelPrjSubSignUsr": "fa fa-file-signature",
+    			}
+    		}
+    	});
+		
+		
+		$("#subSign").click(function(){
+			$.osl.datatable.list[datatableId].targetDt.reload();
+		});
+	
+		
+    	$("#"+profileFormId+" #searchReqChargerBtn").click(function(){
+    		var data = {
+    				
+    		};
+    		var options = {
+    				idKey: "searchUsr",
+					modalTitle: $.osl.lang("req4101.modalTitle.userSearch"),
+					closeConfirm: true,
+					autoHeight:false,
+					modalSize: "xl",
+					callback:[{
+						targetId: "selectUsr",
+						actionFn: function(thisObj){
+							var selUsrInfo = OSLCmm6401Popup.getUsrInfo();
+							if(!$.osl.isNull(selUsrInfo)){
+								var selUsrInfo = JSON.parse(selUsrInfo);
+								
+								
+								fnUsrChargerChg(selUsrInfo);
+							}
+						}
+					}]
+    		};
+    		$.osl.layerPopupOpen('/cmm/cmm6000/cmm6400/selectCmm6401View.do',data,options);
+    	});
     };
     
    
@@ -636,14 +1057,50 @@ var OSLUsr1000Popup = function () {
 				$.osl.layerPopupClose();
 			}else{
 				
-		    	$.osl.setDataFormElem(data.usrInfoMap,"frUsr1000UserInfo", ["usrId", "usrNm", "email", "telno", "deptId", "deptName", "etc", "usrImgId"]);
-				
+		    	$.osl.setDataFormElem(data.usrInfoMap,"frUsr1000UserInfo", ["usrId", "usrNm", "email", "telno", "deptId", "deptName", "etc", "usrImgId", "absStDtm", "absEdDtm"]);
 				var usrNm = data.usrInfoMap.usrNm;
 				var usrPositionNm = data.usrInfoMap.usrPositionNm;
 				var deptNm = data.usrInfoMap.deptName;
 				var usrImgId = data.usrInfoMap.usrImgId;
 				var currentDeptNm = data.usrInfoMap.currentDeptNm;
+				var absStDtm = data.usrInfoMap.absStDtm;
+				var absEdDtm = data.usrInfoMap.absEdDtm;
 				
+				var wkStTm = data.usrInfoMap.wkStTm;
+				var wkEdTm = data.usrInfoMap.wkEdTm;
+				var bkStTm = data.usrInfoMap.bkStTm;
+				var bkEdTm = data.usrInfoMap.bkEdTm;
+				
+				
+				if($.osl.isNull(wkStTm) || $.osl.isNull(wkEdTm) || $.osl.isNull(bkStTm) || $.osl.isNull(bkEdTm)){
+					
+					$("#wkStTm").val("09:00");
+					$("#wkEdTm").val("18:00");
+					$("#bkStTm").val("12:00");
+					$("#bkEdTm").val("13:00");
+				
+				
+				}else{
+					
+					$("#wkStTm").val(wkStTm.insertTimeColon());
+					$("#wkEdTm").val(wkEdTm.insertTimeColon());
+					$("#bkStTm").val(bkStTm.insertTimeColon());
+					$("#bkEdTm").val(bkEdTm.insertTimeColon());
+				}
+				
+				
+				
+				if(!$.osl.isNull(absStDtm) && !$.osl.isNull(absEdDtm)){
+					
+	   				$("#subSignRange").data("daterangepicker").setStartDate(absStDtm);
+	   				$("#subSignRange").data("daterangepicker").setEndDate(absEdDtm);
+				}
+				
+   				
+   				if($.osl.isNull(absStDtm) || $.osl.isNull(absEdDtm)){
+   					$("#subSignRange").val("");
+   				}
+   				
 				
 		    	$("#orgEmail").val(data.usrInfoMap.email);
 				
@@ -704,6 +1161,17 @@ var OSLUsr1000Popup = function () {
 		$.osl.confirm(pageTypeData["usrProfile"]["saveString"],null,function(result) {
 	        if (result.value) {
 	        	
+	        	
+	        	var subSignRange = $("#subSignRange").val();
+	        	if(!$.osl.isNull(subSignRange) && ($.osl.isNull($("#absStDtm").val()) || $.osl.isNull($("#absEdDtm").val()))){
+	        		
+					var absStDtm = subSignRange.split(" - ")[0];	        			
+					var absEdDtm = subSignRange.split(" - ")[1];
+					
+					$("#absStDtm").val(absStDtm);
+					$("#absEdDtm").val(absEdDtm);
+	        	}
+	        	
 	        	var formArray = profileForm.serializeArray();
 	        	var fd = new FormData();
 	        	
@@ -751,6 +1219,10 @@ var OSLUsr1000Popup = function () {
 	    });
     };
     
+  	
+	String.prototype.insertTimeColon = function() {
+        return this.slice(0, 2) + ":" + this.slice(2);
+    }
     
    
     var submitUsrPasswordAction = function(){
@@ -1056,7 +1528,61 @@ var OSLUsr1000Popup = function () {
 	    });
     }
     	
-    	
+	
+	var fnUsrChargerChg = function(chargerInfo){
+		var usrId = chargerInfo.usrId;
+		var usrNm = chargerInfo.usrNm;
+		var email = chargerInfo.email;
+		var usrImgId = chargerInfo.usrImgId;
+		
+		
+		$("#"+profileFormId+" #reqChargerId").val(usrId);
+		$("#"+profileFormId+" #reqChargerNm").val(usrNm);
+
+		
+		$("#"+profileFormId+" #nextFlowChargerNm").text(usrNm);
+		$("#"+profileFormId+" #nextFlowEmail").text(email);
+		$("#"+profileFormId+" #nextFlowChargerImg").attr("src",$.osl.user.usrImgUrlVal(usrImgId));
+	};
+	
+	
+	var selectUsr1000SubSignUsrInfo = function(rowData){
+		
+		
+		var ajaxObj = new $.osl.ajaxRequestAction(
+				{"url":"<c:url value='/usr/usr1000/usr1000/selectUsr1000SubSignUsrInfoAjax.do'/>"},
+				{paramPrjId:rowData.prjId });
+		
+		
+		ajaxObj.setFnSuccess(function(data){
+			if(data.errorYn == "Y"){
+				
+				$.osl.alert(data.message,{type: 'error'});
+				
+				$.osl.layerPopupClose();
+				
+			}else{
+				
+				$("#"+subSignUsrFormId)[0].reset();
+				
+				
+		    	$.osl.setDataFormElem(data.subSignUsrInfo, subSignUsrFormId, ["subSignUsrNm" , "subSignUsrPrjNm", "subSignUsrEmail", "subSignUsrTelno" , "subSignUsrDeptNm", "subSignUsrPositionCd", "subSignUsrDutyCd"]);
+			
+				
+				if($.osl.isNull(data.subSignUsrInfo.subSignUsrDutyCd)){
+					$("#subSignUsrDutyCd").val("-");
+				}
+				
+				if($.osl.isNull(data.subSignUsrInfo.subSignUsrPositionCd)){
+					$("#subSignUsrPositionCd").val("-");
+				}
+			}
+		});
+		
+		
+		ajaxObj.send();
+	}
+	
     return {
         
         init: function() {

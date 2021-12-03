@@ -123,7 +123,7 @@
 							평균 완료 소요시간
 						</div>
 						<div class="kt-pricing-v1__price" id="sprStat04">
-							<span class="kt-pricing-v1__price-currency">시</span>
+							<span class="kt-pricing-v1__price-currency">시간</span>
 						</div>
 					</div>
 				</div>
@@ -246,6 +246,7 @@ var OSLSpr1001Popup = function () {
 	
 	var chartDataMap = [];
 	
+	var endReqSpendTime = [];
 	var documentSetting = function(){
 		
 			
@@ -285,7 +286,8 @@ var OSLSpr1001Popup = function () {
 					read: {
 						url: "/spr/spr1000/spr1000/selectSpr1000SprReqListAjax.do",
 						params:{
-							sprId: paramSprId
+							sprId: paramSprId,
+							sprType: paramSprTypeCd
 						}
 					}
 				},
@@ -317,7 +319,7 @@ var OSLSpr1001Popup = function () {
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 100, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqChargerNm)){
-							row.reqChargerNm = "";
+							return row.reqChargerNm = "-";
 						}
 						var usrData = {
 							html: row.reqChargerNm,
@@ -334,29 +336,12 @@ var OSLSpr1001Popup = function () {
 				},
 				{field: 'timeRequired', title: '실 소요시간', textAlign: 'center', width: 100,
 					template: function (row) {
+						var spendTime = calcSpendTime(row);
 						
-						var gap = new Date() - new Date(row.reqStDtm);
-						if(row.reqProType =='01'){
-							return "-";
-						
-						}else if(gap < 0){
-							return '0 시간';
-						
-						}else if(paramSprTypeCd == '03'){
-							if(row.reqProType == '04'){
-								return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
-							}
-							
-							var timeRequired = new Date(paramSprEdDt) - new Date(row.reqStDtm);
-							timeRequired = (timeRequired % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-							return Math.trunc(timeRequired) +" 시간";
+						if(row.reqProType == "04"){
+							endReqSpendTime.push(Number(spendTime));
 						}
-						
-						else if(row.reqProType == '04'){
-							return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
-						}
-						
-						return $.osl.escapeHtml(String(Math.trunc(row.notEndTimeRequired))) +" 시간";
+						return spendTime + "시간";
 					},
 				},
 				{field: 'sprPoint', title: '스토리포인트', textAlign: 'center', width: 80,
@@ -374,6 +359,9 @@ var OSLSpr1001Popup = function () {
 				delete:false,
 				update:false,
 			},
+			rows:{
+				minHeight:50,
+			},
 			callback:{
 				ajaxDone:function(evt, list){
 					
@@ -381,13 +369,12 @@ var OSLSpr1001Popup = function () {
 	 				if($.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.hasOwnProperty('data')){
 	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
 	 				}
-	 				
-	 				
-	 				
-	 				selectSprInfoStat();
-	 				
-	 				
-	 				drawAllChart();
+	 				if($("#burnDownChart").children().length == 0){
+		 				
+		 				selectSprInfoStat();
+		 				
+		 				drawAllChart();
+	 				}
 				}
 			}
 		});
@@ -398,12 +385,16 @@ var OSLSpr1001Popup = function () {
 	var selectSprInfoStat = function(){
  		
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"false"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"false"},{sprId: paramSprId,sprType: paramSprTypeCd});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
  				$.osl.alert(data.message,{type: 'error'});
  			}else{
+ 				var timeSum = 0;
+ 				for(var index = 0;index < endReqSpendTime.length;index++){
+ 					timeSum+=endReqSpendTime[index];
+ 				}
  				
  				var sprStat= data.sprStat;
  				
@@ -413,22 +404,26 @@ var OSLSpr1001Popup = function () {
  				
  				$("#sprStat03").prepend($.osl.escapeHtml(sprStat.notEndCntSum));
  				
- 				if($.osl.escapeHtml(sprStat.avgTime)=='NaN'){
+ 				if(endReqSpendTime.length == 0){
 	 				$("#sprStat04").prepend("0");
  				}else{
- 					$("#sprStat04").prepend($.osl.escapeHtml(sprStat.avgTime.toFixed(2)));
+ 					$("#sprStat04").prepend(endReqSpendTime.reduce(getMean,0).toFixed(2));
  				}
+ 			
  				
  				if($.osl.escapeHtml(sprStat.sprEndPercent)=='NaN'){
 	 				$("#sprStat05").prepend($.osl.escapeHtml("0"));
  				}else{
  					$("#sprStat05").prepend($.osl.escapeHtml(sprStat.sprEndPercent.toFixed(2)));
  				}
+ 				var sprPerTime = timeSum/sprStat.endSprPoint;
+ 				
  				if($.osl.escapeHtml(sprStat.sprPerTime)=='NaN'){
 	 				$("#sprStat06").prepend("0");
  				}else{
- 					$("#sprStat06").prepend($.osl.escapeHtml(sprStat.sprPerTime.toFixed(2)));
+ 					$("#sprStat06").prepend($.osl.escapeHtml(sprPerTime.toFixed(2)));
  				}
+ 				
  				
  				totalSprPoint = sprStat.sprPoint;
  			}
@@ -440,7 +435,7 @@ var OSLSpr1001Popup = function () {
  	
  	var drawAllChart = function(){
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: paramSprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: paramSprId,sprType: paramSprTypeCd});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -478,6 +473,13 @@ var OSLSpr1001Popup = function () {
  		ajaxObj.send();
  	}
  	
+ 	var getMean = function(accumulator, value, index, array){
+		  var sumOfAccAndVal = accumulator + value;
+		  if (index === array.length - 1) {
+		    return (sumOfAccAndVal) / array.length;
+		  }
+		  return sumOfAccAndVal;
+	};
  	
  	var drawBurnUpChart = function(dateRange){
 		 var chart = $.osl.chart.setting("apex","burnUpChart",{
@@ -685,6 +687,7 @@ var OSLSpr1001Popup = function () {
 					 data: paramSprId,
 					 totalSprPoint: totalSprPoint,
 					 endSprPoint: endSprPoint,
+					 sprType: paramSprTypeCd,
 					 
 					 key: {
 						 key1: "sprPoint",
@@ -860,6 +863,162 @@ var OSLSpr1001Popup = function () {
 	 		}
  		}
  	   	return resDay;
+ 	}
+ 	
+ 	var calcSpendTime = function(rowData){
+ 		var wkInfo = rowData;
+ 		
+ 		
+ 		if($.osl.isNull(wkInfo.reqChargerId)){
+ 			return 0;
+ 		}
+ 		
+ 		if($.osl.isNull(wkInfo.reqStDuDtm) || $.osl.isNull(wkInfo.reqEdDuDtm)){
+ 			return 0;
+ 		}
+ 		
+ 		if(wkInfo.reqProType == "04"){
+ 			
+ 			
+ 	 		var spendTime = wkInfo.endTimeRequired;
+ 			
+ 		
+ 		}else if(wkInfo.reqProType == "01"){
+ 			
+ 			return 0;
+ 			
+ 		
+ 		}else if(paramSprTypeCd == "03"){
+ 			
+ 			var spendTime = wkInfo.notEndTimeRequired + 1;
+ 			
+ 		
+ 		}else{
+ 			
+ 			var spendTime = wkInfo.notEndTimeRequired;
+ 		}
+ 		
+ 		
+ 		var wkStTm = moment(wkInfo.wkStTm, "HHmm");
+ 		
+ 		var wkEdTm = moment(wkInfo.wkEdTm, "HHmm");
+ 		
+ 		var bkStTm = moment(wkInfo.bkStTm, "HHmm");
+ 		
+ 		var bkEdTm = moment(wkInfo.bkEdTm, "HHmm");
+ 		
+ 		var reqStDtm = moment(wkInfo.reqStDtm, 'YYYY-MM-DD HH:mm:ss');
+ 		
+ 		var reqEdDtm = moment(wkInfo.reqEdDtm, 'YYYY-MM-DD HH:mm:ss');
+ 		
+ 		var reqStDuDtm = moment(wkInfo.reqStDuDtm, 'YYYY-MM-DD');
+ 		
+ 		var reqEdDuDtm = moment(wkInfo.reqEdDuDtm, 'YYYY-MM-DD');
+ 		
+ 		
+ 		var reqStTm = moment(reqStDtm.format("HHmm"),"HHmm");
+ 		
+ 		var reqEdTm = moment(reqEdDtm.format("HHmm"),"HHmm");
+ 		
+ 		var nowTime = moment(moment().format("HHmm"),"HHmm");
+ 		
+ 		
+ 		var wkDiff = wkEdTm.diff(wkStTm);
+ 		var bkDiff = bkEdTm.diff(bkStTm);
+ 		
+ 		
+ 		if(wkDiff < 0){
+ 			wkDiff = wkDiff + 3600000 * 24;
+ 		}
+ 		
+ 		
+ 		var wkTime = wkDiff-bkDiff;
+ 		
+ 		
+ 		if(wkTime <= 0){
+ 			return 0;
+ 		}
+ 		
+ 		
+ 		var stDtWkTm = 0;
+ 		
+ 		
+ 		if(bkStTm.diff(reqStTm) < 0 ){
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm) - 3600000;
+ 		}else if(bkEdTm.diff(reqStTm) <= 0 && bkStTm.diff(reqStTm) >= 0){
+ 			
+ 			var restTime = bkEdTm.diff(reqStTm);
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm) - restTime;
+ 		}else{
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm)
+ 		}
+ 		
+ 		
+ 		var edDtWkTm = 0;
+ 		
+ 		if(wkInfo.reqProType == "04"){
+ 			
+ 	 		if(bkEdTm.diff(reqEdTm) < 0 ){
+ 	 			
+ 	 			edDtWkTm = reqEdTm.diff(wkStTm);
+ 	 		}else if(bkEdTm.diff(reqEdTm) <= 0 && bkStTm.diff(reqEdTm) >= 0){
+ 	 			
+ 	 			var restTime = reqEdTm.diff(bkStTm);
+ 	 			
+ 	 			edDtWkTm = wkEdTm.diff(reqStTm) - restTime;
+ 	 		}else{
+ 	 			
+ 	 			edDtWkTm = reqEdTm.diff(wkStTm) - 3600000;
+ 	 		}
+ 		
+ 		}else{
+ 			
+ 			if(paramSprTypeCd == "03"){
+ 				
+ 				
+ 	 			edDtWkTm = 0;
+ 				
+	 		
+ 			}else{
+ 				
+ 				
+	 	 		if(bkEdTm.diff(nowTime) < 0 ){
+	 	 			
+	 	 			
+	 	 			edDtWkTm = reqEdTm.diff(wkStTm);
+	 	 			
+	 	 		}else if(bkEdTm.diff(nowTime) <= 0 && bkStTm.diff(nowTime) >= 0){
+	 	 			
+	 	 			
+	 	 			var restTime = nowTime.diff(bkStTm);
+	 	 			
+	 	 			edDtWkTm = nowTime.diff(reqStTm) - restTime;
+	 	 			
+	 	 		}else{
+	 	 			
+	 	 			edDtWkTm = nowTime.diff(wkStTm) - 3600000;
+	 	 		}
+ 			}
+ 		}
+ 		if($.osl.isNull(wkInfo.reqStDtm) || $.osl.isNull(wkInfo.reqEdDtm)){
+ 			
+ 			var reqSpendTime = moment.duration(wkTime).asHours()*spendTime;
+ 			
+ 		}else{
+	 		
+	 		var fullTime = moment.duration(wkTime).asHours()*(spendTime-2);
+	 		
+	 		var startTime = moment.duration(stDtWkTm).asHours();
+	 		
+	 		var endTime = moment.duration(edDtWkTm).asHours();
+	 		
+	 		var reqSpendTime = fullTime + startTime + endTime;
+ 		}
+ 		
+ 		return reqSpendTime.toFixed(1);
  	}
  	
 	return {

@@ -32,7 +32,7 @@
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-12 col-12" id="optPw" name="optPw">
 					<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="stm8001.label.strgUsrPw">PW</span></label>
-					<input type="password" class="form-control" name="strgUsrpw" id="strgUsrPw" placeholder="사용자 PW"  autocomplete="new-password" required>
+					<input type="password" class="form-control" name="strgUsrPw" id="strgUsrPw" placeholder="사용자 PW"  autocomplete="new-password" required>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-12 col-12" id="optRep" name="optRep">
 					<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="stm8001.label.strgRepNm">Repo.</span></label>
@@ -68,19 +68,22 @@
 	var type;
 	
 	
-	$("#stm8000SaveSubmit > span").text($.osl.lang("stm8001.complete"));
-	
-	
-	$("#strgRepTitle").attr("placeholder",$.osl.lang("stm8001.placeholder.strgRepTitle"));
-	$("#strgRepUrl").attr("placeholder",$.osl.lang("stm8001.placeholder.strgRepUrl"));
-	$("#strgUsrId").attr("placeholder",$.osl.lang("stm8001.placeholder.strgUsrId"));
-	$("#strgUsrPw").attr("placeholder",$.osl.lang("stm8001.placeholder.strgUsrPw"));
-	$("#strgRepNm").attr("placeholder",$.osl.lang("stm8001.placeholder.strgRepNm"));
-	$("#strgKey").attr("placeholder",$.osl.lang("stm8001.placeholder.strgKey"));
+	var strgOriUsrPw;
 	
 	
 	 var documentSetting = function() {
 		type = $("#type").val();
+		
+		
+		$("#stm8000SaveSubmit > span").text($.osl.lang("stm8001.submit."+type+"Btn"));
+		
+		
+		$("#strgRepTitle").attr("placeholder",$.osl.lang("stm8001.placeholder.strgRepTitle"));
+		$("#strgRepUrl").attr("placeholder",$.osl.lang("stm8001.placeholder.strgRepUrl"));
+		$("#strgUsrId").attr("placeholder",$.osl.lang("stm8001.placeholder.strgUsrId"));
+		$("#strgUsrPw").attr("placeholder",$.osl.lang("stm8001.placeholder.strgUsrPw"));
+		$("#strgRepNm").attr("placeholder",$.osl.lang("stm8001.placeholder.strgRepNm"));
+		$("#strgKey").attr("placeholder",$.osl.lang("stm8001.placeholder.strgKey"));
 		 
 		
 		$("#optRep").addClass("kt-hide");
@@ -167,6 +170,9 @@
     		}else{
     			
     			
+    			fd.append("strgOriUsrPw", strgOriUsrPw);
+    			
+    			
     	   		var ajaxObj = new $.osl.ajaxRequestAction({"url":"<c:url value='/stm/stm8000/stm8000/updateStm8000ServerInfoAjax.do'/>"
     	   			,"loadingShow": false, "async": false,"contentType":false,"processData":false ,"cache":false},fd);
 
@@ -239,11 +245,10 @@
    		  		
 		    	$.osl.setDataFormElem(data.repInfo,"frStm8001");
    		  		
-   		  		
    		  		$("#strgUsrId").val(data.repInfo.strgUsrId);
    		  		$("#strgUsrPw").val(data.repInfo.strgUsrPw);
+   		  		strgOriUsrPw = data.repInfo.strgUsrPw;
    		  		$("#strgKey").val(data.repInfo.strgKey);
-   		  		
    			}
    		});
   	 	

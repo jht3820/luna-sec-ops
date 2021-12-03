@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <input type="hidden" id="paramUsrNm" name="paramUsrNm" value="<c:out value='${param.usrNm}' escapeXml='false'/>" />
+<input type="hidden" id="paramPrjId" name="paramPrjId" value="<c:out value='${param.paramPrjId }' escapeXml='false'/>">
 <div class="kt-portlet kt-portlet--mobile">
 	<div class="kt-portlet__body">
 		<div class="col-lg-8 col-md-8 col-sm-12 m-auto kt-margin-t-15">
@@ -18,6 +19,10 @@
 "use strict";
 var OSLCmm6401Popup = function () {
 	var temp;
+	
+	
+	var paramPrjId = $("#paramPrjId").val();
+	
     var documentSetting = function () {
 		var datatableId = "cmm6401Table";
     	var name = $.osl.escapeHtml($("#paramUsrNm").val());
@@ -29,7 +34,8 @@ var OSLCmm6401Popup = function () {
     				read:{
     					url:"/cmm/cmm6000/cmm6400/selectCmm6401UsrListAjax.do",
     					params:{
-    						searchDataTxt : name
+    						searchDataTxt : name,
+    						paramPrjId : paramPrjId
     					}
     				}
     			}
