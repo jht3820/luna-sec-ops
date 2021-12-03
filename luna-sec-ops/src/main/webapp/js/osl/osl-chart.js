@@ -63,7 +63,7 @@ var OSLCoreChartSetting = function () {
 						zoom: false,
 						zoomin: '<i class="fa fa-plus-circle osl-icon-transform__scale--150"></i>',
 						zoomout: '<i class="fa fa-minus-circle osl-icon-transform__scale--150"></i>',
-						pan: '<i class="fa fa-expand-arrows-alt osl-icon-transform__scale--150"></i>',
+						pan: '<i class="fas fa-arrows-alt osl-icon-transform__scale--150"></i>',
 						reset: '<i class="fa flaticon2-refresh-1"></i>',
 						customIcons: [
 							

@@ -101,7 +101,7 @@
 						<div class="kt-margin-b-10">
 							<label class="required"><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="stm2101.label.admin">담당자</span></label>
 							<span class="float-right">
-								<button type="button" class="btn btn-outline-success btn-sm" id="reset_admin" name="reset_admin" value=""><span data-lang-cd="stm2101.button.reset">초기화</span></button>
+								<button type="button" class="btn btn-outline-success btn-sm" id="reset_admin" name="reset_admin" title="초기화" data-title-lang-cd="stm2101.button.reset" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><i class="fas fa-undo-alt"></i><span data-lang-cd="stm2101.button.reset">초기화</span></button>
 							</span>
 						</div>
 						<div class="form-group kt-margin-b-10">
@@ -113,8 +113,8 @@
 						<div class="kt-margin-b-10">
 							<label><i class="fa fa-edit kt-margin-r-5"></i><span data-lang-cd="stm2101.label.writer">글 작성 범위</span></label>
 							<span class="float-right">
-								<button type="button" class="btn btn-brand btn-sm" id="equalBtn" name="equalBtn" value=""><span data-lang-cd="stm2101.button.equals">담당자 동일</span></button>
-								<button type="button" class="btn btn-outline-success btn-sm" id="reset_wt" name="reset_wt" value=""><span data-lang-cd="stm2101.button.reset">초기화</span></button>
+								<button type="button" class="btn btn-brand btn-sm" id="equalBtn" name="equalBtn" title="담당자 동일" data-title-lang-cd="stm2101.button.equals" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><i class="fas fa-users"></i><span data-lang-cd="stm2101.button.equals">담당자 동일</span></button>
+								<button type="button" class="btn btn-outline-success btn-sm" id="reset_wt" name="reset_wt" title="초기화" data-title-lang-cd="stm2101.button.reset" data-toggle="kt-tooltip" data-skin="brand" data-placement="top"><i class="fas fa-undo-alt"></i><span data-lang-cd="stm2101.button.reset">초기화</span></button>
 							</span>
 						</div>
 						<div class="form-group kt-margin-b-10">
@@ -147,6 +147,7 @@
 							<input type="text" class="form-control" disabled="disabled" name="subSearchData" id="subSearchData">
 							<div class="input-group-prepend">
 								<button class="btn btn-brand" type="button" name="searchBtn" id="searchBtn">
+									<i class="fas fa-search"></i>
 									<span data-lang-cd="stm2101.button.search">검색</span>
 								</button>
 							</div>
@@ -388,7 +389,6 @@
 			}
 		});
 
-
 		
 		new Sortable($('#stmAdmList')[0], {
 			group: {
@@ -589,6 +589,9 @@
 			}
 			submitBadOption();
 		});
+		
+		
+		KTApp.initTooltips();
 	};
 	
 	

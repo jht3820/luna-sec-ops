@@ -55,7 +55,8 @@
 						<i class="fa flaticon-edit-1 kt-margin-r-5"></i><span data-lang-cd="stm2102.label.board">게시글</span>
 					</div>
 					<ul class="list-group list-group-flush">
-						<li class="list-group-item kt-padding-l-35" name="badAllCnt" id="badAllCnt"></li>
+						<li class="list-group-item kt-padding-l-35" name="badAllCntCreate" id="badAllCntCreate"></li>
+						<li class="list-group-item kt-padding-l-35" name="badAllCntDelete" id="badAllCntDelete"></li>
 						<li class="list-group-item kt-padding-l-35" name="badHitInfo" id="badHitInfo" data-badId='' data-prjGrpId='' data-prjId=''></li>
 						<li class="list-group-item kt-padding-l-35" name="badPwCnt" id="badPwCnt"></li>
 					</ul>
@@ -83,7 +84,7 @@
 			</div>
 	</div>
 </div>
-<!-- begin page script -->
+
 <script>
  "use strict";
  
@@ -92,26 +93,23 @@
 		 selectStm2102();
 	 };
 	 
-	 /**
-		* function 명 	: selectStm2102
-		* function 설명	: 해당 게시판 통계자료 가져오기
-		*/
+	 
 	 var selectStm2102 = function(){
-		 //조회할 메뉴 아이디 전달
+		 
 		 var data = {
 				 menuId : $("#menuId").val(),
 		 }
-		 //AJAX 설정
+		 
 		 var ajaxObj = new $.osl.ajaxRequestAction(
 	    			{"url":"<c:url value='/stm/stm2000/stm2100/selectStm2102BadSummeryInfoAjax.do'/>"}
 					, data);
 		 
-		 //AJAX 전송 성공
+		 
 		 ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
-				 //AJAX 전송 실패
+				 
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				var ntcInfo = data.ntcInfo;
@@ -122,7 +120,7 @@
 				var tagInfo = data.tagInfo;
 				var fileSummery = data.fileSummery;
 				
-				//가져온 데이터로 세팅하기
+				
 				if(ntcInfo != "N"){
 					if(ntcInfo.cnt != 0){
 						$("#ntcCnt").text($.osl.lang("stm2102.summery.noticeCntY", ntcInfo.cnt));
@@ -155,9 +153,11 @@
 					$("#cmtMaxInfo").data("prjId", '');
 				}
 				if(badCntInfo != "N"){
-					$("#badAllCnt").text($.osl.lang("stm2102.summery.badAllCntY", badCntInfo.badCntAll , badCntInfo.badCntDel));	
+					$("#badAllCntCreate").text($.osl.lang("stm2102.summery.badAllCntY.create", badCntInfo.badCntAll));	
+					$("#badAllCntDelete").text($.osl.lang("stm2102.summery.badAllCntY.delete", badCntInfo.badCntDel));	
 				}else{
-					$("#badAllCnt").text($.osl.lang("stm2102.summery.badAllCntN"));
+					$("#badAllCntCreate").text($.osl.lang("stm2102.summery.badAllCntN"));
+					$("#badAllCntDelete").remove();
 				}
 				if(badHitInfo != "N"){
 					$("#badHitInfo").text($.osl.lang("stm2102.summery.badHitInfoY", badHitInfo.badHit));
@@ -178,7 +178,7 @@
 				if(!$.osl.isNull(tagInfo) && tagInfo != "N"){
 					$("#tagTop").empty();
 					$.each(tagInfo, function(idx, value){
-						if(idx < 3){ //sql 조회 top 5
+						if(idx < 3){ 
 							var innerHtml = "<li class='list-group-item kt-padding-l-35'>"+$.osl.lang("stm2102.summery.tagLabelY",idx+1, $.osl.escapeHtml(value.tagNm))+ "</li>";
 							$("#tagTop").append(innerHtml);
 						}
@@ -198,7 +198,7 @@
 			}
 	 	});
 		 
-		//AJAX 전송
+		
 		ajaxObj.send();
 	 };
 	 
@@ -213,4 +213,3 @@
 	 OSLStm2102Popup.init();
 });
  </script>
-<!-- end script -->

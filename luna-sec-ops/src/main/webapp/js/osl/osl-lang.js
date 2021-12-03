@@ -1773,7 +1773,10 @@ var OSLCoreLangSetting = function () {
 				cmtAllCntN: "전체 댓글 수 : 없음",
 				cmtMaxInfoY: "최다 댓글 수 : ${1} 건",
 				cmtMaxInfoN: "최다 댓글 수 : 없음",
-				badAllCntY: "전체 게시글 수 : 등록 ${1} 건 / 삭제 ${2} 건",
+				badAllCntY: {
+					create : "전체 등록 게시글 수 : ${1} 건",
+					delete : "전체 삭제 게시글 수 : ${1} 건",
+				},
 				badAllCntN: "전체 게시글 수 : 없음",
 				badHitInfoY: "최다 조회 수 : ${1} 회",
 				badHitInfoN: "최다 조회 수 : 없음",
@@ -4437,7 +4440,10 @@ var OSLCoreLangSetting = function () {
 				cmtAllCntN: "Total Comment : -",
 				cmtMaxInfoY: "Most Comment : ${1}",
 				cmtMaxInfoN: "Most Comment : -",
-				badAllCntY: " Total Post : Insert ${1} / Delete ${2}",
+				badAllCntY: {
+					create : "Total Created Post : ${1}",
+					delete : "Total Deleted Post : ${1}",
+				},
 				badAllCntN: "Total Post : -",
 				badHitInfoY: "Most Hit : ${1}",
 				badHitInfoN: "Most Hit : -",
