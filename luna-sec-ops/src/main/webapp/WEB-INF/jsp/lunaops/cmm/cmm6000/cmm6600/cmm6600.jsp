@@ -603,14 +603,14 @@ var OSLCmm6600Popup = function () {
 				return true;
 			}
 			
-			if(nodeData.useCd == '02'){
+			if(nodeData.useCd == '01'){
 				
 				$.osl.toastr("사용유무가 아니오인 사용자는 결재자로 지정할 수 없습니다.",{type:"warning"});
 				canSignUsrIdList++;
 				return true;
 			}
 			
-			if(nodeData.block == '02'){
+			if(nodeData.block == '01'){
 				
 				$.osl.toastr("차단된 사용자는 결재자로 지정할 수 없습니다.",{type:"warning"});
 				canSignUsrIdList++;

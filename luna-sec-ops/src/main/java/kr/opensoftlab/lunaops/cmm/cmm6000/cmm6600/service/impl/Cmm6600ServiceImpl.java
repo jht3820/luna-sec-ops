@@ -46,15 +46,28 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 		
 		String singUsrInfList = (String) paramMap.get("signUsrInfList");
 		String signLineId = cmm6600DAO.selectCmm6600NewSignLineId(paramMap);
+
 		
-		
-		paramMap.put("signLineId", signLineId);
+		if("reSign".equals(paramMap.get("paramReSign"))) {
+			String nowOrd = paramMap.get("nowOrd");
+			String befSignLineId = (String) paramMap.get("paramSignLineId");
+			
+			paramMap.put("ord", nowOrd);
+			paramMap.put("signUsrId", paramMap.get("usrId"));
+			paramMap.put("signAuthCd", "00");
+			paramMap.put("signLineId", befSignLineId);
+			paramMap.put("signTypeCd", "04");
+			paramMap.put("signRes", "결재 재요청");
+			cmm6600DAO.insertCmm6601SignInfo(paramMap);
+		}
 		
 		
 		if("update".equals(paramMap.get("type"))) {
 			cmm6600DAO.deleteCmm6600SignLine(paramMap);
 		}
 		
+		
+		paramMap.put("signLineId", signLineId);
 		Map<String, Object> ntfParam = new HashMap<String, Object>();
 		String targetNm = paramMap.get("targetNm");
 		
@@ -85,9 +98,8 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				
 				
 				if("0".equals(ord)) {
+
 					paramMap.put("signTypeCd", "01");
-					
-					paramMap.put("subSignCd", "02");
 					cmm6600DAO.insertCmm6601SignInfo(paramMap);
 					
 				
@@ -349,6 +361,7 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Map> selectCmm6600SignLineUsrTree(Map<String, String> paramMap) throws Exception {
 		return cmm6600DAO.selectCmm6600SignLineUsrTree(paramMap);

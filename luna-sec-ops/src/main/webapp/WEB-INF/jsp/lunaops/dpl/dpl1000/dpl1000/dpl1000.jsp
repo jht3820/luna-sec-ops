@@ -313,14 +313,19 @@ var OSLDpl1000Popup = function () {
 									targetId: "cmm6601ReSignLineBtn",
 									actionFn: function(thisObj){
 										
+										var nowOrd = OSLCmm6601Popup.getNowSignOrd();
+										
 										
 										$.osl.layerPopupClose();
+										
 										
 										var data = {
 												paramPrjId : rowData.prjId,
 												paramDplId : rowData.dplId,
 												targetId :  rowData.dplId,
 												targetCd :  '02',
+												paramReSign :  'reSign',
+												nowOrd : nowOrd
 										}
 										
 										var options = {
@@ -339,7 +344,6 @@ var OSLDpl1000Popup = function () {
 					}
 					
 					else {
-						
 						var data = {
 								paramPrjId : rowData.prjId,
 								paramDplId : rowData.dplId,

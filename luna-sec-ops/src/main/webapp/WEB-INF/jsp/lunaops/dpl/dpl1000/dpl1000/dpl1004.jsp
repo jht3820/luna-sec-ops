@@ -9,6 +9,10 @@
 	<input type="hidden" name="paramTargetId" id="paramTargetId" value="${param.targetId}">
 	<input type="hidden" name="paramTargetCd" id="paramTargetCd" value="${param.targetCd}">
 	<input type="hidden" name="dplId" id="dplId" value="<c:out value="${dplInfo.dplId}"/>">
+	<input type="hidden" name="paramReSign" id="paramReSign" value="<c:out value="${param.paramReSign}"/>">
+	<input type="hidden" name="paramSignLineId" id="paramSignLineId">
+	<input type="hidden" name="nowOrd" id="nowOrd" value="${param.nowOrd}">
+	
 	<div class="row">
 		<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
 			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 kt-margin-b-20-tablet kt-margin-b-20-mobile">
@@ -207,7 +211,7 @@ var OSLDpl1004Popup = function () {
 	var paramSubmitAction = $("#paramSubmitAction").val();
 	
 	
-	var type = '';
+	var paramReSign = $("#paramReSign").val();
 	
 	
 	var signUsrList = [];
@@ -305,7 +309,7 @@ var OSLDpl1004Popup = function () {
 	  		}
 	  		
 			var myUsrStr = 
-					'<div class="kt-widget osl-bg-eee kt-margin-r-10 kt-margin-b-10 kt-widget--general-2 rounded" data-usr-id="'+myInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(myInfo.usrNm)+'">'
+					'<div class="kt-widget osl-bg-eee kt-margin-r-10 kt-margin-b-10 kt-widget--general-2 rounded" id="myUsrCard" data-usr-id="'+myInfo.usrId+'" data-usr-name="'+$.osl.escapeHtml(myInfo.usrNm)+'">'
 						+'<div class="kt-widget__top kt-padding-t-10 kt-padding-b-10 kt-padding-l-20 kt-padding-r-20">'
 							+'<div class="kt-margin-r-10 font-weight-bolder osl-min-width-48">기안</div>'
 							+'<div class="kt-widget__label kt-margin-r-10 osl-user__active--block">'
@@ -359,45 +363,6 @@ var OSLDpl1004Popup = function () {
 	           height: 602
 	    });
 	   	
-	   	
-	   	$('button[data-datatable-action="signRemove"]').click(function(){
-	   		
-	   		var datatable = $.osl.datatable.list["stm3000UsrTable"].targetDt;
-			
-	   		var target = $('.dpl-sign-card.selected');
-	   		
-			var targetId;	
-	   		
-	   		
-	   		if(target.length>0){
-				
-				$.osl.confirm('선택한 '+target.length+'개의 결재선을 삭제하시겠습니까?',{html:true}, function(){
-					
-					
-					$.each(target,function(idx, map){
-						
-						
-	    				targetId = map.getAttribute("data-usr-id");
-						
-	    				
-						selectUsrArray.splice(selectUsrArray.indexOf(targetId), 1);
-					});
-					
-					
-					$('.dpl-sign-card.selected').remove();
-	   	    		
-					datatable.reload();
-					
-					$("div.tooltip.show").remove();
-	
-					
-					updateLastUsrCard();
-	   			});
-	   		}else{
-	   			
-	   			$.osl.toastr('삭제할 결재선을 선택해주세요.',{type: 'warning'});
-	   		}
-	   	});
 	
 	};
    
@@ -423,16 +388,19 @@ var OSLDpl1004Popup = function () {
 					$.each(data.signUsrInfList,function(idx,map){
 						
 						
+						
 			    		signUsrList.push(map);
 						
 			    		
 						if(map.ord == 0){
+							
+							if(paramReSign == 'reSign'){
+								$("#paramSignLineId").val(map.signLineId);
+							}
 							return true;
 						}
-						
 			    		
 						signUsrCardList += dplUserSetting(map);
-			    		
 					});
 					$("#dplSignCardTable").html(signUsrCardList);
 					
