@@ -123,7 +123,7 @@
 							평균 완료 소요시간
 						</div>
 						<div class="kt-pricing-v1__price" id="sprStat04">
-							<span class="kt-pricing-v1__price-currency">시</span>
+							<span class="kt-pricing-v1__price-currency">시간</span>
 						</div>
 					</div>
 				</div>
@@ -221,34 +221,35 @@
 <script>
 "use strict";
 var OSLSpr1001Popup = function () {
-	//스프린트 아이디
+	
 	var paramSprId = $("#sprId").val();
-	//시작일
+	
 	var paramSprStDt = $("#sprStDt").val();
-	//종료일
+	
 	var paramSprEdDt = $("#sprEdDt").val();
-	//스프린트 상태
+	
 	var paramSprTypeCd = $("#sprTypeCd").val();
-	//스프린트 상태명
+	
 	var paramSprTypeNm = $("#sprTypeNm").val();
-	//스프린트 명
+	
 	var paramSprNm = $("#sprNm").val();
-	//스프린트 설명
+	
 	var paramSprDesc = $("#sprDesc").val();
-	//스프린트 진척률
+	
 	var paramSprEndPercent = $("#sprEndPercent").val();
-	//사용 유무
+	
 	var paramUseCd = $("#sprUseCd").val();
-	//전체 스토리포인트
+	
 	var totalSprPoint = 0;
-	//완료된 스토리포인트
+	
 	var endSprPoint = 0;
-	//배정된 요구사항 데이터
+	
 	var chartDataMap = [];
 	
+	var endReqSpendTime = [];
 	var documentSetting = function(){
-		//상세보기 정보 기본 셋팅
-			//대기 인 경우
+		
+			
 			var sprTypeClass = "kt-media--primary";
 			var sprTypeNm = paramSprTypeNm;
 			
@@ -257,28 +258,28 @@ var OSLSpr1001Popup = function () {
 			}else if(paramSprTypeCd == "03"){
 				sprTypeClass = "kt-media--warning";
 			}
-			//상태가 대기이고 사용 유무가 아니오인경우
+			
 			else if(paramUseCd == "02"){
 				sprTypeClass = "kt-media--dark";
 				sprTypeNm = "미 사용";
 			}
-			//원 색상 설정
+			
 			$("#sprTypeCdCircle").addClass(sprTypeClass);
-			//상태 텍스트 넣기
+			
 			$("#sprTypeCdSpan").text(sprTypeNm);
-			//진척률 데이터 넣기
-			//너비
+			
+			
 			$("#progressBar").css("width", paramSprEndPercent+"%");
-			//문구
+			
 			$("#progressBar").attr("aria-valuenow", paramSprEndPercent);
-			//텍스트
+			
 			$("#progressBar").text(paramSprEndPercent+"%");
 			
-			//타이틀 넣기
+			
 			$("#sprNm").data("original-title", paramSprNm);
 			$("#sprDesc").data("original-title", paramSprDesc);
 			
-		// begin:: 스프린트 상세정보 데이터테이블 
+		
 		$.osl.datatable.setting("sprDetailTable",{
 			data: {
 				source: {
@@ -296,7 +297,7 @@ var OSLSpr1001Popup = function () {
 				 items:{
 					 pagination:{
 						 pageSizeSelect : [5, 10, 20, 30, 50, 100],
-						//페이지 그룹단위 변경
+						
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -318,7 +319,7 @@ var OSLSpr1001Popup = function () {
 				{field: 'reqChargerNm', title: '담당자', textAlign: 'center', width: 100, search: true,
 					template: function (row) {
 						if($.osl.isNull(row.reqChargerNm)){
-							row.reqChargerNm = "";
+							return row.reqChargerNm = "-";
 						}
 						var usrData = {
 							html: row.reqChargerNm,
@@ -335,29 +336,12 @@ var OSLSpr1001Popup = function () {
 				},
 				{field: 'timeRequired', title: '실 소요시간', textAlign: 'center', width: 100,
 					template: function (row) {
-						//요구사항이 시작했는지 판단.
-						var gap = new Date() - new Date(row.reqStDtm);
-						if(row.reqProType =='01'){
-							return "-";
-						//오늘보다 이전일 경우 0
-						}else if(gap < 0){
-							return '0 시간';
-						//스프린트가 종료했을 경우
-						}else if(paramSprTypeCd == '03'){
-							if(row.reqProType == '04'){
-								return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
-							}
-							//스프린트 종료시간 - 요구사항 시작시간 계산
-							var timeRequired = new Date(paramSprEdDt) - new Date(row.reqStDtm);
-							timeRequired = (timeRequired % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-							return Math.trunc(timeRequired) +" 시간";
+						var spendTime = calcSpendTime(row);
+						
+						if(row.reqProType == "04"){
+							endReqSpendTime.push(Number(spendTime));
 						}
-						//요구사항이 종료되었을 경우
-						else if(row.reqProType == '04'){
-							return $.osl.escapeHtml(String(Math.trunc(row.endTimeRequired))) +" 시간"; 
-						}
-						//진행중일 경우
-						return $.osl.escapeHtml(String(Math.trunc(row.notEndTimeRequired))) +" 시간";
+						return spendTime + "시간";
 					},
 				},
 				{field: 'sprPoint', title: '스토리포인트', textAlign: 'center', width: 80,
@@ -375,73 +359,84 @@ var OSLSpr1001Popup = function () {
 				delete:false,
 				update:false,
 			},
+			rows:{
+				minHeight:50,
+			},
 			callback:{
 				ajaxDone:function(evt, list){
-					//ajax로 전달받은 요구사항 값
+					
 	 				var reqChartDataList = [];
 	 				if($.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.hasOwnProperty('data')){
 	 					reqChartDataList = $.osl.datatable.list["sprDetailTable"].targetDt.lastResponse.data;
 	 				}
-	 				//스프린트 정보 출력
-	 				selectSprInfoStat();
 	 				if($("#burnDownChart").children().length == 0){
-		 				//차트 출력
+		 				
+		 				selectSprInfoStat();
+		 				
 		 				drawAllChart();
 	 				}
 				}
 			}
 		});
-		// end:: 스프린트 상세정보 데이터테이블 
+		
 		
 	};
 	
 	var selectSprInfoStat = function(){
- 		//AJAX 설정
+ 		
  		var ajaxObj = new $.osl.ajaxRequestAction(
  				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000SprInfoStatAjax.do'/>", "async":"false"},{sprId: paramSprId,sprType: paramSprTypeCd});
- 		//AJAX 전송 성공 함수
+ 		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
  				$.osl.alert(data.message,{type: 'error'});
  			}else{
- 				//사용자 목록 저장
+ 				var timeSum = 0;
+ 				for(var index = 0;index < endReqSpendTime.length;index++){
+ 					timeSum+=endReqSpendTime[index];
+ 				}
+ 				
  				var sprStat= data.sprStat;
- 				//전체 백로그
+ 				
  				$("#sprStat01").prepend($.osl.escapeHtml(sprStat.allCntSum));
- 				//완료 백로그
+ 				
  				$("#sprStat02").prepend($.osl.escapeHtml(sprStat.endCntSum));
- 				//미완료 백로그
+ 				
  				$("#sprStat03").prepend($.osl.escapeHtml(sprStat.notEndCntSum));
- 				//평균 완료시간
- 				if($.osl.escapeHtml(sprStat.avgTime)=='NaN'){
+ 				
+ 				if(endReqSpendTime.length == 0){
 	 				$("#sprStat04").prepend("0");
  				}else{
- 					$("#sprStat04").prepend($.osl.escapeHtml(sprStat.avgTime.toFixed(2)));
+ 					$("#sprStat04").prepend(endReqSpendTime.reduce(getMean,0).toFixed(2));
  				}
- 				//진척률
+ 			
+ 				
  				if($.osl.escapeHtml(sprStat.sprEndPercent)=='NaN'){
 	 				$("#sprStat05").prepend($.osl.escapeHtml("0"));
  				}else{
  					$("#sprStat05").prepend($.osl.escapeHtml(sprStat.sprEndPercent.toFixed(2)));
  				}
+ 				var sprPerTime = timeSum/sprStat.endSprPoint;
+ 				
  				if($.osl.escapeHtml(sprStat.sprPerTime)=='NaN'){
 	 				$("#sprStat06").prepend("0");
  				}else{
- 					$("#sprStat06").prepend($.osl.escapeHtml(sprStat.sprPerTime.toFixed(2)));
+ 					$("#sprStat06").prepend($.osl.escapeHtml(sprPerTime.toFixed(2)));
  				}
- 				//스토리포인트 총합
+ 				
+ 				
  				totalSprPoint = sprStat.sprPoint;
  			}
  		});
- 		//AJAX 전송
+ 		
  		ajaxObj.send();
  	};
  	
- 	//차트그리기
+ 	
  	var drawAllChart = function(){
  		var ajaxObj = new $.osl.ajaxRequestAction(
  				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: paramSprId,sprType: paramSprTypeCd});
- 		//AJAX 전송 성공 함수
+ 		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
  				$.osl.alert(data.message,{type: 'error'});
@@ -449,25 +444,25 @@ var OSLSpr1001Popup = function () {
  				
  				var chartData = data.chartData;
  				
- 				//차트데이터 가공
+ 				
  				var seriesData = getDataRangeData(paramSprStDt, paramSprEdDt, "1", chartData);
  				if(paramSprTypeCd == '01'){
  					$("#burnDownChart").text("데이터 없음");
  					$("#burnUpChart").text("데이터 없음");
  				}else{
-	 				//번업차트 출력
+	 				
 	 				drawBurnUpChart(seriesData);
-	 				//번다운차트 출력
+	 				
 	 				drawBurnDownChart(seriesData);
  				}
- 				//데이터 없는 경우
+ 				
  				if(chartData.length == 0){
 					endSprPoint = 0	 					
  				}else{
-	 				//진행된 스토리포인트 저장
+	 				
 	 				endSprPoint = chartData[chartData.length - 1].cumSprPoint;
  				}
- 				//상태가 종료일 경우 velocity차트그리기
+ 				
  				if(paramSprTypeCd == "03"){
  					drawVelocityChart();
  					$("#velocityChartWrap").removeClass("osl-user__active--block");
@@ -478,14 +473,21 @@ var OSLSpr1001Popup = function () {
  		ajaxObj.send();
  	}
  	
- 	//번업차트그리기	
+ 	var getMean = function(accumulator, value, index, array){
+		  var sumOfAccAndVal = accumulator + value;
+		  if (index === array.length - 1) {
+		    return (sumOfAccAndVal) / array.length;
+		  }
+		  return sumOfAccAndVal;
+	};
+ 	
  	var drawBurnUpChart = function(dateRange){
 		 var chart = $.osl.chart.setting("apex","burnUpChart",{
-				//차트 데이터 설정
+				
 				data:{										
 					param:{
 						dataArr: dateRange,	
-						 //x축 키값
+						 
 						 xKey:"time",
 						 key:{
 							 key1:"idealBurnUPLine",
@@ -495,7 +497,7 @@ var OSLSpr1001Popup = function () {
 							 keyNm1:"이상적인 번업 라인",
 							 keyNm2:"실제 번업 라인"
 						 },
-						 //차트 타입
+						 
 						 chartType:"line",
 						 dataType: "local"
 					}
@@ -504,7 +506,7 @@ var OSLSpr1001Popup = function () {
 					type:false
 				},
 				chart:{
-					//라인 색상
+					
 					colors: ["#586272", "#1cac81"],
 					title: {
 						text: "번업차트",
@@ -528,7 +530,7 @@ var OSLSpr1001Popup = function () {
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
 				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
-				    		//해당 데이터가 x라벨에 존재할 경우 표출 아니면 미표출
+				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
 				    				return "";
@@ -562,7 +564,7 @@ var OSLSpr1001Popup = function () {
 		        	}
 				},
 				callback:{
-					//차트가 작성 후 실행
+					
 					initComplete: function(chartContext, config){
 						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
 						$(".apexcharts-reset-icon").addClass("kt-margin-0");
@@ -574,14 +576,14 @@ var OSLSpr1001Popup = function () {
 				}
 			});
 		 }
- 	//번다운 차트 그리기
+ 	
  	var drawBurnDownChart = function(dateRange){
  		 var chart = $.osl.chart.setting("apex","burnDownChart",{
- 			//차트 데이터 설정
+ 			
 				data:{										
 					param:{
 						dataArr: dateRange,	
-						 //x축 키값
+						 
 						 xKey:"time",
 						 key:{
 							 key1:"idealBurnDownLine",
@@ -591,7 +593,7 @@ var OSLSpr1001Popup = function () {
 							 keyNm1:"이상적인 번다운 라인",
 							 keyNm2:"실제 번다운 라인"
 						 },
-						 //차트 타입
+						 
 						 chartType:"line",
 						 dataType: "local"
 					}
@@ -600,7 +602,7 @@ var OSLSpr1001Popup = function () {
 					type:false
 				},
 				chart:{
-					//라인 색상
+					
 					colors: ["#ffb822", "#840ad9"],
 					title: {
 						text: "번다운차트",
@@ -617,7 +619,7 @@ var OSLSpr1001Popup = function () {
 				    	formatter:function(val, opts){
 				    		var valIndex = new Date(opts.ctx.data.twoDSeriesX[opts.dataPointIndex]).format("MM-dd");
 				    		var xlabelList = opts.w.globals.labels.map(function(x){return new Date(x).format("MM-dd")});
-				    		//해당 데이터가 x라벨에 존재할 경우 표출 아니면 미표출
+				    		
 				    		if(xlabelList.includes(valIndex)){
 				    			if($.osl.isNull(val)){
 				    				return "";
@@ -637,16 +639,16 @@ var OSLSpr1001Popup = function () {
 				    },
 					xaxis: {
 				        type: 'datetime',
-				        //출력 형태
+				        
 				        labels: {
 				        	hideOverlappingLabels :true,
 				            formatter: function(value){
 				            	return new Date(value).format("MM-dd");
 				            }
 				        },
-				        //x축 몇개를 표시할 것인지
+				        
 				        tickAmount: '15',
-				        //중간에 점찍기
+				        
 				        tickPlacement: 'between',
 		        	},
 					yaxis: {
@@ -662,7 +664,7 @@ var OSLSpr1001Popup = function () {
 		        	}
 				},
 				callback:{
-					//차트가 작성 후 실행
+					
 					initComplete: function(chartContext, config){
 						$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
 						$(".apexcharts-reset-icon").addClass("kt-margin-0");
@@ -674,26 +676,26 @@ var OSLSpr1001Popup = function () {
 				}
 			});
 		 }
- 	//벨로시티 차트 그리기
+ 	
  	var drawVelocityChart = function(){
  		var chart = $.osl.chart.setting("apex","velocityChart",{
  			data:{
-				//ajax 조회 url
+				
 				url: "<c:url value='/spr/spr1000/spr1000/selectSpr1000VelocityChartInfoAjax.do'/>",
-				//파라미터
+				
 				param:{
 					 data: paramSprId,
 					 totalSprPoint: totalSprPoint,
 					 endSprPoint: endSprPoint,
 					 sprType: paramSprTypeCd,
-					 //차트 데이터 키값
+					 
 					 key: {
 						 key1: "sprPoint",
 						 key2: "commitSprPoint",
 						 key3: "actualVelocity",
 						 key4: "commitVelocity"
 					 },
-					 //차트 데이터 키 명칭
+					 
 					 keyNm:{
 						 keyNm1: "실제 완료 스토리포인트",
 						 keyNm2: "약속된 완료 스토리포인트",
@@ -706,9 +708,9 @@ var OSLSpr1001Popup = function () {
 						 keyType3:"line",
 						 keyType4:"line"
 					 },
-					 //x축 키값
+					 
 					 xKey:"term",
-					 //차트 타입
+					 
 					 chartType:"mix"
 				 },
 				 type: "remote"
@@ -718,7 +720,7 @@ var OSLSpr1001Popup = function () {
 					text: "벨로시티 차트",
 					align: "center",
 				},
-				//색상
+				
 				colors: ["#840ad9", "#ffb822","#840ad9", "#ffb822"],
 			 	stroke: {
 		        	width: [5, 5, 5, 5],
@@ -731,7 +733,7 @@ var OSLSpr1001Popup = function () {
 	    	   },
 			},
 			callback:{
-				//차트가 작성 후 실행
+				
 				initComplete: function(chartContext, config){
 					$(".apexcharts-zoomout-icon").addClass("kt-margin-0");
 					$(".apexcharts-reset-icon").addClass("kt-margin-0");
@@ -744,7 +746,7 @@ var OSLSpr1001Popup = function () {
 		});
 	}
  	
- 	//차트 데이터 정제
+ 	
  	var getDataRangeData = function(sttDt, endDT, type, data){
  		
  		if(paramSprTypeCd == '01'){
@@ -752,7 +754,7 @@ var OSLSpr1001Popup = function () {
  		}
  		
  		if(data.length != 0){
-	 		//누적 스토리포인트 날짜:스토리포인트 형태로 변환
+	 		
 	 		var sprPoint = [];
 	 		$.each(data, function(index, value){
 	 			var _series = {};
@@ -761,7 +763,7 @@ var OSLSpr1001Popup = function () {
 	 		});
  		}
  		
- 		//시작일자와 종료일자 사이의 날짜를 일별로 자르기.
+ 		
  		if(type=='1'){
  			var resDay = [];
 	 	 	var stDay = new Date(sttDt);
@@ -782,73 +784,73 @@ var OSLSpr1001Popup = function () {
 	 	   			stDay.setDate(stDay.getDate() + 1);
 	 	   			ideal = ideal + 10
 	 	   	}
-	 	//주별로
+	 	
  		}else if(type=='2'){
  			
  		}
- 		//이상적인 번업라인 데이터 작성
- 		//일수
+ 		
+ 		
  		var length = resDay.length
- 		//전체 스토리포인트 총합 가져와서 / 일수로 나누기
+ 		
  		var step = totalSprPoint / (length-1)
- 		//총 길이가 2보다 작을 때
+ 		
  		var start = 0;
  		$.each(resDay, function(index, value){
- 			//바로종료할경우
+ 			
 	 		if(length == 1){
 	 			value['idealBurnUPLine'] = totalSprPoint;
-	 		//2일만에 종료할경우
+	 		
 	 		}else if(length == 2){
 	 			value['idealBurnUPLine'] = start;
 	 			start += totalSprPoint;
-	 		//나머지
+	 		
 	 		}else{
 	 			value['idealBurnUPLine'] = start.toFixed(1);
 	 			start += step;
 	 		}
  		})
- 		//이상적인 다운라인 데이터 작성
- 		//일수
+ 		
+ 		
  		var end = totalSprPoint;
  		$.each(resDay, function(index, value){
- 			//바로종료할경우
+ 			
 	 		if(length == 1){
 	 			value['idealBurnDownLine'] = totalSprPoint;
-	 		//2일만에 종료할경우
+	 		
 	 		}else if(length == 2){
 	 			value['idealBurnDownLine'] = end;
 	 			end -= totalSprPoint;
-	 		//나머지
+	 		
 	 		}else{
 	 			value['idealBurnDownLine'] = end.toFixed(1);
 	 			end -= step	
 	 		}
  		})
  		if(data.length != 0){
-	 		//오늘 날짜
+	 		
 	 		var today = new Date();
-	 		//스토리포인트 데이터 작성
+	 		
 	 		for(var dayIndex = 0; dayIndex < resDay.length; dayIndex++){
 	 			var match = false;
-	 			//오늘 날짜보다 이후의 날짜는  추가하지않음.
+	 			
 	 			var gap = new Date(resDay[dayIndex].time).getTime() - today.getTime()
 	 			if(gap < 0){
 		 			for(var dataIndex = 0 ; dataIndex < data.length ; dataIndex ++){
 		 				if(resDay[dayIndex].time == data[dataIndex].reqEdDtm){
 		 					match = true;
-		 					//매치할 경우 가져온 데이터에서 할당한다.
+		 					
 		 					resDay[dayIndex]['burnUpSprPoint'] = data[dataIndex].cumSprPoint
 		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint - data[dataIndex].cumSprPoint
 		 					break;
 		 				}
 		 			}
-		 			//매치하지 않을 경우
+		 			
 		 			if(!match){
-		 				//처음 시작은 0으로
+		 				
 		 				if(dayIndex == 0){
 		 					resDay[dayIndex]['burnUpSprPoint'] = 0;
 		 					resDay[dayIndex]['burnDownSprPoint'] = totalSprPoint;
-		 				//매치하지 않을 경우 전의 sprPoint를 가져와서 할당한다.
+		 				
 		 				}else{
 			 				resDay[dayIndex]['burnUpSprPoint'] = resDay[dayIndex - 1]['burnUpSprPoint']; 
 			 				resDay[dayIndex]['burnDownSprPoint'] = resDay[dayIndex - 1]['burnDownSprPoint']; 
@@ -863,8 +865,164 @@ var OSLSpr1001Popup = function () {
  	   	return resDay;
  	}
  	
+ 	var calcSpendTime = function(rowData){
+ 		var wkInfo = rowData;
+ 		
+ 		
+ 		if($.osl.isNull(wkInfo.reqChargerId)){
+ 			return 0;
+ 		}
+ 		
+ 		if($.osl.isNull(wkInfo.reqStDuDtm) || $.osl.isNull(wkInfo.reqEdDuDtm)){
+ 			return 0;
+ 		}
+ 		
+ 		if(wkInfo.reqProType == "04"){
+ 			
+ 			
+ 	 		var spendTime = wkInfo.endTimeRequired;
+ 			
+ 		
+ 		}else if(wkInfo.reqProType == "01"){
+ 			
+ 			return 0;
+ 			
+ 		
+ 		}else if(paramSprTypeCd == "03"){
+ 			
+ 			var spendTime = wkInfo.notEndTimeRequired + 1;
+ 			
+ 		
+ 		}else{
+ 			
+ 			var spendTime = wkInfo.notEndTimeRequired;
+ 		}
+ 		
+ 		
+ 		var wkStTm = moment(wkInfo.wkStTm, "HHmm");
+ 		
+ 		var wkEdTm = moment(wkInfo.wkEdTm, "HHmm");
+ 		
+ 		var bkStTm = moment(wkInfo.bkStTm, "HHmm");
+ 		
+ 		var bkEdTm = moment(wkInfo.bkEdTm, "HHmm");
+ 		
+ 		var reqStDtm = moment(wkInfo.reqStDtm, 'YYYY-MM-DD HH:mm:ss');
+ 		
+ 		var reqEdDtm = moment(wkInfo.reqEdDtm, 'YYYY-MM-DD HH:mm:ss');
+ 		
+ 		var reqStDuDtm = moment(wkInfo.reqStDuDtm, 'YYYY-MM-DD');
+ 		
+ 		var reqEdDuDtm = moment(wkInfo.reqEdDuDtm, 'YYYY-MM-DD');
+ 		
+ 		
+ 		var reqStTm = moment(reqStDtm.format("HHmm"),"HHmm");
+ 		
+ 		var reqEdTm = moment(reqEdDtm.format("HHmm"),"HHmm");
+ 		
+ 		var nowTime = moment(moment().format("HHmm"),"HHmm");
+ 		
+ 		
+ 		var wkDiff = wkEdTm.diff(wkStTm);
+ 		var bkDiff = bkEdTm.diff(bkStTm);
+ 		
+ 		
+ 		if(wkDiff < 0){
+ 			wkDiff = wkDiff + 3600000 * 24;
+ 		}
+ 		
+ 		
+ 		var wkTime = wkDiff-bkDiff;
+ 		
+ 		
+ 		if(wkTime <= 0){
+ 			return 0;
+ 		}
+ 		
+ 		
+ 		var stDtWkTm = 0;
+ 		
+ 		
+ 		if(bkStTm.diff(reqStTm) < 0 ){
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm) - 3600000;
+ 		}else if(bkEdTm.diff(reqStTm) <= 0 && bkStTm.diff(reqStTm) >= 0){
+ 			
+ 			var restTime = bkEdTm.diff(reqStTm);
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm) - restTime;
+ 		}else{
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm)
+ 		}
+ 		
+ 		
+ 		var edDtWkTm = 0;
+ 		
+ 		if(wkInfo.reqProType == "04"){
+ 			
+ 	 		if(bkEdTm.diff(reqEdTm) < 0 ){
+ 	 			
+ 	 			edDtWkTm = reqEdTm.diff(wkStTm);
+ 	 		}else if(bkEdTm.diff(reqEdTm) <= 0 && bkStTm.diff(reqEdTm) >= 0){
+ 	 			
+ 	 			var restTime = reqEdTm.diff(bkStTm);
+ 	 			
+ 	 			edDtWkTm = wkEdTm.diff(reqStTm) - restTime;
+ 	 		}else{
+ 	 			
+ 	 			edDtWkTm = reqEdTm.diff(wkStTm) - 3600000;
+ 	 		}
+ 		
+ 		}else{
+ 			
+ 			if(paramSprTypeCd == "03"){
+ 				
+ 				
+ 	 			edDtWkTm = 0;
+ 				
+	 		
+ 			}else{
+ 				
+ 				
+	 	 		if(bkEdTm.diff(nowTime) < 0 ){
+	 	 			
+	 	 			
+	 	 			edDtWkTm = reqEdTm.diff(wkStTm);
+	 	 			
+	 	 		}else if(bkEdTm.diff(nowTime) <= 0 && bkStTm.diff(nowTime) >= 0){
+	 	 			
+	 	 			
+	 	 			var restTime = nowTime.diff(bkStTm);
+	 	 			
+	 	 			edDtWkTm = nowTime.diff(reqStTm) - restTime;
+	 	 			
+	 	 		}else{
+	 	 			
+	 	 			edDtWkTm = nowTime.diff(wkStTm) - 3600000;
+	 	 		}
+ 			}
+ 		}
+ 		if($.osl.isNull(wkInfo.reqStDtm) || $.osl.isNull(wkInfo.reqEdDtm)){
+ 			
+ 			var reqSpendTime = moment.duration(wkTime).asHours()*spendTime;
+ 			
+ 		}else{
+	 		
+	 		var fullTime = moment.duration(wkTime).asHours()*(spendTime-2);
+	 		
+	 		var startTime = moment.duration(stDtWkTm).asHours();
+	 		
+	 		var endTime = moment.duration(edDtWkTm).asHours();
+	 		
+	 		var reqSpendTime = fullTime + startTime + endTime;
+ 		}
+ 		
+ 		return reqSpendTime.toFixed(1);
+ 	}
+ 	
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }

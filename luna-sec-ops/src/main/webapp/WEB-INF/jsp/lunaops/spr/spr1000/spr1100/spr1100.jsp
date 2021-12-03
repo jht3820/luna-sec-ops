@@ -160,6 +160,9 @@ var OSLSpr1100Popup = function () {
 			actionTooltip:{
 				"click" : $.osl.lang("spr1100.actionBtn.tooltip.clickToolTip"),
 			},
+			rows:{
+				minHeight:50,
+			},
 			actionFn:{
 				"select": function(datatableId, elem){
 					
