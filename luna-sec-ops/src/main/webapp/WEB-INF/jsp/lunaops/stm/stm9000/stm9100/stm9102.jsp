@@ -126,17 +126,17 @@ var OSLStm9102Popup = function () {
 	
 	var formId = 'frStm9102';
 	
-	
+	// 데이터테이블에서 넘어온 jenId, jobId
 	var paramJenId = $("#paramJenId").val();
 	var paramJobId = $("#jobId").val();
 	
-	
+	// 버튼 문구 세팅
 	$(".btn.btn-outline-brand[data-dismiss=modal] > span").text($.osl.lang("modal.close"));
 	
-    
+    // Private functions
     var documentSetting = function () {
 		
-    	
+    	// begin::JOB 빌드이력 데이터 테이블
 		$.osl.datatable.setting("stm9102JobBuildTable",{
 			data: {
 				source: {
@@ -184,10 +184,10 @@ var OSLStm9102Popup = function () {
 					,template: function(row){
 						var bldDurationTm = row.bldDurationTm;
 
-						
+						// 빌드 소요시간 - 분
 						var tmpMin = (bldDurationTm/1000);
 						var bldDurationMm = Math.round(tmpMin/60);
-						
+						// 빌드 소요시간 초
 						var bldDurationSs = Math.round(((bldDurationTm/1000)%60));
 						
 						var durationStr = bldDurationSs + $.osl.lang("stm9102.label.second");
@@ -216,29 +216,29 @@ var OSLStm9102Popup = function () {
 			actionTooltip:{
 			},
 			actionFn:{
-				
+				// 빌드 콘솔 내용 조회
 				"click":function(rowData, datatableId, type, rowNum, elem){
-					
+					// 콘솔 로그 조회
 					fnSelectBldConsoleLogInfo(rowData);
 				}
 			},
 			theme: {
 				 actionBtnIcon:{
-					 "click": " kt-hide" 
+					 "click": " kt-hide" // action 클릭 아이콘 숨기기
 				 }
 			},
 			callback:{
 				ajaxDone: function(evt, list){
-					
+					// 데이터 로드 후 콘솔 로그 출력부분 초기화
 					$("#jobBuildConsoleLog").html("<span class='kt-font-inverse-brand kt-padding-l-10 osl-font-lg osl-font'>"+$.osl.lang("stm9102.message.selectBuildInfo")+"</span>");
 				}
 			}
 		});
-    	
+    	// end::JOB 빌드이력 데이터 테이블 
     	
     };
 
-     
+     // 빌드 단건의 콘솔 로그 조회
 	var fnSelectBldConsoleLogInfo = function(rowData) {
     	
     	 var prjId = rowData.prjId;
@@ -247,47 +247,50 @@ var OSLStm9102Popup = function () {
     	 var jobId = rowData.jobId;
     	 var bldSeq = rowData.bldSeq;
     	 
-		
+		//AJAX 설정
 		var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/dpl/dpl1000/dpl1000/selectDpl1400DplSelBuildConsoleLogAjax.do'/>","loadingShow":false}
 				,{prjId:prjId, dplId: dplId, jenId: jenId, jobId: jobId, bldSeq: bldSeq});
-		
+		//AJAX 전송 성공 함수
 		ajaxObj.setFnSuccess(function(data){
 			
-			
+			// 조회 에러 시
 			if(data.errorYn == "Y"){
-				
+				// 콘솔로그 표시 부분에 에러 메시지 표시
 				$("#jobBuildConsoleLog").html(data.message);
 			}else{
-				
+				// 빌드 상세정보
 				var buildInfo = data.dpl1400InfoMap;
 				
-				
-				
+				// 조회한 콘솔 로그를 표시
+				// 로그가 없을 경우
 				if($.osl.isNull(buildInfo) || $.osl.isNull(buildInfo.bldConsoleLog)){
 					$("#jobBuildConsoleLog").html("<span class='kt-font-inverse-brand  kt-padding-l-10 osl-font-lg osl-font'>"+$.osl.lang("stm9102.message.notConsoleLog")+"</span>");
 					return false;
 				}
 				
-				
+				//콘솔로그 출력
 				$("#jobBuildConsoleLog").html(buildInfo.bldConsoleLog);
 				$('#jobBuildConsoleLog').each(function(i, block) {hljs.highlightBlock(block);});
+				
+				// 스크롤 최하단
+				$("#jobBuildConsoleLog").scrollTop(99999);
 			}	
 		});
 		
-		
+		//AJAX 전송
 		ajaxObj.send();
 	};
     
     return {
-        
+        // public functions
         init: function() {
         	documentSetting();
         }
     };
 }();
 
-
+//Initialization
 $.osl.ready(function(){
 	OSLStm9102Popup.init();
 });

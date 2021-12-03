@@ -428,4 +428,106 @@ public class Usr1000Controller {
 	public String selectReq1000ListView(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
 		return "/usr/usr1000/usr1000/usr1003";
 	}
+	
+	@RequestMapping(value="/usr/usr1000/usr1000/saveUsr1000AllSubSignUsrAjax.do")
+    public ModelAndView saveUsr1000AllSubSignUsrAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		
+    	try{
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		
+    		HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			paramMap.put("usrId", loginVO.getUsrId());
+    		
+			
+			usr1000Service.saveUsr1000AllSubSignUsr(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+    		
+        	return new ModelAndView("jsonView", model);
+    	}
+    	catch(Exception ex){
+    		Log.error("insertUsr1000AllSubSignUsrAjax()", ex);
+    		
+    		
+			model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
+    		
+    		return new ModelAndView("jsonView", model);
+    	}
+    }
+	
+	
+	@RequestMapping(value="/usr/usr1000/usr1000/saveUsr1000SelSubSignUsrAjax.do")
+    public ModelAndView saveUsr1000SelSubSignUsrAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		
+    	try{
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+    		
+    		HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			String paramPrjId = paramMap.get("paramPrjId");
+			paramMap.put("prjId", paramPrjId);
+			
+			paramMap.put("usrId", loginVO.getUsrId());
+    		
+			
+			usr1000Service.saveUsr1000SelSubSignUsr(paramMap);
+			
+			
+			model.addAttribute("errorYn", "N");
+			model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+    		
+        	return new ModelAndView("jsonView", model);
+    	}
+    	catch(Exception ex){
+    		Log.error("insertUsr1000AllSubSignUsrAjax()", ex);
+    		
+    		
+			model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.insert"));
+    		
+    		return new ModelAndView("jsonView", model);
+    	}
+    }
+	
+	
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/usr/usr1000/usr1000/selectUsr1000SubSignUsrInfoAjax.do")
+    public ModelAndView selectUsr1000SubSignUsrInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model ) throws Exception {
+		
+    	try {
+    		
+    		Map<String, String> paramMap = RequestConvertor.requestParamToMapAddSelInfo(request, true);
+
+    		HttpSession ss = request.getSession();
+			LoginVO loginVO = (LoginVO) ss.getAttribute("loginVO");
+			
+			
+			paramMap.put("usrId", loginVO.getUsrId());
+			String paramPrjId = paramMap.get("paramPrjId");
+			paramMap.put("prjId", paramPrjId);
+			
+    		Map subSignUsrInfo = usr1000Service.selectUsr1000SubSignUsrInfo(paramMap);
+    		
+    		
+    		model.addAttribute("subSignUsrInfo", subSignUsrInfo);
+        	
+    		return new ModelAndView("jsonView");
+        	
+    	} catch(Exception ex) {
+    		Log.error("selectUsr1000SubSignUsrInfoAjax()", ex);
+    		
+    		model.addAttribute("errorYn", "Y");
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
+    		return new ModelAndView("jsonView");
+    	}
+    }
 }

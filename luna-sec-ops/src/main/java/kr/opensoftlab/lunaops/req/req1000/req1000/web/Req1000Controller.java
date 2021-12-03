@@ -1,5 +1,6 @@
 package kr.opensoftlab.lunaops.req.req1000.req1000.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -140,7 +141,7 @@ public class Req1000Controller {
 
 
     
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/req/req1000/req1000/selectReq1000ReqInfoAjax.do")
 	public ModelAndView selectReq1000ReqInfoAjax(HttpServletRequest request, HttpServletResponse response, ModelMap model )	throws Exception {
     	try{
@@ -150,7 +151,7 @@ public class Req1000Controller {
 			HttpSession ss = request.getSession();
         	
 			String paramPrjId = (String) paramMap.get("prjId");
-			String paramReqId = (String) paramMap.get("reqId");
+			String paramReqId = (String) paramMap.get("paramReqId");
 			
 			
 			if(paramPrjId == null || "".equals(paramPrjId)) {
@@ -188,6 +189,24 @@ public class Req1000Controller {
         		model.addAttribute("errorYn", "Y");
             	model.addAttribute("message", egovMessageSource.getMessage("fail.common.select"));
         	}
+        	
+        	
+			paramMap.put("itemRequestCd", "01");
+			
+			List<Map> prjItemList = prj1000Service.selectPrj1002AllItemList(paramMap);
+			List<Map> basicItemList = new ArrayList<>();
+			List<Map> basicItemInsertList = new ArrayList<>();
+			for(int i=0; i<prjItemList.size(); i++) {
+				Map item = prjItemList.get(i);
+				if(item.get("reqId").equals("ROOTSYSTEM_FLW")) {
+					basicItemList.add(item);
+				}else {
+					basicItemInsertList.add(item);
+				}
+			}
+			model.addAttribute("basicItemInsertList", basicItemInsertList);
+			model.addAttribute("basicItemList", basicItemList);
+			
 			model.addAttribute("fileList",fileList);
 			model.addAttribute("fileListCnt",fileCnt);
 			model.addAttribute("reqInfoMap", reqInfoMap);

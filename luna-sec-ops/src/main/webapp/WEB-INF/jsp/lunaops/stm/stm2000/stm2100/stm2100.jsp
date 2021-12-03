@@ -81,9 +81,6 @@
 				 },
 				 {field: 'delCnt', title: '삭제글 수', textAlign: 'center', width: 150, sortable: false},
 			 ],
-			 rows:{
-				clickCheckbox: true
-			},
 			 actionBtn:{
 				"title" : $.osl.lang("stm2100.actionBtn.title"),
 				"width" : 120,

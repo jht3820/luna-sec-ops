@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http:
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -222,6 +222,11 @@ var OSLSpr1000Popup = function () {
 						return;
 					}
 					
+					if(sprInfo.reqAllCnt == 0){
+						$.osl.alert("스프린트에 배정된 요구사항이 0건입니다.");
+						return;
+					}
+					
 					var data = {
 							paramPrjGrpId: sprInfo.prjGrpId
 							,paramPrjId: sprInfo.prjId
@@ -268,13 +273,16 @@ var OSLSpr1000Popup = function () {
 					}
 					
 					var data = {
-							paramPrjGrpId: sprInfo.prjGrpId
-							,paramPrjId: sprInfo.prjId
-							,paramSprId: sprInfo.sprId
-							,paramSprNm: sprInfo.sprNm
-							,paramSprDesc: sprInfo.sprDesc
-							,paramStartDt: sprInfo.sprStDt
-							,paramEndDt: sprInfo.sprEdDt
+							paramSprId : sprInfo.sprId,
+							paramSprStDt : sprInfo.sprStDt,
+							paramSprEdDt : sprInfo.sprEdDt,
+							paramSprNm: sprInfo.sprNm,
+							paramSprDesc : sprInfo.sprDesc,
+							paramRestDay : sprInfo.restDay,
+							paramSprEndPercent : Math.trunc(sprInfo.sprEndPercent),
+							paramSprTypeNm : sprInfo.sprTypeNm,
+							paramSprTypeCd : sprInfo.sprTypeCd,
+							paramUseCd: sprInfo.useCd,
 						};
 					var options = {
 							modalTitle: "스프린트 종료",
@@ -286,6 +294,35 @@ var OSLSpr1000Popup = function () {
 							
 						};
 					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1004View.do',data,options);
+				},
+				"mmtList": function(rowData, datatableId, type){
+					
+					var data = {
+							paramSprId: rowData[0].sprId
+						};
+					var options = {
+							modalTitle: "스프린트 회의록 목록",
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							backdrop: true,
+							closeConfirm: false,
+						};
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1007View.do',data,options);
+				},
+				"rptList": function(rowData, datatableId, type){
+					var data = {
+							paramSprId: rowData.sprId
+						};
+					var options = {
+							modalTitle: "스프린트 회고록 목록",
+							autoHeight: false,
+							modalSize: "xl",
+							idKey: datatableId,
+							backdrop: true,
+							closeConfirm: false,
+						};
+					$.osl.layerPopupOpen('/spr/spr1000/spr1000/selectSpr1008View.do',data,options);
 				}
 			},
 			callback:{
@@ -297,6 +334,31 @@ var OSLSpr1000Popup = function () {
 					var rowCnt = 0;
 					$.each(list, function(idx, map){
 						
+						var reqList = map.reqList;
+						var endReqSpendTime = [];
+						
+						
+						$.each(reqList, function(idx, map){
+							if(map.reqProType == "04"){
+								endReqSpendTime.push(calcSpendTime(map));
+							}
+						});
+						
+						var timeSum = 0;
+						var endReqCnt = endReqSpendTime.length;
+						
+		 				var avgTimeSum = 0;
+						
+						if(endReqCnt != 0){
+			 				for(var index = 0;index < endReqSpendTime.length;index++){
+			 					timeSum+=endReqSpendTime[index];
+			 				}
+			 				avgTimeSum = timeSum/endReqSpendTime.length;
+			 			
+						}else{
+							avgTimeSum = 0.0;
+						}
+		 				
 						
 						if(map.sprTypeCd == '02'){
 							totalSprOngoingCnt = map.sprOngoingCnt;
@@ -356,7 +418,11 @@ var OSLSpr1000Popup = function () {
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="sprEnd"><i class="fas fa-stop-circle kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintEnd")+'</div>'
 													+'<div class="dropdown-divider"></div>'
 													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="dblClick"><i class="fas fa-clipboard-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintDetail")+'</div>'
-													 
+													+'<div class="dropdown-divider"></div>'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="mmtList"><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintMeetList")+'</div>'
+													+'<div class="dropdown-item" data-datatable-id="spr1000Table" data-datatable-expans="dropdown" data-datatable-action="rptList"><i class="fas fa-list kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintResultList")+'</div>'
+													+'<div class="dropdown-divider"></div>' 
+													+'<div class="dropdown-item" id=""><i class="fas fa-print kt-font-brand"></i>'+$.osl.lang("spr1000.menu.sprintReport")+'</div>' 
 												+'</div>'
 											+'</div>'
 										+'</div>'
@@ -425,7 +491,7 @@ var OSLSpr1000Popup = function () {
 														+'<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqPointer.png"></div>'
 														+'<div class="osl-widget-info__item-info">'
 															+'<a href="#" class="osl-widget-info__item-title">'+"평균 완료 시간"+'</a>'
-															+'<div class="osl-widget-info__item-desc">'+$.osl.escapeHtml(map.avgTime.toFixed(1))+'</div>'
+															+'<div class="osl-widget-info__item-desc">'+avgTimeSum.toFixed(1)+'</div>'
 														+'</div>'
 													+'</div>'
 												+'</div>'
@@ -494,7 +560,7 @@ var OSLSpr1000Popup = function () {
 	
  	var drawChart = function(rowdata){
  		var ajaxObj = new $.osl.ajaxRequestAction(
- 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: rowdata.sprId});
+ 				{"url":"<c:url value='/spr/spr1000/spr1000/selectSpr1000ChartInfoAjax.do'/>", "async":"false"},{sprId: rowdata.sprId, sprType:rowdata.sprType});
  		
  		ajaxObj.setFnSuccess(function(data){
  			if(data.errorYn == "Y"){
@@ -508,7 +574,6 @@ var OSLSpr1000Popup = function () {
  				totalSprPoint = rowdata.sprPoint;
  				
  				var seriesData = getDataRangeData(rowdata.sprStDt, rowdata.sprEdDt, "1", chartData);
- 				
  				
  				if(rowdata.sprTypeCd == '01'){
 	 				$("#burnDownChart"+rowdata.sprId).text("데이터 없음")
@@ -526,7 +591,7 @@ var OSLSpr1000Popup = function () {
  			
 				data:{										
 					param:{
-						dataArr: dateRange,	
+						dataArr: dateRange,
 						 
 						 xKey:"time",
 						 key:{
@@ -699,6 +764,157 @@ var OSLSpr1000Popup = function () {
 	 		}
  		}
  		return resDay;
+ 	}
+ 	
+ 	var calcSpendTime = function(rowData){
+ 		var wkInfo = rowData;
+ 		
+ 		
+ 		if($.osl.isNull(wkInfo.reqChargerId)){
+ 			return 0;
+ 		}
+ 		
+ 		if($.osl.isNull(wkInfo.reqStDuDtm) || $.osl.isNull(wkInfo.reqEdDuDtm)){
+ 			return 0;
+ 		}
+ 		
+ 		if(wkInfo.reqProType == "04"){
+ 			
+ 			
+ 	 		var spendTime = wkInfo.endTimeRequired;
+ 			
+ 		
+ 		}else if(wkInfo.reqProType == "01"){
+ 			
+ 			return 0;
+ 			
+ 		
+ 		}else if(paramSprTypeCd == "03"){
+ 			
+ 			var spendTime = wkInfo.notEndTimeRequired + 1;
+ 			
+ 		
+ 		}else{
+ 			
+ 			var spendTime = wkInfo.notEndTimeRequired;
+ 		}
+ 		
+ 		
+ 		var wkStTm = moment(wkInfo.wkStTm, "HHmm");
+ 		
+ 		var wkEdTm = moment(wkInfo.wkEdTm, "HHmm");
+ 		
+ 		var bkStTm = moment(wkInfo.bkStTm, "HHmm");
+ 		
+ 		var bkEdTm = moment(wkInfo.bkEdTm, "HHmm");
+ 		
+ 		var reqStDtm = moment(wkInfo.reqStDtm, 'YYYY-MM-DD HH:mm:ss');
+ 		
+ 		var reqEdDtm = moment(wkInfo.reqEdDtm, 'YYYY-MM-DD HH:mm:ss');
+ 		
+ 		var reqStDuDtm = moment(wkInfo.reqStDuDtm, 'YYYY-MM-DD');
+ 		
+ 		var reqEdDuDtm = moment(wkInfo.reqEdDuDtm, 'YYYY-MM-DD');
+ 		
+ 		
+ 		var reqStTm = moment(reqStDtm.format("HHmm"),"HHmm");
+ 		
+ 		var reqEdTm = moment(reqEdDtm.format("HHmm"),"HHmm");
+ 		
+ 		var nowTime = moment(moment().format("HHmm"),"HHmm");
+ 		
+ 		
+ 		var wkDiff = wkEdTm.diff(wkStTm);
+ 		var bkDiff = bkEdTm.diff(bkStTm);
+ 		
+ 		
+ 		var wkTime = wkDiff-bkDiff;
+ 		
+ 		
+ 		if(wkTime <= 0){
+ 			return 0;
+ 		}
+ 		
+ 		
+ 		var stDtWkTm = 0;
+ 		
+ 		
+ 		if(bkStTm.diff(reqStTm) < 0 ){
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm) - 3600000;
+ 		}else if(bkEdTm.diff(reqStTm) <= 0 && bkStTm.diff(reqStTm) >= 0){
+ 			
+ 			var restTime = bkEdTm.diff(reqStTm);
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm) - restTime;
+ 		}else{
+ 			
+ 			stDtWkTm = wkEdTm.diff(reqStTm)
+ 		}
+ 		
+ 		
+ 		var edDtWkTm = 0;
+ 		
+ 		if(wkInfo.reqProType == "04"){
+ 			
+ 	 		if(bkEdTm.diff(reqEdTm) < 0 ){
+ 	 			
+ 	 			edDtWkTm = reqEdTm.diff(wkStTm);
+ 	 		}else if(bkEdTm.diff(reqEdTm) <= 0 && bkStTm.diff(reqEdTm) >= 0){
+ 	 			
+ 	 			var restTime = reqEdTm.diff(bkStTm);
+ 	 			
+ 	 			edDtWkTm = wkEdTm.diff(reqStTm) - restTime;
+ 	 		}else{
+ 	 			
+ 	 			edDtWkTm = reqEdTm.diff(wkStTm) - 3600000;
+ 	 		}
+ 		
+ 		}else{
+ 			
+ 			if(paramSprTypeCd == "03"){
+ 				
+ 				
+ 	 			edDtWkTm = 0;
+ 				
+	 		
+ 			}else{
+ 				
+ 				
+	 	 		if(bkEdTm.diff(nowTime) < 0 ){
+	 	 			
+	 	 			
+	 	 			edDtWkTm = reqEdTm.diff(wkStTm);
+	 	 			
+	 	 		}else if(bkEdTm.diff(nowTime) <= 0 && bkStTm.diff(nowTime) >= 0){
+	 	 			
+	 	 			
+	 	 			var restTime = nowTime.diff(bkStTm);
+	 	 			
+	 	 			edDtWkTm = nowTime.diff(reqStTm) - restTime;
+	 	 			
+	 	 		}else{
+	 	 			
+	 	 			edDtWkTm = nowTime.diff(wkStTm) - 3600000;
+	 	 		}
+ 			}
+ 		}
+ 		if($.osl.isNull(wkInfo.reqStDtm) || $.osl.isNull(wkInfo.reqEdDtm)){
+ 			
+ 			var reqSpendTime = moment.duration(wkTime).asHours()*spendTime;
+ 			
+ 		}else{
+	 		
+	 		var fullTime = moment.duration(wkTime).asHours()*(spendTime-2);
+	 		
+	 		var startTime = moment.duration(stDtWkTm).asHours();
+	 		
+	 		var endTime = moment.duration(edDtWkTm).asHours();
+	 		
+	 		var reqSpendTime = fullTime + startTime + endTime;
+ 		}
+ 		
+ 		return reqSpendTime.toFixed(1);
  	}
 	return {
         

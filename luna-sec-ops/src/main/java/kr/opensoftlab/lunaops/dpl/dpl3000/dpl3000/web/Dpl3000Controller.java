@@ -3,8 +3,8 @@ package kr.opensoftlab.lunaops.dpl.dpl3000.dpl3000.web;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -25,10 +25,8 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import kr.opensoftlab.lunaops.com.exception.UserDefineException;
 import kr.opensoftlab.lunaops.com.vo.LoginVO;
 import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1000.service.Dpl1000Service;
-import kr.opensoftlab.lunaops.dpl.dpl1000.dpl1100.service.Dpl1100Service;
 import kr.opensoftlab.lunaops.dpl.dpl3000.dpl3000.service.Dpl3000Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9000.service.Stm9000Service;
-import kr.opensoftlab.lunaops.stm.stm9000.stm9100.service.Stm9100Service;
 import kr.opensoftlab.lunaops.stm.stm9000.stm9200.service.Stm9200Service;
 import kr.opensoftlab.sdf.jenkins.JenkinsClient;
 import kr.opensoftlab.sdf.jenkins.service.BuildService;
@@ -58,8 +56,8 @@ public class Dpl3000Controller {
     private Dpl1000Service dpl1000Service;
     
 	
-    @Resource(name = "dpl1100Service")
-    private Dpl1100Service dpl1100Service;
+    
+    
     
     
     @Resource(name = "dpl3000Service")
@@ -74,8 +72,8 @@ public class Dpl3000Controller {
 	private Stm9200Service stm9200Service;
 	
 	
-	@Resource(name = "stm9100Service")
-	private Stm9100Service stm9100Service;
+	
+	
 	
 	
 	@Resource(name = "jenkinsClient")
@@ -445,7 +443,7 @@ public class Dpl3000Controller {
 				
 				if(building == false && bldResult != null && !"null".equals(bldResult)){
 					
-					Map localBldInfo = dpl1000Service.selectDpl1400DplJobBuildInfo(paramMap);
+					Map localBldInfo = dpl3000Service.selectDpl1400DplJobBuildInfo(paramMap);
 					
 					
 					String localBldResult = (String)localBldInfo.get("bldResult");
@@ -492,7 +490,7 @@ public class Dpl3000Controller {
 						Date bldStartTm = new Date();
 						bldStartTm.setTime(timestamp);
 						
-			    		DateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			    		DateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
 			    		
 						buildVo.setBldStartDtm(fm.format(bldStartTm));
 						

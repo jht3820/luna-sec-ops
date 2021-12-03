@@ -95,9 +95,6 @@ var OSLStm9100 = function () {
 				{field: 'jenNm', title:"Jenkins 명", searchOrd: 0},
 				{field: 'jobDesc', title:"Job 설명", searchOrd: 5}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"click": false,
 				"dblClick": true,

@@ -318,6 +318,7 @@ var OSLSpr1003Popup = function () {
 		
 		$("#frSpr1003 [data-ktwizard-type=action-submit]").click(function(){
 	       	
+			
 	   		var fd = $.osl.formDataToJsonArray(mainFormId);
 	       	
 	    	
@@ -772,14 +773,17 @@ var OSLSpr1003Popup = function () {
 					var rtnVal = "";
 					
 					
-					if(row.reqChargerNm != null){
-						rtnVal = row.reqChargerNm;
-						return rtnVal;
-					}
-					
 					
 					if(wizardData["reqUsrList"].hasOwnProperty(row.reqId)){
-						rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;
+						if(wizardData["reqUsrList"][row.reqId].usrNm == undefined){
+							rtnVal = "";
+						}else{
+							rtnVal = wizardData["reqUsrList"][row.reqId].usrNm;	
+						}
+					
+					}else if(row.reqChargerNm != null){
+						wizardData["reqUsrList"][row.reqId] = {usrId: row.reqChargerId, usrNm: row.reqChargerNm}; 
+						rtnVal = row.reqChargerNm;
 					}
 					
 					return '<input type="text" class="form-control kt-align-center" name="reqCharger_'+row.reqId+'" id="reqCharger_'+row.reqId+'" data-req-id="'+row.reqId+'" value="'+rtnVal+'" readonly="readonly" />';
@@ -798,15 +802,19 @@ var OSLSpr1003Popup = function () {
 			actionFn:{
 				"clearCharger":function(rowData, datatableId, type, rowNum){
 					
+					
 					var datatable = $.osl.datatable.list['sprAssignReqUsrTable'].targetDt;
 					
 					var targetCheckRow = datatable.row("[data-row="+rowNum+"]").nodes();
 					
 					
 					var target = targetCheckRow.find("input[type=text]");
+					
 					target.val("");
 					
-					delete wizardData["reqUsrList"][rowData.reqId]
+					
+					wizardData["reqUsrList"][rowData.reqId] = "";
+					
 				},
 			},
 			theme:{
@@ -1003,7 +1011,6 @@ var OSLSpr1003Popup = function () {
 				 }
 			 },
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 10, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 50, autoHide: false, sortable: false},
 				{field: 'processId', title: 'ID', textAlign: 'center', width: 150, search: true},
 				{field: 'processNm', title: '이름 ', textAlign: 'center', width: 100, search: true},
@@ -1087,7 +1094,6 @@ var OSLSpr1003Popup = function () {
 				 }
 			 },
 			columns: [
-				{field: 'checkbox', title: '#', textAlign: 'center', width: 10, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 				{field: 'rn', title: 'No.', textAlign: 'center', width: 50, autoHide: false, sortable: false},
 				{field: 'processId', title: 'ID', textAlign: 'center', width: 150, search: true},
 				{field: 'processNm', title: '이름 ', textAlign: 'center', width: 100, search: true},
@@ -1199,6 +1205,7 @@ var OSLSpr1003Popup = function () {
 			if(selDatas.length > processIdDupleList){
 				toastrMsg += $.osl.lang("spr1003.alert.saveProcessMsg",(selDatas.length-processIdDupleList));
 			}
+			
 			if(processIdDupleList > 0){
 				
 				if(toastrMsg.length > 0){
@@ -1207,6 +1214,7 @@ var OSLSpr1003Popup = function () {
 				toastrMsg += $.osl.lang("spr1003.alert.saveProcessDupleMsg",processIdDupleList);
 				toastrType = "warning";
 			}
+			
 			
 			if(processIdDupleList == selDatas.length){
 				toastrMsg = $.osl.lang("spr1003.alert.saveProcessAllDupleMsg",processIdDupleList);

@@ -122,64 +122,6 @@
 	</div>
 	
 	
-	
-	<!-- <div class="row">
-		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
-			<div class="kt-portlet kt-portlet--mobile" id="reqChargeSign">
-				<div class="kt-portlet__head kt-portlet__head--lg">
-					<div class="kt-portlet__head-label">
-						<h4 class="kt-font-boldest kt-font-brand">
-							<i class="fa fa-th-large kt-margin-r-5"></i>담당 요구사항 결재 목록
-						</h4>
-					</div>
-					<div class="kt-portlet__head-toolbar">
-			            <div class="kt-portlet__head-group">
-							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="reqChargeSignTable" data-datatable-action="select" title="담당 요구사항 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
-								<i class="fas fa-redo-alt"></i>
-							</button>
-		                 	<a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air"><i class="fa fa-chevron-down"></i></a>
-			            </div>
-			         </div>
-				</div>
-				<div class="kt-portlet__body">
-					<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="reqChargeSignTable"></div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6 col-md-12 col-sm-12 col-12">
-			<div class="kt-portlet kt-portlet--mobile" id="reqChargeDpl">
-				<div class="kt-portlet__head kt-portlet__head--lg">
-					<div class="kt-portlet__head-label">
-						<h4 class="kt-font-boldest kt-font-brand">
-							<i class="fa fa-th-large kt-margin-r-5"></i>담당 배포계획 결재 목록
-						</h4>
-					</div>
-					<div class="kt-portlet__head-toolbar">
-			            <div class="kt-portlet__head-group">
-							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10 invisible" data-datatable-id="reqChargeDplTable" data-datatable-action="select" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="select" tabindex="5">
-								<i class="fas fa-redo-alt"></i>
-							</button>
-							<button type="button" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air kt-margin-r-10" data-datatable-id="reqChargeDplTable" data-datatable-action="refresh" title="담당 배포계획 결재 목록 조회" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom" data-auth-button="refresh" tabindex="5">
-								<i class="fas fa-redo-alt"></i>
-							</button>
-		                  <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-clean btn-icon-md btn-elevate btn-elevate-air" data-skin="brand"><i class="fa fa-chevron-down"></i></a>
-			            </div>
-			         </div>
-				</div>
-				<div class="kt-portlet__body">
-					<div class="row">
-						<div class="col-lg-6 col-md-6 col-sm-9 col-9">
-							<div class="osl-datatable-search" data-datatable-id="reqChargeDplTable"></div>
-						</div>
-					</div>
-					<div class="kt_datatable osl-datatable-footer__divide kt-margin-b-0" id="reqChargeDplTable"></div>
-				</div>
-			</div>
-		</div>
-	</div> -->
-	
-	
-	
 	<div id="processCard">
 	</div>
 	
@@ -399,9 +341,6 @@ var OSLDsh2000Popup = function () {
 			searchColumns:[
 				{field: 'reqDesc', title: $.osl.lang("req4100.field.reqDesc"), searchOrd: 6}
 			],
-			rows:{
-				clickCheckbox: true
-			},
 			actionBtn:{
 				"title" : "기능 버튼",
 				"update" : false,
@@ -719,9 +658,6 @@ var OSLDsh2000Popup = function () {
 					}
 				}
 			],
-			rows:{
-				clickcheckbox: true
-			},
 			actionBtn:{
 				"dblClick": true,
 				"refresh" : true,
@@ -1963,9 +1899,6 @@ var OSLDsh2000Popup = function () {
 				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2},
 				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
 			],
-			rows:{
-				clickCheckbox: true,
-			},
 			actionBtn:{
 				"title" : "기능 버튼",
 				"width" : "120",

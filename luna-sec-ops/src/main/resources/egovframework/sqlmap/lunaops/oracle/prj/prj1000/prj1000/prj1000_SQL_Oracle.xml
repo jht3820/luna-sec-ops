@@ -29,6 +29,8 @@
 		<result property="itemEcceptCd"			column="ITEM_ACCEPT_CD"/>
 		<result property="itemEcceptNm"			column="ITEM_ACCEPT_NM"/>
 		<result property="itemOrd"				column="ITEM_ORD"/>
+		<result property="itemMinVal"			column="ITEM_MIN_VAL"/>
+		<result property="itemMaxVal"			column="ITEM_MAX_VAL"/>
 		<result property="useCd"				column="USE_CD"/>
 		<result property="useNm"				column="USE_NM"/>
 		<result property="regDtm"				column="REG_DTM"/>
@@ -63,6 +65,8 @@
 		<result property="itemEcceptCd"			column="ITEM_ACCEPT_CD"/>
 		<result property="itemEcceptNm"			column="ITEM_ACCEPT_NM"/>
 		<result property="itemOrd"				column="ITEM_ORD"/>
+		<result property="itemMinVal"			column="ITEM_MIN_VAL"/>
+		<result property="itemMaxVal"			column="ITEM_MAX_VAL"/>
 		<result property="useCd"				column="USE_CD"/>
 		<result property="useNm"				column="USE_NM"/>
 		<result property="regDtm"				column="REG_DTM"/>
@@ -674,6 +678,8 @@
 			       , A.ITEM_REQUEST_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_REQUEST_CD, '1') AS ITEM_REQUEST_NM
 			       , A.ITEM_ORD
+			       , A.ITEM_MIN_VAL
+			       , A.ITEM_MAX_VAL
 			       , A.USE_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.USE_CD, '1') AS USE_NM
 			       , A.REG_DTM
@@ -694,12 +700,12 @@
            		<isEmpty property="reqId">
            			AND	A.REQ_ID		=	'ROOTSYSTEM_FLW'
            		</isEmpty>
-           		<isEmpty property="itemAcceptCd">
+           		<isNotEmpty property="itemAcceptCd">
            			AND	A.ITEM_ACCEPT_CD		=	#itemAcceptCd#
-           		</isEmpty>
-           		<isEmpty property="itemRequestCd">
+           		</isNotEmpty>
+           		<isNotEmpty property="itemRequestCd">
            			AND	A.ITEM_REQUEST_CD		=	#itemRequestCd#
-           		</isEmpty>
+           		</isNotEmpty>
 		    <isNotEmpty property="searchTargetData">
 				<isNotEmpty property="searchTargetId">
 					<isEqual property="searchTargetId" compareValue="itemNm">
@@ -758,6 +764,8 @@
 			       , A.ITEM_REQUEST_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.ITEM_REQUEST_CD, '1') AS ITEM_REQUEST_NM
 			       , A.ITEM_ORD
+			       , A.ITEM_MIN_VAL
+			       , A.ITEM_MAX_VAL
 			       , A.USE_CD
 			       , SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00001', A.USE_CD, '1') AS USE_NM
 			       , A.REG_DTM
@@ -767,7 +775,7 @@
 			       , A.MODIFY_USR_ID
 			       , A.MODIFY_USR_IP
            	FROM	PRJ1002 A
-           	LEFT JOIN PRJ1003 B ON (A.PRJ_ID = B.PRJ_ID AND A.ITEM_ID = B.ITEM_ID AND B.REQ_ID=A.REQ_ID)
+           	LEFT JOIN PRJ1003 B ON (A.PRJ_ID = B.PRJ_ID AND A.ITEM_ID = B.ITEM_ID AND B.REQ_ID=#reqId#)
            	WHERE	1=1
            		AND A.PRJ_ID		=	#prjId#
            		<isNotEmpty property="itemId">
@@ -775,6 +783,12 @@
            		</isNotEmpty>
            		<isNotEmpty property="itemDivision">
            			AND	A.ITEM_DIVISION		=	#itemDivision#
+           		</isNotEmpty>
+           		<isNotEmpty property="itemAcceptCd">
+           			AND	A.ITEM_ACCEPT_CD		=	#itemAcceptCd#
+           		</isNotEmpty>
+           		<isNotEmpty property="itemRequestCd">
+           			AND	A.ITEM_REQUEST_CD		=	#itemRequestCd#
            		</isNotEmpty>
            		<isNotEmpty property="reqId">
            			AND	A.REQ_ID		in	(#reqId#,'ROOTSYSTEM_FLW')
@@ -1368,6 +1382,7 @@
             ,	ITEM_PC_ROW_NUM		,	ITEM_TABLET_ROW_NUM		,	ITEM_MOBILE_ROW_NUM
             ,	ITEM_TYPE			,	ITEM_LENGTH				,	ITEM_ESSENTIAL_CD
             ,	ITEM_ACCEPT_CD		,	ITEM_REQUEST_CD			,	ITEM_ORD				,	USE_CD
+            , 	ITEM_MIN_VAL		, 	ITEM_MAX_VAL
             ,	REG_DTM				,	REG_USR_ID  			,	REG_USR_IP
             ,	MODIFY_DTM			,	MODIFY_USR_ID			,	MODIFY_USR_IP
         )VALUES(
@@ -1377,6 +1392,7 @@
             ,	#itemPcRowNum#		,	#itemTabletRowNum#		,	#itemMobileRowNum#
             ,	#itemType#	 		,	NVL(#itemLength#,255)	,	#itemEssentialCd#
             ,	#itemAcceptCd# 		, 	#itemRequestCd#			,	NVL(#itemOrd#,0)		,	'01'
+            ,	#itemMinVal#		, 	#itemMaxVal#
             ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
             ,	SYSDATE				,	#regUsrId#				,	#regUsrIp#
         )		
@@ -1432,6 +1448,8 @@
             ,	ITEM_REQUEST_CD 	= '02'
             </isEmpty>
             ,	ITEM_ORD   			= #itemOrd#
+            ,	ITEM_MIN_VAL		= #itemMinVal#
+            ,	ITEM_MAX_VAL		= #itemMaxVal#
             ,	MODIFY_DTM      	= sysdate
             ,	MODIFY_USR_ID   	= #modifyusrid#
             ,	MODIFY_USR_IP   	= #modifyusrip#

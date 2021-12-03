@@ -813,7 +813,7 @@ var OSLPrj1001Popup = function () {
 					
 					datatable.insertData();
 					
-					
+					datatable.reload();
 					$.osl.datatable.list["prj1001PrjAuthNoneUsrTable"].targetDt.reload();
 					
    				}
@@ -924,7 +924,7 @@ var OSLPrj1001Popup = function () {
     			$.each(basicItemInsertList,function(idx, map){
     				if(map.itemId == targetItemId){
     					map[targetNm] = targetValue;
-    					basicItemList[idx] = map;
+    					basicItemInsertList[idx] = map;
     				}
     			});
     		}else if(updType=="02"){
@@ -939,7 +939,7 @@ var OSLPrj1001Popup = function () {
     			if(!stat){
     				$.each(basicItemInsertList,function(idx, map){
         				if(map.itemId == target.itemId){
-        					basicItemList[idx] = target;
+        					basicItemInsertList[idx] = target;
         				}
         			});
     			}
@@ -988,13 +988,13 @@ var OSLPrj1001Popup = function () {
 									basicItemDelList.push({"itemId":targetId});
 			
 									var delIdx = ""
-									$.each(basicItemList,function(idx, map){
+									$.each(basicItemInsertList,function(idx, map){
 										if(map.itemId == targetId){
 												delIdx = idx;						
 										}
 									});
 									if(delIdx!==""){
-										basicItemList.splice(delIdx,1);
+										basicItemInsertList.splice(delIdx,1);
 									}
 								},
 								update: OSLPrj1001Popup.basicItemUpdate,

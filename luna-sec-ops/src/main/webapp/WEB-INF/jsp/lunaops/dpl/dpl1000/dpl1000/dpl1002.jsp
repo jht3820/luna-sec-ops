@@ -382,6 +382,7 @@
 "use strict";
 var OSLDpl1002Popup = function () {
 
+	var swiper;
 	var formId = 'frDpl1002';
 	
 	
@@ -453,7 +454,7 @@ var OSLDpl1002Popup = function () {
 		fnKtScrollInit("#osl-tab-content__scroll", "550");
 
 		
-    	initSwiper(); 
+    	initSwiper();
 	};
 	
 	
@@ -729,7 +730,6 @@ var OSLDpl1002Popup = function () {
 				});
 				
 				
-				
 				fnAllHistorySetting(allHistiryList, jobList);
 				
 				
@@ -742,7 +742,13 @@ var OSLDpl1002Popup = function () {
 				}
 				
 				
-				openUsrPopup();
+				$(".osl-ribbon__btn[data-bld-info='console']").on("click", function(){
+			    	
+			    	fnConsoleLogPopupOpen($(this));
+			   });
+				
+				
+				fnOpenUsrPopup();
 				
 				
 				KTApp.initTooltips();
@@ -755,6 +761,39 @@ var OSLDpl1002Popup = function () {
 	
 	
 	
+	var fnConsoleLogPopupOpen = function(targetElmt){
+		
+	 	
+    	var prjId = $(targetElmt).data("prj-id");
+    	var dplId = $(targetElmt).data("dpl-id");
+    	var jenId = $(targetElmt).data("jen-id");
+    	var jobId = $(targetElmt).data("job-id");
+    	var jobType = $(targetElmt).data("job-type");
+    	var bldNum = $(targetElmt).data("bldnum");
+    	var bldseq = $(targetElmt).data("bldseq");
+		
+    	
+    	var data = {
+    			prjId : prjId,	
+    			dplId : dplId,	
+    			jenId : jenId,	
+    			jobId : jobId,	
+    			bldseq : bldseq	
+    	};
+    	
+		var options = {
+				idKey: prjId+"_"+dplId+"_"+jobId+"_consolelog",
+				modalTitle: "["+ jobType+"-"+bldNum+"] "+jobId +"  콘솔 로그",
+				modalSize: 'xl',
+				autoHeight: false,
+				closeConfirm: false
+			};
+		
+		$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1005View.do',data,options);
+	};
+	
+	
+	
 	var fnAllHistorySetting = function(allHistiryList, jobList){
 		
 		
@@ -763,6 +802,12 @@ var OSLDpl1002Popup = function () {
 			if(map.type == "BLD"){
 				
 				var bldTimelineDiv ='';
+				
+				var prjId = map.prjId;
+				var dplId = map.dplId;
+				var jenId = map.jenId;
+				var jobId = map.jobId;
+				var bldSeq = map.bldSeq;
 				
 				var bldResult = map.bldResult;
 				
@@ -829,11 +874,9 @@ var OSLDpl1002Popup = function () {
 					bldTitle = "["+$.osl.escapeHtml(map.jobTypeNm)+"-"+map.bldNum+"] "+$.osl.escapeHtml(map.jobId);
 					badgeColor = "badge-success";
 					cardType = '1';
-					
 				}
 				
 				if(cardType == '1'){
-					
 					
 					bldTimelineDiv 		+=	'<div class="kt-timeline__item '+itemColor+itemPosition+'">'
 										+		'<div class="kt-timeline__item-section '+itemIconPosition+'">'
@@ -846,7 +889,7 @@ var OSLDpl1002Popup = function () {
 										+		'</div>'
 										+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
 										+			'<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">'
-										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top">'
+										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top" data-bld-info="console" data-prj-id='+prjId+' data-dpl-id='+dplId+' data-jen-id='+jenId+' data-job-id='+$.osl.escapeHtml(jobId)+' data-bldseq='+bldSeq+' data-job-type='+$.osl.escapeHtml(map.jobTypeNm)+' data-bldnum='+map.bldNum+' data-job-type='+$.osl.escapeHtml(map.jobTypeNm)+'>'
 										+					'<i class="fa fa-code"></i>'
 										+				'</div>'
 										+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-placement="top">'
@@ -987,6 +1030,12 @@ var OSLDpl1002Popup = function () {
 		$.each(bldHistoryList,function(idx, bldInfo){
 			var bldResult = bldInfo.bldResult;
 			
+			var prjId = bldInfo.prjId;
+			var dplId = bldInfo.dplId;
+			var jenId = bldInfo.jenId;
+			var jobId = bldInfo.jobId;
+			var bldSeq = bldInfo.bldSeq;
+			
 			
 			var itemPosition = '';
 			
@@ -1067,7 +1116,7 @@ var OSLDpl1002Popup = function () {
 									+		'</div>'
 									+		'<div class="osl-timeline-content osl-ribbon osl-ribbon__top osl-ribbon__ver">'
 									+			'<div class="osl-ribbon__target bg-success" style="top: -2px; right: 20px;">'
-									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top">'
+									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="결과 콘솔로그" data-toggle="kt-tooltip" data-placement="top" data-bld-info="console" data-prj-id='+prjId+' data-dpl-id='+dplId+' data-jen-id='+jenId+' data-job-id='+$.osl.escapeHtml(jobId)+' data-bldseq='+bldSeq+' data-job-type='+$.osl.escapeHtml(map.jobTypeNm)+' data-bldnum='+map.bldNum+' data-job-type='+$.osl.escapeHtml(map.jobTypeNm)+'>'
 									+					'<i class="fa fa-code"></i>'
 									+				'</div>'
 									+				'<div class="osl-ribbon__btn kt-padding-l-10 kt-padding-r-10" title="변경이력" data-toggle="kt-tooltip" data-placement="top">'
@@ -1335,7 +1384,7 @@ var OSLDpl1002Popup = function () {
 							+		'</div>'
 							+		'<div class="osl-timeline-content">'
 							+			'<div class="kt-timeline__item-text kt-margin-l-0 kt-margin-b-10 kt-padding-20">'
-							+				'<div class="w-100 float-left kt-padding-r-90">'
+							+				'<div class="w-100 float-left">'
 							+					'<div class="badge '+badgeColor+' kt-margin-r-15 float-left">'+signType+'</div>'
 							+					'<div class="kt-font-bolder kt-padding-l-55">'+signTitle+'</div>'
 							+				'</div>'
@@ -1361,7 +1410,7 @@ var OSLDpl1002Popup = function () {
 
 	
 	
-	var openUsrPopup = function(){
+	var fnOpenUsrPopup = function(){
 		var usrInfoDiv = $(".user-popup");
 		$.each(usrInfoDiv,function(idx,map){
 			var usrId = $(this).data("user-id");

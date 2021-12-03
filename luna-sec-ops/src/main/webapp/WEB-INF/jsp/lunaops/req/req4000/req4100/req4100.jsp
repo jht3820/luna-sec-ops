@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http:
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/jsp/lunaops/top/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/top.jsp" />
 <jsp:include page="/WEB-INF/jsp/lunaops/top/aside.jsp" />
@@ -79,7 +79,7 @@ var OSLReq4100Popup = function () {
 				{field: 'prjNm', title:'프로젝트명', textAlign: 'left', width: 150, search: true},
 				{field: 'reqOrd', title: '요청번호', textAlign: 'left', width: 110, autoHide: false},
 				{field: 'reqProTypeNm', title:'처리유형', textAlign: 'left', width: 100, autoHide: false, search: true, searchType:"select", searchCd: "REQ00008", searchField:"reqProType", sortField: "reqProType"},
-				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true, autoHide: false,
+				{field: 'reqNm', title: '요구사항명', textAlign: 'left', width: 340, search: true,
 					
 				},
 				{field: 'reqDtm', title: '요청일', textAlign: 'center', width: 100, search: true, searchType:"date"},
@@ -151,9 +151,6 @@ var OSLReq4100Popup = function () {
 				{field: 'reqGrpNm', title: $.osl.lang("req4100.field.reqGrpNm"), searchOrd: 2},
 				{field: 'reqGrpNo', title: $.osl.lang("req4100.field.reqGrpNo"), searchOrd: 3}
 			],
-			rows:{
-				clickCheckbox: true,
-			},
 			actionBtn:{
 				"title" : $.osl.lang("req4100.actionBtn.title"),
 				"dblClick": true,
@@ -237,9 +234,10 @@ var OSLReq4100Popup = function () {
 						};
 					var options = {
 							idKey: rowData.reqId,
-							modalTitle: $.osl.lang("req4100.title.detailTitle"),
+							modalTitle: '요구사항 상세',
 							autoHeight: false,
 							modalSize: 'xl',
+							ftScrollUse: false
 							
 					 
 							

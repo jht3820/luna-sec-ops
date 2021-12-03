@@ -50,10 +50,10 @@
 	 
 	 var datatableId = "stm8000RepTable";
 	 
-	 
+	 //권한 체크 결과값을 담을 변수 선언
 	 var okRevision = false;
 	 var okFileCode = false;
-	 
+	 //시스템 권한 그룹으로 들어온지 확인
 	 var systemRoot = true;
 	 
 	 var documentSetting = function() {
@@ -69,7 +69,7 @@
 					{field: 'checkbox', title: '#', textAlign: 'center', width: 20, selector: {class: 'kt-checkbox--solid'}, sortable: false, autoHide: false},
 					{field: 'result', title: '접속 확인', textAlign: 'center', width: 80, autoHide: false, sortable: false,
 						template: function(row){
-							
+							// 기본 원 아이콘으로 세팅
 							return '<i class="fas fa-circle"></i>';
 						}	
 					},
@@ -87,9 +87,6 @@
 					},
 					{field: 'strgRepUrl', title: '저장소 URL', textAlign: 'left', width: 240},
 				],
-				rows:{
-					clickCheckbox: true
-				},
 				actionBtn:{
 					"title" : $.osl.lang("stm8000.title.actionTitle"),
 					"dblClick": true,
@@ -133,28 +130,28 @@
 						var data = {
 								dataList : JSON.stringify(rowDatas),
 							};
-						
+						//AJAX 설정
 				    	var ajaxObj = new $.osl.ajaxRequestAction(
 				    			{"url":"<c:url value='/stm/stm8000/stm8000/deleteStm8000ServerInfoAjax.do'/>"}
 				    				, data);
-						
+						//AJAX 전송 성공 함수
 				    	ajaxObj.setFnSuccess(function(data){
 				    		if(data.errorYn == "Y"){
 								$.osl.alert(data.message,{type: 'error'});
-								
+								//모달 창 닫기
 								$.osl.layerPopupClose();
 							}else{
 								$.osl.toastr(data.message);
 								selectBtnClick();
 							}
 				    	});
-				    	
+				    	//AJAX 전송
 						ajaxObj.send();
 					},
 					"dblClick":function(rowData, datatableId, type, rowNum){
 						var data = {
 								strgRepId: rowData.strgRepId,
-								systemRoot : systemRoot, 
+								systemRoot : systemRoot, //시스템 권한 그룹으로 들어올 경우에만 선언
 							};
 						var options = {
 								idKey: rowData.strgRepId,
@@ -163,9 +160,9 @@
 								closeConfirm: false
 							};
 
-						
+						//접근 권한 확인
 						if(!$.osl.isNull(systemRoot) && systemRoot){
-							
+							//시스템 권한으로 들어온 경우
 							okRevision = true;
 							okFileCode = true;
 						}else{
@@ -173,7 +170,7 @@
 						}
 						
 						if(okRevision){
-							$.osl.layerPopupOpen('/cmm/cmm6000/cmm6800/selectCmm6800View.do',data,options);
+							$.osl.layerPopupOpen('/stm/stm8000/stm8000/selectStm8002View.do',data,options);
 						}else{
 							$.osl.alert($.osl.lang("stm8000.message.auth"));
 							return false;
@@ -184,16 +181,16 @@
 						var selectRows;
 						
 						if(type == "list"){
-							
+							//선택 항목이 리스트인 경우
 							if(rowNum == 0){
 								$.osl.alert($.osl.lang("stm8000.message.connect.selectCount", rowNum), {"type":"warrning"});
 							}else {
-								
+								//다중인 경우
 								selectRows = $.osl.datatable.list[datatableId].targetDt.getSelectedRecords();
 								strgConnectionCheck(selectRows, rowDatas, 0);
 							}
 						}else{
-							
+							//선택 항목이 row 단건인 경우
 							selectRows = $(elem).closest("tr");
 							var datas = [];
 							datas.push(rowDatas);
@@ -202,14 +199,14 @@
 					},
 					"allConnect" : function(rowDatas, datatableId, type, rowNum){
 						var targetTableElmt = $.osl.datatable.list[datatableId].targetDt;
-						
+						// 체크박스 전체 체크
 						targetTableElmt.setActiveAll(true);
 						
-						
+						// 선택한 row
 						var selectRows = targetTableElmt.getSelectedRecords();
-						
+						//데이터 테이블에서 data 정보 가져오기
 						var rowDataList = [];
-						
+						// 선택한 row에서 data를 추출하여 rowDataList에 세팅
 						$.each(selectRows, function(idx, map){
 							var rowIdx = $(map).data("row");
 							rowDataList.push(targetTableElmt.getDataSet()[rowIdx]);
@@ -229,7 +226,7 @@
 				},
 				callback:{
 					initComplete: function(evt, config){
-						
+						//숨겨진 버튼 완전히 감추기 - 영역제거
 						$('table>.btn[data-auth-button=allConnect]').hide();
 					},
 					ajaxDone: function(evt, list){
@@ -238,23 +235,29 @@
 		 });
 	 }
 	 
-	
+	/**
+	* function 명 	: strgConnectionCheck
+	* function 설명	: 저장소 연결 확인하기
+	* param selectRows : 데이터테이블에서 선택한 row List
+	* param rowDatas : 데이터테이블에서 선택한 row의 데이터 List
+	* param idx : row와 rowData를 가져오기 위한 index값
+	*/
 	var strgConnectionCheck = function(selectRows, rowDatas, index){
 		
-		
+		//index가 선택한 row의 데이터 길이보다 크거나 같으면 종료
 		if(index >= rowDatas.length){
 			return false;
 		}
 		
-		
+		// 접속 확인 아이콘변경
 		var targetElmt = $(selectRows[index]).children("td[data-field='result']").find("i");
 	
-		
+		// 기존 아이콘 class 모두 제거
 		targetElmt.removeClass("fa-circle");
 		targetElmt.removeClass("fa-times-circle osl-color--red");
 		targetElmt.removeClass("fa-check-circle osl-color--blue");
 	
-		
+		// progress 아이콘으로 변경
 		targetElmt.addClass("fa-circle-notch fa-spin");
 		
 		var repoId = rowDatas[index].strgRepId;
@@ -265,80 +268,84 @@
 				strgRepId : repoId
 		};
 		
-		
+		//AJAX 설정
    		var ajaxObj = new $.osl.ajaxRequestAction(
    				{"url":"<c:url value='/stm/stm8000/stm8000/selectStm8000RepoConnectCheckAjax.do'/>"}
    				, data);
 		
-   		
+   		//AJAX 전송 성공 함수
    		ajaxObj.setFnSuccess(function(data){
    			if(data.errorYn == "Y"){
-   				
+   				// 기존 아이콘 제거
    				targetElmt.removeClass("fa-circle-notch fa-spin");
-   				
+   				// error 아이콘
    				targetElmt.addClass("fa-times-circle osl-color--red");
 				$.osl.toastr("["+$.osl.escapeHtml(repoName)+"]" + $.osl.lang("stm8000.message.connect.fail.common"));
-   				
+   				//$.osl.alert(data.message,{type: 'error'});
    			}else{
-   				
+   				// 기존 아이콘 모두 제거
    				targetElmt.removeClass("fa-circle-notch fa-spin");
    				
-   				
+   				//저장소 유형이 svn인 경우
    				if(repoType == "01"){
    					if(data.connectResult == "SVN_OK"){
-   	   					
+   	   					//연결 성공
    						targetElmt.addClass("fa-check-circle osl-color--blue");
    		   				$.osl.toastr("["+$.osl.escapeHtml(repoName)+"]" + $.osl.lang("stm8000.message.connect.success"));
    	   				}else if(data.connectResult == "SVN_AUTHENTICATION_EXCEPTION"){
-   	   					
+   	   					//사용자 id 또는 pw 실패
    	   					targetElmt.addClass("fa-times-circle osl-color--red");
    	   					$.osl.toastr("["+$.osl.escapeHtml(repoName)+"]" + $.osl.lang("stm8000.message.connect.fail.auth"));
    	   				}else{
-   	   					
+   	   					//잘못된 url
    	   					targetElmt.addClass("fa-times-circle osl-color--red");
    	   					$.osl.toastr("["+$.osl.escapeHtml(repoName)+"]" + $.osl.lang("stm8000.message.connect.fail.url"));
    	   				}
    				}else{
-   					
+   					//git인 경우 - 현재 실패로 통일...
    					targetElmt.addClass("fa-times-circle osl-color--red");
    					$.osl.toastr("["+$.osl.escapeHtml(repoName)+"]" + $.osl.lang("stm8000.message.connect.fail.common"));
    				}
    				
-   				
+   				// 다음 저장소 연결 체크
    				strgConnectionCheck(selectRows, rowDatas, ++index);
    			}
    		});
-  	 	
+  	 	//AJAX 전송
    		ajaxObj.send();
 	};
 	
-	
+	/**
+	* function 명 	: authCheck
+	* function 설명	: 리비전 확인 권한 체크
+	* param : strgRepId 확인하려는 저장소 id
+	*/
 	var authCheck = function(strgRepId){
 		var data = {
 				strgRepId : strgRepId,
 		};
 		
-		
+		//ajax 설정
     	var ajaxObj = new $.osl.ajaxRequestAction(
 	   			{"url":"<c:url value='/stm/stm8000/stm8000/selectStm8000AuthCheckAjax.do'/>", "async": false}
 				, data);
 		
-    	
+    	//ajax 전송 성공 함수
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				
+				//모달 창 닫기
 				$.osl.layerPopupClose();
 			}else{
 				var result = data.result;
 				
-				
+				//리비전 권한
 				if(result.resultRevision == "Y"){
 					okRevision = true;
 				}else{
 					okRevision = false;
 				}
-				
+				//소스 열람 권한
 				if(result.resultFileCode == "Y"){
 					okFileCode = true;
 				}else{
@@ -346,11 +353,13 @@
 				}
 			}
     	});
-    	
+    	//AJAX 전송
 		ajaxObj.send();
 	};
 	
-	
+	/**
+	* selectBtnClick : 조회 버튼 클릭
+	*/
 	var selectBtnClick = function(){
 		$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 	};

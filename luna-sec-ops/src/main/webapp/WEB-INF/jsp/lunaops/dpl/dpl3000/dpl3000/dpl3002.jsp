@@ -335,6 +335,9 @@ var OSLDpl3002Popup = function () {
 				
 				$("#jobBuildConsoleLog").html(buildInfo.bldConsoleLog);
 				$('#jobBuildConsoleLog').each(function(i, block) {hljs.highlightBlock(block);});
+				
+				
+				$("#jobBuildConsoleLog").scrollTop(9999);
 			}	
 		});
 		
