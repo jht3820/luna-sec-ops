@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
-<form class="kt-form" id="frReq3002">
+<form class="kt-form h-100" id="frReq3002">
 	<input type="hidden" name="type" id="type" value="${param.type}">
 	<input type="hidden" name="prjId" id="prjId" value="${param.paramPrjId}">
 	<input type="hidden" name="prjGrpId" id="prjGrpId" value="${param.paramPrjGrpId}">
@@ -11,12 +11,14 @@
 	<input type="hidden" name="reqGrpChargerId" id="reqGrpChargerId" value="${param.paramReqGrpChargerId}">
 	<input type="hidden" name="reqGrpId" id="reqGrpId" value="${param.paramReqGrpId}">
 	<input type="hidden" name="atchFileId" id="atchFileId">
-	<div class="row">
-		<div class="col-lg-5 col-md-12 col-sm-12 col-12 osl-tab-content--folding osl-portlet-collapse" id="req3000ReqGrpWrap">
-			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0" id="req3000ReqGrpInfo">
+	<div class="row position-relative h-100 kt-margin-0">
+		<div class="osl-tab-content--folding osl-portlet-collapse" id="req3000ReqGrpWrap">
+			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0 h-100" id="req3000ReqGrpInfo">
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
-						<i class="fa flaticon2-layers-1 kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">그룹 요구사항 정보</span>
+						<h5 class="kt-font-boldest kt-font-brand">
+							<i class="fa flaticon2-layers-1 kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo">그룹 요구사항 정보</span>
+						</h5>
 					</div>
 					<div class="kt-portlet__head-toolbar kt-hidden-desktop">
 						<div class="kt-portlet__head-group">
@@ -82,53 +84,74 @@
 					</div>
 				</div>
 			</div>
-			<div class="float-right osl-tab-content__folding-btn kt-hidden-tablet kt-hidden-mobile">
+			<div class="osl-tab-content__folding-btn kt-hidden-tablet kt-hidden-mobile">
 				<div class="btn btn-sm btn-icon btn-clean btn-icon-md"></div>
 			</div>
 		</div>
-		<div class="col-lg-7 col-md-12 col-sm-12 col-12 osl-portlet-expand kt-margin-t-20-tablet kt-margin-t-20-mobile" id="req3000GrpLinkWrap">
-			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0" id="req3000GrpLinkInfo">
+		<div class="osl-portlet-expand kt-margin-t-20-tablet kt-margin-t-20-mobile" id="req3000GrpLinkWrap">
+			<div class="kt-portlet kt-portlet--mobile" id="req3000GrpLinkInfo">
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
-						<i class="fa flaticon2-layers-1 kt-margin-r-5"></i><span data-lang-cd="req4101.label.group.groupReqInfo"><span data-lang-cd="req3000.label.linkedReqInfo">연결된 요구사항 정보</span></span>
-					</div>
-				</div>
-				<div class="kt-portlet__body">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
-						<label class="kt-padding-l-10 kt-padding-r-10"><i class="fas fa-stream kt-margin-r-5"></i><span data-lang-cd="req3000.label.linkedReqTypeList">연결 요구사항 처리 유형별 현황</span></label>
-						<div class="col-lg-12 col-md-12 col-sm-12 card">
-							<div class="osl-widget kt-padding-l-15">
-								<div class="osl-widget-info__item">
-									<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqAll.png"></div>
-									<div class="osl-widget-info__item-info">
-										<a href="#" class="osl-widget-info__item-title"><span data-lang-cd="req3000.label.total">전체</span></a>
-										<div class="osl-widget-info__item-desc" id="reqGrpLinkCnt" name="reqGrpLinkCnt"></div>
-									</div>
-								</div>
-								<div class="osl-widget-info__item">
-									<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqInProgress.png"></div>
-									<div class="osl-widget-info__item-info">
-										<a href="#" class="osl-widget-info__item-title"><span data-lang-cd="req3000.label.ongoing">진행</span></a>
-										<div class="osl-widget-info__item-desc" id="reqOngoing" name="reqOngoing"></div>
-									</div>
-								</div>
-								<div class="osl-widget-info__item">
-									<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqDone.png"></div>
-									<div class="osl-widget-info__item-info">
-										<a href="#" class="osl-widget-info__item-title"><span data-lang-cd="req3000.label.done">완료</span></a>
-										<div class="osl-widget-info__item-desc" id="reqEnd" name="reqEnd"></div>
-									</div>
-								</div>
-							</div>
-						</div>				
-						<label class="kt-padding-l-10 kt-padding-r-10 kt-margin-t-20"><i class="fas fa-stream kt-margin-r-5"></i><span data-lang-cd="req3000.label.linkedReqInfo">연결 요구사항 정보</span></label>
-						
-						<div id="processCard">
-						</div>
-						
+						<h5 class="kt-font-boldest kt-font-brand">
+							<i class="fa flaticon2-layers-1 kt-margin-r-5"></i>
+							<span data-lang-cd="req4101.label.group.groupReqInfo">
+								<span data-lang-cd="req3000.label.linkedReqInfo">연결된 요구사항 정보</span>
+							</span>
+						</h5>
 					</div>
 				</div>
 			</div>
+			<div class="kt-portlet">
+				<div class="kt-portlet__head">
+					<div class="kt-portlet__head-label">
+						<h5 class="kt-font-boldest">
+							<i class="fas fa-stream kt-margin-r-5"></i><span data-lang-cd="req3000.label.linkedReqTypeList">연결 요구사항 처리 유형별 현황</span>
+						</h5>
+					</div>
+				</div>
+				<div class="kt-portlet__body">
+					<div class="osl-widget kt-padding-l-15">
+						<div class="osl-widget-info__item">
+							<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqAll.png"></div>
+							<div class="osl-widget-info__item-info">
+								<a href="#" class="osl-widget-info__item-title"><span data-lang-cd="req3000.label.total">전체</span></a>
+								<div class="osl-widget-info__item-desc" id="reqGrpLinkCnt" name="reqGrpLinkCnt"></div>
+							</div>
+						</div>
+						<div class="osl-widget-info__item">
+							<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqInProgress.png"></div>
+							<div class="osl-widget-info__item-info">
+								<a href="#" class="osl-widget-info__item-title"><span data-lang-cd="req3000.label.ongoing">진행</span></a>
+								<div class="osl-widget-info__item-desc" id="reqOngoing" name="reqOngoing"></div>
+							</div>
+						</div>
+						<div class="osl-widget-info__item">
+							<div class="osl-widget-info__item-icon"><img src="/media/osl/icon/reqDone.png"></div>
+							<div class="osl-widget-info__item-info">
+								<a href="#" class="osl-widget-info__item-title"><span data-lang-cd="req3000.label.done">완료</span></a>
+								<div class="osl-widget-info__item-desc" id="reqEnd" name="reqEnd"></div>
+							</div>
+						</div>
+					</div>
+				</div>	
+				
+			</div>
+			<div class="kt-portlet kt-portlet--mobile kt-margin-b-0" id="req3000GrpLinkInfo">
+				<div class="kt-portlet__head">	
+					<div class="kt-portlet__head-label">
+						<h5 class="kt-font-boldest">
+							<i class="fas fa-stream kt-margin-r-5"></i><span data-lang-cd="req3000.label.linkedReqInfo">연결 요구사항 정보</span>
+						</h5>
+					</div>			
+					
+					</div>
+				<div class="kt-portlet__body kt-padding-10">
+					<div class="osl-tab-content kt-padding-10">
+						<div id="processCard">
+					</div>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 </form>
@@ -143,27 +166,27 @@
 <script>
 "use strict";
 
-//파일업로드 셋팅
+
 var fileUploadObj;
 
-//portlet세팅
+
 var portletAll=[];
 
 var OSLReq3002Popup = function () {
 	var formId = 'frReq3002'
 	
-	//edit 목록
+	
 	var formEditList = [];
 	
-	//form validate 주입
+	
 	var formValidate = $.osl.validate(formId);
 	
 	var documentSetting = function(){
 		
-		//포틀릿셋팅
+		
 		var portlet = new KTPortlet('req3000ReqGrpInfo', $.osl.lang("portlet"));
 		
-		//edit 세팅
+		
     	formEditList.push($.osl.editorSetting("reqGrpDesc", {
     		toolbar: false,
 			disableResizeEditor: false,
@@ -172,7 +195,7 @@ var OSLReq3002Popup = function () {
 			height:260
     	}));
     	
-    	//파일 업로드 세팅
+    	
     	fileUploadObj = $.osl.file.uploadSet("fileListDiv",{
     		maxFileSize: "${requestScope.fileSumMaxSize}",
     		meta: {"atchFileId": $("#atchFileId").val(), "fileSn": 0},
@@ -183,76 +206,92 @@ var OSLReq3002Popup = function () {
     		
     	});
     	fileUploadObj.reset();
-    	//그룹 요구사항 정보 조회
-    	selectReqGrpInfo();
-    	//프로세스
-		fnProcessList();
     	
-        //folding 버튼 클릭   	
+    	selectReqGrpInfo();
+    	
+		fnProcessList();
+        
     	$('.osl-tab-content__folding-btn').click(function(){
-    		//열기
+    		
+    		heightSize();
+    		
        		if($('#req3000ReqGrpWrap').hasClass('osl-portlet-collapse__custom-size')){
-       			//folding btn 사이즈 변경 제거
-              	$('.osl-tab-content__folding-btn').removeClass('w-100');
-       			//folding portlet 표출
-       			$('#req3000ReqGrpInfo').removeClass('kt-hide');
-       			//portlet 사이즈 변경 5%,95%
+       			$('#req3000ReqGrpInfo').css({width:'100%'});
+       			$('.osl-portlet-collapse').stop().animate({
+       				left: '0'
+       			});
+       			$('.osl-portlet-expand').animate({
+       				width: '60%'
+       			});
        			$('.osl-portlet-expand,.osl-portlet-collapse').removeClass('osl-portlet-collapse__custom-size');
-       		//접기
+       		
        		}else{
-       			//folding btn 사이즈 변경 제거
-              	$('.osl-tab-content__folding-btn').addClass('w-100');
-              	//folding portlet 숨김
-       			$('#req3000ReqGrpInfo').addClass('kt-hide');
-				//portlet 사이즈 변경 제거
+       			$('.osl-portlet-collapse').stop().animate({
+       				left: '-34%'
+       			},function(){
+       				$('#req3000ReqGrpInfo').css({width:'0'});
+       			});
+       			$('.osl-portlet-expand').animate({
+       				width: '94%'
+       			});
        			$('.osl-portlet-expand,.osl-portlet-collapse').addClass('osl-portlet-collapse__custom-size');
        		}
      	});
     	
-        //folding효과 resize시 물고 가기
+        
     	$( window ).resize( function() {
 			var windowWidth = $(window).width();
-			/*pc(제어는 세로 접힘 class'osl-portlet-collapse__custom-size',folding portlet 숨김 -- 기존 portlet collapse구조와 상이)*/
+
+    		
+    		heightSize();
+    		
+			
 			if(windowWidth>=1024){
-				//접기
-				if($('#req3000ReqGrpInfo').hasClass('kt-portlet--collapse')||$('#req3000ReqGrpInfo').hasClass('kt-hide')){
-					//folding portlet 숨기기
-	            	$('#req3000ReqGrpInfo').addClass('kt-hide');
-					//portlet 사이즈 변경 5%,95%
-	     			$('.osl-portlet-expand,.osl-portlet-collapse').addClass('osl-portlet-collapse__custom-size');
-					//folding btn 사이즈 변경
-	            	$('.osl-tab-content__folding-btn').addClass('w-100');
-            	//열기
+				
+				if($('.osl-portlet-expand,.osl-portlet-collapse').hasClass('osl-portlet-collapse__custom-size')||$('#req3000ReqGrpInfo').hasClass('kt-portlet--collapse')){
+	       			$('.osl-portlet-collapse').stop().animate({
+	       				left: '-34%',
+	       				width: '39%'
+	       			},function(){
+	       				$('#req3000ReqGrpInfo').css({width:'0'});
+	       			});
+	       			$('.osl-portlet-expand').animate({
+	       				width: '94%'
+	       			});
+	       			$('.osl-portlet-expand,.osl-portlet-collapse').addClass('osl-portlet-collapse__custom-size');
+            	
 				}else{
-					//portlet 사이즈 변경 제거
-	     			$('.osl-portlet-expand,.osl-portlet-collapse').removeClass('osl-portlet-collapse__custom-size');
-	       			//folding btn 사이즈 변경 제거
-					$('.osl-tab-content__folding-btn').removeClass('w-100');
+	       			$('.osl-portlet-collapse').stop().animate({
+	       				left: '0'
+	       			});
+	       			$('.osl-portlet-expand').animate({
+	       				width: '60%'
+	       			});
+	       			$('.osl-portlet-expand,.osl-portlet-collapse').removeClass('osl-portlet-collapse__custom-size');
 	     		}
-     			//portlet 무조건 열기
+     			
 				portlet.expand();
-          	/*tablet,mobile(제어는 가로접힘 접힘 class'kt-portlet--collapse' -- 기존 portlet collapse구조와 동일)*/
+          	
             }else{
-				//접기
-            	if($('#req3000ReqGrpInfo').hasClass('kt-hide')||$('#req3000ReqGrpInfo').hasClass('kt-portlet--collapse')){
-					//사이즈 변경제거
-             		$('.osl-portlet-expand,.osl-portlet-collapse').removeClass('osl-portlet-collapse__custom-size');
-					//folding portlet 표출
-            		$('#req3000ReqGrpInfo').removeClass('kt-hide');
-         			//portlet 닫기
+        		$('.osl-portlet-expand').css({width:'100%'});
+        		$('.osl-portlet-collapse').css({width:'100%',left: '0'});
+        		$('#req3000ReqGrpInfo').css({width:'100%'});
+				
+            	if($('.osl-portlet-expand,.osl-portlet-collapse').hasClass('osl-portlet-collapse__custom-size')||$('#req3000ReqGrpInfo').hasClass('kt-portlet--collapse')){
+         			
           			portlet.collapse();
-           		//열기
+          			$('.osl-portlet-expand,.osl-portlet-collapse').addClass('osl-portlet-collapse__custom-size');
+           		
             	}else{
-         			//portlet 열기
+         			
           			portlet.expand();
+          			$('.osl-portlet-expand,.osl-portlet-collapse').removeClass('osl-portlet-collapse__custom-size');
             	}
              }
            });
     	}
 	
-	/**
-	 * 	그룹 요구사항 정보 조회
-	*/
+	
     var selectReqGrpInfo = function(){
 		
     	var data = {
@@ -260,36 +299,33 @@ var OSLReq3002Popup = function () {
     			prjId: $("#prjId").val(),
     			reqGrpId: $("#reqGrpId").val()
     	}
-    	//Ajax 설정
+    	
     	var ajaxObj = new $.osl.ajaxRequestAction(
 				{"url":"<c:url value='/req/req3000/req3000/selectReq3000ReqInfoAjax.do'/>", "async":"true"}
 				,data);
-    	//Ajax 전송 성공 함수
+    	
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
 
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 				
 			}else{
-				//요구사항 정보 세팅
+				
 		    	$.osl.setDataFormElem(data.reqInfoMap,"frReq3000");
 				
 		    	$("#reqGrpChargerNm").val(data.reqInfoMap.reqGrpChargerNm);
 		    	$("#reqGrpUsrNm").val(data.reqInfoMap.reqGrpUsrNm);
 		    	$("#reqGrpNo").val(data.reqInfoMap.reqGrpNo);
 		    	$("#reqGrpDesc").summernote("code",data.reqInfoMap.reqGrpDesc);
-		    	//$("#reqGrpDesc").val(data.reqInfoMap.reqGrpDesc);
+		    	
 		    	$("#reqGrpNm").val(data.reqInfoMap.reqGrpNm);
 		    	$("#reqGrpLinkCnt").text(data.reqInfoMap.reqGrpLinkCnt);
 				
-		    	/* var _oriText = $("#reqGrpDesc").val();
-		    	var newText = _oriText.replace(/<br>/gi,"");
-		    	console.log(newText);
-		    	$("#reqGrpDesc").val(newText); */
 		    	
-		    	//완료된 프로젝트 수 세기
+		    	
+		    	
 		    	var endReqCnt = 0;
 		    	$.each(data.reqGrpConList, function(index, item){
 		    		if(item.reqProType == "4"){
@@ -299,7 +335,7 @@ var OSLReq3002Popup = function () {
 		    	$("#reqOngoing").text(data.reqInfoMap.reqGrpLinkCnt - endReqCnt);
 		    	$("#reqEnd").text(endReqCnt);
 		    	
-		    	//edit 세팅
+		    	
 		    	formEditList.push($.osl.editorSetting("reqGrpDesc", {
 		    		toolbar: false,
 	    			disableResizeEditor: false,
@@ -308,47 +344,44 @@ var OSLReq3002Popup = function () {
 	    			height:260
 		    	}));
 		    	
-		    	//파일Sn넣기
+		    	
 		    	fileUploadObj.setMeta({fileSn: parseInt(data.fileListCnt)+1});
 		    	
-		    	//파일 목록 세팅
+		    	
 		    	$.osl.file.fileListSetting(data.fileList, fileUploadObj);
 		    	
 			}
     	});
 		
-		//AJAX 전송
+		
 		ajaxObj.send();
     };
-    /**
-	* function : fnProcessList 
-	* function 설명 : 프로세스 목록 가져와 그리기
-	*/
+    
 	var fnProcessList = function(){
 		var data = {
 				delCd: "02"
 		};
 		
-		//ajax 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
     			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100ProcessListAjax.do'/>", "async": true}
 				, data);
-		//ajax 전송 성공 함수
+		
     	ajaxObj.setFnSuccess(function(datas){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
 				var processes = datas.data;
 				$.each(processes, function(idx, value){
-					//그리기
+					
 					var str = '<div class="kt-portlet kt-portlet--mobile process-div" id="processPortlet'+idx+'" data-target-div="process'+idx+'">'
 								+ '<div class="kt-portlet__head kt-portlet__head--lg osl-portlet__head__block">'
 									+ '<div class="col-lg-7 col-md-12 col-sm-12 col-12 kt-padding-l-0 osl-display__flex osl-flex-flow--row osl-flex-flow--column-mobile">'
-										+ '<h4 class="kt-font-boldest kt-font-brand">'
+										+ '<h5 class="kt-font-boldest kt-font-brand">'
 											+ '<i class="fa fa-th-large kt-margin-r-5"></i>' + $.osl.escapeHtml(value.processNm)
-										+ '</h4>'
+										+ '</h5>'
 									+ '</div>'
 									+ '<div class="col-lg-5 col-md-12 col-sm-12 col-12 text-right kt-padding-r-0">'
 										+ '<div class="kt-portlet__head-group">'
@@ -364,9 +397,9 @@ var OSLReq3002Popup = function () {
 								+ '</div>'
 								+ '<div class="kt-portlet__body kt-padding-10">'
 									+ '<div class="osl-dash-gridkaban-bg osl-overflow--x-auto">'
-										/* begin :: 그리드 */
+										
 										+ '<div class="osl-dsh-flowchart kt-margin-20 chart-div">'
-											/* chart */
+											
 										+ '</div>'
 									+ '</div>'
 									+ '<div class="process-datatable-div kt-hide" id="processReqTable_'+idx+'">'
@@ -384,66 +417,66 @@ var OSLReq3002Popup = function () {
 				});
 				
 				fnGetAllProcessFlow();
+
+		    	
+				heightSize();
 			}
     	});
-		//ajax 전송
+		
     	ajaxObj.send();		
 	};
-    /**
-	* function : fnGetAllProcessFlow
-	* function : 프로젝트의 모든 작업흐름을 가져와 프로세스별로 구분 
-	*/
+    
 	var fnGetAllProcessFlow = function(){
-		//ajax 설정
+		
 		var ajaxObj = new $.osl.ajaxRequestAction(
     			{"url":"<c:url value='/prj/prj1000/prj1100/selectPrj1100FlowListAndChargerCntAjax.do'/>", "async": true}
     			,{"usrId" : $.osl.user.userInfo.usrId});
-		//ajax 전송 성공 함수
+		
     	ajaxObj.setFnSuccess(function(data){
     		if(data.errorYn == "Y"){
 				$.osl.alert(data.message,{type: 'error'});
-				//모달 창 닫기
+				
 				$.osl.layerPopupClose();
 			}else{
-	           //같은 프로세스 id로 묶기
+	           
 	           var allProcessFlowList = {};
 	           var flowList = data.flowList;
 	           var flowLinkList = data.flowLinkList;
 
-	           // 프로세스 별 작업흐름 목록
+	           
 	           var processFlowList = {};
-	           // 작업흐름 연결 정보
+	           
 	           var processFlowLinkList = {};
 	            
-	           // 프로젝트에 프로세스 ID 존재할 경우
+	           
 	           if(!$.osl.isNull(flowList)){
 	               
-	              // 작업흐름 list loop
+	              
 	              $.each(flowList, function(idx, map){
 	                  
 	                 var processId = map.processId;
-	                 // 프로세스 id 해당 값 없을경우
+	                 
 	                 if($.osl.isNull(processFlowList[processId])){
-	                    // 빈 배열 생성
+	                    
 	                    processFlowList[processId] = [];
 	                 }
-	                 // 프로세스 id 별로 작업흐름 데이터 push
+	                 
 	                 processFlowList[processId].push(map); 
 	              });
 	           }
 	            
 	           if(!$.osl.isNull(flowLinkList)){
-	               // 작업흐름 연결 정보 list loop
+	               
 	              $.each(flowLinkList, function(idx, map){
 	                  
 	                 var processId = map.processId;
-	                 // 프로세스 id 해당 값 없을경우
+	                 
 	                 if($.osl.isNull(processFlowLinkList[processId])){
-	                    // 빈 배열 생성
+	                    
 	                    processFlowLinkList[processId] = [];
 	                 }
 	                  
-	                 // 프로세스 id 별로 작업흐름 연결 데이터 push
+	                 
 	                 processFlowLinkList[processId].push(map); 
 	              });
 	           }
@@ -458,25 +491,25 @@ var OSLReq3002Popup = function () {
 	              allProcessFlowList[processId]["flowLinkList"] = processFlowLinkList[processId];
 	           });
 	           
-	           //차트 그리기
+	           
 	           var index = 0;
 	           $.each(allProcessFlowList, function(processId, value){
 	        	   fnFlowChart(index, processId, value.flowList, value.flowLinkList);
-	        	   //데이터 테이블 아이디에 붙는 index, 첫번째 processId, flowId 임시 전달
+	        	   
 	        	   processTableSetting(index, processId, value.flowList[0].flowId);
-	        	   //포틀렛 세팅
+	        	   
 	        	   portletAll.push(new KTPortlet('processPortlet'+index, $.osl.lang("portlet")));	
 	        	   index++;
 	           });
 	
-		   		//다그렸으므로 이벤트 적용
+		   		
 		   		fnProcessEvt();
 	        }
 	     });
-	     //ajax 전송
+	     
 	     ajaxObj.send();   
 	}
-	//프로세스 데이터 테이블 세팅  
+	
 	var processTableSetting = function(tablenum, paramProcessId, paramStartFlowId){
 		$.osl.datatable.setting("processReqTable_"+tablenum,{
 			data: {
@@ -497,7 +530,7 @@ var OSLReq3002Popup = function () {
 				 items:{
 					 pagination:{
 						 pageSizeSelect : [5, 10, 20, 30, 50, 100],
-						//페이지 그룹단위 변경
+						
 						pages:{
 							desktop: {
 								layout: 'default',
@@ -581,7 +614,7 @@ var OSLReq3002Popup = function () {
 			},
 			actionFn:{
 				"refresh": function(rowData, datatableId, type, rowNum){
-					//해당 프로세스 항목 지우기
+					
 					$("#processPortlet"+tablenum).find(".chart-div").empty();
 					fnGetProcessFlow(tablenum, paramProcessId);
 				},
@@ -609,12 +642,12 @@ var OSLReq3002Popup = function () {
 	   						targetId: "cmm6201SaveSubmit",
 	   						actionFn: function(thisObj){
 	   							console.log("callback");
-	   							//다시 그리기
-	   							//해당 프로세스 항목 지우기
+	   							
+	   							
 								$("#processPortlet"+tablenum).find(".chart-div").empty();
 								fnGetProcessFlow(tablenum, paramProcessId);
 								
-	   							//데이터 테이블 숨기기
+	   							
 	   							$("#"+datatableId).addClass("kt-hide");
 	   							$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 	   						} 
@@ -649,21 +682,21 @@ var OSLReq3002Popup = function () {
 			},
 			callback:{
 				ajaxDone: function(evt, list, datatableInfo){
-					//현재 데이터 테이블 아이디
+					
 					var datatableId = "processReqTable_"+tablenum;
 					var datatable = $.osl.datatable.list[datatableId].targetDt;
 					
 					var totalCharger = 0;
 					var totalAll = 0;
 					
-					//단계에 담당, 전체 수 넣기
+					
 					var chargerSpans = $("#processPortlet"+tablenum).find(".flow-charger");
 					$.each(chargerSpans, function(index, value){
 						totalCharger += Number($(value).children().text());
 						totalAll +=  Number($(value).siblings(".flow-all-charger").children().text());
 					});
 					
-					//프로세스 담당, 전체 수 넣기
+					
 					$("#processPortlet"+tablenum).find(".charger-badge").text(totalCharger);
 					$("#processPortlet"+tablenum).find(".all-badge").text(totalAll);
 
@@ -672,10 +705,7 @@ var OSLReq3002Popup = function () {
 		});
 	}
 
-	/**
-	* function : fnFlowChart
-	* function 설명 : 	프로세스 내부 작업 흐름 정렬하기
-	*/
+	
 	var fnFlowChart = function(num, processId, flowList, flowLinkList){
 
 		if($.osl.isNull(flowList) || flowList.length == 0){
@@ -683,14 +713,14 @@ var OSLReq3002Popup = function () {
 		}
 		var list = [];
 		
-		/* 대시보드 데이터 세팅 -- 시작 */
-	    //작업흐름 Id별 다음 작업흐름 Id
+		
+	    
 	    var flowNextIdList = {};
 	    
-	    //작업흐름 연결 데이터 flowNextId 세팅
+	    
 	    if(!$.osl.isNull(flowLinkList) && flowLinkList.length > 0){
 	       $.each(flowLinkList, function(idx, map){
-	          //값 없는 경우 생성
+	          
 	          if(!flowNextIdList.hasOwnProperty(map.flowId)){
 	             flowNextIdList[map.flowId] = [];
 	          }
@@ -698,30 +728,30 @@ var OSLReq3002Popup = function () {
 	       });
 	    }
 	     
-	    //작업흐름 Id: 정보 
+	    
 	    var flowInfoList = {};
 	      
-	    //시작 작업흐름 Id
+	    
 	    var startFlowId;
-	    //종료 작업흐름 Id
+	    
 	    var doneFlowId;
 	    var doneFlow;
 	      
-	    //이미 추가된 작업흐름 index check
+	    
 	    var addFlowCheck = [];
 	     
-	    //작업흐름 데이터 세팅 하기
+	    
 	    $.each(flowList, function(idx, map){
-	       //시작 작업흐름인 경우 맨 앞으로 작업흐름 추가
+	       
 	       if(map.flowStartCd == "01"){
-	          //시작 단계 추가
-	          //$("#프로세스 영역 ID").prepend('작업흐름 UI');
-	          //시작 작업흐름 Id
+	          
+	          
+	          
 	          startFlowId = map.flowId;
 	          list.push(map);
 	       }
 	        
-	       //종료 작업흐름인경우 임시 저장
+	       
 	       if(map.flowDoneCd == "01"){
 	          doneFlowId = map.flowId;
 	          doneFlow = map;
@@ -730,40 +760,40 @@ var OSLReq3002Popup = function () {
 	       flowInfoList[map.flowId] = map;
 	    });
 	
-	    //작업흐름 추가 재귀
+	    
 	    var innerFlowAppend = function(currentFlowId) {
 	    	  
-	       //현재 대상 작업흐름 정보
+	       
 	       var flowInfo = flowInfoList[currentFlowId];
 	      
-	       //다음 작업흐름
+	       
 	       var nextFlowIds = null;
 	       
 	       if(!$.osl.isNull(flowInfoList[currentFlowId]) && flowInfoList[currentFlowId].hasOwnProperty("flowNextId")){
 	    	   nextFlowIds = flowInfoList[currentFlowId]["flowNextId"];
 	       }
-	       //size가 0이면 true
+	       
 	       if($.osl.isNull(nextFlowIds)){
 	    	   return true;
 	       }
 	       else if(!$.osl.isNull(nextFlowIds) && nextFlowIds.length == 0){
 	    	   return true;
 	       }
-	       //이미 추가된 작업흐름 skip
+	       
 	       else if(addFlowCheck.indexOf(currentFlowId) != -1){
 	          return true;
 	       }
-	       //시작단계와 종료단계는 skip
+	       
 	       if(flowInfo.flowStartCd == "02" && flowInfo.flowDoneCd == "02"){
-	          //해당 작업흐름 추가
-	          //$("#프로세스 영역 ID").append('작업흐름 UI');
+	          
+	          
 	          addFlowCheck.push(currentFlowId);
 	          list.push(flowInfo);
 	       }
 	       
-	       //종료 단계가 아닌 경우(다음 아이디 값이 있으므로)
+	       
 	       if(!$.osl.isNull(nextFlowIds)){
-	          //다음 작업흐름 loop
+	          
 	          $.each(nextFlowIds, function(idx, map){
 	             innerFlowAppend(map);
 	          });
@@ -771,20 +801,17 @@ var OSLReq3002Popup = function () {
 	       return true;
 	    };
 	      
-	    //시작 단계 부터 재귀 호출
+	    
 	    innerFlowAppend(startFlowId);
 	      
-	    //$("#작업흐름UI[data-flow-id="+doneFlowId+"]").appendTo("#프로세스 영역 ID")
+	    
 	    list.push(doneFlow);
-	    /* 대시보드 데이터 세팅 -- 종료 */
-		//그리기
+	    
+		
 		fnFlowChartDraw(num, list, processId);
 	};
 	
-	/**
-	* function : fnFlowChartDraw
-	* function : 프로세스 작업 흐름 그리기
-	*/
+	
 	var fnFlowChartDraw = function(num, list, processId){
 		
 		var str = '';
@@ -834,73 +861,88 @@ var OSLReq3002Popup = function () {
 				+ '</div>';
 				
 			if(idx < list.length-1 ){
-				/* 화살표 */
+				
 				str += '<i class="fa fa-arrow-right"></i>';
 			}
 		});
 		
-		//그리기
+		
 		var processRow = $("#processCard").children("div[data-target-div=process"+num+"]").find(".chart-div");
 		$(processRow).empty();
 		$(processRow).append(str);
 	}
     
-	/**
-	* function : fnProcessEvt
-	* function 설명 : 프로세스 클릭 이벤트 적용
-	*/
+	
 	var fnProcessEvt = function(){
-		//담당 버튼 클릭 시
+		
 		$(".flow-charger").click(function(){
-			//해당 데이터 테이블 id가져오기
+			
 			var item = $(this).parents(".kt-portlet__body");
 			var datatableId = $(item).find(".process-datatable-div").attr("id");
 			var datatable = $.osl.datatable.list[datatableId].targetDt;
-			//param 넣기
+			
 			datatable.setDataSourceParam("dshProcess", "Y");
 			datatable.setDataSourceParam("processId", $(this).data("processId"));
 			datatable.setDataSourceParam("flowId", $(this).data("flowId"));
 			datatable.setDataSourceParam("usrId", $.osl.user.userInfo.usrId);
 			
-			//조회하기
-			//데이터 테이블 재조회
+			
+			
 			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();			
-			//데이터 div 보이기
+			
 			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
 
-			//같은 process에서 이미 눌린 버튼 이팩트 제거
+			
 			$(this).parents(".chart-div").find(".flowchart-operator-outputs--active").removeClass("flowchart-operator-outputs--active");
-			//클릭한 대상 표시
+			
 			$(this).addClass("flowchart-operator-outputs--active");
 		});
 		
-		//전체 버튼 클릭 시
+		
 		$(".flow-all-charger").click(function(){
-			//해당 데이터 테이블 id가져오기
+			
 			var item = $(this).parents(".kt-portlet__body");
 			var datatableId = $(item).find(".process-datatable-div").attr("id");
 			var datatable = $.osl.datatable.list[datatableId].targetDt;
-			//param 넣기
+			
 			datatable.setDataSourceParam("dshProcess", "Y");
 			datatable.setDataSourceParam("processId", $(this).data("processId"));
 			datatable.setDataSourceParam("flowId", $(this).data("flowId"));
 			datatable.setDataSourceParam("usrId", "");
-			//조회하기
-			//데이터 테이블 재조회
+			
+			
 			$("button[data-datatable-id="+datatableId+"][data-datatable-action=select]").click();
 			
-			//데이터 div 보이기
+			
 			if($(item).find(".process-datatable-div").removeClass("kt-hide"));
 			
-			//같은 process에서 이미 눌린 버튼 이팩트 제거
+			
 			$(this).parents(".chart-div").find(".flowchart-operator-outputs--active").removeClass("flowchart-operator-outputs--active");
-			//클릭한 대상 표시
+			
 			$(this).addClass("flowchart-operator-outputs--active");
 		});
 				
 	};
+	
+	
+	var heightSize = function(){
+		
+		var leftDiv = $('#req3000ReqGrpWrap').height();
+		
+		var rightDiv = $('#req3000GrpLinkWrap').height();
+		
+		
+		if(leftDiv>rightDiv){
+			
+			$('#req3000GrpLinkWrap').height(leftDiv);
+		
+		}else if(leftDiv<rightDiv){
+			
+			$('#req3000ReqGrpWrap').height(rightDiv);
+		}
+	};
 	return {
-        // public functions
+        
         init: function() {
         	documentSetting();
         }
