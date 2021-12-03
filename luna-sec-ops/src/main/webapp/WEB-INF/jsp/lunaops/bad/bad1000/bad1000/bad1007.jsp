@@ -15,28 +15,32 @@
 			<div class="kt-padding-t-10 kt-padding-b-15 osl-font-size--1_5 osl-border-b--dedede" name="badTitleDiv" id="badTitleDiv"></div>
 			
 			<div class="osl-portlet__head-label kt-margin-t-10">
-				<div class="float-left" name="writerDiv" id="writerDiv"  data-badUsrId=''></div>
 				
-				<div class="float-right kt-margin-l-15">
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="updateBtn" id="updateBtn" title="게시글 수정" data-title-lang-cd="bad1007.actionTooltip.updateTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-						<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
-					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="deleteBtn" id="deleteBtn" title="게시글 삭제" data-title-lang-cd="bad1007.actionTooltip.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-						<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
-					</button>
-					<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air kt-hide" name="restoreBtn" id="restoreBtn" title="게시글 복원" data-title-lang-cd="bad1007.actionTooltip.restoreTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
-						<i class="la la-rotate-left"></i><span data-lang-cd="bad1007.button.restore">복구</span>
-					</button>
+				<div class="float-left osl-bad__writer-div" name="writerDiv" id="writerDiv"  data-badUsrId=''></div>
+				<div class="float-right osl-display__flex osl-bad__sub-div">
+					
+					<div name="writeDateDiv" id="writeDateDiv"></div>
+					
+					<div class="osl-display__flex-r kt-margin-l-10">
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="updateBtn" id="updateBtn" title="게시글 수정" data-title-lang-cd="bad1007.actionTooltip.updateTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+							<i class="fa fa-edit"></i><span data-lang-cd="datatable.button.update">수정</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air" name="deleteBtn" id="deleteBtn" title="게시글 삭제" data-title-lang-cd="bad1007.actionTooltip.deleteTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+							<i class="fa fa-trash-alt"></i><span data-lang-cd="datatable.button.delete">삭제</span>
+						</button>
+						<button type="button" class="btn btn-outline-brand btn-bold btn-font-sm kt-margin-l-5 btn-elevate btn-elevate-air kt-hide" name="restoreBtn" id="restoreBtn" title="게시글 복원" data-title-lang-cd="bad1007.actionTooltip.restoreTooltip" data-toggle="kt-tooltip" data-skin="brand" data-placement="bottom">
+							<i class="la la-rotate-left"></i><span data-lang-cd="bad1007.button.restore">복구</span>
+						</button>
+					</div>
 				</div>
-				<div class="float-right" name="writeDateDiv" id="writeDateDiv"></div>
-				
 			</div>	
 		</div>
 		<div class="osl-bad__card-body">
 			
 			
 			<div class="form-group kt-margin-20 position-relative" name="badFileOption" id="badFileOption">
-				<div class="kt-margin-t-10 kt-slider carousel slide osl-slideshow-img" name="fileListDiv" id="fileListDiv" data-ride="carousel" data-interval="false">
+				<div class="kt-hide kt-uppy fileReadonly" name="fileObjectListDiv" id="fileObjectListDiv"></div>
+				<div class="kt-margin-t-10 kt-slider carousel slide osl-slideshow-img" name="fileListDiv" id="fileListDiv" data-ride="carousel" data-interval="false" data-touch="true">
 				</div>
 				<div class="kt-margin-t-10 carousel-indicators" name="fileListBtnDiv" id="fileListBtnDiv"></div>
 			</div>
@@ -51,7 +55,9 @@
 			</div>
 
 			
-			<div class="bard-text kt-padding-30 kt-padding-t-20 kt-padding-b-20" name="badContentDiv" id="badContentDiv"></div>
+			<div class="bard-text kt-padding-30 kt-padding-t-20 kt-padding-b-20 osl-outline--secondary-t-1" name="badContentDiv" id="badContentDiv">
+				<textarea  class="kt-hide" name="badContent" id="badContent"></textarea>
+			</div>
 			
 		</div>
 	</div>
@@ -82,7 +88,7 @@
 				</div>
 				<input type="text" class="form-control" name="cmtWriter" id="cmtWriter" autocomplete="off" maxlength="370" />
 				<div class="form-group-append">
-					<button class="btn btn-brand" type="button" name="cmtSaveBtn" id="cmtSaveBtn"><span data-lang-cd="bad1007.button.submit">등록</span></button>
+					<button class="btn btn-brand" type="button" name="cmtSaveBtn" id="cmtSaveBtn"><i class="fas fa-comment-medical"></i><span data-lang-cd="bad1007.button.submit">등록</span></button>
 				</div>
 			</div>
 			
@@ -103,11 +109,14 @@ var OSLBad1007Popup = function () {
 	var okWriter;
 	
 	
-	
+	var fileUploadObj;
 	
 	
 	var tag = [];
 
+	
+	var formEditList = [];
+	
 	
 	var paramRowData;
 	
@@ -131,6 +140,19 @@ var OSLBad1007Popup = function () {
     	
 		checkUser();
     	
+		
+	   	fileUploadObj = $.osl.file.uploadSet("fileObjectListDiv",{
+	   		meta: {"atchFileId": paramRowData.atchFileId, "fileSn": 0},
+	   		maxFileSize: Number(paramRowData.fileStrg)/(1024*1024),
+	   		maxNumberOfFiles: Number(paramRowData.fileCnt),
+	   		height: 370,
+	   		isDraggingOver: false,
+    		fileDownload: true,
+    		fileReadonly: true
+	   	});
+
+	   	fileUploadObj.reset();
+	   	
 	   	
 	   	
 	   	if(!$.osl.isNull($("#badHitYn").val())){
@@ -338,7 +360,7 @@ var OSLBad1007Popup = function () {
 						$.osl.layerPopupClose();
 					}else{
 						
-						
+						fileUploadObj.reset();
 						
 						
 						selectBadInfo(false);
@@ -450,25 +472,50 @@ var OSLBad1007Popup = function () {
 				$("#writeDateDiv").text($.osl.lang("bad1001.label.writeDate")+ " : " + setBad.badWtdtm);
 				
 				
-				$("#badContentDiv").html(setBad.badContent);
+				if($.osl.isNull($.osl.escapeHtml(setBad.badContent))){
+					$("#badContentDiv").addClass("kt-hide");
+				}else{
+					
+					$("#badContent").val(setBad.badContent);
+					
+			    	formEditList.push($.osl.editorSetting("badContent", {
+			    		toolbar: false,
+		    			disableResizeEditor: false,
+		    			disableDragAndDrop: true,
+		    			disabledEditor: true,
+		    			height:260
+			    	}));
+			    	
+			    	$("#badContent").removeClass("kt-hide");
+				}
 				
 				
 				if(paramRowData.stmFileCnt != '0' && !$.osl.isNull(fileList)){
 					$("#badFileOption").removeClass("kt-hide");
+					
+					
+					
+			    	fileUploadObj.setMeta({fileSn: parseInt(fileCnt)+1});
 			    	
+			    	$.osl.file.fileListSetting(fileList, fileUploadObj);
+			    	fileUploadObj.reset();
+			    	
+			    	$("#fileListDiv").empty();
+		    		$("#fileListBtnDiv").empty();
+		    		
 			    	
 			    	if(type=="03"){
 			    		var resultStr = "<div class='carousel-inner osl-slideshow-container'>";
 			    		var resultStrNext ='';
 			    		$.each(fileList, function(idx, map){
 			    			if(idx == 0){
-				    			resultStr += "<div class='carousel-item active osl-slideshow-img'>";
+				    			resultStr += "<div class='carousel-item active osl-slideshow-img kt-align-center' data-slide-to='"+idx+"'>";
 				    			resultStrNext += "<span class='osl-dot active' data-target='#fileListDiv' data-slide-to='"+idx+"'></span>";
 			    			}else{
-				    			resultStr += "<div class='carousel-item osl-slideshow-img'>";
+				    			resultStr += "<div class='carousel-item osl-slideshow-img kt-align-center' data-slide-to='"+idx+"'>";
 				    			resultStrNext += "<span class='osl-dot' data-target='#fileListDiv' data-slide-to='"+idx+"'></span>";
 			    			}
-			    					resultStr += "<img src='/cmm/fms/getImage.do?fileSn="+map.fileSn+"&atchFileId="+map.atchFileId+"' data-atch-file-id='"+map.atchFileId+"' data-file-sn='"+map.fileSn+"'/>"
+			    					resultStr += "<img class='kt-hide' src='/cmm/fms/getImage.do?fileSn="+map.fileSn+"&atchFileId="+map.atchFileId+"' data-atch-file-id='"+map.atchFileId+"' data-file-sn='"+map.fileSn+"'/>"
 											+"</div>";
 			    		});
 			    		resultStr += "</div>";
@@ -476,9 +523,6 @@ var OSLBad1007Popup = function () {
 			    		$("#fileListDiv").append(resultStr);
 			    		$("#fileListBtnDiv").append(resultStrNext);
 						
-			    		
-			    		
-				    	
 				    	
 				    	$('.osl-slideshow-container img').on('load',function(){
 				    		$.each($(".osl-slideshow-img"), function(idx, map){
@@ -489,38 +533,99 @@ var OSLBad1007Popup = function () {
 					    		}else{
 					    			$($(map).find("img")).attr("class","w-100 osl-slideshow-img__limite");
 					    		}
+					    		
+					    		$(map).removeClass("kt-hide");
 				    		});
 				    	});
-
 				    	
-				    	 $('.carousel').on('slide.bs.carousel', function(e) {
-				    		 var pageNum = e.to;
-				    		 var dots = $(".osl-dot");
-				    		 $(".osl-dot").removeClass("active");
-				    		 $(dots[pageNum]).addClass("active"); 
-			            }); 
+				    	$(".osl-dot").on("click", function(){
+				    		var pageNum = $(this).data("slideTo");
+				    		var dots = $(".osl-dot");
+				    		$(".osl-dot").removeClass("active");
+				    		$(dots[pageNum]).addClass("active"); 
+				    	});
 				    	
 				    	
-				    	$(".osl-slideshow-img").on({
+				    	$(".osl-slideshow-img>img").on({
 				    		'dragstart':function(e){
 				    			mouseX = e.pageX;
 				    		},
 				    		'dragend':function(e){
 				    			var diffX = e.pageX - mouseX;
-					    		if(diffX<0){
+				    			var imageDiv = $(this).parents('.carousel-item');
+				    			var pageNum = parseInt(imageDiv.data("slideTo"));
+				    			var dots = $(".osl-dot");
+ 					    		if(diffX<0){
 					    			
 					    			
-					    			$(this).carousel('next');
+ 					    			$('.carousel').carousel('next');
+ 					    			
+ 					    			if((pageNum+1)==dots.length){
+ 					    				$(".osl-dot").removeClass("active");
+ 							    		$(dots[0]).addClass("active");
+ 					    			}else{
+ 					    				$(".osl-dot").removeClass("active");
+ 							    		$(dots[pageNum+1]).addClass("active");
+ 					    			}
 				    				
-				    				mouseX = 0;
+				    				mouseX = 0; 
 					    		}else{
 					    			
 					    			
-				    				$(this).carousel('prev');
+				    				$('.carousel').carousel('prev');
+				    				
+ 					    			if((pageNum-1)<0){
+ 					    				$(".osl-dot").removeClass("active");
+ 							    		$(dots[dots.length-1]).addClass("active");
+ 					    			}else{
+ 					    				$(".osl-dot").removeClass("active");
+ 							    		$(dots[pageNum-1]).addClass("active");
+ 					    			}
+ 					    			
+				    				mouseX = 0;
+					    		}
+				    		},
+				    		'touchstart':function(e){
+				    			mouseX = e.screenX;
+				    		},
+				    		'touchend':function(e){
+				    			console.log(e);
+				    			var diffX = e.screenX - mouseX;
+				    			var imageDiv = $(this).parents('.carousel-item');
+				    			var pageNum = parseInt(imageDiv.data("slideTo"));
+				    			var dots = $(".osl-dot");
+				    			if(diffX<0){
+					    			
+					    			
+ 					    			$('.carousel').carousel('next');
+ 					    			
+ 					    			if((pageNum+1)==dots.length){
+ 					    				$(".osl-dot").removeClass("active");
+ 							    		$(dots[0]).addClass("active");
+ 					    			}else{
+ 					    				$(".osl-dot").removeClass("active");
+ 							    		$(dots[pageNum+1]).addClass("active");
+ 					    			}
+				    				
+				    				mouseX = 0; 
+					    		}else{
+					    			
+					    			
+				    				$('.carousel').carousel('prev');
+				    				
+ 					    			if((pageNum-1)<0){
+ 					    				$(".osl-dot").removeClass("active");
+ 							    		$(dots[dots.length-1]).addClass("active");
+ 					    			}else{
+ 					    				$(".osl-dot").removeClass("active");
+ 							    		$(dots[pageNum-1]).addClass("active");
+ 					    			}
+ 					    			
 				    				mouseX = 0;
 					    		}
 				    		}
-				    	});				    	    	
+				    	});		
+				    	 
 			    	}else{ 
 			    		
 			    	}	
@@ -529,12 +634,12 @@ var OSLBad1007Popup = function () {
 			    	 
 			    	
 			    	
-			    	$(".osl-slideshow-img").click(function(){
+			    	$(".osl-slideshow-img>img").click(function(e){
 			    		$.osl.confirm($.osl.lang("bad1007.confirm.fileDownload"), {"html": true}, function(result){
 			    			if(result.value){
 			    				
-								var atchFileId = $(this).find("img").data("atchFileId");
-								var fileSn = $(this).find("img").data("fileSn");
+								var atchFileId = $(e.currentTarget).data("atchFileId");
+								var fileSn = $(e.currentTarget).data("fileSn");
 								
 								$.osl.file.fileDownload(atchFileId, fileSn);
 			    			}
