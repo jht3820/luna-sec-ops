@@ -229,8 +229,6 @@ var OSLDpl2100Popup = function () {
 						rowDatas.push(rowData);
 					}
 					
-					console.log(rowDatas)
-					
 					var usrId = $.osl.user.userInfo.usrId;
 					
 					

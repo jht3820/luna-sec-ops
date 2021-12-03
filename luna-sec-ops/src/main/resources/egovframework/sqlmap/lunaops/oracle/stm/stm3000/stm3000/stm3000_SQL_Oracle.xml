@@ -320,25 +320,6 @@
 		</selectKey>
     </insert>
     
-    <!-- 
-                사용자를 수정한다.
-                
-        1. 사용자 수정 시 사용자가 비밀번호를 공백으로 입력하지 않았을 경우에만 비밀번호 수정한다.
-           - 비밀번호 공백으로 둘 경우 기존 비밀번호 그대로 사용
-           
-           <isNotEmpty property="enUsrPw">
-				USR_PW				= #enUsrPw#,
-		   </isNotEmpty>
-		   
-		   
-		2. 3개월 이상 로그인하지 않은 사용자의 차단여부를 정상으로 수정 시 로그인 일시를 현재일로 변경한다.
-		
-		<isNotEmpty property="loginExprYn">
-			<isEqual property="loginExprYn" compareValue="Y">
-				REC_LOGIN_DTM = sysdate,
-			</isEqual>
-		</isNotEmpty>  
-    -->
 	<update id="stm3000DAO.updateStm3000UsrInfo" parameterClass="java.util.Map">
 		
 		<![CDATA[
@@ -674,5 +655,4 @@
 		AND		PRJ_ID = #prjId#
 		AND		USR_ID = #usrId#
 	</delete>
-	
 </sqlMap>            

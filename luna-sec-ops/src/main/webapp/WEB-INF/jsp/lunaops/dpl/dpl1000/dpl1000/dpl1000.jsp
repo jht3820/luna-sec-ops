@@ -308,7 +308,30 @@ var OSLDpl1000Popup = function () {
 								
 								modalTitle: $.osl.lang("prj3000.modal.title.selectSignLine"),  
 								autoHeight: false,
-								modalSize: "md"
+								modalSize: "md",
+								callback:[{
+									targetId: "cmm6601ReSignLineBtn",
+									actionFn: function(thisObj){
+										
+										
+										$.osl.layerPopupClose();
+										
+										var data = {
+												paramPrjId : rowData.prjId,
+												paramDplId : rowData.dplId,
+												targetId :  rowData.dplId,
+												targetCd :  '02',
+										}
+										
+										var options = {
+												modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
+												autoHeight: false,
+												modalSize: "xl"
+										};
+										 
+										$.osl.layerPopupOpen('/dpl/dpl1000/dpl1000/selectDpl1004View.do',data,options);
+									}
+								}]
 						};
 						
 						$.osl.layerPopupOpen('/cmm/cmm6000/cmm6600/selectCmm6601View.do',data,options);

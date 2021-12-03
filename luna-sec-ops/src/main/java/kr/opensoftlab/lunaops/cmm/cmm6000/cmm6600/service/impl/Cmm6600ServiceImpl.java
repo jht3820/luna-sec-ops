@@ -1,5 +1,6 @@
 package kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,18 +14,25 @@ import org.springframework.stereotype.Service;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.opensoftlab.lunaops.arm.arm1000.arm1100.service.impl.Arm1100DAO;
 import kr.opensoftlab.lunaops.cmm.cmm6000.cmm6600.service.Cmm6600Service;
+import kr.opensoftlab.lunaops.stm.stm3000.stm3000.service.impl.Stm3000DAO;
 
 
 
 @Service("cmm6600Service")
 public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm6600Service {
 
+	
    	@Resource(name = "cmm6600DAO")
    	private Cmm6600DAO cmm6600DAO;
    	
-	 
+	
     @Resource(name="arm1100DAO")
     private Arm1100DAO arm1100DAO;
+
+	
+    @Resource(name="stm3000DAO")
+    private Stm3000DAO stm3000DAO;
+    
    	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -66,9 +74,11 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 				
 				String ord = jsonObj.getString("ord");
 				String usrId = jsonObj.getString("usrId");
+				String signAuthCd = jsonObj.getString("signAuthCd");
 				
 				paramMap.put("signUsrId", usrId);
 				paramMap.put("ord", ord);
+				paramMap.put("signAuthCd", signAuthCd);
 				
 				
 				cmm6600DAO.insertCmm6600SignLine(paramMap);
@@ -336,6 +346,12 @@ public class Cmm6600ServiceImpl extends EgovAbstractServiceImpl implements Cmm66
 		cmmInfoMap.put("signLineList", signLineList);
 		
 		return cmmInfoMap;
+	}
+
+	
+	@Override
+	public List<Map> selectCmm6600SignLineUsrTree(Map<String, String> paramMap) throws Exception {
+		return cmm6600DAO.selectCmm6600SignLineUsrTree(paramMap);
 	}
 }
 

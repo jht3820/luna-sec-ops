@@ -48,4 +48,7 @@ public interface Cmm6600Service {
 	
 	@SuppressWarnings("rawtypes")
 	Map selectCmm6600CmmInfo(Map paramMap) throws Exception;
+
+	
+	List<Map> selectCmm6600SignLineUsrTree(Map<String, String> paramMap) throws Exception;
 }

@@ -15,6 +15,8 @@
 			,	A.ORD
 			,	A.SIGN_LINE_ID
 			,	A.SIGN_USR_ID
+			,	A.SIGN_AUTH_CD
+			,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00010', A.SIGN_AUTH_CD, '1') AS SIGN_AUTH_NM
 			,	A.REG_DTM
 			,	A.REG_USR_ID
 			,	A.REG_USR_IP
@@ -67,6 +69,8 @@
 				,	A.SIGN_TYPE_CD
 				,   SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
 				,	A.SIGN_USR_ID
+				,	A.SIGN_AUTH_CD
+				,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00010', A.SIGN_AUTH, '1') AS SIGN_AUTH_NM
 				,	TO_CHAR(A.SIGN_DTM, 'YYYY-MM-DD HH24:MI:SS') AS SIGN_DTM
 				,	A.SIGN_RES
 				,	A.REG_DTM
@@ -222,6 +226,8 @@
 				,	A.ORD
 				,	A.SIGN_LINE_ID
 			    ,	A.SIGN_USR_ID
+			    ,	A.SIGN_AUTH_CD
+				,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00010', A.SIGN_AUTH, '1') AS SIGN_AUTH_NM
 			    ,	SF_STM3000_USR_INFO( A.SIGN_USR_ID , '1') AS SIGN_USR_NM
 			    ,	SF_STM3000_USR_INFO( A.SIGN_USR_ID , '6') AS SIGN_USR_IMG_ID
 			    ,	CASE WHEN B.SIGN_USR_ID IS NULL THEN A.SIGN_USR_ID ELSE B.SIGN_USR_ID END AS LAST_SIGN_USR_ID
@@ -436,15 +442,17 @@
 		(
 				LIC_GRP_ID		,	PRJ_ID			,	SIGN_LINE_ID		,	TARGET_CD		
 			,	TARGET_ID 		,	ORD				,	SUB_TARGET_FST_ID	,	SUB_TARGET_SCD_ID		
-			,	SIGN_USR_ID		,	DEL_CD			,	REG_DTM				,	REG_USR_ID  		
-			,	REG_USR_IP 		,	MODIFY_DTM		,	MODIFY_USR_ID		,	MODIFY_USR_IP
+			,	SIGN_USR_ID		,	SIGN_AUTH_CD	,	DEL_CD				,	REG_DTM				
+			,	REG_USR_ID  	,	REG_USR_IP 		,	MODIFY_DTM			,	MODIFY_USR_ID		
+			,	MODIFY_USR_IP
 		)
 		VALUES
 		(
 				#licGrpId#		,	#prjId#			,	#signLineId#	,	#targetCd#		
 			,	#targetId# 		,	#ord#			,	#subTargetFstId#,	#subTargetScdId#			
-			,	#signUsrId#		,	'02'			,	SYSDATE			,	#regUsrId# 		
-			,	#regUsrIp# 		,	SYSDATE			,	#modifyUsrId#	,	#modifyUsrIp#
+			,	#signUsrId#		,	#signAuthCd#	,	'02'			,	SYSDATE			
+			,	#regUsrId# 		,	#regUsrIp# 		,	SYSDATE			,	#modifyUsrId#	
+			,	#modifyUsrIp#
 		)
 	</insert>
 	
@@ -525,17 +533,17 @@
 		(
 				LIC_GRP_ID			,	PRJ_ID			,	SIGN_LINE_ID	,	TARGET_CD
 			,	TARGET_ID			,	ORD				,	SIGN_USR_ID		,	SUB_TARGET_FST_ID
-			,	SUB_TARGET_SCD_ID	,	SIGN_TYPE_CD	,	SUB_SIGN_CD 	,	SIGN_RES			
-			,	SIGN_DTM			,	REG_DTM			,	REG_USR_ID 		,	REG_USR_IP			
-			,	MODIFY_DTM			,	MODIFY_USR_ID	,	MODIFY_USR_IP
+			,	SUB_TARGET_SCD_ID	,	SIGN_TYPE_CD	,	SIGN_RES		,	SIGN_DTM			
+			,	REG_DTM				,	REG_USR_ID 		,	REG_USR_IP		,	MODIFY_DTM			
+			,	MODIFY_USR_ID		,	MODIFY_USR_IP
 		)
 		VALUES 
 		(
 				#licGrpId#			,	#prjId#			,	#signLineId#	,	#targetCd#	
 			,	#targetId#			,	#ord#			,	#signUsrId#		,	#subTargetFstId#
-			,	#subTargetScdId#	,	#signTypeCd#	,	#subSignCd#		,	#signRes#		
-			,	SYSDATE				,	SYSDATE			,	#regUsrId# 		,	#regUsrIp#		
-			,	SYSDATE				,	#modifyUsrId#	,	#modifyUsrIp#
+			,	#subTargetScdId#	,	#signTypeCd#	,	#signRes#		,	SYSDATE				
+			,	SYSDATE				,	#regUsrId# 		,	#regUsrIp#		,	SYSDATE				
+			,	#modifyUsrId#		,	#modifyUsrIp#
 		
 		)
 	</insert>
@@ -604,7 +612,6 @@
 		    ,	SF_STM3000_USR_INFO(A.SIGN_USR_ID , '6') AS SIGN_USR_IMG_ID
 		    ,	A.SIGN_TYPE_CD
 		    ,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'CMM00008', A.SIGN_TYPE_CD, '1') AS SIGN_TYPE_NM
-		    ,	A.SUB_SIGN_CD
 		    ,	G.SIGN_USR_ID AS REQ_SIGN_USR_ID
     		, 	G.ORD AS REQ_ORD
     		, 	SF_STM3000_USR_INFO(G.SIGN_USR_ID , '1') AS REQ_SIGN_USR_NM
@@ -700,5 +707,59 @@
 		AND		A.SIGN_LINE_ID = #signLineId#
 		AND		A.DEL_CD = '02'
 		ORDER BY ORD ASC
+	</select>
+	
+	<select id="cmm6600DAO.selectCmm6600SignLineUsrTree" parameterClass="java.util.Map" resultClass = "egovMap">
+		
+		<![CDATA[
+		SELECT *
+		FROM (
+				SELECT 	LIC_GRP_ID
+	      			,	DEPT_ID
+	          		,	DEPT_NAME
+	          		,	ORD
+	          		,	UPPER_DEPT_ID
+	          		,	'' AS USR_ID
+	          		,	'' AS USR_NM
+	          		,	'' AS USR_POSITION_CD
+	          		,	'' AS USR_POSITION_NM
+	          		,	'' AS USR_DUTY_CD
+	          		,	'' AS USR_DUTY_NM
+	          		,	'' AS EMAIL
+	          		,	'' AS USR_IG_ID
+	          		,	 DEPT_NAME AS TREE_NM
+	          		,	'01' AS TYPE
+			    FROM	 STM6000
+			    WHERE  1 = 1
+			    AND		 USE_CD = '01'
+	      		UNION ALL
+			    SELECT 	A.LIC_GRP_ID
+	      			,	A.DEPT_ID || A.USR_ID AS DEPT_ID
+	          		,	SF_STM6000_DEPT_NM(#licGrpId#, A.DEPT_ID, '2') AS DEPT_NAME
+	          		,	0 AS ORD
+	          		,	A.DEPT_ID AS UPPER_DEPT_ID
+	          		,	A.USR_ID
+	          		,	A.USR_NM
+	          		,	A.USR_POSITION_CD
+	          		,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00008', A.USR_POSITION_CD, '1') AS USR_POSITION_NM
+	          		,	A.USR_DUTY_CD
+	          		,	SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00008', A.USR_DUTY_CD, '1') AS USR_DUTY_NM
+	          		,	A.EMAIL
+	          		,	A.USR_IMG_ID
+	          		,	 CASE WHEN A.USR_POSITION_CD IS NOT NULL AND A.USR_DUTY_CD IS NOT NULL THEN A.USR_NM || ' ' ||  SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00008', A.USR_DUTY_CD, '1') || '/' ||  SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00008', A.USR_POSITION_CD, '1')  
+			          		  WHEN A.USR_POSITION_CD IS NULL THEN A.USR_NM || ' ' || SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00008', A.USR_DUTY_CD, '1') 
+				              WHEN A.USR_DUTY_CD IS NULL THEN A.USR_NM || ' ' || SF_STM4001_COM_CD_INFO(#licGrpId#, 'ADM00008', A.USR_POSITION_CD, '1') 
+				              ELSE A.USR_NM 
+				              END AS TREE_NM
+	          		,	CASE WHEN A.USE_CD = '02' OR A.BLOCK = '02' OR (A.ABS_ST_DTM < SYSDATE AND A.ABS_ED_DTM > SYSDATE) THEN '02' ELSE '03' END AS TYPE
+			    FROM	 STM3000 A
+			    INNER JOIN STM6000 B
+			    ON (A.DEPT_ID = B.DEPT_ID AND A.DEL_CD = '02' AND B.LIC_GRP_ID = #licGrpId# AND B.USE_CD = '01')
+			    INNER JOIN (select distinct(USR_ID), PRJ_ID from prj2001 WHERE PRJ_ID = #prjId#) C 
+			    ON(A.USR_ID = C.USR_ID)
+	      	)
+		WHERE 1 =1 
+		AND		LIC_GRP_ID = #licGrpId#
+		]]>
 	</select>
 </sqlMap>            
