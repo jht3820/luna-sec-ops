@@ -306,7 +306,7 @@ var OSLDpl1000Popup = function () {
 						};
 						var options = {
 								
-								modalTitle: $.osl.lang("prj3000.modal.title.selectSignLine"),  
+								modalTitle: $.osl.lang("dpl1000.modal.title.selSignLine", rowData.dplNm),  
 								autoHeight: false,
 								modalSize: "md",
 								callback:[{
@@ -329,7 +329,7 @@ var OSLDpl1000Popup = function () {
 										}
 										
 										var options = {
-												modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
+												modalTitle: $.osl.lang("dpl1000.modal.title.reSignReq", rowData.dplNm),
 												autoHeight: false,
 												modalSize: "xl"
 										};
@@ -352,7 +352,7 @@ var OSLDpl1000Popup = function () {
 						}
 						
 						var options = {
-								modalTitle: $.osl.lang("prj3000.modal.title.saveSignLine"),
+								modalTitle: $.osl.lang("dpl1000.modal.title.signReq", rowData.dplNm),
 								autoHeight: false,
 								modalSize: "xl"
 						};
