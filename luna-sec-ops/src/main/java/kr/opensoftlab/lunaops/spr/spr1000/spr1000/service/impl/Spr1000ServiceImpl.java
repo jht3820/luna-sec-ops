@@ -86,9 +86,14 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<Map> selectSpr1000SprList(Map paramMap) throws Exception {
 		List<Map> sprList= spr1000DAO.selectSpr1000SprList(paramMap);
-		for(Map param : sprList) {
+		
+		for(Map spr : sprList) {
+			spr.put("firstIndex", 0);
+			spr.put("lastIndex", spr.get("reqAllCnt"));
+			List<Map> reqList = selectSpr1000SprReqList(spr);
+			spr.put("reqList", reqList);
 			
-			Map sprStat = spr1000DAO.selectSpr1000SprInfoStat(param);
+			Map sprStat = spr1000DAO.selectSpr1000SprInfoStat(spr);
 			
 			double allCnt = Double.parseDouble(String.valueOf(sprStat.get("allCntSum")));
 			
@@ -96,16 +101,16 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 			
 			double avgEndTime = Double.parseDouble(String.valueOf(sprStat.get("avgEndTimeRequired")));
 			
-			param.put("sprPoint", sprStat.get("sprPoint"));
+			spr.put("sprPoint", sprStat.get("sprPoint"));
 			
-			param.put("avgTime", avgEndTime);
+			spr.put("avgTime", avgEndTime);
 			
-			if("01".equals(param.get("sprTypeCd"))) {
+			if("01".equals(spr.get("sprTypeCd"))) {
 				
-				param.put("sprEndPercent", 0);
+				spr.put("sprEndPercent", 0);
 			}else {
 				
-				param.put("sprEndPercent", endCnt / allCnt * 100.0);
+				spr.put("sprEndPercent", endCnt / allCnt * 100.0);
 			}
 		}
 		return  sprList;
@@ -166,7 +171,8 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 	
 	@SuppressWarnings({"rawtypes"})
 	public List<Map>  selectSpr1000SprReqList(Map paramMap) throws Exception {
-		return spr1000DAO.selectSpr1000SprReqList(paramMap);
+		List<Map> reqList = spr1000DAO.selectSpr1000SprReqList(paramMap);
+		return reqList;
 	}
 
 	
@@ -426,4 +432,6 @@ public class Spr1000ServiceImpl extends EgovAbstractServiceImpl implements Spr10
 		}
 		return velocityData;
 	}
+	
+	
 }
